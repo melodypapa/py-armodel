@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     # ModeGroupInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.24, p.961 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -87,6 +88,7 @@ class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     # PModeGroupInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.12, p.949 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextPPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -137,6 +139,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     # RModeGroupInAtomicSWCInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.11, p.948 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextRPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -187,6 +190,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     # RModeInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.3, p.943 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                    [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseRef                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -277,6 +281,7 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
 class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     # TriggerInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.5, p.945 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -350,6 +355,7 @@ class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     # PTriggerInAtomicSwcTypeInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.7, p.946 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextPPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -473,6 +479,7 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     # RVariableInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.2, p.943 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextRPortRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -579,6 +586,7 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
 class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     # OperationInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.8, p.946 (R23-11; body renders below the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseRef                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -652,6 +660,7 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     # POperationInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.10, p.948 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextPPortRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -702,6 +711,7 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
 class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     # ROperationInAtomicSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.9, p.947 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextRPortRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

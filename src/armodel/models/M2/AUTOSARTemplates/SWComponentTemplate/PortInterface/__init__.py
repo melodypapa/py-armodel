@@ -939,6 +939,7 @@ class ClientServerApplicationErrorMapping(ARObject):
 
     # ClientServerApplicationErrorMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.25, p.129
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1025,6 +1026,7 @@ class ClientServerOperationMapping(ARObject):
 
     # ClientServerOperationMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.24, p.129
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addArgumentMapping                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1577,6 +1579,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
     # ClientServerInterfaceMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.23, p.128 (R23-11)
+    # Spec verified: R23-11
     # (R4.3.1 reproduction Table 4.27 p.130 has the same rows. Base row ARObject,
     # AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable,
     # PortInterfaceMapping, Referrable -> most-derived provided base
@@ -1639,6 +1642,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
 
     # VariableAndParameterInterfaceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.21, p.125 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1672,6 +1676,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
     # ModeInterfaceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.26, p.130 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getModeMapping  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

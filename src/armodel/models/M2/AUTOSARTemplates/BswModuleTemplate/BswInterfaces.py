@@ -135,6 +135,7 @@ class BswModuleDependency(Identifiable):
 
     # BswModuleDependency method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.17, p.48
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTargetModuleId   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -442,6 +443,7 @@ class BswModuleClientServerEntry(Referrable, VariationPointCapable):
     # BswModuleClientServerEntry method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.21, p.54 (R23-11)
     # Spec: R4.3.1/AUTOSAR_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.56 (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -516,6 +518,7 @@ class BswEntryRelationshipEnum(AREnum):
 
     # BswEntryRelationshipEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.20, p.52
+    # Spec verified: R23-11
     # (no methods)
 
     # Describes that the BswModuleEntry referenced as "to" needs to have the same signature as the "abstract" BswModuleEntry referenced as "from". Tags: atp.EnumerationLiteralIndex=0
@@ -536,6 +539,7 @@ class BswEntryRelationship(ARObject):
 
     # BswEntryRelationship method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.19, p.51
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBswEntryRelationshipType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -610,6 +614,7 @@ class BswEntryRelationshipSet(ARElement):
 
     # BswEntryRelationshipSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.18, p.51
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBswEntryRelationships     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

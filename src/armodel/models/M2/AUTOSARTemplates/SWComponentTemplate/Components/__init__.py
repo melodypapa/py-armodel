@@ -594,6 +594,7 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
 
     # AbstractProvidedPortPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.4, p.68 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addProvidedComSpec           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -654,6 +655,7 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
 
     # AbstractRequiredPortPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.3, p.67 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addRequiredComSpec           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

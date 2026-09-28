@@ -82,6 +82,7 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
 
     # AsynchronousServerCallReturnsEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.10, p.541
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -118,6 +119,7 @@ class DataSendCompletedEvent(RTEEvent):
 
     # DataSendCompletedEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.11, p.542
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -154,6 +156,7 @@ class DataWriteCompletedEvent(RTEEvent):
 
     # DataWriteCompletedEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.12, p.542
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -188,6 +191,7 @@ class DataReceivedEvent(RTEEvent):
 
     # DataReceivedEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.13, p.542
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -279,6 +283,7 @@ class DataReceiveErrorEvent(RTEEvent):
 
     # DataReceiveErrorEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.14, p.543
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -315,6 +320,7 @@ class OperationInvokedEvent(RTEEvent):
 
     # OperationInvokedEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.15, p.543
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getOperationIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -442,6 +448,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
 
     # InternalTriggerOccurredEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.21, p.546
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

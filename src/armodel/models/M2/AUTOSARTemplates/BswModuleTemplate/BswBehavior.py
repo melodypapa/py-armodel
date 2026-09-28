@@ -43,6 +43,7 @@ class BswModuleCallPoint(Referrable, VariationPointCapable, ABC):
 
     # BswModuleCallPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.10, p.77
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addContextLimitationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -120,6 +121,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
 
     # BswDirectCallPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.11, p.78
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCalledEntryRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -174,6 +176,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
 
     # BswSynchronousServerCallPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.12, p.79
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCalledEntryRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -779,6 +782,7 @@ class BswInterruptEntity(BswModuleEntity):
 
     # BswInterruptEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.8, p.75
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInterruptCategory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1030,6 +1034,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
 
     # BswAsynchronousServerCallReturnsEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.36, p.98
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1137,6 +1142,7 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
 
     # BswModeSwitchedAckEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.32, p.95
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1171,6 +1177,7 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
 
     # BswModeManagerErrorEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.33, p.95
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1205,6 +1212,7 @@ class BswTimingEvent(BswScheduleEvent):
 
     # BswTimingEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.25, p.89
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPeriod   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1252,6 +1260,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
 
     # BswDataReceivedEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.37, p.99
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1286,6 +1295,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
 
     # BswInternalTriggerOccurredEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.29, p.91
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventSourceRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1320,6 +1330,7 @@ class BswModeSwitchAckRequest(ARObject):
 
     # BswModeSwitchAckRequest method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.40, p.103
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1672,6 +1683,7 @@ class BswApiOptions(ARObject, ABC):
 
     # BswApiOptions method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswApiOptions, AUTOSAR_00052.xsd line 9379 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEnableTakeAddress         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2024,6 +2036,7 @@ class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
 
     # BswDataReceptionPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.42, p.105
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getReceivedDataRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2062,6 +2075,7 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
 
     # BswQueuedDataReceptionPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.43, p.105
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2096,6 +2110,7 @@ class BswInternalTriggeringPoint(Identifiable, VariationPointCapable):
 
     # BswInternalTriggeringPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.28, p.91
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSwImplPolicy   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

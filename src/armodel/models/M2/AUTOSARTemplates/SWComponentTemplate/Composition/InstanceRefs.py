@@ -73,6 +73,7 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
 class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     # PPortInCompositionInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.15, p.950 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextComponentRef  [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -106,6 +107,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     # RPortInCompositionInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.16, p.951 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextComponentRef  [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11

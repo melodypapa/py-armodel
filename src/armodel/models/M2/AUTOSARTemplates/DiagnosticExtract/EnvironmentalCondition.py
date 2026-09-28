@@ -14,6 +14,7 @@ class DiagnosticLogicalOperatorEnum(AREnum):
 
     # DiagnosticLogicalOperatorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.37, p.80
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DiagnosticEnvConditionFormula.op
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -94,6 +95,7 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
 
     # DiagnosticEnvCompareCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.39, p.82
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCompareType    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -129,6 +131,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
 
     # DiagnosticEnvConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.36, p.80
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNrcValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -204,6 +207,7 @@ class DiagnosticEnvModeElement(Referrable, ABC):
 
     # DiagnosticEnvModeElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.44, p.89
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

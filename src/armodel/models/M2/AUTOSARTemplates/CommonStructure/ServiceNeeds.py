@@ -655,6 +655,7 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
 
     # ServiceDiagnosticRelevanceEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.609
+    # Spec verified: R23-11
     # (no methods)
 
     # This value indicates that a relevance for diagnostics does not exist. Tags: atp.EnumerationLiteralIndex=0
@@ -782,6 +783,7 @@ class DiagnosticAudienceEnum(AREnum):
 
     # DiagnosticAudienceEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.17, p.754
+    # Spec verified: R23-11
     # (no methods)
 
     # The object is for free aftermarket service organizations. Tags: atp.EnumerationLiteralIndex=1
@@ -818,6 +820,7 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
 
     # DiagnosticServiceRequestCallbackTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.35, p.780
+    # Spec verified: R23-11
     # (no methods)
 
     # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a manufacturer. Tags: atp.EnumerationLiteralIndex=0
@@ -842,6 +845,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
 
     # DiagnosticCapabilityElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.15, p.753
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAudiences             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -919,6 +923,7 @@ class DiagnosticRoutineTypeEnum(AREnum):
 
     # DiagnosticRoutineTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.25, p.247
+    # Spec verified: R23-11
     # (no methods)
 
     # This indicates that the diagnostic server is not blocked while the diagnostic routine is running. Tags: atp.EnumerationLiteralIndex=0
@@ -943,6 +948,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticCommunicationManagerNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.34, p.777
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getServiceRequestCallbackType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -978,6 +984,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     # DiagnosticRoutineNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.36, p.778 (R23-11)
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDiagRoutineType       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1032,6 +1039,7 @@ class DiagnosticValueAccessEnum(AREnum):
 
     # DiagnosticValueAccessEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.22, p.246
+    # Spec verified: R23-11
     # (no methods)
 
     # The access to the data element is limited to read-only. This is typically used to read-out diagnostic information (e.g. current values). Tags: atp.EnumerationLiteralIndex=0
@@ -1060,6 +1068,7 @@ class DiagnosticProcessingStyleEnum(AREnum):
 
     # DiagnosticProcessingStyleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.23, p.247
+    # Spec verified: R23-11
     # (no methods)
 
     # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request. Tags: atp.EnumerationLiteralIndex=0
@@ -1089,6 +1098,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     # DiagnosticValueNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.39, p.780 (R23-11)
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataLength                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1221,6 +1231,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
 
     # DiagEventDebounceCounterBased method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.33, p.260
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCounterBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1484,6 +1495,7 @@ class DtcKindEnum(AREnum):
 
     # DtcKindEnum method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.16, p.760 (R4.3.1)
+    # Spec verified: R4.3.1
     # (no methods)
 
     # This indicates that the monitor reports a OBD-relevant malfunction. Tags: atp.EnumerationValue=0
@@ -1509,6 +1521,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     # DiagnosticEventInfoNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.23, p.761 (R23-11)
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDtcKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -1583,6 +1596,7 @@ class DiagnosticClearDtcNotificationEnum(AREnum):
 
     # DiagnosticClearDtcNotificationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.33, p.776
+    # Spec verified: R23-11
     # (no methods)
 
     # The ClearDtcCallback shall be executed when the DTC operation starts. Tags: atp.EnumerationLiteralIndex=0
@@ -1607,6 +1621,7 @@ class DtcFormatTypeEnum(AREnum):
 
     # DtcFormatTypeEnum method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.770 (R4.3.1)
+    # Spec verified: R4.3.1
     # (no methods)
 
     # Defines the J1939 DTC format. Tags: atp.EnumerationValue=0
@@ -1632,6 +1647,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     # DtcStatusChangeNotificationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.32, p.776 (R23-11)
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDtcFormatType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -1916,6 +1932,7 @@ class CryptoServiceNeeds(ServiceNeeds):
 
     # CryptoServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.9, p.733
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAlgorithmFamily       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

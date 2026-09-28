@@ -26,6 +26,7 @@ class ParameterAccess(AbstractAccessPoint, VariationPointCapable):
 
     # ParameterAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.40, p.586
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessedParameter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -70,6 +71,7 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
 
     # VariableAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.33, p.567
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessedVariable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
