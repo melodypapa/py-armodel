@@ -536,13 +536,13 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **1/31** completed
+Status: **2/31** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
 | `DependencyUsageEnum`              | [x] Done     | 9a8c86ae9a |
 | `ArrayImplPolicyEnum`              | [ ] Pending* | N/A        |
-| `ApiPrincipleEnum`                 | [ ] Pending* | N/A        |
+| `ApiPrincipleEnum`                 | [x] Done     | c6d2e83f74 |
 | `ReentrancyLevelEnum`              | [ ] Pending* | N/A        |
 | `ImplementationProps`              | [ ] Pending* | N/A        |
 | `SwcImplementation`                | [ ] Pending* | N/A        |

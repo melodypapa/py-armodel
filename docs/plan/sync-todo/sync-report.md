@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 466 | 64.7% |
+| [x] Done | 467 | 64.9% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 177 | 24.6% |
+| [ ] Deferred | 176 | 24.4% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -32,7 +32,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractProvidedPortPrototype`                         | [ ] Deferred| fb7a835f90                               | Group11          |
 | `AbstractRequiredPortPrototype`                         | [ ] Deferred| fb7a835f90                               | Group11          |
 | `AlignEnum`                                             | [x] Done    | fa74a474a5                               | Group3           |
-| `ApiPrincipleEnum`                                      | [ ] Deferred| N/A                                      | Group10          |
+| `ApiPrincipleEnum`                                      | [x] Done    | c6d2e83f74                               | Group10          |
 | `AppOsTaskProxyToEcuTaskProxyMapping`                   | [ ] Pending | N/A                                      | Group18          |
 | `ApplicationCompositeDataType`                          | [x] Done    | de9d3fe0a4                               | Group2           |
 | `ApplicationCompositeElementDataPrototype`              | [x] Done    | 031d5c7848                               | Group2           |
