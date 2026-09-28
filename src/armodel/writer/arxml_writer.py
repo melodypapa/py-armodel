@@ -926,6 +926,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmClusterCoupling,
     CanNmNode,
     FlexrayNmCluster,
+    FlexrayNmClusterCoupling,
     FlexrayNmEcu,
     FlexrayNmNode,
     J1939NmCluster,
@@ -8665,6 +8666,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
 
+    def writeFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
+        child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER-COUPLING")
+        refs = coupling.getCoupledClusterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "NM-SCHEDULE-VARIANT", coupling.getNmScheduleVariant())
+
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Write NmConfigNmClusterCouplings <%s>" % config.getShortName())
         couplings = config.getNmClusterCouplings()
@@ -8675,6 +8685,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanNmClusterCoupling(child_element, coupling)
                 elif isinstance(coupling, UdpNmClusterCoupling):
                     self.writeUdpNmClusterCoupling(child_element, coupling)
+                elif isinstance(coupling, FlexrayNmClusterCoupling):
+                    self.writeFlexrayNmClusterCoupling(child_element, coupling)
                 else:
                     self.notImplemented("Unsupported Nm Cluster Coupling <%s>" % type(coupling))
 

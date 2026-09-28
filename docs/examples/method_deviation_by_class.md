@@ -3076,8 +3076,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `nmControlBitVectorEnabled` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `nmDataDisabled` | `Boolean` | — | missing |
+| — *(removed)* | — | `nmControlBitVectorEnabled` | `Boolean` | — | stale row removed at Table 6.308 sync — XSD-only (FLEXRAY-NM-CLUSTER-COUPLING/NM-CONTROL-BIT-VECTOR-ENABLED), absent from R23-11 Table 6.308; PDF authoritative (Rule 0015) |
+| — *(removed)* | — | `nmDataDisabled` | `Boolean` | — | stale row removed at Table 6.308 sync — XSD-only (FLEXRAY-NM-CLUSTER-COUPLING/NM-DATA-DISABLED), absent from R23-11 Table 6.308; PDF authoritative (Rule 0015) |
 
 ## `FlexrayNmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 679

@@ -26,7 +26,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — readNmEcu/writeNmEcu: removed the 3 stale elements, added NM-CYCLETIME-MAIN-FUNCTION (getChildElementOptionalTimeValue/setChildElementOptionalTimeValue); matched name pairs, no chained mutators
   - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.300, p.674`, all rows R23-11; no marker written (unstamped batch)
   - [x] Step 8 — Deviations — nmCoordinator typed `Optional[ARObject]` placeholder with reader/writer deferred (aggregated child NmCoordinator, Table 6.302, not yet implemented — Rule 0001.10/0001.7), recorded in method_deviation_by_class.md + _v2.md; XSD-only BUS-SPECIFIC-NM-ECU group not modeled (Rule 0015, PDF authoritative); stale v1 NmEcu rows removed
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13554 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanNmCluster` — NmCluster — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
@@ -90,7 +90,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: getCanNmClusterCoupling/writeCanNmClusterCoupling already cover all 3 attrs with matched pairs in XSD order
   - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.313, p.684`, all rows R23-11; no marker written (unstamped batch)
   - [x] Step 8 — Deviations — none: every Table 6.313 attribute modeled with full reader/writer coverage; no tracker rows
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13554 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `UdpNmClusterCoupling` (input · R23-11 markdown · Table 6.317)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
@@ -103,20 +103,20 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: getUdpNmClusterCoupling/writeUdpNmClusterCoupling already cover both attrs with matched pairs in XSD order
   - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.317, p.688`, all rows R23-11; no marker written (unstamped batch)
   - [x] Step 8 — Deviations — XSD-only NM-BUS-LOAD-REDUCTION-ENABLED not modeled (Rule 0015); v1 stale tracker row resolved to removed
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13554 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `FlexrayNmClusterCoupling` — NmClusterCoupling — source TBC (locate table at Step 1)
+- [ ] `FlexrayNmClusterCoupling` (input · R23-11 markdown · Table 6.308)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: the v1 "nmControlBitVectorEnabled/nmDataDisabled missing" rows were stale (XSD-only elements, absent from Table 6.308), marked removed at sync
+  - [x] Step 1 — Sync members & description from spec — Table 6.308, p.679; Note "FlexRay attributes that are valid for each of the referenced (coupled) FlexRay clusters."; Base ARObject,NmClusterCoupling; 2 attrs in displayed order (coupledCluster `*` ref FlexrayNmCluster, nmScheduleVariant 0..1 attr FlexrayNmScheduleVariant); attribute type resolved to its own Enumeration table 6.310, p.680 (7 literals scheduleVariant1..7, enum implemented this pass — Rule 0001.10 satisfied, no placeholder); XSD group FLEXRAY-NM-CLUSTER-COUPLING order COUPLED-CLUSTER-REFS → NM-SCHEDULE-VARIANT, XSD-only NM-CONTROL-BIT-VECTOR-ENABLED/NM-DATA-DISABLED not modeled (Rule 0015) (AUTOSAR_00052.xsd l.61067)
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_FlexrayNmClusterCoupling.py: coupling defaults/refs/get-set + enum member values and instantiability
+  - [x] Step 3 — Implement model class (Green) — PEP 526 typed fields, None-guarded setters returning self, mutator-first accessor order; new FlexrayNmScheduleVariant AREnum (Table 6.310) with verbatim literal descriptions + atp.EnumerationLiteralIndex tags
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.308 Note verbatim; per-attr comments + getter/setter docstrings verbatim; enum class docstring = Table 6.310 Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_flexray_nm_cluster_coupling.py + tests/test_armodel/writer/test_flexray_nm_cluster_coupling.py (element order, empty-coupling case, full field values, NM-CLUSTER-COUPLINGS dispatch both directions)
+  - [x] Step 6 — Update parser & writer (Green) — new getFlexrayNmClusterCoupling/writeFlexrayNmClusterCoupling (COUPLED-CLUSTER-REFS list + NM-SCHEDULE-VARIANT literal) and FLEXRAY-NM-CLUSTER-COUPLING dispatch branches in readNmConfigNmClusterCouplings/writeNmConfigNmClusterCouplings (was notImplemented); imports added
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.308, p.679` (enum row cites Table 6.310, p.680), all rows R23-11; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — XSD-only NM-CONTROL-BIT-VECTOR-ENABLED/NM-DATA-DISABLED not modeled (Rule 0015); v1 stale tracker rows resolved to removed; no placeholder remains
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SecOcCryptoServiceMapping` — CryptoServiceMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

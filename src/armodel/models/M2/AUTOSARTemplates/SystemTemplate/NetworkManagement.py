@@ -103,37 +103,98 @@ class CanNmClusterCoupling(NmClusterCoupling):
 
 class FlexrayNmClusterCoupling(NmClusterCoupling):
     """
-    Defines coupling properties for FlexRay network management clusters,
-    specifying coupled cluster references and FlexRay-specific NM
-    schedule variant configurations.
+    FlexRay attributes that are valid for each of the referenced (coupled) FlexRay clusters.
     """
 
     # FlexrayNmClusterCoupling method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
-    # [ ] addCoupledClusterRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmScheduleVariant         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmScheduleVariant         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.308, p.679
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCoupledClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCoupledClusterRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmScheduleVariant           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmScheduleVariant           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.coupledClusterRefs = []
-        self.nmScheduleVariant = None
+        # Reference to coupled FlexRay Clusters.
+        self.coupledClusterRefs: List[RefType] = []
 
-    def getCoupledClusterRefs(self):
+        # FrNm schedule variant according to FrNm SWS.
+        self.nmScheduleVariant: Optional["FlexrayNmScheduleVariant"] = None
+
+    def addCoupledClusterRef(self, ref: RefType) -> "FlexrayNmClusterCoupling":
+        """
+        Reference to coupled FlexRay Clusters.
+        """
+        self.coupledClusterRefs.append(ref)
+        return self
+
+    def getCoupledClusterRefs(self) -> List[RefType]:
+        """
+        Reference to coupled FlexRay Clusters.
+        """
         return self.coupledClusterRefs
 
-    def addCoupledClusterRef(self, value):
-        self.coupledClusterRefs.append(value)
-        return self
-
-    def getNmScheduleVariant(self):
+    def getNmScheduleVariant(self) -> Optional["FlexrayNmScheduleVariant"]:
+        """
+        FrNm schedule variant according to FrNm SWS.
+        """
         return self.nmScheduleVariant
 
-    def setNmScheduleVariant(self, value):
-        self.nmScheduleVariant = value
+    def setNmScheduleVariant(self, value: Optional["FlexrayNmScheduleVariant"]) -> "FlexrayNmClusterCoupling":
+        """
+        FrNm schedule variant according to FrNm SWS.
+        A None value is a no-op and does not overwrite an existing nmScheduleVariant.
+        """
+        if value is not None:
+            self.nmScheduleVariant = value
         return self
+
+
+class FlexrayNmScheduleVariant(AREnum):
+    """
+    FrNm schedule variant according to FrNm SWS.
+    """
+
+    # FlexrayNmScheduleVariant method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.310, p.680
+    # (no methods)
+
+    # NM-Vote and NM Data transmitted within one PDU in static segment. The NM-Vote has to be realized as separate bit within the PDU. Tags: atp.EnumerationLiteralIndex=0
+    SCHEDULE_VARIANT_1 = "scheduleVariant1"
+
+    # NM-Vote and NM-Data transmitted within one PDU in dynamic segment. The presence (or non-presence) of the PDU corresponds to the NM-Vote Tags: atp.EnumerationLiteralIndex=1
+    SCHEDULE_VARIANT_2 = "scheduleVariant2"
+
+    # NM-Vote and NM-Data are transmitted in the static segment in separate PDUs. This alternative is not recommended => Alternative 1 should be used instead. Tags: atp.EnumerationLiteralIndex=2
+    SCHEDULE_VARIANT_3 = "scheduleVariant3"
+
+    # NM-Vote transmitted in static and NM-Data transmitted in dynamic segment. Tags: atp.EnumerationLiteralIndex=3
+    SCHEDULE_VARIANT_4 = "scheduleVariant4"
+
+    # NM-Vote is transmitted in dynamic and NM-Data is transmitted in static segment. This alternative is not recommended => Variants 2 or 6 should be used instead. Tags: atp.EnumerationLiteralIndex=4
+    SCHEDULE_VARIANT_5 = "scheduleVariant5"
+
+    # NM-Vote and NM-Data are transmitted in dynamic segment in separate PDUs. Tags: atp.EnumerationLiteralIndex=5
+    SCHEDULE_VARIANT_6 = "scheduleVariant6"
+
+    # NM-Vote and a copy of the CBV are transmitted in the static segment (using the FlexRay NM Vector support) and NM-Data is transmitted in the dynamic segment Tags: atp.EnumerationLiteralIndex=6
+    SCHEDULE_VARIANT_7 = "scheduleVariant7"
+
+    def __init__(self):
+        super().__init__(
+            [
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_1,
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_2,
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_3,
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_4,
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_5,
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_6,
+                FlexrayNmScheduleVariant.SCHEDULE_VARIANT_7,
+            ]
+        )
 
 
 class NmCoordinatorRoleEnum(AREnum):

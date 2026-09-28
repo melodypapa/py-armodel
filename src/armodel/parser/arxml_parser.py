@@ -1050,6 +1050,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmNode,
     CanNmEcu,
     FlexrayNmCluster,
+    FlexrayNmClusterCoupling,
     FlexrayNmEcu,
     J1939NmCluster,
     J1939NmEcu,
@@ -10892,6 +10893,13 @@ class ARXMLParser(AbstractARXMLParser):
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
         return coupling
 
+    def getFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:
+        coupling = FlexrayNmClusterCoupling()
+        for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
+            coupling.addCoupledClusterRef(ref)
+        coupling.setNmScheduleVariant(self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT"))
+        return coupling
+
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -10899,6 +10907,8 @@ class ARXMLParser(AbstractARXMLParser):
                 nm_config.addNmClusterCouplings(self.getCanNmClusterCoupling(child_element))
             elif tag_name == "UDP-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.getUdpNmClusterCoupling(child_element))
+            elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
+                nm_config.addNmClusterCouplings(self.getFlexrayNmClusterCoupling(child_element))
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
