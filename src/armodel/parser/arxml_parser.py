@@ -4160,6 +4160,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswVariableAccess(self, element: ET.Element, access: BswVariableAccess):
         self.readReferrable(element, access)
         access.setAccessedVariableRef(self.getChildElementOptionalRefType(element, "ACCESSED-VARIABLE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
+            access.addContextLimitationRef(ref)
 
     def readBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "DATA-SEND-POINTS/*"):

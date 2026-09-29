@@ -7152,6 +7152,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "BSW-VARIABLE-ACCESS")
             self.writeReferrable(child_element, access)
             self.setChildElementOptionalRefType(child_element, "ACCESSED-VARIABLE-REF", access.getAccessedVariableRef())
+            context_limitations = access.getContextLimitationRefs()
+            if len(context_limitations) > 0:
+                refs_element = ET.SubElement(child_element, "CONTEXT-LIMITATION-REFS")
+                for ref in context_limitations:
+                    self.setChildElementOptionalRefType(refs_element, "CONTEXT-LIMITATION-REF", ref)
 
     def writeBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getDataSendPoints()
