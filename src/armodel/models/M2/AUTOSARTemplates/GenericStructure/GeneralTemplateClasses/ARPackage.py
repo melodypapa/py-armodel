@@ -86,7 +86,8 @@ def __getattr__(name):
     return value
 
 
-__all__ = [    "ViewMapSet",
+__all__ = [
+    "ViewMapSet",
     "SwAxisType",
     "SecurityEventDefinition",
     "SecurityEventContextMappingFunctionalCluster",
@@ -213,7 +214,6 @@ __all__ = [    "ViewMapSet",
     "AclPermission",
     "AclOperation",
     "AclObjectSet",
-
     "AdminData",
     "Annotation",
     "ApplicationArrayDataType",
@@ -351,6 +351,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AclScopeEnum, NameToken, UriString  # noqa: E402
 
 
 class ReferenceBase(ARObject):
@@ -2267,6 +2268,8 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  #
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection  # noqa: E402
 
 Collection.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ViewMap  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
@@ -2281,7 +2284,117 @@ class AclOperation(ARElement):
 
 
 class AclPermission(ARElement):
-    pass
+    """
+    This meta class represents the ability to represent permissions granted on objects in an AUTOSAR model. Tags: atp.recommendedPackage=AclPermissions
+    """
+
+    # AclPermission method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.1, p.382
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAclContext        [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getAclContexts       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addAclObjectRef      [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getAclObjectRefs     [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addAclOperationRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getAclOperationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addAclRoleRef        [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getAclRoleRefs       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] getAclScope          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setAclScope          [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute is intended to specify the context under which the AclPemission is applicable. The values are subject to mutual agreement between the involved stakeholders. For examples the values can be the names of binding times.
+        self.aclContexts: List[NameToken] = []
+
+        # This denotes an object to which the AclPermission applies.
+        self.aclObjectRefs: List[RefType] = []
+
+        # This denotes an operation which is granted by the given AclPermission.
+        self.aclOperationRefs: List[RefType] = []
+
+        # This denotes the role (individual or even organization) for which the AclPermission. is granted.
+        self.aclRoleRefs: List[RefType] = []
+
+        # This indicates the scope of applied permissions: explicit, descendant, dependent;
+        self.aclScope: Optional[AclScopeEnum] = None
+
+    def addAclContext(self, value: Optional[NameToken]) -> AclPermission:
+        """
+        This attribute is intended to specify the context under which the AclPemission is applicable. The values are subject to mutual agreement between the involved stakeholders. For examples the values can be the names of binding times.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.aclContexts.append(value)
+        return self
+
+    def getAclContexts(self) -> List[NameToken]:
+        """
+        This attribute is intended to specify the context under which the AclPemission is applicable. The values are subject to mutual agreement between the involved stakeholders. For examples the values can be the names of binding times.
+        """
+        return self.aclContexts
+
+    def addAclObjectRef(self, value: Optional[RefType]) -> AclPermission:
+        """
+        This denotes an object to which the AclPermission applies.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.aclObjectRefs.append(value)
+        return self
+
+    def getAclObjectRefs(self) -> List[RefType]:
+        """
+        This denotes an object to which the AclPermission applies.
+        """
+        return self.aclObjectRefs
+
+    def addAclOperationRef(self, value: Optional[RefType]) -> AclPermission:
+        """
+        This denotes an operation which is granted by the given AclPermission.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.aclOperationRefs.append(value)
+        return self
+
+    def getAclOperationRefs(self) -> List[RefType]:
+        """
+        This denotes an operation which is granted by the given AclPermission.
+        """
+        return self.aclOperationRefs
+
+    def addAclRoleRef(self, value: Optional[RefType]) -> AclPermission:
+        """
+        This denotes the role (individual or even organization) for which the AclPermission. is granted.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.aclRoleRefs.append(value)
+        return self
+
+    def getAclRoleRefs(self) -> List[RefType]:
+        """
+        This denotes the role (individual or even organization) for which the AclPermission. is granted.
+        """
+        return self.aclRoleRefs
+
+    def getAclScope(self) -> Optional[AclScopeEnum]:
+        """
+        This indicates the scope of applied permissions: explicit, descendant, dependent;
+        """
+        return self.aclScope
+
+    def setAclScope(self, value: Optional[AclScopeEnum]) -> AclPermission:
+        """
+        This indicates the scope of applied permissions: explicit, descendant, dependent;
+        A None value is a no-op and does not overwrite an existing aclScope.
+        """
+        if value is not None:
+            self.aclScope = value
+        return self
 
 
 class AclRole(ARElement):
