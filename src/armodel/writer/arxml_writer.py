@@ -357,7 +357,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclPermission
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -14236,6 +14236,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAclPermission(element, ar_element)
         elif isinstance(ar_element, AclObjectSet):
             self.writeAclObjectSet(element, ar_element)
+        elif isinstance(ar_element, AclOperation):
+            self.writeAclOperation(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14842,6 +14844,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "OBJECT-REFS")
                 for ref in object_refs:
                     self.setChildElementOptionalRefType(refs_tag, "OBJECT-REF", ref)
+
+    def writeAclOperation(self, element: ET.Element, acl_operation: AclOperation):
+        if acl_operation is not None:
+            self.logger.debug("Write AclOperation <%s>" % acl_operation.getShortName())
+            child_element = ET.SubElement(element, "ACL-OPERATION")
+            self.writeIdentifiable(child_element, acl_operation)
+            implied_operation_refs = acl_operation.getImpliedOperationRefs()
+            if len(implied_operation_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "IMPLIED-OPERATION-REFS")
+                for ref in implied_operation_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "IMPLIED-OPERATION-REF", ref)
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

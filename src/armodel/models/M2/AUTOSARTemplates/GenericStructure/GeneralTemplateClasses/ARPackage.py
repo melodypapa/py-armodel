@@ -1794,6 +1794,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(acl_object_set)
         return self.getElement(short_name, AclObjectSet)
 
+    def createAclOperation(self, short_name: str) -> AclOperation:
+
+        if not self.IsElementExists(short_name, AclOperation):
+            acl_operation = AclOperation(self, short_name)
+            self.addElement(acl_operation)
+        return self.getElement(short_name, AclOperation)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2100,6 +2107,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getAclObjectSets(self) -> List[AclObjectSet]:
 
         return list(sorted(filter(lambda a: isinstance(a, AclObjectSet), self.elements), key=lambda a: a.short_name))
+
+    def getAclOperations(self) -> List[AclOperation]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclOperation), self.elements), key=lambda a: a.short_name))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
@@ -2461,8 +2472,8 @@ class AclOperation(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.4, p.384
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addImpliedOperationRef    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getImpliedOperationRefs   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addImpliedOperationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImpliedOperationRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

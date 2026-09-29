@@ -474,7 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclPermission
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -14909,6 +14909,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ACL-OBJECT-SET":
                 acl_object_set = parent.createAclObjectSet(self.getShortName(child_element))
                 self.readAclObjectSet(child_element, acl_object_set)
+            elif tag_name == "ACL-OPERATION":
+                acl_operation = parent.createAclOperation(self.getShortName(child_element))
+                self.readAclOperation(child_element, acl_operation)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15347,6 +15350,13 @@ class ARXMLParser(AbstractARXMLParser):
         for object_ref in self.getChildElementRefTypeList(element, "OBJECT-REFS/OBJECT-REF"):
             acl_object_set.addObjectRef(object_ref)
         return acl_object_set
+
+    def readAclOperation(self, element: ET.Element, acl_operation: AclOperation) -> AclOperation:
+        self.logger.debug("Read AclOperation <%s>" % acl_operation.getShortName())
+        self.readIdentifiable(element, acl_operation)
+        for implied_operation_ref in self.getChildElementRefTypeList(element, "IMPLIED-OPERATION-REFS/IMPLIED-OPERATION-REF"):
+            acl_operation.addImpliedOperationRef(implied_operation_ref)
+        return acl_operation
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
