@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 502 | 26.1% |
+| [x] Done | 503 | 26.2% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 170 | 8.8% |
+| [ ] Deferred | 169 | 8.8% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -286,7 +286,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ClientServerAnnotation`                                | [ ] Pending | N/A                                      | Group27          |
 | `ClientServerApplicationErrorMapping`                   | [x] Done    | bc933575fd                               | Group11          |
 | `ClientServerInterface`                                 | [ ] Pending | N/A                                      | Group27          |
-| `ClientServerInterfaceMapping`                          | [ ] Deferred| N/A                                      | Group11          |
+| `ClientServerInterfaceMapping`                          | [x] Done    | cae5a51c92                               | Group11          |
 | `ClientServerOperation`                                 | [ ] Pending | N/A                                      | Group27          |
 | `ClientServerOperationBlueprintMapping`                 | [ ] Pending | N/A                                      | Group36          |
 | `ClientServerOperationComProps`                         | [ ] Pending | N/A                                      | Group34          |

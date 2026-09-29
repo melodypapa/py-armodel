@@ -575,7 +575,7 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **6/24** completed
+Status: **7/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -584,7 +584,7 @@ Status: **6/24** completed
 | `ModeRequestTypeMap`                   | [x] Done     | 2b824ca5f8 |
 | `ClientServerApplicationErrorMapping`  | [x] Done     | bc933575fd |
 | `ClientServerOperationMapping`         | [x] Done     | e301de1df9 |
-| `ClientServerInterfaceMapping`         | [ ] Pending* | N/A        |
+| `ClientServerInterfaceMapping`         | [x] Done     | cae5a51c92 |
 | `ModeInterfaceMapping`                 | [ ] Pending* | 8832375592 |
 | `VariableAndParameterInterfaceMapping` | [ ] Pending* | de2d5fe918 |
 | `Field`                                | [ ] Pending* | 413d1a4b62 |
