@@ -1877,10 +1877,6 @@ class IPsecHeaderTypeEnum(AREnum):
     pass
 
 
-class IPsecIpProtocolEnum(AREnum):
-    pass
-
-
 class IPsecModeEnum(AREnum):
     pass
 

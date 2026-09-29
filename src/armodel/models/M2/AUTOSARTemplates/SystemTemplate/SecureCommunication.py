@@ -987,6 +987,40 @@ class MacSecFailPermissiveModeEnum(AREnum):
         )
 
 
+class IPsecIpProtocolEnum(AREnum):
+    """
+    Definition of supported TcpIp protocols that are supported in Security Policy Database (SPD) entries in IPSec configurations.
+    """
+
+    # IPsecIpProtocolEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.224, p.574
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IPSecRule/IPSecConfigProps members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # ANY protocol Tags: atp.EnumerationLiteralIndex=3
+    ANY = "any"
+
+    # Internet Control Message Protocol (ICMP) Tags: atp.EnumerationLiteralIndex=2
+    ICMP = "icmp"
+
+    # TCP Protocol Tags: atp.EnumerationLiteralIndex=1
+    TCP = "tcp"
+
+    # UDP Protocol Tags: atp.EnumerationLiteralIndex=0
+    UDP = "udp"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IPsecIpProtocolEnum.ANY,
+                IPsecIpProtocolEnum.ICMP,
+                IPsecIpProtocolEnum.TCP,
+                IPsecIpProtocolEnum.UDP,
+            ]
+        )
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.
