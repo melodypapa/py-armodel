@@ -6,17 +6,17 @@ Remove the quoted `DataPrototypeMapping` references from `ClientServerOperationM
 
 ## Current state
 
-In `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`, `ClientServerOperationMapping` is defined before `DataPrototypeMapping`. The consumer currently uses quoted forward references in the `argumentMappings` field annotation, `addArgumentMapping` parameter, and `getArgumentMappings` return annotation. `DataPrototypeMapping` itself depends on `TextTableMapping` and `SubElementMapping`, both defined between these classes. `TextTableMapping` also uses `MappingDirectionEnum` and `TextTableValuePair`, both defined before it but after `ClientServerOperationMapping`. The module does not enable postponed annotation evaluation.
+In `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`, `ClientServerOperationMapping` is defined before `DataPrototypeMapping`. The consumer currently uses quoted forward references in the `argumentMappings` field annotation, `addArgumentMapping` parameter, and `getArgumentMappings` return annotation. `DataPrototypeMapping` itself depends on `TextTableMapping` and `SubElementMapping`. `TextTableMapping` uses `MappingDirectionEnum` and `TextTableValuePair`, while `SubElementMapping` uses `SubElementRef`; `SubElementRef` and its concrete subclass are also defined after `ClientServerOperationMapping`. The module does not enable postponed annotation evaluation.
 
 ## Design
 
-Move the contiguous `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` definitions, in their current order, before `ClientServerOperationMapping`. Preserve all five class bodies unchanged. This puts every runtime dependency of `TextTableMapping` before its use while preserving the relative order of the existing mapping classes. Then replace the three quoted `DataPrototypeMapping` references with bare class references. Keep the quoted `ClientServerOperationMapping` self-return annotations unchanged; they are independent forward references within that class and are outside this change.
+Move the contiguous `SubElementRef`, `ApplicationCompositeDataTypeSubElementRef`, `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` definitions, in their current order, before `ClientServerOperationMapping`. Preserve all seven class bodies unchanged. This puts each runtime dependency before its use while preserving the relative order of the existing mapping classes. Then replace the three quoted `DataPrototypeMapping` references with bare class references. Keep the quoted `ClientServerOperationMapping` self-return annotations unchanged; they are independent forward references within that class and are outside this change.
 
 ## Alternatives considered
 
 - Keep the quoted forward references: smallest and valid, but does not meet the requested cleanup.
 - Add `from __future__ import annotations`: affects annotation representation across the entire module and conflicts with existing repository checks unless other top-level quoted annotations are normalized too.
-- Move the dependency classes into declaration order: keeps runtime annotation evaluation and limits type changes to the requested references, at the cost of relocating a substantial block of class definitions. This is the selected approach; `MappingDirectionEnum` and `TextTableValuePair` must precede `TextTableMapping`.
+- Move the dependency classes into declaration order: keeps runtime annotation evaluation and limits type changes to the requested references, at the cost of relocating a substantial block of class definitions. This is the selected approach; `SubElementRef` precedes `SubElementMapping`, and `MappingDirectionEnum` plus `TextTableValuePair` precede `TextTableMapping`.
 
 ## Tests and validation
 

@@ -4,7 +4,7 @@
 
 **Goal:** Remove quotes from `ClientServerOperationMapping`'s three `DataPrototypeMapping` annotations without changing runtime imports or resolved type hints.
 
-**Architecture:** Move the contiguous `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` definitions before `ClientServerOperationMapping`, preserving their existing relative order. Then use bare `DataPrototypeMapping` references in the member field, adder parameter, and getter return annotation; leave self-return annotations unchanged.
+**Architecture:** Move the contiguous `SubElementRef`, `ApplicationCompositeDataTypeSubElementRef`, `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` definitions before `ClientServerOperationMapping`, preserving their existing relative order. Then use bare `DataPrototypeMapping` references in the member field, adder parameter, and getter return annotation; leave self-return annotations unchanged.
 
 **Tech Stack:** Python 3.8-compatible annotations, pytest, Black, flake8, Ruff.
 
@@ -13,7 +13,7 @@
 - Python 3.8 compatibility: use `typing.List` / `typing.Optional`; do not add PEP 604 syntax.
 - Do not add comments or change model behavior, reader/writer logic, docstrings, or spec checklist content.
 - Keep runtime annotation resolution available without adding `from __future__ import annotations` to the module.
-- Preserve the five moved class bodies byte-for-byte; make only the three requested annotation edits in `ClientServerOperationMapping`.
+- Preserve the seven moved class bodies byte-for-byte; make only the three requested annotation edits in `ClientServerOperationMapping`.
 
 ---
 
@@ -52,11 +52,11 @@ Expected: FAIL because the raw method annotations contain `ForwardRef('DataProto
 
 **Interfaces:**
 - The consumer annotations resolve directly to the existing `DataPrototypeMapping` class object.
-- `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` retain their current definitions and move in their existing order before `ClientServerOperationMapping`.
+- `SubElementRef`, `ApplicationCompositeDataTypeSubElementRef`, `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` retain their current definitions and move in their existing order before `ClientServerOperationMapping`.
 
 - [ ] **Step 1: Move the dependency block before `ClientServerOperationMapping`**
 
-Move the complete contiguous definitions `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping`, in that order, to immediately before `ClientServerOperationMapping`. Preserve all five class bodies and checklists unchanged. `MappingDirectionEnum` and `TextTableValuePair` must precede `TextTableMapping` because its annotations and member types use them.
+Move the complete contiguous definitions `SubElementRef`, `ApplicationCompositeDataTypeSubElementRef`, `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping`, in that order, to immediately before `ClientServerOperationMapping`. Preserve all seven class bodies and checklists unchanged. `SubElementRef` must precede `SubElementMapping`, and `MappingDirectionEnum` plus `TextTableValuePair` must precede `TextTableMapping`.
 
 - [ ] **Step 2: Replace the consumer's three quoted type references**
 
