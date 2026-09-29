@@ -955,83 +955,83 @@ Status: **0/75** completed
 
 Status: **57/75** completed
 
-| Class Name                             | Status       | Commit ID |
-| -------------------------------------- | ------------ | --------- |
-| `AnyInstanceRef`                       | [x] Done     | N/A       |
-| `Chapter`                              | [x] Done     | N/A       |
-| `PredefinedChapter`                    | [x] Done     | N/A       |
-| `FloatEnum`                            | [x] Done     | N/A       |
-| `Topic1`                               | [x] Done     | N/A       |
-| `TopicOrMsrQuery`                      | [x] Done     | N/A       |
-| `ChapterOrMsrQuery`                    | [x] Done     | N/A       |
-| `MsrQueryProps`                        | [x] Done     | N/A       |
-| `MsrQueryArg`                          | [x] Done     | N/A       |
-| `MultiLanguageOverviewParagraph`       | [x] Done     | N/A       |
-| `PgwideEnum`                           | [x] Done     | N/A       |
-| `MultiLanguagePlainText`               | [x] Done     | N/A       |
-| `LanguageSpecific`                     | [x] Done     | N/A       |
-| `LEnum`                                | [x] Done     | N/A       |
-| `AclPermission`                        | [ ] Pending* | N/A       |
-| `AclObjectSet`                         | [ ] Pending* | N/A       |
-| `AclOperation`                         | [ ] Pending* | N/A       |
-| `AclRole`                              | [ ] Pending* | N/A       |
-| `AclScopeEnum`                         | [ ] Pending* | N/A       |
-| `LifeCycleStateDefinitionGroup`        | [ ] Pending* | N/A       |
-| `LifeCycleState`                       | [ ] Pending* | N/A       |
-| `ViewMapSet`                           | [ ] Pending* | N/A       |
-| `ViewMap`                              | [ ] Pending* | N/A       |
-| `BswModuleDescription`                 | [x] Done     | N/A       |
-| `BswModuleEntry`                       | [x] Done     | N/A       |
-| `BswEntryKindEnum`                     | [x] Done     | N/A       |
-| `BswExecutionContext`                  | [x] Done     | N/A       |
-| `BswCallType`                          | [x] Done     | N/A       |
-| `SwServiceImplPolicyEnum`              | [x] Done     | N/A       |
-| `SwServiceArg`                         | [x] Done     | N/A       |
-| `SwPointerTargetProps`                 | [x] Done     | N/A       |
-| `ArgumentDirectionEnum`                | [x] Done     | N/A       |
-| `ModeDeclarationGroup`                 | [x] Done     | N/A       |
-| `ModeDeclaration`                      | [x] Done     | N/A       |
-| `ModeTransition`                       | [x] Done     | N/A       |
-| `ModeErrorBehavior`                    | [x] Done     | N/A       |
-| `ModeErrorReactionPolicyEnum`          | [x] Done     | N/A       |
-| `AccessCountSet`                       | [x] Done     | N/A       |
-| `AccessCount`                          | [x] Done     | N/A       |
-| `AbstractAccessPoint`                  | [x] Done     | N/A       |
-| `InternalBehavior`                     | [x] Done     | N/A       |
-| `ExecutableEntity`                     | [x] Done     | N/A       |
-| `BswModuleEntity`                      | [x] Done     | N/A       |
-| `BswCalledEntity`                      | [x] Done     | N/A       |
-| `BswSchedulableEntity`                 | [x] Done     | N/A       |
-| `BswInterruptCategory`                 | [ ] Pending* | N/A       |
-| `BswAsynchronousServerCallPoint`       | [x] Done     | N/A       |
-| `BswAsynchronousServerCallResultPoint` | [x] Done     | N/A       |
-| `BswVariableAccess`                    | [ ] Pending* | N/A       |
-| `ExclusiveArea`                        | [x] Done     | N/A       |
-| `BswExclusiveAreaPolicy`               | [ ] Pending* | N/A       |
-| `ExclusiveAreaNestingOrder`            | [x] Done     | N/A       |
-| `BswSchedulerNamePrefix`               | [x] Done     | N/A       |
-| `BswEvent`                             | [x] Done     | N/A       |
-| `BswScheduleEvent`                     | [x] Done     | N/A       |
-| `BswInterruptEvent`                    | [x] Done     | N/A       |
-| `BswBackgroundEvent`                   | [x] Done     | N/A       |
-| `BswOsTaskExecutionEvent`              | [x] Done     | N/A       |
-| `BswExternalTriggerOccurredEvent`      | [ ] Pending* | N/A       |
-| `BswModeSwitchEvent`                   | [x] Done     | N/A       |
-| `BswOperationInvokedEvent`             | [ ] Pending* | N/A       |
-| `BswTriggerDirectImplementation`       | [ ] Pending* | N/A       |
-| `BswModeSenderPolicy`                  | [ ] Pending* | N/A       |
-| `BswModeReceiverPolicy`                | [ ] Pending* | N/A       |
-| `ParameterDataPrototype`               | [x] Done     | N/A       |
-| `BswDistinguishedPartition`            | [x] Done     | N/A       |
-| `BswImplementation`                    | [x] Done     | N/A       |
-| `AutosarEngineeringObject`             | [x] Done     | N/A       |
-| `AlignmentType`                        | [ ] Pending* | N/A       |
-| `SwAddrMethod`                         | [x] Done     | N/A       |
-| `MemoryAllocationKeywordPolicyType`    | [x] Done     | N/A       |
-| `SectionInitializationPolicyType`      | [x] Done     | N/A       |
-| `MemorySectionType`                    | [x] Done     | N/A       |
-| `HeapUsage`                            | [x] Done     | N/A       |
-| `WorstCaseHeapUsage`                   | [x] Done     | N/A       |
+| Class Name                             | Status       | Commit ID  |
+| -------------------------------------- | ------------ | ---------- |
+| `AnyInstanceRef`                       | [x] Done     | N/A        |
+| `Chapter`                              | [x] Done     | N/A        |
+| `PredefinedChapter`                    | [x] Done     | N/A        |
+| `FloatEnum`                            | [x] Done     | N/A        |
+| `Topic1`                               | [x] Done     | N/A        |
+| `TopicOrMsrQuery`                      | [x] Done     | N/A        |
+| `ChapterOrMsrQuery`                    | [x] Done     | N/A        |
+| `MsrQueryProps`                        | [x] Done     | N/A        |
+| `MsrQueryArg`                          | [x] Done     | N/A        |
+| `MultiLanguageOverviewParagraph`       | [x] Done     | N/A        |
+| `PgwideEnum`                           | [x] Done     | N/A        |
+| `MultiLanguagePlainText`               | [x] Done     | N/A        |
+| `LanguageSpecific`                     | [x] Done     | N/A        |
+| `LEnum`                                | [x] Done     | N/A        |
+| `AclPermission`                        | [ ] Pending* | 29d7cfc19d |
+| `AclObjectSet`                         | [ ] Pending* | 11ad22dfad |
+| `AclOperation`                         | [ ] Pending* | 0eb0409c12 |
+| `AclRole`                              | [ ] Pending* | 8d5c387889 |
+| `AclScopeEnum`                         | [ ] Pending* | dfa53c4352 |
+| `LifeCycleStateDefinitionGroup`        | [ ] Pending* | 0c87fdbee4 |
+| `LifeCycleState`                       | [ ] Pending* | 8f363946f9 |
+| `ViewMapSet`                           | [ ] Pending* | f6dc7bb594 |
+| `ViewMap`                              | [ ] Pending* | b48c08bba2 |
+| `BswModuleDescription`                 | [x] Done     | N/A        |
+| `BswModuleEntry`                       | [x] Done     | N/A        |
+| `BswEntryKindEnum`                     | [x] Done     | N/A        |
+| `BswExecutionContext`                  | [x] Done     | N/A        |
+| `BswCallType`                          | [x] Done     | N/A        |
+| `SwServiceImplPolicyEnum`              | [x] Done     | N/A        |
+| `SwServiceArg`                         | [x] Done     | N/A        |
+| `SwPointerTargetProps`                 | [x] Done     | N/A        |
+| `ArgumentDirectionEnum`                | [x] Done     | N/A        |
+| `ModeDeclarationGroup`                 | [x] Done     | N/A        |
+| `ModeDeclaration`                      | [x] Done     | N/A        |
+| `ModeTransition`                       | [x] Done     | N/A        |
+| `ModeErrorBehavior`                    | [x] Done     | N/A        |
+| `ModeErrorReactionPolicyEnum`          | [x] Done     | N/A        |
+| `AccessCountSet`                       | [x] Done     | N/A        |
+| `AccessCount`                          | [x] Done     | N/A        |
+| `AbstractAccessPoint`                  | [x] Done     | N/A        |
+| `InternalBehavior`                     | [x] Done     | N/A        |
+| `ExecutableEntity`                     | [x] Done     | N/A        |
+| `BswModuleEntity`                      | [x] Done     | N/A        |
+| `BswCalledEntity`                      | [x] Done     | N/A        |
+| `BswSchedulableEntity`                 | [x] Done     | N/A        |
+| `BswInterruptCategory`                 | [ ] Pending* | 87a572d24b |
+| `BswAsynchronousServerCallPoint`       | [x] Done     | N/A        |
+| `BswAsynchronousServerCallResultPoint` | [x] Done     | N/A        |
+| `BswVariableAccess`                    | [ ] Pending* | d4d386b5c4 |
+| `ExclusiveArea`                        | [x] Done     | N/A        |
+| `BswExclusiveAreaPolicy`               | [ ] Pending* | eb307c9898 |
+| `ExclusiveAreaNestingOrder`            | [x] Done     | N/A        |
+| `BswSchedulerNamePrefix`               | [x] Done     | N/A        |
+| `BswEvent`                             | [x] Done     | N/A        |
+| `BswScheduleEvent`                     | [x] Done     | N/A        |
+| `BswInterruptEvent`                    | [x] Done     | N/A        |
+| `BswBackgroundEvent`                   | [x] Done     | N/A        |
+| `BswOsTaskExecutionEvent`              | [x] Done     | N/A        |
+| `BswExternalTriggerOccurredEvent`      | [ ] Pending* | a52b41da2c |
+| `BswModeSwitchEvent`                   | [x] Done     | N/A        |
+| `BswOperationInvokedEvent`             | [ ] Pending* | dc465f6b33 |
+| `BswTriggerDirectImplementation`       | [ ] Pending* | 0626aec9ca |
+| `BswModeSenderPolicy`                  | [ ] Pending* | af6d69bbfa |
+| `BswModeReceiverPolicy`                | [ ] Pending* | 2b15f92b16 |
+| `ParameterDataPrototype`               | [x] Done     | N/A        |
+| `BswDistinguishedPartition`            | [x] Done     | N/A        |
+| `BswImplementation`                    | [x] Done     | N/A        |
+| `AutosarEngineeringObject`             | [x] Done     | N/A        |
+| `AlignmentType`                        | [ ] Pending* | 6133a30b31 |
+| `SwAddrMethod`                         | [x] Done     | N/A        |
+| `MemoryAllocationKeywordPolicyType`    | [x] Done     | N/A        |
+| `SectionInitializationPolicyType`      | [x] Done     | N/A        |
+| `MemorySectionType`                    | [x] Done     | N/A        |
+| `HeapUsage`                            | [x] Done     | N/A        |
+| `WorstCaseHeapUsage`                   | [x] Done     | N/A        |
 
 ## Group23
 

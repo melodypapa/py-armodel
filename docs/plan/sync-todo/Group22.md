@@ -190,8 +190,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `AclPermission` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.1, p.382
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+- [ ] `AclPermission` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.1, p.382 — sync commit: 29d7cfc19
+  - module: M2/AUTOSARTemplates/GenericStructure/RolesAndRights.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -202,8 +202,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `AclObjectSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.2, p.383
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+- [ ] `AclObjectSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.2, p.383 — sync commit: 11ad22dfa
+  - module: M2/AUTOSARTemplates/GenericStructure/RolesAndRights.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -214,8 +214,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `AclOperation` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.4, p.384
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+- [ ] `AclOperation` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.4, p.384 — sync commit: 0eb0409c1
+  - module: M2/AUTOSARTemplates/GenericStructure/RolesAndRights.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -226,8 +226,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `AclRole` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.5, p.384
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+- [ ] `AclRole` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.5, p.384 — sync commit: 8d5c38788
+  - module: M2/AUTOSARTemplates/GenericStructure/RolesAndRights.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -238,7 +238,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `AclScopeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 11.6, p.384
+- [ ] `AclScopeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 11.6, p.384 — sync commit: dfa53c435
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -250,7 +250,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `LifeCycleStateDefinitionGroup` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 12.1, p.388
+- [ ] `LifeCycleStateDefinitionGroup` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 12.1, p.388 — sync commit: 0c87fdbee
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -262,7 +262,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `LifeCycleState` — AtpBlueprint — R23-11 FO_TPS_GenericStructureTemplate Table 12.2, p.388
+- [ ] `LifeCycleState` — AtpBlueprint — R23-11 FO_TPS_GenericStructureTemplate Table 12.2, p.388 — sync commit: 8f363946f
   - module: M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/AbstractBlueprintStructure/__init__.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -274,8 +274,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `ViewMapSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 14.1, p.401
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+- [ ] `ViewMapSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 14.1, p.401 — sync commit: f6dc7bb59
+  - module: M2/AUTOSARTemplates/GenericStructure/ViewMapSet.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -286,8 +286,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `ViewMap` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 14.2, p.401
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
+- [ ] `ViewMap` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 14.2, p.401 — sync commit: b48c08bba
+  - module: M2/AUTOSARTemplates/GenericStructure/ViewMapSet.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -562,7 +562,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `BswInterruptCategory` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.9, p.76
+- [ ] `BswInterruptCategory` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.9, p.76 — sync commit: 87a572d24
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -598,7 +598,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `BswVariableAccess` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.15, p.81
+- [ ] `BswVariableAccess` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.15, p.81 — sync commit: d4d386b5c
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -622,7 +622,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `BswExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.17, p.83
+- [ ] `BswExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.17, p.83 — sync commit: eb307c989
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -718,7 +718,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `BswExternalTriggerOccurredEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.30, p.91
+- [ ] `BswExternalTriggerOccurredEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.30, p.91 — sync commit: a52b41da2
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -742,7 +742,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `BswOperationInvokedEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.35, p.97
+- [ ] `BswOperationInvokedEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.35, p.97 — sync commit: dc465f6b3
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -754,7 +754,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswTriggerDirectImplementation` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.38, p.102
+- [ ] `BswTriggerDirectImplementation` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.38, p.102 — sync commit: 0626aec9c
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -766,7 +766,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModeSenderPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.39, p.103
+- [ ] `BswModeSenderPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.39, p.103 — sync commit: af6d69bbf
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -778,7 +778,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModeReceiverPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.41, p.103
+- [ ] `BswModeReceiverPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.41, p.103 — sync commit: 2b15f92b1
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -838,7 +838,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `AlignmentType` — ARLiteral — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.3, p.144; also CP_TPS_SoftwareComponentTemplate Table 5.96, p.419; also FO_TPS_GenericStructureTemplate Table 4.41, p.107
+- [ ] `AlignmentType` — ARLiteral — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.3, p.144; also CP_TPS_SoftwareComponentTemplate Table 5.96, p.419; also FO_TPS_GenericStructureTemplate Table 4.41, p.107 — sync commit: 6133a30b3
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

@@ -52,11 +52,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractVariationRestriction`                          | [ ] Created | N/A                                      | Group21          |
 | `AccessCount`                                           | [x] Done    | N/A                                      | Group22          |
 | `AccessCountSet`                                        | [x] Done    | N/A                                      | Group22          |
-| `AclObjectSet`                                          | [ ] Deferred| N/A                                      | Group22          |
-| `AclOperation`                                          | [ ] Deferred| N/A                                      | Group22          |
-| `AclPermission`                                         | [ ] Deferred| N/A                                      | Group22          |
-| `AclRole`                                               | [ ] Deferred| N/A                                      | Group22          |
-| `AclScopeEnum`                                          | [ ] Deferred| N/A                                      | Group22          |
+| `AclObjectSet`                                          | [ ] Deferred| 11ad22dfad                               | Group22          |
+| `AclOperation`                                          | [ ] Deferred| 0eb0409c12                               | Group22          |
+| `AclPermission`                                         | [ ] Deferred| 29d7cfc19d                               | Group22          |
+| `AclRole`                                               | [ ] Deferred| 8d5c387889                               | Group22          |
+| `AclScopeEnum`                                          | [ ] Deferred| dfa53c4352                               | Group22          |
 | `AdditionalBindingTimeEnum`                             | [ ] Created | N/A                                      | Group29          |
 | `AdminData`                                             | [ ] Implemented| N/A                                      | Group21          |
 | `AgeConstraint`                                         | [ ] Implemented| N/A                                      | Group35          |
@@ -65,7 +65,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AliasNameAssignment`                                   | [ ] Implemented| N/A                                      | Group23          |
 | `AliasNameSet`                                          | [ ] Implemented| N/A                                      | Group23          |
 | `AlignEnum`                                             | [x] Done    | fa74a474a5                               | Group3           |
-| `AlignmentType`                                         | [ ] Deferred| N/A                                      | Group22          |
+| `AlignmentType`                                         | [ ] Deferred| 6133a30b31                               | Group22          |
 | `AnalyzedExecutionTime`                                 | [ ] Implemented| N/A                                      | Group23          |
 | `Annotation`                                            | [ ] Implemented| N/A                                      | Group21          |
 | `AnyInstanceRef`                                        | [x] Done    | N/A                                      | Group22          |
@@ -179,21 +179,21 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswEntryRelationshipEnum`                              | [ ] Deferred| 994c3903cb                               | Group13          |
 | `BswEntryRelationshipSet`                               | [ ] Deferred| a4d57abd3a                               | Group13          |
 | `BswEvent`                                              | [x] Done    | N/A                                      | Group22          |
-| `BswExclusiveAreaPolicy`                                | [ ] Deferred| N/A                                      | Group22          |
+| `BswExclusiveAreaPolicy`                                | [ ] Deferred| eb307c9898                               | Group22          |
 | `BswExecutionContext`                                   | [x] Done    | N/A                                      | Group22          |
-| `BswExternalTriggerOccurredEvent`                       | [ ] Deferred| N/A                                      | Group22          |
+| `BswExternalTriggerOccurredEvent`                       | [ ] Deferred| a52b41da2c                               | Group22          |
 | `BswImplementation`                                     | [x] Done    | N/A                                      | Group22          |
 | `BswInternalBehavior`                                   | [x] Done    | 89a7231799                               | Group4           |
 | `BswInternalTriggerOccurredEvent`                       | [ ] Deferred| N/A                                      | Group13          |
 | `BswInternalTriggeringPoint`                            | [ ] Deferred| N/A                                      | Group13          |
 | `BswInternalTriggeringPointPolicy`                      | [x] Done    | 2bb8413910                               | Group4           |
-| `BswInterruptCategory`                                  | [ ] Deferred| N/A                                      | Group22          |
+| `BswInterruptCategory`                                  | [ ] Deferred| 87a572d24b                               | Group22          |
 | `BswInterruptEntity`                                    | [ ] Deferred| N/A                                      | Group13          |
 | `BswInterruptEvent`                                     | [x] Done    | N/A                                      | Group22          |
 | `BswMgrNeeds`                                           | [x] Done    | 628464ed64                               | Group4           |
 | `BswModeManagerErrorEvent`                              | [ ] Deferred| N/A                                      | Group13          |
-| `BswModeReceiverPolicy`                                 | [ ] Deferred| N/A                                      | Group22          |
-| `BswModeSenderPolicy`                                   | [ ] Deferred| N/A                                      | Group22          |
+| `BswModeReceiverPolicy`                                 | [ ] Deferred| 2b15f92b16                               | Group22          |
+| `BswModeSenderPolicy`                                   | [ ] Deferred| af6d69bbfa                               | Group22          |
 | `BswModeSwitchAckRequest`                               | [ ] Deferred| N/A                                      | Group13          |
 | `BswModeSwitchEvent`                                    | [x] Done    | N/A                                      | Group22          |
 | `BswModeSwitchedAckEvent`                               | [ ] Deferred| 160eae8f23                               | Group13          |
@@ -204,7 +204,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswModuleEntity`                                       | [x] Done    | N/A                                      | Group22          |
 | `BswModuleEntry`                                        | [x] Done    | N/A                                      | Group22          |
 | `BswModuleTiming`                                       | [ ] Created | N/A                                      | Group35          |
-| `BswOperationInvokedEvent`                              | [ ] Deferred| N/A                                      | Group22          |
+| `BswOperationInvokedEvent`                              | [ ] Deferred| dc465f6b33                               | Group22          |
 | `BswOsTaskExecutionEvent`                               | [x] Done    | N/A                                      | Group22          |
 | `BswParameterPolicy`                                    | [x] Done    | eceaef9296                               | Group4           |
 | `BswPerInstanceMemoryPolicy`                            | [x] Done    | b89ad783a3                               | Group4           |
@@ -217,8 +217,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswServiceDependencyIdent`                             | [ ] Implemented| N/A                                      | Group26          |
 | `BswSynchronousServerCallPoint`                         | [ ] Deferred| N/A                                      | Group13          |
 | `BswTimingEvent`                                        | [ ] Deferred| 1a0a0619b2                               | Group13          |
-| `BswTriggerDirectImplementation`                        | [ ] Deferred| N/A                                      | Group22          |
-| `BswVariableAccess`                                     | [ ] Deferred| N/A                                      | Group22          |
+| `BswTriggerDirectImplementation`                        | [ ] Deferred| 0626aec9ca                               | Group22          |
+| `BswVariableAccess`                                     | [ ] Deferred| d4d386b5c4                               | Group22          |
 | `BufferProperties`                                      | [ ] Implemented| N/A                                      | Group28          |
 | `BuildAction`                                           | [x] Done    | 6c9ef66b40                               | Group1           |
 | `BuildActionEntity`                                     | [x] Done    | d7717e736a                               | Group1           |
@@ -1188,8 +1188,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LifeCycleInfo`                                         | [x] Done    | 5836e6eb08                               | Group8           |
 | `LifeCycleInfoSet`                                      | [x] Done    | 11bd9cd848                               | Group8           |
 | `LifeCyclePeriod`                                       | [x] Done    | b572582c11                               | Group8           |
-| `LifeCycleState`                                        | [ ] Deferred| N/A                                      | Group22          |
-| `LifeCycleStateDefinitionGroup`                         | [ ] Deferred| N/A                                      | Group22          |
+| `LifeCycleState`                                        | [ ] Deferred| 8f363946f9                               | Group22          |
+| `LifeCycleStateDefinitionGroup`                         | [ ] Deferred| 0c87fdbee4                               | Group22          |
 | `Limit`                                                 | [ ] Implemented| N/A                                      | Group28          |
 | `LimitValueVariationPoint`                              | [x] Done    | d5c96fd954                               | Group8           |
 | `LinChecksumType`                                       | [ ] Created | N/A                                      | Group31          |
@@ -1926,8 +1926,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `VerbatimStringPlain`                                   | [ ] Implemented| N/A                                      | Group21          |
 | `VerificationStatusIndicationModeEnum`                  | [ ] Implemented| N/A                                      | Group29          |
 | `VfbTiming`                                             | [ ] Created | N/A                                      | Group35          |
-| `ViewMap`                                               | [ ] Deferred| N/A                                      | Group22          |
-| `ViewMapSet`                                            | [ ] Deferred| N/A                                      | Group22          |
+| `ViewMap`                                               | [ ] Deferred| b48c08bba2                               | Group22          |
+| `ViewMapSet`                                            | [ ] Deferred| f6dc7bb594                               | Group22          |
 | `ViewTokens`                                            | [x] Done    | 82c86af789                               | Group3           |
 | `VlanConfig`                                            | [ ] Deferred| b1e4750b14                               | Group16          |
 | `VlanMembership`                                        | [x] Done    | ed6ed2a65f                               | Group6           |
