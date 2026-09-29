@@ -1475,16 +1475,16 @@ class TestBswTriggerDirectImplementation:
 
     def test_type_annotations(self):
         """Pin the spec 0..1 optional annotations on the accessors."""
-        for getter, setter in [
-            (BswTriggerDirectImplementation.getCat2Isr, BswTriggerDirectImplementation.setCat2Isr),
-            (BswTriggerDirectImplementation.getMasteredTriggerRef, BswTriggerDirectImplementation.setMasteredTriggerRef),
-            (BswTriggerDirectImplementation.getTask, BswTriggerDirectImplementation.setTask),
+        for getter, setter, attr_type in [
+            (BswTriggerDirectImplementation.getCat2Isr, BswTriggerDirectImplementation.setCat2Isr, Identifier),
+            (BswTriggerDirectImplementation.getMasteredTriggerRef, BswTriggerDirectImplementation.setMasteredTriggerRef, RefType),
+            (BswTriggerDirectImplementation.getTask, BswTriggerDirectImplementation.setTask, Identifier),
         ]:
             getter_hints = typing.get_type_hints(getter)
-            assert getter_hints.get("return") == typing.Optional[Identifier]
+            assert getter_hints.get("return") == typing.Optional[attr_type]
 
             setter_hints = typing.get_type_hints(setter)
-            assert setter_hints.get("value") == typing.Optional[Identifier]
+            assert setter_hints.get("value") == typing.Optional[attr_type]
             assert setter_hints.get("return") is BswTriggerDirectImplementation
 
 

@@ -3336,62 +3336,44 @@ class BswInternalBehavior(InternalBehavior):
         return self.includedDataTypeSets
 
 
-class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
+class BswTriggerDirectImplementation(ARObject):
     """
     Specifies a released trigger to be directly implemented via OS calls, for example in a Complex Driver module.
-    Constraints: constr_10290 (masteredTrigger reference shall exist) and constr_4105 (only one of task or cat2Isr).
     """
 
     # BswTriggerDirectImplementation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.38, p.99
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getCat2Isr                   [x] impl  [x] docstring  [x] test
-    # [x] setCat2Isr                   [x] impl  [x] docstring  [x] test
-    # [x] getMasteredTriggerRef        [x] impl  [x] docstring  [x] test
-    # [x] setMasteredTriggerRef        [x] impl  [x] docstring  [x] test
-    # [x] getTask                      [x] impl  [x] docstring  [x] test
-    # [x] setTask                      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.38, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCat2Isr              [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setCat2Isr              [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getTask                 [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setTask                 [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initialize BswTriggerDirectImplementation with default values.
-        """
         super().__init__()
 
-        # The name of the OS category 2 ISR, which is controlled by the referred trigger.
-        # This means, that the module manages the category 2 ISR (e.g. according hardware
-        # initialization and enabling of ISR). Instead of calling an RTE / SchM API to
-        # raise the appropriate events in components or modules receiving the trigger,
-        # this ISR directly schedules the triggered ExecutableEntitys. The ISR name is
-        # required by the integrator to map the Bsw Events and RTEEvents to this ISR.
-        # Constraint: constr_4105 (only one of task or cat2Isr).
+        # The name of the OS category 2 ISR, which is controlled by the referred trigger. This means, that the module manages the category 2 ISR (e.g. according hardware initialization and enabling of ISR). Instead of calling an RTE / SchM API to raise the appropriate events in components or modules receiving the trigger, this ISR directly schedules the triggered ExecutableEntitys. The ISR name is required by the integrator to map the Bsw Events and RTEEvents to this ISR.
         self.cat2Isr: Optional[Identifier] = None
 
-        # The trigger which is directly mastered by this module. There may be several
-        # different BswTriggerDirect Implementations mastering the same Trigger. This may
-        # be required e.g. due to memory partitioning.
-        # Constraint: constr_10290 (masteredTrigger reference shall exist).
+        # The trigger which is directly mastered by this module. There may be several different BswTriggerDirect Implementations mastering the same Trigger. This may be required e.g. due to memory partitioning.
         self.masteredTriggerRef: Optional[RefType] = None
 
-        # The name of the OS task, which is controlled by the referred trigger. This means,
-        # that the module uses the trigger condition to directly activate an OS task instead
-        # of calling an API of the BswScheduler. The task name is required by the RTE
-        # generator resp. BswScheduler to raise the appropriate events in components or
-        # modules receiving the trigger.
-        # Constraint: constr_4105 (only one of task or cat2Isr).
+        # The name of the OS task, which is controlled by the referred trigger. This means, that the module uses the trigger condition to directly activate an OS task instead of calling an API of the BswScheduler. The task name is required by the RTE generator resp. BswScheduler to raise the appropriate events in components or modules receiving the trigger.
         self.task: Optional[Identifier] = None
 
     def getCat2Isr(self) -> Optional[Identifier]:
         """
-        Gets the name of the OS category 2 ISR controlled by the referred trigger.
-        Returns the ISR name or None if not set.
+        The name of the OS category 2 ISR, which is controlled by the referred trigger. This means, that the module manages the category 2 ISR (e.g. according hardware initialization and enabling of ISR). Instead of calling an RTE / SchM API to raise the appropriate events in components or modules receiving the trigger, this ISR directly schedules the triggered ExecutableEntitys. The ISR name is required by the integrator to map the Bsw Events and RTEEvents to this ISR.
         """
         return self.cat2Isr
 
     def setCat2Isr(self, value: Optional[Identifier]) -> BswTriggerDirectImplementation:
         """
-        Sets the name of the OS category 2 ISR. Only sets if value is not None.
-        Returns self for method chaining.
+        The name of the OS category 2 ISR, which is controlled by the referred trigger. This means, that the module manages the category 2 ISR (e.g. according hardware initialization and enabling of ISR). Instead of calling an RTE / SchM API to raise the appropriate events in components or modules receiving the trigger, this ISR directly schedules the triggered ExecutableEntitys. The ISR name is required by the integrator to map the Bsw Events and RTEEvents to this ISR.
+        A None value is a no-op and does not overwrite an existing cat2Isr.
         """
         if value is not None:
             self.cat2Isr = value
@@ -3399,15 +3381,14 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
 
     def getMasteredTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the trigger which is directly mastered by this module.
-        Returns the trigger reference or None if not set.
+        The trigger which is directly mastered by this module. There may be several different BswTriggerDirect Implementations mastering the same Trigger. This may be required e.g. due to memory partitioning.
         """
         return self.masteredTriggerRef
 
     def setMasteredTriggerRef(self, value: Optional[RefType]) -> BswTriggerDirectImplementation:
         """
-        Sets the trigger reference. Only sets if value is not None.
-        Returns self for method chaining.
+        The trigger which is directly mastered by this module. There may be several different BswTriggerDirect Implementations mastering the same Trigger. This may be required e.g. due to memory partitioning.
+        A None value is a no-op and does not overwrite an existing masteredTriggerRef.
         """
         if value is not None:
             self.masteredTriggerRef = value
@@ -3415,15 +3396,14 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
 
     def getTask(self) -> Optional[Identifier]:
         """
-        Gets the name of the OS task controlled by the referred trigger.
-        Returns the task name or None if not set.
+        The name of the OS task, which is controlled by the referred trigger. This means, that the module uses the trigger condition to directly activate an OS task instead of calling an API of the BswScheduler. The task name is required by the RTE generator resp. BswScheduler to raise the appropriate events in components or modules receiving the trigger.
         """
         return self.task
 
     def setTask(self, value: Optional[Identifier]) -> BswTriggerDirectImplementation:
         """
-        Sets the name of the OS task. Only sets if value is not None.
-        Returns self for method chaining.
+        The name of the OS task, which is controlled by the referred trigger. This means, that the module uses the trigger condition to directly activate an OS task instead of calling an API of the BswScheduler. The task name is required by the RTE generator resp. BswScheduler to raise the appropriate events in components or modules receiving the trigger.
+        A None value is a no-op and does not overwrite an existing task.
         """
         if value is not None:
             self.task = value
