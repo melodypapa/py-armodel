@@ -607,24 +607,24 @@ Status: **15/24** completed
 
 ## Group12
 
-Status: **0/14** completed
+Status: **1/14** completed
 
-| Class Name                           | Status       | Commit ID |
-| ------------------------------------ | ------------ | --------- |
-| `ParameterAccess`                    | [ ] Pending* | N/A       |
-| `VariableAccess`                     | [ ] Pending* | N/A       |
-| `InternalTriggeringPoint`            | [ ] Pending* | N/A       |
-| `ModeAccessPoint`                    | [ ] Pending* | N/A       |
-| `ModeSwitchPoint`                    | [ ] Pending* | N/A       |
-| `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A       |
-| `DataReceiveErrorEvent`              | [ ] Pending* | N/A       |
-| `DataReceivedEvent`                  | [ ] Pending* | N/A       |
-| `DataSendCompletedEvent`             | [ ] Pending* | N/A       |
-| `DataWriteCompletedEvent`            | [ ] Pending* | N/A       |
-| `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A       |
-| `OperationInvokedEvent`              | [ ] Pending* | N/A       |
-| `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A       |
-| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A       |
+| Class Name                           | Status       | Commit ID  |
+| ------------------------------------ | ------------ | ---------- |
+| `ParameterAccess`                    | [x] Done     | 3b9f111270 |
+| `VariableAccess`                     | [ ] Pending* | N/A        |
+| `InternalTriggeringPoint`            | [ ] Pending* | N/A        |
+| `ModeAccessPoint`                    | [ ] Pending* | N/A        |
+| `ModeSwitchPoint`                    | [ ] Pending* | N/A        |
+| `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
+| `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
+| `DataReceivedEvent`                  | [ ] Pending* | N/A        |
+| `DataSendCompletedEvent`             | [ ] Pending* | N/A        |
+| `DataWriteCompletedEvent`            | [ ] Pending* | N/A        |
+| `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
+| `OperationInvokedEvent`              | [ ] Pending* | N/A        |
+| `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A        |
+| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A        |
 
 ## Group13
 
