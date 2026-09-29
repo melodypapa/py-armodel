@@ -3005,16 +3005,18 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | — *(missing)* | `—` | `transmitCancellation` | `Boolean` | — | missing |
 
 ## `LinTpConnection`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 615
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 616
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `dropNotRequestedNad` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `maxNumberOfRespPendingFrames` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `p2Max` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `p2Timing` | `TimeValue` | — | missing |
+| — *(missing)* | `—` | `dropNotRequestedNad` | `Boolean` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `maxNumberOfRespPendingFrames` | `PositiveInteger` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `p2Max` | `TimeValue` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `p2Timing` | `TimeValue` | — | deprecated (atp.Status=removed), not implemented |
+
+Resolved at the Table 6.261 sync (R23-11): the four "missing" rows were stale — all four elements carry `atp.Status="removed"` in the XSD (superseded by LinTpNode.dropNotRequestedNad or moved to LinTpNode p2Max/p2Timing/maxNumberOfRespPendingFrames), are absent from the R23-11 attribute column, and no integration fixture carries them (Rule 0019 condition 3 fails; Rule 0015). The former reader/writer gaps (MULTICAST-REF and VARIATION-POINT dropped on both sides) were fixed in the same pass; all nine Table 6.261 attributes now round-trip with full reader/writer coverage. Sibling note: the stamped CanTpConnection reader/writer has the same VARIATION-POINT gap (CAN-TP-CONNECTION is an XSD anchor) — to reconcile in a drift pass.
 
 ## `NmCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 672

@@ -11197,11 +11197,13 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setDataPduRef(self.getChildElementOptionalRefType(element, "DATA-PDU-REF"))
         connection.setFlowControlRef(self.getChildElementOptionalRefType(element, "FLOW-CONTROL-REF"))
         connection.setLinTpNSduRef(self.getChildElementOptionalRefType(element, "LIN-TP-N-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
         self.readTpConnectionReceiverRefs(element, connection)
         connection.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
         connection.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
         connection.setTimeoutCs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CS"))
         connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        self.readVariationPointCapable(element, connection)
 
     def readLinTpConfigTpConnections(self, element: ET.Element, config: LinTpConfig):
         for child_element in self.findall(element, "TP-CONNECTIONS/*"):
