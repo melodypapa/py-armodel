@@ -281,6 +281,32 @@ class TestWriterEcucBooleanParamDef:
         writer.writeEcucBooleanParamDef(parent, None)
         assert len(parent) == 0
 
+    def test_round_trip_default_value(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucBooleanParamDef("P")
+        param.setDefaultValue(_bool(True))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("P", EcucBooleanParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() is True
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucAbstractStringParamDef:
     def test_writes_common_attrs(self, writer):

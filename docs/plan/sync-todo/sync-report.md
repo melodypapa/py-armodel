@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 497 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 197 | 10.3% |
-| [ ] Implemented | 620 | 32.3% |
+| [ ] Deferred | 198 | 10.3% |
+| [ ] Implemented | 619 | 32.2% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -810,7 +810,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucAbstractStringParamDef`                            | [ ] Implemented| N/A                                      | Group26          |
 | `EcucAddInfoParamDef`                                   | [ ] Implemented| N/A                                      | Group26          |
 | `EcucAddInfoParamValue`                                 | [ ] Implemented| N/A                                      | Group27          |
-| `EcucBooleanParamDef`                                   | [ ] Implemented| N/A                                      | Group19          |
+| `EcucBooleanParamDef`                                   | [ ] Deferred| N/A                                      | Group19          |
 | `EcucChoiceContainerDef`                                | [ ] Implemented| N/A                                      | Group26          |
 | `EcucChoiceReferenceDef`                                | [ ] Implemented| N/A                                      | Group26          |
 | `EcucCommonAttributes`                                  | [ ] Implemented| N/A                                      | Group26          |

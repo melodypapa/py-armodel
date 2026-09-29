@@ -938,19 +938,28 @@ class EcucBooleanParamDef(EcucParameterDef):
 
     # EcucBooleanParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.15, p.58
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: Boolean = None
+        # Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.defaultValue: Optional[Boolean] = None
 
-    def getDefaultValue(self) -> Boolean:
+    def getDefaultValue(self) -> Optional[Boolean]:
+        """
+        Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Boolean):
+    def setDefaultValue(self, value: Optional[Boolean]) -> "EcucBooleanParamDef":
+        """
+        Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self

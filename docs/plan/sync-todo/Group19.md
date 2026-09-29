@@ -560,17 +560,97 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `EcucBooleanParamDef` — EcucParameterDef — source TBC (locate table at Step 1)
+- [ ] `EcucBooleanParamDef` — EcucParameterDef — R23-11 markdown · Table 2.15
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 2.15 AUTOSAR_CP_TPS_ECUConfiguration.md l.1495
+    (complete, not page-split; pdf_page.py: PDF p.58 caption hit). Concrete
+    Class; Package M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note
+    "Configuration parameter type for Boolean. Allowed values are true and
+    false." (class docstring already verbatim); Base chain
+    ARObject/AtpDefinition/EcucCommonAttributes/EcucDefinitionElement/
+    EcucParameterDef/Identifiable/MultilanguageReferrable/Referrable →
+    most-derived base EcucParameterDef (stamped R23-11, Table 2.14 p.57,
+    same file) — src matches, no flattening. Aggregated by
+    EcucDestinationUriPolicy.parameter + EcucParamConfContainerDef.parameter
+    (both consumers already dispatch createEcucBooleanParamDef; parser
+    readEcucBooleanParamDef l.11769 / writer writeEcucBooleanParamDef
+    l.10554 cover DEFAULT-VALUE via getChild/setChildElementOptionalBoolean
+    Value; XSD group ECUC-BOOLEAN-PARAM-DEF (AUTOSAR_00052.xsd l.51216):
+    DEFAULT-VALUE minOccurs=0 maxOccurs=1, no VARIANTS wrapper → flat
+    optional element is correct). 1 attr in displayed order: defaultValue
+    (Boolean, 0..1, attr). Drift found (Rule 0001.4): field/getter/setter
+    carry bare `Boolean` annotations (0..1 → Optional[Boolean]); setter
+    lacks the chaining return annotation; Note comment + getter/setter
+    docstrings missing (Step 4). Not VP-capable (Rule 0020 — Kind=attr
+    atpVariation row; no VARIATION-POINT in the XSD complexType). No Rule
+    0001.10 missing types (Boolean is a stamped PrimitiveTypes class).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): extended TestEcucBooleanParamDef in the mirrored
+      ECUCParameterDefTemplate/test_ECUCParameterDefTemplate.py — added
+      test_set_default_value_none_no_op (Rule 0004 None no-op, typed
+      Boolean primitive) + test_member_annotations (get_type_hints pin:
+      getter return / setter value == Optional[Boolean], setter return is
+      EcucBooleanParamDef — quoted self-return, this module's forward-ref
+      form, no PEP 563). Seen Red 1 failed / 3 passed — the pin failed on
+      the pre-sync bare `Boolean` return annotation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES after
+      the Rule 0001.4 annotation fix — 1 attr (defaultValue, Boolean,
+      0..1) 1:1 with Table 2.15, field/getter/setter now Optional[Boolean]
+      with chaining `-> "EcucBooleanParamDef"` setter, None-guard kept; no
+      fabricated/ flattened members (inherited derivation/symbolicNameValue/
+      withAuto live on the stamped base EcucParameterDef, Table 2.14); no
+      Rule 0001.10 missing types. Green: TestEcucBooleanParamDef 4 passed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): pre-sync body carried NO member docstrings/comments
+      (nothing stale to wipe — confirmed by diffing the class body against
+      the pre-edit state); class docstring already verbatim (Table 2.15
+      Note). Wrote fresh: inline `__init__` comment + getter docstring +
+      setter docstring, all = "Default value of the boolean configuration
+      parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation
+      Tags: vh.latestBindingTime=codeGenerationTime" verbatim (module
+      convention keeps the Stereotypes/Tags tails — EcucEnumerationParamDef
+      stamped precedent); setter appended the None-no-op sentence;
+      `__init__` has no docstring; blank line between attribute blocks
+      (single attr).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): reader/writer coverage pre-existed complete — parser
+      test_arxml_parser_ecuc_handlers.py TestEcucContainerDefParameters
+      (DEFAULT-VALUE value asserted via getValue() is True / missing-element
+      None pair) + writer test_writer_ecuc_def.py TestWriterEcucBoolean
+      ParamDef (DEFAULT-VALUE "true" emit, None omits the element); XSD has
+      no VARIANTS wrapper for this class → the missing-element pair is the
+      "empty case". Added test_round_trip_default_value (set → save →
+      reload → assert getValue() is True, field values not lengths) — no Red
+      observable (both sides pre-existed and pass; the test is the lossless
+      end-to-end proof). Ran both files: 226 passed.
+  - [x] Step 6 — Update parser & writer (Green) (no change needed — readEcucBooleanParamDef l.11769 / writeEcucBooleanParamDef l.10554 already form the matched name pair (Rule 0013.2) over the spec-typed getChild/setChildElementOptionalBooleanValue helpers; XML order DEFAULT-VALUE matches the XSD group sequence; no receiver chains added)
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist rewritten to the final batch-mode shape —
+      `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.15, p.58`
+      (pdf_page.py caption hit confirms p.58) + the `# Columns:` header +
+      per-row `R23-11` release column (the pre-sync rows had no Columns
+      line/release); `# Spec verified:` marker NOT written (batch mode —
+      deferred to batch confirmation). Set-based check passed: checklist ==
+      {__init__, getDefaultValue, setDefaultValue}, all covered in the
+      mirrored test.
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — the bare-`Boolean` annotations and
+      missing chaining return were Rule 0001.4/0003 to-fix drift, completed
+      in this pass (not deviation rows). "No deviations" entry + provenance
+      note appended to docs/examples/method_deviation_by_class.md (new
+      EcucBooleanParamDef section). No Rule 0001.10 missing referenced
+      classes; no integration fixture carries elements beyond DEFAULT-VALUE
+      (no Rule 0019 combine case).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14973 passed /
+    0 failed, lint + black clean); 9b deferred to batch confirmation
+    (user instruction)
+    - note (Step 9): set-based check passed; `# type:` grep clean on the
+      class body; blank line between attribute blocks verified by eye
+      (single attr); full suite 14973 passed / 0 failed (integration
+      round-trips incl.); npm run lint clean; black clean on all touched
+      files; no marker in batch mode.
 
 - [ ] `EcucFloatParamDef` — EcucParameterDef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

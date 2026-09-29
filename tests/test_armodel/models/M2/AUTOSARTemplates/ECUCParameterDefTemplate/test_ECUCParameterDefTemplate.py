@@ -1020,6 +1020,31 @@ class TestEcucBooleanParamDef:
         assert result == bool_param
         assert bool_param.getDefaultValue() is True
 
+    def test_set_default_value_none_no_op(self):
+        """
+        Test that setDefaultValue(None) is a no-op and does not overwrite an existing defaultValue.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        bool_param = EcucBooleanParamDef(parent, "TestBooleanParam")
+
+        assert bool_param.setDefaultValue(None) is bool_param
+        assert bool_param.getDefaultValue() is None
+
+        bool_param.setDefaultValue(Boolean().setValue(True))
+        assert bool_param.setDefaultValue(None) is bool_param
+        assert bool_param.getDefaultValue().getValue() is True
+
+    def test_member_annotations(self):
+        """
+        getDefaultValue/setDefaultValue shall resolve to Optional[Boolean] / EcucBooleanParamDef
+        (Rule 0003/0006 get_type_hints pin; spec Mult. 0..1 → Optional; the quoted self-return is
+        this module's required forward-ref form, no PEP 563 here).
+        """
+        assert get_type_hints(EcucBooleanParamDef.getDefaultValue)["return"] == Optional[Boolean]
+        assert get_type_hints(EcucBooleanParamDef.setDefaultValue)["value"] == Optional[Boolean]
+        assert get_type_hints(EcucBooleanParamDef.setDefaultValue)["return"] is EcucBooleanParamDef
+
 
 class TestEcucAbstractReferenceDef:
     """
