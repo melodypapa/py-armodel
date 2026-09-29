@@ -2269,6 +2269,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 Collection.__bases__ = (ARElement,)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ViewMap  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 
@@ -2276,7 +2277,157 @@ BuildActionManifest.__bases__ = (ARElement,)
 
 
 class AclObjectSet(ARElement):
-    pass
+    """
+    M2::AUTOSARTemplates::GenericStructure::RolesAndRights This meta class represents the ability to denote a set of objects for which roles and rights (access control lists) shall be defined. It basically can define the objects based on • the nature of objects • the involved blueprints • the artifact in which the objects are serialized • the definition of the object (in a definition - value pattern) • individual reference objects
+    """
+
+    # AclObjectSet method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.2, p.383
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAclObjectClass            [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getAclObjectClasses          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] getAclScope                  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setAclScope                  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getCollectionRef             [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setCollectionRef             [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] addDerivedFromBlueprintRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getDerivedFromBlueprintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addEngineeringObject         [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getEngineeringObjects        [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addObjectRef                 [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getObjectRefs                [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addObjectDefinitionRef       [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getObjectDefinitionRefs      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This specifies that the considered objects as instances of the denoted meta class.
+        self.aclObjectClasses: List[ReferrableSubtypesEnum] = []
+
+        # this indicates the scope of the referenced objects.
+        self.aclScope: Optional[AclScopeEnum] = None
+
+        # This indicates that the relevant objects are specified via a collection.
+        self.collectionRef: Optional[RefType] = None
+
+        # This association indicates that the considered objects are the ones being derived from the associated blueprint. Stereotypes: atpUriDef
+        self.derivedFromBlueprintRefs: List[RefType] = []
+
+        # This indicates an engineering object. The AclPermission relates to all objects in this partial model. This also implies that the other objects in this set shall be placed in the specified engineering object. Note that semantic constraints apply with respect to <<atpSplitable>>
+        self.engineeringObjects: List[AutosarEngineeringObject] = []
+
+        # This association applies a particular (usually small) set of objects (e.g. a singular package). Main usage is, if one does not want to create a collection specifically for access control.
+        self.objectRefs: List[RefType] = []
+
+        # This denotes an object by its definition. For example the right to manipulate the value of a particular ecuc parameter is denoted by reference to the definition of the parameter. Note that this can also be a reference to a Standard Module Definition. Therefore it is stereotyped by atpUri Def. Stereotypes: atpUriDef
+        self.objectDefinitionRefs: List[RefType] = []
+
+    def addAclObjectClass(self, value: Optional[ReferrableSubtypesEnum]) -> AclObjectSet:
+        """
+        This specifies that the considered objects as instances of the denoted meta class.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.aclObjectClasses.append(value)
+        return self
+
+    def getAclObjectClasses(self) -> List[ReferrableSubtypesEnum]:
+        """
+        This specifies that the considered objects as instances of the denoted meta class.
+        """
+        return self.aclObjectClasses
+
+    def getAclScope(self) -> Optional[AclScopeEnum]:
+        """
+        this indicates the scope of the referenced objects.
+        """
+        return self.aclScope
+
+    def setAclScope(self, value: Optional[AclScopeEnum]) -> AclObjectSet:
+        """
+        this indicates the scope of the referenced objects.
+        A None value is a no-op and does not overwrite an existing aclScope.
+        """
+        if value is not None:
+            self.aclScope = value
+        return self
+
+    def getCollectionRef(self) -> Optional[RefType]:
+        """
+        This indicates that the relevant objects are specified via a collection.
+        """
+        return self.collectionRef
+
+    def setCollectionRef(self, value: Optional[RefType]) -> AclObjectSet:
+        """
+        This indicates that the relevant objects are specified via a collection.
+        A None value is a no-op and does not overwrite an existing collectionRef.
+        """
+        if value is not None:
+            self.collectionRef = value
+        return self
+
+    def addDerivedFromBlueprintRef(self, value: Optional[RefType]) -> AclObjectSet:
+        """
+        This association indicates that the considered objects are the ones being derived from the associated blueprint. Stereotypes: atpUriDef
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.derivedFromBlueprintRefs.append(value)
+        return self
+
+    def getDerivedFromBlueprintRefs(self) -> List[RefType]:
+        """
+        This association indicates that the considered objects are the ones being derived from the associated blueprint. Stereotypes: atpUriDef
+        """
+        return self.derivedFromBlueprintRefs
+
+    def addEngineeringObject(self, value: Optional[AutosarEngineeringObject]) -> AclObjectSet:
+        """
+        This indicates an engineering object. The AclPermission relates to all objects in this partial model. This also implies that the other objects in this set shall be placed in the specified engineering object. Note that semantic constraints apply with respect to <<atpSplitable>>
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.engineeringObjects.append(value)
+        return self
+
+    def getEngineeringObjects(self) -> List[AutosarEngineeringObject]:
+        """
+        This indicates an engineering object. The AclPermission relates to all objects in this partial model. This also implies that the other objects in this set shall be placed in the specified engineering object. Note that semantic constraints apply with respect to <<atpSplitable>>
+        """
+        return self.engineeringObjects
+
+    def addObjectRef(self, value: Optional[RefType]) -> AclObjectSet:
+        """
+        This association applies a particular (usually small) set of objects (e.g. a singular package). Main usage is, if one does not want to create a collection specifically for access control.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.objectRefs.append(value)
+        return self
+
+    def getObjectRefs(self) -> List[RefType]:
+        """
+        This association applies a particular (usually small) set of objects (e.g. a singular package). Main usage is, if one does not want to create a collection specifically for access control.
+        """
+        return self.objectRefs
+
+    def addObjectDefinitionRef(self, value: Optional[RefType]) -> AclObjectSet:
+        """
+        This denotes an object by its definition. For example the right to manipulate the value of a particular ecuc parameter is denoted by reference to the definition of the parameter. Note that this can also be a reference to a Standard Module Definition. Therefore it is stereotyped by atpUri Def. Stereotypes: atpUriDef
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.objectDefinitionRefs.append(value)
+        return self
+
+    def getObjectDefinitionRefs(self) -> List[RefType]:
+        """
+        This denotes an object by its definition. For example the right to manipulate the value of a particular ecuc parameter is denoted by reference to the definition of the parameter. Note that this can also be a reference to a Standard Module Definition. Therefore it is stereotyped by atpUri Def. Stereotypes: atpUriDef
+        """
+        return self.objectDefinitionRefs
 
 
 class AclOperation(ARElement):
