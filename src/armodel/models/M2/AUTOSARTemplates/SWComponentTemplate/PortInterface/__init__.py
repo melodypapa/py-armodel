@@ -1579,16 +1579,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
     # ClientServerInterfaceMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.23, p.128 (R23-11)
-    # (R4.3.1 reproduction Table 4.27 p.130 has the same rows. Base row ARObject,
-    # AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable,
-    # PortInterfaceMapping, Referrable -> most-derived provided base
-    # PortInterfaceMapping (Table 4.20, stamped; the remaining Base row entries are
-    # its ancestors). XSD 00052 complexType CLIENT-SERVER-INTERFACE-MAPPING
-    # composes AR-OBJECT + REFERRABLE + MULTILANGUAGE-REFERRABLE + IDENTIFIABLE +
-    # ATP-BLUEPRINT + ATP-BLUEPRINTABLE + PORT-INTERFACE-MAPPING + the own group
-    # (line 17251: ERROR-MAPPINGS wrapper before OPERATION-MAPPINGS - matches the
-    # table displayed row order). Aggregated by
-    # PortInterfaceMappingSet.portInterfaceMapping.)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getErrorMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
