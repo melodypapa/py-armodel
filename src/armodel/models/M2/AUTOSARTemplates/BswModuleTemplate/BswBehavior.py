@@ -748,22 +748,21 @@ class BswSchedulableEntity(BswModuleEntity):
 
 class BswInterruptCategory(AREnum):
     """
-    Enumeration for BSW interrupt categories.
-    Defines whether an interrupt is a Category 1 (CAT1) or Category 2 (CAT2) interrupt.
+    Category of the interrupt service
     """
 
     # BswInterruptCategory method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.9, p.76
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on BswInterruptEntity.interruptCategory
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Category 1 interrupt - directly handled by the OS
+    # Cat1 interrupt routines are not controlled by the OS and are only allowed to make a very limited selection of OS calls to enable and disable all interrupts. The BswInterruptEntity is implemented by the interrupt service routine, which is directly called from the interrupt vector (not via the OS). Tags: atp.EnumerationLiteralIndex=0
     CAT1 = "cat1"
-    # Category 2 interrupt - handled by the interrupt service routine
+    # Cat2 interrupt routines are controlled by the OS and they are allowed to make OS calls. The Bsw InterruptEntity is implemented by the interrupt handler, which is called from the OS. Tags: atp.EnumerationLiteralIndex=1
     CAT2 = "cat2"
 
     def __init__(self):
-        """
-        Initializes the BswInterruptCategory with valid values.
-        """
         super().__init__(
             (
                 BswInterruptCategory.CAT1,

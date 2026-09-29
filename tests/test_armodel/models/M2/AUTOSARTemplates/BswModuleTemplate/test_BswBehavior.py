@@ -594,13 +594,18 @@ class TestBswSchedulableEntity:
 class TestBswInterruptCategory:
     """Test cases for BswInterruptCategory enum class - represents interrupt categories for BSW modules."""
 
-    def test_initialization(self):
+    def test_instantiation_and_literal_values(self):
         category = BswInterruptCategory()
+
+        # Literals in displayed spec order (Table 5.9)
         assert category.CAT1 == "cat1"
         assert category.CAT2 == "cat2"
-        # Check if the enum values are in the internal enumValues list
-        assert "cat1" in category.getEnumValues()
-        assert "cat2" in category.getEnumValues()
+        assert category.getEnumValues() == ("cat1", "cat2")
+
+    def test_literals_usable_as_values(self):
+        for literal in (BswInterruptCategory.CAT1, BswInterruptCategory.CAT2):
+            category = BswInterruptCategory().setValue(literal)
+            assert category.getValue() == literal
 
 
 class TestBswInterruptEntity:
