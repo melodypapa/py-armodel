@@ -180,7 +180,7 @@ class EcucScopeEnum(AREnum):
     ECU = "ECU"
 
     # An element is only be applicable for the module it is defined in. Tags: atp.EnumerationLiteralIndex=1
-    LOCAL = "LOCAL"
+    LOCAL = "local"
 
     def __init__(self):
         super().__init__(

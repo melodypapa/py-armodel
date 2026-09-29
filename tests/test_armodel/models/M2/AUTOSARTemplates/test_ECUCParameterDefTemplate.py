@@ -462,6 +462,31 @@ class TestEcucScopeEnum:
     def test_instantiation(self):
         assert isinstance(EcucScopeEnum(), EcucScopeEnum)
 
+    def test_initialization_and_values(self):
+        enum = EcucScopeEnum()
+
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [EcucScopeEnum.ECU, EcucScopeEnum.LOCAL]
+
+    def test_scope_literals(self):
+        enum = EcucScopeEnum()
+
+        assert enum.validateEnumValue(EcucScopeEnum.ECU)
+        assert enum.validateEnumValue(EcucScopeEnum.LOCAL)
+        assert EcucScopeEnum.ECU == "ECU"
+        assert EcucScopeEnum.LOCAL == "local"
+
+        assert enum.setValue(EcucScopeEnum.LOCAL) is enum
+        assert enum.getValue() == "local"
+        assert enum.validateEnumValue("INVALID") is False
+
+    def test_class_docstring_and_literal_comments_verbatim(self):
+        source = inspect.getsource(EcucScopeEnum)
+
+        assert inspect.cleandoc(EcucScopeEnum.__doc__) == "Possible scope settings for a configuration element."
+        assert "# An element may be shared with other modules. Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "# An element is only be applicable for the module it is defined in. Tags: atp.EnumerationLiteralIndex=1" in source
+
 
 class TestEcucDefinitionElement:
     def test_rejects_direct_instantiation(self):

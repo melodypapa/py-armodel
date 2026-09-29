@@ -179,10 +179,10 @@ class TestEcucScopeEnum:
 
     def test_literal_members(self):
         """
-        Test that the two spec literals are defined with their XSD value strings.
+        Test that the two spec literals are defined with their Table 2.7 Literal values.
         """
         assert EcucScopeEnum.ECU == "ECU"
-        assert EcucScopeEnum.LOCAL == "LOCAL"
+        assert EcucScopeEnum.LOCAL == "local"
 
     def test_enum_values(self):
         """
@@ -190,7 +190,7 @@ class TestEcucScopeEnum:
         """
         scope_enum = EcucScopeEnum()
 
-        assert scope_enum.getEnumValues() == ["ECU", "LOCAL"]
+        assert scope_enum.getEnumValues() == ["ECU", "local"]
 
     def test_set_value(self):
         """
@@ -199,7 +199,7 @@ class TestEcucScopeEnum:
         scope_enum = EcucScopeEnum()
         scope_enum.setValue(EcucScopeEnum.LOCAL)
 
-        assert scope_enum.getValue() == "LOCAL"
+        assert scope_enum.getValue() == "local"
 
 
 class TestEcucDefinitionElement:

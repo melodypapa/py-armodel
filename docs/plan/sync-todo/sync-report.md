@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 497 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 196 | 10.2% |
-| [ ] Implemented | 621 | 32.3% |
+| [ ] Deferred | 197 | 10.3% |
+| [ ] Implemented | 620 | 32.3% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -851,7 +851,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucQueryExpression`                                   | [ ] Implemented| N/A                                      | Group19          |
 | `EcucReferenceDef`                                      | [ ] Implemented| N/A                                      | Group19          |
 | `EcucReferenceValue`                                    | [ ] Implemented| N/A                                      | Group27          |
-| `EcucScopeEnum`                                         | [ ] Implemented| N/A                                      | Group19          |
+| `EcucScopeEnum`                                         | [ ] Deferred| N/A                                      | Group19          |
 | `EcucStringParamDef`                                    | [ ] Implemented| N/A                                      | Group26          |
 | `EcucSymbolicNameReferenceDef`                          | [ ] Implemented| N/A                                      | Group19          |
 | `EcucTextualParamValue`                                 | [ ] Implemented| N/A                                      | Group27          |

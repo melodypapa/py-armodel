@@ -463,18 +463,89 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       round-trips incl.); npm run lint clean; black clean on all touched
       files; no marker in batch mode.
 
-- [ ] `EcucScopeEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `EcucScopeEnum` (input · R23-11 markdown · Table 2.7)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 2.7 AUTOSAR_CP_TPS_ECUConfiguration.md l.1163
+    (complete, not page-split; pdf_page.py: PDF p.46 caption hit).
+    Enumeration header → AREnum (Rule 0001.1); Package
+    M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note "Possible scope
+    settings for a configuration element."; Aggregated by
+    EcucDefinitionElement.scope (consumer class stamped R23-11; parser
+    l.11509 / writer l.10425 cover SCOPE via getChild/
+    setChildElementOptionalLiteral). 2 literals in displayed order: ECU(0)
+    "An element may be shared with other modules.", local(1) "An element is
+    only be applicable for the module it is defined in." (spec grammar
+    quirk preserved). XSD ECUC-SCOPE-ENUM (AUTOSAR_00052.xsd l.136032/
+    l.136044) corroborates: values ECU/LOCAL, mmt.qualifiedName tails
+    EcucScopeEnum.ECU / EcucScopeEnum.local, none atp.Status=removed.
+    Drift found (Rule 0011): LOCAL carries the XSD-uppercase wire form
+    "LOCAL" instead of the spec literal "local" → fix in Step 3
+    (FlexrayNmScheduleVariant batch precedent; ECU is unchanged — the
+    literal is uppercase in the table itself). Class docstring + both
+    literal comments already verbatim. constr_3509 (scope prohibited on
+    EcucModuleDef/EcucContainerDef subclasses) is consumer-class content,
+    not enum content. No Rule 0001.10 missing types; no integration fixture
+    carries SCOPE.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): extended TestEcucScopeEnum in the mirrored
+      test_ECUCParameterDefTemplate.py with the enum set — instantiation /
+      literal order via getEnumValues (displayed row order) /
+      Enum().setValue(Enum.MEMBER) + getValue round-trip + validateEnumValue /
+      class docstring + both literal comments verbatim (inspect.getsource,
+      cleandoc for the 3.13 dedent trap). Seen Red 1 failed / 3 passed —
+      test_scope_literals asserts the Rule 0011 literal values
+      ("ECU"/"local") against the XSD-uppercase drift on LOCAL.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES after
+      the Rule 0011 value fix — 2 literals 1:1 with the Table 2.7 rows, no
+      extra/missing member, member names = literal UPPER_CASE (ECU, LOCAL),
+      values now exactly the spec literals ("ECU"/"local"; the XSD
+      uppercase wire form "LOCAL" belongs to XML fixtures only per Rule
+      0011), `__init__` passes them to AREnum in displayed order so `Enum()`
+      is instantiable; Base AREnum (Enumeration header, Rule 0001.1/0010);
+      no fabricated members; `armodel.EcucScopeEnum` top-level export
+      resolves. Green: module suite 97 passed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): diffed every string against the Table 2.7 markdown
+      (complete, not garbled; PDF p.46 + XSD 00052 docs agree verbatim):
+      class docstring "Possible scope settings for a configuration
+      element." already verbatim; both literal comments verbatim incl. the
+      Tags tails and the spec grammar quirk ("is only be applicable"); the
+      enum has no method docstrings and `__init__` has none (enum
+      pattern). Wipe+rewrite would be byte-identical — no stale wording
+      survived.
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; serialized as an attribute value on consuming classes, EcucDefinitionElement.scope round-trips there)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — parser readEcucDefinitionElement l.11509 / writer writeEcucDefinitionElement l.10425 already cover SCOPE via getChild/setChildElementOptionalLiteral; no parser/writer change)
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist already in the final batch-mode enum shape —
+      `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.7, p.46`
+      (pdf_page.py caption hit confirms p.46) + `# (no methods)` (the
+      skill's AREnum form; reader/writer coverage is the enum value form);
+      `# Spec verified:` marker NOT written (batch mode — deferred to batch
+      confirmation). No edit needed.
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — the Rule 0011 member-value fix is a
+      to-fix completed in this pass (drift, not a deviation row). "No
+      deviations" entry + provenance note appended to
+      docs/examples/method_deviation_by_class.md (new EcucScopeEnum
+      section); the stale v2-tracker appendix classification ("classes
+      without a spec attribute table") left to the script's next regen
+      (batch precedent). No Rule 0001.10 missing referenced classes (enum
+      references no model type); no integration fixture carries SCOPE (no
+      Rule 0019 case).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14970 passed / 0
+    failed, lint + black clean); 9b deferred to batch confirmation
+    (user instruction)
+    - note (Step 9): set-based enum check passed (`# (no methods)` form,
+      class body defines only `__init__`, no stale method rows, no `# type:`
+      comments); the subdirectory legacy tests
+      (ECUCParameterDefTemplate/test_ECUCParameterDefTemplate.py) that
+      pinned the old XSD-uppercase "LOCAL" value were updated to the
+      Table 2.7 Literal values in this pass; full suite 14970 passed /
+      0 failed (integration round-trips incl.); npm run lint clean; black
+      clean on all touched files; no marker in batch mode.
 
 - [ ] `EcucDestinationUriDefRefType` — RefType — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
