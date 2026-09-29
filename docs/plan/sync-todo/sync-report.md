@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 497 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 195 | 10.2% |
-| [ ] Implemented | 622 | 32.4% |
+| [ ] Deferred | 196 | 10.2% |
+| [ ] Implemented | 621 | 32.3% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -816,7 +816,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucCommonAttributes`                                  | [ ] Implemented| N/A                                      | Group26          |
 | `EcucConditionFormula`                                  | [ ] Implemented| N/A                                      | Group19          |
 | `EcucConditionSpecification`                            | [ ] Implemented| N/A                                      | Group27          |
-| `EcucConfigurationClassEnum`                            | [ ] Implemented| N/A                                      | Group19          |
+| `EcucConfigurationClassEnum`                            | [ ] Deferred| N/A                                      | Group19          |
 | `EcucConfigurationVariantEnum`                          | [ ] Implemented| N/A                                      | Group26          |
 | `EcucContainerDef`                                      | [ ] Implemented| N/A                                      | Group26          |
 | `EcucContainerValue`                                    | [ ] Implemented| N/A                                      | Group27          |

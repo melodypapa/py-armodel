@@ -819,7 +819,7 @@ Status: **0/16** completed
 | `ConfigReferenceValue`           | [ ] Pending*    | N/A       |
 | `EcucValueCollection`            | [ ] Pending*    | N/A       |
 | `ModuleConfiguration`            | [ ] Pending*    | N/A       |
-| `EcucConfigurationClassEnum`     | [ ] Implemented | N/A       |
+| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A       |
 | `EcucScopeEnum`                  | [ ] Implemented | N/A       |
 | `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
 | `EcucBooleanParamDef`            | [ ] Implemented | N/A       |

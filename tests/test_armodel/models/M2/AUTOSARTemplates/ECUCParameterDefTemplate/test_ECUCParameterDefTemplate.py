@@ -475,12 +475,12 @@ class TestEcucConfigurationClassEnum:
 
     def test_literal_members(self):
         """
-        Test that the four spec literals are defined with their XSD value strings.
+        Test that the four spec literals are defined with their Table 2.12 Literal values.
         """
-        assert EcucConfigurationClassEnum.LINK == "LINK"
-        assert EcucConfigurationClassEnum.POST_BUILD == "POST-BUILD"
-        assert EcucConfigurationClassEnum.PRE_COMPILE == "PRE-COMPILE"
-        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PUBLISHED-INFORMATION"
+        assert EcucConfigurationClassEnum.LINK == "Link"
+        assert EcucConfigurationClassEnum.POST_BUILD == "PostBuild"
+        assert EcucConfigurationClassEnum.PRE_COMPILE == "PreCompile"
+        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PublishedInformation"
 
     def test_enum_values(self):
         """
@@ -489,10 +489,10 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
 
         assert config_class_enum.getEnumValues() == [
-            "LINK",
-            "POST-BUILD",
-            "PRE-COMPILE",
-            "PUBLISHED-INFORMATION",
+            "Link",
+            "PostBuild",
+            "PreCompile",
+            "PublishedInformation",
         ]
 
     def test_set_value(self):
@@ -502,7 +502,7 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
         config_class_enum.setValue(EcucConfigurationClassEnum.PRE_COMPILE)
 
-        assert config_class_enum.getValue() == "PRE-COMPILE"
+        assert config_class_enum.getValue() == "PreCompile"
 
 
 class TestEcucDestinationUriNestingContractEnum:

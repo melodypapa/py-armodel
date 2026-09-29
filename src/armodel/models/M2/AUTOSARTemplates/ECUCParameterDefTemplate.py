@@ -373,16 +373,16 @@ class EcucConfigurationClassEnum(AREnum):
     # (no methods)
 
     # Link Time: parts of configuration are delivered from another object code file Tags: atp.EnumerationLiteralIndex=0
-    LINK = "LINK"
+    LINK = "Link"
 
     # PostBuildTime: after compilation a configuration parameter can be changed. Tags: atp.EnumerationLiteralIndex=1
-    POST_BUILD = "POST-BUILD"
+    POST_BUILD = "PostBuild"
 
     # PreCompile Time: after compilation a configuration parameter can not be changed any more. Tags: atp.EnumerationLiteralIndex=2
-    PRE_COMPILE = "PRE-COMPILE"
+    PRE_COMPILE = "PreCompile"
 
     # PublishedInformation is used to specify the fact that certain information is fixed even before the pre-compile stage. Tags: atp.EnumerationLiteralIndex=3
-    PUBLISHED_INFORMATION = "PUBLISHED-INFORMATION"
+    PUBLISHED_INFORMATION = "PublishedInformation"
 
     def __init__(self):
         super().__init__(
