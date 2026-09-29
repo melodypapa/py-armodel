@@ -714,6 +714,12 @@ class TestClientServerOperationMapping:
         mapping.setSecondOperationRef(None)
         assert mapping.getSecondOperationRef() is test_value
 
+    def test_argument_mapping_annotations_are_bare(self):
+        assert ClientServerOperationMapping.addArgumentMapping.__annotations__["value"] == Optional[DataPrototypeMapping]
+        assert ClientServerOperationMapping.getArgumentMappings.__annotations__["return"] == List[DataPrototypeMapping]
+        init_source = inspect.getsource(ClientServerOperationMapping.__init__)
+        assert "self.argumentMappings: List[DataPrototypeMapping] = []" in init_source
+
     def test_accessor_annotations(self):
         """Accessors shall carry Optional[RefType]/List[DataPrototypeMapping] hints; setters shall chain ClientServerOperationMapping (Table 4.24 mults)"""
         for suffix in ("FirstOperationRef", "FirstToSecondDataTransformationRef", "SecondOperationRef"):

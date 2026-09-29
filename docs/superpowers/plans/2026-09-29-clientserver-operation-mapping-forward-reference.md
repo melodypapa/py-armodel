@@ -54,11 +54,11 @@ Expected: FAIL because the raw method annotations contain `ForwardRef('DataProto
 - The consumer annotations resolve directly to the existing `DataPrototypeMapping` class object.
 - `SubElementRef`, `ApplicationCompositeDataTypeSubElementRef`, `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping` retain their current definitions and move in their existing order before `ClientServerOperationMapping`.
 
-- [ ] **Step 1: Move the dependency block before `ClientServerOperationMapping`**
+- [x] **Step 1: Move the dependency block before `ClientServerOperationMapping`**
 
 Move the complete contiguous definitions `SubElementRef`, `ApplicationCompositeDataTypeSubElementRef`, `MappingDirectionEnum`, `TextTableValuePair`, `TextTableMapping`, `SubElementMapping`, and `DataPrototypeMapping`, in that order, to immediately before `ClientServerOperationMapping`. Preserve all seven class bodies and checklists unchanged. `SubElementRef` must precede `SubElementMapping`, and `MappingDirectionEnum` plus `TextTableValuePair` must precede `TextTableMapping`.
 
-- [ ] **Step 2: Replace the consumer's three quoted type references**
+- [x] **Step 2: Replace the consumer's three quoted type references**
 
 Replace the three existing annotation lines with these exact lines:
 
@@ -81,13 +81,13 @@ Keep the existing method implementations and docstrings exactly as they are. Do 
 - Confirms `typing.get_type_hints` still resolves the consumer methods to `Optional[DataPrototypeMapping]` and `List[DataPrototypeMapping]`.
 - Confirms parser/writer round-trips continue to work with the relocated class definitions.
 
-- [ ] **Step 1: Run all focused PortInterface model, parser, and writer tests**
+- [x] **Step 1: Run all focused PortInterface model, parser, and writer tests**
 
 Run: `uv run pytest tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/test_PortInterface.py tests/test_armodel/parser/test_ar_package_port_interface_mapping_set.py tests/test_armodel/writer/test_ar_package_port_interface_mapping_set.py -q`
 
 Expected: all focused tests pass, including `test_argument_mapping_annotations_are_bare`.
 
-- [ ] **Step 2: Run lint and formatting checks**
+- [x] **Step 2: Run lint and formatting checks**
 
 Run: `npm run lint && npm run black-check`
 
