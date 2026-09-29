@@ -1312,69 +1312,49 @@ class BswModeSwitchAckRequest(ARObject):
         return self
 
 
-class BswModeSenderPolicy(ARObject, VariationPointCapable):
+class BswModeSenderPolicy(ARObject):
     """
-    Specifies the details for the sending of a mode switch for the referred
-    mode group.
+    Specifies the details for the sending of a mode switch for the referred mode group.
     """
 
     # BswModeSenderPolicy method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.102
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAckRequest                [x] impl  [x] docstring  [x] test
-    # [x] setAckRequest                [x] impl  [x] docstring  [x] test
-    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] getProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] setProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] getQueueLength               [x] impl  [x] docstring  [x] test
-    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAckRequest             [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setAckRequest             [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getEnhancedModeApi        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setEnhancedModeApi        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getQueueLength            [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setQueueLength            [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswModeSenderPolicy with default values.
-        """
         super().__init__()
 
-        # Request for acknowledgement.
+        # Request for acknowledgement
         self.ackRequest: Optional[BswModeSwitchAckRequest] = None
 
-        # This controls the creation of the enhanced mode API that returns
-        # information about the previous mode and the next mode. If set to TRUE
-        # the enhanced mode API is supposed to be generated. For more details
-        # please refer to the SWS_RTE.
+        # This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         self.enhancedModeApi: Optional[Boolean] = None
 
-        # The provided mode group for which the policy is specified. The
-        # reference in the role providedModeGroup shall exist at the time when
-        # the configuration of the BSW module is finished (constr_10291).
+        # The provided mode group for which the policy is specified.
         self.providedModeGroupRef: Optional[RefType] = None
 
-        # Length of call queue on the sender side. The queue is implemented by
-        # the RTE resp. BswScheduler. The value shall be greater or equal to 0.
-        # Setting the value of queueLength to 0 implies non-queued
-        # communication. The attribute queueLength shall exist at the time when
-        # the configuration of the BSW module is finished (constr_10292).
+        # Length of call queue on the sender side. The queue is implemented by the RTE resp.BswScheduler. The value shall be greater or equal to 0. Setting the value of queue Length to 0 implies non-queued communication.
         self.queueLength: Optional[PositiveInteger] = None
 
     def getAckRequest(self) -> Optional[BswModeSwitchAckRequest]:
         """
-        Gets the request for acknowledgement.
-
-        Returns:
-            The acknowledgement request
+        Request for acknowledgement
         """
         return self.ackRequest
 
-    def setAckRequest(self, value: BswModeSwitchAckRequest) -> BswModeSenderPolicy:
+    def setAckRequest(self, value: Optional[BswModeSwitchAckRequest]) -> BswModeSenderPolicy:
         """
-        Sets the request for acknowledgement. Only sets if value is not None.
-
-        Args:
-            value: The acknowledgement request to set
-
-        Returns:
-            self for method chaining
+        Request for acknowledgement
+        A None value is a no-op and does not overwrite an existing ackRequest.
         """
         if value is not None:
             self.ackRequest = value
@@ -1382,24 +1362,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
 
     def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets the flag that controls the creation of the enhanced mode API that
-        returns information about the previous mode and the next mode.
-
-        Returns:
-            The enhanced mode API flag
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         """
         return self.enhancedModeApi
 
-    def setEnhancedModeApi(self, value: Boolean) -> BswModeSenderPolicy:
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> BswModeSenderPolicy:
         """
-        Sets the flag that controls the creation of the enhanced mode API.
-        Only sets if value is not None.
-
-        Args:
-            value: The enhanced mode API flag to set
-
-        Returns:
-            self for method chaining
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
+        A None value is a no-op and does not overwrite an existing enhancedModeApi.
         """
         if value is not None:
             self.enhancedModeApi = value
@@ -1407,23 +1377,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
 
     def getProvidedModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the provided mode group for which the policy is specified.
-
-        Returns:
-            The provided mode group reference
+        The provided mode group for which the policy is specified.
         """
         return self.providedModeGroupRef
 
-    def setProvidedModeGroupRef(self, value: RefType) -> BswModeSenderPolicy:
+    def setProvidedModeGroupRef(self, value: Optional[RefType]) -> BswModeSenderPolicy:
         """
-        Sets the provided mode group for which the policy is specified. Only
-        sets if value is not None.
-
-        Args:
-            value: The provided mode group reference to set
-
-        Returns:
-            self for method chaining
+        The provided mode group for which the policy is specified.
+        A None value is a no-op and does not overwrite an existing providedModeGroupRef.
         """
         if value is not None:
             self.providedModeGroupRef = value
@@ -1431,23 +1392,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
 
     def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the length of the call queue on the sender side.
-
-        Returns:
-            The queue length
+        Length of call queue on the sender side. The queue is implemented by the RTE resp.BswScheduler. The value shall be greater or equal to 0. Setting the value of queue Length to 0 implies non-queued communication.
         """
         return self.queueLength
 
-    def setQueueLength(self, value: PositiveInteger) -> BswModeSenderPolicy:
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> BswModeSenderPolicy:
         """
-        Sets the length of the call queue on the sender side. Only sets if
-        value is not None.
-
-        Args:
-            value: The queue length to set
-
-        Returns:
-            self for method chaining
+        Length of call queue on the sender side. The queue is implemented by the RTE resp.BswScheduler. The value shall be greater or equal to 0. Setting the value of queue Length to 0 implies non-queued communication.
+        A None value is a no-op and does not overwrite an existing queueLength.
         """
         if value is not None:
             self.queueLength = value

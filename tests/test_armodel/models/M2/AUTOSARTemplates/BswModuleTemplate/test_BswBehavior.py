@@ -1263,6 +1263,15 @@ class TestBswModeSenderPolicy:
         assert policy.getProvidedModeGroupRef() is None
         assert policy.getQueueLength() is None
 
+    def test_base_is_ar_object(self):
+        """Table 5.39 Base chain is ARObject only (no VariationPointCapable)."""
+        assert issubclass(BswModeSenderPolicy, ARObject)
+        assert BswModeSenderPolicy.__bases__ == (ARObject,)
+
+    def test_no_init_docstring(self):
+        """__init__ carries no docstring (the spec Note lives on the class docstring)."""
+        assert BswModeSenderPolicy.__init__.__doc__ is None
+
     def test_get_set_ack_request(self):
         policy = BswModeSenderPolicy()
 
@@ -1334,6 +1343,36 @@ class TestBswModeSenderPolicy:
         policy.setQueueLength(None)
 
         assert policy.getQueueLength() == length
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        hints = typing.get_type_hints(BswModeSenderPolicy.getAckRequest)
+        assert hints.get("return") == typing.Optional[BswModeSwitchAckRequest]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setAckRequest)
+        assert hints.get("value") == typing.Optional[BswModeSwitchAckRequest]
+        assert hints.get("return") is BswModeSenderPolicy
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.getEnhancedModeApi)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setEnhancedModeApi)
+        assert hints.get("value") == typing.Optional[Boolean]
+        assert hints.get("return") is BswModeSenderPolicy
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.getProvidedModeGroupRef)
+        assert hints.get("return") == typing.Optional[RefType]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setProvidedModeGroupRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is BswModeSenderPolicy
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.getQueueLength)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setQueueLength)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is BswModeSenderPolicy
 
 
 class TestBswBackgroundEvent:
