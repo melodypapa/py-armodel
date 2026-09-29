@@ -2579,7 +2579,37 @@ class AclPermission(ARElement):
 
 
 class AclRole(ARElement):
-    pass
+    """
+    This meta class represents the ability to specify a particular role which is used to grant access rights to AUTOSAR model. The purpose of this meta-class is to support the mutual agreements between the involved parties. Tags: atp.recommendedPackage=AclRoles
+    """
+
+    # AclRole method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.5, p.384
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLdapUrl  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setLdapUrl  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is an URL which allows to represent users or organizations taking the particular role.
+        self.ldapUrl: Optional[UriString] = None
+
+    def getLdapUrl(self) -> Optional[UriString]:
+        """
+        This is an URL which allows to represent users or organizations taking the particular role.
+        """
+        return self.ldapUrl
+
+    def setLdapUrl(self, value: Optional[UriString]) -> AclRole:
+        """
+        This is an URL which allows to represent users or organizations taking the particular role.
+        A None value is a no-op and does not overwrite an existing ldapUrl.
+        """
+        if value is not None:
+            self.ldapUrl = value
+        return self
 
 
 class CalibrationParameterValueSet(ARElement):
