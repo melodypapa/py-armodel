@@ -1,4 +1,5 @@
 import typing
+from inspect import cleandoc
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
@@ -66,7 +67,7 @@ class Test_LinTpConnection:
             "shall not be referenced in the role linTpNSdu from a different LinTpConnection that is aggregated by a LinTpConfig that references the same LinCluster.",
         ]
         expected = note + "\n\n" + "\n\n".join(constrs)
-        assert LinTpConnection.__doc__.strip() == expected
+        assert cleandoc(LinTpConnection.__doc__) == expected
 
     def test_init_has_no_docstring(self):
         assert LinTpConnection.__init__.__doc__ is None

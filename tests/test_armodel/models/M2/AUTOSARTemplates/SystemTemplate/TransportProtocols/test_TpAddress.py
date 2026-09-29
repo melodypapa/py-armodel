@@ -1,4 +1,5 @@
 import typing
+from inspect import cleandoc
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -26,7 +27,7 @@ class Test_TpAddress:
     def test_docstring_is_spec_note_verbatim(self):
         # Table 6.238, p.588 — class Note verbatim from the markdown + constr_9227 appended
         expected = self.NOTE_TP_ADDRESS + "\n\n" + self.CONSTRAINS
-        assert TpAddress.__doc__.strip() == expected
+        assert cleandoc(TpAddress.__doc__) == expected
 
     def test_init_has_no_docstring(self):
         assert TpAddress.__init__.__doc__ is None

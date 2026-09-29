@@ -4,6 +4,7 @@ Tests cover all classes and methods in the EndToEndProtection.py file to achieve
 """
 
 import typing
+from inspect import cleandoc
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -71,7 +72,7 @@ class TestEndToEndProtectionISignalIPdu:
             "[constr_9209] Existence of EndToEndProtectionISignalIPdu.dataOffset: For each EndToEndProtectionISignalIPdu, the attribute dataOffset shall exist at the time when the System Description is complete.",
         ]
         expected = note + "\n\n" + "\n\n".join(constrs)
-        assert EndToEndProtectionISignalIPdu.__doc__.strip() == expected
+        assert cleandoc(EndToEndProtectionISignalIPdu.__doc__) == expected
 
     def test_init_has_no_docstring(self):
         assert EndToEndProtectionISignalIPdu.__init__.__doc__ is None
