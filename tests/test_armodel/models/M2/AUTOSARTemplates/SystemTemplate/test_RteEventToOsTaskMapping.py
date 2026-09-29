@@ -1,10 +1,12 @@
 import inspect
+import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
 
 
@@ -29,17 +31,99 @@ class Test_RteEventToOsTaskMapping:
         assert mapping.getOffset() is None
 
         # Test setter/getter methods
-        mock_app_task_ref = "mock_app_task_ref"
+        mock_app_task_ref = RefType()
+        mock_app_task_ref.setValue("/OsTaskProxies/AppTaskProxy")
         mapping.setAppTaskProxyRef(mock_app_task_ref)
-        assert mapping.getAppTaskProxyRef() == mock_app_task_ref
+        assert mapping.getAppTaskProxyRef() is mock_app_task_ref
 
-        mock_ecu_task_ref = "mock_ecu_task_ref"
+        mock_ecu_task_ref = RefType()
+        mock_ecu_task_ref.setValue("/OsTaskProxies/EcuTaskProxy")
         mapping.setEcuTaskProxyRef(mock_ecu_task_ref)
-        assert mapping.getEcuTaskProxyRef() == mock_ecu_task_ref
+        assert mapping.getEcuTaskProxyRef() is mock_ecu_task_ref
 
-        mock_offset = "mock_offset"
+        mock_offset = Integer()
+        mock_offset.setValue("3")
         mapping.setOffset(mock_offset)
-        assert mapping.getOffset() == mock_offset
+        assert mapping.getOffset() is mock_offset
+
+
+class Test_AppOsTaskProxyToEcuTaskProxyMappingSpec:
+    """Test cases for AppOsTaskProxyToEcuTaskProxyMapping (Table 5.17, p.209)."""
+
+    MEMBERS = [
+        "appTaskProxyRef",
+        "ecuTaskProxyRef",
+        "offset",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(AppOsTaskProxyToEcuTaskProxyMapping, Identifiable)
+        assert not issubclass(AppOsTaskProxyToEcuTaskProxyMapping, VariationPointCapable)
+
+    def test_class_docstring_note(self):
+        expected = "This meta-class is used to map an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu."
+        assert inspect.cleandoc(AppOsTaskProxyToEcuTaskProxyMapping.__doc__) == expected
+
+    def test_init_has_no_docstring(self):
+        assert AppOsTaskProxyToEcuTaskProxyMapping.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        mapping = AppOsTaskProxyToEcuTaskProxyMapping(MockParent(), "test_app_ecu_mapping")
+        assert mapping.getAppTaskProxyRef() is None
+        assert mapping.getEcuTaskProxyRef() is None
+        assert mapping.getOffset() is None
+
+    def test_member_order(self):
+        mapping = AppOsTaskProxyToEcuTaskProxyMapping(MockParent(), "test_app_ecu_mapping")
+        members = [k for k in vars(mapping) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_app_task_proxy_ref(self):
+        mapping = AppOsTaskProxyToEcuTaskProxyMapping(MockParent(), "test_app_ecu_mapping")
+        value = RefType()
+        value.setValue("/OsTaskProxies/AppTaskProxy")
+        result = mapping.setAppTaskProxyRef(value)
+        assert result is mapping
+        assert mapping.getAppTaskProxyRef() is value
+        mapping.setAppTaskProxyRef(None)
+        assert mapping.getAppTaskProxyRef() is value
+
+    def test_get_set_ecu_task_proxy_ref(self):
+        mapping = AppOsTaskProxyToEcuTaskProxyMapping(MockParent(), "test_app_ecu_mapping")
+        value = RefType()
+        value.setValue("/OsTaskProxies/EcuTaskProxy")
+        result = mapping.setEcuTaskProxyRef(value)
+        assert result is mapping
+        assert mapping.getEcuTaskProxyRef() is value
+        mapping.setEcuTaskProxyRef(None)
+        assert mapping.getEcuTaskProxyRef() is value
+
+    def test_get_set_offset(self):
+        mapping = AppOsTaskProxyToEcuTaskProxyMapping(MockParent(), "test_app_ecu_mapping")
+        value = Integer()
+        value.setValue("3")
+        result = mapping.setOffset(value)
+        assert result is mapping
+        assert mapping.getOffset() is value
+        mapping.setOffset(None)
+        assert mapping.getOffset() is value
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(AppOsTaskProxyToEcuTaskProxyMapping.getAppTaskProxyRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(AppOsTaskProxyToEcuTaskProxyMapping.setAppTaskProxyRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is AppOsTaskProxyToEcuTaskProxyMapping
+        hints = typing.get_type_hints(AppOsTaskProxyToEcuTaskProxyMapping.getEcuTaskProxyRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(AppOsTaskProxyToEcuTaskProxyMapping.setEcuTaskProxyRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is AppOsTaskProxyToEcuTaskProxyMapping
+        hints = typing.get_type_hints(AppOsTaskProxyToEcuTaskProxyMapping.getOffset)
+        assert hints.get("return") == typing.Optional[Integer]
+        hints = typing.get_type_hints(AppOsTaskProxyToEcuTaskProxyMapping.setOffset)
+        assert hints.get("value") == typing.Optional[Integer]
+        assert hints.get("return") is AppOsTaskProxyToEcuTaskProxyMapping
 
 
 class Test_OsTaskPreemptabilityEnum:

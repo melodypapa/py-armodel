@@ -1904,7 +1904,6 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 - `DataIdModeEnum` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
 - `EndToEndProfileBehaviorEnum` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
 - `TransformationISignalProps` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
-- `EndToEndTransformationISignalProps` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
 - `HandleInvalidEnum` (`M2::AUTOSARTemplates::SWComponentTemplate::Communication`)
 - `NumericalValueVariationPoint` (`M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints`)
 - `AutoCollectEnum` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Enumerations`)
@@ -2005,3 +2004,13 @@ Remediated 2026-08-30 (see `docs/plan/2026-08-30-rule-0007-package-location-reme
   3 stale `BswEntryRelationship*` entries removed from `KNOWN_NAME_COLLISION_CLASSES`.
   Remaining real export gap: `ModeInBswModuleDescriptionInstanceRef` (depends on C).
 
+
+## `NmEcu`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 674
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `nmCoordinator` | `Optional[ARObject]` | `nmCoordinator` | `NmCoordinator` | aggr | placeholder — aggregated child class `NmCoordinator` (Table 6.302) not yet implemented; reader/writer coverage deferred (Rule 0001.10 / 0001.7) |
+| XSD `BUS-SPECIFIC-NM-ECU` group | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group NM-ECU), absent from R23-11 Table 6.300; PDF is authoritative (Rule 0015) |

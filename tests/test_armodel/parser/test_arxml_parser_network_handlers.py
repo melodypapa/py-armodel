@@ -2100,23 +2100,23 @@ class TestNmConfigHandlers:
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
         element = _snip(
-            "<SHORT-NAME>cnm</SHORT-NAME>" "<NM-BUSLOAD-REDUCTION-ACTIVE>true</NM-BUSLOAD-REDUCTION-ACTIVE>" "<NM-CHANNEL-ACTIVE>true</NM-CHANNEL-ACTIVE>",
+            "<SHORT-NAME>cnm</SHORT-NAME>" "<NM-BUSLOAD-REDUCTION-ACTIVE>true</NM-BUSLOAD-REDUCTION-ACTIVE>",
             root_tag="CAN-NM-CLUSTER",
         )
         parser.readCanNmCluster(element, cluster)
         assert cluster.getNmBusloadReductionActive().getValue()
 
-    def test_readUdpNmCluster_sets_nmChannelActive(self, parser):
+    def test_readUdpNmCluster_sets_nmCbvPosition(self, parser):
         from armodel.models import NmConfig, UdpNmCluster
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = UdpNmCluster(parent=config, short_name="unm")
         element = _snip(
-            "<SHORT-NAME>unm</SHORT-NAME>" "<NM-CHANNEL-ACTIVE>true</NM-CHANNEL-ACTIVE>",
+            "<SHORT-NAME>unm</SHORT-NAME>" "<NM-CBV-POSITION>3</NM-CBV-POSITION>",
             root_tag="UDP-NM-CLUSTER",
         )
         parser.readUdpNmCluster(element, cluster)
-        assert cluster.getNmChannelActive().getValue()
+        assert cluster.getNmCbvPosition().getValue() == 3
 
     def test_readNmCluster_sets_communicationClusterRef(self, parser):
         from armodel.models import CanNmCluster, NmConfig

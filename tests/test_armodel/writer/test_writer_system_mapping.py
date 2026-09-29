@@ -361,14 +361,14 @@ class TestWriterSystemMappingDataMappings:
         assert "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING" in tags
 
 
-class TestWriterSetSwcToEcuMapping:
+class TestWriterSwcToEcuMapping:
     def test_full(self, writer):
         sm = _make_system_mapping()
         mapping = sm.createSwcToEcuMapping("SwcEcu")
         mapping.addComponentIRef(_component_iref())
         mapping.setEcuInstanceRef(_ref("/ei", "ECU-INSTANCE"))
         parent = _parent()
-        writer.setSwcToEcuMapping(parent, mapping)
+        writer.writeSwcToEcuMapping(parent, mapping)
         m = parent[0]
         assert m.tag == "SWC-TO-ECU-MAPPING"
         assert m.find("COMPONENT-IREFS") is not None
@@ -379,7 +379,7 @@ class TestWriterSetSwcToEcuMapping:
         sm = _make_system_mapping()
         mapping = sm.createSwcToEcuMapping("SwcEcu")
         parent = _parent()
-        writer.setSwcToEcuMapping(parent, mapping)
+        writer.writeSwcToEcuMapping(parent, mapping)
         assert parent[0].tag == "SWC-TO-ECU-MAPPING"
         assert parent[0].find("COMPONENT-IREFS") is None
 

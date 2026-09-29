@@ -136,7 +136,6 @@ class TestNetworkManagement:
         assert node.getNmCarWakeUpRxEnabled() is None
         assert node.getNmMsgCycleOffset() is None
         assert node.getNmMsgReducedTime() is None
-        assert node.getNmRangeConfig() is None
 
         # Test setter/getter methods with method chaining
         node.setControllerRef("controller_ref")
@@ -359,11 +358,8 @@ class TestBusspecificNmEcu:
         assert ecu.getNmComControlEnabled() is None
         assert ecu.getNmCoordinator() is None
         assert ecu.getNmCycletimeMainFunction() is None
-        assert ecu.getNmNodeDetectionEnabled() is None
-        assert ecu.getNmNodeIdEnabled() is None
         assert ecu.getNmPduRxIndicationEnabled() is None
         assert ecu.getNmRemoteSleepIndEnabled() is None
-        assert ecu.getNmRepeatMsgIndEnabled() is None
         assert ecu.getNmStateChangeIndEnabled() is None
         assert ecu.getNmUserDataEnabled() is None
 
@@ -383,20 +379,11 @@ class TestBusspecificNmEcu:
         assert ecu == ecu.setNmCycletimeMainFunction(None)
         assert ecu.getNmCycletimeMainFunction() is None
 
-        assert ecu == ecu.setNmNodeDetectionEnabled(None)
-        assert ecu.getNmNodeDetectionEnabled() is None
-
-        assert ecu == ecu.setNmNodeIdEnabled(None)
-        assert ecu.getNmNodeIdEnabled() is None
-
         assert ecu == ecu.setNmPduRxIndicationEnabled(None)
         assert ecu.getNmPduRxIndicationEnabled() is None
 
         assert ecu == ecu.setNmRemoteSleepIndEnabled(None)
         assert ecu.getNmRemoteSleepIndEnabled() is None
-
-        assert ecu == ecu.setNmRepeatMsgIndEnabled(None)
-        assert ecu.getNmRepeatMsgIndEnabled() is None
 
         assert ecu == ecu.setNmStateChangeIndEnabled(None)
         assert ecu.getNmStateChangeIndEnabled() is None
@@ -425,14 +412,6 @@ class TestBusspecificNmEcu:
         assert ecu.getNmCycletimeMainFunction() == 100
         assert ecu == ecu.setNmCycletimeMainFunction(100)
 
-        ecu.setNmNodeDetectionEnabled(True)
-        assert ecu.getNmNodeDetectionEnabled() is True
-        assert ecu == ecu.setNmNodeDetectionEnabled(True)
-
-        ecu.setNmNodeIdEnabled(True)
-        assert ecu.getNmNodeIdEnabled() is True
-        assert ecu == ecu.setNmNodeIdEnabled(True)
-
         ecu.setNmPduRxIndicationEnabled(True)
         assert ecu.getNmPduRxIndicationEnabled() is True
         assert ecu == ecu.setNmPduRxIndicationEnabled(True)
@@ -440,10 +419,6 @@ class TestBusspecificNmEcu:
         ecu.setNmRemoteSleepIndEnabled(True)
         assert ecu.getNmRemoteSleepIndEnabled() is True
         assert ecu == ecu.setNmRemoteSleepIndEnabled(True)
-
-        ecu.setNmRepeatMsgIndEnabled(True)
-        assert ecu.getNmRepeatMsgIndEnabled() is True
-        assert ecu == ecu.setNmRepeatMsgIndEnabled(True)
 
         ecu.setNmStateChangeIndEnabled(True)
         assert ecu.getNmStateChangeIndEnabled() is True
@@ -552,9 +527,7 @@ class TestBusspecificNmEcu:
         assert cluster.getNmBusloadReductionActive() is None
         assert cluster.getNmCarWakeUpBitPosition() is None
         assert cluster.getNmCarWakeUpFilterNodeId() is None
-        assert cluster.getNmCarWakeUpRxEnabled() is None
         assert cluster.getNmCbvPosition() is None
-        assert cluster.getNmChannelActive() is None
         assert cluster.getNmImmediateNmCycleTime() is None
         assert cluster.getNmImmediateNmTransmissions() is None
         assert cluster.getNmMessageTimeoutTime() is None
@@ -563,7 +536,6 @@ class TestBusspecificNmEcu:
         assert cluster.getNmNidPosition() is None
         assert cluster.getNmRemoteSleepIndicationTime() is None
         assert cluster.getNmRepeatMessageTime() is None
-        assert cluster.getNmUserDataLength() is None
         assert cluster.getNmWaitBusSleepTime() is None
 
         # Test setter/getter methods with method chaining
@@ -579,17 +551,9 @@ class TestBusspecificNmEcu:
         assert cluster.getNmCarWakeUpFilterNodeId() == 2
         assert cluster == cluster.setNmCarWakeUpFilterNodeId(2)
 
-        cluster.setNmCarWakeUpRxEnabled(True)
-        assert cluster.getNmCarWakeUpRxEnabled() is True
-        assert cluster == cluster.setNmCarWakeUpRxEnabled(True)
-
         cluster.setNmCbvPosition(3)
         assert cluster.getNmCbvPosition() == 3
         assert cluster == cluster.setNmCbvPosition(3)
-
-        cluster.setNmChannelActive(True)
-        assert cluster.getNmChannelActive() is True
-        assert cluster == cluster.setNmChannelActive(True)
 
         cluster.setNmImmediateNmCycleTime(10)
         assert cluster.getNmImmediateNmCycleTime() == 10
@@ -622,10 +586,6 @@ class TestBusspecificNmEcu:
         cluster.setNmRepeatMessageTime(60)
         assert cluster.getNmRepeatMessageTime() == 60
         assert cluster == cluster.setNmRepeatMessageTime(60)
-
-        cluster.setNmUserDataLength(8)
-        assert cluster.getNmUserDataLength() == 8
-        assert cluster == cluster.setNmUserDataLength(8)
 
         cluster.setNmWaitBusSleepTime(70)
         assert cluster.getNmWaitBusSleepTime() == 70
@@ -712,7 +672,6 @@ class TestBusspecificNmEcu:
 
         # Test default values
         assert cluster.getNmCbvPosition() is None
-        assert cluster.getNmChannelActive() is None
         assert cluster.getNmImmediateNmCycleTime() is None
         assert cluster.getNmImmediateNmTransmissions() is None
         assert cluster.getNmMessageTimeoutTime() is None
@@ -727,9 +686,6 @@ class TestBusspecificNmEcu:
         # Test setter/getter methods with method chaining - with None values
         assert cluster == cluster.setNmCbvPosition(None)
         assert cluster.getNmCbvPosition() is None
-
-        assert cluster == cluster.setNmChannelActive(None)
-        assert cluster.getNmChannelActive() is None
 
         assert cluster == cluster.setNmImmediateNmCycleTime(None)
         assert cluster.getNmImmediateNmCycleTime() is None
@@ -765,10 +721,6 @@ class TestBusspecificNmEcu:
         cluster.setNmCbvPosition(5)
         assert cluster.getNmCbvPosition() == 5
         assert cluster == cluster.setNmCbvPosition(5)
-
-        cluster.setNmChannelActive(True)
-        assert cluster.getNmChannelActive() is True
-        assert cluster == cluster.setNmChannelActive(True)
 
         cluster.setNmImmediateNmCycleTime(10)
         assert cluster.getNmImmediateNmCycleTime() == 10

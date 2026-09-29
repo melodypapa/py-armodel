@@ -1,5 +1,10 @@
+import inspect
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 
@@ -60,3 +65,145 @@ class Test_SWmapping:
         mapping.addApplicationPartitionRef(mock_app_part_ref1)
         mapping.addApplicationPartitionRef(mock_app_part_ref2)
         assert mapping.getApplicationPartitionRefs() == [mock_app_part_ref1, mock_app_part_ref2]
+
+
+class Test_ApplicationPartitionToEcuPartitionMappingSpec:
+    """Test cases for ApplicationPartitionToEcuPartitionMapping (Table 5.6, p.201)."""
+
+    MEMBERS = [
+        "applicationPartitionRefs",
+        "ecuPartitionRef",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(ApplicationPartitionToEcuPartitionMapping, Identifiable)
+        assert issubclass(ApplicationPartitionToEcuPartitionMapping, VariationPointCapable)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "Maps ApplicationPartitions to EcuPartitions. With this mapping an OEM has the option to predefine "
+            "an allocation of Software Components to EcuPartitions in the System Design phase. The final and "
+            "complete assignment is described in the OS Configuration."
+        )
+        assert inspect.cleandoc(ApplicationPartitionToEcuPartitionMapping.__doc__) == expected
+
+    def test_init_has_no_docstring(self):
+        assert ApplicationPartitionToEcuPartitionMapping.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        mapping = ApplicationPartitionToEcuPartitionMapping(parent, "test_app_ecu_part_mapping")
+        assert mapping.getApplicationPartitionRefs() == []
+        assert mapping.getEcuPartitionRef() is None
+
+    def test_member_order(self):
+        parent = MockParent()
+        mapping = ApplicationPartitionToEcuPartitionMapping(parent, "test_app_ecu_part_mapping")
+        members = [k for k in vars(mapping) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_application_partition_ref(self):
+        parent = MockParent()
+        mapping = ApplicationPartitionToEcuPartitionMapping(parent, "test_app_ecu_part_mapping")
+        ref = RefType()
+        ref.setValue("/ApplicationPartitions/AP1")
+        result = mapping.addApplicationPartitionRef(ref)
+        assert result is mapping
+        assert mapping.getApplicationPartitionRefs() == [ref]
+        ref2 = RefType()
+        ref2.setValue("/ApplicationPartitions/AP2")
+        mapping.addApplicationPartitionRef(ref2)
+        assert mapping.getApplicationPartitionRefs() == [ref, ref2]
+        mapping.addApplicationPartitionRef(None)
+        assert mapping.getApplicationPartitionRefs() == [ref, ref2]
+
+    def test_get_set_ecu_partition_ref(self):
+        parent = MockParent()
+        mapping = ApplicationPartitionToEcuPartitionMapping(parent, "test_app_ecu_part_mapping")
+        value = RefType()
+        value.setValue("/EcuInstances/Ecu1/PARTITIONS/P1")
+        result = mapping.setEcuPartitionRef(value)
+        assert result is mapping
+        assert mapping.getEcuPartitionRef() is value
+        mapping.setEcuPartitionRef(None)
+        assert mapping.getEcuPartitionRef() is value
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(ApplicationPartitionToEcuPartitionMapping.getApplicationPartitionRefs)
+        assert hints.get("return") == typing.List[RefType]
+        hints = typing.get_type_hints(ApplicationPartitionToEcuPartitionMapping.addApplicationPartitionRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is ApplicationPartitionToEcuPartitionMapping
+        hints = typing.get_type_hints(ApplicationPartitionToEcuPartitionMapping.getEcuPartitionRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(ApplicationPartitionToEcuPartitionMapping.setEcuPartitionRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is ApplicationPartitionToEcuPartitionMapping
+
+
+class Test_SwcToImplMappingSpec:
+    """Test cases for SwcToImplMapping (Table 5.3, p.199)."""
+
+    MEMBERS = [
+        "componentIRefs",
+        "componentImplementationRef",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(SwcToImplMapping, Identifiable)
+        assert issubclass(SwcToImplMapping, VariationPointCapable)
+
+    def test_class_docstring_note(self):
+        expected = "Map instances of an AtomicSwComponentType to a specific Implementation."
+        assert inspect.cleandoc(SwcToImplMapping.__doc__) == expected
+
+    def test_init_has_no_docstring(self):
+        assert SwcToImplMapping.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        assert mapping.getComponentIRefs() == []
+        assert mapping.getComponentImplementationRef() is None
+
+    def test_member_order(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        members = [k for k in vars(mapping) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_component_iref(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        iref = ComponentInSystemInstanceRef()
+        result = mapping.addComponentIRef(iref)
+        assert result is mapping
+        assert mapping.getComponentIRefs() == [iref]
+        iref2 = ComponentInSystemInstanceRef()
+        mapping.addComponentIRef(iref2)
+        assert mapping.getComponentIRefs() == [iref, iref2]
+        mapping.addComponentIRef(None)
+        assert mapping.getComponentIRefs() == [iref, iref2]
+
+    def test_get_set_component_implementation_ref(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        value = RefType()
+        value.setValue("/SwComponentTypes/Engine/Swcs/EngineImpl")
+        result = mapping.setComponentImplementationRef(value)
+        assert result is mapping
+        assert mapping.getComponentImplementationRef() is value
+        mapping.setComponentImplementationRef(None)
+        assert mapping.getComponentImplementationRef() is value
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(SwcToImplMapping.getComponentIRefs)
+        assert hints.get("return") == typing.List[ComponentInSystemInstanceRef]
+        hints = typing.get_type_hints(SwcToImplMapping.addComponentIRef)
+        assert hints.get("value") == typing.Optional[ComponentInSystemInstanceRef]
+        assert hints.get("return") is SwcToImplMapping
+        hints = typing.get_type_hints(SwcToImplMapping.getComponentImplementationRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(SwcToImplMapping.setComponentImplementationRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is SwcToImplMapping

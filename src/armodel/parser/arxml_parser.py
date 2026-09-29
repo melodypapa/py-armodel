@@ -784,7 +784,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -1050,6 +1050,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmNode,
     CanNmEcu,
     FlexrayNmCluster,
+    FlexrayNmClusterCoupling,
     FlexrayNmEcu,
     J1939NmCluster,
     J1939NmEcu,
@@ -1064,7 +1065,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -10842,14 +10843,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
         self.logger.debug("Read CanNmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
+        nm_node.setAllNmMessagesKeepAwake(self.getChildElementOptionalBooleanValue(element, "ALL-NM-MESSAGES-KEEP-AWAKE"))
+        nm_node.setNmCarWakeUpFilterEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-FILTER-ENABLED"))
         nm_node.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
-        nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET"))
-        nm_node.setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME"))
-        nm_node.setNmRangeConfig(self.getRxIdentifierRange(element, "NM-RANGE-CONFIG"))
+        nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
+        nm_node.setNmMsgReducedTime(self.getChildElementOptionalTimeValue(element, "NM-MSG-REDUCED-TIME"))
 
     def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("Read UdpNmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
+        nm_node.setAllNmMessagesKeepAwake(self.getChildElementOptionalBooleanValue(element, "ALL-NM-MESSAGES-KEEP-AWAKE"))
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
 
     def readJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
@@ -10892,6 +10895,13 @@ class ARXMLParser(AbstractARXMLParser):
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
         return coupling
 
+    def getFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:
+        coupling = FlexrayNmClusterCoupling()
+        for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
+            coupling.addCoupledClusterRef(ref)
+        coupling.setNmScheduleVariant(self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT"))
+        return coupling
+
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -10899,6 +10909,8 @@ class ARXMLParser(AbstractARXMLParser):
                 nm_config.addNmClusterCouplings(self.getCanNmClusterCoupling(child_element))
             elif tag_name == "UDP-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.getUdpNmClusterCoupling(child_element))
+            elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
+                nm_config.addNmClusterCouplings(self.getFlexrayNmClusterCoupling(child_element))
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
@@ -10920,25 +10932,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read CanNmCluster <%s>" % cluster.getShortName())
         self.readNmCluster(element, cluster)
         cluster.setNmBusloadReductionActive(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ACTIVE"))
-        cluster.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
-        cluster.setNmCbvPosition(self.getChildElementOptionalNumericalValue(element, "NM-CBV-POSITION"))
-        cluster.setNmChannelActive(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-ACTIVE"))
-        cluster.setNmImmediateNmCycleTime(self.getChildElementOptionalFloatValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME"))
-        cluster.setNmImmediateNmTransmissions(self.getChildElementOptionalNumericalValue(element, "NM-IMMEDIATE-NM-TRANSMISSIONS"))
-        cluster.setNmMessageTimeoutTime(self.getChildElementOptionalFloatValue(element, "NM-MESSAGE-TIMEOUT-TIME"))
-        cluster.setNmMsgCycleTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-TIME"))
-        cluster.setNmNetworkTimeout(self.getChildElementOptionalFloatValue(element, "NM-NETWORK-TIMEOUT"))
-        cluster.setNmNidPosition(self.getChildElementOptionalNumericalValue(element, "NM-NID-POSITION"))
-        cluster.setNmRemoteSleepIndicationTime(self.getChildElementOptionalFloatValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME"))
-        cluster.setNmRepeatMessageTime(self.getChildElementOptionalFloatValue(element, "NM-REPEAT-MESSAGE-TIME"))
-        cluster.setNmUserDataLength(self.getChildElementOptionalNumericalValue(element, "NM-USER-DATA-LENGTH"))
-        cluster.setNmWaitBusSleepTime(self.getChildElementOptionalFloatValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
+        cluster.setNmCarWakeUpBitPosition(self.getChildElementOptionalPositiveInteger(element, "NM-CAR-WAKE-UP-BIT-POSITION"))
+        cluster.setNmCarWakeUpFilterNodeId(self.getChildElementOptionalPositiveInteger(element, "NM-CAR-WAKE-UP-FILTER-NODE-ID"))
+        cluster.setNmCbvPosition(self.getChildElementOptionalIntegerValue(element, "NM-CBV-POSITION"))
+        cluster.setNmImmediateNmCycleTime(self.getChildElementOptionalTimeValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME"))
+        cluster.setNmImmediateNmTransmissions(self.getChildElementOptionalPositiveInteger(element, "NM-IMMEDIATE-NM-TRANSMISSIONS"))
+        cluster.setNmMessageTimeoutTime(self.getChildElementOptionalTimeValue(element, "NM-MESSAGE-TIMEOUT-TIME"))
+        cluster.setNmMsgCycleTime(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-TIME"))
+        cluster.setNmNetworkTimeout(self.getChildElementOptionalTimeValue(element, "NM-NETWORK-TIMEOUT"))
+        cluster.setNmNidPosition(self.getChildElementOptionalIntegerValue(element, "NM-NID-POSITION"))
+        cluster.setNmRemoteSleepIndicationTime(self.getChildElementOptionalTimeValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME"))
+        cluster.setNmRepeatMessageTime(self.getChildElementOptionalTimeValue(element, "NM-REPEAT-MESSAGE-TIME"))
+        cluster.setNmWaitBusSleepTime(self.getChildElementOptionalTimeValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
 
     def readUdpNmCluster(self, element: ET.Element, cluster: UdpNmCluster):
         self.logger.debug("Read UdpNmCluster %s" % cluster.getShortName())
         self.readNmCluster(element, cluster)
         cluster.setNmCbvPosition(self.getChildElementOptionalIntegerValue(element, "NM-CBV-POSITION"))
-        cluster.setNmChannelActive(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-ACTIVE"))
         cluster.setNmImmediateNmCycleTime(self.getChildElementOptionalTimeValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME"))
         cluster.setNmImmediateNmTransmissions(self.getChildElementOptionalPositiveInteger(element, "NM-IMMEDIATE-NM-TRANSMISSIONS"))
         cluster.setNmMessageTimeoutTime(self.getChildElementOptionalTimeValue(element, "NM-MESSAGE-TIMEOUT-TIME"))
@@ -11029,11 +11039,9 @@ class ARXMLParser(AbstractARXMLParser):
         nm_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
         nm_ecu.setNmBusSynchronizationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUS-SYNCHRONIZATION-ENABLED"))
         nm_ecu.setNmComControlEnabled(self.getChildElementOptionalBooleanValue(element, "NM-COM-CONTROL-ENABLED"))
-        nm_ecu.setNmNodeDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED"))
-        nm_ecu.setNmNodeIdEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-ID-ENABLED"))
+        nm_ecu.setNmCycletimeMainFunction(self.getChildElementOptionalTimeValue(element, "NM-CYCLETIME-MAIN-FUNCTION"))
         nm_ecu.setNmPduRxIndicationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PDU-RX-INDICATION-ENABLED"))
         nm_ecu.setNmRemoteSleepIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REMOTE-SLEEP-IND-ENABLED"))
-        nm_ecu.setNmRepeatMsgIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED"))
         nm_ecu.setNmStateChangeIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-STATE-CHANGE-IND-ENABLED"))
         nm_ecu.setNmUserDataEnabled(self.getChildElementOptionalBooleanValue(element, "NM-USER-DATA-ENABLED"))
 
@@ -11189,11 +11197,13 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setDataPduRef(self.getChildElementOptionalRefType(element, "DATA-PDU-REF"))
         connection.setFlowControlRef(self.getChildElementOptionalRefType(element, "FLOW-CONTROL-REF"))
         connection.setLinTpNSduRef(self.getChildElementOptionalRefType(element, "LIN-TP-N-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
         self.readTpConnectionReceiverRefs(element, connection)
         connection.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
         connection.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
         connection.setTimeoutCs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CS"))
         connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        self.readVariationPointCapable(element, connection)
 
     def readLinTpConfigTpConnections(self, element: ET.Element, config: LinTpConfig):
         for child_element in self.findall(element, "TP-CONNECTIONS/*"):
@@ -13432,7 +13442,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
-            props.addDataId(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID"))
+            for data_id_element in self.findall(child_element, "DATA-ID"):
+                if data_id_element.text is not None:
+                    data_id = PositiveInteger()
+                    data_id.setValue(data_id_element.text)
+                    props.addDataId(data_id)
 
     def readEndToEndTransformationISignalProps(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
@@ -13441,6 +13455,9 @@ class ARXMLParser(AbstractARXMLParser):
             props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
             self.readEndToEndTransformationISignalPropsDataIds(child_element, props)
             props.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
+            props.setMaxDataLength(self.getChildElementOptionalPositiveInteger(child_element, "MAX-DATA-LENGTH"))
+            props.setMinDataLength(self.getChildElementOptionalPositiveInteger(child_element, "MIN-DATA-LENGTH"))
+            props.setSourceId(self.getChildElementOptionalPositiveInteger(child_element, "SOURCE-ID"))
 
     def readSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         child_element = self.find(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
@@ -13864,12 +13881,36 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
+    def readApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "APPLICATION-PARTITION-REFS/APPLICATION-PARTITION-REF"):
+            mapping.addApplicationPartitionRef(ref)
+        mapping.setEcuPartitionRef(self.getChildElementOptionalRefType(element, "ECU-PARTITION-REF"))
+
+    def readSystemMappingApplicationPartitionToEcuPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPINGS/APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPING"):
+            partition_mapping = mapping.createApplicationPartitionToEcuPartitionMapping(self.getShortName(child_element))
+            self.readApplicationPartitionToEcuPartitionMapping(child_element, partition_mapping)
+
+    def readAppOsTaskProxyToEcuTaskProxyMapping(self, element: ET.Element, mapping: AppOsTaskProxyToEcuTaskProxyMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setAppTaskProxyRef(self.getChildElementOptionalRefType(element, "APP-TASK-PROXY-REF"))
+        mapping.setEcuTaskProxyRef(self.getChildElementOptionalRefType(element, "ECU-TASK-PROXY-REF"))
+        mapping.setOffset(self.getChildElementOptionalIntegerValue(element, "OFFSET"))
+
+    def readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS/APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING"):
+            app_ecu_mapping = mapping.createAppOsTaskProxyToEcuTaskProxyMapping(self.getShortName(child_element))
+            self.readAppOsTaskProxyToEcuTaskProxyMapping(child_element, app_ecu_mapping)
+
     def readSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         # self.logger.debug("SwcToEcuMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         for child_element in self.findall(element, "COMPONENT-IREFS/COMPONENT-IREF"):
             mapping.addComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+        mapping.setControlledHwElementRef(self.getChildElementOptionalRefType(element, "CONTROLLED-HW-ELEMENT-REF"))
         mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        mapping.setProcessingUnitRef(self.getChildElementOptionalRefType(element, "PROCESSING-UNIT-REF"))
 
     def readSystemMappingSwMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SW-MAPPINGS/*"):
@@ -14077,6 +14118,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(element, mapping)
+        self.readSystemMappingApplicationPartitionToEcuPartitionMappings(element, mapping)
         self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
