@@ -575,7 +575,7 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **7/24** completed
+Status: **8/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -585,7 +585,7 @@ Status: **7/24** completed
 | `ClientServerApplicationErrorMapping`  | [x] Done     | bc933575fd |
 | `ClientServerOperationMapping`         | [x] Done     | e301de1df9 |
 | `ClientServerInterfaceMapping`         | [x] Done     | cae5a51c92 |
-| `ModeInterfaceMapping`                 | [ ] Pending* | 8832375592 |
+| `ModeInterfaceMapping`                 | [x] Done     | a598489544 |
 | `VariableAndParameterInterfaceMapping` | [ ] Pending* | de2d5fe918 |
 | `Field`                                | [ ] Pending* | 413d1a4b62 |
 | `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f90 |
