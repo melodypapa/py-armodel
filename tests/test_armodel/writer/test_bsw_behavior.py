@@ -11,6 +11,8 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswExclusiveAreaPolicy,
+    BswModeSenderPolicy,
+    BswModeSwitchAckRequest,
     BswTriggerDirectImplementation,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
@@ -244,6 +246,47 @@ class TestBswTriggerDirectImplementation:
         raw, behavior_2 = _reload(tmp_path, document, "tdi_empty.arxml")
         assert "TRIGGER-DIRECT-IMPLEMENTATIONS" not in raw
         assert behavior_2.getTriggerDirectImplementations() == []
+
+
+class TestBswModeSenderPolicy:
+    def test_round_trip_full(self, tmp_path):
+        document, behavior = _make_behavior()
+        policy = BswModeSenderPolicy()
+        ack_request = BswModeSwitchAckRequest()
+        ack_request.setTimeout(_time(5.0))
+        policy.setAckRequest(ack_request)
+        policy.setEnhancedModeApi(_bool(True))
+        policy.setProvidedModeGroupRef(_ref("/Pkg/Mdg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        policy.setQueueLength(_posint(4))
+        behavior.addModeSenderPolicy(policy)
+
+        raw, behavior_2 = _reload(tmp_path, document, "msp.arxml")
+        policies = behavior_2.getModeSenderPolicies()
+        assert len(policies) == 1
+        assert policies[0].getAckRequest().getTimeout().getValue() == 5.0
+        assert policies[0].getEnhancedModeApi().getValue() is True
+        assert policies[0].getProvidedModeGroupRef().getValue() == "/Pkg/Mdg"
+        assert policies[0].getProvidedModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert policies[0].getQueueLength().getValue() == 4
+        assert raw.index("ACK-REQUEST") < raw.index("ENHANCED-MODE-API") < raw.index("PROVIDED-MODE-GROUP-REF") < raw.index("QUEUE-LENGTH")
+
+    def test_round_trip_empty_policy(self, tmp_path):
+        document, behavior = _make_behavior()
+        behavior.addModeSenderPolicy(BswModeSenderPolicy())
+
+        raw, behavior_2 = _reload(tmp_path, document, "msp_empty.arxml")
+        assert "ACK-REQUEST" not in raw
+        assert "ENHANCED-MODE-API" not in raw
+        policies = behavior_2.getModeSenderPolicies()
+        assert len(policies) == 1
+        assert policies[0].getAckRequest() is None
+
+    def test_no_wrapper_when_no_policies(self, tmp_path):
+        document, _ = _make_behavior()
+
+        raw, behavior_2 = _reload(tmp_path, document, "msp_none.arxml")
+        assert "MODE-SENDER-POLICYS" not in raw
+        assert behavior_2.getModeSenderPolicies() == []
 
 
 def _bool(value):

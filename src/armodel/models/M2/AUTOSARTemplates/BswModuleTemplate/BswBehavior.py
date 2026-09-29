@@ -1321,14 +1321,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.103
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getAckRequest             [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] setAckRequest             [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] getEnhancedModeApi        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] setEnhancedModeApi        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] getProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] setProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] getQueueLength            [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] setQueueLength            [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getAckRequest             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAckRequest             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnhancedModeApi        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnhancedModeApi        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getQueueLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

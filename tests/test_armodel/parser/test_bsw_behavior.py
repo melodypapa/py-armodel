@@ -237,3 +237,29 @@ class TestBswTriggerDirectImplementation:
     def test_read_empty_wrapper(self, tmp_path):
         _, behavior = _load_behavior(tmp_path, "<TRIGGER-DIRECT-IMPLEMENTATIONS></TRIGGER-DIRECT-IMPLEMENTATIONS>")
         assert behavior.getTriggerDirectImplementations() == []
+
+
+class TestBswModeSenderPolicy:
+    def test_read_full(self, tmp_path):
+        policies = """<MODE-SENDER-POLICYS>
+            <BSW-MODE-SENDER-POLICY>
+                <ACK-REQUEST>
+                    <TIMEOUT>5.0</TIMEOUT>
+                </ACK-REQUEST>
+                <ENHANCED-MODE-API>true</ENHANCED-MODE-API>
+                <PROVIDED-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/Pkg/Mdg</PROVIDED-MODE-GROUP-REF>
+                <QUEUE-LENGTH>4</QUEUE-LENGTH>
+            </BSW-MODE-SENDER-POLICY>
+        </MODE-SENDER-POLICYS>"""
+        _, behavior = _load_behavior(tmp_path, policies)
+        policies_2 = behavior.getModeSenderPolicies()
+        assert len(policies_2) == 1
+        assert policies_2[0].getAckRequest().getTimeout().getValue() == 5.0
+        assert policies_2[0].getEnhancedModeApi().getValue() is True
+        assert policies_2[0].getProvidedModeGroupRef().getValue() == "/Pkg/Mdg"
+        assert policies_2[0].getProvidedModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert policies_2[0].getQueueLength().getValue() == 4
+
+    def test_read_empty_wrapper(self, tmp_path):
+        _, behavior = _load_behavior(tmp_path, "<MODE-SENDER-POLICYS></MODE-SENDER-POLICYS>")
+        assert behavior.getModeSenderPolicies() == []
