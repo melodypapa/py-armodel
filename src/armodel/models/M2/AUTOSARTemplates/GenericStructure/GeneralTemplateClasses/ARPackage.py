@@ -3138,4 +3138,41 @@ class SwAxisType(ARElement):
 
 
 class ViewMapSet(ARElement):
-    pass
+    """
+    Collection of ViewMaps that are used to establish relationships between different AUTOSAR artifacts. Tags: atp.recommendedPackage=ViewMapSets
+    """
+
+    # ViewMapSet method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 14.1, p.401
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createViewMap    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getViewMaps      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # ViewMaps that are collected by the ViewMapSet.
+        self.viewMaps: List[ViewMap] = []
+
+    def createViewMap(self, short_name: str) -> ViewMap:
+        """
+        Creates a ViewMap of this ViewMapSet with the given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new ViewMap
+
+        Returns:
+            The created (or existing) ViewMap
+        """
+        if not self.IsElementExists(short_name, ViewMap):
+            view_map = ViewMap(self, short_name)
+            self.addElement(view_map)
+            self.viewMaps.append(view_map)
+        return self.getElement(short_name, ViewMap)
+
+    def getViewMaps(self) -> List[ViewMap]:
+        """
+        ViewMaps that are collected by the ViewMapSet.
+        """
+        return self.viewMaps
