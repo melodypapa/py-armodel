@@ -176,3 +176,42 @@ class TestBswExternalTriggerOccurredEvent:
         assert len(events_2) == 1
         assert events_2[0].getTriggerRef().getValue() == "/Pkg/Trig"
         assert events_2[0].getContextLimitationRefs() == []
+
+
+class TestBswOperationInvokedEvent:
+    def test_read_full(self, tmp_path):
+        events = """<EVENTS>
+            <BSW-OPERATION-INVOKED-EVENT>
+                <SHORT-NAME>Evt</SHORT-NAME>
+                <CONTEXT-LIMITATION-REFS>
+                    <CONTEXT-LIMITATION-REF DEST="BSW-DISTINGUISHED-PARTITION">/Pkg/Part1</CONTEXT-LIMITATION-REF>
+                </CONTEXT-LIMITATION-REFS>
+                <STARTS-ON-EVENT-REF DEST="BSW-SCHEDULABLE-ENTITY">/Pkg/Ent</STARTS-ON-EVENT-REF>
+                <ENTRY-REF DEST="BSW-MODULE-CLIENT-SERVER-ENTRY">/Pkg/CsEntry</ENTRY-REF>
+            </BSW-OPERATION-INVOKED-EVENT>
+        </EVENTS>"""
+        _, behavior = _load_behavior(tmp_path, events)
+        events_2 = behavior.getBswOperationInvokedEvents()
+        assert len(events_2) == 1
+        assert events_2[0].getShortName() == "Evt"
+        assert events_2[0].getEntryRef().getValue() == "/Pkg/CsEntry"
+        assert events_2[0].getEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert events_2[0].getStartsOnEventRef().getValue() == "/Pkg/Ent"
+        limitations = events_2[0].getContextLimitationRefs()
+        assert len(limitations) == 1
+        assert limitations[0].getValue() == "/Pkg/Part1"
+
+    def test_read_minimal(self, tmp_path):
+        events = """<EVENTS>
+            <BSW-OPERATION-INVOKED-EVENT>
+                <SHORT-NAME>Evt</SHORT-NAME>
+                <CONTEXT-LIMITATION-REFS></CONTEXT-LIMITATION-REFS>
+                <ENTRY-REF DEST="BSW-MODULE-CLIENT-SERVER-ENTRY">/Pkg/CsEntry</ENTRY-REF>
+            </BSW-OPERATION-INVOKED-EVENT>
+        </EVENTS>"""
+        _, behavior = _load_behavior(tmp_path, events)
+        events_2 = behavior.getBswOperationInvokedEvents()
+        assert len(events_2) == 1
+        assert events_2[0].getEntryRef().getValue() == "/Pkg/CsEntry"
+        assert events_2[0].getStartsOnEventRef() is None
+        assert events_2[0].getContextLimitationRefs() == []

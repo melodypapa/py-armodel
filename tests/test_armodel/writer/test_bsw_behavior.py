@@ -184,6 +184,38 @@ class TestBswExternalTriggerOccurredEvent:
         assert "TRIGGER-REF" not in raw
 
 
+class TestBswOperationInvokedEvent:
+    def test_round_trip_full(self, tmp_path):
+        document, behavior = _make_behavior()
+        event = behavior.createBswOperationInvokedEvent("Evt")
+        event.setStartsOnEventRef(_ref("/Pkg/Ent", "BSW-SCHEDULABLE-ENTITY"))
+        event.addContextLimitationRef(_ref("/Pkg/Part1", "BSW-DISTINGUISHED-PARTITION"))
+        event.setEntryRef(_ref("/Pkg/CsEntry", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+
+        raw, behavior_2 = _reload(tmp_path, document, "oie.arxml")
+        events = behavior_2.getBswOperationInvokedEvents()
+        assert len(events) == 1
+        assert events[0].getShortName() == "Evt"
+        assert events[0].getEntryRef().getValue() == "/Pkg/CsEntry"
+        assert events[0].getEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert events[0].getStartsOnEventRef().getValue() == "/Pkg/Ent"
+        limitations = events[0].getContextLimitationRefs()
+        assert len(limitations) == 1
+        assert limitations[0].getValue() == "/Pkg/Part1"
+        assert raw.index("CONTEXT-LIMITATION-REFS") < raw.index("STARTS-ON-EVENT-REF") < raw.index("ENTRY-REF")
+
+    def test_round_trip_empty(self, tmp_path):
+        document, behavior = _make_behavior()
+        behavior.createBswOperationInvokedEvent("Evt")
+
+        raw, behavior_2 = _reload(tmp_path, document, "oie_empty.arxml")
+        events = behavior_2.getBswOperationInvokedEvents()
+        assert len(events) == 1
+        assert events[0].getEntryRef() is None
+        assert events[0].getContextLimitationRefs() == []
+        assert "ENTRY-REF" not in raw
+
+
 def _bool(value):
     b = Boolean()
     b.setValue(value)
