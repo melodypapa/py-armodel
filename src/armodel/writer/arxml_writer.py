@@ -357,6 +357,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclPermission
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -1086,6 +1087,14 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between AclScopeEnum literal values and their XML element text
+#: (AR:ACL-SCOPE-ENUM--SIMPLE).
+ACL_SCOPE_XML_MAP = {
+    "dependant": "DEPENDANT",
+    "descendant": "DESCENDANT",
+    "explicit": "EXPLICIT",
 }
 
 #: Mapping between SwImplPolicyEnum literal values and their XML element text
@@ -14223,6 +14232,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBuildActionManifest(element, ar_element)
         elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
+        elif isinstance(ar_element, AclPermission):
+            self.writeAclPermission(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14750,6 +14761,41 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for global_element in global_elements:
                         self.setChildElementOptionalLiteral(elements_tag, "GLOBAL-ELEMENT", global_element)
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
+
+    def writeAclPermission(self, element: ET.Element, acl_permission: AclPermission):
+        if acl_permission is not None:
+            self.logger.debug("Write AclPermission <%s>" % acl_permission.getShortName())
+            child_element = ET.SubElement(element, "ACL-PERMISSION")
+            self.writeIdentifiable(child_element, acl_permission)
+            acl_contexts = acl_permission.getAclContexts()
+            if len(acl_contexts) > 0:
+                contexts_tag = ET.SubElement(child_element, "ACL-CONTEXTS")
+                for acl_context in acl_contexts:
+                    context_tag = ET.SubElement(contexts_tag, "ACL-CONTEXT")
+                    context_tag.text = acl_context.getValue()
+            acl_object_refs = acl_permission.getAclObjectRefs()
+            if len(acl_object_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-OBJECT-REFS")
+                for ref in acl_object_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-OBJECT-REF", ref)
+            acl_operation_refs = acl_permission.getAclOperationRefs()
+            if len(acl_operation_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-OPERATION-REFS")
+                for ref in acl_operation_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-OPERATION-REF", ref)
+            acl_role_refs = acl_permission.getAclRoleRefs()
+            if len(acl_role_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-ROLE-REFS")
+                for ref in acl_role_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-ROLE-REF", ref)
+            acl_scope = acl_permission.getAclScope()
+            if acl_scope is not None:
+                token = ACL_SCOPE_XML_MAP.get(acl_scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.getValue())
+                else:
+                    scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
+                    scope_tag.text = token
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

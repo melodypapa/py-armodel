@@ -1780,6 +1780,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(mapping_set)
         return self.getElement(short_name, ModeDeclarationMappingSet)
 
+    def createAclPermission(self, short_name: str) -> AclPermission:
+
+        if not self.IsElementExists(short_name, AclPermission):
+            acl_permission = AclPermission(self, short_name)
+            self.addElement(acl_permission)
+        return self.getElement(short_name, AclPermission)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2078,6 +2085,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
 
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name))
+
+    def getAclPermissions(self) -> List[AclPermission]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclPermission), self.elements), key=lambda a: a.short_name))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
@@ -2473,16 +2484,16 @@ class AclPermission(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.1, p.382
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addAclContext        [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getAclContexts       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addAclObjectRef      [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getAclObjectRefs     [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addAclOperationRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getAclOperationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addAclRoleRef        [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getAclRoleRefs       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] getAclScope          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setAclScope          [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] addAclContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAclContexts       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAclObjectRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAclObjectRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAclOperationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAclOperationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAclRoleRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAclRoleRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getAclScope          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAclScope          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -474,6 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclPermission
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -488,6 +489,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AclScopeEnum,
     AnyServiceInstanceId,
     AnyVersionString,
     ARLiteral,
@@ -1235,6 +1237,14 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between AclScopeEnum literal values and their XML element text
+#: (AR:ACL-SCOPE-ENUM--SIMPLE).
+ACL_SCOPE_XML_MAP = {
+    "dependant": "DEPENDANT",
+    "descendant": "DESCENDANT",
+    "explicit": "EXPLICIT",
 }
 
 #: Mapping between SwImplPolicyEnum literal values and their XML element text
@@ -14893,6 +14903,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MC-GROUP":
                 group = parent.createMcGroup(self.getShortName(child_element))
                 self.readMcGroup(child_element, group)
+            elif tag_name == "ACL-PERMISSION":
+                acl_permission = parent.createAclPermission(self.getShortName(child_element))
+                self.readAclPermission(child_element, acl_permission)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15278,6 +15291,30 @@ class ARXMLParser(AbstractARXMLParser):
                 base.addGlobalElement(literal)
             base.setPackageRef(self.getChildElementOptionalRefType(child_element, "PACKAGE-REF"))
             parent.addReferenceBase(base)
+
+    def readAclPermission(self, element: ET.Element, acl_permission: AclPermission) -> AclPermission:
+        self.logger.debug("Read AclPermission <%s>" % acl_permission.getShortName())
+        self.readIdentifiable(element, acl_permission)
+        for child_element in self.findall(element, "ACL-CONTEXTS/ACL-CONTEXT"):
+            acl_permission.addAclContext(NameToken().setValue(child_element.text))
+        for object_ref in self.getChildElementRefTypeList(element, "ACL-OBJECT-REFS/ACL-OBJECT-REF"):
+            acl_permission.addAclObjectRef(object_ref)
+        for operation_ref in self.getChildElementRefTypeList(element, "ACL-OPERATION-REFS/ACL-OPERATION-REF"):
+            acl_permission.addAclOperationRef(operation_ref)
+        for role_ref in self.getChildElementRefTypeList(element, "ACL-ROLE-REFS/ACL-ROLE-REF"):
+            acl_permission.addAclRoleRef(role_ref)
+        acl_scope = self.find(element, "ACL-SCOPE")
+        if acl_scope is not None:
+            literal = None
+            for literal_name, token in ACL_SCOPE_XML_MAP.items():
+                if token == acl_scope.text:
+                    literal = literal_name
+                    break
+            if literal is not None:
+                acl_permission.setAclScope(AclScopeEnum().setValue(literal))
+            else:
+                self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.text)
+        return acl_permission
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
