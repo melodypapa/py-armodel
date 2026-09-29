@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 500 | 26.0% |
+| [x] Done | 501 | 26.1% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 172 | 9.0% |
+| [ ] Deferred | 171 | 8.9% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -284,7 +284,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ClientIdDefinitionSet`                                 | [x] Done    | 01759771dd                               | Group5           |
 | `ClientIdRange`                                         | [x] Done    | fce66955f5                               | Group5           |
 | `ClientServerAnnotation`                                | [ ] Pending | N/A                                      | Group27          |
-| `ClientServerApplicationErrorMapping`                   | [ ] Deferred| N/A                                      | Group11          |
+| `ClientServerApplicationErrorMapping`                   | [x] Done    | bc933575fd                               | Group11          |
 | `ClientServerInterface`                                 | [ ] Pending | N/A                                      | Group27          |
 | `ClientServerInterfaceMapping`                          | [ ] Deferred| N/A                                      | Group11          |
 | `ClientServerOperation`                                 | [ ] Pending | N/A                                      | Group27          |
