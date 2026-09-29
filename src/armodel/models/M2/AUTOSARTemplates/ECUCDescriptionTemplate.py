@@ -1029,8 +1029,7 @@ class ModuleConfiguration(ARElement):
     """
 
     # ModuleConfiguration method parity checklist:
-    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
-    # Spec verified: R3.2.3
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.30, l.1916 (R3.2.3)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] createContainer                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
@@ -1041,21 +1040,33 @@ class ModuleConfiguration(ARElement):
     # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
     # [x] getModuleDescriptionRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
     # [x] setModuleDescriptionRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
-    # Deviations (spec member names `definition`/`moduleDescription` kind ref; renamed per
-    # ECUC ref-suffix convention to definitionRef/moduleDescriptionRef):
-    # definition + implementationConfigVariant optional — spec Mul=1 but XSD group
-    # MODULE-CONFIGURATION (AUTOSAR.xsd L16416) DEFINITION-REF and
-    # IMPLEMENTATION-CONFIG-VARIANT have minOccurs="0" (Rule 0019.3 inverted; Os_ECUC.arxml
-    # carries neither); DEFINITION-REF/MODULE-DESCRIPTION-REF DEST use="required" in XSD
-    # but sample carries no DEST → DEST optional. Aggregated by ARPackage.element (XSD
-    # L222) → ARPackage.createModuleConfiguration factory.
+    # Naming (not a deviation): spec members `definition`/`moduleDescription` kind ref —
+    # Rule 0001.5 Ref suffix gives definitionRef/moduleDescriptionRef (module convention).
+    # Deviations (accepted):
+    # 1. definition + implementationConfigVariant optional — spec Mul=1 but XSD group
+    #    MODULE-CONFIGURATION (AUTOSAR.xsd l.16416) DEFINITION-REF and
+    #    IMPLEMENTATION-CONFIG-VARIANT have minOccurs="0"; modeled Optional per the XSD
+    #    serialization contract (None-guarded setters, writer omits unset elements;
+    #    Os_ECUC.arxml carries neither).
+    # 2. DEFINITION-REF/MODULE-DESCRIPTION-REF DEST attribute — XSD use="required"
+    #    (MODULE-DEF--/BSW-IMPLEMENTATION--SUBTYPES-ENUM) but the Os_ECUC.arxml
+    #    integration fixture carries the refs with no DEST; reader/writer treat DEST
+    #    as optional for a lossless round-trip (BASE/DEST round-trip when present).
+    # 3. implementationConfigVariant type — spec type ConfigurationVariant (R3.2.3
+    #    AUTOSAR_ECU_Configuration.md Table 3.11, l.1200, ECUCParameterDefTemplate) is
+    #    class not yet implemented; placeholder R23-11 EcucConfigurationVariantEnum in
+    #    use (literal sets differ: R3.2.3 adds VARIANT-POST-BUILD-LOADABLE and
+    #    VARIANT-POST-BUILD-SELECTABLE, has no RECOMMENDED-CONFIGURATION). Switch to
+    #    the real type when that class gets its own pass (Rule 0001.10).
+    # Aggregated by ARPackage.element (XSD l.222) → ARPackage.createModuleConfiguration
+    # factory; reader/writer dispatch branches both present.
     # XML element order (XSD sequenceOffset): DEFINITION-REF (-10) → IMPLEMENTATION-CONFIG-VARIANT (0)
     # → MODULE-DESCRIPTION-REF (0) → CONTAINERS (10).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10
+        # Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10
         self.containers: List[Container] = []
 
         # Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10
@@ -1068,7 +1079,7 @@ class ModuleConfiguration(ARElement):
         self.moduleDescriptionRef: Optional[RefType] = None
 
     def createContainer(self, short_name: str) -> Container:
-        """Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10"""
+        """Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10"""
         if not self.IsElementExists(short_name, Container):
             container = Container(self, short_name)
             self.addElement(container)
@@ -1076,7 +1087,7 @@ class ModuleConfiguration(ARElement):
         return self.getElement(short_name, Container)
 
     def getContainers(self) -> List[Container]:
-        """Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10"""
+        """Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10"""
         return self.containers
 
     def getDefinitionRef(self) -> Optional[RefType]:

@@ -1422,3 +1422,52 @@ class TestModuleConfigurationWrite:
         assert child.find("IMPLEMENTATION-CONFIG-VARIANT") is None
         assert child.find("MODULE-DESCRIPTION-REF") is None
         assert child.find("CONTAINERS") is None
+
+    def test_round_trip(self):
+        """
+        Write an ARPackage holding a ModuleConfiguration, reparse it, and assert
+        the field values survive (R3.2.3 Table 3.30; ARPackage.element aggregation).
+        """
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("Pkg")
+        module_configuration = pkg.createModuleConfiguration("Os")
+        module_configuration.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os", "MODULE-DEF"))
+        module_configuration.setImplementationConfigVariant(EcucConfigurationVariantEnum().setValue("VARIANT-PRE-COMPILE"))
+        module_configuration.setModuleDescriptionRef(_ref("/Vendor/OsImplementation", "BSW-IMPLEMENTATION"))
+        container = module_configuration.createContainer("OsOS")
+        container.setDefinitionRef(_ref("/Os/OsOS"))
+        int_value = IntegerValue()
+        int_value.setDefinitionRef(_ref("/Os/OsOS/OsNumberOfCores"))
+        int_value.setValue(UnlimitedInteger().setValue(1))
+        container.addParameterValue(int_value)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            pkg_2 = document_2.getARPackages()[0]
+            module_2 = pkg_2.getElement("Os", ModuleConfiguration)
+            assert module_2 is not None
+            assert module_2.getShortName() == "Os"
+            assert module_2.getDefinitionRef() is not None
+            assert module_2.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os"
+            assert module_2.getDefinitionRef().getDest() == "MODULE-DEF"
+            assert module_2.getImplementationConfigVariant() is not None
+            assert module_2.getImplementationConfigVariant().getValue() == "VARIANT-PRE-COMPILE"
+            assert module_2.getModuleDescriptionRef() is not None
+            assert module_2.getModuleDescriptionRef().getValue() == "/Vendor/OsImplementation"
+            assert module_2.getModuleDescriptionRef().getDest() == "BSW-IMPLEMENTATION"
+            containers_2 = module_2.getContainers()
+            assert len(containers_2) == 1
+            assert containers_2[0].getShortName() == "OsOS"
+            assert containers_2[0].getParameterValues()[0].getDefinitionRef().getValue() == "/Os/OsOS/OsNumberOfCores"
+            assert containers_2[0].getParameterValues()[0].getValue().getValue() == 1
+        finally:
+            os.remove(file_path)
+            document.clear()

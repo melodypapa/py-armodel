@@ -4,6 +4,7 @@ These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemp
 """
 
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    Container,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -15,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    ModuleConfiguration,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
@@ -120,6 +122,158 @@ def test_ecuc_value_collection_member_annotations():
     assert typing.get_type_hints(EcucValueCollection.getEcuExtractRef)["return"] == typing.Optional[RefType]
     assert typing.get_type_hints(EcucValueCollection.setEcuExtractRef)["value"] == typing.Optional[RefType]
     assert typing.get_type_hints(EcucValueCollection.setEcuExtractRef)["return"] is EcucValueCollection
+
+
+def test_module_configuration_initialization_defaults():
+    """
+    ModuleConfiguration (R3.2.3 Table 3.30) defaults: all four spec attributes empty.
+
+    Test Steps:
+    1. Create a ModuleConfiguration instance with parent and short_name
+    2. Assert parent/short_name and the container/definition/implementationConfigVariant/moduleDescription defaults
+    """
+    parent = Limit()
+    module_configuration = ModuleConfiguration(parent, "test_module_configuration")
+
+    assert module_configuration.parent == parent
+    assert module_configuration.short_name == "test_module_configuration"
+    assert module_configuration.containers == []
+    assert module_configuration.getContainers() == []
+    assert module_configuration.definitionRef is None
+    assert module_configuration.getDefinitionRef() is None
+    assert module_configuration.implementationConfigVariant is None
+    assert module_configuration.getImplementationConfigVariant() is None
+    assert module_configuration.moduleDescriptionRef is None
+    assert module_configuration.getModuleDescriptionRef() is None
+
+
+def test_module_configuration_create_container():
+    """
+    createContainer appends to the typed list and a duplicate short name returns the existing container.
+
+    Test Steps:
+    1. Create a Container via createContainer and assert it is appended
+    2. Create the same short name again and assert the existing container is returned
+    """
+    parent = Limit()
+    module_configuration = ModuleConfiguration(parent, "mc")
+
+    container = module_configuration.createContainer("OsOS")
+    assert container is not None
+    assert container.short_name == "OsOS"
+    assert module_configuration.getContainers() == [container]
+
+    duplicate = module_configuration.createContainer("OsOS")
+    assert duplicate is container
+    assert module_configuration.getContainers() == [container]
+
+
+def test_module_configuration_get_set_definition_ref():
+    """
+    setDefinitionRef chains, round-trips, and None is a no-op.
+
+    Test Steps:
+    1. Set a RefType value via setDefinitionRef
+    2. Assert chaining returns self and the value round-trips
+    3. Call setDefinitionRef(None) and assert the value is preserved
+    """
+    parent = Limit()
+    module_configuration = ModuleConfiguration(parent, "mc")
+    definition_ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os")
+
+    result = module_configuration.setDefinitionRef(definition_ref)
+    assert result is module_configuration
+    assert module_configuration.getDefinitionRef() == definition_ref
+
+    module_configuration.setDefinitionRef(None)
+    assert module_configuration.getDefinitionRef() == definition_ref
+
+
+def test_module_configuration_get_set_implementation_config_variant():
+    """
+    setImplementationConfigVariant chains, round-trips the typed enum, and None is a no-op.
+
+    Test Steps:
+    1. Set an EcucConfigurationVariantEnum value via setImplementationConfigVariant
+    2. Assert chaining returns self and the value round-trips
+    3. Call setImplementationConfigVariant(None) and assert the value is preserved
+    """
+    parent = Limit()
+    module_configuration = ModuleConfiguration(parent, "mc")
+    variant = EcucConfigurationVariantEnum().setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
+
+    result = module_configuration.setImplementationConfigVariant(variant)
+    assert result is module_configuration
+    assert module_configuration.getImplementationConfigVariant() == variant
+
+    module_configuration.setImplementationConfigVariant(None)
+    assert module_configuration.getImplementationConfigVariant() == variant
+
+
+def test_module_configuration_get_set_module_description_ref():
+    """
+    setModuleDescriptionRef chains, round-trips, and None is a no-op.
+
+    Test Steps:
+    1. Set a RefType value via setModuleDescriptionRef
+    2. Assert chaining returns self and the value round-trips
+    3. Call setModuleDescriptionRef(None) and assert the value is preserved
+    """
+    parent = Limit()
+    module_configuration = ModuleConfiguration(parent, "mc")
+    description_ref = RefType().setValue("/Vendor/OsImplementation")
+
+    result = module_configuration.setModuleDescriptionRef(description_ref)
+    assert result is module_configuration
+    assert module_configuration.getModuleDescriptionRef() == description_ref
+
+    module_configuration.setModuleDescriptionRef(None)
+    assert module_configuration.getModuleDescriptionRef() == description_ref
+
+
+def test_module_configuration_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the R3.2.3 Table 3.30 Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/creator docstring carries the spec Note verbatim
+    """
+    assert ModuleConfiguration.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Head of the configuration of one Module." in ModuleConfiguration.__doc__, "Class docstring must contain spec Note verbatim"
+
+    notes = {
+        "createContainer": "Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10",
+        "getContainers": "Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10",
+        "getDefinitionRef": "Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10",
+        "setDefinitionRef": "Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10",
+        "getImplementationConfigVariant": "Specifies the ConfigurationVariant used for this ModuleConfiguration.",
+        "setImplementationConfigVariant": "Specifies the ConfigurationVariant used for this ModuleConfiguration.",
+        "getModuleDescriptionRef": "Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs.",
+        "setModuleDescriptionRef": "Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs.",
+    }
+    for method_name, note in notes.items():
+        method = getattr(ModuleConfiguration, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_module_configuration_member_annotations():
+    """get/set/create shall resolve to Optional[RefType] / List[Container] / EcucConfigurationVariantEnum / Container (Rule 0003/0006 — get_type_hints pin; the quoted self-return is this module's required forward-ref form, no PEP 563 here)."""
+    import typing
+
+    assert typing.get_type_hints(ModuleConfiguration.createContainer)["short_name"] is str
+    assert typing.get_type_hints(ModuleConfiguration.createContainer)["return"] is Container
+    assert typing.get_type_hints(ModuleConfiguration.getContainers)["return"] == typing.List[Container]
+    assert typing.get_type_hints(ModuleConfiguration.getDefinitionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(ModuleConfiguration.setDefinitionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(ModuleConfiguration.setDefinitionRef)["return"] is ModuleConfiguration
+    assert typing.get_type_hints(ModuleConfiguration.getImplementationConfigVariant)["return"] == typing.Optional[EcucConfigurationVariantEnum]
+    assert typing.get_type_hints(ModuleConfiguration.setImplementationConfigVariant)["value"] == typing.Optional[EcucConfigurationVariantEnum]
+    assert typing.get_type_hints(ModuleConfiguration.setImplementationConfigVariant)["return"] is ModuleConfiguration
+    assert typing.get_type_hints(ModuleConfiguration.getModuleDescriptionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(ModuleConfiguration.setModuleDescriptionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(ModuleConfiguration.setModuleDescriptionRef)["return"] is ModuleConfiguration
 
 
 def test_ecuc_indexable_value_abstract():

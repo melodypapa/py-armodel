@@ -231,15 +231,147 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R3.2.3-only class — Table 3.30 AUTOSAR_ECU_Configuration.md
+    l.1916 (pdf_page.py: no caption hit in the R3.2.3 PDF → markdown line
+    cited per batch brief). Concrete Class; Package
+    M2::AUTOSARTemplates::ECUCDescriptionTemplate; Note "Head of the
+    configuration of one Module…" verbatim (incl. the spec "tthe" typo);
+    Base most-derived = ARElement (matches src). 4 attrs, displayed order:
+    container (Container, 1..*, aggr) → containers List[Container] +
+    create/get pair; definition (ModuleDef, 1, ref) → definitionRef
+    Optional[RefType] (Rule 0001.5 Ref suffix, module convention);
+    implementationConfigVariant (ConfigurationVariant, 1, attr);
+    moduleDescription (BswImplementation, 0..1, ref) → moduleDescriptionRef
+    Optional[RefType]. Not VP-capable (Rule 0020): atpSplitable only, no
+    atpVariation row, XSD group MODULE-CONFIGURATION (AUTOSAR.xsd l.16416)
+    declares no VARIATION-POINT. XSD XML order DEFINITION-REF (offset -10)
+    → IMPLEMENTATION-CONFIG-VARIANT → MODULE-DESCRIPTION-REF → CONTAINERS
+    (wrapper of CONTAINER*) — reader/writer already follow. XSD
+    DEFINITION-REF/IMPLEMENTATION-CONFIG-VARIANT minOccurs=0 vs spec Mul=1
+    → Optional modeled (accepted deviation, StringValue precedent); DEST
+    use="required" in XSD but Os_ECUC.arxml carries no DEST → DEST
+    optional (RefType helpers round-trip DEST/BASE when present).
+    Aggregated by ARPackage.element (XSD l.222) → ARPackage
+    .createModuleConfiguration factory + reader/writer dispatch exist.
+    Pre-existing state was synced and 9b-stamped by the R3x-ECUC passes —
+    the `# Spec verified: R3.2.3` marker is in the file; batch mode strips
+    the marker (deferred to batch confirmation). Drift found: container
+    Note missing "Stereotypes: atpSplitable" (inline comment +
+    createContainer/getContainers docstrings); `# Spec:` cites
+    unverifiable "p.86 (R3.2 Rev 3)"; stale "Rule 0019.3" deviation
+    citation; mirrored model tests absent (parser/writer tests exist).
+    Rule 0001.10 missing member type: spec attr type ConfigurationVariant
+    (R3.2.3 Table 3.11 l.1200, ECUCParameterDefTemplate pkg) is not in the
+    codebase — placeholder R23-11 EcucConfigurationVariantEnum in use
+    (literal sets differ: R3.2.3 adds VARIANT-POST-BUILD-LOADABLE/SELECTABLE,
+    has no RECOMMENDED-CONFIGURATION) → recorded in Step 8, switch when the
+    class gets its own pass. Container member type is fully synced in the
+    same file (Table 3.31) — not a stub.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): mirrored test_ECUCDescriptionTemplate.py had NO
+      ModuleConfiguration tests (only the R23-11 sibling
+      EcucModuleConfigurationValues) — added the standard set
+      (initialization defaults / createContainer append + duplicate-returns-
+      existing / get-set + None no-op x3 / docstring verbatim /
+      get_type_hints member pins). Seen Red 1 failed / 9 passed: container
+      docstrings lack the spec "Stereotypes: atpSplitable" tail; the 9
+      structural tests pass (R3x-ECUC implementation sound).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES as-is —
+      Base most-derived ARElement (concrete), 4 attrs → dedicated typed
+      fields (`containers: List[Container]` — Container is an Identifiable
+      child so createContainer(short_name) + getElement duplicate check is
+      the Rule 0001.6 shape; definitionRef/moduleDescriptionRef
+      Optional[RefType] per the kind-ref Ref suffix; implementationConfigVariant
+      Optional[EcucConfigurationVariantEnum] placeholder, see Step 8),
+      None-guarded setters returning self, mutator-first accessor order, no
+      fabricated fields. Net code change: none (R3x-ECUC implementation
+      already spec-shaped); structural tests Green 8 passed (the remaining
+      Red is the Step 4 docstring scope).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): all 11 member docstrings + 4 inline `__init__` comments
+      re-diffed against the corpus — only the 3 container strings were
+      stale (missing "Stereotypes: atpSplitable"); fixed in the inline
+      comment + createContainer/getContainers docstrings (full Note cell
+      verbatim incl. Tags tail, EcucValueCollection batch precedent);
+      class docstring = Table 3.30 Note verbatim (multi-paragraph form,
+      "tthe" spec typo preserved); setter None-no-op sentences are
+      code-behavior notes; `__init__` has no docstring; blank line between
+      attribute blocks; PEP 526 annotated members. Wipe+rewrite net diff =
+      the 3 container strings; module suite 10 passed.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): coverage mostly pre-existing from the R3x-ECUC passes
+      (parser test_arxml_parser_ecuc_handlers.py TestModuleConfiguration —
+      full read with all 4 attrs + field-value asserts incl. enum, and the
+      minimal None case; writer test_writer_ecuc_values_variant.py
+      TestModuleConfigurationWrite — full write in XSD order + minimal
+      no-wrapper case). ADDED TestModuleConfigurationWrite.test_round_trip
+      (ARPackage factory → save → reload → assert refs + DEST attrs +
+      enum value + container one level down; Rule 0006 end-to-end). No
+      genuine Red observable — reader/writer were already complete; the
+      first run failed on this test's own expected-string typo
+      (expected VARIANT-PRE-COMPLETE vs the XSD's VARIANT-PRE-COMPILE), fixed in
+      the test; parser+writer+orchestrator+os-ecuc suites 556 passed.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): none needed — readModuleConfiguration (parser
+      l.13230: readIdentifiable + setDefinitionRef /
+      setImplementationConfigVariant / setModuleDescriptionRef via optional
+      helpers, CONTAINERS/* iterated into createContainer + readContainer)
+      and writeModuleConfiguration (writer l.12799: writeIdentifiable +
+      matched getters, CONTAINERS wrapper only when non-empty) are matched
+      Rule 0013.2 pairs, single mutator statements, XSD sequence order
+      (DEFINITION-REF → IMPLEMENTATION-CONFIG-VARIANT →
+      MODULE-DESCRIPTION-REF → CONTAINERS). ARPackage.element dispatch
+      branches present both sides (parser l.14713 MODULE-CONFIGURATION →
+      createModuleConfiguration + readModuleConfiguration; writer l.14448
+      isinstance ModuleConfiguration → writeModuleConfiguration).
+      Rule 0013 chained-mutator greps clean (see Step 9 note).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block rewritten in source order (mutator-first
+      for the `*` attr: createContainer → getContainers; getter-first for
+      the scalar pairs) — `# Spec:
+      R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.30, l.1916 (R3.2.3)`
+      (unverifiable `p.86 (R3.2 Rev 3)` replaced; pdf_page.py has no R3.2.3
+      caption hit → markdown line per brief); `# Spec verified: R3.2.3`
+      marker STRIPPED per batch mode (stamp deferred to batch
+      confirmation); naming note separated (Rule 0001.5 Ref suffix — not a
+      deviation); deviation rows renumbered with the real XSD line +
+      fixture evidence (stale "Rule 0019.3" citation removed) + the NEW
+      Rule 0001.10 placeholder row for the ConfigurationVariant type; test
+      column claims now genuinely [x] (model tests added in Step 2).
+  - [x] Step 8 — Deviations
+    - note (Step 8): three accepted deviations, mirrored inline + tracker
+      (docs/examples/method_deviation_by_class.md, new ModuleConfiguration
+      section): (1) definition + implementationConfigVariant optional —
+      spec Mul=1 vs XSD group MODULE-CONFIGURATION l.16416 minOccurs=0
+      (Os_ECUC.arxml carries neither); (2) DEFINITION-REF/
+      MODULE-DESCRIPTION-REF DEST optional — XSD use="required" but
+      Os_ECUC.arxml carries no DEST (lossless round-trip; BASE/DEST
+      round-trip when present); (3) Rule 0001.10 placeholder —
+      implementationConfigVariant spec type ConfigurationVariant (R3.2.3
+      Table 3.11 l.1200, ECUCParameterDefTemplate pkg) not in the codebase;
+      R23-11 EcucConfigurationVariantEnum placeholder (literal sets
+      differ) — class not yet implemented, switch when it gets its own
+      pass (queuing it is the orchestrator's call). Naming rows are NOT
+      deviations (Rule 0001.5 Ref suffix, module convention). v2 tracker is
+      script-generated — left to its next regen (ConfigReferenceValue
+      precedent). Container member type fully synced (Table 3.31, same
+      file) — not a stub.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14964 passed / 0
+    failed, lint + black clean); 9b deferred to batch confirmation
+    (user instruction)
+    - note (Step 9): set-based check passed (checklist == methods — __init__,
+      createContainer, getContainers, get/setDefinitionRef,
+      get/setImplementationConfigVariant, get/setModuleDescriptionRef —
+      all test-covered, no `# type:` comments, member order = displayed
+      row order, mutator-first for the `*` attr); `armodel
+      .ModuleConfiguration` top-level export resolves; Rule 0013
+      chained-mutator greps show only pre-existing construction chains
+      (XxxEnum().setValue(...) inside one mutator call — untouched
+      regions); full suite green incl. the 11 integration round-trips
+      (Os_ECUC.arxml carries MODULE-CONFIGURATION); black clean on all
+      touched files; no marker in batch mode.
 
 - [ ] `EcucConfigurationClassEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
