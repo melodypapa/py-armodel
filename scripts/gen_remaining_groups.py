@@ -199,7 +199,11 @@ def fmt_row(pdf, tid, page):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--dry-run", action="store_true", help="print the plan without writing Group files")
+    parser.add_argument("--out", default=None, help="output directory (default: docs/plan/sync-todo); tracking always reads the real sync-todo dir")
     args = parser.parse_args()
+    out_dir = Path(args.out).resolve() if args.out else SYNC
+    if args.out:
+        out_dir.mkdir(parents=True, exist_ok=True)
 
     r23 = load_r23_rows()
     tracked, group_files = load_tracked()
@@ -219,7 +223,7 @@ def main():
     files = pack_files(build_segments(r23, candidates, votes, rank))
     for i, entries in enumerate(files):
         n = FIRST_NEW_GROUP + i
-        out = SYNC / ("Group%d.md" % n)
+        out = out_dir / ("Group%d.md" % n)
         if out.exists() and not args.dry_run:
             sys.exit("error: %s already exists — move or delete it first" % out)
 
@@ -244,7 +248,7 @@ def main():
         lines.append("")
         print("Group%d: %s (%d rows)" % (n, " · ".join(title_parts(entries)), len(entries)))
         if not args.dry_run:
-            out.write_text("\n".join(lines), encoding="utf-8")
+            (out_dir / ("Group%d.md" % n)).write_text("\n".join(lines), encoding="utf-8")
 
     multi = sum(1 for _, name, _, others in (e for f in files for e in f) if others)
     print("wrote %d groups, %d rows (%d rows carry `also` citations)" % (len(files), len(candidates), multi))
