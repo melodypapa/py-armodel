@@ -1869,10 +1869,6 @@ class IEEE1722TpRvfPixelFormatEnum(AREnum):
     pass
 
 
-class IPsecDpdActionEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 

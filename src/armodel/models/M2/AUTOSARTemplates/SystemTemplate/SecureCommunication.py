@@ -1111,6 +1111,36 @@ class IPsecHeaderTypeEnum(AREnum):
         )
 
 
+class IPsecDpdActionEnum(AREnum):
+    """
+    Potential Dead Peer Detection (Dpd) Actions
+    """
+
+    # IPsecDpdActionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.228, p.577
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IPSecRule/IPSecConfigProps members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Deletes the SA. Tags: atp.EnumerationLiteralIndex=0
+    CLEAR = "clear"
+
+    # Immediately tries to establish the connection. Tags: atp.EnumerationLiteralIndex=2
+    RESTART = "restart"
+
+    # tries to establish the connection after traffic is sent to the peer. Tags: atp.EnumerationLiteralIndex=1
+    TRAP = "trap"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IPsecDpdActionEnum.CLEAR,
+                IPsecDpdActionEnum.RESTART,
+                IPsecDpdActionEnum.TRAP,
+            ]
+        )
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.
