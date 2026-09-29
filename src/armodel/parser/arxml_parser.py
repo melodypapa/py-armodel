@@ -727,7 +727,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess, VariableAccessScopeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
@@ -1258,6 +1258,14 @@ SW_IMPL_POLICY_XML_MAP = {
     "measurementPoint": "MEASUREMENT-POINT",
     "queued": "QUEUED",
     "standard": "STANDARD",
+}
+
+#: Mapping between VariableAccessScopeEnum literal values and their XML element text
+#: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
+VARIABLE_ACCESS_SCOPE_XML_MAP = {
+    "communicationInterEcu": "COMMUNICATION-INTER-ECU",
+    "communicationIntraPartition": "COMMUNICATION-INTRA-PARTITION",
+    "interPartitionIntraEcu": "INTER-PARTITION-INTRA-ECU",
 }
 
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
@@ -7138,7 +7146,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readVariableAccess(self, element: ET.Element, access: VariableAccess):
         self.readIdentifiable(element, access)
         access.setAccessedVariable(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
-        access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
+        literal = self.getChildElementOptionalLiteral(element, "SCOPE")
+        if literal is not None:
+            camel = None
+            for camel_value, token in VARIABLE_ACCESS_SCOPE_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                access.setScope(VariableAccessScopeEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SCOPE <%s>" % literal.getText())
 
     def getTransformationComSpecProps(self, element: ET.Element) -> Optional[TransformationComSpecProps]:
         child = self.find(element, "*")

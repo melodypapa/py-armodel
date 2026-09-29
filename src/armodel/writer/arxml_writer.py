@@ -1110,6 +1110,14 @@ SW_IMPL_POLICY_XML_MAP = {
     "standard": "STANDARD",
 }
 
+#: Mapping between VariableAccessScopeEnum literal values and their XML element text
+#: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
+VARIABLE_ACCESS_SCOPE_XML_MAP = {
+    "communicationInterEcu": "COMMUNICATION-INTER-ECU",
+    "communicationIntraPartition": "COMMUNICATION-INTRA-PARTITION",
+    "interPartitionIntraEcu": "INTER-PARTITION-INTRA-ECU",
+}
+
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
     "cat1": "CAT-1",
     "cat2": "CAT-2",
@@ -1953,7 +1961,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeIdentifiable(child_element, access)
             self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
-            self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
+            scope = access.getScope()
+            if scope is not None:
+                token = VARIABLE_ACCESS_SCOPE_XML_MAP.get(scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported SCOPE <%s>" % scope.getValue())
+                else:
+                    scope_element = ET.SubElement(child_element, "SCOPE")
+                    scope_element.text = token
 
     def setSwValues(self, element: ET.Element, key: str, sw_values: SwValues):
         if sw_values is not None:
@@ -4144,7 +4159,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
         self.writeIdentifiable(child_element, access)
         self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
-        self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
+        scope = access.getScope()
+        if scope is not None:
+            token = VARIABLE_ACCESS_SCOPE_XML_MAP.get(scope.getValue())
+            if token is None:
+                self.notImplemented("Unsupported SCOPE <%s>" % scope.getValue())
+            else:
+                scope_element = ET.SubElement(child_element, "SCOPE")
+                scope_element.text = token
 
     def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: ParameterInAtomicSWCTypeInstanceRef):
         if parameter_iref is not None:

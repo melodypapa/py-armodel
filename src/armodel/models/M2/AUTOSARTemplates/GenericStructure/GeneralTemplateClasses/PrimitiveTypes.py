@@ -1931,7 +1931,3 @@ class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
 
 class SwitchStreamFilterActionPortModificationEnum(AREnum):
     pass
-
-
-class VariableAccessScopeEnum(AREnum):
-    pass

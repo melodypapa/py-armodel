@@ -2842,7 +2842,7 @@ STUBS = [
         "AbstractValueRestriction",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
+        "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements",
         "VariableAccessScopeEnum",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
         "AREnum",

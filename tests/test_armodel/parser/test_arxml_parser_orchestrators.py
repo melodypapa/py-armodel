@@ -1475,7 +1475,7 @@ class TestRunnableEntityOrchestrator:
         assert iref.getPortPrototypeRef().getValue() == "/pp"
         assert iref.getTargetDataPrototypeRef().getValue() == "/Var"
         assert access.getScope() is not None
-        assert access.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
+        assert access.getScope().getValue() == "communicationIntraPartition"
 
     def test_readRunnableEntity_with_asynchronousServerCallResultPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
