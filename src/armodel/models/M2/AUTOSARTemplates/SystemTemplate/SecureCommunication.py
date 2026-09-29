@@ -1081,6 +1081,36 @@ class IPsecModeEnum(AREnum):
         )
 
 
+class IPsecHeaderTypeEnum(AREnum):
+    """
+    IPsec Header Type options
+    """
+
+    # IPsecHeaderTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.227, p.576
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IPSecRule/IPSecConfigProps members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Authentication Header (AH) Tags: atp.EnumerationLiteralIndex=0
+    AH = "ah"
+
+    # Encapsulating Security Payloads (ESP) Tags: atp.EnumerationLiteralIndex=1
+    ESP = "esp"
+
+    # No header Tags: atp.EnumerationLiteralIndex=2
+    NONE = "none"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IPsecHeaderTypeEnum.AH,
+                IPsecHeaderTypeEnum.ESP,
+                IPsecHeaderTypeEnum.NONE,
+            ]
+        )
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.

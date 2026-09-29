@@ -1873,10 +1873,6 @@ class IPsecDpdActionEnum(AREnum):
     pass
 
 
-class IPsecHeaderTypeEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 
