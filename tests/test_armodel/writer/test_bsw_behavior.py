@@ -152,6 +152,38 @@ class TestBswExclusiveAreaPolicy:
         assert behavior_2.getExclusiveAreaPolicies() == []
 
 
+class TestBswExternalTriggerOccurredEvent:
+    def test_round_trip_full(self, tmp_path):
+        document, behavior = _make_behavior()
+        event = behavior.createBswExternalTriggerOccurredEvent("Evt")
+        event.setStartsOnEventRef(_ref("/Pkg/Ent", "BSW-SCHEDULABLE-ENTITY"))
+        event.addContextLimitationRef(_ref("/Pkg/Part1", "BSW-DISTINGUISHED-PARTITION"))
+        event.setTriggerRef(_ref("/Pkg/Trig", "TRIGGER"))
+
+        raw, behavior_2 = _reload(tmp_path, document, "etoe.arxml")
+        events = behavior_2.getBswExternalTriggerOccurredEvents()
+        assert len(events) == 1
+        assert events[0].getShortName() == "Evt"
+        assert events[0].getTriggerRef().getValue() == "/Pkg/Trig"
+        assert events[0].getTriggerRef().getDest() == "TRIGGER"
+        assert events[0].getStartsOnEventRef().getValue() == "/Pkg/Ent"
+        limitations = events[0].getContextLimitationRefs()
+        assert len(limitations) == 1
+        assert limitations[0].getValue() == "/Pkg/Part1"
+        assert raw.index("CONTEXT-LIMITATION-REFS") < raw.index("STARTS-ON-EVENT-REF") < raw.index("TRIGGER-REF")
+
+    def test_round_trip_empty(self, tmp_path):
+        document, behavior = _make_behavior()
+        behavior.createBswExternalTriggerOccurredEvent("Evt")
+
+        raw, behavior_2 = _reload(tmp_path, document, "etoe_empty.arxml")
+        events = behavior_2.getBswExternalTriggerOccurredEvents()
+        assert len(events) == 1
+        assert events[0].getTriggerRef() is None
+        assert events[0].getContextLimitationRefs() == []
+        assert "TRIGGER-REF" not in raw
+
+
 def _bool(value):
     b = Boolean()
     b.setValue(value)
