@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 498 | 25.9% |
+| [x] Done | 499 | 26.0% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 174 | 9.1% |
+| [ ] Deferred | 173 | 9.0% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -1272,7 +1272,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeDeclaration`                                       | [ ] Pending | N/A                                      | Group22          |
 | `ModeDeclarationGroup`                                  | [ ] Pending | N/A                                      | Group22          |
 | `ModeDeclarationGroupPrototype`                         | [x] Done    | 51f2e1155f                               | Group1           |
-| `ModeDeclarationGroupPrototypeMapping`                  | [ ] Deferred| N/A                                      | Group11          |
+| `ModeDeclarationGroupPrototypeMapping`                  | [x] Done    | 96e9f073a2                               | Group11          |
 | `ModeDeclarationMapping`                                | [ ] Pending | N/A                                      | Group27          |
 | `ModeDeclarationMappingSet`                             | [x] Done    | eeec29b637                               | Group1           |
 | `ModeDrivenTransmissionModeCondition`                   | [x] Done    | 206cf29517                               | Group5           |
