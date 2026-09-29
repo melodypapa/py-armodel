@@ -9,10 +9,14 @@ Round-trip counterpart: tests/test_armodel/parser/test_bsw_behavior.py
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswExclusiveAreaPolicy
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswExclusiveAreaPolicy,
+    BswTriggerDirectImplementation,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    Identifier,
     PositiveInteger,
     RefType,
     TimeValue,
@@ -214,6 +218,32 @@ class TestBswOperationInvokedEvent:
         assert events[0].getEntryRef() is None
         assert events[0].getContextLimitationRefs() == []
         assert "ENTRY-REF" not in raw
+
+
+class TestBswTriggerDirectImplementation:
+    def test_round_trip_full(self, tmp_path):
+        document, behavior = _make_behavior()
+        implementation = BswTriggerDirectImplementation()
+        implementation.setCat2Isr(Identifier().setValue("OsIsr1"))
+        implementation.setMasteredTriggerRef(_ref("/Pkg/Trig", "TRIGGER"))
+        implementation.setTask(Identifier().setValue("OsTask1"))
+        behavior.addTriggerDirectImplementation(implementation)
+
+        raw, behavior_2 = _reload(tmp_path, document, "tdi.arxml")
+        implementations = behavior_2.getTriggerDirectImplementations()
+        assert len(implementations) == 1
+        assert implementations[0].getCat2Isr().getValue() == "OsIsr1"
+        assert implementations[0].getMasteredTriggerRef().getValue() == "/Pkg/Trig"
+        assert implementations[0].getMasteredTriggerRef().getDest() == "TRIGGER"
+        assert implementations[0].getTask().getValue() == "OsTask1"
+        assert raw.index("CAT-2-ISR") < raw.index("MASTERED-TRIGGER-REF") < raw.index("TASK")
+
+    def test_no_wrapper_when_no_implementations(self, tmp_path):
+        document, _ = _make_behavior()
+
+        raw, behavior_2 = _reload(tmp_path, document, "tdi_empty.arxml")
+        assert "TRIGGER-DIRECT-IMPLEMENTATIONS" not in raw
+        assert behavior_2.getTriggerDirectImplementations() == []
 
 
 def _bool(value):

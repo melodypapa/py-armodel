@@ -3281,12 +3281,12 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.38, p.102
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getCat2Isr              [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setCat2Isr              [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getTask                 [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setTask                 [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getCat2Isr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCat2Isr              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

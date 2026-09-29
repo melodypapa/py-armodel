@@ -215,3 +215,25 @@ class TestBswOperationInvokedEvent:
         assert events_2[0].getEntryRef().getValue() == "/Pkg/CsEntry"
         assert events_2[0].getStartsOnEventRef() is None
         assert events_2[0].getContextLimitationRefs() == []
+
+
+class TestBswTriggerDirectImplementation:
+    def test_read_full(self, tmp_path):
+        implementations = """<TRIGGER-DIRECT-IMPLEMENTATIONS>
+            <BSW-TRIGGER-DIRECT-IMPLEMENTATION>
+                <CAT-2-ISR>OsIsr1</CAT-2-ISR>
+                <MASTERED-TRIGGER-REF DEST="TRIGGER">/Pkg/Trig</MASTERED-TRIGGER-REF>
+                <TASK>OsTask1</TASK>
+            </BSW-TRIGGER-DIRECT-IMPLEMENTATION>
+        </TRIGGER-DIRECT-IMPLEMENTATIONS>"""
+        _, behavior = _load_behavior(tmp_path, implementations)
+        implementations_2 = behavior.getTriggerDirectImplementations()
+        assert len(implementations_2) == 1
+        assert implementations_2[0].getCat2Isr().getValue() == "OsIsr1"
+        assert implementations_2[0].getMasteredTriggerRef().getValue() == "/Pkg/Trig"
+        assert implementations_2[0].getMasteredTriggerRef().getDest() == "TRIGGER"
+        assert implementations_2[0].getTask().getValue() == "OsTask1"
+
+    def test_read_empty_wrapper(self, tmp_path):
+        _, behavior = _load_behavior(tmp_path, "<TRIGGER-DIRECT-IMPLEMENTATIONS></TRIGGER-DIRECT-IMPLEMENTATIONS>")
+        assert behavior.getTriggerDirectImplementations() == []
