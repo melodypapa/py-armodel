@@ -3061,7 +3061,44 @@ class IdsDesign(ARElement):
 
 
 class LifeCycleStateDefinitionGroup(ARElement):
-    pass
+    """
+    This meta class represents the ability to define the states and properties of one particular life cycle. Tags: atp.recommendedPackage=LifeCycleStateDefintionGroups
+    """
+
+    # LifeCycleStateDefinitionGroup method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.1, p.388
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createLcState    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getLcStates      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Describes a single life cycle state of this life cycle state definition group.
+        self.lcStates: List[LifeCycleState] = []
+
+    def createLcState(self, short_name: str) -> LifeCycleState:
+        """
+        Creates a LifeCycleState of this life cycle state definition group with the given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new LifeCycleState
+
+        Returns:
+            The created (or existing) LifeCycleState
+        """
+        if not self.IsElementExists(short_name, LifeCycleState):
+            state = LifeCycleState(self, short_name)
+            self.addElement(state)
+            self.lcStates.append(state)
+        return self.getElement(short_name, LifeCycleState)
+
+    def getLcStates(self) -> List[LifeCycleState]:
+        """
+        Describes a single life cycle state of this life cycle state definition group.
+        """
+        return self.lcStates
 
 
 class PhysicalDimensionMappingSet(ARElement):
