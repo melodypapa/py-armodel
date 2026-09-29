@@ -21,6 +21,7 @@ class ModeActivationKind(AREnum):
 
     # ModeActivationKind method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.34, p.96
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on BswModeSwitchEvent.activation, SwcModeSwitchEvent.activation
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
