@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 497 | 25.9% |
+| [x] Done | 498 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 175 | 9.1% |
+| [ ] Deferred | 174 | 9.1% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -1268,7 +1268,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MlFormula`                                             | [ ] Pending | N/A                                      | Group21          |
 | `ModeAccessPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
 | `ModeAccessPointIdent`                                  | [x] Done    | 918013a6ce                               | Group1           |
-| `ModeActivationKind`                                    | [ ] Deferred| N/A                                      | Group11          |
+| `ModeActivationKind`                                    | [x] Done    | 1625966930                               | Group11          |
 | `ModeDeclaration`                                       | [ ] Pending | N/A                                      | Group22          |
 | `ModeDeclarationGroup`                                  | [ ] Pending | N/A                                      | Group22          |
 | `ModeDeclarationGroupPrototype`                         | [x] Done    | 51f2e1155f                               | Group1           |

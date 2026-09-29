@@ -15,7 +15,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `ModeActivationKind` — AREnum — R23-11 markdown · Table 5.34 (CP_TPS_BSWModuleDescriptionTemplate)
+- [x] `ModeActivationKind` — AREnum — R23-11 markdown · Table 5.34 (CP_TPS_BSWModuleDescriptionTemplate) — **finished, stamped `# Spec verified: R23-11`** (sync commit 0ec24e85f, stamp commit 16259669)
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — reviewed at Step 1: only intake listings (no deviation rows; `activation` row = ok)
   - [x] Step 1 — Sync members & description from spec (Table 5.34, p.96; SWC TPS Table 7.18 p.545 renders the same enum — both agree; literals onEntry/onExit/onTransition, indices 0-2 = XSD doc order; found: `__init__` docstring present, class Note line-wrapped, old 4-column checklist without release column)
@@ -26,7 +26,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer code added for the enum itself; writer verified: `writeBswModeSwitchEvent` (arxml_writer.py:6978) + `writeSwcModeSwitchEvent` (arxml_writer.py:3573) emit `ACTIVATION` via `setChildElementOptionalLiteral`/`getActivation`)
   - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row with release R23-11, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.34, p.96`; NO `# Spec verified:` — deferred to batch confirmation)
   - [x] Step 8 — Deviations (fixed+recorded in step notes: line-wrapped class Note → single-line verbatim, `__init__` docstring removed, wrapped ON_TRANSITION comment → single-line `Tags:` form, old 4-column checklist → 6-column with release column; no pre-existing `# Spec verified:`/`# XSD verified:` marker to invalidate; no open deviations — tracker mentions are intake listings only, `activation` row = ok)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 11907 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 11907 unit tests + flake8 + ruff + black green; 9b user-confirmed 2026-09-29: Rules 0001.1–0001.3/0007/0014 pass (standalone AREnum, literals+indices spec-correct, CommonStructure/ModeDeclaration.py non-leaf shape, no open deviations); `# Spec verified: R23-11` written after the `# Spec:` line, checklist-vs-methods script + 514 focused tests + lint + black-check re-run green at stamping]
 
 - [ ] `ModeDeclarationGroupPrototypeMapping` — ARObject — R23-11 markdown · Table 4.27 (CP_TPS_SoftwareComponentTemplate)
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py

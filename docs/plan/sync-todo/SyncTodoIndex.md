@@ -575,11 +575,11 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **1/24** completed
+Status: **2/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
-| `ModeActivationKind`                   | [ ] Pending* | N/A        |
+| `ModeActivationKind`                   | [x] Done     | 1625966930 |
 | `ModeDeclarationGroupPrototypeMapping` | [ ] Pending* | N/A        |
 | `ModeRequestTypeMap`                   | [ ] Pending* | N/A        |
 | `ClientServerApplicationErrorMapping`  | [ ] Pending* | N/A        |
