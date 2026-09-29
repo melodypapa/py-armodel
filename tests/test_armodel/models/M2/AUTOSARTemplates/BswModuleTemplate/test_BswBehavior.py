@@ -59,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, Numerical, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
@@ -762,21 +763,39 @@ class TestBswOperationInvokedEvent:
         assert event.short_name == "test_operation_invoked_event"
         assert event.getEntryRef() is None
 
-    def test_set_entry_ref(self):
+    def test_get_set_entry_ref(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = BswOperationInvokedEvent(ar_root, "test_operation_invoked_event")
 
         ref = RefType()
+        ref.setValue("/CP/BswModuleClientServerEntry")
+        ref.setDest("BSW-MODULE-CLIENT-SERVER-ENTRY")
         result = event.setEntryRef(ref)
 
-        assert result == event
+        assert result is event
         assert event.getEntryRef() == ref
 
-        # Setting None should not change the value (based on implementation)
-        result = event.setEntryRef(None)
-        assert result == event
-        assert event.getEntryRef() == ref  # Value should remain unchanged
+    def test_set_entry_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswOperationInvokedEvent(ar_root, "test_operation_invoked_event")
+
+        ref = RefType()
+        ref.setValue("/CP/BswModuleClientServerEntry")
+        event.setEntryRef(ref)
+        event.setEntryRef(None)
+
+        assert event.getEntryRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswOperationInvokedEvent.getEntryRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswOperationInvokedEvent.setEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswOperationInvokedEvent
 
 
 class TestBswScheduleEvent:
@@ -1356,21 +1375,117 @@ class TestBswExternalTriggerOccurredEvent:
         assert event.short_name == "test_external_trigger_event"
         assert event.getTriggerRef() is None
 
-    def test_set_trigger_ref(self):
+    def test_get_set_trigger_ref(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = BswExternalTriggerOccurredEvent(ar_root, "test_external_trigger_event")
 
         ref = RefType()
+        ref.setValue("/CP/Trigger")
+        ref.setDest("TRIGGER")
         result = event.setTriggerRef(ref)
 
-        assert result == event
+        assert result is event
         assert event.getTriggerRef() == ref
 
-        # Setting None should not change the value (based on implementation)
-        result = event.setTriggerRef(None)
-        assert result == event
-        assert event.getTriggerRef() == ref  # Value should remain unchanged
+    def test_set_trigger_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswExternalTriggerOccurredEvent(ar_root, "test_external_trigger_event")
+
+        ref = RefType()
+        ref.setValue("/CP/Trigger")
+        event.setTriggerRef(ref)
+        event.setTriggerRef(None)
+
+        assert event.getTriggerRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswExternalTriggerOccurredEvent.getTriggerRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswExternalTriggerOccurredEvent.setTriggerRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswExternalTriggerOccurredEvent
+
+
+class TestBswTriggerDirectImplementation:
+    """Test cases for BswTriggerDirectImplementation class - specifies a released trigger to be directly implemented via OS calls."""
+
+    def test_initialization(self):
+        implementation = BswTriggerDirectImplementation()
+
+        assert implementation.getCat2Isr() is None
+        assert implementation.getMasteredTriggerRef() is None
+        assert implementation.getTask() is None
+
+    def test_get_set_cat2_isr(self):
+        implementation = BswTriggerDirectImplementation()
+
+        result = implementation.setCat2Isr("ISR_OsCat2")
+        assert result is implementation
+        assert implementation.getCat2Isr() == "ISR_OsCat2"
+
+    def test_set_cat2_isr_none_is_noop(self):
+        implementation = BswTriggerDirectImplementation()
+        implementation.setCat2Isr("ISR_OsCat2")
+        implementation.setCat2Isr(None)
+
+        assert implementation.getCat2Isr() == "ISR_OsCat2"
+
+    def test_get_set_mastered_trigger_ref(self):
+        implementation = BswTriggerDirectImplementation()
+
+        ref = RefType()
+        ref.setValue("/CP/Trigger")
+        ref.setDest("TRIGGER")
+        result = implementation.setMasteredTriggerRef(ref)
+
+        assert result is implementation
+        assert implementation.getMasteredTriggerRef() == ref
+
+    def test_set_mastered_trigger_ref_none_is_noop(self):
+        implementation = BswTriggerDirectImplementation()
+
+        ref = RefType()
+        ref.setValue("/CP/Trigger")
+        implementation.setMasteredTriggerRef(ref)
+        implementation.setMasteredTriggerRef(None)
+
+        assert implementation.getMasteredTriggerRef() == ref
+
+    def test_get_set_task(self):
+        implementation = BswTriggerDirectImplementation()
+
+        result = implementation.setTask("OsTask_Trigger")
+        assert result is implementation
+        assert implementation.getTask() == "OsTask_Trigger"
+
+    def test_set_task_none_is_noop(self):
+        implementation = BswTriggerDirectImplementation()
+        implementation.setTask("OsTask_Trigger")
+        implementation.setTask(None)
+
+        assert implementation.getTask() == "OsTask_Trigger"
+
+    def test_base_per_spec(self):
+        """The spec Base chain for BswTriggerDirectImplementation is ARObject only."""
+        assert BswTriggerDirectImplementation.__bases__ == (ARObject,)
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        for getter, setter in [
+            (BswTriggerDirectImplementation.getCat2Isr, BswTriggerDirectImplementation.setCat2Isr),
+            (BswTriggerDirectImplementation.getMasteredTriggerRef, BswTriggerDirectImplementation.setMasteredTriggerRef),
+            (BswTriggerDirectImplementation.getTask, BswTriggerDirectImplementation.setTask),
+        ]:
+            getter_hints = typing.get_type_hints(getter)
+            assert getter_hints.get("return") == typing.Optional[Identifier]
+
+            setter_hints = typing.get_type_hints(setter)
+            assert setter_hints.get("value") == typing.Optional[Identifier]
+            assert setter_hints.get("return") is BswTriggerDirectImplementation
 
 
 class TestBswApiOptions:

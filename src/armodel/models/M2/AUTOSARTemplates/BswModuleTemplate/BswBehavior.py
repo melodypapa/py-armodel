@@ -1598,47 +1598,32 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
 
 class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered by an external trigger in a BSW module.
-    This event occurs when an external source generates a trigger.
+    A BswEvent resulting from a trigger released by another module or cluster.
     """
 
     # BswExternalTriggerOccurredEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getTriggerRef                [x] impl  [x] docstring  [ ] test
-    # [x] setTriggerRef                [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.30, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTriggerRef  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setTriggerRef  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
-        """
-        Initializes the BswExternalTriggerOccurredEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Reference to the external trigger that caused this event
-        self.triggerRef: RefType = None
+        # The trigger associated with this event. The trigger is external to this module.
+        self.triggerRef: Optional[RefType] = None
 
-    def getTriggerRef(self):
+    def getTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the external trigger that caused this event.
-
-        Returns:
-            Reference to the external trigger
+        The trigger associated with this event. The trigger is external to this module.
         """
         return self.triggerRef
 
-    def setTriggerRef(self, value):
+    def setTriggerRef(self, value: Optional[RefType]) -> BswExternalTriggerOccurredEvent:
         """
-        Sets the reference to the external trigger that caused this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The trigger reference to set
-
-        Returns:
-            self for method chaining
+        The trigger associated with this event. The trigger is external to this module.
+        A None value is a no-op and does not overwrite an existing triggerRef.
         """
         if value is not None:
             self.triggerRef = value
