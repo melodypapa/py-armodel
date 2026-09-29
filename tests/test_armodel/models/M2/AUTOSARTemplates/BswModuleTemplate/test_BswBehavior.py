@@ -1375,6 +1375,99 @@ class TestBswModeSenderPolicy:
         assert hints.get("return") is BswModeSenderPolicy
 
 
+class TestBswModeReceiverPolicy:
+    """Test cases for BswModeReceiverPolicy class - specifies the details for the reception of a mode switch for the referred mode group."""
+
+    def test_initialization(self):
+        policy = BswModeReceiverPolicy()
+
+        assert policy.getEnhancedModeApi() is None
+        assert policy.getRequiredModeGroupRef() is None
+        assert policy.getSupportsAsynchronousModeSwitch() is None
+
+    def test_base_is_ar_object(self):
+        """Table 5.41 Base chain is ARObject only (no VariationPointCapable)."""
+        assert issubclass(BswModeReceiverPolicy, ARObject)
+        assert BswModeReceiverPolicy.__bases__ == (ARObject,)
+
+    def test_no_init_docstring(self):
+        """__init__ carries no docstring (the spec Note lives on the class docstring)."""
+        assert BswModeReceiverPolicy.__init__.__doc__ is None
+
+    def test_get_set_enhanced_mode_api(self):
+        policy = BswModeReceiverPolicy()
+
+        result = policy.setEnhancedModeApi(True)
+
+        assert result == policy
+        assert policy.getEnhancedModeApi() is True
+
+    def test_set_enhanced_mode_api_none_is_noop(self):
+        policy = BswModeReceiverPolicy()
+
+        policy.setEnhancedModeApi(True)
+        policy.setEnhancedModeApi(None)
+
+        assert policy.getEnhancedModeApi() is True
+
+    def test_get_set_required_mode_group_ref(self):
+        policy = BswModeReceiverPolicy()
+
+        ref = RefType()
+        result = policy.setRequiredModeGroupRef(ref)
+
+        assert result == policy
+        assert policy.getRequiredModeGroupRef() == ref
+
+    def test_set_required_mode_group_ref_none_is_noop(self):
+        policy = BswModeReceiverPolicy()
+
+        ref = RefType()
+        policy.setRequiredModeGroupRef(ref)
+        policy.setRequiredModeGroupRef(None)
+
+        assert policy.getRequiredModeGroupRef() == ref
+
+    def test_get_set_supports_asynchronous_mode_switch(self):
+        policy = BswModeReceiverPolicy()
+
+        result = policy.setSupportsAsynchronousModeSwitch(True)
+
+        assert result == policy
+        assert policy.getSupportsAsynchronousModeSwitch() is True
+
+    def test_set_supports_asynchronous_mode_switch_none_is_noop(self):
+        policy = BswModeReceiverPolicy()
+
+        policy.setSupportsAsynchronousModeSwitch(True)
+        policy.setSupportsAsynchronousModeSwitch(None)
+
+        assert policy.getSupportsAsynchronousModeSwitch() is True
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        hints = typing.get_type_hints(BswModeReceiverPolicy.getEnhancedModeApi)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.setEnhancedModeApi)
+        assert hints.get("value") == typing.Optional[Boolean]
+        assert hints.get("return") is BswModeReceiverPolicy
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.getRequiredModeGroupRef)
+        assert hints.get("return") == typing.Optional[RefType]
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.setRequiredModeGroupRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is BswModeReceiverPolicy
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.getSupportsAsynchronousModeSwitch)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.setSupportsAsynchronousModeSwitch)
+        assert hints.get("value") == typing.Optional[Boolean]
+        assert hints.get("return") is BswModeReceiverPolicy
+
+
 class TestBswBackgroundEvent:
     """Test cases for BswBackgroundEvent class - represents a background event in a BSW module."""
 

@@ -1406,53 +1406,44 @@ class BswModeSenderPolicy(ARObject):
         return self
 
 
-class BswModeReceiverPolicy(ARObject, VariationPointCapable):
+class BswModeReceiverPolicy(ARObject):
     """
     Specifies the details for the reception of a mode switch for the referred mode group.
     """
 
     # BswModeReceiverPolicy method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.41, p.162
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] getRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] setRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] getSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
-    # [x] setSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.41, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnhancedModeApi                  [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setEnhancedModeApi                  [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getRequiredModeGroupRef             [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setRequiredModeGroupRef             [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getSupportsAsynchronousModeSwitch   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] setSupportsAsynchronousModeSwitch   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes BswModeReceiverPolicy with default values.
-        """
         super().__init__()
 
-        # Controls the creation of the enhanced mode API that returns information about the previous mode and the next mode.
+        # This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         self.enhancedModeApi: Optional[Boolean] = None
 
-        # The required mode group for which the policy is specified. The
-        # reference in the role requiredModeGroup shall exist at the time when
-        # the configuration of the BSW module is finished (constr_10294).
+        # The required mode group for which the policy is specified.
         self.requiredModeGroupRef: Optional[RefType] = None
 
         # Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
-        # This attribute shall exist at the time when the configuration of the BSW module is finished (constr_10295).
         self.supportsAsynchronousModeSwitch: Optional[Boolean] = None
 
     def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets the enhanced mode API flag.
-        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
-        Returns None if not set.
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         """
         return self.enhancedModeApi
 
     def setEnhancedModeApi(self, value: Optional[Boolean]) -> BswModeReceiverPolicy:
         """
-        Sets the enhanced mode API flag.
-        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
-        Setting None is a no-op and preserves the existing value.
-        Returns self for method chaining.
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
+        A None value is a no-op and does not overwrite an existing enhancedModeApi.
         """
         if value is not None:
             self.enhancedModeApi = value
@@ -1460,17 +1451,14 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
 
     def getRequiredModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the required mode group reference.
-        Returns the reference to the mode group for which the policy is specified, or None if not set.
+        The required mode group for which the policy is specified.
         """
         return self.requiredModeGroupRef
 
     def setRequiredModeGroupRef(self, value: Optional[RefType]) -> BswModeReceiverPolicy:
         """
-        Sets the required mode group reference.
         The required mode group for which the policy is specified.
-        Setting None is a no-op and preserves the existing value.
-        Returns self for method chaining.
+        A None value is a no-op and does not overwrite an existing requiredModeGroupRef.
         """
         if value is not None:
             self.requiredModeGroupRef = value
@@ -1478,18 +1466,14 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
 
     def getSupportsAsynchronousModeSwitch(self) -> Optional[Boolean]:
         """
-        Gets the asynchronous mode switch support flag.
-        Specifies whether the module can handle the reception of an asynchronous mode switch.
-        Returns None if not set.
+        Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
         """
         return self.supportsAsynchronousModeSwitch
 
     def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> BswModeReceiverPolicy:
         """
-        Sets the asynchronous mode switch support flag.
         Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
-        Setting None is a no-op and preserves the existing value.
-        Returns self for method chaining.
+        A None value is a no-op and does not overwrite an existing supportsAsynchronousModeSwitch.
         """
         if value is not None:
             self.supportsAsynchronousModeSwitch = value
