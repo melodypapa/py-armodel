@@ -1456,6 +1456,238 @@ class IPSecRule(Identifiable):
         return self
 
 
+class IPSecConfigProps(ARElement):
+    """
+    This element holds all the attributes for configuration of IPsec that are independent of specific IPsec rules. Tags: atp.recommendedPackage=IPSecConfigProps
+
+    [TPS_SYST_02270] Definition of general IPsec configuration settings: General configuration properties that are independent of particular IPSecRule s are collected in the IPSecConfigProps element that is referenced from the IPSecConfig in the role ipSecConfigProps .
+    """
+
+    # IPSecConfigProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.223, p.573
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAhCipherSuiteName      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAhCipherSuiteNames     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDpdAction              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDpdAction              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDpdDelay               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDpdDelay               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addEspCipherSuiteName     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEspCipherSuiteNames    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIkeCipherSuiteName     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIkeCipherSuiteName     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIkeOverTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIkeOverTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIkeRandTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIkeRandTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIkeReauthTime          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIkeReauthTime          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIkeRekeyTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIkeRekeyTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSaOverTime             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSaOverTime             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSaRandTime             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSaRandTime             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSaRekeyTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSaRekeyTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # AH (Authentication Header) algorithm to be used for the connection, e.g. HMAC/SHA2-256
+        self.ahCipherSuiteNames: List[String] = []
+
+        # This attribute defines what to do if the peer is considered dead. If not configured "restart" shall be assumed.
+        self.dpdAction: Optional[IPsecDpdActionEnum] = None
+
+        # This attribute describes the interval to check the liveness of a peer actively using IKEv2 INFORMATIONAL exchanges. Active DPD checking is only enforced if no IKE or ESP/AH packet has been received for the configured DPD delay. In not configured the value "5 minutes" shall be assumed.
+        self.dpdDelay: Optional[TimeValue] = None
+
+        # ESP (Encapsulating Security Payload) algorithm that provides encryption and optional authentication for the connection, e.g. AES-128+SHA2-256.
+        self.espCipherSuiteNames: List[String] = []
+
+        # IKE encryption/authentication algorithms to be used for the connection.
+        self.ikeCipherSuiteName: Optional[String] = None
+
+        # This attribute describes the hard deadline when an SA becomes invalid in percentage. Example: ikeOverTime of max(ikeReauthTime, ikeRekeyTime). Default: 10%
+        self.ikeOverTime: Optional[TimeValue] = None
+
+        # This attribute defines in percentage by how long before the expiration of ikeReauthTime and ikeRekeyTime will be rekeyed/reauthenticated. Default: 10%
+        self.ikeRandTime: Optional[PositiveInteger] = None
+
+        # This attribute defines the absolute time after which an IKE SA will be reauthenticated. 0 means reauthentication is disabled.
+        self.ikeReauthTime: Optional[TimeValue] = None
+
+        # This attribute defines the absolute time after which an IKE SA will be rekeyed. 0 means rekey is disabled.
+        self.ikeRekeyTime: Optional[TimeValue] = None
+
+        # This attribute describes the hard deadline when an IPsec SA becomes invalid in percentage. Example: saOverTime * saRekeyTime. Default: 110%
+        self.saOverTime: Optional[PositiveInteger] = None
+
+        # This attribute defines by how long before the expiration of saRekeyTime will be rekeyed.
+        self.saRandTime: Optional[TimeValue] = None
+
+        # This attribute defines the absolute time after which an IPsec SA will be rekeyed. 0 means rekey is disabled.
+        self.saRekeyTime: Optional[TimeValue] = None
+
+    def addAhCipherSuiteName(self, value: Optional[String]) -> IPSecConfigProps:
+        """
+        AH (Authentication Header) algorithm to be used for the connection, e.g. HMAC/SHA2-256
+        A None value is a no-op and does not extend the ahCipherSuiteNames list.
+        """
+        if value is not None:
+            self.ahCipherSuiteNames.append(value)
+        return self
+
+    def getAhCipherSuiteNames(self) -> List[String]:
+        """AH (Authentication Header) algorithm to be used for the connection, e.g. HMAC/SHA2-256"""
+        return self.ahCipherSuiteNames
+
+    def getDpdAction(self) -> Optional[IPsecDpdActionEnum]:
+        """This attribute defines what to do if the peer is considered dead. If not configured "restart" shall be assumed."""
+        return self.dpdAction
+
+    def setDpdAction(self, value: Optional[IPsecDpdActionEnum]) -> IPSecConfigProps:
+        """
+        This attribute defines what to do if the peer is considered dead. If not configured "restart" shall be assumed.
+        A None value is a no-op and does not overwrite an existing dpdAction.
+        """
+        if value is not None:
+            self.dpdAction = value
+        return self
+
+    def getDpdDelay(self) -> Optional[TimeValue]:
+        """This attribute describes the interval to check the liveness of a peer actively using IKEv2 INFORMATIONAL exchanges. Active DPD checking is only enforced if no IKE or ESP/AH packet has been received for the configured DPD delay. In not configured the value "5 minutes" shall be assumed."""
+        return self.dpdDelay
+
+    def setDpdDelay(self, value: Optional[TimeValue]) -> IPSecConfigProps:
+        """
+        This attribute describes the interval to check the liveness of a peer actively using IKEv2 INFORMATIONAL exchanges. Active DPD checking is only enforced if no IKE or ESP/AH packet has been received for the configured DPD delay. In not configured the value "5 minutes" shall be assumed.
+        A None value is a no-op and does not overwrite an existing dpdDelay.
+        """
+        if value is not None:
+            self.dpdDelay = value
+        return self
+
+    def addEspCipherSuiteName(self, value: Optional[String]) -> IPSecConfigProps:
+        """
+        ESP (Encapsulating Security Payload) algorithm that provides encryption and optional authentication for the connection, e.g. AES-128+SHA2-256.
+        A None value is a no-op and does not extend the espCipherSuiteNames list.
+        """
+        if value is not None:
+            self.espCipherSuiteNames.append(value)
+        return self
+
+    def getEspCipherSuiteNames(self) -> List[String]:
+        """ESP (Encapsulating Security Payload) algorithm that provides encryption and optional authentication for the connection, e.g. AES-128+SHA2-256."""
+        return self.espCipherSuiteNames
+
+    def getIkeCipherSuiteName(self) -> Optional[String]:
+        """IKE encryption/authentication algorithms to be used for the connection."""
+        return self.ikeCipherSuiteName
+
+    def setIkeCipherSuiteName(self, value: Optional[String]) -> IPSecConfigProps:
+        """
+        IKE encryption/authentication algorithms to be used for the connection.
+        A None value is a no-op and does not overwrite an existing ikeCipherSuiteName.
+        """
+        if value is not None:
+            self.ikeCipherSuiteName = value
+        return self
+
+    def getIkeOverTime(self) -> Optional[TimeValue]:
+        """This attribute describes the hard deadline when an SA becomes invalid in percentage. Example: ikeOverTime of max(ikeReauthTime, ikeRekeyTime). Default: 10%"""
+        return self.ikeOverTime
+
+    def setIkeOverTime(self, value: Optional[TimeValue]) -> IPSecConfigProps:
+        """
+        This attribute describes the hard deadline when an SA becomes invalid in percentage. Example: ikeOverTime of max(ikeReauthTime, ikeRekeyTime). Default: 10%
+        A None value is a no-op and does not overwrite an existing ikeOverTime.
+        """
+        if value is not None:
+            self.ikeOverTime = value
+        return self
+
+    def getIkeRandTime(self) -> Optional[PositiveInteger]:
+        """This attribute defines in percentage by how long before the expiration of ikeReauthTime and ikeRekeyTime will be rekeyed/reauthenticated. Default: 10%"""
+        return self.ikeRandTime
+
+    def setIkeRandTime(self, value: Optional[PositiveInteger]) -> IPSecConfigProps:
+        """
+        This attribute defines in percentage by how long before the expiration of ikeReauthTime and ikeRekeyTime will be rekeyed/reauthenticated. Default: 10%
+        A None value is a no-op and does not overwrite an existing ikeRandTime.
+        """
+        if value is not None:
+            self.ikeRandTime = value
+        return self
+
+    def getIkeReauthTime(self) -> Optional[TimeValue]:
+        """This attribute defines the absolute time after which an IKE SA will be reauthenticated. 0 means reauthentication is disabled."""
+        return self.ikeReauthTime
+
+    def setIkeReauthTime(self, value: Optional[TimeValue]) -> IPSecConfigProps:
+        """
+        This attribute defines the absolute time after which an IKE SA will be reauthenticated. 0 means reauthentication is disabled.
+        A None value is a no-op and does not overwrite an existing ikeReauthTime.
+        """
+        if value is not None:
+            self.ikeReauthTime = value
+        return self
+
+    def getIkeRekeyTime(self) -> Optional[TimeValue]:
+        """This attribute defines the absolute time after which an IKE SA will be rekeyed. 0 means rekey is disabled."""
+        return self.ikeRekeyTime
+
+    def setIkeRekeyTime(self, value: Optional[TimeValue]) -> IPSecConfigProps:
+        """
+        This attribute defines the absolute time after which an IKE SA will be rekeyed. 0 means rekey is disabled.
+        A None value is a no-op and does not overwrite an existing ikeRekeyTime.
+        """
+        if value is not None:
+            self.ikeRekeyTime = value
+        return self
+
+    def getSaOverTime(self) -> Optional[PositiveInteger]:
+        """This attribute describes the hard deadline when an IPsec SA becomes invalid in percentage. Example: saOverTime * saRekeyTime. Default: 110%"""
+        return self.saOverTime
+
+    def setSaOverTime(self, value: Optional[PositiveInteger]) -> IPSecConfigProps:
+        """
+        This attribute describes the hard deadline when an IPsec SA becomes invalid in percentage. Example: saOverTime * saRekeyTime. Default: 110%
+        A None value is a no-op and does not overwrite an existing saOverTime.
+        """
+        if value is not None:
+            self.saOverTime = value
+        return self
+
+    def getSaRandTime(self) -> Optional[TimeValue]:
+        """This attribute defines by how long before the expiration of saRekeyTime will be rekeyed."""
+        return self.saRandTime
+
+    def setSaRandTime(self, value: Optional[TimeValue]) -> IPSecConfigProps:
+        """
+        This attribute defines by how long before the expiration of saRekeyTime will be rekeyed.
+        A None value is a no-op and does not overwrite an existing saRandTime.
+        """
+        if value is not None:
+            self.saRandTime = value
+        return self
+
+    def getSaRekeyTime(self) -> Optional[TimeValue]:
+        """This attribute defines the absolute time after which an IPsec SA will be rekeyed. 0 means rekey is disabled."""
+        return self.saRekeyTime
+
+    def setSaRekeyTime(self, value: Optional[TimeValue]) -> IPSecConfigProps:
+        """
+        This attribute defines the absolute time after which an IPsec SA will be rekeyed. 0 means rekey is disabled.
+        A None value is a no-op and does not overwrite an existing saRekeyTime.
+        """
+        if value is not None:
+            self.saRekeyTime = value
+        return self
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.

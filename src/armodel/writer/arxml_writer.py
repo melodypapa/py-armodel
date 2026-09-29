@@ -763,6 +763,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
+    IPSecConfigProps,
     IPSecRule,
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
@@ -12112,6 +12113,31 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "REMOTE-IP-ADDRESS-REF", ref)
         self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END", rule.getRemotePortRangeEnd())
         self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START", rule.getRemotePortRangeStart())
+
+    def writeIPSecConfigProps(self, parent: ET.Element, props: IPSecConfigProps):
+        self.logger.debug("Write IPSecConfigProps <%s>" % props.getShortName())
+        element = ET.SubElement(parent, "IP-SEC-CONFIG-PROPS")
+        self.writeIdentifiable(element, props)
+        names = props.getAhCipherSuiteNames()
+        if len(names) > 0:
+            names_tag = ET.SubElement(element, "AH-CIPHER-SUITE-NAMES")
+            for name in names:
+                self.setChildElementOptionalString(names_tag, "AH-CIPHER-SUITE-NAME", name)
+        self.setChildElementOptionalLiteral(element, "DPD-ACTION", props.getDpdAction())
+        self.setChildElementOptionalTimeValue(element, "DPD-DELAY", props.getDpdDelay())
+        names = props.getEspCipherSuiteNames()
+        if len(names) > 0:
+            names_tag = ET.SubElement(element, "ESP-CIPHER-SUITE-NAMES")
+            for name in names:
+                self.setChildElementOptionalString(names_tag, "ESP-CIPHER-SUITE-NAME", name)
+        self.setChildElementOptionalString(element, "IKE-CIPHER-SUITE-NAME", props.getIkeCipherSuiteName())
+        self.setChildElementOptionalTimeValue(element, "IKE-OVER-TIME", props.getIkeOverTime())
+        self.setChildElementOptionalPositiveInteger(element, "IKE-RAND-TIME", props.getIkeRandTime())
+        self.setChildElementOptionalTimeValue(element, "IKE-REAUTH-TIME", props.getIkeReauthTime())
+        self.setChildElementOptionalTimeValue(element, "IKE-REKEY-TIME", props.getIkeRekeyTime())
+        self.setChildElementOptionalPositiveInteger(element, "SA-OVER-TIME", props.getSaOverTime())
+        self.setChildElementOptionalTimeValue(element, "SA-RAND-TIME", props.getSaRandTime())
+        self.setChildElementOptionalTimeValue(element, "SA-REKEY-TIME", props.getSaRekeyTime())
 
     def writeCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Write CryptoServiceCertificate <%s>" % certificate.getShortName())

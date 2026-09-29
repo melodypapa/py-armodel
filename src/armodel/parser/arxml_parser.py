@@ -878,10 +878,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
+    IPsecDpdActionEnum,
     IPsecHeaderTypeEnum,
     IPsecIpProtocolEnum,
     IPsecModeEnum,
     IPsecPolicyEnum,
+    IPSecConfigProps,
     IPSecRule,
     SecOcCryptoServiceMapping,
     TlsCryptoCipherSuite,
@@ -14084,6 +14086,38 @@ class ARXMLParser(AbstractARXMLParser):
             rule.addRemoteIpAddressRef(ref)
         rule.setRemotePortRangeEnd(self.getChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END"))
         rule.setRemotePortRangeStart(self.getChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START"))
+
+    def readIPSecConfigProps(self, element: ET.Element, props: IPSecConfigProps):
+        self.logger.debug("Read IPSecConfigProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        wrapper = self.find(element, "AH-CIPHER-SUITE-NAMES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "AH-CIPHER-SUITE-NAME"):
+                if child_element.text is not None:
+                    value = String()
+                    value.setValue(child_element.text)
+                    props.addAhCipherSuiteName(value)
+        literal = self.getChildElementOptionalLiteral(element, "DPD-ACTION")
+        if literal is not None:
+            e = IPsecDpdActionEnum()
+            e.setValue(literal.getValue())
+            props.setDpdAction(e)
+        props.setDpdDelay(self.getChildElementOptionalTimeValue(element, "DPD-DELAY"))
+        wrapper = self.find(element, "ESP-CIPHER-SUITE-NAMES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "ESP-CIPHER-SUITE-NAME"):
+                if child_element.text is not None:
+                    value = String()
+                    value.setValue(child_element.text)
+                    props.addEspCipherSuiteName(value)
+        props.setIkeCipherSuiteName(self.getChildElementOptionalString(element, "IKE-CIPHER-SUITE-NAME"))
+        props.setIkeOverTime(self.getChildElementOptionalTimeValue(element, "IKE-OVER-TIME"))
+        props.setIkeRandTime(self.getChildElementOptionalPositiveInteger(element, "IKE-RAND-TIME"))
+        props.setIkeReauthTime(self.getChildElementOptionalTimeValue(element, "IKE-REAUTH-TIME"))
+        props.setIkeRekeyTime(self.getChildElementOptionalTimeValue(element, "IKE-REKEY-TIME"))
+        props.setSaOverTime(self.getChildElementOptionalPositiveInteger(element, "SA-OVER-TIME"))
+        props.setSaRandTime(self.getChildElementOptionalTimeValue(element, "SA-RAND-TIME"))
+        props.setSaRekeyTime(self.getChildElementOptionalTimeValue(element, "SA-REKEY-TIME"))
 
     def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Read CryptoServiceCertificate <%s>" % certificate.getShortName())
