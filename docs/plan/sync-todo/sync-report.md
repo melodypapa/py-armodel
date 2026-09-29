@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 505 | 26.3% |
+| [x] Done | 506 | 26.3% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 167 | 8.7% |
+| [ ] Deferred | 166 | 8.6% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -932,7 +932,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FMFeatureSelectionState`                               | [ ] Pending | N/A                                      | Group36          |
 | `FMFormulaByFeaturesAndAttributes`                      | [x] Done    | d69232bdf4                               | Group8           |
 | `FMFormulaByFeaturesAndSwSystemconsts`                  | [x] Done    | d69232bdf4                               | Group8           |
-| `Field`                                                 | [ ] Deferred| 413d1a4b62                               | Group11          |
+| `Field`                                                 | [x] Done    | d31cad4d7e                               | Group11          |
 | `FileInfoComment`                                       | [x] Done    | c62e1c8943                               | Group1           |
 | `FilterDebouncingEnum`                                  | [ ] Pending | N/A                                      | Group27          |
 | `FirewallActionEnum`                                    | [x] Done    | ab2daa7785                               | Group3           |
