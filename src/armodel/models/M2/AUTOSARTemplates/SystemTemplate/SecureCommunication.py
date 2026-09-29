@@ -1055,6 +1055,32 @@ class IPsecPolicyEnum(AREnum):
         )
 
 
+class IPsecModeEnum(AREnum):
+    """
+    This enumeration describes the supported IPSec modes.
+    """
+
+    # IPsecModeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.226, p.575
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IPSecRule/IPSecConfigProps members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Signifying that the IPSec transport mode is used. With the transport mode the original IP header is retained and only the IP payload and ESP trailer is encrypted. Tags: atp.EnumerationLiteralIndex=1
+    TRANSPORT = "transport"
+
+    # Signifying that the IPSec tunnel mode is used. With tunnel mode, the entire original IP packet is protected by IPSec. This means IPSec wraps the original packet, encrypts it, adds a new IP header and sends it to the other side. Tags: atp.EnumerationLiteralIndex=0
+    TUNNEL = "tunnel"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IPsecModeEnum.TRANSPORT,
+                IPsecModeEnum.TUNNEL,
+            ]
+        )
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.

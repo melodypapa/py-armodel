@@ -1877,10 +1877,6 @@ class IPsecHeaderTypeEnum(AREnum):
     pass
 
 
-class IPsecModeEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 
