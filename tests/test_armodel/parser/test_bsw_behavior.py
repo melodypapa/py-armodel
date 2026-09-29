@@ -263,3 +263,25 @@ class TestBswModeSenderPolicy:
     def test_read_empty_wrapper(self, tmp_path):
         _, behavior = _load_behavior(tmp_path, "<MODE-SENDER-POLICYS></MODE-SENDER-POLICYS>")
         assert behavior.getModeSenderPolicies() == []
+
+
+class TestBswModeReceiverPolicy:
+    def test_read_full(self, tmp_path):
+        policies = """<MODE-RECEIVER-POLICYS>
+            <BSW-MODE-RECEIVER-POLICY>
+                <ENHANCED-MODE-API>false</ENHANCED-MODE-API>
+                <REQUIRED-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/Pkg/RMdg</REQUIRED-MODE-GROUP-REF>
+                <SUPPORTS-ASYNCHRONOUS-MODE-SWITCH>true</SUPPORTS-ASYNCHRONOUS-MODE-SWITCH>
+            </BSW-MODE-RECEIVER-POLICY>
+        </MODE-RECEIVER-POLICYS>"""
+        _, behavior = _load_behavior(tmp_path, policies)
+        policies_2 = behavior.getModeReceiverPolicies()
+        assert len(policies_2) == 1
+        assert policies_2[0].getEnhancedModeApi().getValue() is False
+        assert policies_2[0].getRequiredModeGroupRef().getValue() == "/Pkg/RMdg"
+        assert policies_2[0].getRequiredModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert policies_2[0].getSupportsAsynchronousModeSwitch().getValue() is True
+
+    def test_read_empty_wrapper(self, tmp_path):
+        _, behavior = _load_behavior(tmp_path, "<MODE-RECEIVER-POLICYS></MODE-RECEIVER-POLICYS>")
+        assert behavior.getModeReceiverPolicies() == []

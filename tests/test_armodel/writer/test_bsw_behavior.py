@@ -11,6 +11,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswExclusiveAreaPolicy,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswTriggerDirectImplementation,
@@ -287,6 +288,42 @@ class TestBswModeSenderPolicy:
         raw, behavior_2 = _reload(tmp_path, document, "msp_none.arxml")
         assert "MODE-SENDER-POLICYS" not in raw
         assert behavior_2.getModeSenderPolicies() == []
+
+
+class TestBswModeReceiverPolicy:
+    def test_round_trip_full(self, tmp_path):
+        document, behavior = _make_behavior()
+        policy = BswModeReceiverPolicy()
+        policy.setEnhancedModeApi(_bool(False))
+        policy.setRequiredModeGroupRef(_ref("/Pkg/RMdg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        policy.setSupportsAsynchronousModeSwitch(_bool(True))
+        behavior.addModeReceiverPolicy(policy)
+
+        raw, behavior_2 = _reload(tmp_path, document, "mrp.arxml")
+        policies = behavior_2.getModeReceiverPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnhancedModeApi().getValue() is False
+        assert policies[0].getRequiredModeGroupRef().getValue() == "/Pkg/RMdg"
+        assert policies[0].getRequiredModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert policies[0].getSupportsAsynchronousModeSwitch().getValue() is True
+        assert raw.index("ENHANCED-MODE-API") < raw.index("REQUIRED-MODE-GROUP-REF") < raw.index("SUPPORTS-ASYNCHRONOUS-MODE-SWITCH")
+
+    def test_round_trip_empty_policy(self, tmp_path):
+        document, behavior = _make_behavior()
+        behavior.addModeReceiverPolicy(BswModeReceiverPolicy())
+
+        raw, behavior_2 = _reload(tmp_path, document, "mrp_empty.arxml")
+        assert "ENHANCED-MODE-API" not in raw
+        policies = behavior_2.getModeReceiverPolicies()
+        assert len(policies) == 1
+        assert policies[0].getRequiredModeGroupRef() is None
+
+    def test_no_wrapper_when_no_policies(self, tmp_path):
+        document, _ = _make_behavior()
+
+        raw, behavior_2 = _reload(tmp_path, document, "mrp_none.arxml")
+        assert "MODE-RECEIVER-POLICYS" not in raw
+        assert behavior_2.getModeReceiverPolicies() == []
 
 
 def _bool(value):
