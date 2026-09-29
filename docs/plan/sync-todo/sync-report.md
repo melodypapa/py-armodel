@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 504 | 26.2% |
+| [x] Done | 505 | 26.3% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 168 | 8.7% |
+| [ ] Deferred | 167 | 8.7% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -1911,7 +1911,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `VariableAccess`                                        | [ ] Deferred| N/A                                      | Group12          |
 | `VariableAccessInEcuInstanceRef`                        | [ ] Deferred| N/A                                      | Group12          |
 | `VariableAccessScopeEnum`                               | [ ] Pending | N/A                                      | Group29          |
-| `VariableAndParameterInterfaceMapping`                  | [ ] Deferred| de2d5fe918                               | Group11          |
+| `VariableAndParameterInterfaceMapping`                  | [x] Done    | 0e87cc4bb9                               | Group11          |
 | `VariableDataPrototype`                                 | [x] Done    | d3b5d680e2                               | Group2           |
 | `VariableDataPrototypeInSystemInstanceRef`              | [x] Done    | 1b3d673dac                               | Group7           |
 | `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done    | c8ac9ef7de                               | Group2           |
