@@ -86,7 +86,134 @@ def __getattr__(name):
     return value
 
 
-__all__ = [
+__all__ = [    "ViewMapSet",
+    "SwAxisType",
+    "SecurityEventDefinition",
+    "SecurityEventContextMappingFunctionalCluster",
+    "SecurityEventContextMappingBswModule",
+    "SecurityEventContextMappingApplication",
+    "SdgDef",
+    "RapidPrototypingScenario",
+    "PostBuildVariantCriterionValueSet",
+    "PhysicalDimensionMappingSet",
+    "LifeCycleStateDefinitionGroup",
+    "IdsDesign",
+    "FMFeatureSelectionSet",
+    "FMFeatureModel",
+    "FMFeatureMap",
+    "FMFeature",
+    "EvaluatedVariantSet",
+    "DiagnosticWriteDataByIdentifier",
+    "DiagnosticVerifyCertificateUnidirectional",
+    "DiagnosticVerifyCertificateBidirectional",
+    "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
+    "DiagnosticTroubleCodeGroup",
+    "DiagnosticTroubleCode",
+    "DiagnosticTransferExit",
+    "DiagnosticTestRoutineIdentifier",
+    "DiagnosticTestResult",
+    "DiagnosticStorageConditionPortMapping",
+    "DiagnosticStorageConditionGroup",
+    "DiagnosticStorageCondition",
+    "DiagnosticSessionControl",
+    "DiagnosticServiceDataMapping",
+    "DiagnosticSecurityEventReportingModeMapping",
+    "DiagnosticSecurityAccess",
+    "DiagnosticRoutineControl",
+    "DiagnosticRoutine",
+    "DiagnosticResponseOnEvent",
+    "DiagnosticRequestVehicleInfo",
+    "DiagnosticRequestUpload",
+    "DiagnosticRequestPowertrainFreezeFrameData",
+    "DiagnosticRequestOnBoardMonitoringTestResults",
+    "DiagnosticRequestFileTransfer",
+    "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
+    "DiagnosticRequestDownload",
+    "DiagnosticRequestControlOfOnBoardDevice",
+    "DiagnosticReadScalingDataByIdentifier",
+    "DiagnosticReadDataByPeriodicID",
+    "DiagnosticReadDataByIdentifier",
+    "DiagnosticReadDTCInformation",
+    "DiagnosticProtocol",
+    "DiagnosticProofOfOwnership",
+    "DiagnosticPowertrainFreezeFrame",
+    "DiagnosticParameterIdentifier",
+    "DiagnosticOperationCyclePortMapping",
+    "DiagnosticOperationCycle",
+    "DiagnosticMemoryIdentifier",
+    "DiagnosticMemoryDestinationPrimary",
+    "DiagnosticMemoryAddressableRangeAccess",
+    "DiagnosticMeasurementIdentifier",
+    "DiagnosticMasterToSlaveEventMapping",
+    "DiagnosticJ1939SwMapping",
+    "DiagnosticJ1939SpnMapping",
+    "DiagnosticJ1939Spn",
+    "DiagnosticJ1939Node",
+    "DiagnosticJ1939FreezeFrame",
+    "DiagnosticJ1939ExpandedFreezeFrame",
+    "DiagnosticIumprToFunctionIdentifierMapping",
+    "DiagnosticIumprGroup",
+    "DiagnosticIumprDenominatorGroup",
+    "DiagnosticIumpr",
+    "DiagnosticInfoType",
+    "DiagnosticIndicator",
+    "DiagnosticIOControl",
+    "DiagnosticFunctionIdentifier",
+    "DiagnosticFreezeFrame",
+    "DiagnosticFimEventGroup",
+    "DiagnosticFimAliasEventMapping",
+    "DiagnosticFimAliasEventGroupMapping",
+    "DiagnosticFimAliasEventGroup",
+    "DiagnosticFimAliasEvent",
+    "DiagnosticExtendedDataRecord",
+    "DiagnosticEventToTroubleCodeUdsMapping",
+    "DiagnosticEventToTroubleCodeJ1939Mapping",
+    "DiagnosticEventToStorageConditionGroupMapping",
+    "DiagnosticEventToSecurityEventMapping",
+    "DiagnosticEventToOperationCycleMapping",
+    "DiagnosticEventToEnableConditionGroupMapping",
+    "DiagnosticEventToDebounceAlgorithmMapping",
+    "DiagnosticEventPortMapping",
+    "DiagnosticSwMapping",
+    "DiagnosticEvent",
+    "DiagnosticEnableConditionGroup",
+    "DiagnosticEnableCondition",
+    "DiagnosticEcuReset",
+    "DiagnosticEcuInstanceProps",
+    "DiagnosticDynamicallyDefineDataIdentifier",
+    "DiagnosticDynamicDataIdentifier",
+    "DiagnosticDemProvidedDataMapping",
+    "DiagnosticDeAuthentication",
+    "DiagnosticDataTransfer",
+    "DiagnosticMemoryByAddress",
+    "DiagnosticDataIdentifierSet",
+    "DiagnosticDataIdentifier",
+    "DiagnosticDataByIdentifier",
+    "DiagnosticCustomServiceInstance",
+    "DiagnosticConditionGroup",
+    "DiagnosticCondition",
+    "DiagnosticComControl",
+    "DiagnosticClearDiagnosticInformation",
+    "DiagnosticAuthenticationConfiguration",
+    "DiagnosticAuthTransmitCertificateMapping",
+    "DiagnosticAuthTransmitCertificate",
+    "DiagnosticAuthentication",
+    "DiagnosticAuthRole",
+    "DiagnosticAging",
+    "DiagnosticAbstractDataIdentifier",
+    "DiagnosticAbstractAliasEvent",
+    "DataExchangePoint",
+    "CpSwClusterToDiagRoutineSubfunctionMapping",
+    "CpSwClusterToDiagEventMapping",
+    "CpSwClusterResourceToDiagFunctionIdMapping",
+    "CpSwClusterResourceToDiagDataElemMapping",
+    "DiagnosticMapping",
+    "CalibrationParameterValueSet",
+    "AclRole",
+    "AclPermission",
+    "AclOperation",
+    "AclObjectSet",
+
     "AdminData",
     "Annotation",
     "ApplicationArrayDataType",
@@ -2143,3 +2270,511 @@ Collection.__bases__ = (ARElement,)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
+
+
+class AclObjectSet(ARElement):
+    pass
+
+
+class AclOperation(ARElement):
+    pass
+
+
+class AclPermission(ARElement):
+    pass
+
+
+class AclRole(ARElement):
+    pass
+
+
+class CalibrationParameterValueSet(ARElement):
+    pass
+
+
+class DiagnosticMapping(ARElement, ABC):
+    pass
+
+
+class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
+    pass
+
+
+class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
+    pass
+
+
+class CpSwClusterToDiagEventMapping(DiagnosticMapping):
+    pass
+
+
+class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
+    pass
+
+
+class DataExchangePoint(ARElement):
+    pass
+
+
+class DiagnosticAbstractAliasEvent(ARElement, ABC):
+    pass
+
+
+class DiagnosticAbstractDataIdentifier(ARElement, ABC):
+    pass
+
+
+class DiagnosticAging(ARElement):
+    pass
+
+
+class DiagnosticAuthRole(ARElement):
+    pass
+
+
+class DiagnosticAuthentication(ARElement, ABC):
+    pass
+
+
+class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticClearDiagnosticInformation(ARElement):
+    pass
+
+
+class DiagnosticComControl(ARElement):
+    pass
+
+
+class DiagnosticCondition(ARElement, ABC):
+    pass
+
+
+class DiagnosticConditionGroup(ARElement, ABC):
+    pass
+
+
+class DiagnosticCustomServiceInstance(ARElement):
+    pass
+
+
+class DiagnosticDataByIdentifier(ARElement, ABC):
+    pass
+
+
+class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
+    pass
+
+
+class DiagnosticDataIdentifierSet(ARElement):
+    pass
+
+
+class DiagnosticMemoryByAddress(ARElement, ABC):
+    pass
+
+
+class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
+    pass
+
+
+class DiagnosticDeAuthentication(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
+    pass
+
+
+class DiagnosticDynamicallyDefineDataIdentifier(ARElement):
+    pass
+
+
+class DiagnosticEcuInstanceProps(ARElement):
+    pass
+
+
+class DiagnosticEcuReset(ARElement):
+    pass
+
+
+class DiagnosticEnableCondition(DiagnosticCondition):
+    pass
+
+
+class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):
+    pass
+
+
+class DiagnosticEvent(ARElement):
+    pass
+
+
+class DiagnosticSwMapping(DiagnosticMapping, ABC):
+    pass
+
+
+class DiagnosticEventPortMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticExtendedDataRecord(ARElement):
+    pass
+
+
+class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
+    pass
+
+
+class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
+    pass
+
+
+class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticFimAliasEventMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticFimEventGroup(ARElement):
+    pass
+
+
+class DiagnosticFreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticFunctionIdentifier(ARElement):
+    pass
+
+
+class DiagnosticIOControl(ARElement):
+    pass
+
+
+class DiagnosticIndicator(ARElement):
+    pass
+
+
+class DiagnosticInfoType(ARElement):
+    pass
+
+
+class DiagnosticIumpr(ARElement):
+    pass
+
+
+class DiagnosticIumprDenominatorGroup(ARElement):
+    pass
+
+
+class DiagnosticIumprGroup(ARElement):
+    pass
+
+
+class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticJ1939ExpandedFreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticJ1939FreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticJ1939Node(ARElement):
+    pass
+
+
+class DiagnosticJ1939Spn(ARElement):
+    pass
+
+
+class DiagnosticJ1939SpnMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticMeasurementIdentifier(ARElement):
+    pass
+
+
+class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
+    pass
+
+
+class DiagnosticMemoryDestinationPrimary(ARElement):
+    pass
+
+
+class DiagnosticMemoryIdentifier(ARElement):
+    pass
+
+
+class DiagnosticOperationCycle(ARElement):
+    pass
+
+
+class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticParameterIdentifier(ARElement):
+    pass
+
+
+class DiagnosticPowertrainFreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticProofOfOwnership(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticProtocol(ARElement):
+    pass
+
+
+class DiagnosticReadDTCInformation(ARElement):
+    pass
+
+
+class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
+    pass
+
+
+class DiagnosticReadDataByPeriodicID(ARElement):
+    pass
+
+
+class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
+    pass
+
+
+class DiagnosticRequestControlOfOnBoardDevice(ARElement):
+    pass
+
+
+class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
+    pass
+
+
+class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
+    pass
+
+
+class DiagnosticRequestFileTransfer(ARElement):
+    pass
+
+
+class DiagnosticRequestOnBoardMonitoringTestResults(ARElement):
+    pass
+
+
+class DiagnosticRequestPowertrainFreezeFrameData(ARElement):
+    pass
+
+
+class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
+    pass
+
+
+class DiagnosticRequestVehicleInfo(ARElement):
+    pass
+
+
+class DiagnosticResponseOnEvent(ARElement):
+    pass
+
+
+class DiagnosticRoutine(ARElement):
+    pass
+
+
+class DiagnosticRoutineControl(ARElement):
+    pass
+
+
+class DiagnosticSecurityAccess(ARElement):
+    pass
+
+
+class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticServiceDataMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticSessionControl(ARElement):
+    pass
+
+
+class DiagnosticStorageCondition(DiagnosticCondition):
+    pass
+
+
+class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
+    pass
+
+
+class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticTestResult(ARElement):
+    pass
+
+
+class DiagnosticTestRoutineIdentifier(ARElement):
+    pass
+
+
+class DiagnosticTransferExit(DiagnosticMemoryByAddress):
+    pass
+
+
+class DiagnosticTroubleCode(ARElement, ABC):
+    pass
+
+
+class DiagnosticTroubleCodeGroup(ARElement):
+    pass
+
+
+class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
+    pass
+
+
+class EvaluatedVariantSet(ARElement):
+    pass
+
+
+class FMFeature(ARElement):
+    pass
+
+
+class FMFeatureMap(ARElement):
+    pass
+
+
+class FMFeatureModel(ARElement):
+    pass
+
+
+class FMFeatureSelectionSet(ARElement):
+    pass
+
+
+class IdsDesign(ARElement):
+    pass
+
+
+class LifeCycleStateDefinitionGroup(ARElement):
+    pass
+
+
+class PhysicalDimensionMappingSet(ARElement):
+    pass
+
+
+class PostBuildVariantCriterionValueSet(ARElement):
+    pass
+
+
+class RapidPrototypingScenario(ARElement):
+    pass
+
+
+class SdgDef(ARElement):
+    pass
+
+
+class SecurityEventContextMappingApplication(ARElement):
+    pass
+
+
+class SecurityEventContextMappingBswModule(ARElement):
+    pass
+
+
+class SecurityEventContextMappingFunctionalCluster(ARElement):
+    pass
+
+
+class SecurityEventDefinition(ARElement):
+    pass
+
+
+class SwAxisType(ARElement):
+    pass
+
+
+class ViewMapSet(ARElement):
+    pass

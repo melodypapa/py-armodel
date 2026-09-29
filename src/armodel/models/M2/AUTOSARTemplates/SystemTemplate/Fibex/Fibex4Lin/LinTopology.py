@@ -572,3 +572,7 @@ class LinPhysicalChannel(PhysicalChannel):
             self.addElement(end_point)
             self.scheduleTables.append(end_point)
         return self.getElement(short_name, LinScheduleTable)
+
+
+class LinSlave(LinCommunicationController):
+    pass

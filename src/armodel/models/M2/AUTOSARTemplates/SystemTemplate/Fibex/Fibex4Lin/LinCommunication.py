@@ -826,3 +826,11 @@ class LinScheduleTable(Identifiable, VariationPointCapable):
         if value is not None:
             self.tableEntries.append(value)
         return self
+
+
+class LinEventTriggeredFrame(LinFrame):
+    pass
+
+
+class LinSporadicFrame(LinFrame):
+    pass

@@ -4471,3 +4471,23 @@ class EthTcpIpIcmpProps(ARElement):
         if value is not None:
             self.icmpV6Props = value
         return self
+
+
+class CouplingPortShaper(CouplingPortStructuralElement):
+    pass
+
+
+class HttpTp(TransportProtocolConfiguration):
+    pass
+
+
+class Ieee1722Tp(TransportProtocolConfiguration):
+    pass
+
+
+class MacMulticastConfiguration(NetworkEndpointAddress):
+    pass
+
+
+class RtpTp(TransportProtocolConfiguration):
+    pass

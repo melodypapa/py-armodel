@@ -266,3 +266,19 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
         if mode_element is not None:
             self.modeElements.append(mode_element)
         return self
+
+
+class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
+    pass
+
+
+class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
+    pass
+
+
+class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
+    pass
+
+
+class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
+    pass

@@ -2059,3 +2059,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef i
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
     ImplementationDataTypeElementInPortInterfaceRef,
 )
+
+
+class SOMEIPTransformationDescription(TransformationDescription):
+    pass
+
+
+class UserDefinedTransformationDescription(TransformationDescription):
+    pass

@@ -84,3 +84,271 @@ class ARObject(ABC):
             The tag name without namespace prefix
         """
         return tag.replace("{%s}" % nsmap["xmlns"], "")
+
+
+class AbstractCondition(ARObject, ABC):
+    pass
+
+
+class AbstractMultiplicityRestriction(ARObject, ABC):
+    pass
+
+
+class AbstractValueRestriction(ARObject, ABC):
+    pass
+
+
+class AbstractVariationRestriction(ARObject, ABC):
+    pass
+
+
+class AttributeCondition(AbstractCondition, ABC):
+    pass
+
+
+class AggregationCondition(AttributeCondition):
+    pass
+
+
+class ArParameterInImplementationDataInstanceRef(ARObject):
+    pass
+
+
+class Baseline(ARObject):
+    pass
+
+
+class CalibrationParameterValue(ARObject):
+    pass
+
+
+class ClassTailoring(ARObject, ABC):
+    pass
+
+
+class ClientServerOperationBlueprintMapping(ARObject):
+    pass
+
+
+class DiagnosticAbstractParameter(ARObject, ABC):
+    pass
+
+
+class DiagnosticClearResetEmissionRelatedInfo(ARObject):
+    pass
+
+
+class DiagnosticComControlSpecificChannel(ARObject):
+    pass
+
+
+class DiagnosticComControlSubNodeChannel(ARObject):
+    pass
+
+
+class DiagnosticCommonProps(ARObject):
+    pass
+
+
+class DiagnosticConnectedIndicator(ARObject):
+    pass
+
+
+class DiagnosticContributionSet(ARObject):
+    pass
+
+
+class DiagnosticControlDTCSetting(ARObject):
+    pass
+
+
+class DiagnosticControlEnableMaskBit(ARObject):
+    pass
+
+
+class DiagnosticEnableConditionPortMapping(ARObject):
+    pass
+
+
+class DiagnosticEnvModeCondition(ARObject):
+    pass
+
+
+class DiagnosticEventWindow(ARObject):
+    pass
+
+
+class DiagnosticFimFunctionMapping(ARObject):
+    pass
+
+
+class DiagnosticFunctionIdentifierInhibit(ARObject):
+    pass
+
+
+class DiagnosticInhibitSourceEventMapping(ARObject):
+    pass
+
+
+class DiagnosticIumprGroupIdentifier(ARObject):
+    pass
+
+
+class DiagnosticMemoryDestination(ARObject, ABC):
+    pass
+
+
+class DiagnosticMemoryDestinationUserDefined(ARObject):
+    pass
+
+
+class DiagnosticParameter(DiagnosticAbstractParameter):
+    pass
+
+
+class DiagnosticParameterElementAccess(ARObject):
+    pass
+
+
+class DiagnosticParameterSupportInfo(ARObject):
+    pass
+
+
+class DiagnosticPeriodicRate(ARObject):
+    pass
+
+
+class DiagnosticReadMemoryByAddress(ARObject):
+    pass
+
+
+class DiagnosticRequestCurrentPowertrainData(ARObject):
+    pass
+
+
+class DiagnosticRequestDownloadClass(ARObject):
+    pass
+
+
+class DiagnosticRequestEmissionRelatedDTC(ARObject):
+    pass
+
+
+class DiagnosticRequestOnBoardMonitoringTestResultsClass(ARObject):
+    pass
+
+
+class DiagnosticServiceMappingDiagTarget(ARObject, ABC):
+    pass
+
+
+class DiagnosticServiceSwMapping(ARObject):
+    pass
+
+
+class DiagnosticSupportInfoByte(ARObject):
+    pass
+
+
+class DiagnosticTestIdentifier(ARObject):
+    pass
+
+
+class DiagnosticTroubleCodeJ1939(ARObject):
+    pass
+
+
+class DiagnosticTroubleCodeObd(ARObject):
+    pass
+
+
+class DiagnosticTroubleCodeProps(ARObject):
+    pass
+
+
+class DiagnosticTroubleCodeUds(ARObject):
+    pass
+
+
+class DiagnosticWriteMemoryByAddress(ARObject):
+    pass
+
+
+class EventObdReadinessGroup(ARObject):
+    pass
+
+
+class FMAttributeValue(ARObject):
+    pass
+
+
+class FMFeatureDecomposition(ARObject):
+    pass
+
+
+class InvertCondition(AbstractCondition):
+    pass
+
+
+class List(ARObject):
+    pass
+
+
+class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
+    pass
+
+
+class PhysicalDimensionMapping(ARObject):
+    pass
+
+
+class PrimitiveAttributeCondition(AttributeCondition):
+    pass
+
+
+class ReferenceCondition(AttributeCondition):
+    pass
+
+
+class RestrictionWithSeverity(ARObject, ABC):
+    pass
+
+
+class RoleBasedResourceDependency(ARObject):
+    pass
+
+
+class RptHook(ARObject):
+    pass
+
+
+class RptProfile(ARObject):
+    pass
+
+
+class SdgElementWithGid(ARObject, ABC):
+    pass
+
+
+class SpecificationScope(ARObject):
+    pass
+
+
+class SwAxisCont(ARObject):
+    pass
+
+
+class SwcModeManagerErrorEvent(ARObject):
+    pass
+
+
+class TextualCondition(AbstractCondition):
+    pass
+
+
+class ValueRestrictionWithSeverity(AbstractValueRestriction):
+    pass
+
+
+class VariationRestrictionWithSeverity(AbstractVariationRestriction):
+    pass
