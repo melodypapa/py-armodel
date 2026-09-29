@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 501 | 26.1% |
+| [x] Done | 502 | 26.1% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 171 | 8.9% |
+| [ ] Deferred | 170 | 8.8% |
 | [ ] Pending | 1238 | 64.4% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -290,7 +290,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ClientServerOperation`                                 | [ ] Pending | N/A                                      | Group27          |
 | `ClientServerOperationBlueprintMapping`                 | [ ] Pending | N/A                                      | Group36          |
 | `ClientServerOperationComProps`                         | [ ] Pending | N/A                                      | Group34          |
-| `ClientServerOperationMapping`                          | [ ] Deferred| N/A                                      | Group11          |
+| `ClientServerOperationMapping`                          | [x] Done    | e301de1df9                               | Group11          |
 | `ClientServerToSignalMapping`                           | [ ] Pending | N/A                                      | Group31          |
 | `Code`                                                  | [x] Done    | 9f470606b5                               | Group1           |
 | `CollectableElement`                                    | [x] Done    | 3b31b7c402                               | Group1           |
