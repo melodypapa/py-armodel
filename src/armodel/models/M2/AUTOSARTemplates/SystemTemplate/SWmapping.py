@@ -47,36 +47,55 @@ class SwcToImplMapping(Identifiable, VariationPointCapable):
 
 class ApplicationPartitionToEcuPartitionMapping(Identifiable, VariationPointCapable):
     """
-    Represents a mapping between application partitions and ECU partitions,
-    defining how application-level partitions are mapped to ECU-level
-    partitions for resource allocation and execution management.
+    Maps ApplicationPartitions to EcuPartitions. With this mapping an OEM has the option to predefine an allocation of Software Components to EcuPartitions in the System Design phase. The final and complete assignment is described in the OS Configuration.
     """
 
     # ApplicationPartitionToEcuPartitionMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationPartitionRefs  [x] impl  [ ] docstring  [ ] test
-    # [ ] addApplicationPartitionRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuPartitionRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuPartitionRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.6, p.201
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationPartitionRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcuPartitionRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuPartitionRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+        # Reference to ApplicationPartitions that are mapped to an EcuPartition.
         self.applicationPartitionRefs: List[RefType] = []
-        self.ecuPartitionRef: RefType = None
 
-    def getApplicationPartitionRefs(self):
-        return self.applicationPartitionRefs
+        # Reference to EcuPartition to which the Application Partitions are assigned.
+        self.ecuPartitionRef: Optional[RefType] = None
 
-    def addApplicationPartitionRef(self, value):
+    def addApplicationPartitionRef(self, value: Optional[RefType]) -> "ApplicationPartitionToEcuPartitionMapping":
+        """
+        Reference to ApplicationPartitions that are mapped to an EcuPartition.
+
+        A None value is a no-op and does not add to applicationPartitionRefs.
+        """
         if value is not None:
             self.applicationPartitionRefs.append(value)
         return self
 
-    def getEcuPartitionRef(self):
+    def getApplicationPartitionRefs(self) -> List[RefType]:
+        """
+        Reference to ApplicationPartitions that are mapped to an EcuPartition.
+        """
+        return self.applicationPartitionRefs
+
+    def getEcuPartitionRef(self) -> Optional[RefType]:
+        """
+        Reference to EcuPartition to which the Application Partitions are assigned.
+        """
         return self.ecuPartitionRef
 
-    def setEcuPartitionRef(self, value):
+    def setEcuPartitionRef(self, value: Optional[RefType]) -> "ApplicationPartitionToEcuPartitionMapping":
+        """
+        Reference to EcuPartition to which the Application Partitions are assigned.
+
+        A None value is a no-op and does not overwrite an existing ecuPartitionRef.
+        """
         if value is not None:
             self.ecuPartitionRef = value
         return self

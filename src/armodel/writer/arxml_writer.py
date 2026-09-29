@@ -942,7 +942,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataPrototypeInPortInterfaceRef,
@@ -11870,6 +11870,24 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
+    def writeApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
+        child_element = ET.SubElement(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPING")
+        self.writeIdentifiable(child_element, mapping, write_variation_point=False)
+        refs = mapping.getApplicationPartitionRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "APPLICATION-PARTITION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "APPLICATION-PARTITION-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "ECU-PARTITION-REF", mapping.getEcuPartitionRef())
+        self.writeVariationPointCapable(child_element, mapping)
+
+    def writeSystemMappingApplicationPartitionToEcuPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        partition_mappings = mapping.getApplicationPartitionToEcuPartitionMappings()
+        if len(partition_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPINGS")
+            for partition_mapping in partition_mappings:
+                self.writeApplicationPartitionToEcuPartitionMapping(mappings_tag, partition_mapping)
+
     def writeSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         child_element = ET.SubElement(element, "SWC-TO-ECU-MAPPING")
         self.writeIdentifiable(child_element, mapping, write_variation_point=False)
@@ -12120,6 +12138,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
+        self.writeSystemMappingApplicationPartitionToEcuPartitionMappings(child_element, mapping)
         self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)

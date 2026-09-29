@@ -1065,7 +1065,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -13881,6 +13881,17 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
+    def readApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "APPLICATION-PARTITION-REFS/APPLICATION-PARTITION-REF"):
+            mapping.addApplicationPartitionRef(ref)
+        mapping.setEcuPartitionRef(self.getChildElementOptionalRefType(element, "ECU-PARTITION-REF"))
+
+    def readSystemMappingApplicationPartitionToEcuPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPINGS/APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPING"):
+            partition_mapping = mapping.createApplicationPartitionToEcuPartitionMapping(self.getShortName(child_element))
+            self.readApplicationPartitionToEcuPartitionMapping(child_element, partition_mapping)
+
     def readSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         # self.logger.debug("SwcToEcuMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
@@ -14096,6 +14107,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readSystemMappingApplicationPartitionToEcuPartitionMappings(element, mapping)
         self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)

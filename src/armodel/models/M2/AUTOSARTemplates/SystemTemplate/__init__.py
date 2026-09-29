@@ -223,6 +223,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApplicationPartitionToEcuPartitionMappings [x] impl  [ ] docstring  [ ] test
     # [ ] addApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
     # [ ] getAppOsTaskProxyToEcuTaskProxyMappings [x] impl  [ ] docstring  [ ] test
     # [ ] addAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
     # [ ] getComManagementMappings     [x] impl  [ ] docstring  [ ] test
@@ -306,6 +307,13 @@ class SystemMapping(Identifiable, VariationPointCapable):
     def addApplicationPartitionToEcuPartitionMapping(self, value):
         self.applicationPartitionToEcuPartitionMappings.append(value)
         return self
+
+    def createApplicationPartitionToEcuPartitionMapping(self, short_name: str) -> ApplicationPartitionToEcuPartitionMapping:
+        if not self.IsElementExists(short_name, ApplicationPartitionToEcuPartitionMapping):
+            mapping = ApplicationPartitionToEcuPartitionMapping(self, short_name)
+            self.addElement(mapping)
+            self.applicationPartitionToEcuPartitionMappings.append(mapping)
+        return self.getElement(short_name, ApplicationPartitionToEcuPartitionMapping)
 
     def getAppOsTaskProxyToEcuTaskProxyMappings(self):
         return self.appOsTaskProxyToEcuTaskProxyMappings
