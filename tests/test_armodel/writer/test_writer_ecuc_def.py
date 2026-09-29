@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucBooleanParamDef,
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
+    EcucFloatParamDef,
     EcucModuleDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
@@ -383,6 +384,40 @@ class TestWriterEcucFloatParamDef:
         parent = _parent()
         writer.writeEcucFloatParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_default_and_limits(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucFloatParamDef("P")
+        param.setDefaultValue(_float(1.5))
+        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue("CLOSED")))
+        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue("OPEN")))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("P", EcucFloatParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() == 1.5
+            assert reloaded_param.getMax() is not None
+            assert reloaded_param.getMax().getValue() == "99.5"
+            assert reloaded_param.getMax().getIntervalType().getValue() == "CLOSED"
+            assert reloaded_param.getMin() is not None
+            assert reloaded_param.getMin().getValue() == "0.0"
+            assert reloaded_param.getMin().getIntervalType().getValue() == "OPEN"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucEnumerationLiteralDef:

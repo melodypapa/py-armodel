@@ -1572,41 +1572,68 @@ class EcucFloatParamDef(EcucParameterDef):
 
     # EcucFloatParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.17, p.62
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMax                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMax                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: Float = None
-        self.max: Limit = None
-        self.min: Limit = None
+        # Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.defaultValue: Optional[Float] = None
 
-    def getDefaultValue(self) -> Float:
+        # Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.max: Optional[Limit] = None
+
+        # Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.min: Optional[Limit] = None
+
+    def getDefaultValue(self) -> Optional[Float]:
+        """
+        Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Float):
+    def setDefaultValue(self, value: Optional[Float]) -> "EcucFloatParamDef":
+        """
+        Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMax(self) -> Limit:
+    def getMax(self) -> Optional[Limit]:
+        """
+        Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.max
 
-    def setMax(self, value: Limit):
+    def setMax(self, value: Optional[Limit]) -> "EcucFloatParamDef":
+        """
+        Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing max.
+        """
         if value is not None:
             self.max = value
         return self
 
-    def getMin(self) -> Limit:
+    def getMin(self) -> Optional[Limit]:
+        """
+        Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.min
 
-    def setMin(self, value: Limit):
+    def setMin(self, value: Optional[Limit]) -> "EcucFloatParamDef":
+        """
+        Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing min.
+        """
         if value is not None:
             self.min = value
         return self

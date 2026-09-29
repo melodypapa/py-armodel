@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 497 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 198 | 10.3% |
-| [ ] Implemented | 619 | 32.2% |
+| [ ] Deferred | 199 | 10.4% |
+| [ ] Implemented | 618 | 32.2% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -830,7 +830,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucDestinationUriPolicy`                              | [ ] Implemented| N/A                                      | Group26          |
 | `EcucEnumerationLiteralDef`                             | [ ] Implemented| N/A                                      | Group26          |
 | `EcucEnumerationParamDef`                               | [ ] Implemented| N/A                                      | Group26          |
-| `EcucFloatParamDef`                                     | [ ] Implemented| N/A                                      | Group19          |
+| `EcucFloatParamDef`                                     | [ ] Deferred| N/A                                      | Group19          |
 | `EcucForeignReferenceDef`                               | [ ] Implemented| N/A                                      | Group19          |
 | `EcucFunctionNameDef`                                   | [ ] Implemented| N/A                                      | Group26          |
 | `EcucIndexableValue`                                    | [ ] Implemented| N/A                                      | Group27          |

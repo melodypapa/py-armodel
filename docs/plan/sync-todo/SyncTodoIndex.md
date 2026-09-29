@@ -823,7 +823,7 @@ Status: **0/16** completed
 | `EcucScopeEnum`                  | [ ] Pending*    | N/A       |
 | `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
 | `EcucBooleanParamDef`            | [ ] Pending*    | N/A       |
-| `EcucFloatParamDef`              | [ ] Implemented | N/A       |
+| `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
 | `EcucForeignReferenceDef`        | [ ] Implemented | N/A       |
 | `EcucLinkerSymbolDef`            | [ ] Implemented | N/A       |
 | `EcucReferenceDef`               | [ ] Implemented | N/A       |

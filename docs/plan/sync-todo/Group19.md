@@ -652,17 +652,112 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       round-trips incl.); npm run lint clean; black clean on all touched
       files; no marker in batch mode.
 
-- [ ] `EcucFloatParamDef` — EcucParameterDef — source TBC (locate table at Step 1)
+- [ ] `EcucFloatParamDef` — EcucParameterDef — R23-11 markdown · Table 2.17
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 2.17 AUTOSAR_CP_TPS_ECUConfiguration.md — PAGE-
+    SPLIT render: body rows (Class/Package/Note/Base/Aggregated-by/
+    Attribute header + defaultValue + max) sit at l.1589-1599 BEFORE the
+    caption "Table 2.17: EcucFloatParamDef" at l.1609, min row follows the
+    caption at l.1611 → displayed row order = defaultValue, max, min
+    (concatenation of per-page row groups, Rule 0001.11); pdf_page.py:
+    PDF p.62 caption hit (cite the header-row page). Concrete Class;
+    Package M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note
+    "Configuration parameter type for Float." (class docstring already
+    verbatim); Base chain → most-derived base EcucParameterDef (stamped
+    R23-11, Table 2.14 p.57, same file) — src matches, no flattening.
+    Aggregated by EcucDestinationUriPolicy.parameter +
+    EcucParamConfContainerDef.parameter (both consumers already dispatch
+    createEcucFloatParamDef; parser readEcucFloatParamDef l.11804 / writer
+    writeEcucFloatParamDef l.10583 cover DEFAULT-VALUE/MAX/MIN via getChild/
+    setChildElementOptionalFloatValue + getChild/setChildLimitElement; XSD
+    group ECUC-FLOAT-PARAM-DEF (AUTOSAR_00052.xsd l.52244, complexType
+    l.52278): sequence DEFAULT-VALUE, MAX (AR:LIMIT), MIN (AR:LIMIT) all
+    minOccurs=0 maxOccurs=1, no VARIANTS wrapper → flat optional elements
+    are correct). 3 attrs in displayed order: defaultValue (Float, 0..1),
+    max (Limit, 0..1), min (Limit, 0..1) — class field order already
+    matches. Drift found (Rule 0001.4): all three field/getter/setter sets
+    carry bare `Float`/`Limit` annotations (0..1 → Optional[...]); setters
+    lack the chaining return annotation; Note comments + getter/setter
+    docstrings missing (Step 4). Not VP-capable (Rule 0020 — Kind=attr
+    atpVariation rows; no VARIATION-POINT in the XSD complexType). No Rule
+    0001.10 missing types (Float/Limit are stamped PrimitiveTypes classes).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): extended TestEcucFloatParamDef in the mirrored
+      ECUCParameterDefTemplate/test_ECUCParameterDefTemplate.py — added
+      test_set_default_value_none_no_op (Rule 0004 None no-op, typed Float
+      primitive), test_setter_returns_self (chaining on all three setters,
+      typed Float/Limit primitives) + test_member_annotations (get_type_
+      hints pins: get/setDefaultValue == Optional[Float], get/setMax and
+      get/setMin == Optional[Limit], setter returns is EcucFloatParamDef —
+      quoted self-return, this module's forward-ref form, no PEP 563).
+      Seen Red 1 failed / 8 passed — the pin failed on the pre-sync bare
+      `Float` return annotation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES after
+      the Rule 0001.4 annotation fix — 3 attrs (defaultValue Float, max
+      Limit, min Limit; all 0..1) 1:1 with Table 2.17 in displayed order
+      (defaultValue, max, min), field/getter/setter now Optional[...] with
+      chaining `-> "EcucFloatParamDef"` setters, None-guards kept, blank
+      line between every attribute block; no fabricated/flattened members
+      (inherited derivation/symbolicNameValue/withAuto live on the stamped
+      base EcucParameterDef, Table 2.14); no Rule 0001.10 missing types.
+      Green: TestEcucFloatParamDef 9 passed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): pre-sync body carried NO member docstrings/comments
+      (nothing stale to wipe — confirmed by diffing the class body against
+      the pre-edit state); class docstring already verbatim (Table 2.17
+      Note). Wrote fresh for all three attrs in displayed order (default-
+      Value, max, min): inline `__init__` comments + getter docstrings +
+      setter docstrings, all = the Table 2.17 row Note verbatim ("Default
+      value of the float configuration parameter." / "Max value allowed for
+      the parameter defined." / "Min value allowed for the parameter
+      defined.", each with its `atpVariation: [RS_ECUC_0008x] Stereotypes:
+      atpVariation Tags: vh.latestBindingTime=codeGenerationTime` tail kept
+      verbatim per the stamped module precedent); setters appended the
+      None-no-op sentences; `__init__` has no docstring; blank line between
+      every attribute block.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): reader/writer coverage pre-existed complete — parser
+      test_arxml_parser_ecuc_handlers.py (DEFAULT-VALUE + MAX/MIN with
+      INTERVAL-TYPE read, missing-element None pair) + writer test_writer_
+      ecuc_def.py TestWriterEcucFloatParamDef (DEFAULT-VALUE/MAX/MIN emit
+      with INTERVAL-TYPE attrib, None omits the element); XSD has no
+      VARIANTS wrapper for this class → the missing-element pair is the
+      "empty case". Added test_round_trip_default_and_limits (set → save →
+      reload → assert Float value 1.5 + Limit values "99.5"/"0.0" with
+      CLOSED/OPEN interval types, field values not lengths) — no Red
+      observable (both sides pre-existed and pass; the test is the lossless
+      end-to-end proof). Ran writer+parser+model Float: 236 passed.
+  - [x] Step 6 — Update parser & writer (Green) (no change needed — readEcucFloatParamDef l.11804 / writeEcucFloatParamDef l.10583 already form the matched name pair (Rule 0013.2) over the spec-typed getChild/setChildElementOptionalFloatValue + getChild/setChildLimitElement helpers; XML order DEFAULT-VALUE, MAX, MIN matches the XSD group sequence l.52244; no receiver chains added)
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist rewritten to the final batch-mode shape —
+      `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.17, p.62`
+      (pdf_page.py caption hit confirms p.62; header-row page cited for the
+      page-split table) + the `# Columns:` header + per-row `R23-11`
+      release column (the pre-sync rows had no Columns line/release); rows
+      in source order = displayed row order (defaultValue/max/min, getter
+      first per scalar attr); `# Spec verified:` marker NOT written (batch
+      mode — deferred to batch confirmation). Set-based check passed:
+      checklist == {__init__, get/setDefaultValue, get/setMax, get/setMin},
+      all covered in the mirrored test.
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — the bare-`Float`/`Limit` annotations
+      and missing chaining returns were Rule 0001.4/0003 to-fix drift,
+      completed in this pass (not deviation rows). "No deviations" entry +
+      provenance note appended to docs/examples/method_deviation_by_class.md
+      (new EcucFloatParamDef section; records the page-split render and the
+      displayed-row-order finding). No Rule 0001.10 missing referenced
+      classes; no Rule 0019 combine case (no fixture carries anything
+      beyond DEFAULT-VALUE/MAX/MIN).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14977 passed /
+    0 failed, lint + black clean); 9b deferred to batch confirmation
+    (user instruction)
+    - note (Step 9): set-based check passed; `# type:` grep clean on the
+      class body; blank line between every attribute block verified by eye
+      (three blocks, spec row order); full suite 14977 passed / 0 failed
+      (integration round-trips incl.); npm run lint clean; black clean on
+      all touched files; no marker in batch mode.
 
 - [ ] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

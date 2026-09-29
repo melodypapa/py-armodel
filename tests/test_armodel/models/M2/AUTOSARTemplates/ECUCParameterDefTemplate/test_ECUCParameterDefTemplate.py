@@ -55,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Limit, RefType, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -1827,6 +1827,50 @@ class TestEcucFloatParamDef:
         float_param.setMin(None)
 
         assert float_param.getMin() is None
+
+    def test_set_default_value_none_no_op(self):
+        """
+        Test that setDefaultValue(None) is a no-op and does not overwrite an existing defaultValue.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("AUTOSAR")
+        float_param = EcucFloatParamDef(parent, "TestFloatParam")
+
+        assert float_param.setDefaultValue(None) is float_param
+        assert float_param.getDefaultValue() is None
+
+        float_param.setDefaultValue(Float().setValue("3.14"))
+        assert float_param.setDefaultValue(None) is float_param
+        assert float_param.getDefaultValue().getValue() == 3.14
+
+    def test_setter_returns_self(self):
+        """
+        Test that every setter returns self for method chaining (Rule 0004).
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("AUTOSAR")
+        float_param = EcucFloatParamDef(parent, "TestFloatParam")
+
+        assert float_param.setDefaultValue(Float().setValue("1.5")) is float_param
+        assert float_param.setMax(Limit().setValue("99.5")) is float_param
+        assert float_param.setMin(Limit().setValue("0.0")) is float_param
+
+    def test_member_annotations(self):
+        """
+        getDefaultValue/setDefaultValue/getMax/setMax/getMin/setMin shall resolve to
+        Optional[Float]/Optional[Limit] / EcucFloatParamDef (Rule 0003/0006 get_type_hints pin;
+        spec Mult. 0..1 → Optional; the quoted self-return is this module's required forward-ref
+        form, no PEP 563 here).
+        """
+        assert get_type_hints(EcucFloatParamDef.getDefaultValue)["return"] == Optional[Float]
+        assert get_type_hints(EcucFloatParamDef.setDefaultValue)["value"] == Optional[Float]
+        assert get_type_hints(EcucFloatParamDef.setDefaultValue)["return"] is EcucFloatParamDef
+        assert get_type_hints(EcucFloatParamDef.getMax)["return"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMax)["value"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMax)["return"] is EcucFloatParamDef
+        assert get_type_hints(EcucFloatParamDef.getMin)["return"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMin)["value"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMin)["return"] is EcucFloatParamDef
 
 
 class TestEcucChoiceContainerDef:
