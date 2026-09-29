@@ -139,3 +139,71 @@ class Test_ApplicationPartitionToEcuPartitionMappingSpec:
         hints = typing.get_type_hints(ApplicationPartitionToEcuPartitionMapping.setEcuPartitionRef)
         assert hints.get("value") == typing.Optional[RefType]
         assert hints.get("return") is ApplicationPartitionToEcuPartitionMapping
+
+
+class Test_SwcToImplMappingSpec:
+    """Test cases for SwcToImplMapping (Table 5.3, p.199)."""
+
+    MEMBERS = [
+        "componentIRefs",
+        "componentImplementationRef",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(SwcToImplMapping, Identifiable)
+        assert issubclass(SwcToImplMapping, VariationPointCapable)
+
+    def test_class_docstring_note(self):
+        expected = "Map instances of an AtomicSwComponentType to a specific Implementation."
+        assert inspect.cleandoc(SwcToImplMapping.__doc__) == expected
+
+    def test_init_has_no_docstring(self):
+        assert SwcToImplMapping.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        assert mapping.getComponentIRefs() == []
+        assert mapping.getComponentImplementationRef() is None
+
+    def test_member_order(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        members = [k for k in vars(mapping) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_component_iref(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        iref = ComponentInSystemInstanceRef()
+        result = mapping.addComponentIRef(iref)
+        assert result is mapping
+        assert mapping.getComponentIRefs() == [iref]
+        iref2 = ComponentInSystemInstanceRef()
+        mapping.addComponentIRef(iref2)
+        assert mapping.getComponentIRefs() == [iref, iref2]
+        mapping.addComponentIRef(None)
+        assert mapping.getComponentIRefs() == [iref, iref2]
+
+    def test_get_set_component_implementation_ref(self):
+        parent = MockParent()
+        mapping = SwcToImplMapping(parent, "test_sw_impl_mapping")
+        value = RefType()
+        value.setValue("/SwComponentTypes/Engine/Swcs/EngineImpl")
+        result = mapping.setComponentImplementationRef(value)
+        assert result is mapping
+        assert mapping.getComponentImplementationRef() is value
+        mapping.setComponentImplementationRef(None)
+        assert mapping.getComponentImplementationRef() is value
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(SwcToImplMapping.getComponentIRefs)
+        assert hints.get("return") == typing.List[ComponentInSystemInstanceRef]
+        hints = typing.get_type_hints(SwcToImplMapping.addComponentIRef)
+        assert hints.get("value") == typing.Optional[ComponentInSystemInstanceRef]
+        assert hints.get("return") is SwcToImplMapping
+        hints = typing.get_type_hints(SwcToImplMapping.getComponentImplementationRef)
+        assert hints.get("return") == typing.Optional[RefType]
+        hints = typing.get_type_hints(SwcToImplMapping.setComponentImplementationRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is SwcToImplMapping

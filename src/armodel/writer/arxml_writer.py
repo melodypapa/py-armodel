@@ -11953,13 +11953,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         if mapping is not None:
             child_element = ET.SubElement(element, "SWC-TO-IMPL-MAPPING")
-            self.writeIdentifiable(child_element, mapping)
+            self.writeIdentifiable(child_element, mapping, write_variation_point=False)
             self.setChildElementOptionalRefType(child_element, "COMPONENT-IMPLEMENTATION-REF", mapping.getComponentImplementationRef())
             irefs = mapping.getComponentIRefs()
             if len(irefs) > 0:
                 irefs_tag = ET.SubElement(child_element, "COMPONENT-IREFS")
                 for iref in irefs:
                     self.setComponentInSystemInstanceRef(irefs_tag, "COMPONENT-IREF", iref)
+            self.writeVariationPointCapable(child_element, mapping)
 
     def writeSystemMappingSwImplMappings(self, element: ET.Element, mapping: SystemMapping):
         sw_impl_mappings = mapping.getSwImplMappings()
