@@ -1665,6 +1665,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
     # ModeInterfaceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.26, p.130 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getModeMapping  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
