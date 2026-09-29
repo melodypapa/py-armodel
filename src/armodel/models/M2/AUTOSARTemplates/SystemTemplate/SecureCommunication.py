@@ -1141,6 +1141,321 @@ class IPsecDpdActionEnum(AREnum):
         )
 
 
+class IPSecRule(Identifiable):
+    """
+    This element defines an IPsec rule that describes communication traffic that is monitored, protected and filtered.
+
+    [TPS_SYST_02266] Definition of IPSecRules: The IPSecConfig meta-class may contain one or several IPSecRules. Each IPSecRule defines the network connection that is monitored by IPsec by defining the local endpoint and the remote endpoint. Each endpoint is defined by the IP Address and the Tcp/Udp Port. The communication direction for which the IPSecRule is valid is defined by the direction attribute.
+
+    [constr_5163] Existence of IPSecRule.headerType: For each IPSecRule, the attribute headerType shall exist at the time when the System Description is complete.
+
+    [constr_5164] Existence of IPSecRule.ipProtocol: For each IPSecRule, the attribute ipProtocol shall exist at the time when the System Description is complete.
+
+    [constr_5165] Existence of IPSecRule.policy: For each IPSecRule, the attribute policy shall exist at the time when the System Description is complete.
+    """
+
+    # IPSecRule method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.222, p.572 (R23-11)
+    # Table 6.222's body is split by an image/glyph interruption after localPortRangeEnd; the
+    # continuation block (localPortRangeStart..remotePortRangeStart) was verified row-by-row
+    # against the XSD group IP-SEC-RULE (AUTOSAR_00052.xsd L73884) — all 16 attributes carry
+    # R23-11 markdown text; no R4.3.1 / XSD-doc fallback rows were needed.
+    # ikeAuthenticationMethod (XSD atp.Status="removed"; absent from the PDF table) is not modeled.
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDirection                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDirection                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHeaderType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpProtocol                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpProtocol                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLocalCertificateRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalCertificateRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getLocalId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalPortRangeEnd         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalPortRangeEnd         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalPortRangeStart       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalPortRangeStart       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMode                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMode                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPolicy                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPolicy                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPreSharedKeyRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPreSharedKeyRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRemoteCertificateRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteCertificateRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRemoteId                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemoteId                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRemoteIpAddressRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteIpAddressRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRemotePortRangeEnd        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemotePortRangeEnd        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemotePortRangeStart      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemotePortRangeStart      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute defines the direction in which the traffic is monitored. If this attribute is not set a bidirectional traffic monitoring is assumed.
+        self.direction: Optional[CommunicationDirectionType] = None
+
+        # Header type specifying the IPsec security mechanism.
+        self.headerType: Optional[IPsecHeaderTypeEnum] = None
+
+        # This attribute defines the relevant IP protocol used in the Security Policy Database (SPD) entry.
+        self.ipProtocol: Optional[IPsecIpProtocolEnum] = None
+
+        # This reference identifies the applicable certificate used for a local authentication.
+        self.localCertificateRefs: List[RefType] = []
+
+        # This attribute defines how the local participant should be identified for authentication.
+        self.localId: Optional[String] = None
+
+        # This attribute restricts the traffic monitoring and defines an end value for the local port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        self.localPortRangeEnd: Optional[PositiveInteger] = None
+
+        # This attribute restricts the traffic monitoring and defines a start value for the local port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        self.localPortRangeStart: Optional[PositiveInteger] = None
+
+        # This attribute defines the type of the connection.
+        self.mode: Optional[IPsecModeEnum] = None
+
+        # An IPsec policy defines the rules that determine which type of IP traffic needs to be secured using IPsec and how that traffic is secured.
+        self.policy: Optional[IPsecPolicyEnum] = None
+
+        # This reference identifies the applicable cryptograhic key used for authentication.
+        self.preSharedKeyRef: Optional[RefType] = None
+
+        # This attribute defines the priority of the IPSecRule (SPD entry). The processing of entries is based on priority, starting with the highest priority "0".
+        self.priority: Optional[PositiveInteger] = None
+
+        # This reference identifies the applicable certificate used for a remote authentication.
+        self.remoteCertificateRefs: List[RefType] = []
+
+        # This attribute defines how the remote participant should be identified for authentication.
+        self.remoteId: Optional[String] = None
+
+        # Definition of the remote NetworkEndpoint. With this reference the connection between the local Network Endpoint and the remote NetworkEndpoint is described on which the traffic is monitored.
+        self.remoteIpAddressRefs: List[RefType] = []
+
+        # This attribute restricts the traffic monitoring and defines an end value for the remote port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        self.remotePortRangeEnd: Optional[PositiveInteger] = None
+
+        # This attribute restricts the traffic monitoring and defines a start value for the remote port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        self.remotePortRangeStart: Optional[PositiveInteger] = None
+
+    def getDirection(self) -> Optional[CommunicationDirectionType]:
+        """This attribute defines the direction in which the traffic is monitored. If this attribute is not set a bidirectional traffic monitoring is assumed."""
+        return self.direction
+
+    def setDirection(self, value: Optional[CommunicationDirectionType]) -> IPSecRule:
+        """
+        This attribute defines the direction in which the traffic is monitored. If this attribute is not set a bidirectional traffic monitoring is assumed.
+        A None value is a no-op and does not overwrite an existing direction.
+        """
+        if value is not None:
+            self.direction = value
+        return self
+
+    def getHeaderType(self) -> Optional[IPsecHeaderTypeEnum]:
+        """Header type specifying the IPsec security mechanism."""
+        return self.headerType
+
+    def setHeaderType(self, value: Optional[IPsecHeaderTypeEnum]) -> IPSecRule:
+        """
+        Header type specifying the IPsec security mechanism.
+        A None value is a no-op and does not overwrite an existing headerType.
+        """
+        if value is not None:
+            self.headerType = value
+        return self
+
+    def getIpProtocol(self) -> Optional[IPsecIpProtocolEnum]:
+        """This attribute defines the relevant IP protocol used in the Security Policy Database (SPD) entry."""
+        return self.ipProtocol
+
+    def setIpProtocol(self, value: Optional[IPsecIpProtocolEnum]) -> IPSecRule:
+        """
+        This attribute defines the relevant IP protocol used in the Security Policy Database (SPD) entry.
+        A None value is a no-op and does not overwrite an existing ipProtocol.
+        """
+        if value is not None:
+            self.ipProtocol = value
+        return self
+
+    def addLocalCertificateRef(self, ref: Optional[RefType]) -> IPSecRule:
+        """
+        This reference identifies the applicable certificate used for a local authentication.
+        A None value is a no-op and does not extend the localCertificateRefs list.
+        """
+        if ref is not None:
+            self.localCertificateRefs.append(ref)
+        return self
+
+    def getLocalCertificateRefs(self) -> List[RefType]:
+        """This reference identifies the applicable certificate used for a local authentication."""
+        return self.localCertificateRefs
+
+    def getLocalId(self) -> Optional[String]:
+        """This attribute defines how the local participant should be identified for authentication."""
+        return self.localId
+
+    def setLocalId(self, value: Optional[String]) -> IPSecRule:
+        """
+        This attribute defines how the local participant should be identified for authentication.
+        A None value is a no-op and does not overwrite an existing localId.
+        """
+        if value is not None:
+            self.localId = value
+        return self
+
+    def getLocalPortRangeEnd(self) -> Optional[PositiveInteger]:
+        """This attribute restricts the traffic monitoring and defines an end value for the local port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port."""
+        return self.localPortRangeEnd
+
+    def setLocalPortRangeEnd(self, value: Optional[PositiveInteger]) -> IPSecRule:
+        """
+        This attribute restricts the traffic monitoring and defines an end value for the local port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        A None value is a no-op and does not overwrite an existing localPortRangeEnd.
+        """
+        if value is not None:
+            self.localPortRangeEnd = value
+        return self
+
+    def getLocalPortRangeStart(self) -> Optional[PositiveInteger]:
+        """This attribute restricts the traffic monitoring and defines a start value for the local port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port."""
+        return self.localPortRangeStart
+
+    def setLocalPortRangeStart(self, value: Optional[PositiveInteger]) -> IPSecRule:
+        """
+        This attribute restricts the traffic monitoring and defines a start value for the local port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        A None value is a no-op and does not overwrite an existing localPortRangeStart.
+        """
+        if value is not None:
+            self.localPortRangeStart = value
+        return self
+
+    def getMode(self) -> Optional[IPsecModeEnum]:
+        """This attribute defines the type of the connection."""
+        return self.mode
+
+    def setMode(self, value: Optional[IPsecModeEnum]) -> IPSecRule:
+        """
+        This attribute defines the type of the connection.
+        A None value is a no-op and does not overwrite an existing mode.
+        """
+        if value is not None:
+            self.mode = value
+        return self
+
+    def getPolicy(self) -> Optional[IPsecPolicyEnum]:
+        """An IPsec policy defines the rules that determine which type of IP traffic needs to be secured using IPsec and how that traffic is secured."""
+        return self.policy
+
+    def setPolicy(self, value: Optional[IPsecPolicyEnum]) -> IPSecRule:
+        """
+        An IPsec policy defines the rules that determine which type of IP traffic needs to be secured using IPsec and how that traffic is secured.
+        A None value is a no-op and does not overwrite an existing policy.
+        """
+        if value is not None:
+            self.policy = value
+        return self
+
+    def getPreSharedKeyRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable cryptograhic key used for authentication."""
+        return self.preSharedKeyRef
+
+    def setPreSharedKeyRef(self, value: Optional[RefType]) -> IPSecRule:
+        """
+        This reference identifies the applicable cryptograhic key used for authentication.
+        A None value is a no-op and does not overwrite an existing preSharedKeyRef.
+        """
+        if value is not None:
+            self.preSharedKeyRef = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """This attribute defines the priority of the IPSecRule (SPD entry). The processing of entries is based on priority, starting with the highest priority "0"."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> IPSecRule:
+        """
+        This attribute defines the priority of the IPSecRule (SPD entry). The processing of entries is based on priority, starting with the highest priority "0".
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def addRemoteCertificateRef(self, ref: Optional[RefType]) -> IPSecRule:
+        """
+        This reference identifies the applicable certificate used for a remote authentication.
+        A None value is a no-op and does not extend the remoteCertificateRefs list.
+        """
+        if ref is not None:
+            self.remoteCertificateRefs.append(ref)
+        return self
+
+    def getRemoteCertificateRefs(self) -> List[RefType]:
+        """This reference identifies the applicable certificate used for a remote authentication."""
+        return self.remoteCertificateRefs
+
+    def getRemoteId(self) -> Optional[String]:
+        """This attribute defines how the remote participant should be identified for authentication."""
+        return self.remoteId
+
+    def setRemoteId(self, value: Optional[String]) -> IPSecRule:
+        """
+        This attribute defines how the remote participant should be identified for authentication.
+        A None value is a no-op and does not overwrite an existing remoteId.
+        """
+        if value is not None:
+            self.remoteId = value
+        return self
+
+    def addRemoteIpAddressRef(self, ref: Optional[RefType]) -> IPSecRule:
+        """
+        Definition of the remote NetworkEndpoint. With this reference the connection between the local Network Endpoint and the remote NetworkEndpoint is described on which the traffic is monitored.
+        A None value is a no-op and does not extend the remoteIpAddressRefs list.
+        """
+        if ref is not None:
+            self.remoteIpAddressRefs.append(ref)
+        return self
+
+    def getRemoteIpAddressRefs(self) -> List[RefType]:
+        """Definition of the remote NetworkEndpoint. With this reference the connection between the local Network Endpoint and the remote NetworkEndpoint is described on which the traffic is monitored."""
+        return self.remoteIpAddressRefs
+
+    def getRemotePortRangeEnd(self) -> Optional[PositiveInteger]:
+        """This attribute restricts the traffic monitoring and defines an end value for the remote port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port."""
+        return self.remotePortRangeEnd
+
+    def setRemotePortRangeEnd(self, value: Optional[PositiveInteger]) -> IPSecRule:
+        """
+        This attribute restricts the traffic monitoring and defines an end value for the remote port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        A None value is a no-op and does not overwrite an existing remotePortRangeEnd.
+        """
+        if value is not None:
+            self.remotePortRangeEnd = value
+        return self
+
+    def getRemotePortRangeStart(self) -> Optional[PositiveInteger]:
+        """This attribute restricts the traffic monitoring and defines a start value for the remote port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port."""
+        return self.remotePortRangeStart
+
+    def setRemotePortRangeStart(self, value: Optional[PositiveInteger]) -> IPSecRule:
+        """
+        This attribute restricts the traffic monitoring and defines a start value for the remote port range. If this attribute is not set then this rule shall be effective for all local ports. Please note that port ranges are currently not supported in the AUTOSAR AP's operating system backend. If AP systems are involved, each IPsec rule may only contain a single port.
+        A None value is a no-op and does not overwrite an existing remotePortRangeStart.
+        """
+        if value is not None:
+            self.remotePortRangeStart = value
+        return self
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.
@@ -1640,3 +1955,9 @@ class MacSecProps(ARObject):
         if value is not None:
             self.sakRekeyTimeSpan = value
         return self
+
+
+# Cycle-breaker: CommunicationDirectionType (FibexCore.CoreCommunication) transitively
+# imports MacSecProps from this module via Fibex4Ethernet.EthernetTopology; a top-of-module
+# import runs while this module is partially initialized (Rule 0005 bottom-import).
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType  # noqa: E402

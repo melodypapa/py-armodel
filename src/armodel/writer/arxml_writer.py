@@ -763,6 +763,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
+    IPSecRule,
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
@@ -12078,6 +12079,39 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CRYPTO-SIGNATURE-SCHEME")
         self.writeIdentifiable(child_element, scheme)
         self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", scheme.getSignatureSchemeId())
+
+    def writeIPSecRule(self, parent: ET.Element, rule: IPSecRule):
+        self.logger.debug("Write IPSecRule <%s>" % rule.getShortName())
+        element = ET.SubElement(parent, "IP-SEC-RULE")
+        self.writeIdentifiable(element, rule)
+        self.setChildElementOptionalLiteral(element, "DIRECTION", rule.getDirection())
+        self.setChildElementOptionalLiteral(element, "HEADER-TYPE", rule.getHeaderType())
+        self.setChildElementOptionalLiteral(element, "IP-PROTOCOL", rule.getIpProtocol())
+        refs = rule.getLocalCertificateRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "LOCAL-CERTIFICATE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "LOCAL-CERTIFICATE-REF", ref)
+        self.setChildElementOptionalString(element, "LOCAL-ID", rule.getLocalId())
+        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-END", rule.getLocalPortRangeEnd())
+        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-START", rule.getLocalPortRangeStart())
+        self.setChildElementOptionalLiteral(element, "MODE", rule.getMode())
+        self.setChildElementOptionalLiteral(element, "POLICY", rule.getPolicy())
+        self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", rule.getPreSharedKeyRef())
+        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", rule.getPriority())
+        refs = rule.getRemoteCertificateRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "REMOTE-CERTIFICATE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REMOTE-CERTIFICATE-REF", ref)
+        self.setChildElementOptionalString(element, "REMOTE-ID", rule.getRemoteId())
+        refs = rule.getRemoteIpAddressRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "REMOTE-IP-ADDRESS-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REMOTE-IP-ADDRESS-REF", ref)
+        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END", rule.getRemotePortRangeEnd())
+        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START", rule.getRemotePortRangeStart())
 
     def writeCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Write CryptoServiceCertificate <%s>" % certificate.getShortName())

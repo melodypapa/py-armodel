@@ -2090,7 +2090,7 @@ STUBS = [
         "AREnum",
     ),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.__init__", "IPSecConfigProps", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage", "ARElement"),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.__init__", "IPSecRule", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable", "Identifiable"),
+    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication", "IPSecRule", "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable", "Identifiable"),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication",
         "IPsecDpdActionEnum",

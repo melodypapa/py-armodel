@@ -878,6 +878,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
+    IPsecHeaderTypeEnum,
+    IPsecIpProtocolEnum,
+    IPsecModeEnum,
+    IPsecPolicyEnum,
+    IPSecRule,
     SecOcCryptoServiceMapping,
     TlsCryptoCipherSuite,
     TlsCryptoCipherSuiteProps,
@@ -886,6 +891,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
     CouplingPortRatePolicyActionEnum,
@@ -14035,6 +14041,49 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read CryptoSignatureScheme <%s>" % scheme.getShortName())
         self.readIdentifiable(element, scheme)
         scheme.setSignatureSchemeId(self.getChildElementOptionalPositiveInteger(element, "SIGNATURE-SCHEME-ID"))
+
+    def readIPSecRule(self, element: ET.Element, rule: IPSecRule):
+        self.logger.debug("Read IPSecRule <%s>" % rule.getShortName())
+        self.readIdentifiable(element, rule)
+        literal = self.getChildElementOptionalLiteral(element, "DIRECTION")
+        if literal is not None:
+            e = CommunicationDirectionType()
+            e.setValue(literal.getValue())
+            rule.setDirection(e)
+        literal = self.getChildElementOptionalLiteral(element, "HEADER-TYPE")
+        if literal is not None:
+            e = IPsecHeaderTypeEnum()
+            e.setValue(literal.getValue())
+            rule.setHeaderType(e)
+        literal = self.getChildElementOptionalLiteral(element, "IP-PROTOCOL")
+        if literal is not None:
+            e = IPsecIpProtocolEnum()
+            e.setValue(literal.getValue())
+            rule.setIpProtocol(e)
+        for ref in self.getChildElementRefTypeList(element, "LOCAL-CERTIFICATE-REFS/LOCAL-CERTIFICATE-REF"):
+            rule.addLocalCertificateRef(ref)
+        rule.setLocalId(self.getChildElementOptionalString(element, "LOCAL-ID"))
+        rule.setLocalPortRangeEnd(self.getChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-END"))
+        rule.setLocalPortRangeStart(self.getChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-START"))
+        literal = self.getChildElementOptionalLiteral(element, "MODE")
+        if literal is not None:
+            e = IPsecModeEnum()
+            e.setValue(literal.getValue())
+            rule.setMode(e)
+        literal = self.getChildElementOptionalLiteral(element, "POLICY")
+        if literal is not None:
+            e = IPsecPolicyEnum()
+            e.setValue(literal.getValue())
+            rule.setPolicy(e)
+        rule.setPreSharedKeyRef(self.getChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF"))
+        rule.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-CERTIFICATE-REFS/REMOTE-CERTIFICATE-REF"):
+            rule.addRemoteCertificateRef(ref)
+        rule.setRemoteId(self.getChildElementOptionalString(element, "REMOTE-ID"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-IP-ADDRESS-REFS/REMOTE-IP-ADDRESS-REF"):
+            rule.addRemoteIpAddressRef(ref)
+        rule.setRemotePortRangeEnd(self.getChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END"))
+        rule.setRemotePortRangeStart(self.getChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START"))
 
     def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Read CryptoServiceCertificate <%s>" % certificate.getShortName())
