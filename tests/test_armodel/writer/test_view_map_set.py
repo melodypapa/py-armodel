@@ -10,15 +10,13 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ViewMapSet,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    ViewMap,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import (
+    ViewMap,
+    ViewMapSet,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 

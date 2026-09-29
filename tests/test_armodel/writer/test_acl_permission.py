@@ -10,13 +10,13 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    AclPermission,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     NameToken,
     RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
+    AclPermission,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 

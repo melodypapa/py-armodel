@@ -6,20 +6,15 @@ in the AUTOSAR GenericStructure module.
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    AclObjectSet,
-    AclOperation,
-    AclPermission,
-    AclRole,
     ARElement,
     ARPackage,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
-    ViewMapSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ViewMap
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
@@ -29,6 +24,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     UriString,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
+    AclObjectSet,
+    AclOperation,
+    AclPermission,
+    AclRole,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 
 
 class TestReferenceBase:
