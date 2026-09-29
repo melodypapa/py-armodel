@@ -1312,7 +1312,7 @@ class BswModeSwitchAckRequest(ARObject):
         return self
 
 
-class BswModeSenderPolicy(ARObject):
+class BswModeSenderPolicy(ARObject, VariationPointCapable):
     """
     Specifies the details for the sending of a mode switch for the referred mode group.
     """
@@ -1406,7 +1406,7 @@ class BswModeSenderPolicy(ARObject):
         return self
 
 
-class BswModeReceiverPolicy(ARObject):
+class BswModeReceiverPolicy(ARObject, VariationPointCapable):
     """
     Specifies the details for the reception of a mode switch for the referred mode group.
     """
@@ -3272,7 +3272,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.includedDataTypeSets
 
 
-class BswTriggerDirectImplementation(ARObject):
+class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
     """
     Specifies a released trigger to be directly implemented via OS calls, for example in a Complex Driver module.
     """

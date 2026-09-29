@@ -62,6 +62,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.Serv
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, Numerical, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -1264,9 +1265,9 @@ class TestBswModeSenderPolicy:
         assert policy.getQueueLength() is None
 
     def test_base_is_ar_object(self):
-        """Table 5.39 Base chain is ARObject only (no VariationPointCapable)."""
+        """Table 5.39 Base chain is ARObject, plus the repo-wide VariationPointCapable capability mixin."""
         assert issubclass(BswModeSenderPolicy, ARObject)
-        assert BswModeSenderPolicy.__bases__ == (ARObject,)
+        assert issubclass(BswModeSenderPolicy, VariationPointCapable)
 
     def test_no_init_docstring(self):
         """__init__ carries no docstring (the spec Note lives on the class docstring)."""
@@ -1386,9 +1387,9 @@ class TestBswModeReceiverPolicy:
         assert policy.getSupportsAsynchronousModeSwitch() is None
 
     def test_base_is_ar_object(self):
-        """Table 5.41 Base chain is ARObject only (no VariationPointCapable)."""
+        """Table 5.41 Base chain is ARObject, plus the repo-wide VariationPointCapable capability mixin."""
         assert issubclass(BswModeReceiverPolicy, ARObject)
-        assert BswModeReceiverPolicy.__bases__ == (ARObject,)
+        assert issubclass(BswModeReceiverPolicy, VariationPointCapable)
 
     def test_no_init_docstring(self):
         """__init__ carries no docstring (the spec Note lives on the class docstring)."""
@@ -1602,8 +1603,9 @@ class TestBswTriggerDirectImplementation:
         assert implementation.getTask() == "OsTask_Trigger"
 
     def test_base_per_spec(self):
-        """The spec Base chain for BswTriggerDirectImplementation is ARObject only."""
-        assert BswTriggerDirectImplementation.__bases__ == (ARObject,)
+        """The spec Base chain for BswTriggerDirectImplementation is ARObject, plus the VariationPointCapable capability mixin."""
+        assert issubclass(BswTriggerDirectImplementation, ARObject)
+        assert issubclass(BswTriggerDirectImplementation, VariationPointCapable)
 
     def test_type_annotations(self):
         """Pin the spec 0..1 optional annotations on the accessors."""
