@@ -2431,7 +2431,37 @@ class AclObjectSet(ARElement):
 
 
 class AclOperation(ARElement):
-    pass
+    """
+    This meta class represents the ability to denote a particular operation which may be performed on objects in an AUTOSAR model. Tags: atp.recommendedPackage=AclOperations
+    """
+
+    # AclOperation method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.4, p.384
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addImpliedOperationRef    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getImpliedOperationRefs   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This indicates that the related operations are also implied. Therefore the permission is also granted for this operation.
+        self.impliedOperationRefs: List[RefType] = []
+
+    def addImpliedOperationRef(self, value: Optional[RefType]) -> AclOperation:
+        """
+        This indicates that the related operations are also implied. Therefore the permission is also granted for this operation.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.impliedOperationRefs.append(value)
+        return self
+
+    def getImpliedOperationRefs(self) -> List[RefType]:
+        """
+        This indicates that the related operations are also implied. Therefore the permission is also granted for this operation.
+        """
+        return self.impliedOperationRefs
 
 
 class AclPermission(ARElement):
