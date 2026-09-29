@@ -607,12 +607,13 @@ Status: **15/24** completed
 
 ## Group12
 
-Status: **1/14** completed
+Status: **3/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
 | `ParameterAccess`                    | [x] Done     | 3b9f111270 |
-| `VariableAccess`                     | [ ] Pending* | N/A        |
+| `VariableAccessScopeEnum`            | [x] Done     | 12e743cc9b |
+| `VariableAccess`                     | [x] Done     | 12e743cc9b |
 | `InternalTriggeringPoint`            | [ ] Pending* | N/A        |
 | `ModeAccessPoint`                    | [ ] Pending* | N/A        |
 | `ModeSwitchPoint`                    | [ ] Pending* | N/A        |
@@ -1527,13 +1528,12 @@ Status: **0/75** completed
 
 ## Group29
 
-Status: **0/75** completed
+Status: **0/74** completed
 
 | Class Name                                     | Status          | Commit ID |
 | ---------------------------------------------- | --------------- | --------- |
 | `SwcExclusiveAreaPolicy`                       | [ ] Implemented | N/A       |
 | `RteApiReturnValueProvisionEnum`               | [ ] Implemented | N/A       |
-| `VariableAccessScopeEnum`                      | [ ] Created     | N/A       |
 | `ExternalTriggeringPoint`                      | [ ] Implemented | N/A       |
 | `IncludedDataTypeSet`                          | [ ] Implemented | N/A       |
 | `SwcServiceDependency`                         | [ ] Implemented | N/A       |

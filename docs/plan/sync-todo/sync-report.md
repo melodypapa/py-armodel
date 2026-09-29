@@ -10,12 +10,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 498 | 25.9% |
+| [x] Done | 500 | 26.0% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 196 | 10.2% |
+| [ ] Deferred | 195 | 10.2% |
 | [ ] Implemented | 620 | 32.3% |
-| [ ] Created | 596 | 31.0% |
+| [ ] Created | 595 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -1910,9 +1910,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ValueList`                                             | [ ] Implemented| N/A                                      | Group28          |
 | `ValueRestrictionWithSeverity`                          | [ ] Created | N/A                                      | Group36          |
 | `ValueSpecification`                                    | [ ] Implemented| N/A                                      | Group28          |
-| `VariableAccess`                                        | [ ] Deferred| N/A                                      | Group12          |
+| `VariableAccess`                                        | [x] Done    | 12e743cc9b                               | Group12          |
 | `VariableAccessInEcuInstanceRef`                        | [ ] Deferred| N/A                                      | Group12          |
-| `VariableAccessScopeEnum`                               | [ ] Created | N/A                                      | Group29          |
+| `VariableAccessScopeEnum`                               | [x] Done    | 12e743cc9b                               | Group12          |
 | `VariableAndParameterInterfaceMapping`                  | [ ] Deferred| de2d5fe918                               | Group11          |
 | `VariableDataPrototype`                                 | [x] Done    | d3b5d680e2                               | Group2           |
 | `VariableDataPrototypeInSystemInstanceRef`              | [x] Done    | 1b3d673dac                               | Group7           |
