@@ -691,7 +691,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -11888,6 +11888,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             for partition_mapping in partition_mappings:
                 self.writeApplicationPartitionToEcuPartitionMapping(mappings_tag, partition_mapping)
 
+    def writeAppOsTaskProxyToEcuTaskProxyMapping(self, element: ET.Element, mapping: AppOsTaskProxyToEcuTaskProxyMapping):
+        child_element = ET.SubElement(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "APP-TASK-PROXY-REF", mapping.getAppTaskProxyRef())
+        self.setChildElementOptionalRefType(child_element, "ECU-TASK-PROXY-REF", mapping.getEcuTaskProxyRef())
+        self.setChildElementOptionalIntegerValue(child_element, "OFFSET", mapping.getOffset())
+
+    def writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        app_ecu_mappings = mapping.getAppOsTaskProxyToEcuTaskProxyMappings()
+        if len(app_ecu_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS")
+            for app_ecu_mapping in app_ecu_mappings:
+                self.writeAppOsTaskProxyToEcuTaskProxyMapping(mappings_tag, app_ecu_mapping)
+
     def writeSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         child_element = ET.SubElement(element, "SWC-TO-ECU-MAPPING")
         self.writeIdentifiable(child_element, mapping, write_variation_point=False)
@@ -12139,6 +12153,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
+        self.writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingApplicationPartitionToEcuPartitionMappings(child_element, mapping)
         self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)

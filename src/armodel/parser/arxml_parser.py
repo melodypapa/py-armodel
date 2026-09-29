@@ -784,7 +784,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -13892,6 +13892,17 @@ class ARXMLParser(AbstractARXMLParser):
             partition_mapping = mapping.createApplicationPartitionToEcuPartitionMapping(self.getShortName(child_element))
             self.readApplicationPartitionToEcuPartitionMapping(child_element, partition_mapping)
 
+    def readAppOsTaskProxyToEcuTaskProxyMapping(self, element: ET.Element, mapping: AppOsTaskProxyToEcuTaskProxyMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setAppTaskProxyRef(self.getChildElementOptionalRefType(element, "APP-TASK-PROXY-REF"))
+        mapping.setEcuTaskProxyRef(self.getChildElementOptionalRefType(element, "ECU-TASK-PROXY-REF"))
+        mapping.setOffset(self.getChildElementOptionalIntegerValue(element, "OFFSET"))
+
+    def readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS/APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING"):
+            app_ecu_mapping = mapping.createAppOsTaskProxyToEcuTaskProxyMapping(self.getShortName(child_element))
+            self.readAppOsTaskProxyToEcuTaskProxyMapping(child_element, app_ecu_mapping)
+
     def readSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         # self.logger.debug("SwcToEcuMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
@@ -14107,6 +14118,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(element, mapping)
         self.readSystemMappingApplicationPartitionToEcuPartitionMappings(element, mapping)
         self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingCryptoServiceMappings(element, mapping)
