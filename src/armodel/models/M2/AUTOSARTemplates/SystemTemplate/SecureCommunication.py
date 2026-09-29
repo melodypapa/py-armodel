@@ -1021,6 +1021,40 @@ class IPsecIpProtocolEnum(AREnum):
         )
 
 
+class IPsecPolicyEnum(AREnum):
+    """
+    Defines the filter actions that are supported by IPsec.
+    """
+
+    # IPsecPolicyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.225, p.574
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IPSecRule/IPSecConfigProps members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Signifying that packets should be discarded Tags: atp.EnumerationLiteralIndex=3
+    DROP = "drop"
+
+    # Signifying that packets should be protected. Tags: atp.EnumerationLiteralIndex=1
+    IPSEC = "ipsec"
+
+    # Signifying that no IPsec processing should be done at all. Tags: atp.EnumerationLiteralIndex=2
+    PASSTHROUGH = "passthrough"
+
+    # Signifying that packets should be discarded and a diagnostic ICMP returned. Tags: atp.EnumerationLiteralIndex=4
+    REJECT = "reject"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IPsecPolicyEnum.DROP,
+                IPsecPolicyEnum.IPSEC,
+                IPsecPolicyEnum.PASSTHROUGH,
+                IPsecPolicyEnum.REJECT,
+            ]
+        )
+
+
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.

@@ -1881,10 +1881,6 @@ class IPsecModeEnum(AREnum):
     pass
 
 
-class IPsecPolicyEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 
