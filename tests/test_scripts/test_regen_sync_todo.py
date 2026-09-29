@@ -47,6 +47,8 @@ def test_resolve_row_normalizes_commit_id_to_git_abbreviation_length():
         f"- [x] `SharedClass` — commit: {full_commit}",
         "",
         {"SharedClass"},
+        set(),
+        set(),
         {},
         {},
         {"SharedClass": {"Group1"}},
