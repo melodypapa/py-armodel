@@ -170,8 +170,22 @@ class AtpBlueprintMapping(ARObject, ABC):
         return self
 
 
-__all__ = ["LifeCycleState","AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping", "BlueprintPolicy"]
-
-
 class LifeCycleState(AtpBlueprint):
-    pass
+    """This meta class represents one particular state in the LifeCycle."""
+
+    # LifeCycleState method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.2, p.388
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # ZERO own members (Table 12.2 attribute section carries only the "-" placeholder
+    # row): the class contributes nothing beyond the AtpBlueprint base (Base row:
+    # ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable,
+    # Referrable); the inherited blueprintPolicys aggregation keeps its reader/writer
+    # coverage on AtpBlueprint. Spec package is
+    # M2::AUTOSARTemplates::GenericStructure::LifeCycles, but the class is physically
+    # hosted in this module per the pre-existing stub. Aggregated by
+    # LifeCycleStateDefinitionGroup.lcState; the LIFE-CYCLE-STATE XML element is
+    # covered by that aggregator's sync (separate class, not yet queued at sync time).
+
+
+__all__ = ["LifeCycleState", "AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping", "BlueprintPolicy"]

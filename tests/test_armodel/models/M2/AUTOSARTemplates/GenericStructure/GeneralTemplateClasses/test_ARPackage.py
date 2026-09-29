@@ -4,10 +4,33 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage, PackageableElement, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+    ARPackage,
+    LifeCycleStateDefinitionGroup,
+    PackageableElement,
+    ReferenceBase,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, ReferrableSubtypesEnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AclScopeEnum,
+    Boolean,
+    Identifier,
+    NameToken,
+    ReferrableSubtypesEnum,
+    RefType,
+    UriString,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
+    AclObjectSet,
+    AclOperation,
+    AclPermission,
+    AclRole,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 
 
 class TestReferenceBase:
@@ -936,3 +959,413 @@ class TestARElement:
         assert issubclass(ARElement, PackageableElement)
         assert issubclass(ARElement, Identifiable)
         assert issubclass(ARElement, ARObject)
+
+
+class TestAclPermission:
+    """
+    Test class for AclPermission functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.1, p.382
+    """
+
+    def _create_acl_permission(self) -> AclPermission:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return AclPermission(ar_root, "TestAclPermission")
+
+    def test_initialization(self):
+        """
+        Test that AclPermission is initialized with the spec defaults.
+        """
+        obj = self._create_acl_permission()
+
+        assert obj.getShortName() == "TestAclPermission"
+        assert isinstance(obj, ARElement)
+        assert obj.getAclContexts() == []
+        assert obj.getAclObjectRefs() == []
+        assert obj.getAclOperationRefs() == []
+        assert obj.getAclRoleRefs() == []
+        assert obj.getAclScope() is None
+
+    def test_add_get_acl_contexts(self):
+        """
+        Test getAclContexts and addAclContext round-trip and None no-op.
+        """
+        obj = self._create_acl_permission()
+
+        context = NameToken()
+        context.setValue("Generate")
+        result = obj.addAclContext(context)
+        assert result is obj  # method chaining
+        assert obj.getAclContexts() == [context]
+
+        obj.addAclContext(None)
+        assert obj.getAclContexts() == [context]  # None is a no-op
+
+    def test_add_get_acl_object_refs(self):
+        """
+        Test getAclObjectRefs and addAclObjectRef round-trip and None no-op.
+        """
+        obj = self._create_acl_permission()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/AccessObjectSets/MemoryStackConfiguration")
+        result = obj.addAclObjectRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAclObjectRefs() == [ref]
+
+        obj.addAclObjectRef(None)
+        assert obj.getAclObjectRefs() == [ref]  # None is a no-op
+
+    def test_add_get_acl_operation_refs(self):
+        """
+        Test getAclOperationRefs and addAclOperationRef round-trip and None no-op.
+        """
+        obj = self._create_acl_permission()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/AclOperations/AssignValue")
+        result = obj.addAclOperationRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAclOperationRefs() == [ref]
+
+        obj.addAclOperationRef(None)
+        assert obj.getAclOperationRefs() == [ref]  # None is a no-op
+
+    def test_add_get_acl_role_refs(self):
+        """
+        Test getAclRoleRefs and addAclRoleRef round-trip and None no-op.
+        """
+        obj = self._create_acl_permission()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/AclRoles/ECU_Integrator")
+        result = obj.addAclRoleRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAclRoleRefs() == [ref]
+
+        obj.addAclRoleRef(None)
+        assert obj.getAclRoleRefs() == [ref]  # None is a no-op
+
+    def test_get_set_acl_scope(self):
+        """
+        Test getAclScope and setAclScope round-trip and None no-op.
+        """
+        obj = self._create_acl_permission()
+
+        scope = AclScopeEnum()
+        scope.setValue("descendant")
+        result = obj.setAclScope(scope)
+        assert result is obj  # method chaining
+        assert obj.getAclScope() is scope
+
+        result = obj.setAclScope(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAclScope() is scope  # None is a no-op
+
+
+class TestAclObjectSet:
+    """
+    Test class for AclObjectSet functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.2, p.383
+    """
+
+    def _create_acl_object_set(self) -> AclObjectSet:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return AclObjectSet(ar_root, "TestAclObjectSet")
+
+    def test_initialization(self):
+        """
+        Test that AclObjectSet is initialized with the spec defaults.
+        """
+        obj = self._create_acl_object_set()
+
+        assert obj.getShortName() == "TestAclObjectSet"
+        assert isinstance(obj, ARElement)
+        assert obj.getAclObjectClasses() == []
+        assert obj.getAclScope() is None
+        assert obj.getCollectionRef() is None
+        assert obj.getDerivedFromBlueprintRefs() == []
+        assert obj.getEngineeringObjects() == []
+        assert obj.getObjectRefs() == []
+        assert obj.getObjectDefinitionRefs() == []
+
+    def test_add_get_acl_object_classes(self):
+        """
+        Test getAclObjectClasses and addAclObjectClass round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        object_class = ReferrableSubtypesEnum()
+        object_class.setValue("ECUC-MODULE-DEF")
+        result = obj.addAclObjectClass(object_class)
+        assert result is obj  # method chaining
+        assert obj.getAclObjectClasses() == [object_class]
+
+        obj.addAclObjectClass(None)
+        assert obj.getAclObjectClasses() == [object_class]  # None is a no-op
+
+    def test_get_set_acl_scope(self):
+        """
+        Test getAclScope and setAclScope round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        scope = AclScopeEnum()
+        scope.setValue("descendant")
+        result = obj.setAclScope(scope)
+        assert result is obj  # method chaining
+        assert obj.getAclScope() is scope
+
+        result = obj.setAclScope(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAclScope() is scope  # None is a no-op
+
+    def test_get_set_collection_ref(self):
+        """
+        Test getCollectionRef and setCollectionRef round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        assert obj.getCollectionRef() is None
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/Collections/ControlledObjects")
+        result = obj.setCollectionRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getCollectionRef() is ref
+
+        result = obj.setCollectionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getCollectionRef() is ref  # None is a no-op
+
+    def test_add_get_derived_from_blueprint_refs(self):
+        """
+        Test getDerivedFromBlueprintRefs and addDerivedFromBlueprintRef round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/Blueprints/SomeBlueprint")
+        result = obj.addDerivedFromBlueprintRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDerivedFromBlueprintRefs() == [ref]
+
+        obj.addDerivedFromBlueprintRef(None)
+        assert obj.getDerivedFromBlueprintRefs() == [ref]  # None is a no-op
+
+    def test_add_get_engineering_objects(self):
+        """
+        Test getEngineeringObjects and addEngineeringObject round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        engineering_object = AutosarEngineeringObject()
+        result = obj.addEngineeringObject(engineering_object)
+        assert result is obj  # method chaining
+        assert obj.getEngineeringObjects() == [engineering_object]
+
+        obj.addEngineeringObject(None)
+        assert obj.getEngineeringObjects() == [engineering_object]  # None is a no-op
+
+    def test_add_get_object_refs(self):
+        """
+        Test getObjectRefs and addObjectRef round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/Package/SomeObject")
+        result = obj.addObjectRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getObjectRefs() == [ref]
+
+        obj.addObjectRef(None)
+        assert obj.getObjectRefs() == [ref]  # None is a no-op
+
+    def test_add_get_object_definition_refs(self):
+        """
+        Test getObjectDefinitionRefs and addObjectDefinitionRef round-trip and None no-op.
+        """
+        obj = self._create_acl_object_set()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/EcucDefs/MemIf")
+        result = obj.addObjectDefinitionRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getObjectDefinitionRefs() == [ref]
+
+        obj.addObjectDefinitionRef(None)
+        assert obj.getObjectDefinitionRefs() == [ref]  # None is a no-op
+
+
+class TestAclOperation:
+    """
+    Test class for AclOperation functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.4, p.384
+    """
+
+    def _create_acl_operation(self) -> AclOperation:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return AclOperation(ar_root, "TestAclOperation")
+
+    def test_initialization(self):
+        """
+        Test that AclOperation is initialized with the spec defaults.
+        """
+        obj = self._create_acl_operation()
+
+        assert obj.getShortName() == "TestAclOperation"
+        assert isinstance(obj, ARElement)
+        assert obj.getImpliedOperationRefs() == []
+
+    def test_add_get_implied_operation_refs(self):
+        """
+        Test getImpliedOperationRefs and addImpliedOperationRef round-trip and None no-op.
+        """
+        obj = self._create_acl_operation()
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/AclOperations/AssignValue")
+        result = obj.addImpliedOperationRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getImpliedOperationRefs() == [ref]
+
+        obj.addImpliedOperationRef(None)
+        assert obj.getImpliedOperationRefs() == [ref]  # None is a no-op
+
+
+class TestAclRole:
+    """
+    Test class for AclRole functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.5, p.384
+    """
+
+    def _create_acl_role(self) -> AclRole:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return AclRole(ar_root, "TestAclRole")
+
+    def test_initialization(self):
+        """
+        Test that AclRole is initialized with the spec defaults.
+        """
+        obj = self._create_acl_role()
+
+        assert obj.getShortName() == "TestAclRole"
+        assert isinstance(obj, ARElement)
+        assert obj.getLdapUrl() is None
+
+    def test_get_set_ldap_url(self):
+        """
+        Test getLdapUrl and setLdapUrl round-trip and None no-op.
+        """
+        obj = self._create_acl_role()
+
+        url = UriString()
+        url.setValue("ldap://ldap.example.com/dc=example,dc=com")
+        result = obj.setLdapUrl(url)
+        assert result is obj  # method chaining
+        assert obj.getLdapUrl() is url
+
+        result = obj.setLdapUrl(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLdapUrl() is url  # None is a no-op
+
+
+class TestLifeCycleStateDefinitionGroup:
+    """
+    Test class for LifeCycleStateDefinitionGroup functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.1, p.388
+    """
+
+    def _create_group(self) -> LifeCycleStateDefinitionGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return LifeCycleStateDefinitionGroup(ar_root, "TestLifeCycleStateDefinitionGroup")
+
+    def test_initialization(self):
+        """
+        Test that LifeCycleStateDefinitionGroup is initialized with the spec defaults.
+        """
+        obj = self._create_group()
+
+        assert obj.getShortName() == "TestLifeCycleStateDefinitionGroup"
+        assert isinstance(obj, ARElement)
+        assert obj.getLcStates() == []
+
+    def test_create_lc_state(self):
+        """
+        Test createLcState creates a LifeCycleState child, registers it and
+        returns the existing one on a duplicate short name.
+        """
+        obj = self._create_group()
+
+        state = obj.createLcState("valid")
+        assert isinstance(state, LifeCycleState)
+        assert state.getShortName() == "valid"
+        assert obj.getLcStates() == [state]
+
+        duplicate = obj.createLcState("valid")
+        assert duplicate is state  # duplicate returns the existing child
+        assert obj.getLcStates() == [state]
+
+
+class TestViewMapSet:
+    """
+    Test class for ViewMapSet functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 14.1, p.401
+    """
+
+    def _create_view_map_set(self) -> ViewMapSet:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return ViewMapSet(ar_root, "TestViewMapSet")
+
+    def test_initialization(self):
+        """
+        Test that ViewMapSet is initialized with the spec defaults.
+        """
+        obj = self._create_view_map_set()
+
+        assert obj.getShortName() == "TestViewMapSet"
+        assert isinstance(obj, ARElement)
+        assert obj.getViewMaps() == []
+
+    def test_create_view_map(self):
+        """
+        Test createViewMap creates a ViewMap child, registers it and
+        returns the existing one on a duplicate short name.
+        """
+        obj = self._create_view_map_set()
+
+        view_map = obj.createViewMap("TestViewMap")
+        assert isinstance(view_map, ViewMap)
+        assert view_map.getShortName() == "TestViewMap"
+        assert obj.getViewMaps() == [view_map]
+
+        duplicate = obj.createViewMap("TestViewMap")
+        assert duplicate is view_map  # duplicate returns the existing child
+        assert obj.getViewMaps() == [view_map]
+
+
+class TestImports:
+    """
+    Test that the six synced classes are exported from armodel.models.
+    """
+
+    def test_top_level_exports(self):
+        """
+        All six classes must be importable from armodel.models.
+        """
+        import armodel.models as models
+
+        for name in ("AclPermission", "AclObjectSet", "AclOperation", "AclRole", "LifeCycleStateDefinitionGroup", "ViewMapSet"):
+            assert hasattr(models, name), "%s missing from armodel.models" % name

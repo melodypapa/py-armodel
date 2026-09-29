@@ -59,8 +59,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, Numerical, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -323,36 +325,47 @@ class TestBswAsynchronousServerCallResultPoint:
 class TestBswVariableAccess:
     """Test cases for BswVariableAccess class - represents access to a variable in a BSW module."""
 
-    def test_initialization(self):
+    def _create_variable_access(self) -> BswVariableAccess:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        variable_access = BswVariableAccess(ar_root, "test_variable_access")
+        return BswVariableAccess(ar_root, "test_variable_access")
 
-        assert variable_access.short_name == "test_variable_access"
+    def test_initialization(self):
+        variable_access = self._create_variable_access()
+
+        assert variable_access.getShortName() == "test_variable_access"
+        assert isinstance(variable_access, Referrable)
         assert variable_access.getAccessedVariableRef() is None
         assert variable_access.getContextLimitationRefs() == []
 
-    def test_set_accessed_variable_ref(self):
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        variable_access = BswVariableAccess(ar_root, "test_variable_access")
+    def test_get_set_accessed_variable_ref(self):
+        variable_access = self._create_variable_access()
 
         ref = RefType()
+        ref.setValue("/AUTOSAR/VariableDataPrototype")
         result = variable_access.setAccessedVariableRef(ref)
 
-        assert result == variable_access
-        assert variable_access.getAccessedVariableRef() == ref
+        assert result is variable_access  # method chaining
+        assert variable_access.getAccessedVariableRef() is ref
 
-    def test_add_context_limitation_ref(self):
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        variable_access = BswVariableAccess(ar_root, "test_variable_access")
+        result = variable_access.setAccessedVariableRef(None)
+        assert result is variable_access  # method chaining with None
+        assert variable_access.getAccessedVariableRef() is ref  # None is a no-op
+
+    def test_add_get_context_limitation_refs(self):
+        variable_access = self._create_variable_access()
+
+        assert variable_access.getContextLimitationRefs() == []
 
         ref = RefType()
+        ref.setValue("/AUTOSAR/BswDistinguishedPartition")
         result = variable_access.addContextLimitationRef(ref)
 
-        assert result == variable_access
+        assert result is variable_access  # method chaining
         assert variable_access.getContextLimitationRefs() == [ref]
+
+        variable_access.addContextLimitationRef(None)
+        assert variable_access.getContextLimitationRefs() == [ref]  # None is a no-op
 
 
 class TestBswModuleEntity:
@@ -594,13 +607,18 @@ class TestBswSchedulableEntity:
 class TestBswInterruptCategory:
     """Test cases for BswInterruptCategory enum class - represents interrupt categories for BSW modules."""
 
-    def test_initialization(self):
+    def test_instantiation_and_literal_values(self):
         category = BswInterruptCategory()
+
+        # Literals in displayed spec order (Table 5.9)
         assert category.CAT1 == "cat1"
         assert category.CAT2 == "cat2"
-        # Check if the enum values are in the internal enumValues list
-        assert "cat1" in category.getEnumValues()
-        assert "cat2" in category.getEnumValues()
+        assert category.getEnumValues() == ("cat1", "cat2")
+
+    def test_literals_usable_as_values(self):
+        for literal in (BswInterruptCategory.CAT1, BswInterruptCategory.CAT2):
+            category = BswInterruptCategory().setValue(literal)
+            assert category.getValue() == literal
 
 
 class TestBswInterruptEntity:
@@ -746,21 +764,39 @@ class TestBswOperationInvokedEvent:
         assert event.short_name == "test_operation_invoked_event"
         assert event.getEntryRef() is None
 
-    def test_set_entry_ref(self):
+    def test_get_set_entry_ref(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = BswOperationInvokedEvent(ar_root, "test_operation_invoked_event")
 
         ref = RefType()
+        ref.setValue("/CP/BswModuleClientServerEntry")
+        ref.setDest("BSW-MODULE-CLIENT-SERVER-ENTRY")
         result = event.setEntryRef(ref)
 
-        assert result == event
+        assert result is event
         assert event.getEntryRef() == ref
 
-        # Setting None should not change the value (based on implementation)
-        result = event.setEntryRef(None)
-        assert result == event
-        assert event.getEntryRef() == ref  # Value should remain unchanged
+    def test_set_entry_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswOperationInvokedEvent(ar_root, "test_operation_invoked_event")
+
+        ref = RefType()
+        ref.setValue("/CP/BswModuleClientServerEntry")
+        event.setEntryRef(ref)
+        event.setEntryRef(None)
+
+        assert event.getEntryRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswOperationInvokedEvent.getEntryRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswOperationInvokedEvent.setEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswOperationInvokedEvent
 
 
 class TestBswScheduleEvent:
@@ -1228,6 +1264,15 @@ class TestBswModeSenderPolicy:
         assert policy.getProvidedModeGroupRef() is None
         assert policy.getQueueLength() is None
 
+    def test_base_is_ar_object(self):
+        """Table 5.39 Base chain is ARObject, plus the repo-wide VariationPointCapable capability mixin."""
+        assert issubclass(BswModeSenderPolicy, ARObject)
+        assert issubclass(BswModeSenderPolicy, VariationPointCapable)
+
+    def test_no_init_docstring(self):
+        """__init__ carries no docstring (the spec Note lives on the class docstring)."""
+        assert BswModeSenderPolicy.__init__.__doc__ is None
+
     def test_get_set_ack_request(self):
         policy = BswModeSenderPolicy()
 
@@ -1300,6 +1345,129 @@ class TestBswModeSenderPolicy:
 
         assert policy.getQueueLength() == length
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        hints = typing.get_type_hints(BswModeSenderPolicy.getAckRequest)
+        assert hints.get("return") == typing.Optional[BswModeSwitchAckRequest]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setAckRequest)
+        assert hints.get("value") == typing.Optional[BswModeSwitchAckRequest]
+        assert hints.get("return") is BswModeSenderPolicy
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.getEnhancedModeApi)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setEnhancedModeApi)
+        assert hints.get("value") == typing.Optional[Boolean]
+        assert hints.get("return") is BswModeSenderPolicy
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.getProvidedModeGroupRef)
+        assert hints.get("return") == typing.Optional[RefType]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setProvidedModeGroupRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is BswModeSenderPolicy
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.getQueueLength)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+
+        hints = typing.get_type_hints(BswModeSenderPolicy.setQueueLength)
+        assert hints.get("value") == typing.Optional[PositiveInteger]
+        assert hints.get("return") is BswModeSenderPolicy
+
+
+class TestBswModeReceiverPolicy:
+    """Test cases for BswModeReceiverPolicy class - specifies the details for the reception of a mode switch for the referred mode group."""
+
+    def test_initialization(self):
+        policy = BswModeReceiverPolicy()
+
+        assert policy.getEnhancedModeApi() is None
+        assert policy.getRequiredModeGroupRef() is None
+        assert policy.getSupportsAsynchronousModeSwitch() is None
+
+    def test_base_is_ar_object(self):
+        """Table 5.41 Base chain is ARObject, plus the repo-wide VariationPointCapable capability mixin."""
+        assert issubclass(BswModeReceiverPolicy, ARObject)
+        assert issubclass(BswModeReceiverPolicy, VariationPointCapable)
+
+    def test_no_init_docstring(self):
+        """__init__ carries no docstring (the spec Note lives on the class docstring)."""
+        assert BswModeReceiverPolicy.__init__.__doc__ is None
+
+    def test_get_set_enhanced_mode_api(self):
+        policy = BswModeReceiverPolicy()
+
+        result = policy.setEnhancedModeApi(True)
+
+        assert result == policy
+        assert policy.getEnhancedModeApi() is True
+
+    def test_set_enhanced_mode_api_none_is_noop(self):
+        policy = BswModeReceiverPolicy()
+
+        policy.setEnhancedModeApi(True)
+        policy.setEnhancedModeApi(None)
+
+        assert policy.getEnhancedModeApi() is True
+
+    def test_get_set_required_mode_group_ref(self):
+        policy = BswModeReceiverPolicy()
+
+        ref = RefType()
+        result = policy.setRequiredModeGroupRef(ref)
+
+        assert result == policy
+        assert policy.getRequiredModeGroupRef() == ref
+
+    def test_set_required_mode_group_ref_none_is_noop(self):
+        policy = BswModeReceiverPolicy()
+
+        ref = RefType()
+        policy.setRequiredModeGroupRef(ref)
+        policy.setRequiredModeGroupRef(None)
+
+        assert policy.getRequiredModeGroupRef() == ref
+
+    def test_get_set_supports_asynchronous_mode_switch(self):
+        policy = BswModeReceiverPolicy()
+
+        result = policy.setSupportsAsynchronousModeSwitch(True)
+
+        assert result == policy
+        assert policy.getSupportsAsynchronousModeSwitch() is True
+
+    def test_set_supports_asynchronous_mode_switch_none_is_noop(self):
+        policy = BswModeReceiverPolicy()
+
+        policy.setSupportsAsynchronousModeSwitch(True)
+        policy.setSupportsAsynchronousModeSwitch(None)
+
+        assert policy.getSupportsAsynchronousModeSwitch() is True
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        hints = typing.get_type_hints(BswModeReceiverPolicy.getEnhancedModeApi)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.setEnhancedModeApi)
+        assert hints.get("value") == typing.Optional[Boolean]
+        assert hints.get("return") is BswModeReceiverPolicy
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.getRequiredModeGroupRef)
+        assert hints.get("return") == typing.Optional[RefType]
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.setRequiredModeGroupRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is BswModeReceiverPolicy
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.getSupportsAsynchronousModeSwitch)
+        assert hints.get("return") == typing.Optional[Boolean]
+
+        hints = typing.get_type_hints(BswModeReceiverPolicy.setSupportsAsynchronousModeSwitch)
+        assert hints.get("value") == typing.Optional[Boolean]
+        assert hints.get("return") is BswModeReceiverPolicy
+
 
 class TestBswBackgroundEvent:
     """Test cases for BswBackgroundEvent class - represents a background event in a BSW module."""
@@ -1340,21 +1508,118 @@ class TestBswExternalTriggerOccurredEvent:
         assert event.short_name == "test_external_trigger_event"
         assert event.getTriggerRef() is None
 
-    def test_set_trigger_ref(self):
+    def test_get_set_trigger_ref(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = BswExternalTriggerOccurredEvent(ar_root, "test_external_trigger_event")
 
         ref = RefType()
+        ref.setValue("/CP/Trigger")
+        ref.setDest("TRIGGER")
         result = event.setTriggerRef(ref)
 
-        assert result == event
+        assert result is event
         assert event.getTriggerRef() == ref
 
-        # Setting None should not change the value (based on implementation)
-        result = event.setTriggerRef(None)
-        assert result == event
-        assert event.getTriggerRef() == ref  # Value should remain unchanged
+    def test_set_trigger_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswExternalTriggerOccurredEvent(ar_root, "test_external_trigger_event")
+
+        ref = RefType()
+        ref.setValue("/CP/Trigger")
+        event.setTriggerRef(ref)
+        event.setTriggerRef(None)
+
+        assert event.getTriggerRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswExternalTriggerOccurredEvent.getTriggerRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswExternalTriggerOccurredEvent.setTriggerRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswExternalTriggerOccurredEvent
+
+
+class TestBswTriggerDirectImplementation:
+    """Test cases for BswTriggerDirectImplementation class - specifies a released trigger to be directly implemented via OS calls."""
+
+    def test_initialization(self):
+        implementation = BswTriggerDirectImplementation()
+
+        assert implementation.getCat2Isr() is None
+        assert implementation.getMasteredTriggerRef() is None
+        assert implementation.getTask() is None
+
+    def test_get_set_cat2_isr(self):
+        implementation = BswTriggerDirectImplementation()
+
+        result = implementation.setCat2Isr("ISR_OsCat2")
+        assert result is implementation
+        assert implementation.getCat2Isr() == "ISR_OsCat2"
+
+    def test_set_cat2_isr_none_is_noop(self):
+        implementation = BswTriggerDirectImplementation()
+        implementation.setCat2Isr("ISR_OsCat2")
+        implementation.setCat2Isr(None)
+
+        assert implementation.getCat2Isr() == "ISR_OsCat2"
+
+    def test_get_set_mastered_trigger_ref(self):
+        implementation = BswTriggerDirectImplementation()
+
+        ref = RefType()
+        ref.setValue("/CP/Trigger")
+        ref.setDest("TRIGGER")
+        result = implementation.setMasteredTriggerRef(ref)
+
+        assert result is implementation
+        assert implementation.getMasteredTriggerRef() == ref
+
+    def test_set_mastered_trigger_ref_none_is_noop(self):
+        implementation = BswTriggerDirectImplementation()
+
+        ref = RefType()
+        ref.setValue("/CP/Trigger")
+        implementation.setMasteredTriggerRef(ref)
+        implementation.setMasteredTriggerRef(None)
+
+        assert implementation.getMasteredTriggerRef() == ref
+
+    def test_get_set_task(self):
+        implementation = BswTriggerDirectImplementation()
+
+        result = implementation.setTask("OsTask_Trigger")
+        assert result is implementation
+        assert implementation.getTask() == "OsTask_Trigger"
+
+    def test_set_task_none_is_noop(self):
+        implementation = BswTriggerDirectImplementation()
+        implementation.setTask("OsTask_Trigger")
+        implementation.setTask(None)
+
+        assert implementation.getTask() == "OsTask_Trigger"
+
+    def test_base_per_spec(self):
+        """The spec Base chain for BswTriggerDirectImplementation is ARObject, plus the VariationPointCapable capability mixin."""
+        assert issubclass(BswTriggerDirectImplementation, ARObject)
+        assert issubclass(BswTriggerDirectImplementation, VariationPointCapable)
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        for getter, setter, attr_type in [
+            (BswTriggerDirectImplementation.getCat2Isr, BswTriggerDirectImplementation.setCat2Isr, Identifier),
+            (BswTriggerDirectImplementation.getMasteredTriggerRef, BswTriggerDirectImplementation.setMasteredTriggerRef, RefType),
+            (BswTriggerDirectImplementation.getTask, BswTriggerDirectImplementation.setTask, Identifier),
+        ]:
+            getter_hints = typing.get_type_hints(getter)
+            assert getter_hints.get("return") == typing.Optional[attr_type]
+
+            setter_hints = typing.get_type_hints(setter)
+            assert setter_hints.get("value") == typing.Optional[attr_type]
+            assert setter_hints.get("return") is BswTriggerDirectImplementation
 
 
 class TestBswApiOptions:
@@ -1397,6 +1662,7 @@ class TestBswExclusiveAreaPolicy:
 
     def test_initialization(self):
         policy = BswExclusiveAreaPolicy()
+        assert isinstance(policy, BswApiOptions)
         assert policy.getEnableTakeAddress() is None
         assert policy.getApiPrinciple() is None
         assert policy.getExclusiveAreaRef() is None

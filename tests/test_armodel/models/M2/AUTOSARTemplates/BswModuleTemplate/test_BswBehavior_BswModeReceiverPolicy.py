@@ -17,9 +17,9 @@ class TestBswModeReceiverPolicyInitialization:
         assert policy.requiredModeGroupRef is None
         assert policy.supportsAsynchronousModeSwitch is None
 
-    def test_init_has_docstring(self):
-        """Tests that __init__ method has a docstring."""
-        assert BswModeReceiverPolicy.__init__.__doc__ is not None
+    def test_init_has_no_docstring(self):
+        """Rule 0012.2.4: __init__ carries no docstring (the spec Note lives on the class docstring)."""
+        assert BswModeReceiverPolicy.__init__.__doc__ is None
 
 
 class TestEnhancedModeApiGetSet:

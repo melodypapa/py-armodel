@@ -281,74 +281,55 @@ class BswSchedulerNamePrefix(ImplementationProps, VariationPointCapable):
 
 class BswVariableAccess(Referrable, VariationPointCapable):
     """
-    Represents access to a variable by a BSW module entity.
-    This class defines how a BSW module accesses variables during execution.
+    The presence of a BswVariableAccess implies that a BswModuleEntity needs access to a VariableData Prototype via the BSW Scheduler. The kind of access is specified by the role in which the class is used.
     """
 
     # BswVariableAccess method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getAccessedVariableRef       [x] impl  [x] docstring  [ ] test
-    # [x] setAccessedVariableRef       [x] impl  [x] docstring  [x] test
-    # [ ] getContextLimitationRefs     [x] impl  [x] docstring  [ ] test
-    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.15, p.81
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getAccessedVariableRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessedVariableRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextLimitationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextLimitationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswVariableAccess with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this variable access
-            short_name: The unique short name of this variable access
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the variable being accessed
-        self.accessedVariableRef: RefType = None
-        # List of context limitation references that apply to this variable access
+        # The data accessed via the BSW Scheduler.
+        self.accessedVariableRef: Optional[RefType] = None
+
+        # The existence of this reference indicates that the variable is received resp. sent only in the context of the referred BswDistinguishedPartitions.
         self.contextLimitationRefs: List[RefType] = []
 
-    def getAccessedVariableRef(self):
+    def getAccessedVariableRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the variable being accessed.
-
-        Returns:
-            Reference to the accessed variable
+        The data accessed via the BSW Scheduler.
         """
         return self.accessedVariableRef
 
-    def setAccessedVariableRef(self, value):
+    def setAccessedVariableRef(self, value: Optional[RefType]) -> BswVariableAccess:
         """
-        Sets the reference to the variable being accessed.
-
-        Args:
-            value: The variable reference to set
-
-        Returns:
-            self for method chaining
+        The data accessed via the BSW Scheduler.
+        A None value is a no-op and does not overwrite an existing accessedVariableRef.
         """
-        self.accessedVariableRef = value
+        if value is not None:
+            self.accessedVariableRef = value
         return self
 
-    def getContextLimitationRefs(self):
+    def getContextLimitationRefs(self) -> List[RefType]:
         """
-        Gets the list of context limitation references for this variable access.
-
-        Returns:
-            List of context limitation references
+        The existence of this reference indicates that the variable is received resp. sent only in the context of the referred BswDistinguishedPartitions.
         """
         return self.contextLimitationRefs
 
-    def addContextLimitationRef(self, value):
+    def addContextLimitationRef(self, value: Optional[RefType]) -> BswVariableAccess:
         """
-        Adds a context limitation reference to this variable access.
-
-        Args:
-            value: The context limitation reference to add
-
-        Returns:
-            self for method chaining
+        The existence of this reference indicates that the variable is received resp. sent only in the context of the referred BswDistinguishedPartitions.
+        A None value is a no-op and does not append anything.
         """
-        self.contextLimitationRefs.append(value)
+        if value is not None:
+            self.contextLimitationRefs.append(value)
         return self
 
 
@@ -748,22 +729,21 @@ class BswSchedulableEntity(BswModuleEntity):
 
 class BswInterruptCategory(AREnum):
     """
-    Enumeration for BSW interrupt categories.
-    Defines whether an interrupt is a Category 1 (CAT1) or Category 2 (CAT2) interrupt.
+    Category of the interrupt service
     """
 
     # BswInterruptCategory method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.9, p.76
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on BswInterruptEntity.interruptCategory
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Category 1 interrupt - directly handled by the OS
+    # Cat1 interrupt routines are not controlled by the OS and are only allowed to make a very limited selection of OS calls to enable and disable all interrupts. The BswInterruptEntity is implemented by the interrupt service routine, which is directly called from the interrupt vector (not via the OS). Tags: atp.EnumerationLiteralIndex=0
     CAT1 = "cat1"
-    # Category 2 interrupt - handled by the interrupt service routine
+    # Cat2 interrupt routines are controlled by the OS and they are allowed to make OS calls. The Bsw InterruptEntity is implemented by the interrupt handler, which is called from the OS. Tags: atp.EnumerationLiteralIndex=1
     CAT2 = "cat2"
 
     def __init__(self):
-        """
-        Initializes the BswInterruptCategory with valid values.
-        """
         super().__init__(
             (
                 BswInterruptCategory.CAT1,
@@ -948,47 +928,32 @@ class BswInterruptEvent(BswEvent):
 
 class BswOperationInvokedEvent(BswEvent):
     """
-    Represents an event that is triggered when a BSW operation is invoked.
-    This event occurs when a client calls a BSW service function.
+    This event is thrown on operation invocation in Client-Server-Communication via the BSW Scheduler. Its "entry" reference provides the BswClientServerEntry that is called subsequently. Note this event is not needed in case of direct function calls.
     """
 
     # BswOperationInvokedEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getEntryRef                  [x] impl  [x] docstring  [ ] test
-    # [x] setEntryRef                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.35, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEntryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswOperationInvokedEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that was invoked to trigger this event
-        self.entryRef: RefType = None
+        # The providedClientServerEntry invoked by this event.
+        self.entryRef: Optional[RefType] = None
 
-    def getEntryRef(self):
+    def getEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that was invoked to trigger this event.
-
-        Returns:
-            Reference to the invoked entry
+        The providedClientServerEntry invoked by this event.
         """
         return self.entryRef
 
-    def setEntryRef(self, value):
+    def setEntryRef(self, value: Optional[RefType]) -> BswOperationInvokedEvent:
         """
-        Sets the reference to the entry that was invoked to trigger this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The entry reference to set
-
-        Returns:
-            self for method chaining
+        The providedClientServerEntry invoked by this event.
+        A None value is a no-op and does not overwrite an existing entryRef.
         """
         if value is not None:
             self.entryRef = value
@@ -1349,67 +1314,47 @@ class BswModeSwitchAckRequest(ARObject):
 
 class BswModeSenderPolicy(ARObject, VariationPointCapable):
     """
-    Specifies the details for the sending of a mode switch for the referred
-    mode group.
+    Specifies the details for the sending of a mode switch for the referred mode group.
     """
 
     # BswModeSenderPolicy method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.102
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAckRequest                [x] impl  [x] docstring  [x] test
-    # [x] setAckRequest                [x] impl  [x] docstring  [x] test
-    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] getProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] setProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] getQueueLength               [x] impl  [x] docstring  [x] test
-    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAckRequest             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAckRequest             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnhancedModeApi        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnhancedModeApi        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getQueueLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswModeSenderPolicy with default values.
-        """
         super().__init__()
 
-        # Request for acknowledgement.
+        # Request for acknowledgement
         self.ackRequest: Optional[BswModeSwitchAckRequest] = None
 
-        # This controls the creation of the enhanced mode API that returns
-        # information about the previous mode and the next mode. If set to TRUE
-        # the enhanced mode API is supposed to be generated. For more details
-        # please refer to the SWS_RTE.
+        # This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         self.enhancedModeApi: Optional[Boolean] = None
 
-        # The provided mode group for which the policy is specified. The
-        # reference in the role providedModeGroup shall exist at the time when
-        # the configuration of the BSW module is finished (constr_10291).
+        # The provided mode group for which the policy is specified.
         self.providedModeGroupRef: Optional[RefType] = None
 
-        # Length of call queue on the sender side. The queue is implemented by
-        # the RTE resp. BswScheduler. The value shall be greater or equal to 0.
-        # Setting the value of queueLength to 0 implies non-queued
-        # communication. The attribute queueLength shall exist at the time when
-        # the configuration of the BSW module is finished (constr_10292).
+        # Length of call queue on the sender side. The queue is implemented by the RTE resp.BswScheduler. The value shall be greater or equal to 0. Setting the value of queue Length to 0 implies non-queued communication.
         self.queueLength: Optional[PositiveInteger] = None
 
     def getAckRequest(self) -> Optional[BswModeSwitchAckRequest]:
         """
-        Gets the request for acknowledgement.
-
-        Returns:
-            The acknowledgement request
+        Request for acknowledgement
         """
         return self.ackRequest
 
-    def setAckRequest(self, value: BswModeSwitchAckRequest) -> BswModeSenderPolicy:
+    def setAckRequest(self, value: Optional[BswModeSwitchAckRequest]) -> BswModeSenderPolicy:
         """
-        Sets the request for acknowledgement. Only sets if value is not None.
-
-        Args:
-            value: The acknowledgement request to set
-
-        Returns:
-            self for method chaining
+        Request for acknowledgement
+        A None value is a no-op and does not overwrite an existing ackRequest.
         """
         if value is not None:
             self.ackRequest = value
@@ -1417,24 +1362,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
 
     def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets the flag that controls the creation of the enhanced mode API that
-        returns information about the previous mode and the next mode.
-
-        Returns:
-            The enhanced mode API flag
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         """
         return self.enhancedModeApi
 
-    def setEnhancedModeApi(self, value: Boolean) -> BswModeSenderPolicy:
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> BswModeSenderPolicy:
         """
-        Sets the flag that controls the creation of the enhanced mode API.
-        Only sets if value is not None.
-
-        Args:
-            value: The enhanced mode API flag to set
-
-        Returns:
-            self for method chaining
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
+        A None value is a no-op and does not overwrite an existing enhancedModeApi.
         """
         if value is not None:
             self.enhancedModeApi = value
@@ -1442,23 +1377,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
 
     def getProvidedModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the provided mode group for which the policy is specified.
-
-        Returns:
-            The provided mode group reference
+        The provided mode group for which the policy is specified.
         """
         return self.providedModeGroupRef
 
-    def setProvidedModeGroupRef(self, value: RefType) -> BswModeSenderPolicy:
+    def setProvidedModeGroupRef(self, value: Optional[RefType]) -> BswModeSenderPolicy:
         """
-        Sets the provided mode group for which the policy is specified. Only
-        sets if value is not None.
-
-        Args:
-            value: The provided mode group reference to set
-
-        Returns:
-            self for method chaining
+        The provided mode group for which the policy is specified.
+        A None value is a no-op and does not overwrite an existing providedModeGroupRef.
         """
         if value is not None:
             self.providedModeGroupRef = value
@@ -1466,23 +1392,14 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
 
     def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the length of the call queue on the sender side.
-
-        Returns:
-            The queue length
+        Length of call queue on the sender side. The queue is implemented by the RTE resp.BswScheduler. The value shall be greater or equal to 0. Setting the value of queue Length to 0 implies non-queued communication.
         """
         return self.queueLength
 
-    def setQueueLength(self, value: PositiveInteger) -> BswModeSenderPolicy:
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> BswModeSenderPolicy:
         """
-        Sets the length of the call queue on the sender side. Only sets if
-        value is not None.
-
-        Args:
-            value: The queue length to set
-
-        Returns:
-            self for method chaining
+        Length of call queue on the sender side. The queue is implemented by the RTE resp.BswScheduler. The value shall be greater or equal to 0. Setting the value of queue Length to 0 implies non-queued communication.
+        A None value is a no-op and does not overwrite an existing queueLength.
         """
         if value is not None:
             self.queueLength = value
@@ -1495,47 +1412,38 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
     """
 
     # BswModeReceiverPolicy method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.41, p.162
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
-    # [x] getRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] setRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] getSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
-    # [x] setSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.41, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnhancedModeApi                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnhancedModeApi                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredModeGroupRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportsAsynchronousModeSwitch   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportsAsynchronousModeSwitch   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes BswModeReceiverPolicy with default values.
-        """
         super().__init__()
 
-        # Controls the creation of the enhanced mode API that returns information about the previous mode and the next mode.
+        # This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         self.enhancedModeApi: Optional[Boolean] = None
 
-        # The required mode group for which the policy is specified. The
-        # reference in the role requiredModeGroup shall exist at the time when
-        # the configuration of the BSW module is finished (constr_10294).
+        # The required mode group for which the policy is specified.
         self.requiredModeGroupRef: Optional[RefType] = None
 
         # Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
-        # This attribute shall exist at the time when the configuration of the BSW module is finished (constr_10295).
         self.supportsAsynchronousModeSwitch: Optional[Boolean] = None
 
     def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets the enhanced mode API flag.
-        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
-        Returns None if not set.
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         """
         return self.enhancedModeApi
 
     def setEnhancedModeApi(self, value: Optional[Boolean]) -> BswModeReceiverPolicy:
         """
-        Sets the enhanced mode API flag.
-        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
-        Setting None is a no-op and preserves the existing value.
-        Returns self for method chaining.
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to TRUE the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
+        A None value is a no-op and does not overwrite an existing enhancedModeApi.
         """
         if value is not None:
             self.enhancedModeApi = value
@@ -1543,17 +1451,14 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
 
     def getRequiredModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the required mode group reference.
-        Returns the reference to the mode group for which the policy is specified, or None if not set.
+        The required mode group for which the policy is specified.
         """
         return self.requiredModeGroupRef
 
     def setRequiredModeGroupRef(self, value: Optional[RefType]) -> BswModeReceiverPolicy:
         """
-        Sets the required mode group reference.
         The required mode group for which the policy is specified.
-        Setting None is a no-op and preserves the existing value.
-        Returns self for method chaining.
+        A None value is a no-op and does not overwrite an existing requiredModeGroupRef.
         """
         if value is not None:
             self.requiredModeGroupRef = value
@@ -1561,18 +1466,14 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
 
     def getSupportsAsynchronousModeSwitch(self) -> Optional[Boolean]:
         """
-        Gets the asynchronous mode switch support flag.
-        Specifies whether the module can handle the reception of an asynchronous mode switch.
-        Returns None if not set.
+        Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
         """
         return self.supportsAsynchronousModeSwitch
 
     def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> BswModeReceiverPolicy:
         """
-        Sets the asynchronous mode switch support flag.
         Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
-        Setting None is a no-op and preserves the existing value.
-        Returns self for method chaining.
+        A None value is a no-op and does not overwrite an existing supportsAsynchronousModeSwitch.
         """
         if value is not None:
             self.supportsAsynchronousModeSwitch = value
@@ -1618,47 +1519,32 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
 
 class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered by an external trigger in a BSW module.
-    This event occurs when an external source generates a trigger.
+    A BswEvent resulting from a trigger released by another module or cluster.
     """
 
     # BswExternalTriggerOccurredEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getTriggerRef                [x] impl  [x] docstring  [ ] test
-    # [x] setTriggerRef                [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.30, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTriggerRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
-        """
-        Initializes the BswExternalTriggerOccurredEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Reference to the external trigger that caused this event
-        self.triggerRef: RefType = None
+        # The trigger associated with this event. The trigger is external to this module.
+        self.triggerRef: Optional[RefType] = None
 
-    def getTriggerRef(self):
+    def getTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the external trigger that caused this event.
-
-        Returns:
-            Reference to the external trigger
+        The trigger associated with this event. The trigger is external to this module.
         """
         return self.triggerRef
 
-    def setTriggerRef(self, value):
+    def setTriggerRef(self, value: Optional[RefType]) -> BswExternalTriggerOccurredEvent:
         """
-        Sets the reference to the external trigger that caused this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The trigger reference to set
-
-        Returns:
-            self for method chaining
+        The trigger associated with this event. The trigger is external to this module.
+        A None value is a no-op and does not overwrite an existing triggerRef.
         """
         if value is not None:
             self.triggerRef = value
@@ -1705,51 +1591,37 @@ class BswApiOptions(ARObject, ABC):
 
 class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
     """
-    The ExclusiveArea for which the BSW Scheduler uses this policy.
+    The ExclusiveArea for which the BSW Scheduler using this policy.
     """
 
     # BswExclusiveAreaPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.17, p.83
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getApiPrinciple              [x] impl  [x] docstring  [x] test
-    # [x] setApiPrinciple              [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaRef          [x] impl  [x] docstring  [x] test
-    # [x] setExclusiveAreaRef          [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApiPrinciple       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApiPrinciple       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExclusiveAreaRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswExclusiveAreaPolicy with default values.
-        """
         super().__init__()
 
-        # Specifies for this ExclusiveArea if either one common set of Enter
-        # and Exit APIs for the whole BSW module is requested from the SchM or
-        # if the set of Enter and Exit APIs is expected per BswModuleEntity.
-        # The default value is "common".
+        # Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole BSW module is requested from the SchM or if the set of Enter and Exit APIs is expected per BswModuleEntity. The default value is "common".
         self.apiPrinciple: Optional[ApiPrincipleEnum] = None
 
-        # The ExclusiveArea for which the BSW Scheduler uses this policy.
+        # The ExclusiveArea for which the BSW Scheduler using this policy.
         self.exclusiveAreaRef: Optional[RefType] = None
 
     def getApiPrinciple(self) -> Optional[ApiPrincipleEnum]:
         """
-        Gets the API principle for this ExclusiveArea.
-
-        Returns:
-            The API principle (common or per-executable) for this policy
+        Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole BSW module is requested from the SchM or if the set of Enter and Exit APIs is expected per BswModuleEntity. The default value is "common".
         """
         return self.apiPrinciple
 
     def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> BswExclusiveAreaPolicy:
         """
-        Sets the API principle for this ExclusiveArea.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The API principle to set
-
-        Returns:
-            self for method chaining
+        Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole BSW module is requested from the SchM or if the set of Enter and Exit APIs is expected per BswModuleEntity. The default value is "common".
+        A None value is a no-op and does not overwrite an existing apiPrinciple.
         """
         if value is not None:
             self.apiPrinciple = value
@@ -1757,23 +1629,14 @@ class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
 
     def getExclusiveAreaRef(self) -> Optional[RefType]:
         """
-        Gets the ExclusiveArea for which the BSW Scheduler uses this policy.
-
-        Returns:
-            The referenced ExclusiveArea
+        The ExclusiveArea for which the BSW Scheduler using this policy.
         """
         return self.exclusiveAreaRef
 
     def setExclusiveAreaRef(self, value: Optional[RefType]) -> BswExclusiveAreaPolicy:
         """
-        Sets the ExclusiveArea for which the BSW Scheduler uses this policy.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The ExclusiveArea reference to set
-
-        Returns:
-            self for method chaining
+        The ExclusiveArea for which the BSW Scheduler using this policy.
+        A None value is a no-op and does not overwrite an existing exclusiveAreaRef.
         """
         if value is not None:
             self.exclusiveAreaRef = value
@@ -3412,59 +3275,41 @@ class BswInternalBehavior(InternalBehavior):
 class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
     """
     Specifies a released trigger to be directly implemented via OS calls, for example in a Complex Driver module.
-    Constraints: constr_10290 (masteredTrigger reference shall exist) and constr_4105 (only one of task or cat2Isr).
     """
 
     # BswTriggerDirectImplementation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.38, p.99
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getCat2Isr                   [x] impl  [x] docstring  [x] test
-    # [x] setCat2Isr                   [x] impl  [x] docstring  [x] test
-    # [x] getMasteredTriggerRef        [x] impl  [x] docstring  [x] test
-    # [x] setMasteredTriggerRef        [x] impl  [x] docstring  [x] test
-    # [x] getTask                      [x] impl  [x] docstring  [x] test
-    # [x] setTask                      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.38, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCat2Isr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCat2Isr              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasteredTriggerRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initialize BswTriggerDirectImplementation with default values.
-        """
         super().__init__()
 
-        # The name of the OS category 2 ISR, which is controlled by the referred trigger.
-        # This means, that the module manages the category 2 ISR (e.g. according hardware
-        # initialization and enabling of ISR). Instead of calling an RTE / SchM API to
-        # raise the appropriate events in components or modules receiving the trigger,
-        # this ISR directly schedules the triggered ExecutableEntitys. The ISR name is
-        # required by the integrator to map the Bsw Events and RTEEvents to this ISR.
-        # Constraint: constr_4105 (only one of task or cat2Isr).
+        # The name of the OS category 2 ISR, which is controlled by the referred trigger. This means, that the module manages the category 2 ISR (e.g. according hardware initialization and enabling of ISR). Instead of calling an RTE / SchM API to raise the appropriate events in components or modules receiving the trigger, this ISR directly schedules the triggered ExecutableEntitys. The ISR name is required by the integrator to map the Bsw Events and RTEEvents to this ISR.
         self.cat2Isr: Optional[Identifier] = None
 
-        # The trigger which is directly mastered by this module. There may be several
-        # different BswTriggerDirect Implementations mastering the same Trigger. This may
-        # be required e.g. due to memory partitioning.
-        # Constraint: constr_10290 (masteredTrigger reference shall exist).
+        # The trigger which is directly mastered by this module. There may be several different BswTriggerDirect Implementations mastering the same Trigger. This may be required e.g. due to memory partitioning.
         self.masteredTriggerRef: Optional[RefType] = None
 
-        # The name of the OS task, which is controlled by the referred trigger. This means,
-        # that the module uses the trigger condition to directly activate an OS task instead
-        # of calling an API of the BswScheduler. The task name is required by the RTE
-        # generator resp. BswScheduler to raise the appropriate events in components or
-        # modules receiving the trigger.
-        # Constraint: constr_4105 (only one of task or cat2Isr).
+        # The name of the OS task, which is controlled by the referred trigger. This means, that the module uses the trigger condition to directly activate an OS task instead of calling an API of the BswScheduler. The task name is required by the RTE generator resp. BswScheduler to raise the appropriate events in components or modules receiving the trigger.
         self.task: Optional[Identifier] = None
 
     def getCat2Isr(self) -> Optional[Identifier]:
         """
-        Gets the name of the OS category 2 ISR controlled by the referred trigger.
-        Returns the ISR name or None if not set.
+        The name of the OS category 2 ISR, which is controlled by the referred trigger. This means, that the module manages the category 2 ISR (e.g. according hardware initialization and enabling of ISR). Instead of calling an RTE / SchM API to raise the appropriate events in components or modules receiving the trigger, this ISR directly schedules the triggered ExecutableEntitys. The ISR name is required by the integrator to map the Bsw Events and RTEEvents to this ISR.
         """
         return self.cat2Isr
 
     def setCat2Isr(self, value: Optional[Identifier]) -> BswTriggerDirectImplementation:
         """
-        Sets the name of the OS category 2 ISR. Only sets if value is not None.
-        Returns self for method chaining.
+        The name of the OS category 2 ISR, which is controlled by the referred trigger. This means, that the module manages the category 2 ISR (e.g. according hardware initialization and enabling of ISR). Instead of calling an RTE / SchM API to raise the appropriate events in components or modules receiving the trigger, this ISR directly schedules the triggered ExecutableEntitys. The ISR name is required by the integrator to map the Bsw Events and RTEEvents to this ISR.
+        A None value is a no-op and does not overwrite an existing cat2Isr.
         """
         if value is not None:
             self.cat2Isr = value
@@ -3472,15 +3317,14 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
 
     def getMasteredTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the trigger which is directly mastered by this module.
-        Returns the trigger reference or None if not set.
+        The trigger which is directly mastered by this module. There may be several different BswTriggerDirect Implementations mastering the same Trigger. This may be required e.g. due to memory partitioning.
         """
         return self.masteredTriggerRef
 
     def setMasteredTriggerRef(self, value: Optional[RefType]) -> BswTriggerDirectImplementation:
         """
-        Sets the trigger reference. Only sets if value is not None.
-        Returns self for method chaining.
+        The trigger which is directly mastered by this module. There may be several different BswTriggerDirect Implementations mastering the same Trigger. This may be required e.g. due to memory partitioning.
+        A None value is a no-op and does not overwrite an existing masteredTriggerRef.
         """
         if value is not None:
             self.masteredTriggerRef = value
@@ -3488,15 +3332,14 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
 
     def getTask(self) -> Optional[Identifier]:
         """
-        Gets the name of the OS task controlled by the referred trigger.
-        Returns the task name or None if not set.
+        The name of the OS task, which is controlled by the referred trigger. This means, that the module uses the trigger condition to directly activate an OS task instead of calling an API of the BswScheduler. The task name is required by the RTE generator resp. BswScheduler to raise the appropriate events in components or modules receiving the trigger.
         """
         return self.task
 
     def setTask(self, value: Optional[Identifier]) -> BswTriggerDirectImplementation:
         """
-        Sets the name of the OS task. Only sets if value is not None.
-        Returns self for method chaining.
+        The name of the OS task, which is controlled by the referred trigger. This means, that the module uses the trigger condition to directly activate an OS task instead of calling an API of the BswScheduler. The task name is required by the RTE generator resp. BswScheduler to raise the appropriate events in components or modules receiving the trigger.
+        A None value is a no-op and does not overwrite an existing task.
         """
         if value is not None:
             self.task = value
