@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
+    LifeCycleState,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
@@ -358,6 +359,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -14240,6 +14242,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAclOperation(element, ar_element)
         elif isinstance(ar_element, AclRole):
             self.writeAclRole(element, ar_element)
+        elif isinstance(ar_element, LifeCycleStateDefinitionGroup):
+            self.writeLifeCycleStateDefinitionGroup(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14864,6 +14868,28 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ACL-ROLE")
             self.writeIdentifiable(child_element, acl_role)
             self.setChildElementOptionalUriString(child_element, "LDAP-URL", acl_role.getLdapUrl())
+
+    def writeLifeCycleState(self, element: ET.Element, lc_state: LifeCycleState):
+        if lc_state is not None:
+            child_element = ET.SubElement(element, "LIFE-CYCLE-STATE")
+            self.writeIdentifiable(child_element, lc_state)
+
+    def writeLifeCycleStateDefinitionGroupLcStates(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        lc_states = group.getLcStates()
+        if len(lc_states) > 0:
+            states_tag = ET.SubElement(element, "LC-STATES")
+            for lc_state in lc_states:
+                if isinstance(lc_state, LifeCycleState):
+                    self.writeLifeCycleState(states_tag, lc_state)
+                else:
+                    self.notImplemented("Unsupported LifeCycleState <%s>" % type(lc_state))
+
+    def writeLifeCycleStateDefinitionGroup(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        if group is not None:
+            self.logger.debug("Write LifeCycleStateDefinitionGroup <%s>" % group.getShortName())
+            child_element = ET.SubElement(element, "LIFE-CYCLE-STATE-DEFINITION-GROUP")
+            self.writeIdentifiable(child_element, group)
+            self.writeLifeCycleStateDefinitionGroupLcStates(child_element, group)
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

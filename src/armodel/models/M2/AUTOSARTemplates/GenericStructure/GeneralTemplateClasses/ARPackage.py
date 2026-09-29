@@ -1808,6 +1808,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(acl_role)
         return self.getElement(short_name, AclRole)
 
+    def createLifeCycleStateDefinitionGroup(self, short_name: str) -> LifeCycleStateDefinitionGroup:
+
+        if not self.IsElementExists(short_name, LifeCycleStateDefinitionGroup):
+            group = LifeCycleStateDefinitionGroup(self, short_name)
+            self.addElement(group)
+        return self.getElement(short_name, LifeCycleStateDefinitionGroup)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2122,6 +2129,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getAclRoles(self) -> List[AclRole]:
 
         return list(sorted(filter(lambda a: isinstance(a, AclRole), self.elements), key=lambda a: a.short_name))
+
+    def getLifeCycleStateDefinitionGroups(self) -> List[LifeCycleStateDefinitionGroup]:
+
+        return list(sorted(filter(lambda a: isinstance(a, LifeCycleStateDefinitionGroup), self.elements), key=lambda a: a.short_name))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
@@ -3113,8 +3124,8 @@ class LifeCycleStateDefinitionGroup(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.1, p.388
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] createLcState    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getLcStates      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] createLcState    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLcStates      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
+    LifeCycleState,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
@@ -475,6 +476,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -14915,6 +14917,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ACL-ROLE":
                 acl_role = parent.createAclRole(self.getShortName(child_element))
                 self.readAclRole(child_element, acl_role)
+            elif tag_name == "LIFE-CYCLE-STATE-DEFINITION-GROUP":
+                group = parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element))
+                self.readLifeCycleStateDefinitionGroup(child_element, group)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15366,6 +15371,26 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, acl_role)
         acl_role.setLdapUrl(self.getChildElementOptionalUriString(element, "LDAP-URL"))
         return acl_role
+
+    def readLifeCycleState(self, element: ET.Element, lc_state: LifeCycleState) -> LifeCycleState:
+        self.logger.debug("Read LifeCycleState <%s>" % lc_state.getShortName())
+        self.readIdentifiable(element, lc_state)
+        return lc_state
+
+    def readLifeCycleStateDefinitionGroupLcStates(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        for child_element in self.findall(element, "LC-STATES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "LIFE-CYCLE-STATE":
+                lc_state = group.createLcState(self.getShortName(child_element))
+                self.readLifeCycleState(child_element, lc_state)
+            else:
+                self.notImplemented("Unsupported LifeCycleState <%s>" % tag_name)
+
+    def readLifeCycleStateDefinitionGroup(self, element: ET.Element, group: LifeCycleStateDefinitionGroup) -> LifeCycleStateDefinitionGroup:
+        self.logger.debug("Read LifeCycleStateDefinitionGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        self.readLifeCycleStateDefinitionGroupLcStates(element, group)
+        return group
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
