@@ -369,28 +369,35 @@ class TestString:
 
 class TestAlignmentType:
     """
-    Test class for AlignmentType functionality.
+    Test class for AlignmentType functionality (Table 8.3).
     """
 
     def test_initialization(self):
         """
-        Test AlignmentType initialization.
+        Test AlignmentType initialization defaults.
         """
         alignment = AlignmentType()
 
         # Verify basic properties
         assert alignment is not None
+        assert isinstance(alignment, ARLiteral)
         assert alignment._value is None
+        assert alignment.getValue() == ""
 
-    def test_set_value(self):
+    def test_get_set_value(self):
         """
-        Test AlignmentType value assignment.
+        Test AlignmentType get/set round-trip and None no-op.
         """
-        alignment = AlignmentType().setValue("8")
+        alignment = AlignmentType()
+        assert alignment.setValue("8") is alignment
         assert alignment.getValue() == "8"
 
-        alignment_unspecified = AlignmentType().setValue("UNSPECIFIED")
-        assert alignment_unspecified.getValue() == "UNSPECIFIED"
+        alignment.setValue("UNSPECIFIED")
+        assert alignment.getValue() == "UNSPECIFIED"
+
+        # None is a no-op
+        alignment.setValue(None)
+        assert alignment.getValue() == "UNSPECIFIED"
 
 
 class TestSectionInitializationPolicyType:
