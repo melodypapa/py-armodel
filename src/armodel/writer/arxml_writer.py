@@ -359,7 +359,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission, AclRole
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -369,6 +369,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    ViewMap,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -14244,6 +14245,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAclRole(element, ar_element)
         elif isinstance(ar_element, LifeCycleStateDefinitionGroup):
             self.writeLifeCycleStateDefinitionGroup(element, ar_element)
+        elif isinstance(ar_element, ViewMapSet):
+            self.writeViewMapSet(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14890,6 +14893,50 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "LIFE-CYCLE-STATE-DEFINITION-GROUP")
             self.writeIdentifiable(child_element, group)
             self.writeLifeCycleStateDefinitionGroupLcStates(child_element, group)
+
+    def writeViewMap(self, element: ET.Element, view_map: ViewMap):
+        if view_map is not None:
+            self.logger.debug("Write ViewMap <%s>" % view_map.getShortName())
+            child_element = ET.SubElement(element, "VIEW-MAP")
+            self.writeIdentifiable(child_element, view_map)
+            self.setChildElementOptionalIdentifier(child_element, "ROLE", view_map.getRole())
+            first_element_refs = view_map.getFirstElementRefs()
+            if len(first_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FIRST-ELEMENT-REFS")
+                for ref in first_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FIRST-ELEMENT-REF", ref)
+            second_element_refs = view_map.getSecondElementRefs()
+            if len(second_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "SECOND-ELEMENT-REFS")
+                for ref in second_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "SECOND-ELEMENT-REF", ref)
+            first_element_irefs = view_map.getFirstElementIRefs()
+            if len(first_element_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "FIRST-ELEMENT-INSTANCE-IREFS")
+                for instance_ref in first_element_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "FIRST-ELEMENT-INSTANCE-IREF", instance_ref)
+            second_element_irefs = view_map.getSecondElementIRefs()
+            if len(second_element_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "SECOND-ELEMENT-INSTANCE-IREFS")
+                for instance_ref in second_element_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "SECOND-ELEMENT-INSTANCE-IREF", instance_ref)
+
+    def writeViewMapSetViewMaps(self, element: ET.Element, view_map_set: ViewMapSet):
+        view_maps = view_map_set.getViewMaps()
+        if len(view_maps) > 0:
+            maps_tag = ET.SubElement(element, "VIEW-MAPS")
+            for view_map in view_maps:
+                if isinstance(view_map, ViewMap):
+                    self.writeViewMap(maps_tag, view_map)
+                else:
+                    self.notImplemented("Unsupported ViewMap <%s>" % type(view_map))
+
+    def writeViewMapSet(self, element: ET.Element, view_map_set: ViewMapSet):
+        if view_map_set is not None:
+            self.logger.debug("Write ViewMapSet <%s>" % view_map_set.getShortName())
+            child_element = ET.SubElement(element, "VIEW-MAP-SET")
+            self.writeIdentifiable(child_element, view_map_set)
+            self.writeViewMapSetViewMaps(child_element, view_map_set)
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

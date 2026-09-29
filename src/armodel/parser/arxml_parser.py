@@ -476,7 +476,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission, AclRole
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -487,6 +487,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
+    ViewMap,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -14920,6 +14921,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIFE-CYCLE-STATE-DEFINITION-GROUP":
                 group = parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element))
                 self.readLifeCycleStateDefinitionGroup(child_element, group)
+            elif tag_name == "VIEW-MAP-SET":
+                view_map_set = parent.createViewMapSet(self.getShortName(child_element))
+                self.readViewMapSet(child_element, view_map_set)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15391,6 +15395,35 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, group)
         self.readLifeCycleStateDefinitionGroupLcStates(element, group)
         return group
+
+    def readViewMap(self, element: ET.Element, view_map: ViewMap) -> ViewMap:
+        self.logger.debug("Read ViewMap <%s>" % view_map.getShortName())
+        self.readIdentifiable(element, view_map)
+        view_map.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        for first_element_ref in self.getChildElementRefTypeList(element, "FIRST-ELEMENT-REFS/FIRST-ELEMENT-REF"):
+            view_map.addFirstElementRef(first_element_ref)
+        for second_element_ref in self.getChildElementRefTypeList(element, "SECOND-ELEMENT-REFS/SECOND-ELEMENT-REF"):
+            view_map.addSecondElementRef(second_element_ref)
+        for child_element in self.findall(element, "FIRST-ELEMENT-INSTANCE-IREFS/FIRST-ELEMENT-INSTANCE-IREF"):
+            view_map.addFirstElementIRef(self.getAnyInstanceRefFromElement(child_element))
+        for child_element in self.findall(element, "SECOND-ELEMENT-INSTANCE-IREFS/SECOND-ELEMENT-INSTANCE-IREF"):
+            view_map.addSecondElementIRef(self.getAnyInstanceRefFromElement(child_element))
+        return view_map
+
+    def readViewMapSetViewMaps(self, element: ET.Element, view_map_set: ViewMapSet):
+        for child_element in self.findall(element, "VIEW-MAPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VIEW-MAP":
+                view_map = view_map_set.createViewMap(self.getShortName(child_element))
+                self.readViewMap(child_element, view_map)
+            else:
+                self.notImplemented("Unsupported ViewMap <%s>" % tag_name)
+
+    def readViewMapSet(self, element: ET.Element, view_map_set: ViewMapSet) -> ViewMapSet:
+        self.logger.debug("Read ViewMapSet <%s>" % view_map_set.getShortName())
+        self.readIdentifiable(element, view_map_set)
+        self.readViewMapSetViewMaps(element, view_map_set)
+        return view_map_set
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())

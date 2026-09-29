@@ -848,16 +848,16 @@ class ViewMap(Identifiable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 14.2, p.401
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getFirstElementRefs    [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addFirstElementRef     [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getFirstElementIRefs   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addFirstElementIRef    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getRole                [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setRole                [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getSecondElementRefs   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addSecondElementRef    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getSecondElementIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addSecondElementIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getFirstElementRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirstElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirstElementIRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirstElementIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondElementRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSecondElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondElementIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSecondElementIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -1815,6 +1815,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(group)
         return self.getElement(short_name, LifeCycleStateDefinitionGroup)
 
+    def createViewMapSet(self, short_name: str) -> ViewMapSet:
+
+        if not self.IsElementExists(short_name, ViewMapSet):
+            view_map_set = ViewMapSet(self, short_name)
+            self.addElement(view_map_set)
+        return self.getElement(short_name, ViewMapSet)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2133,6 +2140,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getLifeCycleStateDefinitionGroups(self) -> List[LifeCycleStateDefinitionGroup]:
 
         return list(sorted(filter(lambda a: isinstance(a, LifeCycleStateDefinitionGroup), self.elements), key=lambda a: a.short_name))
+
+    def getViewMapSets(self) -> List[ViewMapSet]:
+
+        return list(sorted(filter(lambda a: isinstance(a, ViewMapSet), self.elements), key=lambda a: a.short_name))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
@@ -3201,8 +3212,8 @@ class ViewMapSet(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 14.1, p.401
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] createViewMap    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getViewMaps      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] createViewMap    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getViewMaps      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
