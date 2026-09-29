@@ -928,47 +928,32 @@ class BswInterruptEvent(BswEvent):
 
 class BswOperationInvokedEvent(BswEvent):
     """
-    Represents an event that is triggered when a BSW operation is invoked.
-    This event occurs when a client calls a BSW service function.
+    This event is thrown on operation invocation in Client-Server-Communication via the BSW Scheduler. Its "entry" reference provides the BswClientServerEntry that is called subsequently. Note this event is not needed in case of direct function calls.
     """
 
     # BswOperationInvokedEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getEntryRef                  [x] impl  [x] docstring  [ ] test
-    # [x] setEntryRef                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.35, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setEntryRef  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswOperationInvokedEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that was invoked to trigger this event
-        self.entryRef: RefType = None
+        # The providedClientServerEntry invoked by this event.
+        self.entryRef: Optional[RefType] = None
 
-    def getEntryRef(self):
+    def getEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that was invoked to trigger this event.
-
-        Returns:
-            Reference to the invoked entry
+        The providedClientServerEntry invoked by this event.
         """
         return self.entryRef
 
-    def setEntryRef(self, value):
+    def setEntryRef(self, value: Optional[RefType]) -> BswOperationInvokedEvent:
         """
-        Sets the reference to the entry that was invoked to trigger this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The entry reference to set
-
-        Returns:
-            self for method chaining
+        The providedClientServerEntry invoked by this event.
+        A None value is a no-op and does not overwrite an existing entryRef.
         """
         if value is not None:
             self.entryRef = value
