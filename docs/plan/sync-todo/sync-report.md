@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 498 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 191 | 9.9% |
-| [ ] Implemented | 625 | 32.5% |
+| [ ] Deferred | 196 | 10.2% |
+| [ ] Implemented | 620 | 32.3% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -308,7 +308,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CommunicationController`                               | [ ] Implemented| N/A                                      | Group27          |
 | `CommunicationControllerMapping`                        | [x] Done    | 2613747d22                               | Group7           |
 | `CommunicationCycle`                                    | [x] Done    | 75683a2ede                               | Group5           |
-| `CommunicationDirectionType`                            | [ ] Implemented| 3378eb6247                               | Group15          |
+| `CommunicationDirectionType`                            | [ ] Deferred| 3378eb6247                               | Group15          |
 | `Compiler`                                              | [x] Done    | 3fce597322                               | Group1           |
 | `ComplexDeviceDriverSwComponentType`                    | [ ] Implemented| N/A                                      | Group29          |
 | `ComponentClustering`                                   | [ ] Created | N/A                                      | Group30          |
@@ -483,7 +483,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DefItem`                                               | [ ] Implemented| N/A                                      | Group21          |
 | `DefList`                                               | [ ] Implemented| N/A                                      | Group21          |
 | `DefaultValueApplicationStrategyEnum`                   | [ ] Created | N/A                                      | Group36          |
-| `DefaultValueElement`                                   | [ ] Implemented| N/A                                      | Group17          |
+| `DefaultValueElement`                                   | [ ] Deferred| N/A                                      | Group17          |
 | `DelegatedPortAnnotation`                               | [ ] Implemented| N/A                                      | Group27          |
 | `DelegationSwConnector`                                 | [x] Done    | 503344170e                               | Group2           |
 | `DependencyOnArtifact`                                  | [x] Done    | 25211e56ca                               | Group1           |
@@ -1562,7 +1562,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SecureCommunicationPropsSet`                           | [ ] Implemented| N/A                                      | Group31          |
 | `SecureOnBoardCommunicationNeeds`                       | [ ] Implemented| N/A                                      | Group29          |
 | `SecuredIPdu`                                           | [ ] Deferred| 0a98655a06                               | Group15          |
-| `SecuredPduHeaderEnum`                                  | [ ] Implemented| 3d5cb55dbe                               | Group15          |
+| `SecuredPduHeaderEnum`                                  | [ ] Deferred| 3d5cb55dbe                               | Group15          |
 | `SecurityEventAggregationFilter`                        | [ ] Created | N/A                                      | Group36          |
 | `SecurityEventContextDataSourceEnum`                    | [ ] Created | N/A                                      | Group36          |
 | `SecurityEventContextMapping`                           | [ ] Created | N/A                                      | Group36          |
@@ -1842,7 +1842,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TraceableTable`                                        | [x] Done    | fa79c73df5                               | Group3           |
 | `TraceableText`                                         | [x] Done    | 9e80479bda                               | Group1           |
 | `TracedFailure`                                         | [ ] Implemented| N/A                                      | Group23          |
-| `TransferPropertyEnum`                                  | [ ] Implemented| e6baac031c                               | Group15          |
+| `TransferPropertyEnum`                                  | [ ] Deferred| e6baac031c                               | Group15          |
 | `TransformationComSpecProps`                            | [ ] Implemented| N/A                                      | Group27          |
 | `TransformationDescription`                             | [ ] Implemented| N/A                                      | Group28          |
 | `TransformationISignalProps`                            | [x] Done    | 757aea1d17                               | Group6           |
@@ -1865,7 +1865,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4cc                               | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8feb                               | Group1           |
 | `TriggerMapping`                                        | [x] Done    | 905c48d323                               | Group1           |
-| `TriggerMode`                                           | [ ] Implemented| cc609f42a3                               | Group15          |
+| `TriggerMode`                                           | [ ] Deferred| cc609f42a3                               | Group15          |
 | `TriggerPortAnnotation`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `TriggerToSignalMapping`                                | [ ] Created | N/A                                      | Group31          |
 | `Tt`                                                    | [ ] Implemented| N/A                                      | Group21          |
