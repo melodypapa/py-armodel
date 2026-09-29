@@ -293,3 +293,7 @@ class ExternalTriggeringPointIdent(IdentCaption):
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
+
+
+class DiagnosticParameterIdent(IdentCaption):
+    pass

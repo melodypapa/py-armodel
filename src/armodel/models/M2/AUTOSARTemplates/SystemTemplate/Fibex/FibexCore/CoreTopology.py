@@ -1659,3 +1659,19 @@ class ClientIdRange(ARObject):
         if value is not None:
             self.upperLimit = value
         return self
+
+
+class TtcanCluster(AbstractCanCluster):
+    pass
+
+
+class UserDefinedCluster(CommunicationCluster):
+    pass
+
+
+class UserDefinedCommunicationController(CommunicationController):
+    pass
+
+
+class UserDefinedPhysicalChannel(PhysicalChannel):
+    pass

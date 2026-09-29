@@ -472,3 +472,11 @@ class TriggerIPduSendCondition(ARObject):
         if value is not None:
             self.modeDeclarationRefs.append(value)
         return self
+
+
+class AbsoluteTolerance(TimeRangeTypeTolerance):
+    pass
+
+
+class RelativeTolerance(TimeRangeTypeTolerance):
+    pass

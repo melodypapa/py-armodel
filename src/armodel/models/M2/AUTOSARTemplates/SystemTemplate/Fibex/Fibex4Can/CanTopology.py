@@ -1614,3 +1614,11 @@ class J1939Cluster(AbstractCanCluster):
         if value is not None:
             self.usesAddressArbitration = value
         return self
+
+
+class TtcanCommunicationConnector(AbstractCanCommunicationConnector):
+    pass
+
+
+class TtcanPhysicalChannel(AbstractCanPhysicalChannel):
+    pass

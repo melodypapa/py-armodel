@@ -24,3 +24,39 @@ class FibexElement(PackageableElement, ABC):
             raise TypeError("FibexElement is an abstract class.")
 
         super().__init__(parent, short_name)
+
+
+class BusMirrorChannelMapping(FibexElement, ABC):
+    pass
+
+
+class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
+    pass
+
+
+class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
+    pass
+
+
+class EthTpConfig(FibexElement):
+    pass
+
+
+class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
+    pass
+
+
+class FlexrayArTpConfig(FibexElement):
+    pass
+
+
+class FlexrayTpConfig(FibexElement):
+    pass
+
+
+class ServiceInstanceCollectionSet(FibexElement):
+    pass
+
+
+class SomeipTpConfig(FibexElement):
+    pass

@@ -219,3 +219,15 @@ class DiagnosticConnection(ARElement):
         if value is not None:
             self.responseOnEventRef = value
         return self
+
+
+class EthTpConnection(TpConnection):
+    pass
+
+
+class FlexrayArTpConnection(TpConnection):
+    pass
+
+
+class FlexrayTpConnection(TpConnection):
+    pass

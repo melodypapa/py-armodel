@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
+from abc import ABC
 
 
 class SwcToEcuMapping(Identifiable, VariationPointCapable):
@@ -1022,7 +1023,175 @@ class System(AtpStructureElement):
         return self
 
 
-__all__ = [
+__all__ = [    "UserDefinedTransformationProps",
+    "UserDefinedGlobalTimeSlave",
+    "UserDefinedGlobalTimeMaster",
+    "UserDefinedCommunicationConnector",
+    "TtcanCommunicationController",
+    "TriggerToSignalMapping",
+    "TransformationPropsSet",
+    "TransformationProps",
+    "SystemSignalToCommunicationResourceMapping",
+    "SystemSignalGroupToCommunicationResourceMapping",
+    "SwitchStreamIdentification",
+    "SwitchStreamGateEntry",
+    "SwitchStreamFilterRule",
+    "SwitchStreamFilterEntry",
+    "SwitchStreamFilterActionDestPortModification",
+    "SwitchFlowMeteringEntry",
+    "SwitchAsynchronousTrafficShaperGroupEntry",
+    "SwcToSwcSignal",
+    "SwcToSwcOperationArguments",
+    "SwcToApplicationPartitionMapping",
+    "StreamFilterRuleIpTp",
+    "StreamFilterRuleDataLinkLayer",
+    "StreamFilterPortRange",
+    "StreamFilterMACAddress",
+    "StreamFilterIpv6Address",
+    "StreamFilterIpv4Address",
+    "StreamFilterIEEE1722Tp",
+    "SomeipTpConnection",
+    "SomeipTpChannel",
+    "SomeipSdServerServiceInstanceConfig",
+    "SocketConnectionIpduIdentifierSet",
+    "SeparateSignalPath",
+    "SenderReceiverCompositeElementToSignalMapping",
+    "SOMEIPTransformationProps",
+    "RteEventInSystemToOsTaskProxyMapping",
+    "RteEventInSystemSeparation",
+    "RteEventInCompositionToOsTaskProxyMapping",
+    "RteEventInCompositionSeparation",
+    "PortElementToCommunicationResourceMapping",
+    "PncMapping",
+    "PermissibleSignalPath",
+    "NmCoordinator",
+    "NetworkSegmentIdentification",
+    "MacSecParticipantSet",
+    "J1939TpPg",
+    "J1939TpNode",
+    "J1939TpConnection",
+    "J1939TpConfig",
+    "J1939ControllerApplicationToJ1939NmNodeMapping",
+    "J1939ControllerApplication",
+    "Ipv6Props",
+    "Ipv6NdpProps",
+    "Ipv6FragmentationProps",
+    "Ipv4Props",
+    "Ipv4FragmentationProps",
+    "Ipv4AutoIpProps",
+    "Ipv4ArpProps",
+    "IPv6ExtHeaderFilterSet",
+    "IPSecRule",
+    "IPSecConfigProps",
+    "IEEE1722TpRvfConnection",
+    "IEEE1722TpIidcConnection",
+    "IEEE1722TpCrfConnection",
+    "IEEE1722TpConfig",
+    "IEEE1722TpAcfLinPart",
+    "IEEE1722TpAcfLin",
+    "IEEE1722TpAcfConnection",
+    "IEEE1722TpAcfCanPart",
+    "IEEE1722TpAcfCan",
+    "IEEE1722TpAcfBusPart",
+    "IEEE1722TpAcfBus",
+    "IEEE1722TpAafConnection",
+    "IEEE1722TpAvConnection",
+    "IEEE1722TpConnection",
+    "GlobalTimeSlave",
+    "GlobalTimeGateway",
+    "GlobalTimeFrSlave",
+    "GlobalTimeFrMaster",
+    "GlobalTimeEthSlave",
+    "GlobalTimeEthMaster",
+    "GlobalTimeDomain",
+    "GlobalTimeCorrectionProps",
+    "GlobalTimeCanSlave",
+    "GlobalTimeCanMaster",
+    "GlobalTimeMaster",
+    "GeneralPurposeConnection",
+    "FrGlobalTimeDomainProps",
+    "ForbiddenSignalPath",
+    "FlexrayTpPduPool",
+    "FlexrayTpNode",
+    "FlexrayTpEcu",
+    "FlexrayTpConnectionControl",
+    "FlexrayArTpNode",
+    "FlexrayArTpChannel",
+    "EthernetWakeupSleepOnDatalineConfig",
+    "EthTSynSubTlvConfig",
+    "EthTSynCrcFlags",
+    "EthIpProps",
+    "EthGlobalTimeManagedCouplingPort",
+    "EthGlobalTimeDomainProps",
+    "EcuResourceEstimation",
+    "Dhcpv6Props",
+    "DdsTransportPriority",
+    "DdsTopicData",
+    "DdsResourceLimits",
+    "DdsReliability",
+    "DdsOwnershipStrength",
+    "DdsOwnership",
+    "DdsLiveliness",
+    "DdsLifespan",
+    "DdsLatencyBudget",
+    "DdsHistory",
+    "DdsDurabilityService",
+    "DdsDurability",
+    "DdsDestinationOrder",
+    "DdsDeadline",
+    "DdsCpTopic",
+    "DdsCpServiceInstanceOperation",
+    "DdsCpServiceInstanceEvent",
+    "DdsCpQosProfile",
+    "DdsCpProvidedServiceInstance",
+    "DdsCpPartition",
+    "DdsCpISignalToDdsTopicMapping",
+    "DdsCpDomain",
+    "DdsCpConsumedServiceInstance",
+    "DdsCpServiceInstance",
+    "DdsCpConfig",
+    "DataComProps",
+    "CryptoServiceQueue",
+    "CryptoServiceKey",
+    "CpSoftwareClusterToResourceMapping",
+    "CpSoftwareClusterToEcuInstanceMapping",
+    "CpSoftwareClusterToApplicationPartitionMapping",
+    "CpSoftwareClusterResourceToApplicationPartitionMapping",
+    "CpSoftwareClusterResourcePool",
+    "CpSoftwareClusterMappingSet",
+    "CpSoftwareClusterBinaryManifestDescriptor",
+    "CouplingElementSwitchDetails",
+    "CouplingElementAbstractDetails",
+    "CouplingElement",
+    "ContainerIPdu",
+    "ComponentSeparation",
+    "ComponentClustering",
+    "MappingConstraint",
+    "CommonSignalPath",
+    "ClientServerToSignalMapping",
+    "ClientServerOperationComProps",
+    "CpSoftwareClusterCommunicationResourceProps",
+    "CanGlobalTimeDomainProps",
+    "BusMirrorLinPidToCanIdMapping",
+    "BusMirrorChannelMappingIp",
+    "BusMirrorChannelMappingCan",
+    "BusMirrorChannel",
+    "BusMirrorCanIdToCanIdMapping",
+    "BusMirrorCanIdRangeMapping",
+    "BinaryManifestResourceDefinition",
+    "BinaryManifestResource",
+    "BinaryManifestRequireResource",
+    "BinaryManifestProvideResource",
+    "BinaryManifestMetaDataField",
+    "BinaryManifestItemPointerValue",
+    "BinaryManifestItemNumericalValue",
+    "BinaryManifestItemValue",
+    "BinaryManifestItemDefinition",
+    "BinaryManifestItem",
+    "BinaryManifestAddressableObject",
+    "ApplicationPartition",
+    "AbstractGlobalTimeDomainProps",
+
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",
@@ -1058,3 +1227,675 @@ __all__ = [
     "VariableDataPrototypeInSystemInstanceRef",
     "VariationPointCapable",
 ]
+
+
+class AbstractGlobalTimeDomainProps(ARObject, ABC):
+    pass
+
+
+class ApplicationPartition(ARElement):
+    pass
+
+
+class BinaryManifestAddressableObject(ARObject, ABC):
+    pass
+
+
+class BinaryManifestItem(Identifiable):
+    pass
+
+
+class BinaryManifestItemDefinition(Identifiable):
+    pass
+
+
+class BinaryManifestItemValue(ARObject, ABC):
+    pass
+
+
+class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
+    pass
+
+
+class BinaryManifestItemPointerValue(BinaryManifestItemValue):
+    pass
+
+
+class BinaryManifestMetaDataField(Identifiable):
+    pass
+
+
+class BinaryManifestProvideResource(Identifiable):
+    pass
+
+
+class BinaryManifestRequireResource(Identifiable):
+    pass
+
+
+class BinaryManifestResource(ARObject, ABC):
+    pass
+
+
+class BinaryManifestResourceDefinition(Identifiable):
+    pass
+
+
+class BusMirrorCanIdRangeMapping(ARObject):
+    pass
+
+
+class BusMirrorCanIdToCanIdMapping(ARObject):
+    pass
+
+
+class BusMirrorChannel(ARObject):
+    pass
+
+
+class BusMirrorChannelMappingCan(ARObject):
+    pass
+
+
+class BusMirrorChannelMappingIp(ARObject):
+    pass
+
+
+class BusMirrorLinPidToCanIdMapping(ARObject):
+    pass
+
+
+class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
+    pass
+
+
+class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
+    pass
+
+
+class ClientServerToSignalMapping(DataMapping):
+    pass
+
+
+class CommonSignalPath(ARObject):
+    pass
+
+
+class MappingConstraint(ARObject, ABC):
+    pass
+
+
+class ComponentClustering(MappingConstraint):
+    pass
+
+
+class ComponentSeparation(MappingConstraint):
+    pass
+
+
+class ContainerIPdu(ARObject):
+    pass
+
+
+class CouplingElement(ARObject):
+    pass
+
+
+class CouplingElementAbstractDetails(Identifiable, ABC):
+    pass
+
+
+class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
+    pass
+
+
+class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
+    pass
+
+
+class CpSoftwareClusterMappingSet(ARElement):
+    pass
+
+
+class CpSoftwareClusterResourcePool(ARElement):
+    pass
+
+
+class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToResourceMapping(Identifiable):
+    pass
+
+
+class CryptoServiceKey(ARElement):
+    pass
+
+
+class CryptoServiceQueue(ARElement):
+    pass
+
+
+class DataComProps(CpSoftwareClusterCommunicationResourceProps):
+    pass
+
+
+class DdsCpConfig(ARElement):
+    pass
+
+
+class DdsCpServiceInstance(Identifiable, ABC):
+    pass
+
+
+class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
+    pass
+
+
+class DdsCpDomain(Identifiable):
+    pass
+
+
+class DdsCpISignalToDdsTopicMapping(ARObject):
+    pass
+
+
+class DdsCpPartition(Identifiable):
+    pass
+
+
+class DdsCpProvidedServiceInstance(ARObject):
+    pass
+
+
+class DdsCpQosProfile(ARObject):
+    pass
+
+
+class DdsCpServiceInstanceEvent(ARObject):
+    pass
+
+
+class DdsCpServiceInstanceOperation(ARObject):
+    pass
+
+
+class DdsCpTopic(ARObject):
+    pass
+
+
+class DdsDeadline(ARObject):
+    pass
+
+
+class DdsDestinationOrder(ARObject):
+    pass
+
+
+class DdsDurability(ARObject):
+    pass
+
+
+class DdsDurabilityService(ARObject):
+    pass
+
+
+class DdsHistory(ARObject):
+    pass
+
+
+class DdsLatencyBudget(ARObject):
+    pass
+
+
+class DdsLifespan(ARObject):
+    pass
+
+
+class DdsLiveliness(ARObject):
+    pass
+
+
+class DdsOwnership(ARObject):
+    pass
+
+
+class DdsOwnershipStrength(ARObject):
+    pass
+
+
+class DdsReliability(ARObject):
+    pass
+
+
+class DdsResourceLimits(ARObject):
+    pass
+
+
+class DdsTopicData(ARObject):
+    pass
+
+
+class DdsTransportPriority(ARObject):
+    pass
+
+
+class Dhcpv6Props(ARObject):
+    pass
+
+
+class EcuResourceEstimation(ARObject):
+    pass
+
+
+class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class EthGlobalTimeManagedCouplingPort(ARObject):
+    pass
+
+
+class EthIpProps(ARElement):
+    pass
+
+
+class EthTSynCrcFlags(ARObject):
+    pass
+
+
+class EthTSynSubTlvConfig(ARObject):
+    pass
+
+
+class EthernetWakeupSleepOnDatalineConfig(ARObject):
+    pass
+
+
+class FlexrayArTpChannel(ARObject):
+    pass
+
+
+class FlexrayArTpNode(Identifiable):
+    pass
+
+
+class FlexrayTpConnectionControl(Identifiable):
+    pass
+
+
+class FlexrayTpEcu(ARObject):
+    pass
+
+
+class FlexrayTpNode(Identifiable):
+    pass
+
+
+class FlexrayTpPduPool(Identifiable):
+    pass
+
+
+class ForbiddenSignalPath(ARObject):
+    pass
+
+
+class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class GeneralPurposeConnection(ARElement):
+    pass
+
+
+class GlobalTimeMaster(Identifiable, ABC):
+    pass
+
+
+class GlobalTimeCanMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeCanSlave(Identifiable):
+    pass
+
+
+class GlobalTimeCorrectionProps(ARObject):
+    pass
+
+
+class GlobalTimeDomain(ARElement):
+    pass
+
+
+class GlobalTimeEthMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeEthSlave(Identifiable):
+    pass
+
+
+class GlobalTimeFrMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeFrSlave(Identifiable):
+    pass
+
+
+class GlobalTimeGateway(Identifiable):
+    pass
+
+
+class GlobalTimeSlave(ARObject, ABC):
+    pass
+
+
+class IEEE1722TpConnection(ARElement, ABC):
+    pass
+
+
+class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
+    pass
+
+
+class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpAcfBus(Identifiable, ABC):
+    pass
+
+
+class IEEE1722TpAcfBusPart(ARObject, ABC):
+    pass
+
+
+class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
+    pass
+
+
+class IEEE1722TpAcfCanPart(Identifiable):
+    pass
+
+
+class IEEE1722TpAcfConnection(IEEE1722TpConnection):
+    pass
+
+
+class IEEE1722TpAcfLin(ARObject):
+    pass
+
+
+class IEEE1722TpAcfLinPart(Identifiable):
+    pass
+
+
+class IEEE1722TpConfig(ARObject):
+    pass
+
+
+class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IPSecConfigProps(ARElement):
+    pass
+
+
+class IPSecRule(Identifiable):
+    pass
+
+
+class IPv6ExtHeaderFilterSet(ARElement):
+    pass
+
+
+class Ipv4ArpProps(ARObject):
+    pass
+
+
+class Ipv4AutoIpProps(ARObject):
+    pass
+
+
+class Ipv4FragmentationProps(ARObject):
+    pass
+
+
+class Ipv4Props(ARObject):
+    pass
+
+
+class Ipv6FragmentationProps(ARObject):
+    pass
+
+
+class Ipv6NdpProps(ARObject):
+    pass
+
+
+class Ipv6Props(ARObject):
+    pass
+
+
+class J1939ControllerApplication(ARElement):
+    pass
+
+
+class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
+    pass
+
+
+class J1939TpConfig(ARObject):
+    pass
+
+
+class J1939TpConnection(ARObject):
+    pass
+
+
+class J1939TpNode(Identifiable):
+    pass
+
+
+class J1939TpPg(ARObject):
+    pass
+
+
+class MacSecParticipantSet(ARElement):
+    pass
+
+
+class NetworkSegmentIdentification(ARObject):
+    pass
+
+
+class NmCoordinator(ARObject):
+    pass
+
+
+class PermissibleSignalPath(ARObject):
+    pass
+
+
+class PncMapping(ARObject):
+    pass
+
+
+class PortElementToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class RteEventInCompositionSeparation(Identifiable):
+    pass
+
+
+class RteEventInCompositionToOsTaskProxyMapping(ARObject):
+    pass
+
+
+class RteEventInSystemSeparation(Identifiable):
+    pass
+
+
+class RteEventInSystemToOsTaskProxyMapping(ARObject):
+    pass
+
+
+class SOMEIPTransformationProps(Identifiable):
+    pass
+
+
+class SenderReceiverCompositeElementToSignalMapping(DataMapping):
+    pass
+
+
+class SeparateSignalPath(ARObject):
+    pass
+
+
+class SocketConnectionIpduIdentifierSet(ARElement):
+    pass
+
+
+class SomeipSdServerServiceInstanceConfig(ARObject):
+    pass
+
+
+class SomeipTpChannel(Identifiable):
+    pass
+
+
+class SomeipTpConnection(ARObject):
+    pass
+
+
+class StreamFilterIEEE1722Tp(ARObject):
+    pass
+
+
+class StreamFilterIpv4Address(ARObject):
+    pass
+
+
+class StreamFilterIpv6Address(ARObject):
+    pass
+
+
+class StreamFilterMACAddress(ARObject):
+    pass
+
+
+class StreamFilterPortRange(ARObject):
+    pass
+
+
+class StreamFilterRuleDataLinkLayer(ARObject):
+    pass
+
+
+class StreamFilterRuleIpTp(ARObject):
+    pass
+
+
+class SwcToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class SwcToSwcOperationArguments(ARObject):
+    pass
+
+
+class SwcToSwcSignal(ARObject):
+    pass
+
+
+class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
+    pass
+
+
+class SwitchFlowMeteringEntry(Identifiable):
+    pass
+
+
+class SwitchStreamFilterActionDestPortModification(Identifiable):
+    pass
+
+
+class SwitchStreamFilterEntry(Identifiable):
+    pass
+
+
+class SwitchStreamFilterRule(Identifiable):
+    pass
+
+
+class SwitchStreamGateEntry(Identifiable):
+    pass
+
+
+class SwitchStreamIdentification(Identifiable):
+    pass
+
+
+class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class SystemSignalToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class TransformationProps(ARObject, ABC):
+    pass
+
+
+class TransformationPropsSet(ARElement):
+    pass
+
+
+class TriggerToSignalMapping(ARObject):
+    pass
+
+
+class TtcanCommunicationController(ARObject):
+    pass
+
+
+class UserDefinedCommunicationConnector(ARObject):
+    pass
+
+
+class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
+    pass
+
+
+class UserDefinedGlobalTimeSlave(Identifiable):
+    pass
+
+
+class UserDefinedTransformationProps(Identifiable):
+    pass

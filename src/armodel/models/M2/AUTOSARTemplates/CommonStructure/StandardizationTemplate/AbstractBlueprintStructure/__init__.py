@@ -170,4 +170,8 @@ class AtpBlueprintMapping(ARObject, ABC):
         return self
 
 
-__all__ = ["AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping", "BlueprintPolicy"]
+__all__ = ["LifeCycleState","AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping", "BlueprintPolicy"]
+
+
+class LifeCycleState(AtpBlueprint):
+    pass

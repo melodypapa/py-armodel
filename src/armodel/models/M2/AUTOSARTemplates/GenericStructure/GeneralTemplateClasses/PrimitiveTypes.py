@@ -1565,3 +1565,347 @@ class ViewTokens(ARLiteral):
 
     def __init__(self):
         super().__init__()
+
+
+class AclScopeEnum(AREnum):
+    pass
+
+
+class AdditionalBindingTimeEnum(AREnum):
+    pass
+
+
+class ContainerIPduHeaderTypeEnum(AREnum):
+    pass
+
+
+class ContainerIPduTriggerEnum(AREnum):
+    pass
+
+
+class CouplingElementEnum(AREnum):
+    pass
+
+
+class CryptoServiceKeyGenerationEnum(AREnum):
+    pass
+
+
+class DataConsistencyPolicyEnum(AREnum):
+    pass
+
+
+class DataExchangePointKind(AREnum):
+    pass
+
+
+class DdsDestinationOrderKindEnum(AREnum):
+    pass
+
+
+class DdsDurabilityKindEnum(AREnum):
+    pass
+
+
+class DdsDurabilityServiceHistoryKindEnum(AREnum):
+    pass
+
+
+class DdsHistoryKindEnum(AREnum):
+    pass
+
+
+class DdsLivenessKindEnum(AREnum):
+    pass
+
+
+class DdsOwnershipKindEnum(AREnum):
+    pass
+
+
+class DdsReliabilityKindEnum(AREnum):
+    pass
+
+
+class DefaultValueApplicationStrategyEnum(AREnum):
+    pass
+
+
+class DiagPduType(AREnum):
+    pass
+
+
+class DiagnosticClearDtcLimitationEnum(AREnum):
+    pass
+
+
+class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticDebounceBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
+    pass
+
+
+class DiagnosticEventClearAllowedEnum(AREnum):
+    pass
+
+
+class DiagnosticEventCombinationBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticEventDisplacementStrategyEnum(AREnum):
+    pass
+
+
+class DiagnosticEventKindEnum(AREnum):
+    pass
+
+
+class DiagnosticEventWindowTimeEnum(AREnum):
+    pass
+
+
+class DiagnosticHandleDDDIConfigurationEnum(AREnum):
+    pass
+
+
+class DiagnosticInhibitionMaskEnum(AREnum):
+    pass
+
+
+class DiagnosticIumprKindEnum(AREnum):
+    pass
+
+
+class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
+    pass
+
+
+class DiagnosticObdSupportEnum(AREnum):
+    pass
+
+
+class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
+    pass
+
+
+class DiagnosticOperationCycleTypeEnum(AREnum):
+    pass
+
+
+class DiagnosticPeriodicRateCategoryEnum(AREnum):
+    pass
+
+
+class DiagnosticRecordTriggerEnum(AREnum):
+    pass
+
+
+class DiagnosticResponseOnEventActionEnum(AREnum):
+    pass
+
+
+class DiagnosticResponseToEcuResetEnum(AREnum):
+    pass
+
+
+class DiagnosticSignificanceEnum(AREnum):
+    pass
+
+
+class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
+    pass
+
+
+class DiagnosticTestResultUpdateEnum(AREnum):
+    pass
+
+
+class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
+    pass
+
+
+class DiagnosticTypeOfDtcSupportedEnum(AREnum):
+    pass
+
+
+class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
+    pass
+
+
+class DiagnosticUdsSeverityEnum(AREnum):
+    pass
+
+
+class DiagnosticWwhObdDtcClassEnum(AREnum):
+    pass
+
+
+class EEnum(AREnum):
+    pass
+
+
+class EEnumFont(AREnum):
+    pass
+
+
+class EthGlobalTimeMessageFormatEnum(AREnum):
+    pass
+
+
+class FMFeatureSelectionState(AREnum):
+    pass
+
+
+class FlowMeteringColorModeEnum(AREnum):
+    pass
+
+
+class FrArTpAckType(AREnum):
+    pass
+
+
+class FullBindingTimeEnum(AREnum):
+    pass
+
+
+class GlobalTimeCrcSupportEnum(AREnum):
+    pass
+
+
+class GlobalTimeCrcValidationEnum(AREnum):
+    pass
+
+
+class GlobalTimeIcvSupportEnum(AREnum):
+    pass
+
+
+class GlobalTimeIcvVerificationEnum(AREnum):
+    pass
+
+
+class GlobalTimePortRoleEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAafAes3DataTypeEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAafFormatEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAafNominalRateEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
+    pass
+
+
+class IEEE1722TpCrfPullEnum(AREnum):
+    pass
+
+
+class IEEE1722TpCrfTypeEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfColorSpaceEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfFrameRateEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfPixelDepthEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfPixelFormatEnum(AREnum):
+    pass
+
+
+class IPsecDpdActionEnum(AREnum):
+    pass
+
+
+class IPsecHeaderTypeEnum(AREnum):
+    pass
+
+
+class IPsecIpProtocolEnum(AREnum):
+    pass
+
+
+class IPsecModeEnum(AREnum):
+    pass
+
+
+class IPsecPolicyEnum(AREnum):
+    pass
+
+
+class LinChecksumType(AREnum):
+    pass
+
+
+class MappingScopeEnum(AREnum):
+    pass
+
+
+class MaximumMessageLengthType(AREnum):
+    pass
+
+
+class MirroringProtocolEnum(AREnum):
+    pass
+
+
+class RxAcceptContainedIPduEnum(AREnum):
+    pass
+
+
+class SecurityEventContextDataSourceEnum(AREnum):
+    pass
+
+
+class SecurityEventReportingModeEnum(AREnum):
+    pass
+
+
+class SendIndicationEnum(AREnum):
+    pass
+
+
+class SeverityEnum(AREnum):
+    pass
+
+
+class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
+    pass
+
+
+class SwitchStreamFilterActionPortModificationEnum(AREnum):
+    pass
+
+
+class VariableAccessScopeEnum(AREnum):
+    pass
