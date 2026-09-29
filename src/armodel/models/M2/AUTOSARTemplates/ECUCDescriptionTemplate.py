@@ -803,18 +803,21 @@ class ConfigReferenceValue(ARObject, ABC):
     """
 
     # ConfigReferenceValue method parity checklist:
-    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
-    # Spec verified: R3.2.3
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.40, l.2284 (R3.2.3)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
     # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
-    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
-    # convention to definitionRef):
-    # 1. definition optional — spec Mul=1 but XSD group CONFIG-REFERENCE-VALUE (AUTOSAR.xsd
-    #    L6087) DEFINITION-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
-    # 2. DEFINITION-REF DEST attribute — XSD says use="required" but Os_ECUC.arxml carries
-    #    no DEST; reader/writer treat DEST as optional (ParameterValue precedent).
+    # Naming (not a deviation): spec member `definition`, kind ref — Rule 0001.5 Ref
+    # suffix gives definitionRef (ParameterValue/EcucContainerValue module convention).
+    # Deviations (accepted):
+    # 1. definition optional — spec Mul=1 but XSD group CONFIG-REFERENCE-VALUE
+    #    (AUTOSAR.xsd l.6087) DEFINITION-REF has minOccurs="0"; modeled Optional per
+    #    the XSD serialization contract (None-guarded setter, writer omits the element
+    #    when unset).
+    # 2. DEFINITION-REF DEST attribute — XSD use="required" (CONFIG-REFERENCE--
+    #    SUBTYPES-ENUM) but the Os_ECUC.arxml integration fixture carries DEFINITION-REF
+    #    with no DEST; reader/writer treat DEST as optional for a lossless round-trip.
 
     def __init__(self):
         if type(self) is ConfigReferenceValue:

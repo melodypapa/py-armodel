@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 497 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 192 | 10.0% |
-| [ ] Implemented | 625 | 32.5% |
+| [ ] Deferred | 193 | 10.0% |
+| [ ] Implemented | 624 | 32.5% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -341,7 +341,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConditionByFormula`                                    | [x] Done    | 18b494eba5                               | Group8           |
 | `ConditionalChangeNad`                                  | [ ] Implemented| N/A                                      | Group32          |
 | `ConfidenceInterval`                                    | [ ] Implemented| N/A                                      | Group35          |
-| `ConfigReferenceValue`                                  | [ ] Implemented| N/A                                      | Group19          |
+| `ConfigReferenceValue`                                  | [ ] Deferred| N/A                                      | Group19          |
 | `ConsistencyNeeds`                                      | [ ] Implemented| N/A                                      | Group28          |
 | `ConstantReference`                                     | [x] Done    | 4853348ea0                               | Group9           |
 | `ConstantSpecification`                                 | [x] Done    | 265721a764                               | Group9           |
