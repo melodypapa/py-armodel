@@ -357,7 +357,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclPermission
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclPermission
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -14234,6 +14234,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCollection(element, ar_element)
         elif isinstance(ar_element, AclPermission):
             self.writeAclPermission(element, ar_element)
+        elif isinstance(ar_element, AclObjectSet):
+            self.writeAclObjectSet(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14796,6 +14798,50 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
                     scope_tag.text = token
+
+    def writeAclObjectSet(self, element: ET.Element, acl_object_set: AclObjectSet):
+        if acl_object_set is not None:
+            self.logger.debug("Write AclObjectSet <%s>" % acl_object_set.getShortName())
+            child_element = ET.SubElement(element, "ACL-OBJECT-SET")
+            self.writeIdentifiable(child_element, acl_object_set)
+            acl_object_classes = acl_object_set.getAclObjectClasses()
+            if len(acl_object_classes) > 0:
+                classes_tag = ET.SubElement(child_element, "ACL-OBJECT-CLASSS")
+                for acl_object_class in acl_object_classes:
+                    class_tag = ET.SubElement(classes_tag, "ACL-OBJECT-CLASS")
+                    class_tag.text = acl_object_class.getValue()
+            acl_scope = acl_object_set.getAclScope()
+            if acl_scope is not None:
+                token = ACL_SCOPE_XML_MAP.get(acl_scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.getValue())
+                else:
+                    scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
+                    scope_tag.text = token
+            self.setChildElementOptionalRefType(child_element, "COLLECTION-REF", acl_object_set.getCollectionRef())
+            blueprint_refs = acl_object_set.getDerivedFromBlueprintRefs()
+            if len(blueprint_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "DERIVED-FROM-BLUEPRINT-REFS")
+                for ref in blueprint_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "DERIVED-FROM-BLUEPRINT-REF", ref)
+            engineering_objects = acl_object_set.getEngineeringObjects()
+            if len(engineering_objects) > 0:
+                objects_tag = ET.SubElement(child_element, "ENGINEERING-OBJECTS")
+                for engineering_object in engineering_objects:
+                    if isinstance(engineering_object, AutosarEngineeringObject):
+                        self.writeAutosarEngineeringObject(objects_tag, engineering_object)
+                    else:
+                        self.notImplemented("Unsupported EngineeringObject <%s>" % type(engineering_object))
+            object_definition_refs = acl_object_set.getObjectDefinitionRefs()
+            if len(object_definition_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "OBJECT-DEFINITION-REFS")
+                for ref in object_definition_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "OBJECT-DEFINITION-REF", ref)
+            object_refs = acl_object_set.getObjectRefs()
+            if len(object_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "OBJECT-REFS")
+                for ref in object_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "OBJECT-REF", ref)
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

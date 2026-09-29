@@ -1787,6 +1787,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(acl_permission)
         return self.getElement(short_name, AclPermission)
 
+    def createAclObjectSet(self, short_name: str) -> AclObjectSet:
+
+        if not self.IsElementExists(short_name, AclObjectSet):
+            acl_object_set = AclObjectSet(self, short_name)
+            self.addElement(acl_object_set)
+        return self.getElement(short_name, AclObjectSet)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2090,6 +2097,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted(filter(lambda a: isinstance(a, AclPermission), self.elements), key=lambda a: a.short_name))
 
+    def getAclObjectSets(self) -> List[AclObjectSet]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclObjectSet), self.elements), key=lambda a: a.short_name))
+
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
@@ -2296,20 +2307,20 @@ class AclObjectSet(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.2, p.383
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addAclObjectClass            [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getAclObjectClasses          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] getAclScope                  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setAclScope                  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getCollectionRef             [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setCollectionRef             [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] addDerivedFromBlueprintRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getDerivedFromBlueprintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addEngineeringObject         [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getEngineeringObjects        [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addObjectRef                 [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getObjectRefs                [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] addObjectDefinitionRef       [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getObjectDefinitionRefs      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addAclObjectClass            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAclObjectClasses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getAclScope                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAclScope                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCollectionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollectionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDerivedFromBlueprintRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDerivedFromBlueprintRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addEngineeringObject         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEngineeringObjects        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addObjectRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getObjectRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addObjectDefinitionRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getObjectDefinitionRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

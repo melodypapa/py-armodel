@@ -474,7 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclPermission
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclPermission
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -14906,6 +14906,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ACL-PERMISSION":
                 acl_permission = parent.createAclPermission(self.getShortName(child_element))
                 self.readAclPermission(child_element, acl_permission)
+            elif tag_name == "ACL-OBJECT-SET":
+                acl_object_set = parent.createAclObjectSet(self.getShortName(child_element))
+                self.readAclObjectSet(child_element, acl_object_set)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15315,6 +15318,35 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.text)
         return acl_permission
+
+    def readAclObjectSet(self, element: ET.Element, acl_object_set: AclObjectSet) -> AclObjectSet:
+        self.logger.debug("Read AclObjectSet <%s>" % acl_object_set.getShortName())
+        self.readIdentifiable(element, acl_object_set)
+        for child_element in self.findall(element, "ACL-OBJECT-CLASSS/ACL-OBJECT-CLASS"):
+            literal = ReferrableSubtypesEnum()
+            literal.setValue(child_element.text)
+            acl_object_set.addAclObjectClass(literal)
+        acl_scope = self.find(element, "ACL-SCOPE")
+        if acl_scope is not None:
+            literal = None
+            for literal_name, token in ACL_SCOPE_XML_MAP.items():
+                if token == acl_scope.text:
+                    literal = literal_name
+                    break
+            if literal is not None:
+                acl_object_set.setAclScope(AclScopeEnum().setValue(literal))
+            else:
+                self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.text)
+        acl_object_set.setCollectionRef(self.getChildElementOptionalRefType(element, "COLLECTION-REF"))
+        for blueprint_ref in self.getChildElementRefTypeList(element, "DERIVED-FROM-BLUEPRINT-REFS/DERIVED-FROM-BLUEPRINT-REF"):
+            acl_object_set.addDerivedFromBlueprintRef(blueprint_ref)
+        for child_element in self.findall(element, "ENGINEERING-OBJECTS/AUTOSAR-ENGINEERING-OBJECT"):
+            acl_object_set.addEngineeringObject(self.getAutosarEngineeringObject(child_element))
+        for object_definition_ref in self.getChildElementRefTypeList(element, "OBJECT-DEFINITION-REFS/OBJECT-DEFINITION-REF"):
+            acl_object_set.addObjectDefinitionRef(object_definition_ref)
+        for object_ref in self.getChildElementRefTypeList(element, "OBJECT-REFS/OBJECT-REF"):
+            acl_object_set.addObjectRef(object_ref)
+        return acl_object_set
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
