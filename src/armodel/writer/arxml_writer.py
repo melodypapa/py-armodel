@@ -11870,15 +11870,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
-    def setSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
+    def writeSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         child_element = ET.SubElement(element, "SWC-TO-ECU-MAPPING")
-        self.writeIdentifiable(child_element, mapping)
+        self.writeIdentifiable(child_element, mapping, write_variation_point=False)
         irefs = mapping.getComponentIRefs()
         if len(irefs) > 0:
             irefs_tag = ET.SubElement(child_element, "COMPONENT-IREFS")
             for iref in irefs:
                 self.setComponentInSystemInstanceRef(irefs_tag, "COMPONENT-IREF", iref)
+        self.setChildElementOptionalRefType(child_element, "CONTROLLED-HW-ELEMENT-REF", mapping.getControlledHwElementRef())
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
+        self.setChildElementOptionalRefType(child_element, "PROCESSING-UNIT-REF", mapping.getProcessingUnitRef())
+        self.writeVariationPointCapable(child_element, mapping)
 
     def writeSystemMappingSwMappings(self, element: ET.Element, system_mapping: SystemMapping):
         sw_mappings = system_mapping.getSwMappings()
@@ -11886,7 +11889,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SW-MAPPINGS")
             for sw_mapping in sw_mappings:
                 if isinstance(sw_mapping, SwcToEcuMapping):
-                    self.setSwcToEcuMapping(child_element, sw_mapping)
+                    self.writeSwcToEcuMapping(child_element, sw_mapping)
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
 

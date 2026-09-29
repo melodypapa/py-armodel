@@ -13886,7 +13886,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         for child_element in self.findall(element, "COMPONENT-IREFS/COMPONENT-IREF"):
             mapping.addComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+        mapping.setControlledHwElementRef(self.getChildElementOptionalRefType(element, "CONTROLLED-HW-ELEMENT-REF"))
         mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        mapping.setProcessingUnitRef(self.getChildElementOptionalRefType(element, "PROCESSING-UNIT-REF"))
 
     def readSystemMappingSwMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SW-MAPPINGS/*"):

@@ -2771,9 +2771,7 @@ No deviations — Table 3.36 has no `Attribute` rows (all members inherited from
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::SWmapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `partitionRef` | `Ref (EcuPartition)` | Ref | missing |
+No deviations — all 4 Table 5.2 attributes modeled with full reader/writer coverage (`component` `*` iref → `componentIRefs: List[ComponentInSystemInstanceRef]` per the "InstanceRef implemented by" row, `controlledHwElement`/`ecuInstance`/`processingUnit` 0..1 ref → `Optional[RefType]` per the Kind `ref`→`Ref` suffix); XSD-only `PARTITION-REF` (atp.Status="removed", replaced by SwcToApplicationPartitionMapping/ApplicationPartitionToEcuPartitionMapping) not modeled (Rule 0015; no fixture carries it) — the former v1 `partitionRef` missing row resolved to removed in the 2026-09 sync; writer helper renamed `setSwcToEcuMapping` → `writeSwcToEcuMapping` (Rule 0013.2 matched readXxx/writeXxx pair, resolved in-pass) and the dropped CONTROLLED-HW-ELEMENT-REF/PROCESSING-UNIT-REF elements restored on both sides.
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235
