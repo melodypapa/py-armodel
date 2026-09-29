@@ -14447,6 +14447,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucModuleConfigurationValues(element, ar_element)
         elif isinstance(ar_element, ModuleConfiguration):
             self.writeModuleConfiguration(element, ar_element)
+        elif isinstance(ar_element, EcucValueCollection):
+            self.writeEcucValueCollection(element, ar_element)
         elif isinstance(ar_element, EthTcpIpProps):
             self.writeEthTcpIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpIcmpProps):

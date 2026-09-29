@@ -116,17 +116,118 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       __init__.py — outside this class's scope, left for their owning rows); this
       row's files are black-clean and the full suite + npm run lint pass.
 
-- [ ] `EcucValueCollection` — ARElement — source TBC (locate table at Step 1)
+- [ ] `EcucValueCollection` (input · R23-11 markdown · Table 2.45)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 2.45 AUTOSAR_CP_TPS_ECUConfiguration.md l.2949
+    (pdf_page.py: no caption hit → direct pypdf caption scan → PDF p.108).
+    Concrete Class; Package M2::AUTOSARTemplates::ECUCDescriptionTemplate;
+    Note "This represents the anchor point of the ECU configuration
+    description. Tags: atp.recommendedPackage=EcucValueCollections"; Base
+    most-derived = ARElement (matches src); Aggregated by
+    ARPackage.element (createEcucValueCollection factory + reader dispatch
+    exist). 2 attrs, displayed order: ecucValue
+    (EcucModuleConfigurationValues, *, ref) → ecucValueRefs
+    List[RefType] (get/add pair); ecuExtract (System, 0..1, ref) →
+    ecuExtractRef Optional[RefType] (get/set pair). Not VP-capable
+    (Rule 0020): atpVariation sits on a Kind=ref row (association
+    pattern) and the XSD complexType declares no VARIATION-POINT. XSD
+    group ECUC-VALUE-COLLECTION (AUTOSAR_00052.xsd l.53750): XML order
+    ECU-EXTRACT-REF → ECUC-VALUES (wrapper of
+    ECUC-MODULE-CONFIGURATION-VALUES-REF-CONDITIONAL*) — reader/writer
+    already follow it. Class requirements [TPS_ECUC_02151] (l.8351) +
+    [constr_3588] (l.8395) → class docstring. Drift: src unstamped, old
+    4-column checklist, fields untyped, setEcuExtractRef untyped + no
+    None-guard, class docstring paraphrased; writer writeARPackageElement
+    dispatch has NO EcucValueCollection branch (silent drop on write) —
+    the Step 5/6 fix.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): mirrored test_ECUCDescriptionTemplate.py — replaced the
+      legacy bare-string test_ecuc_value_collection with the standard set
+      (initialization defaults / add chaining + None no-op / set chaining +
+      None no-op / docstring verbatim / get_type_hints member pins). Seen
+      Red 4 failed / 1 passed: addEcucValueRef(None) appended None,
+      setEcuExtractRef(None) overwrote, class docstring paraphrased +
+      member docstrings absent, annotations untyped (KeyError 'value' —
+      param named `ref`).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES — Base
+      most-derived ARElement (concrete, no instantiation guard), 2 attrs →
+      dedicated typed fields `ecucValueRefs: List[RefType]` (addEcucValueRef
+      None-guarded, param renamed ref→value per Rule 0003, returns self) +
+      `ecuExtractRef: Optional[RefType]` (setEcuExtractRef None-guarded,
+      returns self); no fabricated fields; quoted self-return is this
+      module's required forward-ref form (no PEP 563; ConfigReferenceValue
+      precedent). Green: module suite 112 passed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): old paraphrased class docstring + stale 4-column
+      checklist wiped; class docstring = Table 2.45 Note verbatim (Tags
+      tail kept, EcucModuleConfigurationValues stamped precedent) +
+      [TPS_ECUC_02151] (md l.8351) + [constr_3588] (md l.8395) appended
+      (`\_` unescaped, glyph markers + `()` stripped, space-before-punct
+      normalized — ConfigReferenceValue convention). Per-attribute: inline
+      `__init__` comment + getter + setter/add docstrings = spec Note
+      verbatim (ecucValue keeps the full atpVariation/Stereotypes/Tags
+      tail, EcucContainerValue precedent); setter/add None-no-op sentence
+      appended; `__init__` has no docstring; blank line between attribute
+      blocks; members PEP 526 annotated. Diffed against the corpus —
+      verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): coverage mostly pre-existing (parser
+      test_arxml_parser_orchestrators test_readEcucValueCollection_full
+      asserted field values; dispatch test_ecuc_value_collection;
+      writer test_writer_ecuc_values_variant TestWriterEcucValueCollectio
+      n{EcucValues,} full + empty-wrapper/minimal cases) — strengthened
+      the parser test with ref value + DEST asserts and ADDED
+      TestWriterEcucValueCollection.test_round_trip (set → save →
+      reload → assert field values; release R23-11 set). Seen Red:
+      NotImplementedError "Unsupported Elements of ARPackage
+      <EcucValueCollection>" — save never wrote the file (5 passed,
+      1 failed).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): parser needed nothing (readEcucValueCollection /
+      readEcucValueCollectionEcucValues are complete, XSD-ordered,
+      matched Rule 0013.2 pairs, single mutator statements). WRITER FIX:
+      writeARPackageElement isinstance dispatch had NO EcucValueCollection
+      branch (element silently dropped / dispatch raise on save) → added
+      `elif isinstance(ar_element, EcucValueCollection):
+      self.writeEcucValueCollection(...)` next to the ModuleConfiguration
+      branch (line ~14450). Green: parser+writer+dispatch suites 484
+      passed; round-trip now asserts /System/Extract + both ref values.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block written in source order (mutator-first
+      for the `*` attr: addEcucValueRef → getEcucValueRefs; getter-first
+      for the 0..1 attr: getEcuExtractRef → setEcuExtractRef) — `# Spec:
+      AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.45, p.108` (pdf_page.py
+      no caption hit → direct pypdf caption scan); every row release
+      R23-11; reader [x] on mutator/setter rows, writer [x] on getter
+      rows; `# Spec verified:` marker NOT written (batch mode — deferred
+      to batch confirmation); dispatch note line added (ARPackage.element
+      branches both present).
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — both attrs modeled with the Kind-ref
+      Ref suffix (naming per Rule 0001.5, not a deviation), RefType is the
+      kind-ref target type (EcucModuleConfigurationValues / System are the
+      destinations, not field types), Base most-derived ARElement, not
+      VP-capable (Rule 0020: atpVariation on a Kind=ref row + no
+      VARIATION-POINT in the XSD complexType). No Rule 0001.10 missing
+      classes; no fixture constraints (no integration fixture carries
+      ECUC-VALUE-COLLECTION). "No deviations" entry + provenance note
+      appended to docs/examples/method_deviation_by_class.md; v2 tracker
+      is script-generated — left to its next regen (ConfigReferenceValue
+      precedent).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14956 passed / 0
+    failed, lint + black clean); 9b deferred to batch confirmation
+    (user instruction)
+    - note (Step 9): set-based check passed (checklist == methods — __init__,
+      addEcucValueRef, getEcucValueRefs, getEcuExtractRef, setEcuExtractRef —
+      all test-covered, no `# type:` comments, member order = displayed row
+      order, mutator-first for the `*` attr); Rule 0013 chained-mutator
+      greps show only pre-existing construction chains (XxxEnum().setValue
+      (...) inside one mutator call — untouched regions); full suite green
+      (integration round-trip incl.); black reformat applied to the
+      mirrored test file, all 5 touched code files re-checked clean; no
+      marker in batch mode.
 
 - [ ] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py

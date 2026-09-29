@@ -817,7 +817,7 @@ Status: **0/16** completed
 | Class Name                       | Status          | Commit ID |
 | -------------------------------- | --------------- | --------- |
 | `ConfigReferenceValue`           | [ ] Pending*    | N/A       |
-| `EcucValueCollection`            | [ ] Implemented | N/A       |
+| `EcucValueCollection`            | [ ] Pending*    | N/A       |
 | `ModuleConfiguration`            | [ ] Implemented | N/A       |
 | `EcucConfigurationClassEnum`     | [ ] Implemented | N/A       |
 | `EcucScopeEnum`                  | [ ] Implemented | N/A       |

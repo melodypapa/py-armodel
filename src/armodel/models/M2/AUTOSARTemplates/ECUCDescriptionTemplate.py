@@ -24,34 +24,51 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class EcucValueCollection(ARElement):
     """
-    Collection of ECUC values with references to ECU extract.
+    This represents the anchor point of the ECU configuration description. Tags: atp.recommendedPackage=EcucValueCollections
+
+    [TPS_ECUC_02151] Existence of EcucValueCollection.ecucValue An EcucValueCollection without any EcucModuleConfigurationValues has no effect on the Ecu configuration and should not occur at code generation time.
+
+    [constr_3588] EcucValueCollection.ecuExtract always required The attribute EcucValueCollection.ecuExtract shall always be defined at code generation time.
     """
 
     # EcucValueCollection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcucValueRefs             [x] impl  [ ] docstring  [ ] test
-    # [ ] addEcucValueRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuExtractRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuExtractRef             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.45, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEcucValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucValueRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcuExtractRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuExtractRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # ARPackage.element dispatch: reader ECUC-VALUE-COLLECTION branch +
+    # writer writeARPackageElement branch both present (Aggregated by row).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ecucValueRefs = []
-        self.ecuExtractRef = None
+        # References to the configuration of individual software modules that are present on this ECU. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecucValue.ecucModuleConfigurationValues, ecucValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.ecucValueRefs: List[RefType] = []
 
-    def getEcucValueRefs(self) -> List[RefType]:
-        return self.ecucValueRefs
+        # Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description.
+        self.ecuExtractRef: Optional[RefType] = None
 
-    def addEcucValueRef(self, ref: RefType):
-        self.ecucValueRefs.append(ref)
+    def addEcucValueRef(self, value: Optional[RefType]) -> "EcucValueCollection":
+        """References to the configuration of individual software modules that are present on this ECU. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecucValue.ecucModuleConfigurationValues, ecucValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append to the existing references."""
+        if value is not None:
+            self.ecucValueRefs.append(value)
         return self
 
-    def getEcuExtractRef(self):
+    def getEcucValueRefs(self) -> List[RefType]:
+        """References to the configuration of individual software modules that are present on this ECU. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecucValue.ecucModuleConfigurationValues, ecucValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"""
+        return self.ecucValueRefs
+
+    def getEcuExtractRef(self) -> Optional[RefType]:
+        """Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description."""
         return self.ecuExtractRef
 
-    def setEcuExtractRef(self, value):
-        self.ecuExtractRef = value
+    def setEcuExtractRef(self, value: Optional[RefType]) -> "EcucValueCollection":
+        """Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.ecuExtractRef = value
         return self
 
 

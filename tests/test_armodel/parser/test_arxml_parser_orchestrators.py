@@ -2661,6 +2661,8 @@ class TestEcucDefAndValueHandlers:
         parser.readEcucValueCollection(element, collection)
         assert collection.getEcuExtractRef().getValue() == "/sys"
         assert len(collection.getEcucValueRefs()) == 1
+        assert collection.getEcucValueRefs()[0].getValue() == "/values"
+        assert collection.getEcucValueRefs()[0].getDest() == "ECUC-MODULE-CONFIGURATION-VALUES"
 
     def test_readEcucModuleConfigurationValues_full(self, parser):
         from armodel.models import EcucModuleConfigurationValues

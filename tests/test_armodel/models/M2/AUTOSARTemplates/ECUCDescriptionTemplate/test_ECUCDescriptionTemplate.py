@@ -25,33 +25,101 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLon
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 
 
-def test_ecuc_value_collection():
+def test_ecuc_value_collection_initialization_defaults():
     """
-    Test EcucValueCollection class initialization and methods.
+    EcucValueCollection (Table 2.45) defaults: both spec attributes empty.
 
     Test Steps:
     1. Create an EcucValueCollection instance with parent and short_name
-    2. Test initial values
-    3. Test getter and setter methods
-    4. Test add methods and verify method chaining
+    2. Assert parent/short_name and the ecucValue/ecuExtract defaults
     """
-    parent = Limit()  # Using Limit as a concrete ARObject subclass
+    parent = Limit()
     collection = EcucValueCollection(parent, "test_collection")
 
-    # Test initial values
     assert collection.parent == parent
     assert collection.short_name == "test_collection"
     assert collection.ecucValueRefs == []
+    assert collection.getEcucValueRefs() == []
     assert collection.ecuExtractRef is None
+    assert collection.getEcuExtractRef() is None
 
-    # Test ecucValueRefs operations
-    ref1 = "ref1"
-    collection.addEcucValueRef(ref1)
-    assert collection.getEcucValueRefs() == [ref1]
 
-    # Test ecuExtractRef operations
-    collection.setEcuExtractRef("extract_ref")
-    assert collection.getEcuExtractRef() == "extract_ref"
+def test_ecuc_value_collection_add_ecuc_value_ref():
+    """
+    addEcucValueRef appends to the typed list, chains, and None is a no-op.
+
+    Test Steps:
+    1. Add two RefType values via addEcucValueRef
+    2. Assert chaining returns self and the refs round-trip in order
+    3. Call addEcucValueRef(None) and assert the list is unchanged
+    """
+    parent = Limit()
+    collection = EcucValueCollection(parent, "test_collection")
+    ref1 = RefType().setValue("/ECUC/Rte/Rte")
+    ref2 = RefType().setValue("/ECUC/Os/Os")
+
+    assert collection.addEcucValueRef(ref1) is collection
+    collection.addEcucValueRef(ref2)
+    assert collection.getEcucValueRefs() == [ref1, ref2]
+
+    collection.addEcucValueRef(None)
+    assert collection.getEcucValueRefs() == [ref1, ref2]
+
+
+def test_ecuc_value_collection_get_set_ecu_extract_ref():
+    """
+    setEcuExtractRef chains, round-trips, and None is a no-op.
+
+    Test Steps:
+    1. Set a RefType value via setEcuExtractRef
+    2. Assert chaining returns self and the value round-trips
+    3. Call setEcuExtractRef(None) and assert the value is preserved
+    """
+    parent = Limit()
+    collection = EcucValueCollection(parent, "test_collection")
+    extract_ref = RefType().setValue("/System/Extract")
+
+    result = collection.setEcuExtractRef(extract_ref)
+    assert result is collection
+    assert collection.getEcuExtractRef() == extract_ref
+
+    collection.setEcuExtractRef(None)
+    assert collection.getEcuExtractRef() == extract_ref
+
+
+def test_ecuc_value_collection_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.45 Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/adder docstring carries the spec Note
+    """
+    assert EcucValueCollection.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "This represents the anchor point of the ECU configuration description." in EcucValueCollection.__doc__, "Class docstring must contain spec Note verbatim"
+
+    notes = {
+        "getEcucValueRefs": "References to the configuration of individual software modules that are present on this ECU.",
+        "addEcucValueRef": "References to the configuration of individual software modules that are present on this ECU.",
+        "getEcuExtractRef": "Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description.",
+        "setEcuExtractRef": "Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description.",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucValueCollection, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_ecuc_value_collection_member_annotations():
+    """get/set/add shall resolve to Optional[RefType] / List[RefType] / EcucValueCollection (Rule 0003/0006 — get_type_hints pin; the quoted self-return is this module's required forward-ref form, no PEP 563 here)."""
+    import typing
+
+    assert typing.get_type_hints(EcucValueCollection.getEcucValueRefs)["return"] == typing.List[RefType]
+    assert typing.get_type_hints(EcucValueCollection.addEcucValueRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucValueCollection.addEcucValueRef)["return"] is EcucValueCollection
+    assert typing.get_type_hints(EcucValueCollection.getEcuExtractRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucValueCollection.setEcuExtractRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucValueCollection.setEcuExtractRef)["return"] is EcucValueCollection
 
 
 def test_ecuc_indexable_value_abstract():
@@ -905,7 +973,11 @@ def test_ecuc_module_def():
 
 
 if __name__ == "__main__":
-    test_ecuc_value_collection()
+    test_ecuc_value_collection_initialization_defaults()
+    test_ecuc_value_collection_add_ecuc_value_ref()
+    test_ecuc_value_collection_get_set_ecu_extract_ref()
+    test_ecuc_value_collection_member_docstrings_verbatim()
+    test_ecuc_value_collection_member_annotations()
     test_ecuc_indexable_value_abstract()
     test_ecuc_parameter_value_abstract()
     test_ecuc_parameter_value_methods()

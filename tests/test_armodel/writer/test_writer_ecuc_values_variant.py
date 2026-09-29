@@ -1,5 +1,7 @@
 """Tests for writer ECUC values and variant handling methods."""
 
+import os
+import tempfile
 import xml.etree.cElementTree as ET
 
 import pytest
@@ -15,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    EcucValueCollection,
     EnumerationValue,
     FloatValue,
     FunctionNameValue,
@@ -162,6 +165,42 @@ class TestWriterEcucValueCollection:
         assert parent[0].tag == "ECUC-VALUE-COLLECTION"
         assert parent[0].find("ECU-EXTRACT-REF") is None
         assert parent[0].find("ECUC-VALUES") is None
+
+    def test_round_trip(self):
+        """
+        Write an ARPackage holding an EcucValueCollection, reparse it, and assert
+        the field values survive (Table 2.45; ARPackage.element aggregation).
+        """
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("Pkg")
+        collection = pkg.createEcucValueCollection("Col")
+        collection.setEcuExtractRef(_ref("/System/Extract", "SYSTEM"))
+        collection.addEcucValueRef(_ref("/mcv/Rte", "ECUC-MODULE-CONFIGURATION-VALUES"))
+        collection.addEcucValueRef(_ref("/mcv/Os", "ECUC-MODULE-CONFIGURATION-VALUES"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            pkg_2 = document_2.getARPackages()[0]
+            collection_2 = pkg_2.getElement("Col", EcucValueCollection)
+            assert collection_2 is not None
+            assert collection_2.getShortName() == "Col"
+            assert collection_2.getEcuExtractRef() is not None
+            assert collection_2.getEcuExtractRef().getValue() == "/System/Extract"
+            refs_2 = collection_2.getEcucValueRefs()
+            assert len(refs_2) == 2
+            assert refs_2[0].getValue() == "/mcv/Rte"
+            assert refs_2[1].getValue() == "/mcv/Os"
+        finally:
+            os.remove(file_path)
+            document.clear()
 
 
 class TestWriterEcucContainerValueSubContainers:

@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 497 | 25.9% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 193 | 10.0% |
-| [ ] Implemented | 624 | 32.5% |
+| [ ] Deferred | 194 | 10.1% |
+| [ ] Implemented | 623 | 32.4% |
 | [ ] Created | 596 | 31.0% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -857,7 +857,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucTextualParamValue`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `EcucUriReferenceDef`                                   | [ ] Implemented| N/A                                      | Group19          |
 | `EcucValidationCondition`                               | [ ] Implemented| N/A                                      | Group27          |
-| `EcucValueCollection`                                   | [ ] Implemented| N/A                                      | Group19          |
+| `EcucValueCollection`                                   | [ ] Deferred| N/A                                      | Group19          |
 | `EcucValueConfigurationClass`                           | [ ] Implemented| N/A                                      | Group26          |
 | `EmphasisText`                                          | [ ] Implemented| N/A                                      | Group21          |
 | `EndToEndDescription`                                   | [x] Done    | d3db89bb98                               | Group10          |
