@@ -1801,6 +1801,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(acl_operation)
         return self.getElement(short_name, AclOperation)
 
+    def createAclRole(self, short_name: str) -> AclRole:
+
+        if not self.IsElementExists(short_name, AclRole):
+            acl_role = AclRole(self, short_name)
+            self.addElement(acl_role)
+        return self.getElement(short_name, AclRole)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2111,6 +2118,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getAclOperations(self) -> List[AclOperation]:
 
         return list(sorted(filter(lambda a: isinstance(a, AclOperation), self.elements), key=lambda a: a.short_name))
+
+    def getAclRoles(self) -> List[AclRole]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclRole), self.elements), key=lambda a: a.short_name))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
@@ -2620,8 +2631,8 @@ class AclRole(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.5, p.384
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getLdapUrl  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setLdapUrl  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getLdapUrl  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLdapUrl  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

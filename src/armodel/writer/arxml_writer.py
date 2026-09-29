@@ -357,7 +357,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -14238,6 +14238,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAclObjectSet(element, ar_element)
         elif isinstance(ar_element, AclOperation):
             self.writeAclOperation(element, ar_element)
+        elif isinstance(ar_element, AclRole):
+            self.writeAclRole(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14855,6 +14857,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "IMPLIED-OPERATION-REFS")
                 for ref in implied_operation_refs:
                     self.setChildElementOptionalRefType(refs_tag, "IMPLIED-OPERATION-REF", ref)
+
+    def writeAclRole(self, element: ET.Element, acl_role: AclRole):
+        if acl_role is not None:
+            self.logger.debug("Write AclRole <%s>" % acl_role.getShortName())
+            child_element = ET.SubElement(element, "ACL-ROLE")
+            self.writeIdentifiable(child_element, acl_role)
+            self.setChildElementOptionalUriString(child_element, "LDAP-URL", acl_role.getLdapUrl())
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

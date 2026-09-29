@@ -474,7 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -14912,6 +14912,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ACL-OPERATION":
                 acl_operation = parent.createAclOperation(self.getShortName(child_element))
                 self.readAclOperation(child_element, acl_operation)
+            elif tag_name == "ACL-ROLE":
+                acl_role = parent.createAclRole(self.getShortName(child_element))
+                self.readAclRole(child_element, acl_role)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15357,6 +15360,12 @@ class ARXMLParser(AbstractARXMLParser):
         for implied_operation_ref in self.getChildElementRefTypeList(element, "IMPLIED-OPERATION-REFS/IMPLIED-OPERATION-REF"):
             acl_operation.addImpliedOperationRef(implied_operation_ref)
         return acl_operation
+
+    def readAclRole(self, element: ET.Element, acl_role: AclRole) -> AclRole:
+        self.logger.debug("Read AclRole <%s>" % acl_role.getShortName())
+        self.readIdentifiable(element, acl_role)
+        acl_role.setLdapUrl(self.getChildElementOptionalUriString(element, "LDAP-URL"))
+        return acl_role
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
