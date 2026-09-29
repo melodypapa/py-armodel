@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Generate the next sync-todo Group files (Group21 onward) from the R23-11 rows of
+r"""Generate the next sync-todo Group files (Group21 onward) from the R23-11 rows of
 docs/plan/sync-todo/all_classes.md.
 
-Candidates = R23-11 names minus every class row already present in the existing
-Group files (same row regex as scripts/regen_sync_todo.py, any checkbox state —
-Done and 9b-deferred rows are both "handled"; no class is ever added twice).
-Primitive-kind names are queued only where a src model class exists
-(hierarchy_tree.md precedent: Primitive tables are mostly syntax leaves).
+Candidates = R23-11 names minus every class row already present in Group1-20 (same row
+regex as scripts/regen_sync_todo.py, any checkbox state — Done and 9b-deferred rows are
+both "handled"; no class is ever added twice). Primitive-kind names are queued only
+where a src model class exists (hierarchy_tree.md precedent: Primitive tables are
+mostly syntax leaves).
 
 Layout (design agreed 2026-09-29): each class is assigned to its PRIMARY document —
-the doc preference is learned from how the Group1–20 rows cite the same multi-table
+the doc preference is learned from how the Group1-20 rows cite the same multi-table
 classes (pairwise majority, e.g. BSWModuleDescription > SoftwareComponentTemplate
 18:3, SWC > AbstractPlatform 7:0, GST > DiagnosticExtract 4:0; ties fall back to a
 global net-win ranking, then the lowest page). Each document's candidates are sorted
@@ -17,11 +17,19 @@ by PDF page (then table id), forming that document's segment. Documents stream i
 the group files in a fixed order (GenericStructureTemplate first as the heritage
 root, then alphabetical), a file closes at CHUNK rows and the next segment continues
 in the next file — so one md file may mix documents and a large document spans
-several files. Multi-table classes keep `also <pdf> Table N.M, p.NN` refs to their
+several files. Multi-table classes keep `also <doc> Table N.M, p.NN` refs to their
 other R23-11 tables so Step 1 of the sync can re-verify the defining table.
 
-Run:  uv run python scripts/gen_remaining_groups.py          (writes Group<N>.md files)
-      uv run python scripts/gen_remaining_groups.py --dry-run (print plan only)
+Row format follows the Group13-20 convention (see Group19.md): `- [ ] \`Name\` — <Base>
+— R23-11 <doc> Table N.M, p.NN` with a `module:` hint (the class's own src file, else
+its nearest modeled tree ancestor's file, else PrimitiveTypes.py for AREnum/ARLiteral)
+and the prefilled 9-step sync checklist. The Base field comes from
+hierarchy_tree.md's primary parent (most-derived spec Base); enumerations are labelled
+`AREnum` and primitives `ARLiteral`.
+
+Run:  uv run python scripts/gen_remaining_groups.py               (writes Group<N>.md files)
+      uv run python scripts/gen_remaining_groups.py --dry-run     (print plan only)
+      uv run python scripts/gen_remaining_groups.py --out /tmp/staging  (stage elsewhere)
 """
 
 import argparse
@@ -35,20 +43,35 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SYNC = ROOT / "docs/plan/sync-todo"
 ALL_CLASSES = SYNC / "all_classes.md"
+HIERARCHY_TREE = SYNC / "hierarchy_tree.md"
 SRC_MODELS = ROOT / "src/armodel/models"
+PRIMITIVE_TYPES = "M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py"
 CHUNK = 75
 FIRST_NEW_GROUP = 21
+TRACKED_THROUGH = FIRST_NEW_GROUP - 1
 
 ROW_RE = re.compile(r"^\s*- \[([ x])\] `([A-Za-z0-9_]+)`")
 R23_ROW_RE = re.compile(r"^\| `([^`]+)` \| (\S+) \| ([\d.]+) \| (\d+) \| R23-11 \|$")
+TREE_NODE_RE = re.compile(r"^(?P<prefix>[\s│├└─]*)(?:─ )?(?P<name>[A-Z]\w*)(?: \((?P<tag>[^)]+)\))?")
+STEPS = [
+    "Sync members & description from spec",
+    "Write model class unit test (Red)",
+    "Implement model class (Green)",
+    "Sync docstrings (wipe + rewrite)",
+    "Write reader/writer round-trip test (Red)",
+    "Update parser & writer (Green)",
+    "Update checklist comment",
+    "Deviations",
+    "Verify (9a) + confirm (9b)",
+]
 
-HEADER_NOTE = """(resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3)
-> Bare queue rows: run the 9-step sync (`.agents/skills/sync-autosar-class`) per row. Rows are grouped by
-> defining document and sorted by PDF page, so each segment follows the document's own section order; the
-> cited table is picked by the doc preference learned from the Group1–20 citations and `also` lists the other
-> R23-11 tables carrying the same caption — re-verify the defining one in Step 1 if the citation looks like a
-> reproduction (see `scripts/gen_remaining_groups.py`).
-> Primitive-kind names are queued only where a src model class exists."""
+HEADER_NOTES = """(resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3)
+> Rows are grouped by defining document and sorted by PDF page, so each segment follows the document's own
+> section order; the cited table is picked by the doc preference learned from the Group1–20 citations and
+> `also` lists the other R23-11 tables carrying the same caption — re-verify the defining one in Step 1 if
+> the citation looks like a reproduction. The `module:` hint is the class's own src file, else its nearest
+> modeled ancestor's — Step 3 decides the final placement (Rule 0007). Generated by
+> `scripts/gen_remaining_groups.py`; Primitive-kind names are queued only where a src model class exists."""
 
 
 def load_r23_rows():
@@ -62,10 +85,14 @@ def load_r23_rows():
     return rows
 
 
-def load_tracked():
+def load_tracked(max_num=None):
+    """Class rows from Group files numbered <= max_num (None = all) — the new groups' own rows must not count as tracked."""
     tracked = set()
     group_files = {}
     for path in sorted(SYNC.glob("Group*.md"), key=lambda p: int(re.search(r"\d+", p.stem).group())):
+        num = int(re.search(r"\d+", path.stem).group())
+        if max_num is not None and num > max_num:
+            continue
         group_files[path.stem] = names = set()
         for line in path.read_text(encoding="utf-8").splitlines():
             m = ROW_RE.match(line)
@@ -75,16 +102,43 @@ def load_tracked():
     return tracked, group_files
 
 
-def load_primitive_exclusions():
+def load_spec_harvest():
     spec = importlib.util.spec_from_file_location("regen_all_classes", ROOT / "scripts" / "regen_all_classes.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     md_paths = [str(p) for p in sorted((ROOT / "autosar/R23-11/markdown").glob("*.md"))]
     _by_key, kind_counts = mod.harvest_markdown_whitelist(md_paths)
-    src_classes = set()
+    kind_of = {}
+    for kind, names in kind_counts.items():
+        for name in names:
+            kind_of.setdefault(name, kind)
+    return kind_of
+
+
+def load_tree_parents():
+    """Primary spec parent per class from hierarchy_tree.md — each node hangs from its nearest shallower node; the bare ARObject root line is indent 0."""
+    parents = {}
+    stack = []
+    for line in HIERARCHY_TREE.read_text(encoding="utf-8").splitlines():
+        m = TREE_NODE_RE.match(line)
+        if not m or not m.group("name"):
+            continue
+        indent = len(m.group("prefix"))
+        name = m.group("name")
+        while stack and stack[-1][0] >= indent:
+            stack.pop()
+        if stack:
+            parents[name] = stack[-1][1]
+        stack.append((indent, name))
+    return parents
+
+
+def load_src_modules():
+    src_mod = {}
     for py in SRC_MODELS.rglob("*.py"):
-        src_classes.update(re.findall(r"^class (\w+)", py.read_text(encoding="utf-8", errors="replace"), re.M))
-    return kind_counts["Primitive"], src_classes
+        for cls in re.findall(r"^class (\w+)", py.read_text(encoding="utf-8", errors="replace"), re.M):
+            src_mod.setdefault(cls, py.relative_to(SRC_MODELS).as_posix())
+    return src_mod
 
 
 def learn_doc_votes(r23, tracked):
@@ -192,8 +246,48 @@ def groupby_doc(entries):
         yield run_doc, run
 
 
-def fmt_row(pdf, tid, page):
-    return "%s · Table %s, p.%d" % (pdf, tid, page)
+def short_doc(pdf):
+    return pdf.replace("AUTOSAR_", "", 1)
+
+
+def fmt_source(primary, others):
+    parts = ["R23-11 %s Table %s, p.%d" % (short_doc(primary[0]), primary[1], primary[2])]
+    parts.extend("also %s Table %s, p.%d" % (short_doc(o[0]), o[1], o[2]) for o in others)
+    return "; ".join(parts)
+
+
+def resolve_base_module(name, kind, kind_of, parents, src_mod):
+    """(Base label, module hint) — Group19 convention: enums AREnum, primitives ARLiteral,
+    classes their most-derived spec Base; module = own src file, else nearest modeled
+    ancestor's, else PrimitiveTypes.py for the AREnum/ARLiteral families."""
+    if kind_of.get(name) == "Enumeration":
+        base = "AREnum"
+    elif kind_of.get(name) == "Primitive":
+        base = "ARLiteral"
+    else:
+        base = parents.get(name, "Base TBC (verify at Step 1)")
+    seen, cur = set(), name
+    while cur and cur not in seen:
+        seen.add(cur)
+        if cur in src_mod:
+            module = src_mod[cur]
+            break
+        cur = parents.get(cur)
+    else:
+        module = None
+    if module is None or (module == src_mod.get("ARObject") and name != "ARObject" and name not in src_mod):
+        if base in ("AREnum", "ARLiteral") and name not in src_mod:
+            module = PRIMITIVE_TYPES
+    return base, module or src_mod.get("ARObject", PRIMITIVE_TYPES)
+
+
+def render_row(name, base, source, module):
+    lines = ["- [ ] `%s` — %s — %s" % (name, base, source)]
+    if module:
+        lines.append("  - module: %s" % module)
+    for i, step in enumerate(STEPS, 1):
+        lines.append("  - [ ] Step %d — %s" % (i, step))
+    return lines
 
 
 def main():
@@ -206,19 +300,24 @@ def main():
         out_dir.mkdir(parents=True, exist_ok=True)
 
     r23 = load_r23_rows()
-    tracked, group_files = load_tracked()
-    primitives, src_classes = load_primitive_exclusions()
+    tracked, group_files = load_tracked(max_num=TRACKED_THROUGH)
+    kind_of = load_spec_harvest()
+    primitives = {n for n, k in kind_of.items() if k == "Primitive"}
+    src_classes = set(load_src_modules())
     excluded_prims = sorted(primitives - src_classes)
 
     candidates = sorted(set(r23) - tracked - set(excluded_prims), key=lambda n: (n.lower(), n))
     print(
-        "R23-11 names %d | tracked in %d Group files %d | primitive exclusions %d (%s) | candidates %d"
-        % (len(r23), len(group_files), len(tracked), len(excluded_prims), ", ".join(excluded_prims), len(candidates))
+        "R23-11 names %d | tracked in %d Group files (1-%d) %d | primitive exclusions %d (%s) | candidates %d"
+        % (len(r23), len(group_files), TRACKED_THROUGH, len(tracked), len(excluded_prims), ", ".join(excluded_prims), len(candidates))
     )
 
     votes = learn_doc_votes(r23, tracked)
     rank = net_rank(votes)
     print("doc votes learned from tracked citations: %s" % ", ".join("%s>%s:%d" % (w.split("TPS_")[-1], loser.split("TPS_")[-1], c) for (w, loser), c in votes.most_common(8)))
+
+    parents = load_tree_parents()
+    src_mod = load_src_modules()
 
     files = pack_files(build_segments(r23, candidates, votes, rank))
     for i, entries in enumerate(files):
@@ -235,16 +334,16 @@ def main():
             "",
             "Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class already queued in Group1–20 · Generated: %s · Grouped by document (GenericStructureTemplate first, then alphabetical), page-sorted within each document, %d rows/file"
             % (today, CHUNK),
-            HEADER_NOTE,
+            HEADER_NOTES,
             "",
-            "## Queue",
+            "## Queue (page order per document segment)",
             "",
         ]
         lines = list(header)
         for doc, name, primary, others in entries:
-            parts = ["R23-11 markdown", fmt_row(*primary)]
-            parts.extend("also " + fmt_row(*o) for o in others)
-            lines.append("- [ ] `%s` (%s)" % (name, " · ".join(parts)))
+            base, module = resolve_base_module(name, kind_of.get(name), kind_of, parents, src_mod)
+            lines.extend(render_row(name, base, fmt_source(primary, others), module))
+            lines.append("")
         lines.append("")
         print("Group%d: %s (%d rows)" % (n, " · ".join(title_parts(entries)), len(entries)))
         if not args.dry_run:
