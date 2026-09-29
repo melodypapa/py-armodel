@@ -1685,51 +1685,37 @@ class BswApiOptions(ARObject, ABC):
 
 class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
     """
-    The ExclusiveArea for which the BSW Scheduler uses this policy.
+    The ExclusiveArea for which the BSW Scheduler using this policy.
     """
 
     # BswExclusiveAreaPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.17, p.83
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getApiPrinciple              [x] impl  [x] docstring  [x] test
-    # [x] setApiPrinciple              [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaRef          [x] impl  [x] docstring  [x] test
-    # [x] setExclusiveAreaRef          [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApiPrinciple       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setApiPrinciple       [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaRef   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setExclusiveAreaRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswExclusiveAreaPolicy with default values.
-        """
         super().__init__()
 
-        # Specifies for this ExclusiveArea if either one common set of Enter
-        # and Exit APIs for the whole BSW module is requested from the SchM or
-        # if the set of Enter and Exit APIs is expected per BswModuleEntity.
-        # The default value is "common".
+        # Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole BSW module is requested from the SchM or if the set of Enter and Exit APIs is expected per BswModuleEntity. The default value is "common".
         self.apiPrinciple: Optional[ApiPrincipleEnum] = None
 
-        # The ExclusiveArea for which the BSW Scheduler uses this policy.
+        # The ExclusiveArea for which the BSW Scheduler using this policy.
         self.exclusiveAreaRef: Optional[RefType] = None
 
     def getApiPrinciple(self) -> Optional[ApiPrincipleEnum]:
         """
-        Gets the API principle for this ExclusiveArea.
-
-        Returns:
-            The API principle (common or per-executable) for this policy
+        Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole BSW module is requested from the SchM or if the set of Enter and Exit APIs is expected per BswModuleEntity. The default value is "common".
         """
         return self.apiPrinciple
 
     def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> BswExclusiveAreaPolicy:
         """
-        Sets the API principle for this ExclusiveArea.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The API principle to set
-
-        Returns:
-            self for method chaining
+        Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole BSW module is requested from the SchM or if the set of Enter and Exit APIs is expected per BswModuleEntity. The default value is "common".
+        A None value is a no-op and does not overwrite an existing apiPrinciple.
         """
         if value is not None:
             self.apiPrinciple = value
@@ -1737,23 +1723,14 @@ class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
 
     def getExclusiveAreaRef(self) -> Optional[RefType]:
         """
-        Gets the ExclusiveArea for which the BSW Scheduler uses this policy.
-
-        Returns:
-            The referenced ExclusiveArea
+        The ExclusiveArea for which the BSW Scheduler using this policy.
         """
         return self.exclusiveAreaRef
 
     def setExclusiveAreaRef(self, value: Optional[RefType]) -> BswExclusiveAreaPolicy:
         """
-        Sets the ExclusiveArea for which the BSW Scheduler uses this policy.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The ExclusiveArea reference to set
-
-        Returns:
-            self for method chaining
+        The ExclusiveArea for which the BSW Scheduler using this policy.
+        A None value is a no-op and does not overwrite an existing exclusiveAreaRef.
         """
         if value is not None:
             self.exclusiveAreaRef = value

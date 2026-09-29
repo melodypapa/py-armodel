@@ -1413,6 +1413,7 @@ class TestBswExclusiveAreaPolicy:
 
     def test_initialization(self):
         policy = BswExclusiveAreaPolicy()
+        assert isinstance(policy, BswApiOptions)
         assert policy.getEnableTakeAddress() is None
         assert policy.getApiPrinciple() is None
         assert policy.getExclusiveAreaRef() is None
