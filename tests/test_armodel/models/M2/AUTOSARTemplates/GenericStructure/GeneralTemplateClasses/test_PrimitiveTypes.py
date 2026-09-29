@@ -9,6 +9,7 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AclScopeEnum,
     AlignmentType,
     AnyServiceInstanceId,
     AnyVersionString,
@@ -1538,3 +1539,35 @@ class TestViewTokens:
         assert view_tokens.setValue("INTERNAL DETAILED") is view_tokens
         assert view_tokens.value == "INTERNAL DETAILED"
         assert str(view_tokens) == "INTERNAL DETAILED"
+
+
+class TestAclScopeEnum:
+    """
+    Test class for AclScopeEnum functionality (Table 11.6).
+    """
+
+    def test_initialization(self):
+        """
+        Test AclScopeEnum initialization.
+        """
+        enum = AclScopeEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["dependant", "descendant", "explicit"]
+
+    def test_enum_values(self):
+        """
+        Test AclScopeEnum values.
+        """
+        enum = AclScopeEnum()
+
+        assert AclScopeEnum.DEPENDANT == "dependant"
+        assert AclScopeEnum.DESCENDANT == "descendant"
+        assert AclScopeEnum.EXPLICIT == "explicit"
+
+        # Test validation
+        assert enum.validateEnumValue("dependant") is True
+        assert enum.validateEnumValue("descendant") is True
+        assert enum.validateEnumValue("explicit") is True
+        assert enum.validateEnumValue("invalid") is False
