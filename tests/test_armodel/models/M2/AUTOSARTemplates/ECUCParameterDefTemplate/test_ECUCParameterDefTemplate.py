@@ -1358,6 +1358,54 @@ class TestEcucForeignReferenceDef:
         assert result == foreign_ref_def
         assert foreign_ref_def.getDestinationType() == "TestType"
 
+    def test_set_destination_type_none_no_op(self):
+        """
+        Test that setDestinationType(None) is a no-op and does not overwrite an existing destinationType.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        foreign_ref_def = EcucForeignReferenceDef(parent, "TestForeignRefDef")
+
+        assert foreign_ref_def.setDestinationType(None) is foreign_ref_def
+        assert foreign_ref_def.getDestinationType() is None
+
+        foreign_ref_def.setDestinationType(String().setValue("Frame"))
+        assert foreign_ref_def.setDestinationType(None) is foreign_ref_def
+        assert foreign_ref_def.getDestinationType().getValue() == "Frame"
+
+    def test_setter_returns_self(self):
+        """
+        Test that the setter returns self for method chaining (Rule 0004).
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        foreign_ref_def = EcucForeignReferenceDef(parent, "TestForeignRefDef")
+
+        assert foreign_ref_def.setDestinationType(String().setValue("Frame")) is foreign_ref_def
+
+    def test_member_annotations(self):
+        """
+        getDestinationType/setDestinationType shall resolve to Optional[String] / EcucForeignReferenceDef
+        (Rule 0003/0006 get_type_hints pin; spec Mult. 0..1 → Optional; the quoted self-return is this
+        module's required forward-ref form, no PEP 563 here).
+        """
+        assert get_type_hints(EcucForeignReferenceDef.getDestinationType)["return"] == Optional[String]
+        assert get_type_hints(EcucForeignReferenceDef.setDestinationType)["value"] == Optional[String]
+        assert get_type_hints(EcucForeignReferenceDef.setDestinationType)["return"] is EcucForeignReferenceDef
+
+    def test_docstrings_verbatim(self):
+        """
+        Member docstrings must carry the Table 2.31 Notes verbatim (Rule 0001.4/0012).
+        """
+        assert EcucForeignReferenceDef.__doc__ is not None, "Class docstring must contain spec Note"
+        assert "Specify a reference to an XML description of an entity described in another AUTOSAR template." in EcucForeignReferenceDef.__doc__, "Class docstring must contain spec Note verbatim"
+
+        note = "The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to."
+        for method_name in ("getDestinationType", "setDestinationType"):
+            method = getattr(EcucForeignReferenceDef, method_name)
+            assert method.__doc__ is not None, "%s must have a docstring" % method_name
+            assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
 
 class TestEcucInstanceReferenceDef:
     """

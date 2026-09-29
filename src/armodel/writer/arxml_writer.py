@@ -325,6 +325,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
+    EcucForeignReferenceDef,
     EcucFunctionNameDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
@@ -10717,6 +10718,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "DESTINATION-CONTEXT", reference.getDestinationContext())
             self.setChildElementOptionalLiteral(child_element, "DESTINATION-TYPE", reference.getDestinationType())
 
+    def writeEcucForeignReferenceDef(self, element: ET.Element, reference: EcucForeignReferenceDef):
+        if reference is not None:
+            child_element = ET.SubElement(element, "ECUC-FOREIGN-REFERENCE-DEF")
+            self.writeEcucAbstractExternalReferenceDef(child_element, reference)
+            self.setChildElementOptionalLiteral(child_element, "DESTINATION-TYPE", reference.getDestinationType())
+
     def writeEcucContainerDefReferences(self, element: ET.Element, container_def: EcucContainerDef):
         references = container_def.getReferences()
         if len(references) > 0:
@@ -10730,6 +10737,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucChoiceReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
                     self.writeEcucInstanceReferenceDef(child_element, reference)
+                elif isinstance(reference, EcucForeignReferenceDef):
+                    self.writeEcucForeignReferenceDef(child_element, reference)
                 else:
                     self.notImplemented("Unsupported Reference <%s>" % type(reference))
 
@@ -10881,6 +10890,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucChoiceReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
                     self.writeEcucInstanceReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucForeignReferenceDef):
+                    self.writeEcucForeignReferenceDef(references_element, reference)
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % type(reference))
 

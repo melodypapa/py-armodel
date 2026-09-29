@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
     EcucFloatParamDef,
+    EcucForeignReferenceDef,
     EcucModuleDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
@@ -706,6 +707,52 @@ class TestWriterEcucInstanceReferenceDef:
         writer.writeEcucInstanceReferenceDef(parent, ref)
         assert parent[0].find("DESTINATION-CONTEXT") is None
         assert parent[0].find("DESTINATION-TYPE") is None
+
+
+class TestWriterEcucForeignReferenceDef:
+    def test_full(self, writer):
+        container = _make_container()
+        ref = container.createEcucForeignReferenceDef("F")
+        ref.setDestinationType(_literal("Frame"))
+        parent = _parent()
+        writer.writeEcucForeignReferenceDef(parent, ref)
+        assert parent[0].tag == "ECUC-FOREIGN-REFERENCE-DEF"
+        typ = parent[0].find("DESTINATION-TYPE")
+        assert typ is not None
+        assert typ.text == "Frame"
+
+    def test_omits_when_none(self, writer):
+        container = _make_container()
+        ref = container.createEcucForeignReferenceDef("F")
+        parent = _parent()
+        writer.writeEcucForeignReferenceDef(parent, ref)
+        assert parent[0].find("DESTINATION-TYPE") is None
+
+    def test_round_trip_destination_type(self, writer):
+        import os
+        import tempfile
+
+        autosar = AUTOSAR.getInstance()
+        autosar.setARRelease("R23-11")
+        container = _make_container()
+        ref = container.createEcucForeignReferenceDef("F")
+        ref.setDestinationType(_literal("Frame"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getElement("F", EcucForeignReferenceDef)
+            assert reloaded_ref is not None
+            assert reloaded_ref.getDestinationType() is not None
+            assert reloaded_ref.getDestinationType().getValue() == "Frame"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucContainerDefReferences:

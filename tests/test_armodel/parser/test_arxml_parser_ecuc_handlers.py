@@ -771,6 +771,29 @@ class TestEcucContainerDefReferences:
         assert refs[0].getDestinationType() is not None
         assert refs[0].getDestinationType().getValue() == "VARIABLE-DATA-PROTOTYPE"
 
+    def test_readEcucForeignReferenceDef(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-FOREIGN-REFERENCE-DEF>
+                    <SHORT-NAME>ForeignRef</SHORT-NAME>
+                    <DESTINATION-TYPE>Frame</DESTINATION-TYPE>
+                </ECUC-FOREIGN-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "ForeignRef"
+        assert refs[0].getDestinationType() is not None
+        assert refs[0].getDestinationType().getValue() == "Frame"
+
     def test_readEcucContainerDefReferences_unsupported_type_warning(self, warning_parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
 

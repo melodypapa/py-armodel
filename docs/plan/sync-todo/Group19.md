@@ -759,17 +759,136 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       (integration round-trips incl.); npm run lint clean; black clean on
       all touched files; no marker in batch mode.
 
-- [ ] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — source TBC (locate table at Step 1)
+- [ ] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — R23-11 markdown · Table 2.31
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 2.31 AUTOSAR_CP_TPS_ECUConfiguration.md l.2009-2016
+    (caption l.2007; pdf_page.py: PDF p.75 caption hit). Concrete Class;
+    Package M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note "Specify a
+    reference to an XML description of an entity described in another
+    AUTOSAR template."; Base chain ARObject/AtpDefinition/
+    EcucAbstractExternalReferenceDef/EcucAbstractReferenceDef/
+    EcucCommonAttributes/EcucDefinitionElement/Identifiable/
+    MultilanguageReferrable/Referrable → most-derived base
+    EcucAbstractExternalReferenceDef (stamped R23-11, Table 2.28 p.72, same
+    file) — src matches, no flattening. Aggregated by
+    EcucDestinationUriPolicy.reference + EcucParamConfContainerDef.reference.
+    1 attr: destinationType (String, 0..1, attr). XSD group
+    ECUC-FOREIGN-REFERENCE-DEF (AUTOSAR_00052.xsd l.52299, complexType
+    l.52315): DESTINATION-TYPE minOccurs=0 maxOccurs=1, NO VARIANTS wrapper,
+    no VARIATION-POINT → flat optional element, last in the base-group
+    sequence; not VP-capable (Rule 0020). Class requirements
+    [TPS_ECUC_02041] (l.2005) + [TPS_ECUC_02042] (l.2018) + [TPS_ECUC_06088]
+    (l.2024) → class docstring. Drift found (Rule 0001.4): field/getter/
+    setter carry bare `String` annotations (0..1 → Optional[String]);
+    getter/setter docstrings are "Gets/Sets the..." paraphrases; class
+    docstring reflowed. Reader/writer: NO coverage at all — no
+    readEcucForeignReferenceDef/writeEcucForeignReferenceDef helpers, no
+    dispatch branch in any of the 4 aggregation sites, no
+    createEcucForeignReferenceDef factory on EcucParamConfContainerDef →
+    elements silently dropped on round-trip (the Steps 5/6 fix). No Rule
+    0001.10 missing types (String is a stamped PrimitiveTypes class); no
+    integration fixture carries ECUC-FOREIGN-REFERENCE-DEF (no Rule 0019
+    case).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): extended TestEcucForeignReferenceDef in the mirrored
+      ECUCParameterDefTemplate/test_ECUCParameterDefTemplate.py — added
+      test_set_destination_type_none_no_op (Rule 0004 None no-op, typed
+      String primitive), test_setter_returns_self (chaining) +
+      test_member_annotations (get_type_hints pins: get/setDestinationType
+      == Optional[String], setter return is EcucForeignReferenceDef —
+      quoted self-return, this module's forward-ref form, no PEP 563) +
+      test_docstrings_verbatim (class + getter + setter, Table 2.31 Notes).
+      Seen Red 2 failed / 4 passed — the pin failed on the pre-sync bare
+      `String` return annotation; the verbatim test failed on the reflowed
+      class docstring (and would fail the paraphrased getter/setter).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES after
+      the Rule 0001.4 annotation fix — 1 attr (destinationType, String,
+      0..1) 1:1 with Table 2.31, field/getter/setter now Optional[String]
+      with chaining `-> "EcucForeignReferenceDef"` setter, None-guard kept;
+      Base most-derived EcucAbstractExternalReferenceDef (stamped R23-11,
+      Table 2.28) — no flattening (inherited withAuto lives there); no
+      fabricated fields; no Rule 0001.10 missing types. Green: annotations
+      Green 5 passed (the remaining Red is the Step 4 docstring scope).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): wiped the class docstring + getter/setter docstrings
+      and rewrote fresh — class docstring = Table 2.31 Note verbatim
+      (single line, reflow removed) + [TPS_ECUC_02041] / [TPS_ECUC_02042] /
+      [TPS_ECUC_06088] appended verbatim (`\_` unescaped, `glyph[...]` +
+      `()` markers stripped — EcucValueCollection batch convention);
+      getter + setter docstrings = the destinationType row Note verbatim
+      ("The type in the AUTOSAR Metamodel to which instance this reference
+      is allowed to point to.", EcucInstanceReferenceDef stamped-sibling
+      wording), setter appended the None-no-op sentence; inline `__init__`
+      comment already the Note verbatim (kept); `__init__` has no
+      docstring; blank line between attribute blocks (single attr).
+      Green: TestEcucForeignReferenceDef 6 passed.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): ADDED — parser test_arxml_parser_ecuc_handlers.py
+      TestEcucContainerDefReferences.test_readEcucForeignReferenceDef
+      (REFERENCES/ECUC-FOREIGN-REFERENCE-DEF via the container dispatch,
+      DESTINATION-TYPE value asserted) + writer test_writer_ecuc_def.py
+      TestWriterEcucForeignReferenceDef (test_full emit + test_omits_when_none
+      + test_round_trip_destination_type end-to-end set → save → reload →
+      assert field values through the reloaded container). Seen Red 4 failed:
+      parser NotImplementedError "Unsupported EcucReferenceDef
+      <ECUC-FOREIGN-REFERENCE-DEF>"; writer AttributeError (no
+      createEcucForeignReferenceDef factory / no writeEcucForeignReferenceDef
+      helper) — coverage was entirely absent.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): MODEL: added createEcucForeignReferenceDef factory on
+      the stamped aggregator EcucParamConfContainerDef (IsElementExists
+      duplicate-check + addElement + references append — sibling factory
+      shape). PARSER: readEcucForeignReferenceDef (readEcucAbstractExternal
+      ReferenceDef + setDestinationType via getChildElementOptionalLiteral —
+      the stamped readEcucInstanceReferenceDef helper choice for String-typed
+      fields) + dispatch branches in readEcucContainerDefReferences AND
+      readEcucDestinationUriPolicyReferences (direct construction +
+      addReference — policy convention). WRITER: writeEcucForeignReferenceDef
+      (writeEcucAbstractExternalReferenceDef + setChildElementOptionalLiteral,
+      DESTINATION-TYPE flat — XSD has no VARIANTS wrapper) + isinstance
+      branches in writeEcucContainerDefReferences AND
+      writeEcucDestinationUriPolicyReferences. All matched Rule 0013.2 name
+      pairs, single mutator statements; imports added alphabetically (no
+      re-sort). Green: parser + writer suites 231 passed.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist rewritten to the final batch-mode shape —
+      `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.31, p.75`
+      (pdf_page.py caption hit confirms p.75) + the `# Columns:` header +
+      per-row `R23-11` release column (the pre-sync rows had no Columns
+      line/release); rows in source order = displayed row order (single
+      attr, getter first per scalar pair); reader [x] on the setDestination
+      Type row, writer [x] on the getDestinationType row; `# Spec verified:`
+      marker NOT written (batch mode — deferred to batch confirmation);
+      dispatch note line added (both aggregation branches + the aggregator
+      factory). Set-based check passed: checklist == {__init__,
+      getDestinationType, setDestinationType}, all covered in the mirrored
+      test.
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — the bare-`String` annotations,
+      paraphrased/reflowed docstrings were Rule 0001.4/0003 to-fix drift
+      completed in this pass (not deviation rows); the absent reader/writer
+      coverage was implemented in this pass (Rule 0001.7 five-place pattern:
+      subtype class + aggregator factory + reader branches + writer
+      branches + dispatch tests), also not a deviation row. "No deviations"
+      entry + provenance note appended to docs/examples/method_deviation_by
+      _class.md (new EcucForeignReferenceDef section). No Rule 0001.10
+      missing referenced classes; not VP-capable (Rule 0020); no
+      integration fixture carries ECUC-FOREIGN-REFERENCE-DEF (no Rule 0019
+      combine case). v2 tracker has no EcucForeignReferenceDef entry
+      (nothing to reconcile there).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14985 passed /
+    0 failed, lint + black clean); 9b deferred to batch confirmation
+    (user instruction)
+    - note (Step 9): set-based check passed (checklist == {__init__,
+      getDestinationType, setDestinationType}, all test-covered, no
+      `# type:` comments, member order = displayed row order, getter-first
+      scalar pair); Rule 0013 chained-mutator greps show only pre-existing
+      construction chains (NameToken()/Numerical().setValue(...) inside one
+      mutator call — untouched regions); full suite 14985 passed / 0 failed
+      (integration round-trips incl.); npm run lint clean; black clean on
+      all 6 touched code files; no marker in batch mode.
 
 - [ ] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

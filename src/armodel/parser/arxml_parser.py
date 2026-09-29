@@ -438,6 +438,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
+    EcucForeignReferenceDef,
     EcucFunctionNameDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
@@ -11663,6 +11664,10 @@ class ARXMLParser(AbstractARXMLParser):
                 ref_def = EcucInstanceReferenceDef(policy, self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
                 policy.addReference(ref_def)
+            elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
+                ref_def = EcucForeignReferenceDef(policy, self.getShortName(child_element))
+                self.readEcucForeignReferenceDef(child_element, ref_def)
+                policy.addReference(ref_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % tag_name)
 
@@ -11894,6 +11899,10 @@ class ARXMLParser(AbstractARXMLParser):
         ref_def.setDestinationContext(self.getChildElementOptionalLiteral(element, "DESTINATION-CONTEXT"))
         ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
 
+    def readEcucForeignReferenceDef(self, element: ET.Element, ref_def: EcucForeignReferenceDef):
+        self.readEcucAbstractExternalReferenceDef(element, ref_def)
+        ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
+
     def readEcucContainerDefReferences(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "REFERENCES/*"):
             tag_name = self.getTagName(child_element)
@@ -11909,6 +11918,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
                 ref_def = container_def.createEcucInstanceReferenceDef(self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
+                ref_def = container_def.createEcucForeignReferenceDef(self.getShortName(child_element))
+                self.readEcucForeignReferenceDef(child_element, ref_def)
             else:
                 self.notImplemented("Unsupported EcucReferenceDef <%s>" % tag_name)
 
