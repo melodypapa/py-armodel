@@ -26,7 +26,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SYNC = ROOT / "docs/plan/sync-todo"
 SRC = ROOT / "src/armodel"
-GROUPS = [f"Group{i}" for i in range(1, 21)]
+GROUPS = sorted(
+    (p.stem for p in SYNC.glob("Group*.md")),
+    key=lambda name: int(re.search(r"\d+", name).group()),
+)
 COMMIT_ABBREV_LENGTH = 10
 
 HASH_RE = re.compile(r"[0-9a-fA-F]{7,40}")
