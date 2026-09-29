@@ -395,18 +395,47 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         composition_sw_component.removeAllDelegationSwConnector()
         assert delegation_connector not in composition_sw_component.elements
 
+    def test_comspec_refs_are_optional_but_dest_is_checked_when_present(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        provided_port = PPortPrototype(ar_root, "Provided")
+        required_port = RPortPrototype(ar_root, "Required")
+
+        sender_without_ref = NonqueuedSenderComSpec()
+        provided_port.addProvidedComSpec(sender_without_ref)
+        assert provided_port.getProvidedComSpecs() == [sender_without_ref]
+
+        sender_ref = RefType().setValue("/Test/Variable")
+        sender_ref.dest = "VARIABLE-DATA-PROTOTYPE"
+        sender_with_ref = NonqueuedSenderComSpec().setDataElementRef(sender_ref)
+        provided_port.addProvidedComSpec(sender_with_ref)
+        assert provided_port.getProvidedComSpecs() == [sender_without_ref, sender_with_ref]
+
+        client_without_ref = ClientComSpec()
+        receiver_without_ref = NonqueuedReceiverComSpec()
+        parameter_without_ref = ParameterRequireComSpec()
+        for com_spec in (client_without_ref, receiver_without_ref, parameter_without_ref):
+            required_port.addRequiredComSpec(com_spec)
+
+        client_ref = RefType().setValue("/Test/Operation")
+        client_ref.dest = "CLIENT-SERVER-OPERATION"
+        client_with_ref = ClientComSpec().setOperationRef(client_ref)
+        receiver_ref = RefType().setValue("/Test/Variable")
+        receiver_ref.dest = "VARIABLE-DATA-PROTOTYPE"
+        receiver_with_ref = NonqueuedReceiverComSpec().setDataElementRef(receiver_ref)
+        parameter_ref = RefType().setValue("/Test/Parameter")
+        parameter_ref.dest = "PARAMETER-DATA-PROTOTYPE"
+        parameter_with_ref = ParameterRequireComSpec().setParameterRef(parameter_ref)
+        for com_spec in (client_with_ref, receiver_with_ref, parameter_with_ref):
+            required_port.addRequiredComSpec(com_spec)
+
+        assert required_port.getRequiredComSpecs() == [client_without_ref, receiver_without_ref, parameter_without_ref, client_with_ref, receiver_with_ref, parameter_with_ref]
+
     def test_Validate_PPortComSpec_Errors(self):
         """Test validation error paths for PPortComSpec."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         provided_port = PPortPrototype(ar_root, "TestProvidedPort")
-
-        # Test NonqueuedSenderComSpec without dataElementRef
-        com_spec_no_ref = NonqueuedSenderComSpec()
-        com_spec_no_ref.dataElementRef = None
-        with pytest.raises(ValueError) as exc_info:
-            provided_port._validateProvidedComSpec(com_spec_no_ref)
-        assert "operation of NonqueuedSenderComSpec is invalid" in str(exc_info.value)
 
         # Test NonqueuedSenderComSpec with invalid dest
         com_spec_invalid_dest = NonqueuedSenderComSpec()
@@ -415,8 +444,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ref.dest = "INVALID-DEST"
         com_spec_invalid_dest.dataElementRef = ref
         with pytest.raises(ValueError) as exc_info:
-            provided_port._validateProvidedComSpec(com_spec_invalid_dest)
+            provided_port.addProvidedComSpec(com_spec_invalid_dest)
         assert "Invalid operation dest of NonqueuedSenderComSpec" in str(exc_info.value)
+        assert com_spec_invalid_dest not in provided_port.getProvidedComSpecs()
 
         # Test unsupported com spec type
         class UnsupportedComSpec(PPortComSpec):
@@ -441,8 +471,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         client_ref.dest = "INVALID-DEST"
         client_spec.operationRef = client_ref
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRequiredComSpec(client_spec)
+            required_port.addRequiredComSpec(client_spec)
         assert "Invalid operation dest of ClientComSpec." in str(exc_info.value)
+        assert client_spec not in required_port.getRequiredComSpecs()
 
         # Test NonqueuedReceiverComSpec with invalid dest
         receiver_spec = NonqueuedReceiverComSpec()
@@ -451,8 +482,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         receiver_ref.dest = "INVALID-DEST"
         receiver_spec.dataElementRef = receiver_ref
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRequiredComSpec(receiver_spec)
+            required_port.addRequiredComSpec(receiver_spec)
         assert "Invalid date element dest of NonqueuedReceiverComSpec." in str(exc_info.value)
+        assert receiver_spec not in required_port.getRequiredComSpecs()
 
         # Test ParameterRequireComSpec with invalid dest
         param_spec = ParameterRequireComSpec()
@@ -461,8 +493,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         param_ref.dest = "INVALID-DEST"
         param_spec.parameterRef = param_ref
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRequiredComSpec(param_spec)
+            required_port.addRequiredComSpec(param_spec)
         assert "Invalid parameter dest of ParameterRequireComSpec." in str(exc_info.value)
+        assert param_spec not in required_port.getRequiredComSpecs()
 
         # Test unsupported RPortComSpec type
         class UnsupportedRPortComSpec(RPortComSpec):

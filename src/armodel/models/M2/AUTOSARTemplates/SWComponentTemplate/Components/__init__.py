@@ -611,9 +611,8 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
 
     def _validateProvidedComSpec(self, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
-            if com_spec.dataElementRef is None:
-                raise ValueError("operation of NonqueuedSenderComSpec is invalid")
-            if com_spec.dataElementRef.dest != "VARIABLE-DATA-PROTOTYPE":
+            data_element_ref = com_spec.getDataElementRef()
+            if data_element_ref is not None and data_element_ref.getDest() != "VARIABLE-DATA-PROTOTYPE":
                 raise ValueError("Invalid operation dest of NonqueuedSenderComSpec")
         elif isinstance(com_spec, ServerComSpec):
             pass
@@ -672,21 +671,21 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
 
     def _validateRequiredComSpec(self, com_spec: RPortComSpec):
         if isinstance(com_spec, ClientComSpec):
-            if com_spec.getOperationRef() is not None:
-                if com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION":
-                    raise ValueError("Invalid operation dest of ClientComSpec.")
+            operation_ref = com_spec.getOperationRef()
+            if operation_ref is not None and operation_ref.getDest() != "CLIENT-SERVER-OPERATION":
+                raise ValueError("Invalid operation dest of ClientComSpec.")
         elif isinstance(com_spec, NonqueuedReceiverComSpec):
-            if com_spec.getDataElementRef() is not None:
-                if com_spec.getDataElementRef().getDest() != "VARIABLE-DATA-PROTOTYPE":
-                    raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
+            data_element_ref = com_spec.getDataElementRef()
+            if data_element_ref is not None and data_element_ref.getDest() != "VARIABLE-DATA-PROTOTYPE":
+                raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
         elif isinstance(com_spec, QueuedReceiverComSpec):
             pass
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
             pass
         elif isinstance(com_spec, ParameterRequireComSpec):
-            if com_spec.getParameterRef() is not None:
-                if com_spec.getParameterRef().getDest() != "PARAMETER-DATA-PROTOTYPE":
-                    raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
+            parameter_ref = com_spec.getParameterRef()
+            if parameter_ref is not None and parameter_ref.getDest() != "PARAMETER-DATA-PROTOTYPE":
+                raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
         elif isinstance(com_spec, NvRequireComSpec):
             pass
         else:
