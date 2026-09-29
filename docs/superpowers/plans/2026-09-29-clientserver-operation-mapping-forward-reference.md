@@ -93,7 +93,7 @@ Run: `npm run lint && npm run black-check`
 
 Expected: flake8 and Ruff pass; Black reports the touched files unchanged.
 
-- [ ] **Step 3: Commit the completed refactor**
+- [x] **Step 3: Commit the completed refactor**
 
 ```bash
 git add src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/test_PortInterface.py docs/superpowers/plans/2026-09-29-clientserver-operation-mapping-forward-reference.md
