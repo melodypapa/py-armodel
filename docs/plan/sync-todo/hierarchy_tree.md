@@ -1,7 +1,10 @@
 # Sync-todo class hierarchy tree (names only, source-tagged)
 
-Generated 2026-09-28 — FULL-CORPUS REGENERATION (replaces the 2026-09-26 tree that covered only the
-Base rows of Group1-20 queue rows). Source: every Class / Enumeration / Primitive spec table in
+Generated 2026-09-29 — V4 REGENERATION (v3 2026-09-28 plus: the Primitive/Enumeration leaves now modeled
+in src by the Group21-36 stub pass, the 4 enums wrongly dropped as leaves, the R3.2.3-only Group19 trio,
+and the ARList node renamed to its spec caption List — the · src: ARList alias annotation maps the
+src-class name back onto the node, as both names are queued). Replaces the 2026-09-26 tree that covered only the
+Base rows of Group1-20 queue rows. Source: every Class / Enumeration / Primitive spec table in
 autosar/R23-11/markdown/ (15 CP_TPS / FO_TPS files), caption→table attribution by the table's own
 Class header cell (handles the trailing-caption render used by appendix and reproduction tables),
 same-table identity vote across reproductions, ancestor closure to ARObject. ONE occurrence per
@@ -14,15 +17,17 @@ Source tag on every node — where the class's own spec table lives:
   (R23-11)  table found in the R23-11 corpus (CP_TPS / FO_TPS markdown)
   (R4.3.1)  no R23-11 table — synced/queued from the R4.3.1 corpus (pre-split naming); removed-in-R23-11
             classes that were never queued are NOT nodes
+  (R3.2.3)  no R23-11 table — queued from the R3.2.3 corpus (ECU_Configuration); removed-in-R23-11
+            classes kept because they are queued and modeled in src
   (XSD)     no table in EITHER corpus — class exists only in the XSD (AUTOSAR_00052.xsd); Base derived
             from the complexType group-composition chain (group → class via mmt.qualifiedName)
 
 Excluded from nodes: AtpMixedString / VariationPointCapable (interface mixins), PrimitiveTypes leaf
 types (src PrimitiveTypes.py + AsamHdo numeric leaves), UploadableDesignElement / UploadablePackageElement
-(most-derived-base-collapse precedent), non-meta syntax-type tables (Primitive-kind tables not modeled in
-src, e.g. CIdentifier / DisplayFormatString), the ARObject root edge itself. Enumerations and classes
+(most-derived-base-collapse precedent), non-meta syntax-type tables (Primitive-kind tables still not modeled in
+src after the Group21-36 stub pass — see prim_leaves bookkeeping), the ARObject root edge itself. Enumerations and classes
 with no extractable Base row attach to the root. XSD-only classes whose class has only an abstract
-group (no complexType) also attach to the root. ARList keeps its "List" table override (tagged R23-11).
+group (no complexType) also attach to the root. The "List" spec table is represented by the src class name ARList in earlier trees; v4 uses the spec caption List.
 
 ```
 ARObject
@@ -69,6 +74,7 @@ ARObject
 ├─ AdminData (R23-11)
 ├─ AliasNameAssignment (R23-11)
 ├─ AlignEnum (R23-11)
+├─ AlignmentType (R23-11)
 ├─ ApiPrincipleEnum (R23-11)
 ├─ ApplicabilityInfo (XSD)
 ├─ ApplicationAssocMapElementValueSpecification (XSD)
@@ -78,6 +84,7 @@ ARObject
 ├─ Area (R23-11)
 ├─ AreaEnumNohref (R23-11)
 ├─ AreaEnumShape (R23-11)
+├─ ArgumentDirectionEnum (R23-11)
 ├─ ArParameterInImplementationDataInstanceRef (R23-11)
 ├─ ArrayImplPolicyEnum (R23-11)
 ├─ ArraySizeHandlingEnum (R23-11)
@@ -154,9 +161,11 @@ ARObject
 ├─ AutosarDataPrototypeInExecutableInstanceRef (XSD)
 ├─ AutosarParameterRef (R23-11)
 ├─ AutosarVariableRef (R23-11)
+├─ AxisIndexType (R23-11)
 ├─ Baseline (R23-11)
 ├─ BaseTypeDefinition (R23-11)
 │  └─ BaseTypeDirectDefinition (R23-11)
+├─ BaseTypeEncodingString (R23-11)
 ├─ BinaryManifestAddressableObject (R23-11)
 ├─ BinaryManifestItemValue (R23-11)
 │  ├─ BinaryManifestItemNumericalValue (R23-11)
@@ -212,6 +221,7 @@ ARObject
 │  ├─ FlexrayNmEcu (R23-11)
 │  ├─ J1939NmEcu (R23-11)
 │  └─ UdpNmEcu (R23-11)
+├─ ByteOrderEnum (R23-11)
 ├─ CalibrationParameterValue (R23-11)
 ├─ CalprmAxisCategoryEnum (R23-11)
 ├─ CanAddressingModeType (R23-11)
@@ -232,10 +242,12 @@ ARObject
 ├─ CanTpEcu (R23-11)
 ├─ CanXlFrameTriggeringProps (R23-11)
 ├─ CanXlNmNodeProps (XSD)
+├─ CategoryString (R23-11)
 ├─ ChapterContent (R23-11)
 ├─ ChapterEnumBreak (R23-11)
 ├─ ChapterModel (R23-11)
 ├─ ChapterOrMsrQuery (R23-11)
+├─ CIdentifier (R23-11)
 ├─ ClassTailoring (R23-11)
 ├─ ClientIdMapping (XSD)
 ├─ ClientIdRange (R23-11)
@@ -294,6 +306,7 @@ ARObject
 │  └─ CompuScaleRationalFormula (R23-11)
 ├─ ConcretePatternEventTriggering (R23-11)
 ├─ ConfidenceInterval (R23-11)
+├─ ConfigReferenceValue (R3.2.3)
 ├─ ConstantReference (R23-11)
 ├─ ConstantSpecificationMapping (R23-11)
 ├─ ConsumedEventGroup (R23-11)
@@ -330,6 +343,7 @@ ARObject
 ├─ CryptoNeeds (XSD)
 ├─ CryptoObjectTypeEnum (XSD)
 ├─ CryptoServiceKeyGenerationEnum (R23-11)
+├─ CseCodeType (R23-11)
 ├─ CSTransformerErrorReactionEnum (R23-11)
 ├─ CycleRepetitionType (R23-11)
 ├─ DataConsistencyPolicyEnum (R23-11)
@@ -362,6 +376,7 @@ ARObject
 ├─ DataTransformationStatusForwardingEnum (R23-11)
 ├─ DataTypeMap (R23-11)
 ├─ DataTypePolicyEnum (R23-11)
+├─ DateTime (R23-11)
 ├─ DdsCpISignalToDdsTopicMapping (R23-11)
 ├─ DdsCpProvidedServiceInstance (R23-11)
 ├─ DdsCpQosProfile (R23-11)
@@ -537,8 +552,10 @@ ARObject
 ├─ DiagnosticWriteMemoryByAddress (R23-11)
 ├─ DiagnosticWwhObdDtcClassEnum (R23-11)
 ├─ DiagPduType (R23-11)
+├─ DiagRequirementIdString (R23-11)
 ├─ DiscoveryTechnology (XSD)
 ├─ DiscoveryTechnologyEnum (XSD)
+├─ DisplayFormatString (R23-11)
 ├─ DisplayPresentationEnum (R23-11)
 ├─ DltConfig (R23-11)
 ├─ DltDefaultTraceStateEnum (R23-11)
@@ -546,10 +563,10 @@ ARObject
 ├─ DocumentationBlock (R23-11)
 ├─ DocumentViewSelectable (R23-11)
 │  └─ Paginateable (R23-11)
-│     ├─ ARList (R23-11)  + DocumentViewSelectable
 │     ├─ Item (R23-11)  + DocumentViewSelectable
 │     ├─ LabeledItem (R23-11)  + DocumentViewSelectable
 │     ├─ LabeledList (R23-11)  + DocumentViewSelectable
+│     ├─ List (R23-11)  + DocumentViewSelectable  · src: ARList
 │     ├─ MlFigure (R23-11)  + DocumentViewSelectable
 │     ├─ MlFormula (R23-11)  + DocumentViewSelectable
 │     ├─ MsrQueryChapter (R23-11)  + DocumentViewSelectable
@@ -586,6 +603,7 @@ ARObject
 ├─ EcucConfigurationClassEnum (R23-11)
 ├─ EcucConfigurationVariantEnum (R23-11)
 ├─ EcucDerivationSpecification (R23-11)
+├─ EcucDestinationUriDefRefType (R3.2.3)
 ├─ EcucDestinationUriNestingContractEnum (R23-11)
 ├─ EcucDestinationUriPolicy (R23-11)
 ├─ EcucFunctionNameDefContent (XSD)
@@ -745,6 +763,7 @@ ARObject
 ├─ HwPinGroupContent (R23-11)
 ├─ HwPortMapping (R23-11)
 ├─ IcmpRule (XSD)
+├─ Identifier (R23-11)
 ├─ IdsmAbstractPortInterface (XSD)
 ├─ IdsmInstance (R23-11)
 ├─ IdsmSignatureSupportAp (R23-11)
@@ -779,7 +798,10 @@ ARObject
 ├─ InternalConstrs (R23-11)
 ├─ InterpolationRoutine (R23-11)
 ├─ InterpolationRoutineMapping (R23-11)
+├─ IntervalTypeEnum (R23-11)
 ├─ InvalidationPolicy (R23-11)
+├─ Ip4AddressString (R23-11)
+├─ Ip6AddressString (R23-11)
 ├─ IpAddressKeepEnum (R23-11)
 ├─ IPduMapping (R23-11)
 ├─ IPduSignalProcessingEnum (R23-11)
@@ -827,6 +849,7 @@ ARObject
 ├─ LGraphic (R23-11)
 ├─ LifeCycleInfo (R23-11)
 ├─ LifeCyclePeriod (R23-11)
+├─ Limit (R23-11)
 ├─ LinChecksumType (R23-11)
 ├─ LinClusterContent (XSD)
 ├─ LinCommunicationControllerContent (XSD)
@@ -839,6 +862,7 @@ ARObject
 ├─ LinSlaveContent (XSD)
 ├─ ListEnum (R23-11)
 ├─ LogTraceDefaultLogLevelEnum (R23-11)
+├─ MacAddressString (R23-11)
 ├─ MacMulticastGroup (R23-11)
 ├─ MacSecCapabilityEnum (R23-11)
 ├─ MacSecCipherSuiteConfig (R23-11)
@@ -858,6 +882,7 @@ ARObject
 ├─ MaxCommModeEnum (R23-11)
 ├─ MaximumMessageLengthType (R23-11)
 ├─ McDataAccessDetails (R23-11)
+├─ McdIdentifier (R23-11)
 ├─ McFunctionDataRefSet (R23-11)
 ├─ McFunctionDataRefSetContent (XSD)
 │  └─ McFunctionDataRefSetConditional (XSD)
@@ -874,6 +899,7 @@ ARObject
 ├─ MemorySectionType (R23-11)
 ├─ MetaDataItem (R23-11)
 ├─ MetaDataItemSet (R23-11)
+├─ MimeTypeString (R23-11)
 ├─ MirroringProtocolEnum (R23-11)
 ├─ MixedContentForLongName (R23-11)
 │  └─ SingleLanguageLongName (R23-11)
@@ -896,6 +922,8 @@ ARObject
 ├─ ModeSwitchEventTriggeredActivity (R23-11)
 ├─ Modification (R23-11)
 ├─ ModificationTypeEnum (XSD)
+├─ ModuleConfiguration (R3.2.3)
+├─ MonotonyEnum (R23-11)
 ├─ MsrQueryArg (R23-11)
 ├─ MsrQueryP2 (R23-11)
 ├─ MsrQueryProps (R23-11)
@@ -909,6 +937,8 @@ ARObject
 ├─ MultiplexedPart (R23-11)
 │  ├─ DynamicPart (R23-11)
 │  └─ StaticPart (R23-11)
+├─ NameTokens (R23-11)
+├─ NativeDeclarationString (R23-11)
 ├─ NetworkEndpointAddress (R23-11)
 │  ├─ Ipv4Configuration (R23-11)
 │  ├─ Ipv6Configuration (R23-11)
@@ -997,6 +1027,7 @@ ARObject
 │  │  └─ QueuedSenderComSpec (R23-11)  + PPortComSpec
 │  └─ ServerComSpec (R23-11)
 ├─ PredefinedChapter (R23-11)
+├─ PrimitiveIdentifier (R23-11)
 ├─ PrivacyLevel (R23-11)
 ├─ PrmChar (XSD)
 ├─ PrmCharContents (XSD)
@@ -1019,6 +1050,7 @@ ARObject
 ├─ ReceptionComSpecProps (R23-11)
 ├─ RecordLayoutIteratorPoint (R23-11)
 ├─ ReentrancyLevelEnum (R23-11)
+├─ Ref (R23-11)
 ├─ ReferenceBase (R23-11)
 ├─ ReferenceValueSpecification (R23-11)
 ├─ Referrable (R23-11)
@@ -2218,6 +2250,8 @@ ARObject
 │  ├─ SomeipRequiredEventGroup (XSD)
 │  ├─ TimeSyncServerConfiguration (R23-11)
 │  └─ TpConnectionIdent (R23-11)
+├─ ReferrableSubtypesEnum (R23-11)
+├─ RegularExpression (R23-11)
 ├─ RemotingTechnology (XSD)
 ├─ RemotingTechnologyEnum (XSD)
 ├─ ReportBehaviorEnum (XSD)
@@ -2230,6 +2264,7 @@ ARObject
 ├─ RestrictionWithSeverity (R23-11)
 │  └─ UnresolvedReferenceRestrictionWithSeverity (R23-11)
 ├─ ResumePosition (R23-11)
+├─ RevisionLabelString (R23-11)
 ├─ RoleBasedBswModuleEntryAssignment (R23-11)
 ├─ RoleBasedDataAssignment (R23-11)
 ├─ RoleBasedDataTypeAssignment (R23-11)
@@ -2292,6 +2327,7 @@ ARObject
 ├─ SdServerConfig (R4.3.1)
 ├─ SearchIntentionEnum (XSD)
 ├─ SecOcJobSemanticEnum (XSD)
+├─ SectionInitializationPolicyType (R23-11)
 ├─ SecureCommunicationDeployment (XSD)
 ├─ SecureCommunicationFreshnessProps (R23-11)
 ├─ SecureCommunicationProps (R23-11)
@@ -2415,6 +2451,7 @@ ARObject
 ├─ StreamFilterPortRange (R23-11)
 ├─ StreamFilterRuleDataLinkLayer (R23-11)
 ├─ StreamFilterRuleIpTp (R23-11)
+├─ String (R23-11)
 ├─ SubElementMapping (R23-11)
 ├─ SubElementRef (R23-11)
 │  ├─ ApplicationCompositeDataTypeSubElementRef (R23-11)
@@ -2465,10 +2502,12 @@ ARObject
 ├─ SwValues (R23-11)
 ├─ SwVariableAccessImplPolicyEnum (XSD)
 ├─ SwVariableRefProxy (R23-11)
+├─ SymbolString (R23-11)
 ├─ SynchronizationTypeEnum (R23-11)
 ├─ SystemMapping (R23-11)
 ├─ SystemTiming (R23-11)
 ├─ Table (R23-11)
+├─ TableSeparatorString (R23-11)
 ├─ TagWithOptionalValue (R23-11)
 ├─ TargetIPduRef (R23-11)
 ├─ Tbody (R23-11)
@@ -2514,6 +2553,7 @@ ARObject
 ├─ TimeSynchronization (R23-11)
 ├─ TimeSynchronizationKindEnum (XSD)
 ├─ TimeSyncTechnologyEnum (R23-11)
+├─ TimeValue (R23-11)
 ├─ TimingDescriptionEventChain (R23-11)
 ├─ TimingExtension (R23-11)
 ├─ TimingExtensionResource (R23-11)
@@ -2580,6 +2620,7 @@ ARObject
 ├─ UdpProps (R23-11)
 ├─ UploadableDeploymentElement (XSD)
 ├─ UploadableExclusivePackageElement (XSD)
+├─ UriString (R23-11)
 ├─ Url (XSD)
 ├─ UserDefinedClusterContent (XSD)
 ├─ UserDefinedCommunicationConnector (R23-11)
@@ -2609,7 +2650,10 @@ ARObject
 ├─ VehicleDriverNotification (XSD)
 ├─ VehicleDriverNotificationEnum (XSD)
 ├─ VendorSpecificServiceNeeds (R23-11)
+├─ VerbatimString (R23-11)
+├─ VerbatimStringPlain (R23-11)
 ├─ VerificationStatusIndicationModeEnum (R23-11)
+├─ ViewTokens (R23-11)
 ├─ ViolatedSafetyConditionBehaviorEnum (XSD)
 ├─ VlanMembership (R23-11)
 ├─ WhitespaceControlled (R23-11)
