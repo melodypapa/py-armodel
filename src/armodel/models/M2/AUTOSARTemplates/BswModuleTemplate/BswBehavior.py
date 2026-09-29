@@ -281,74 +281,55 @@ class BswSchedulerNamePrefix(ImplementationProps, VariationPointCapable):
 
 class BswVariableAccess(Referrable, VariationPointCapable):
     """
-    Represents access to a variable by a BSW module entity.
-    This class defines how a BSW module accesses variables during execution.
+    The presence of a BswVariableAccess implies that a BswModuleEntity needs access to a VariableData Prototype via the BSW Scheduler. The kind of access is specified by the role in which the class is used.
     """
 
     # BswVariableAccess method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getAccessedVariableRef       [x] impl  [x] docstring  [ ] test
-    # [x] setAccessedVariableRef       [x] impl  [x] docstring  [x] test
-    # [ ] getContextLimitationRefs     [x] impl  [x] docstring  [ ] test
-    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.15, p.81
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessedVariableRef    [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setAccessedVariableRef    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getContextLimitationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addContextLimitationRef   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswVariableAccess with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this variable access
-            short_name: The unique short name of this variable access
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the variable being accessed
-        self.accessedVariableRef: RefType = None
-        # List of context limitation references that apply to this variable access
+        # The data accessed via the BSW Scheduler.
+        self.accessedVariableRef: Optional[RefType] = None
+
+        # The existence of this reference indicates that the variable is received resp. sent only in the context of the referred BswDistinguishedPartitions.
         self.contextLimitationRefs: List[RefType] = []
 
-    def getAccessedVariableRef(self):
+    def getAccessedVariableRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the variable being accessed.
-
-        Returns:
-            Reference to the accessed variable
+        The data accessed via the BSW Scheduler.
         """
         return self.accessedVariableRef
 
-    def setAccessedVariableRef(self, value):
+    def setAccessedVariableRef(self, value: Optional[RefType]) -> BswVariableAccess:
         """
-        Sets the reference to the variable being accessed.
-
-        Args:
-            value: The variable reference to set
-
-        Returns:
-            self for method chaining
+        The data accessed via the BSW Scheduler.
+        A None value is a no-op and does not overwrite an existing accessedVariableRef.
         """
-        self.accessedVariableRef = value
+        if value is not None:
+            self.accessedVariableRef = value
         return self
 
-    def getContextLimitationRefs(self):
+    def getContextLimitationRefs(self) -> List[RefType]:
         """
-        Gets the list of context limitation references for this variable access.
-
-        Returns:
-            List of context limitation references
+        The existence of this reference indicates that the variable is received resp. sent only in the context of the referred BswDistinguishedPartitions.
         """
         return self.contextLimitationRefs
 
-    def addContextLimitationRef(self, value):
+    def addContextLimitationRef(self, value: Optional[RefType]) -> BswVariableAccess:
         """
-        Adds a context limitation reference to this variable access.
-
-        Args:
-            value: The context limitation reference to add
-
-        Returns:
-            self for method chaining
+        The existence of this reference indicates that the variable is received resp. sent only in the context of the referred BswDistinguishedPartitions.
+        A None value is a no-op and does not append anything.
         """
-        self.contextLimitationRefs.append(value)
+        if value is not None:
+            self.contextLimitationRefs.append(value)
         return self
 
 

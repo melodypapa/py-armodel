@@ -323,36 +323,47 @@ class TestBswAsynchronousServerCallResultPoint:
 class TestBswVariableAccess:
     """Test cases for BswVariableAccess class - represents access to a variable in a BSW module."""
 
-    def test_initialization(self):
+    def _create_variable_access(self) -> BswVariableAccess:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        variable_access = BswVariableAccess(ar_root, "test_variable_access")
+        return BswVariableAccess(ar_root, "test_variable_access")
 
-        assert variable_access.short_name == "test_variable_access"
+    def test_initialization(self):
+        variable_access = self._create_variable_access()
+
+        assert variable_access.getShortName() == "test_variable_access"
+        assert isinstance(variable_access, Referrable)
         assert variable_access.getAccessedVariableRef() is None
         assert variable_access.getContextLimitationRefs() == []
 
-    def test_set_accessed_variable_ref(self):
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        variable_access = BswVariableAccess(ar_root, "test_variable_access")
+    def test_get_set_accessed_variable_ref(self):
+        variable_access = self._create_variable_access()
 
         ref = RefType()
+        ref.setValue("/AUTOSAR/VariableDataPrototype")
         result = variable_access.setAccessedVariableRef(ref)
 
-        assert result == variable_access
-        assert variable_access.getAccessedVariableRef() == ref
+        assert result is variable_access  # method chaining
+        assert variable_access.getAccessedVariableRef() is ref
 
-    def test_add_context_limitation_ref(self):
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        variable_access = BswVariableAccess(ar_root, "test_variable_access")
+        result = variable_access.setAccessedVariableRef(None)
+        assert result is variable_access  # method chaining with None
+        assert variable_access.getAccessedVariableRef() is ref  # None is a no-op
+
+    def test_add_get_context_limitation_refs(self):
+        variable_access = self._create_variable_access()
+
+        assert variable_access.getContextLimitationRefs() == []
 
         ref = RefType()
+        ref.setValue("/AUTOSAR/BswDistinguishedPartition")
         result = variable_access.addContextLimitationRef(ref)
 
-        assert result == variable_access
+        assert result is variable_access  # method chaining
         assert variable_access.getContextLimitationRefs() == [ref]
+
+        variable_access.addContextLimitationRef(None)
+        assert variable_access.getContextLimitationRefs() == [ref]  # None is a no-op
 
 
 class TestBswModuleEntity:
