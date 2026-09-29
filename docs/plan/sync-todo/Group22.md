@@ -22,7 +22,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [x] `AnyInstanceRef` — AtpInstanceRef — R23-11 FO_TPS_GenericStructureTemplate Table 9.57, p.328 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.57, p.328`); quick deviation check clean**
+- [x] `AnyInstanceRef` — AtpInstanceRef — R23-11 FO_TPS_GenericStructureTemplate Table 9.57, p.328 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.57, p.328`); quick deviation check clean** — sync commit: b64a3c317
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -34,7 +34,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `Chapter` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 9.58, p.329; also CP_TPS_SoftwareComponentTemplate Table 12.2, p.699 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.58, p.329`); quick deviation check clean**
+- [x] `Chapter` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 9.58, p.329; also CP_TPS_SoftwareComponentTemplate Table 12.2, p.699 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.58, p.329`); quick deviation check clean** — sync commit: 0d13ccd1b
   - module: M2/MSR/Documentation/Chapters.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -46,7 +46,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `PredefinedChapter` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.62, p.331 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.62, p.331`); quick deviation check clean**
+- [x] `PredefinedChapter` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.62, p.331 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.62, p.331`); quick deviation check clean** — sync commit: 0af25ab2e
   - module: M2/MSR/Documentation/Chapters.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -58,7 +58,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `FloatEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.64, p.333 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/BlockElements/OasisExchangeTable.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.64, p.333`); quick deviation check clean**
+- [x] `FloatEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.64, p.333 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/BlockElements/OasisExchangeTable.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.64, p.333`); quick deviation check clean** — sync commit: 164967850
   - module: M2/MSR/Documentation/BlockElements/OasisExchangeTable.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -70,7 +70,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `Topic1` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 9.73, p.338 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.73, p.338`); quick deviation check clean**
+- [x] `Topic1` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 9.73, p.338 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.73, p.338`); quick deviation check clean** — sync commit: 0d13ccd1b
   - module: M2/MSR/Documentation/Chapters.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -82,7 +82,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `TopicOrMsrQuery` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.80, p.342 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.80, p.342`); quick deviation check clean**
+- [x] `TopicOrMsrQuery` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.80, p.342 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.80, p.342`); quick deviation check clean** — sync commit: 0d13ccd1b
   - module: M2/MSR/Documentation/Chapters.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -94,7 +94,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ChapterOrMsrQuery` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.81, p.342 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.81, p.342`); quick deviation check clean**
+- [x] `ChapterOrMsrQuery` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.81, p.342 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/Chapters.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.81, p.342`); quick deviation check clean** — sync commit: 0d13ccd1b
   - module: M2/MSR/Documentation/Chapters.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -106,7 +106,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `MsrQueryProps` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.85, p.344 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/MsrQuery.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.85, p.344`); quick deviation check clean**
+- [x] `MsrQueryProps` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.85, p.344 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/MsrQuery.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.85, p.344`); quick deviation check clean** — sync commit: 4566d4d4f
   - module: M2/MSR/Documentation/MsrQuery.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -118,7 +118,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `MsrQueryArg` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.86, p.344 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/MsrQuery.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.86, p.344`); quick deviation check clean**
+- [x] `MsrQueryArg` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.86, p.344 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/MsrQuery.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.86, p.344`); quick deviation check clean** — sync commit: 4566d4d4f
   - module: M2/MSR/Documentation/MsrQuery.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -130,7 +130,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `MultiLanguageOverviewParagraph` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.90, p.348; also CP_TPS_SoftwareComponentTemplate Table 5.70, p.389; also CP_TPS_DiagnosticExtractTemplate Table 4.13, p.54 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/MultilanguageData.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.90, p.348`); quick deviation check clean**
+- [x] `MultiLanguageOverviewParagraph` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.90, p.348; also CP_TPS_SoftwareComponentTemplate Table 5.70, p.389; also CP_TPS_DiagnosticExtractTemplate Table 4.13, p.54 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/MultilanguageData.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.90, p.348`); quick deviation check clean** — sync commit: 8294e5eea
   - module: M2/MSR/Documentation/TextModel/MultilanguageData.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -142,7 +142,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `PgwideEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.93, p.349 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/BlockElements/OasisExchangeTable.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.93, p.348`); quick deviation check clean**
+- [x] `PgwideEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.93, p.349 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/BlockElements/OasisExchangeTable.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.93, p.348`); quick deviation check clean** — sync commit: 164967850
   - module: M2/MSR/Documentation/BlockElements/OasisExchangeTable.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -154,7 +154,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `MultiLanguagePlainText` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.95, p.349 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/MultilanguageData.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.95, p.349`); quick deviation check clean**
+- [x] `MultiLanguagePlainText` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.95, p.349 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/MultilanguageData.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.95, p.349`); quick deviation check clean** — sync commit: 53af1b9a6
   - module: M2/MSR/Documentation/TextModel/MultilanguageData.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -166,7 +166,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `LanguageSpecific` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.97, p.350 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/LanguageDataModel.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.97, p.350`); quick deviation check clean**
+- [x] `LanguageSpecific` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.97, p.350 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/LanguageDataModel.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.97, p.350`); quick deviation check clean** — sync commit: 4566d4d4f
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -178,7 +178,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `LEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.98, p.356 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/LanguageDataModel.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.97, p.350`); quick deviation check clean**
+- [x] `LEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.98, p.356 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/Documentation/TextModel/LanguageDataModel.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.97, p.350`); quick deviation check clean** — sync commit: 4566d4d4f
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -298,7 +298,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `BswModuleDescription` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 3.1, p.29 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/__init__.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 3.1, p.29`); quick deviation check clean**
+- [x] `BswModuleDescription` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 3.1, p.29 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/__init__.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 3.1, p.29`); quick deviation check clean** — sync commit: 1a5b05b19
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -310,7 +310,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswModuleEntry` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.1, p.33 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.1, p.33`); quick deviation check clean**
+- [x] `BswModuleEntry` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.1, p.33 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.1, p.33`); quick deviation check clean** — sync commit: 1a5b05b19
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -322,7 +322,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswEntryKindEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.2, p.34 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.2, p.34`); quick deviation check clean**
+- [x] `BswEntryKindEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.2, p.34 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.2, p.34`); quick deviation check clean** — sync commit: 1a5b05b19
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -334,7 +334,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswExecutionContext` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.3, p.34 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.3, p.34`); quick deviation check clean**
+- [x] `BswExecutionContext` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.3, p.34 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.3, p.34`); quick deviation check clean** — sync commit: 1a5b05b19
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -346,7 +346,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswCallType` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.4, p.36 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.4, p.36`); quick deviation check clean**
+- [x] `BswCallType` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.4, p.36 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.4, p.36`); quick deviation check clean** — sync commit: 1a5b05b19
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -358,7 +358,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `SwServiceImplPolicyEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.5, p.36 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.5, p.36`); quick deviation check clean**
+- [x] `SwServiceImplPolicyEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.5, p.36 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.5, p.36`); quick deviation check clean** — sync commit: 1a5b05b19
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -370,7 +370,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `SwServiceArg` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.6, p.38 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/ServiceProcessTask.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.6, p.38`); quick deviation check clean**
+- [x] `SwServiceArg` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.6, p.38 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/ServiceProcessTask.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.6, p.38`); quick deviation check clean** — sync commit: 596ec6e31
   - module: M2/MSR/DataDictionary/ServiceProcessTask.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -382,7 +382,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `SwPointerTargetProps` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.7, p.39; also CP_TPS_SoftwareComponentTemplate Table 5.19, p.287 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/DataDefProperties.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.19, p.287`); quick deviation check clean**
+- [x] `SwPointerTargetProps` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.7, p.39; also CP_TPS_SoftwareComponentTemplate Table 5.19, p.287 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/DataDefProperties.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.19, p.287`); quick deviation check clean** — sync commit: c6247eb0d
   - module: M2/MSR/DataDictionary/DataDefProperties.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -394,7 +394,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ArgumentDirectionEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.8, p.40; also CP_TPS_SoftwareComponentTemplate Table 4.9, p.104 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.9, p.104`); quick deviation check clean**
+- [x] `ArgumentDirectionEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.8, p.40; also CP_TPS_SoftwareComponentTemplate Table 4.9, p.104 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.9, p.104`); quick deviation check clean** — sync commit: 8b7ab6228
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -406,7 +406,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ModeDeclarationGroup` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.10, p.43; also CP_TPS_SoftwareComponentTemplate Table 9.2, p.629 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.68, p.197`); quick deviation check clean**
+- [x] `ModeDeclarationGroup` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.10, p.43; also CP_TPS_SoftwareComponentTemplate Table 9.2, p.629 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.68, p.197`); quick deviation check clean** — sync commit: e3d79f89c
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -418,7 +418,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ModeDeclaration` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.11, p.43; also CP_TPS_SoftwareComponentTemplate Table 9.1, p.628 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.11, p.43`); quick deviation check clean**
+- [x] `ModeDeclaration` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.11, p.43; also CP_TPS_SoftwareComponentTemplate Table 9.1, p.628 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.11, p.43`); quick deviation check clean** — sync commit: e3d79f89c
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -430,7 +430,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ModeTransition` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.12, p.43; also CP_TPS_SoftwareComponentTemplate Table 9.3, p.630 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.12, p.43`); quick deviation check clean**
+- [x] `ModeTransition` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.12, p.43; also CP_TPS_SoftwareComponentTemplate Table 9.3, p.630 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.12, p.43`); quick deviation check clean** — sync commit: e3d79f89c
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -442,7 +442,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ModeErrorBehavior` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.13, p.44; also CP_TPS_SoftwareComponentTemplate Table 9.6, p.637 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.13, p.44`); quick deviation check clean**
+- [x] `ModeErrorBehavior` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.13, p.44; also CP_TPS_SoftwareComponentTemplate Table 9.6, p.637 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.13, p.44`); quick deviation check clean** — sync commit: e3d79f89c
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -454,7 +454,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ModeErrorReactionPolicyEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.14, p.44; also CP_TPS_SoftwareComponentTemplate Table 9.7, p.637 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.14, p.44`); quick deviation check clean**
+- [x] `ModeErrorReactionPolicyEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.14, p.44; also CP_TPS_SoftwareComponentTemplate Table 9.7, p.637 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.14, p.44`); quick deviation check clean** — sync commit: e3d79f89c
   - module: M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -466,7 +466,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `AccessCountSet` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.22, p.57 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.22, p.57`); quick deviation check clean**
+- [x] `AccessCountSet` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.22, p.57 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.22, p.57`); quick deviation check clean** — sync commit: e3d1262da
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -478,7 +478,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `AccessCount` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.23, p.57 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.23, p.57`); quick deviation check clean**
+- [x] `AccessCount` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.23, p.57 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.23, p.57`); quick deviation check clean** — sync commit: e3d1262da
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -490,7 +490,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `AbstractAccessPoint` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.24, p.57; also CP_TPS_SoftwareComponentTemplate Table 7.31, p.562 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.24, p.57`); quick deviation check clean**
+- [x] `AbstractAccessPoint` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 4.24, p.57; also CP_TPS_SoftwareComponentTemplate Table 7.31, p.562 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.24, p.57`); quick deviation check clean** — sync commit: e3d1262da
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -502,7 +502,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `InternalBehavior` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.1, p.65; also CP_TPS_SoftwareComponentTemplate Table 7.1, p.518 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.1, p.65`); quick deviation check clean**
+- [x] `InternalBehavior` — AtpStructureElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.1, p.65; also CP_TPS_SoftwareComponentTemplate Table 7.1, p.518 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.1, p.65`); quick deviation check clean** — sync commit: 68e390b39
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -514,7 +514,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ExecutableEntity` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.3, p.70; also CP_TPS_SoftwareComponentTemplate Table 7.6, p.538 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70`); quick deviation check clean**
+- [x] `ExecutableEntity` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.3, p.70; also CP_TPS_SoftwareComponentTemplate Table 7.6, p.538 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70`); quick deviation check clean** — sync commit: 88b336bfe
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -526,7 +526,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswModuleEntity` — ExecutableEntity — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.4, p.72 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.4, p.72`); quick deviation check clean**
+- [x] `BswModuleEntity` — ExecutableEntity — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.4, p.72 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.4, p.72`); quick deviation check clean** — sync commit: 88b336bfe
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -538,7 +538,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswCalledEntity` — BswModuleEntity — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.6, p.74 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.6, p.74`); quick deviation check clean**
+- [x] `BswCalledEntity` — BswModuleEntity — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.6, p.74 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.6, p.74`); quick deviation check clean** — sync commit: bd9664568
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -550,7 +550,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswSchedulableEntity` — BswModuleEntity — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.7, p.75 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.7, p.75`); quick deviation check clean**
+- [x] `BswSchedulableEntity` — BswModuleEntity — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.7, p.75 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.7, p.75`); quick deviation check clean** — sync commit: d2e2d7903
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -574,7 +574,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `BswAsynchronousServerCallPoint` — BswModuleCallPoint — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.13, p.80 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.13, p.80`); quick deviation check clean**
+- [x] `BswAsynchronousServerCallPoint` — BswModuleCallPoint — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.13, p.80 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.13, p.80`); quick deviation check clean** — sync commit: 80c7276bf
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -586,7 +586,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswAsynchronousServerCallResultPoint` — BswModuleCallPoint — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.14, p.80 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.14, p.80`); quick deviation check clean**
+- [x] `BswAsynchronousServerCallResultPoint` — BswModuleCallPoint — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.14, p.80 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.14, p.80`); quick deviation check clean** — sync commit: e1150436c
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -610,7 +610,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `ExclusiveArea` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.16, p.82; also CP_TPS_SoftwareComponentTemplate Table 7.26, p.552 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.16, p.82`); quick deviation check clean**
+- [x] `ExclusiveArea` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.16, p.82; also CP_TPS_SoftwareComponentTemplate Table 7.26, p.552 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.16, p.82`); quick deviation check clean** — sync commit: aae3890b6
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -634,7 +634,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `ExclusiveAreaNestingOrder` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.19, p.84; also CP_TPS_SoftwareComponentTemplate Table 7.27, p.554 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84`); quick deviation check clean**
+- [x] `ExclusiveAreaNestingOrder` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.19, p.84; also CP_TPS_SoftwareComponentTemplate Table 7.27, p.554 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84`); quick deviation check clean** — sync commit: af5498712
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -646,7 +646,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswSchedulerNamePrefix` — ImplementationProps — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.20, p.86 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.20, p.86`); quick deviation check clean**
+- [x] `BswSchedulerNamePrefix` — ImplementationProps — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.20, p.86 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.20, p.86`); quick deviation check clean** — sync commit: 2a4f60c8c
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -658,7 +658,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswEvent` — AbstractEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.22, p.87 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.87`); quick deviation check clean**
+- [x] `BswEvent` — AbstractEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.22, p.87 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.87`); quick deviation check clean** — sync commit: af5498712
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -670,7 +670,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswScheduleEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.23, p.88 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.23, p.88`); quick deviation check clean**
+- [x] `BswScheduleEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.23, p.88 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.23, p.88`); quick deviation check clean** — sync commit: 46ce23716
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -682,7 +682,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswInterruptEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.24, p.88 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.24, p.88`); quick deviation check clean**
+- [x] `BswInterruptEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.24, p.88 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.24, p.88`); quick deviation check clean** — sync commit: acf1e772a
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -694,7 +694,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswBackgroundEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.26, p.89 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.26, p.89`); quick deviation check clean**
+- [x] `BswBackgroundEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.26, p.89 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.26, p.89`); quick deviation check clean** — sync commit: 584344d2e
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -706,7 +706,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswOsTaskExecutionEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.27, p.89 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.27, p.89`); quick deviation check clean**
+- [x] `BswOsTaskExecutionEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.27, p.89 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.27, p.89`); quick deviation check clean** — sync commit: 2b4b89810
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -730,7 +730,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `BswModeSwitchEvent` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.31, p.95 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.95`); quick deviation check clean**
+- [x] `BswModeSwitchEvent` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.31, p.95 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.95`); quick deviation check clean** — sync commit: af5498712
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -790,7 +790,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `ParameterDataPrototype` — AutosarDataPrototype — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.44, p.107; also CP_TPS_SoftwareComponentTemplate Table 5.32, p.310 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.32, p.310`); quick deviation check clean**
+- [x] `ParameterDataPrototype` — AutosarDataPrototype — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.44, p.107; also CP_TPS_SoftwareComponentTemplate Table 5.32, p.310 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.32, p.310`); quick deviation check clean** — sync commit: 70ce06f50
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -802,7 +802,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswDistinguishedPartition` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.50, p.118 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.50, p.118`); quick deviation check clean**
+- [x] `BswDistinguishedPartition` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.50, p.118 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.50, p.118`); quick deviation check clean** — sync commit: 80d341994
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -814,7 +814,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `BswImplementation` — Implementation — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 6.1, p.120 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswImplementation.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 6.1, p.120`); quick deviation check clean**
+- [x] `BswImplementation` — Implementation — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 6.1, p.120 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswImplementation.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 6.1, p.120`); quick deviation check clean** — sync commit: 46ce23716
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswImplementation.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -826,7 +826,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `AutosarEngineeringObject` — EngineeringObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 7.5, p.132; also CP_TPS_SoftwareComponentTemplate Table 8.6, p.623; also FO_TPS_GenericStructureTemplate Table 4.70, p.161 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/EngineeringObject.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.70, p.161`); quick deviation check clean**
+- [x] `AutosarEngineeringObject` — EngineeringObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 7.5, p.132; also CP_TPS_SoftwareComponentTemplate Table 8.6, p.623; also FO_TPS_GenericStructureTemplate Table 4.70, p.161 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/EngineeringObject.py, `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.70, p.161`); quick deviation check clean** — sync commit: e485a5bcb
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/EngineeringObject.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -850,7 +850,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
-- [x] `SwAddrMethod` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.4, p.145; also CP_TPS_SoftwareComponentTemplate Table 5.92, p.414 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.92, p.414`); quick deviation check clean**
+- [x] `SwAddrMethod` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.4, p.145; also CP_TPS_SoftwareComponentTemplate Table 5.92, p.414 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.92, p.414`); quick deviation check clean** — sync commit: 70ce06f50
   - module: M2/MSR/DataDictionary/AuxillaryObjects.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -862,7 +862,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `MemoryAllocationKeywordPolicyType` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.5, p.145; also CP_TPS_SoftwareComponentTemplate Table 5.95, p.418 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.95, p.418`); quick deviation check clean**
+- [x] `MemoryAllocationKeywordPolicyType` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.5, p.145; also CP_TPS_SoftwareComponentTemplate Table 5.95, p.418 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.95, p.418`); quick deviation check clean** — sync commit: 70ce06f50
   - module: M2/MSR/DataDictionary/AuxillaryObjects.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -874,7 +874,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `SectionInitializationPolicyType` — ARLiteral — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.6, p.146; also CP_TPS_SoftwareComponentTemplate Table 5.93, p.417; also FO_TPS_GenericStructureTemplate Table 4.62, p.113 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.93, p.417`); quick deviation check clean**
+- [x] `SectionInitializationPolicyType` — ARLiteral — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.6, p.146; also CP_TPS_SoftwareComponentTemplate Table 5.93, p.417; also FO_TPS_GenericStructureTemplate Table 4.62, p.113 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.93, p.417`); quick deviation check clean** — sync commit: 70ce06f50
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -886,7 +886,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `MemorySectionType` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.7, p.146; also CP_TPS_SoftwareComponentTemplate Table 5.94, p.418 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.94, p.418`); quick deviation check clean**
+- [x] `MemorySectionType` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.7, p.146; also CP_TPS_SoftwareComponentTemplate Table 5.94, p.418 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.94, p.418`); quick deviation check clean** — sync commit: 70ce06f50
   - module: M2/MSR/DataDictionary/AuxillaryObjects.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -898,7 +898,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `HeapUsage` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.13, p.152 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.13, p.152`); quick deviation check clean**
+- [x] `HeapUsage` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.13, p.152 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.13, p.152`); quick deviation check clean** — sync commit: a55d2092d
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -910,7 +910,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `WorstCaseHeapUsage` — HeapUsage — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.14, p.152 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.14, p.152`); quick deviation check clean**
+- [x] `WorstCaseHeapUsage` — HeapUsage — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.14, p.152 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.14, p.152`); quick deviation check clean** — sync commit: a55d2092d
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
