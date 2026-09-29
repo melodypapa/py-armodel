@@ -192,111 +192,111 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AclPermission` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.1, p.382
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AclObjectSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.2, p.383
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AclOperation` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.4, p.384
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AclRole` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 11.5, p.384
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AclScopeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 11.6, p.384
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `LifeCycleStateDefinitionGroup` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 12.1, p.388
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `LifeCycleState` — AtpBlueprint — R23-11 FO_TPS_GenericStructureTemplate Table 12.2, p.388
   - module: M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/AbstractBlueprintStructure/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ViewMapSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 14.1, p.401
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ViewMap` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 14.2, p.401
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `BswModuleDescription` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 3.1, p.29 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/__init__.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 3.1, p.29`); quick deviation check clean**
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/__init__.py
@@ -564,15 +564,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BswInterruptCategory` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.9, p.76
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `BswAsynchronousServerCallPoint` — BswModuleCallPoint — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.13, p.80 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.13, p.80`); quick deviation check clean**
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
@@ -600,15 +600,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BswVariableAccess` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.15, p.81
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `ExclusiveArea` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.16, p.82; also CP_TPS_SoftwareComponentTemplate Table 7.26, p.552 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.16, p.82`); quick deviation check clean**
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
@@ -624,15 +624,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BswExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.17, p.83
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `ExclusiveAreaNestingOrder` — Referrable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.19, p.84; also CP_TPS_SoftwareComponentTemplate Table 7.27, p.554 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84`); quick deviation check clean**
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
@@ -720,15 +720,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BswExternalTriggerOccurredEvent` — BswScheduleEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.30, p.91
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `BswModeSwitchEvent` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.31, p.95 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.95`); quick deviation check clean**
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
@@ -744,51 +744,51 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BswOperationInvokedEvent` — BswEvent — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.35, p.97
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswTriggerDirectImplementation` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.38, p.102
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswModeSenderPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.39, p.103
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswModeReceiverPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.41, p.103
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `ParameterDataPrototype` — AutosarDataPrototype — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 5.44, p.107; also CP_TPS_SoftwareComponentTemplate Table 5.32, p.310 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.32, p.310`); quick deviation check clean**
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py
@@ -840,15 +840,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AlignmentType` — ARLiteral — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.3, p.144; also CP_TPS_SoftwareComponentTemplate Table 5.96, p.419; also FO_TPS_GenericStructureTemplate Table 4.41, p.107
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (15,092 passed / 0 failed full battery, lint clean, black-check clean on branch-touched files); 9b deferred to batch confirmation (user instruction)
 
 - [x] `SwAddrMethod` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.4, p.145; also CP_TPS_SoftwareComponentTemplate Table 5.92, p.414 — **already verified (short-circuit, Group22 header rule): `# Spec verified: R23-11` marker present in src (M2/MSR/DataDictionary/AuxillaryObjects.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.92, p.414`); quick deviation check clean**
   - module: M2/MSR/DataDictionary/AuxillaryObjects.py
