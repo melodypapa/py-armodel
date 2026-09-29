@@ -789,25 +789,25 @@ Status: **0/26** completed
 
 Status: **0/17** completed
 
-| Class Name                                  | Status      | Commit ID |
-| ------------------------------------------- | ----------- | --------- |
-| `NmEcu`                                     | [ ] Pending | N/A       |
-| `CanNmCluster`                              | [ ] Pending | N/A       |
-| `UdpNmCluster`                              | [ ] Pending | N/A       |
-| `CanNmNode`                                 | [ ] Pending | N/A       |
-| `UdpNmNode`                                 | [ ] Pending | N/A       |
-| `CanNmClusterCoupling`                      | [ ] Pending | N/A       |
-| `UdpNmClusterCoupling`                      | [ ] Pending | N/A       |
-| `FlexrayNmClusterCoupling`                  | [ ] Pending | N/A       |
-| `SecOcCryptoServiceMapping`                 | [ ] Pending | N/A       |
-| `EndToEndTransformationISignalProps`        | [ ] Pending | N/A       |
-| `TpAddress`                                 | [ ] Pending | N/A       |
-| `LinTpConnection`                           | [ ] Pending | N/A       |
-| `EndToEndProtectionISignalIPdu`             | [ ] Pending | N/A       |
-| `SwcToEcuMapping`                           | [ ] Pending | N/A       |
-| `ApplicationPartitionToEcuPartitionMapping` | [ ] Pending | N/A       |
-| `SwcToImplMapping`                          | [ ] Pending | N/A       |
-| `AppOsTaskProxyToEcuTaskProxyMapping`       | [ ] Pending | N/A       |
+| Class Name                                  | Status       | Commit ID |
+| ------------------------------------------- | ------------ | --------- |
+| `NmEcu`                                     | [ ] Pending* | N/A       |
+| `CanNmCluster`                              | [ ] Pending* | N/A       |
+| `UdpNmCluster`                              | [ ] Pending* | N/A       |
+| `CanNmNode`                                 | [ ] Pending* | N/A       |
+| `UdpNmNode`                                 | [ ] Pending* | N/A       |
+| `CanNmClusterCoupling`                      | [ ] Pending* | N/A       |
+| `UdpNmClusterCoupling`                      | [ ] Pending* | N/A       |
+| `FlexrayNmClusterCoupling`                  | [ ] Pending* | N/A       |
+| `SecOcCryptoServiceMapping`                 | [ ] Pending* | N/A       |
+| `EndToEndTransformationISignalProps`        | [ ] Pending* | N/A       |
+| `TpAddress`                                 | [ ] Pending* | N/A       |
+| `LinTpConnection`                           | [ ] Pending* | N/A       |
+| `EndToEndProtectionISignalIPdu`             | [ ] Pending* | N/A       |
+| `SwcToEcuMapping`                           | [ ] Pending* | N/A       |
+| `ApplicationPartitionToEcuPartitionMapping` | [ ] Pending* | N/A       |
+| `SwcToImplMapping`                          | [ ] Pending* | N/A       |
+| `AppOsTaskProxyToEcuTaskProxyMapping`       | [ ] Pending* | N/A       |
 
 ## Group19
 
