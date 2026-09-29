@@ -7605,6 +7605,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setBswExclusiveAreaPolicy(self, element: ET.Element, policy: BswExclusiveAreaPolicy):
         child_element = ET.SubElement(element, "BSW-EXCLUSIVE-AREA-POLICY")
+        self.writeBswApiOptions(child_element, policy)
         self.setChildElementOptionalLiteral(child_element, "API-PRINCIPLE", policy.getApiPrinciple())
         self.setChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
         self.writeVariationPointCapable(child_element, policy)

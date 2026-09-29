@@ -4501,6 +4501,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getBswExclusiveAreaPolicy(self, element: ET.Element) -> BswExclusiveAreaPolicy:
         policy = BswExclusiveAreaPolicy()
+        self.readBswApiOptions(element, policy)
         policy.setApiPrinciple(self.getChildElementOptionalLiteral(element, "API-PRINCIPLE"))
         policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF"))
         self.readVariationPointCapable(element, policy)

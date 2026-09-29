@@ -116,3 +116,25 @@ class TestBswVariableAccess:
         entity = behavior.getBswSchedulableEntities()[0]
         assert entity.getDataSendPoints() == []
         assert entity.getDataReceivePoints() == []
+
+
+class TestBswExclusiveAreaPolicy:
+    def test_read_full(self, tmp_path):
+        policies = """<EXCLUSIVE-AREA-POLICYS>
+            <BSW-EXCLUSIVE-AREA-POLICY>
+                <ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>
+                <API-PRINCIPLE>common</API-PRINCIPLE>
+                <EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/Pkg/Ea</EXCLUSIVE-AREA-REF>
+            </BSW-EXCLUSIVE-AREA-POLICY>
+        </EXCLUSIVE-AREA-POLICYS>"""
+        _, behavior = _load_behavior(tmp_path, policies)
+        policies_2 = behavior.getExclusiveAreaPolicies()
+        assert len(policies_2) == 1
+        assert policies_2[0].getEnableTakeAddress().getValue() is True
+        assert policies_2[0].getApiPrinciple().getValue() == "common"
+        assert policies_2[0].getExclusiveAreaRef().getValue() == "/Pkg/Ea"
+        assert policies_2[0].getExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA"
+
+    def test_read_empty_wrapper(self, tmp_path):
+        _, behavior = _load_behavior(tmp_path, "<EXCLUSIVE-AREA-POLICYS></EXCLUSIVE-AREA-POLICYS>")
+        assert behavior.getExclusiveAreaPolicies() == []
