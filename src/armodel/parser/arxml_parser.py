@@ -439,7 +439,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
+    EcucForeignReferenceDef,
     EcucFunctionNameDef,
+    EcucLinkerSymbolDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucModuleDef,
@@ -11689,6 +11691,10 @@ class ARXMLParser(AbstractARXMLParser):
                 param_def = EcucMultilineStringParamDef(policy, self.getShortName(child_element))
                 self.readEcucMultilineStringParamDef(child_element, param_def)
                 policy.addParameter(param_def)
+            elif tag_name == "ECUC-LINKER-SYMBOL-DEF":
+                param_def = EcucLinkerSymbolDef(policy, self.getShortName(child_element))
+                self.readEcucLinkerSymbolDef(child_element, param_def)
+                policy.addParameter(param_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Parameter <%s>" % tag_name)
 
@@ -11710,6 +11716,10 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
                 ref_def = EcucInstanceReferenceDef(policy, self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
+                policy.addReference(ref_def)
+            elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
+                ref_def = EcucForeignReferenceDef(policy, self.getShortName(child_element))
+                self.readEcucForeignReferenceDef(child_element, ref_def)
                 policy.addReference(ref_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % tag_name)
@@ -11843,6 +11853,15 @@ class ARXMLParser(AbstractARXMLParser):
             param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
             param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
 
+    def readEcucLinkerSymbolDef(self, element: ET.Element, param_def: EcucLinkerSymbolDef):
+        self.readEcucParameterDef(element, param_def)
+        child_element = self.find(element, "ECUC-LINKER-SYMBOL-DEF-VARIANTS/ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
+        if child_element is not None:
+            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
+            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
+            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
+            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+
     def readEcucIntegerParamDef(self, element: ET.Element, param_def: EcucIntegerParamDef):
         self.readEcucParameterDef(element, param_def)
         param_def.setDefaultValue(self.getChildElementOptionalIntegerValue(element, "DEFAULT-VALUE"))
@@ -11910,6 +11929,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-MULTILINE-STRING-PARAM-DEF":
                 param_def = container_def.createEcucMultilineStringParamDef(self.getShortName(child_element))
                 self.readEcucMultilineStringParamDef(child_element, param_def)
+            elif tag_name == "ECUC-LINKER-SYMBOL-DEF":
+                param_def = container_def.createEcucLinkerSymbolDef(self.getShortName(child_element))
+                self.readEcucLinkerSymbolDef(child_element, param_def)
             else:
                 self.notImplemented("Unsupported Parameter <%s>" % tag_name)
 
@@ -11942,6 +11964,10 @@ class ARXMLParser(AbstractARXMLParser):
         ref_def.setDestinationContext(self.getChildElementOptionalLiteral(element, "DESTINATION-CONTEXT"))
         ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
 
+    def readEcucForeignReferenceDef(self, element: ET.Element, ref_def: EcucForeignReferenceDef):
+        self.readEcucAbstractExternalReferenceDef(element, ref_def)
+        ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
+
     def readEcucContainerDefReferences(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "REFERENCES/*"):
             tag_name = self.getTagName(child_element)
@@ -11957,6 +11983,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
                 ref_def = container_def.createEcucInstanceReferenceDef(self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
+                ref_def = container_def.createEcucForeignReferenceDef(self.getShortName(child_element))
+                self.readEcucForeignReferenceDef(child_element, ref_def)
             else:
                 self.notImplemented("Unsupported EcucReferenceDef <%s>" % tag_name)
 

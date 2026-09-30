@@ -771,6 +771,29 @@ class TestEcucContainerDefReferences:
         assert refs[0].getDestinationType() is not None
         assert refs[0].getDestinationType().getValue() == "VARIABLE-DATA-PROTOTYPE"
 
+    def test_readEcucForeignReferenceDef(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-FOREIGN-REFERENCE-DEF>
+                    <SHORT-NAME>ForeignRef</SHORT-NAME>
+                    <DESTINATION-TYPE>Frame</DESTINATION-TYPE>
+                </ECUC-FOREIGN-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "ForeignRef"
+        assert refs[0].getDestinationType() is not None
+        assert refs[0].getDestinationType().getValue() == "Frame"
+
     def test_readEcucContainerDefReferences_unsupported_type_warning(self, warning_parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
 
@@ -2845,3 +2868,87 @@ class TestModuleConfiguration:
         assert module_configuration.getImplementationConfigVariant() is None
         assert module_configuration.getModuleDescriptionRef() is None
         assert module_configuration.getContainers() == []
+
+
+class TestEcucLinkerSymbolDefParameters:
+    """Tests for ECUC-LINKER-SYMBOL-DEF parameter handling (Group19: EcucLinkerSymbolDef)."""
+
+    def test_readEcucLinkerSymbolDef_with_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucLinkerSymbolDef, EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-LINKER-SYMBOL-DEF>
+                    <SHORT-NAME>OsLinkSymbol</SHORT-NAME>
+                    <ECUC-LINKER-SYMBOL-DEF-VARIANTS>
+                        <ECUC-LINKER-SYMBOL-DEF-CONDITIONAL>
+                            <DEFAULT-VALUE>Os_LinkSymbol</DEFAULT-VALUE>
+                            <MAX-LENGTH>32</MAX-LENGTH>
+                            <MIN-LENGTH>1</MIN-LENGTH>
+                        </ECUC-LINKER-SYMBOL-DEF-CONDITIONAL>
+                    </ECUC-LINKER-SYMBOL-DEF-VARIANTS>
+                </ECUC-LINKER-SYMBOL-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucLinkerSymbolDef)
+        assert params[0].getShortName() == "OsLinkSymbol"
+        assert params[0].getDefaultValue() is not None
+        assert params[0].getDefaultValue().getValue() == "Os_LinkSymbol"
+        assert params[0].getMaxLength().getValue() == 32
+        assert params[0].getMinLength().getValue() == 1
+
+    def test_readEcucLinkerSymbolDef_without_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucLinkerSymbolDef, EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-LINKER-SYMBOL-DEF>
+                    <SHORT-NAME>OsLinkSymbol</SHORT-NAME>
+                </ECUC-LINKER-SYMBOL-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucLinkerSymbolDef)
+        assert params[0].getDefaultValue() is None
+        assert params[0].getMaxLength() is None
+
+    def test_readEcucLinkerSymbolDef_in_destination_uri_policy(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriPolicy, EcucLinkerSymbolDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        policy = EcucDestinationUriPolicy()
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-LINKER-SYMBOL-DEF>
+                    <SHORT-NAME>OsLinkSymbol</SHORT-NAME>
+                    <ECUC-LINKER-SYMBOL-DEF-VARIANTS>
+                        <ECUC-LINKER-SYMBOL-DEF-CONDITIONAL>
+                            <DEFAULT-VALUE>Os_LinkSymbol</DEFAULT-VALUE>
+                        </ECUC-LINKER-SYMBOL-DEF-CONDITIONAL>
+                    </ECUC-LINKER-SYMBOL-DEF-VARIANTS>
+                </ECUC-LINKER-SYMBOL-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="DESTINATION-URI-POLICY",
+        )
+        parser.readEcucDestinationUriPolicyParameters(element, policy)
+        params = policy.getParameters()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucLinkerSymbolDef)
+        assert params[0].getDefaultValue().getValue() == "Os_LinkSymbol"

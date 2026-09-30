@@ -9,6 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucBooleanParamDef,
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
+    EcucFloatParamDef,
+    EcucForeignReferenceDef,
+    EcucLinkerSymbolDef,
     EcucModuleDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
@@ -281,6 +284,32 @@ class TestWriterEcucBooleanParamDef:
         writer.writeEcucBooleanParamDef(parent, None)
         assert len(parent) == 0
 
+    def test_round_trip_default_value(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucBooleanParamDef("P")
+        param.setDefaultValue(_bool(True))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("P", EcucBooleanParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() is True
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucAbstractStringParamDef:
     def test_writes_common_attrs(self, writer):
@@ -357,6 +386,40 @@ class TestWriterEcucFloatParamDef:
         parent = _parent()
         writer.writeEcucFloatParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_default_and_limits(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucFloatParamDef("P")
+        param.setDefaultValue(_float(1.5))
+        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue("CLOSED")))
+        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue("OPEN")))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("P", EcucFloatParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() == 1.5
+            assert reloaded_param.getMax() is not None
+            assert reloaded_param.getMax().getValue() == "99.5"
+            assert reloaded_param.getMax().getIntervalType().getValue() == "CLOSED"
+            assert reloaded_param.getMin() is not None
+            assert reloaded_param.getMin().getValue() == "0.0"
+            assert reloaded_param.getMin().getIntervalType().getValue() == "OPEN"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucEnumerationLiteralDef:
@@ -645,6 +708,52 @@ class TestWriterEcucInstanceReferenceDef:
         writer.writeEcucInstanceReferenceDef(parent, ref)
         assert parent[0].find("DESTINATION-CONTEXT") is None
         assert parent[0].find("DESTINATION-TYPE") is None
+
+
+class TestWriterEcucForeignReferenceDef:
+    def test_full(self, writer):
+        container = _make_container()
+        ref = container.createEcucForeignReferenceDef("F")
+        ref.setDestinationType(_literal("Frame"))
+        parent = _parent()
+        writer.writeEcucForeignReferenceDef(parent, ref)
+        assert parent[0].tag == "ECUC-FOREIGN-REFERENCE-DEF"
+        typ = parent[0].find("DESTINATION-TYPE")
+        assert typ is not None
+        assert typ.text == "Frame"
+
+    def test_omits_when_none(self, writer):
+        container = _make_container()
+        ref = container.createEcucForeignReferenceDef("F")
+        parent = _parent()
+        writer.writeEcucForeignReferenceDef(parent, ref)
+        assert parent[0].find("DESTINATION-TYPE") is None
+
+    def test_round_trip_destination_type(self, writer):
+        import os
+        import tempfile
+
+        autosar = AUTOSAR.getInstance()
+        autosar.setARRelease("R23-11")
+        container = _make_container()
+        ref = container.createEcucForeignReferenceDef("F")
+        ref.setDestinationType(_literal("Frame"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getElement("F", EcucForeignReferenceDef)
+            assert reloaded_ref is not None
+            assert reloaded_ref.getDestinationType() is not None
+            assert reloaded_ref.getDestinationType().getValue() == "Frame"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucContainerDefReferences:
@@ -1227,6 +1336,71 @@ class TestWriterEcucAddInfoParamDef:
             rt = params[0]
             assert rt.getShortName() == "AddInfo"
             assert rt.getOrigin().getValue() == "AUTOSAR_ECUC"
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+
+
+class TestWriterEcucLinkerSymbolDef:
+    def test_write_structure_and_xsd_order(self, writer):
+        container = _make_container()
+        param = container.createEcucLinkerSymbolDef("Sym")
+        param.setDefaultValue(_verbatim("Os_LinkSymbol"))
+        param.setMaxLength(_posint(32))
+        parent = _parent()
+        writer.writeEcucLinkerSymbolDef(parent, param)
+        sym = parent.find("ECUC-LINKER-SYMBOL-DEF")
+        assert sym is not None
+        assert sym.find("SHORT-NAME").text == "Sym"
+        children = [c.tag for c in sym]
+        assert children[-1] == "ECUC-LINKER-SYMBOL-DEF-VARIANTS"
+        cond = sym.find("ECUC-LINKER-SYMBOL-DEF-VARIANTS/ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
+        assert cond is not None
+        assert cond.find("DEFAULT-VALUE").text == "Os_LinkSymbol"
+        assert cond.find("MAX-LENGTH").text == "32"
+
+    def test_container_def_parameters_dispatch(self, writer):
+        container = _make_container()
+        container.createEcucLinkerSymbolDef("Sym")
+        parent = _parent()
+        writer.writeEcucContainerDefParameters(parent, container)
+        assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF") is not None
+        assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF/SHORT-NAME").text == "Sym"
+
+    def test_destination_uri_policy_dispatch(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriPolicy
+
+        policy = EcucDestinationUriPolicy()
+        policy.addParameter(EcucLinkerSymbolDef(policy, "Sym"))
+        parent = _parent()
+        writer.writeEcucDestinationUriPolicyParameters(parent, policy)
+        assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF") is not None
+
+    def test_round_trip(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucLinkerSymbolDef("Sym")
+        param.setDefaultValue(_verbatim("Os_LinkSymbol"))
+        param.setMaxLength(_posint(32))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("Sym", EcucLinkerSymbolDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() == "Os_LinkSymbol"
+            assert reloaded_param.getMaxLength().getValue() == 32
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)

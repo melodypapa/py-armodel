@@ -819,16 +819,16 @@ Status: **0/16** completed
 
 | Class Name                       | Status          | Commit ID |
 | -------------------------------- | --------------- | --------- |
-| `ConfigReferenceValue`           | [ ] Implemented | N/A       |
-| `EcucValueCollection`            | [ ] Implemented | N/A       |
-| `ModuleConfiguration`            | [ ] Implemented | N/A       |
-| `EcucConfigurationClassEnum`     | [ ] Implemented | N/A       |
-| `EcucScopeEnum`                  | [ ] Implemented | N/A       |
+| `ConfigReferenceValue`           | [ ] Pending*    | N/A       |
+| `EcucValueCollection`            | [ ] Pending*    | N/A       |
+| `ModuleConfiguration`            | [ ] Pending*    | N/A       |
+| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A       |
+| `EcucScopeEnum`                  | [ ] Pending*    | N/A       |
 | `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
-| `EcucBooleanParamDef`            | [ ] Implemented | N/A       |
-| `EcucFloatParamDef`              | [ ] Implemented | N/A       |
-| `EcucForeignReferenceDef`        | [ ] Implemented | N/A       |
-| `EcucLinkerSymbolDef`            | [ ] Implemented | N/A       |
+| `EcucBooleanParamDef`            | [ ] Pending*    | N/A       |
+| `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
+| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A       |
+| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A       |
 | `EcucReferenceDef`               | [ ] Implemented | N/A       |
 | `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
 | `EcucUriReferenceDef`            | [ ] Implemented | N/A       |

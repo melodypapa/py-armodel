@@ -499,6 +499,14 @@ class TestConfigReferenceValue:
         obj.setDefinitionRef(None)
         assert obj.getDefinitionRef() == ref
 
+    def test_member_annotations(self):
+        """getDefinitionRef/setDefinitionRef shall resolve to Optional[RefType] / ConfigReferenceValue (Rule 0003/0006 — get_type_hints pin; the quoted self-return is this module's required forward-ref form, no PEP 563 here)."""
+        import typing
+
+        assert typing.get_type_hints(ConfigReferenceValue.getDefinitionRef)["return"] == typing.Optional[RefType]
+        assert typing.get_type_hints(ConfigReferenceValue.setDefinitionRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(ConfigReferenceValue.setDefinitionRef)["return"] is ConfigReferenceValue
+
 
 class TestReferenceValue:
     """

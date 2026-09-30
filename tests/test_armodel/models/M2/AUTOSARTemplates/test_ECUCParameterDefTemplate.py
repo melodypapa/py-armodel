@@ -3,6 +3,8 @@ This module contains tests for the Ecuc* classes in the
 AUTOSAR ECUCParameterDefTemplate module.
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -53,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -229,6 +231,42 @@ class TestEcucDestinationUriDefRefType:
 class TestEcucConfigurationClassEnum:
     def test_instantiation(self):
         assert isinstance(EcucConfigurationClassEnum(), EcucConfigurationClassEnum)
+
+    def test_initialization_and_values(self):
+        enum = EcucConfigurationClassEnum()
+
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            EcucConfigurationClassEnum.LINK,
+            EcucConfigurationClassEnum.POST_BUILD,
+            EcucConfigurationClassEnum.PRE_COMPILE,
+            EcucConfigurationClassEnum.PUBLISHED_INFORMATION,
+        ]
+
+    def test_configuration_class_literals(self):
+        enum = EcucConfigurationClassEnum()
+
+        assert enum.validateEnumValue(EcucConfigurationClassEnum.LINK)
+        assert enum.validateEnumValue(EcucConfigurationClassEnum.POST_BUILD)
+        assert enum.validateEnumValue(EcucConfigurationClassEnum.PRE_COMPILE)
+        assert enum.validateEnumValue(EcucConfigurationClassEnum.PUBLISHED_INFORMATION)
+        assert EcucConfigurationClassEnum.LINK == "Link"
+        assert EcucConfigurationClassEnum.POST_BUILD == "PostBuild"
+        assert EcucConfigurationClassEnum.PRE_COMPILE == "PreCompile"
+        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PublishedInformation"
+
+        assert enum.setValue(EcucConfigurationClassEnum.PRE_COMPILE) is enum
+        assert enum.getValue() == "PreCompile"
+        assert enum.validateEnumValue("INVALID") is False
+
+    def test_class_docstring_and_literal_comments_verbatim(self):
+        source = inspect.getsource(EcucConfigurationClassEnum)
+
+        assert inspect.cleandoc(EcucConfigurationClassEnum.__doc__) == "Possible configuration classes for the AUTOSAR configuration parameters."
+        assert "# Link Time: parts of configuration are delivered from another object code file Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "# PostBuildTime: after compilation a configuration parameter can be changed. Tags: atp.EnumerationLiteralIndex=1" in source
+        assert "# PreCompile Time: after compilation a configuration parameter can not be changed any more. Tags: atp.EnumerationLiteralIndex=2" in source
+        assert "# PublishedInformation is used to specify the fact that certain information is fixed even before the pre-compile stage. Tags: atp.EnumerationLiteralIndex=3" in source
 
 
 class TestEcucConfigurationVariantEnum:
@@ -423,6 +461,31 @@ class TestEcucConditionSpecification:
 class TestEcucScopeEnum:
     def test_instantiation(self):
         assert isinstance(EcucScopeEnum(), EcucScopeEnum)
+
+    def test_initialization_and_values(self):
+        enum = EcucScopeEnum()
+
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [EcucScopeEnum.ECU, EcucScopeEnum.LOCAL]
+
+    def test_scope_literals(self):
+        enum = EcucScopeEnum()
+
+        assert enum.validateEnumValue(EcucScopeEnum.ECU)
+        assert enum.validateEnumValue(EcucScopeEnum.LOCAL)
+        assert EcucScopeEnum.ECU == "ECU"
+        assert EcucScopeEnum.LOCAL == "local"
+
+        assert enum.setValue(EcucScopeEnum.LOCAL) is enum
+        assert enum.getValue() == "local"
+        assert enum.validateEnumValue("INVALID") is False
+
+    def test_class_docstring_and_literal_comments_verbatim(self):
+        source = inspect.getsource(EcucScopeEnum)
+
+        assert inspect.cleandoc(EcucScopeEnum.__doc__) == "Possible scope settings for a configuration element."
+        assert "# An element may be shared with other modules. Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "# An element is only be applicable for the module it is defined in. Tags: atp.EnumerationLiteralIndex=1" in source
 
 
 class TestEcucDefinitionElement:
