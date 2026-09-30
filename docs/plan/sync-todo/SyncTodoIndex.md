@@ -617,7 +617,7 @@ Status: **7/15** completed
 | `InternalTriggeringPoint`            | [x] Done     | 96033eb3fe |
 | `ModeAccessPoint`                    | [x] Done     | 543d9df4e7 |
 | `ModeSwitchPoint`                    | [x] Done     | 1037222ee7 |
-| `AsynchronousServerCallReturnsEvent` | [x] Done     | N/A        |
+| `AsynchronousServerCallReturnsEvent` | [x] Done     | a706fd368b |
 | `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
 | `DataReceivedEvent`                  | [ ] Pending* | N/A        |
 | `DataSendCompletedEvent`             | [ ] Pending* | N/A        |
