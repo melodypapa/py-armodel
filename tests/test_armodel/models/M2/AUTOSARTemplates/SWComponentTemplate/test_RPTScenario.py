@@ -4,9 +4,10 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    DiagnosticParameterIdent,
     ExternalTriggeringPointIdent,
     IdentCaption,
     ModeAccessPointIdent,
@@ -183,3 +184,65 @@ class TestRptServicePointEnum:
         """Test RptServicePointEnum members match the spec literals"""
         assert RptServicePointEnum.ENABLED == "enabled"
         assert RptServicePointEnum.NONE == "none"
+
+
+class TestDiagnosticParameterIdent:
+    """Test class for DiagnosticParameterIdent class (Table 4.7, p.37, R23-11)."""
+
+    SPEC_NOTE = "This meta-class has been created to introduce the ability to become referenced into the meta-class AbstractDiagnosticParameter without breaking backwards compatibility."
+
+    def test_diagnostic_parameter_ident_concrete(self):
+        """DiagnosticParameterIdent is concrete (Table 4.7 header) — instantiable."""
+        ident = DiagnosticParameterIdent(None, "ident")
+
+        assert isinstance(ident, DiagnosticParameterIdent)
+
+    def test_diagnostic_parameter_ident_heritage(self):
+        """Most-derived direct base is IdentCaption (Table 4.7 Base chain)."""
+        ident = DiagnosticParameterIdent(None, "ident")
+
+        assert type(ident).__bases__ == (IdentCaption,)
+        for ancestor in (IdentCaption, AtpStructureElement, Identifiable, Referrable, ARObject):
+            assert isinstance(ident, ancestor)
+
+    def test_diagnostic_parameter_ident_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.7)."""
+        assert DiagnosticParameterIdent.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization_defaults(self):
+        """Test that DiagnosticParameterIdent is initialized with the spec defaults."""
+        ident = DiagnosticParameterIdent(None, "ident")
+
+        assert ident.getShortName() == "ident"
+        assert ident.getSubElements() == []
+
+    def test_create_sub_element(self):
+        """Test createSubElement creates, appends and returns the existing one for a duplicate short name."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ident = DiagnosticParameterIdent(ar_root, "ident")
+
+        sub_element = ident.createSubElement("Sub1")
+        assert sub_element is not None
+        assert sub_element.getShortName() == "Sub1"
+        assert sub_element.getParent() is ident
+        assert isinstance(sub_element, DiagnosticParameterElement)
+        assert ident.getSubElements() == [sub_element]
+
+        duplicate = ident.createSubElement("Sub1")
+        assert duplicate is sub_element  # duplicate short name returns the existing element
+        assert len(ident.getSubElements()) == 1
+
+        second = ident.createSubElement("Sub2")
+        assert ident.getSubElements() == [sub_element, second]
+
+    def test_get_sub_elements_type_hints(self):
+        """Pin the subElement aggregation annotations to the spec types (Rule 0003)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(DiagnosticParameterIdent.getSubElements)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameterElement]
+
+        factory_hints = typing.get_type_hints(DiagnosticParameterIdent.createSubElement)
+        assert factory_hints.get("short_name") is str
+        assert factory_hints.get("return") is DiagnosticParameterElement

@@ -629,7 +629,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -13547,8 +13547,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, parameter)
         ident = parameter.getIdent()
         if ident is not None:
-            ident_element = ET.SubElement(child_element, "IDENT")
-            self.writeReferrable(ident_element, ident)
+            self.writeDiagnosticParameterIdent(child_element, ident)
         if parameter.getSupportInfo() is not None:
             ET.SubElement(child_element, "SUPPORT-INFO")
         self.writeVariationPointCapable(child_element, parameter)
@@ -13561,6 +13560,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         sub_elements = parameter_element.getSubElements()
         if len(sub_elements) > 0:
             sub_elements_tag = ET.SubElement(child_element, "SUB-ELEMENTS")
+            for sub_element in sub_elements:
+                self.writeDiagnosticParameterElement(sub_elements_tag, sub_element)
+
+    def writeDiagnosticParameterIdent(self, element: ET.Element, ident: DiagnosticParameterIdent):
+        self.logger.debug("Write DiagnosticParameterIdent %s" % ident.getShortName())
+        ident_element = ET.SubElement(element, "IDENT")
+        self.writeIdentifiable(ident_element, ident)
+        sub_elements = ident.getSubElements()
+        if len(sub_elements) > 0:
+            sub_elements_tag = ET.SubElement(ident_element, "SUB-ELEMENTS")
             for sub_element in sub_elements:
                 self.writeDiagnosticParameterElement(sub_elements_tag, sub_element)
 

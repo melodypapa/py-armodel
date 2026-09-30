@@ -718,7 +718,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -10376,7 +10376,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, parameter)
         ident_element = self.find(element, "IDENT")
         if ident_element is not None:
-            parameter.createIdent(self.getShortName(ident_element))
+            ident = parameter.createIdent(self.getShortName(ident_element))
+            self.readDiagnosticParameterIdent(ident_element, ident)
         support_info_element = self.find(element, "SUPPORT-INFO")
         if support_info_element is not None:
             parameter.setSupportInfo(DiagnosticParameterSupportInfo())
@@ -10392,6 +10393,12 @@ class ARXMLParser(AbstractARXMLParser):
         parameter_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         for child_element in self.findall(element, "SUB-ELEMENTS/DIAGNOSTIC-PARAMETER-ELEMENT"):
             sub_element = parameter_element.createSubElement(self.getShortName(child_element))
+            self.readDiagnosticParameterElement(child_element, sub_element)
+
+    def readDiagnosticParameterIdent(self, element: ET.Element, ident: DiagnosticParameterIdent):
+        self.readIdentifiable(element, ident)
+        for child_element in self.findall(element, "SUB-ELEMENTS/DIAGNOSTIC-PARAMETER-ELEMENT"):
+            sub_element = ident.createSubElement(self.getShortName(child_element))
             self.readDiagnosticParameterElement(child_element, sub_element)
 
     def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
