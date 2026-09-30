@@ -5,8 +5,8 @@ in the GenericStructure module.
 
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, String
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
@@ -698,8 +698,66 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     pass
 
 
-class DiagnosticParameterElement(Identifiable):
-    pass
+class DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable):
+    """
+    This meta-class represents an element of a DiagnosticParameter if the DiagnosticParameter represents a structure.
+
+    [constr_10369] Existence of attributes of DiagnosticParameterElement depending on the value of attribute category: LEAF — arraySize No, subElement No, dataElement Yes; ARRAY — arraySize Yes, subElement Yes (if dataElement does not exist), dataElement Yes (if subElement does not exist); STRUCTURE — arraySize No, subElement Yes, dataElement No. This rule shall be imposed at the time when the DEXT is complete.
+    """
+
+    # DiagnosticParameterElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.6, p.36
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArraySize      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySize      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSubElement  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # Inherited DiagnosticAbstractParameter attributes (bitOffset, dataElement,
+    # parameterSize — Table 4.8) live on the base class queued within this batch.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        DiagnosticAbstractParameter.__init__(self)
+        Identifiable.__init__(self, parent, short_name)
+
+        # This attribute indicates that the enclosing Diagnostic ParameterElement represents an array and configures the array size in terms of the number of elements of the array.
+        self.arraySize: Optional[PositiveInteger] = None
+
+        # This collection represents the sub-elements on the next lower level.
+        self.subElements: List[DiagnosticParameterElement] = []
+
+    def getArraySize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute indicates that the enclosing Diagnostic ParameterElement represents an array and configures the array size in terms of the number of elements of the array.
+        """
+        return self.arraySize
+
+    def setArraySize(self, value: Optional[PositiveInteger]) -> DiagnosticParameterElement:
+        """
+        This attribute indicates that the enclosing Diagnostic ParameterElement represents an array and configures the array size in terms of the number of elements of the array.
+        A None value is a no-op and does not overwrite an existing arraySize.
+        """
+        if value is not None:
+            self.arraySize = value
+        return self
+
+    def createSubElement(self, short_name: str) -> DiagnosticParameterElement:
+        """
+        This collection represents the sub-elements on the next lower level.
+        The existing sub element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsElementExists(short_name, DiagnosticParameterElement):
+            sub_element = DiagnosticParameterElement(self, short_name)
+            self.addElement(sub_element)
+            self.subElements.append(sub_element)
+        return self.getElement(short_name, DiagnosticParameterElement)
+
+    def getSubElements(self) -> List[DiagnosticParameterElement]:
+        """
+        This collection represents the sub-elements on the next lower level.
+        """
+        return self.subElements
 
 
 class DiagnosticRoutineSubfunction(Identifiable, ABC):

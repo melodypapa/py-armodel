@@ -370,6 +370,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -13551,6 +13552,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         if parameter.getSupportInfo() is not None:
             ET.SubElement(child_element, "SUPPORT-INFO")
         self.writeVariationPointCapable(child_element, parameter)
+
+    def writeDiagnosticParameterElement(self, element: ET.Element, parameter_element: DiagnosticParameterElement):
+        self.logger.debug("Write DiagnosticParameterElement %s" % parameter_element.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER-ELEMENT")
+        self.writeIdentifiable(child_element, parameter_element)
+        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", parameter_element.getArraySize())
+        sub_elements = parameter_element.getSubElements()
+        if len(sub_elements) > 0:
+            sub_elements_tag = ET.SubElement(child_element, "SUB-ELEMENTS")
+            for sub_element in sub_elements:
+                self.writeDiagnosticParameterElement(sub_elements_tag, sub_element)
 
     def writeDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
         self.logger.debug("Write DiagnosticDynamicDataIdentifier %s" % did.getShortName())

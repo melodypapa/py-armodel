@@ -488,6 +488,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -10385,6 +10386,13 @@ class ARXMLParser(AbstractARXMLParser):
                 parameter.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
             else:
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readDiagnosticParameterElement(self, element: ET.Element, parameter_element: DiagnosticParameterElement):
+        self.readIdentifiable(element, parameter_element)
+        parameter_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
+        for child_element in self.findall(element, "SUB-ELEMENTS/DIAGNOSTIC-PARAMETER-ELEMENT"):
+            sub_element = parameter_element.createSubElement(self.getShortName(child_element))
+            self.readDiagnosticParameterElement(child_element, sub_element)
 
     def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)

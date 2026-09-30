@@ -9,13 +9,14 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -810,3 +811,93 @@ class TestViewMap:
 
         obj.addSecondElementIRef(None)
         assert obj.getSecondElementIRefs() == [iref]  # None is a no-op
+
+
+class TestDiagnosticParameterElement:
+    """
+    Test class for DiagnosticParameterElement functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.6, p.36
+    (Base DiagnosticAbstractParameter is an un-synced stub queued within this
+    batch — only DiagnosticParameterElement's own Table 4.6 rows are exercised
+    here.)
+    """
+
+    def _make_obj(self) -> DiagnosticParameterElement:
+        parent = AUTOSAR.getInstance()
+        return DiagnosticParameterElement(parent, "Elem1")
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticParameterElement is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Elem1"
+        assert obj.getArraySize() is None
+        assert obj.getSubElements() == []
+
+    def test_get_set_array_size(self):
+        """
+        Round-trips arraySize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("8")
+        result = obj.setArraySize(value)
+        assert result is obj  # method chaining
+        assert obj.getArraySize() is value
+        assert obj.getArraySize().getValue() == 8
+
+        obj.setArraySize(None)
+        assert obj.getArraySize() is value  # None is a no-op
+
+    def test_get_set_array_size_type_hints(self):
+        """
+        Pin the accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticParameterElement.getArraySize)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticParameterElement.setArraySize)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticParameterElement
+
+    def test_create_sub_element(self):
+        """
+        Test createSubElement creates, appends and returns the existing one for a duplicate short name.
+        """
+        obj = self._make_obj()
+
+        sub_element = obj.createSubElement("Sub1")
+        assert sub_element is not None
+        assert sub_element.getShortName() == "Sub1"
+        assert sub_element.getParent() is obj
+        assert obj.getSubElements() == [sub_element]
+
+        duplicate = obj.createSubElement("Sub1")
+        assert duplicate is sub_element  # duplicate short name returns the existing element
+        assert len(obj.getSubElements()) == 1
+
+        second = obj.createSubElement("Sub2")
+        assert obj.getSubElements() == [sub_element, second]
+
+    def test_get_sub_elements_default(self):
+        """
+        Test that getSubElements returns an empty list by default and None add is a no-op via the factory contract.
+        """
+        obj = self._make_obj()
+
+        assert obj.getSubElements() == []
+
+    def test_get_sub_elements_type_hints(self):
+        """
+        Pin the subElement aggregation annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticParameterElement.getSubElements)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameterElement]
+
+        factory_hints = typing.get_type_hints(DiagnosticParameterElement.createSubElement)
+        assert factory_hints.get("short_name") is str
+        assert factory_hints.get("return") is DiagnosticParameterElement

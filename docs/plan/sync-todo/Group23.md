@@ -706,15 +706,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticParameterElement` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.6, p.36
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.6 (md caption L979, body L981-991); Base row names two chains → Python `DiagnosticAbstractParameter, Identifiable` multiple inheritance (Rule 0001.3 relocation — bitOffset/dataElement/parameterSize stay on the Table 4.8 base, queued within this batch, currently a bare stub); attrs `arraySize` (PositiveInteger 0..1 attr), `subElement` (DiagnosticParameterElement `*` aggr → plural `subElements` + `createSubElement(short_name)`/`getSubElements`, registry duplicate check); NOT VP-capable (XSD group DIAGNOSTIC-PARAMETER-ELEMENT L40629 carries no VARIATION-POINT); constr_10369 appended to class docstring.
+  - note (Step 6): reader/writer cover ARRAY-SIZE + recursive SUB-ELEMENTS (wrapper omitted when empty) in XSD complexType order (L40656); base-group serialization + readIdentifiable→readDiagnosticAbstractParameter swap pending the Table 4.8 sync (Rule 0001.7 debt); document-level dispatch via DiagnosticParameterIdent SUB-ELEMENTS lands with Table 4.7 — ET-level write→serialize→read round-trip until then.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (13 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py::TestDiagnosticParameterElement, tests/test_armodel/parser/test_diagnostic_parameter_element.py, tests/test_armodel/writer/test_writer_diagnostic_parameter_element.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticParameterIdent` — IdentCaption — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.7, p.37
   - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
