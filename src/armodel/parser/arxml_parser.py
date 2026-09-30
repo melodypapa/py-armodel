@@ -2917,6 +2917,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
         self.readDiagnosticCapabilityElement(element, algorithm)
+        algorithm.setTimeBasedFdcThresholdStorageValue(self.getChildElementOptionalTimeValue(element, "TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE"))
+        algorithm.setTimeFailedThreshold(self.getChildElementOptionalTimeValue(element, "TIME-FAILED-THRESHOLD"))
+        algorithm.setTimePassedThreshold(self.getChildElementOptionalTimeValue(element, "TIME-PASSED-THRESHOLD"))
 
     def readDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         for child_element in self.findall(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM/*"):

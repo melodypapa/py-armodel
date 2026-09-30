@@ -5737,6 +5737,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-TIME-BASED")
         self.writeDiagnosticCapabilityElement(child_element, algorithm)
+        self.setChildElementOptionalTimeValue(child_element, "TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE", algorithm.getTimeBasedFdcThresholdStorageValue())
+        self.setChildElementOptionalTimeValue(child_element, "TIME-FAILED-THRESHOLD", algorithm.getTimeFailedThreshold())
+        self.setChildElementOptionalTimeValue(child_element, "TIME-PASSED-THRESHOLD", algorithm.getTimePassedThreshold())
 
     def writeDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         algorithm = needs.getDiagEventDebounceAlgorithm()

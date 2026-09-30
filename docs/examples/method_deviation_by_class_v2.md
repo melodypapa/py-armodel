@@ -280,6 +280,13 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
+## `DiagEventDebounceTimeBased`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 260  | **table:** Table 12.34
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+No deviations — all three Table 12.34 attributes (`timeBasedFdcThresholdStorageValue`, `timeFailedThreshold`, `timePassedThreshold`, TimeValue 0..1 attr) are modeled as `Optional[TimeValue]` PEP 526 fields with typed getter/setter pairs (None-no-op, chaining); Base most-derived = `DiagEventDebounceAlgorithm` (stamped); reader `readDiagEventDebounceTimeBased` / writer `setDiagEventDebounceTimeBased` cover all three in XSD group order (TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE → TIME-FAILED-THRESHOLD → TIME-PASSED-THRESHOLD, AUTOSAR_00052.xsd group line 31344) with dispatch in `readDiagEventDebounceAlgorithm` / `writeDiagEventDebounceAlgorithm`; in-pass fixes (not deviations): fabricated pre-sync docstrings/comments wiped and rewritten verbatim from the spec (Rule 0012.2.3), bare `TimeValue` annotations retyped `Optional[TimeValue]` (Rule 0001.4), None no-op guards added to all setters (Rule 0004), `__init__` docstring removed. Member type `TimeValue` exists (PrimitiveTypes, stamped).
+
 ## `EcuStateMgrUserNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 12.15
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`

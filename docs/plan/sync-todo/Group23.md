@@ -585,15 +585,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagEventDebounceTimeBased` — DiagEventDebounceAlgorithm — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.34, p.260; also CP_TPS_SoftwareComponentTemplate Table 13.21, p.758; also CP_TPS_DiagnosticExtractTemplate Table 4.190, p.198
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): own table = BSWModuleDescriptionTemplate Table 12.34 (md L6643-6654), identical text in SWC TPS Table 13.21 and DEXT TPS Table 4.190; concrete Class; Base most-derived = `DiagEventDebounceAlgorithm` (already synced). Pre-existing src content was UNSTAMPED fabricated (shape 3): invented class/`__init__` docstrings, invented inline comments, bare `TimeValue` annotations, untyped accessors, no None-guard setters, stale checklist without `# Spec:` — field names matched the spec so no field add/remove needed; full docstring/typing/checklist rewrite. XSD group order: TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE, TIME-FAILED-THRESHOLD, TIME-PASSED-THRESHOLD.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (14 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/test_DiagEventDebounceTimeBased.py, tests/test_armodel/parser/test_diag_event_debounce_time_based.py, tests/test_armodel/writer/test_writer_diag_event_debounce_time_based.py); 9b deferred to batch confirmation (user instruction)
 
 - [x] `ErrorTracerNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.36, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.73, p.832 — already verified (short-circuit 2026-10-01)
   - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
