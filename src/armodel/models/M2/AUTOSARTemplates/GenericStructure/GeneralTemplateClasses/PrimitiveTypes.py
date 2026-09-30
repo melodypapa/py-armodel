@@ -435,7 +435,7 @@ class DisplayFormatString(ARLiteral):
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.42, p.334
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -455,7 +455,7 @@ class NativeDeclarationString(ARLiteral):
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.40, p.333
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -495,7 +495,7 @@ class PrimitiveIdentifier(ARLiteral):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.58, p.112
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
