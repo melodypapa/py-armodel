@@ -3,11 +3,15 @@ This module contains comprehensive tests for the ARPackage.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
+    CpSwClusterToDiagEventMapping,
+    DiagnosticMapping,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
@@ -1354,6 +1358,73 @@ class TestViewMapSet:
         duplicate = obj.createViewMap("TestViewMap")
         assert duplicate is view_map  # duplicate returns the existing child
         assert obj.getViewMaps() == [view_map]
+
+
+class TestDiagnosticMapping:
+    """
+    Test class for DiagnosticMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.1, p.223
+    (abstract base; exercised through the concrete subclass CpSwClusterToDiagEventMapping)
+    """
+
+    def _create_mapping(self) -> CpSwClusterToDiagEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterToDiagEventMapping(ar_root, "TestDiagnosticMapping")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticMapping is initialized with the spec defaults.
+        """
+        obj = self._create_mapping()
+
+        assert obj.getShortName() == "TestDiagnosticMapping"
+        assert isinstance(obj, DiagnosticMapping)
+        assert isinstance(obj, ARElement)
+        assert obj.getProviderSoftwareClusterRef() is None
+        assert obj.getRequesterSoftwareClusterRef() is None
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticMapping cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMapping(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_get_set_provider_software_cluster_ref(self):
+        """
+        Test getProviderSoftwareClusterRef and setProviderSoftwareClusterRef round-trip and None no-op.
+        """
+        obj = self._create_mapping()
+
+        ref = RefType()
+        ref.setDest("CP-SOFTWARE-CLUSTER")
+        ref.setValue("/AUTOSAR/SoftwareClusters/ProviderCluster")
+        result = obj.setProviderSoftwareClusterRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getProviderSoftwareClusterRef() is ref
+
+        result = obj.setProviderSoftwareClusterRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getProviderSoftwareClusterRef() is ref  # None is a no-op
+
+    def test_get_set_requester_software_cluster_ref(self):
+        """
+        Test getRequesterSoftwareClusterRef and setRequesterSoftwareClusterRef round-trip and None no-op.
+        """
+        obj = self._create_mapping()
+
+        ref = RefType()
+        ref.setDest("CP-SOFTWARE-CLUSTER")
+        ref.setValue("/AUTOSAR/SoftwareClusters/RequesterCluster")
+        result = obj.setRequesterSoftwareClusterRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequesterSoftwareClusterRef() is ref
+
+        result = obj.setRequesterSoftwareClusterRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequesterSoftwareClusterRef() is ref  # None is a no-op
 
 
 class TestImports:

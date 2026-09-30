@@ -481,6 +481,13 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
+## `DiagnosticMapping`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 223  | **table:** Table 5.1
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — both Table 5.1 attributes modeled (`providerSoftwareCluster` / `requesterSoftwareCluster`, CpSoftwareCluster `0..1` ref → `Optional[RefType]` fields `providerSoftwareClusterRef` / `requesterSoftwareClusterRef` with get/set pairs, Rule 0001.5 Ref suffix); Base most-derived = `ARElement` (abstract, instantiation guard); reusable reader/writer helpers `readDiagnosticMapping`/`writeDiagnosticMapping` cover both refs in XSD order (PROVIDER-SOFTWARE-CLUSTER-REF → REQUESTER-SOFTWARE-CLUSTER-REF, AUTOSAR_00052.xsd group DIAGNOSTIC-MAPPING line 39242); subclasses (stubs, queued in Group26) call the helpers at their own syncs. Member types: `ref` → core RefType; `CpSoftwareCluster` exists (SystemTemplate/SoftwareCluster.py) as ref target only.
+
 ## `DiagnosticServiceTable`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution`

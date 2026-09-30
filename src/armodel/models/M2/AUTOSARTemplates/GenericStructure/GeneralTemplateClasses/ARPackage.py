@@ -2393,7 +2393,60 @@ class CalibrationParameterValueSet(ARElement):
 
 
 class DiagnosticMapping(ARElement, ABC):
-    pass
+    """
+    Abstract element for different kinds of diagnostic mappings.
+    """
+
+    # DiagnosticMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.1, p.223
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProviderSoftwareClusterRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProviderSoftwareClusterRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequesterSoftwareClusterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequesterSoftwareClusterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticMapping:
+            raise TypeError("DiagnosticMapping is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This reference can be used in an early design phase to associate an element of a diagnostic extract with an existing provided CPSoftwareCluster.
+        self.providerSoftwareClusterRef: Optional[RefType] = None
+
+        # This reference can be used in an early design phase to associate an element of a diagnostic extract with an existing requested CPSoftwareCluster.
+        self.requesterSoftwareClusterRef: Optional[RefType] = None
+
+    def getProviderSoftwareClusterRef(self) -> Optional[RefType]:
+        """
+        This reference can be used in an early design phase to associate an element of a diagnostic extract with an existing provided CPSoftwareCluster.
+        """
+        return self.providerSoftwareClusterRef
+
+    def setProviderSoftwareClusterRef(self, value: Optional[RefType]) -> DiagnosticMapping:
+        """
+        This reference can be used in an early design phase to associate an element of a diagnostic extract with an existing provided CPSoftwareCluster.
+        A None value is a no-op and does not overwrite an existing providerSoftwareClusterRef.
+        """
+        if value is not None:
+            self.providerSoftwareClusterRef = value
+        return self
+
+    def getRequesterSoftwareClusterRef(self) -> Optional[RefType]:
+        """
+        This reference can be used in an early design phase to associate an element of a diagnostic extract with an existing requested CPSoftwareCluster.
+        """
+        return self.requesterSoftwareClusterRef
+
+    def setRequesterSoftwareClusterRef(self, value: Optional[RefType]) -> DiagnosticMapping:
+        """
+        This reference can be used in an early design phase to associate an element of a diagnostic extract with an existing requested CPSoftwareCluster.
+        A None value is a no-op and does not overwrite an existing requesterSoftwareClusterRef.
+        """
+        if value is not None:
+            self.requesterSoftwareClusterRef = value
+        return self
 
 
 class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):

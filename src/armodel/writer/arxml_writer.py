@@ -361,6 +361,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -13504,6 +13505,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "PHYSICAL-REQUEST-REF", connection.getPhysicalRequestRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-REF", connection.getResponseOnEventRef())
+
+    def writeDiagnosticMapping(self, element: ET.Element, mapping: DiagnosticMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF", mapping.getProviderSoftwareClusterRef())
+        self.setChildElementOptionalRefType(element, "REQUESTER-SOFTWARE-CLUSTER-REF", mapping.getRequesterSoftwareClusterRef())
 
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
