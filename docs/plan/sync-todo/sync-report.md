@@ -1452,7 +1452,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `RModeGroupInAtomicSWCInstanceRef`                      | [x] Done    | 7dd87307dd                               | Group11          |
 | `RModeInAtomicSwcInstanceRef`                           | [x] Done    | 5a3a7d14c0                               | Group11          |
-| `ROperationInAtomicSwcInstanceRef`                      | [x] Done    | 74e821ccb8                               | Group11          |
+| `ROperationInAtomicSwcInstanceRef`                      | [x] Done    | d7c9455251                               | Group11          |
 | `RPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
 | `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RPortPrototype`                                        | [x] Done    | 2cd6f3c46e                               | Group2           |
