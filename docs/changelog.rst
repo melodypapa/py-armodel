@@ -1,8 +1,29 @@
 Changelog
 =========
 
-Version 1.9.7 (Current)
+Version 1.9.8 (Current)
 -----------------------
+
+* Synced the remaining Group19–Group22 queue classes to the AUTOSAR R23-11
+  spec: 35 classes, including the 12-class ``SdgDef`` family (new
+  ``SpecialDataDef`` module) and the new ``ModelRestrictionTypes`` module
+  (``FullBindingTimeEnum``, ``AbstractValueRestriction``,
+  ``AbstractVariationRestriction``), ``EvaluatedVariantSet``, ``EEnumFont``/
+  ``EEnum`` (rehoused to ``InlineAttributeEnums``), and 14 ``PrimitiveTypes``
+  literal classes; ``SymbolString`` gained its table's ``blueprintValue``/
+  ``namePattern`` attributes (PR #871)
+* Added SDG-DEF and EVALUATED-VARIANT-SET parser/writer coverage with
+  ``ARPackage`` dispatch (``createSdgDef``, ``createEvaluatedVariantSet``)
+* Flipped already-verified Group19–Group22 queue rows via the already-verified
+  short-circuit rule; replaced fabricated docstrings on ``RegularExpression``,
+  ``UriString`` and ``ReferrableSubtypesEnum`` with the verbatim spec Notes
+* Retyped ``EcucUriReferenceDef.destinationUriRef`` and
+  ``EcucContainerDef.destinationUriRefs`` to ``RefType`` (the
+  ``EcucDestinationUriDefRefType`` phantom arbitration)
+* Bumped project version metadata to 1.9.8
+
+Version 1.9.7
+-------------
 
 * Synced EcuInstance TCP/IP stack props classes to AUTOSAR R23-11 spec: ``TcpProps``
   (Table 3.111), ``UdpProps`` (Table 3.110), ``EthTcpIpProps`` (Table 3.109),
