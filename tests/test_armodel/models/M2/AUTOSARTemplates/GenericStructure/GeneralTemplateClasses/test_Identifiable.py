@@ -6,6 +6,7 @@ in the AUTOSAR GenericStructure module.
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
     Identifiable,
@@ -14,7 +15,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -699,3 +701,112 @@ class TestDescribable:
         result = obj.setIntroduction(None)
         assert result is obj  # method chaining with None
         assert obj.getIntroduction() is intro  # None is a no-op
+
+
+class TestViewMap:
+    """
+    Test class for ViewMap functionality.
+    """
+
+    def _create_view_map(self) -> ViewMap:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return ViewMap(ar_root, "TestViewMap")
+
+    def test_initialization(self):
+        """
+        Test that ViewMap is initialized with the spec defaults.
+        """
+        obj = self._create_view_map()
+
+        assert obj.getShortName() == "TestViewMap"
+        assert isinstance(obj, Identifiable)
+        assert obj.getFirstElementRefs() == []
+        assert obj.getFirstElementIRefs() == []
+        assert obj.getRole() is None
+        assert obj.getSecondElementRefs() == []
+        assert obj.getSecondElementIRefs() == []
+
+    def test_get_set_role(self):
+        """
+        Test getRole and setRole round-trip and None no-op.
+        """
+        obj = self._create_view_map()
+
+        assert obj.getRole() is None
+
+        role = Identifier()
+        role.setValue("AR_SystemDescription_SystemExtract")
+        result = obj.setRole(role)
+        assert result is obj  # method chaining
+        assert obj.getRole() is role
+
+        result = obj.setRole(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRole() is role  # None is a no-op
+
+    def test_add_get_first_element_refs(self):
+        """
+        Test getFirstElementRefs and addFirstElementRef round-trip and None no-op.
+        """
+        obj = self._create_view_map()
+
+        assert obj.getFirstElementRefs() == []
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/First/Element")
+        result = obj.addFirstElementRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getFirstElementRefs() == [ref]
+
+        obj.addFirstElementRef(None)
+        assert obj.getFirstElementRefs() == [ref]  # None is a no-op
+
+    def test_add_get_first_element_irefs(self):
+        """
+        Test getFirstElementIRefs and addFirstElementIRef round-trip and None no-op.
+        """
+        obj = self._create_view_map()
+
+        assert obj.getFirstElementIRefs() == []
+
+        iref = AnyInstanceRef()
+        result = obj.addFirstElementIRef(iref)
+        assert result is obj  # method chaining
+        assert obj.getFirstElementIRefs() == [iref]
+
+        obj.addFirstElementIRef(None)
+        assert obj.getFirstElementIRefs() == [iref]  # None is a no-op
+
+    def test_add_get_second_element_refs(self):
+        """
+        Test getSecondElementRefs and addSecondElementRef round-trip and None no-op.
+        """
+        obj = self._create_view_map()
+
+        assert obj.getSecondElementRefs() == []
+
+        ref = RefType()
+        ref.setValue("/AUTOSAR/Second/Element")
+        result = obj.addSecondElementRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getSecondElementRefs() == [ref]
+
+        obj.addSecondElementRef(None)
+        assert obj.getSecondElementRefs() == [ref]  # None is a no-op
+
+    def test_add_get_second_element_irefs(self):
+        """
+        Test getSecondElementIRefs and addSecondElementIRef round-trip and None no-op.
+        """
+        obj = self._create_view_map()
+
+        assert obj.getSecondElementIRefs() == []
+
+        iref = AnyInstanceRef()
+        result = obj.addSecondElementIRef(iref)
+        assert result is obj  # method chaining
+        assert obj.getSecondElementIRefs() == [iref]
+
+        obj.addSecondElementIRef(None)
+        assert obj.getSecondElementIRefs() == [iref]  # None is a no-op

@@ -13,9 +13,18 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (  # noqa: F401
     IdsPlatformInstantiation,
     IdsmModuleInstantiation,
-    IdsmInstance,    IdsmTrafficLimitation,    SecurityEventAggregationFilter,    SecurityEventContextMapping,    SecurityEventContextMappingCommConnector,    SecurityEventContextProps,    SecurityEventFilterChain,    SecurityEventStateFilter,)
+    IdsmInstance,
+    IdsmTrafficLimitation,
+    SecurityEventAggregationFilter,
+    SecurityEventContextMapping,
+    SecurityEventContextMappingCommConnector,
+    SecurityEventContextProps,
+    SecurityEventFilterChain,
+    SecurityEventStateFilter,
+)
 
-__all__ = [    "SecurityEventStateFilter",
+__all__ = [
+    "SecurityEventStateFilter",
     "SecurityEventFilterChain",
     "SecurityEventContextProps",
     "SecurityEventContextMappingCommConnector",
@@ -23,7 +32,6 @@ __all__ = [    "SecurityEventStateFilter",
     "SecurityEventAggregationFilter",
     "IdsmTrafficLimitation",
     "IdsmInstance",
-
     "PlatformModuleEndpointConfiguration",
     "PlatformModuleEthernetEndpointConfiguration",
     "CryptoKeySlot",

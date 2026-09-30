@@ -836,7 +836,3 @@ class TDCpSoftwareClusterMapping(Identifiable):
 
 class TDCpSoftwareClusterResourceMapping(Identifiable):
     pass
-
-
-class ViewMap(Identifiable):
-    pass

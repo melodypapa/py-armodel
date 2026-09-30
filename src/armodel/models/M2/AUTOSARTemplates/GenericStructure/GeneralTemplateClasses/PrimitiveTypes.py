@@ -355,18 +355,18 @@ class UriString(ARLiteral):
 
 class AlignmentType(ARLiteral):
     """
-    This primitive represents the alignment of objects within a memory section.
-    The value is in number of bits or UNKNOWN (deprecated), 8, 16, 32, 64,
-    UNSPECIFIED, BOOLEAN, or PTR. Typical values for numbers are 8, 16, 32, 64.
+    This primitive represents the alignment of objects within a memory section. The value is in number of bits or UNKNOWN (deprecated), 8 , 16, 32, 64 UNSPECIFIED, BOOLEAN, or PTR. Typical values for numbers are 8, 16, 32, 64.
 
     Tags:
         * xml.xsd.customType=ALIGNMENT-TYPE
-        * xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]*|0[bB][0-1]+|0[0-7]*|UNSPECIFIED|UNKNOWN|BOOLEAN|PTR
+        * xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]*|0[bB] [0-1]+|0[0-7]*|UNSPECIFIED|UNKNOWN|BOOLEAN|PTR
         * xml.xsd.type=string
     """
 
     # AlignmentType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.3, p.144
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1568,7 +1568,33 @@ class ViewTokens(ARLiteral):
 
 
 class AclScopeEnum(AREnum):
-    pass
+    """
+    This enumerator represents the scope of a definition in context of access control.
+    """
+
+    # AclScopeEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.6, p.384
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This specifies that the AclPermission applies to dependant (in particular referenced) operations / objects as well. Note that this includes the descendant ones. Tags: atp.EnumerationLiteralIndex=0
+    DEPENDANT = "dependant"
+
+    # This specifies that the AclPermission applies to descendant operations / objects as well. Tags: atp.EnumerationLiteralIndex=1
+    DESCENDANT = "descendant"
+
+    # This is indicates that the AclPermission applies to explicit objects / operations only. Tags: atp.EnumerationLiteralIndex=2
+    EXPLICIT = "explicit"
+
+    def __init__(self):
+        super().__init__(
+            [
+                AclScopeEnum.DEPENDANT,
+                AclScopeEnum.DESCENDANT,
+                AclScopeEnum.EXPLICIT,
+            ]
+        )
 
 
 class AdditionalBindingTimeEnum(AREnum):

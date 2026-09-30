@@ -1023,7 +1023,8 @@ class System(AtpStructureElement):
         return self
 
 
-__all__ = [    "UserDefinedTransformationProps",
+__all__ = [
+    "UserDefinedTransformationProps",
     "UserDefinedGlobalTimeSlave",
     "UserDefinedGlobalTimeMaster",
     "UserDefinedCommunicationConnector",
@@ -1191,7 +1192,6 @@ __all__ = [    "UserDefinedTransformationProps",
     "BinaryManifestAddressableObject",
     "ApplicationPartition",
     "AbstractGlobalTimeDomainProps",
-
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",

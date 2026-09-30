@@ -86,7 +86,8 @@ def __getattr__(name):
     return value
 
 
-__all__ = [    "ViewMapSet",
+__all__ = [
+    "ViewMapSet",
     "SwAxisType",
     "SecurityEventDefinition",
     "SecurityEventContextMappingFunctionalCluster",
@@ -213,7 +214,6 @@ __all__ = [    "ViewMapSet",
     "AclPermission",
     "AclOperation",
     "AclObjectSet",
-
     "AdminData",
     "Annotation",
     "ApplicationArrayDataType",
@@ -1779,6 +1779,48 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(mapping_set)
         return self.getElement(short_name, ModeDeclarationMappingSet)
 
+    def createAclPermission(self, short_name: str) -> AclPermission:
+
+        if not self.IsElementExists(short_name, AclPermission):
+            acl_permission = AclPermission(self, short_name)
+            self.addElement(acl_permission)
+        return self.getElement(short_name, AclPermission)
+
+    def createAclObjectSet(self, short_name: str) -> AclObjectSet:
+
+        if not self.IsElementExists(short_name, AclObjectSet):
+            acl_object_set = AclObjectSet(self, short_name)
+            self.addElement(acl_object_set)
+        return self.getElement(short_name, AclObjectSet)
+
+    def createAclOperation(self, short_name: str) -> AclOperation:
+
+        if not self.IsElementExists(short_name, AclOperation):
+            acl_operation = AclOperation(self, short_name)
+            self.addElement(acl_operation)
+        return self.getElement(short_name, AclOperation)
+
+    def createAclRole(self, short_name: str) -> AclRole:
+
+        if not self.IsElementExists(short_name, AclRole):
+            acl_role = AclRole(self, short_name)
+            self.addElement(acl_role)
+        return self.getElement(short_name, AclRole)
+
+    def createLifeCycleStateDefinitionGroup(self, short_name: str) -> LifeCycleStateDefinitionGroup:
+
+        if not self.IsElementExists(short_name, LifeCycleStateDefinitionGroup):
+            group = LifeCycleStateDefinitionGroup(self, short_name)
+            self.addElement(group)
+        return self.getElement(short_name, LifeCycleStateDefinitionGroup)
+
+    def createViewMapSet(self, short_name: str) -> ViewMapSet:
+
+        if not self.IsElementExists(short_name, ViewMapSet):
+            view_map_set = ViewMapSet(self, short_name)
+            self.addElement(view_map_set)
+        return self.getElement(short_name, ViewMapSet)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -2078,6 +2120,30 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name))
 
+    def getAclPermissions(self) -> List[AclPermission]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclPermission), self.elements), key=lambda a: a.short_name))
+
+    def getAclObjectSets(self) -> List[AclObjectSet]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclObjectSet), self.elements), key=lambda a: a.short_name))
+
+    def getAclOperations(self) -> List[AclOperation]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclOperation), self.elements), key=lambda a: a.short_name))
+
+    def getAclRoles(self) -> List[AclRole]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclRole), self.elements), key=lambda a: a.short_name))
+
+    def getLifeCycleStateDefinitionGroups(self) -> List[LifeCycleStateDefinitionGroup]:
+
+        return list(sorted(filter(lambda a: isinstance(a, LifeCycleStateDefinitionGroup), self.elements), key=lambda a: a.short_name))
+
+    def getViewMapSets(self) -> List[ViewMapSet]:
+
+        return list(sorted(filter(lambda a: isinstance(a, ViewMapSet), self.elements), key=lambda a: a.short_name))
+
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
@@ -2267,25 +2333,23 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  #
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection  # noqa: E402
 
 Collection.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (  # noqa: E402
+    AclObjectSet,
+    AclOperation,
+    AclPermission,
+    AclRole,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMapSet  # noqa: E402
+
+AclObjectSet.__bases__ = (ARElement,)
+AclOperation.__bases__ = (ARElement,)
+AclPermission.__bases__ = (ARElement,)
+AclRole.__bases__ = (ARElement,)
+ViewMapSet.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
-
-
-class AclObjectSet(ARElement):
-    pass
-
-
-class AclOperation(ARElement):
-    pass
-
-
-class AclPermission(ARElement):
-    pass
-
-
-class AclRole(ARElement):
-    pass
 
 
 class CalibrationParameterValueSet(ARElement):
@@ -2737,7 +2801,44 @@ class IdsDesign(ARElement):
 
 
 class LifeCycleStateDefinitionGroup(ARElement):
-    pass
+    """
+    This meta class represents the ability to define the states and properties of one particular life cycle. Tags: atp.recommendedPackage=LifeCycleStateDefintionGroups
+    """
+
+    # LifeCycleStateDefinitionGroup method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.1, p.388
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createLcState    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLcStates      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Describes a single life cycle state of this life cycle state definition group.
+        self.lcStates: List[LifeCycleState] = []
+
+    def createLcState(self, short_name: str) -> LifeCycleState:
+        """
+        Creates a LifeCycleState of this life cycle state definition group with the given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new LifeCycleState
+
+        Returns:
+            The created (or existing) LifeCycleState
+        """
+        if not self.IsElementExists(short_name, LifeCycleState):
+            state = LifeCycleState(self, short_name)
+            self.addElement(state)
+            self.lcStates.append(state)
+        return self.getElement(short_name, LifeCycleState)
+
+    def getLcStates(self) -> List[LifeCycleState]:
+        """
+        Describes a single life cycle state of this life cycle state definition group.
+        """
+        return self.lcStates
 
 
 class PhysicalDimensionMappingSet(ARElement):
@@ -2773,8 +2874,4 @@ class SecurityEventDefinition(ARElement):
 
 
 class SwAxisType(ARElement):
-    pass
-
-
-class ViewMapSet(ARElement):
     pass

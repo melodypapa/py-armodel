@@ -12,7 +12,8 @@ class Field(AutosarDataPrototype, VariationPointCapable):
     """
 
     # Field method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf, Table B.9, pp.44-45 (R23-11; body renders above the caption line, caption on p.45)
+    # Spec: AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf, Table B.9, pp.45 (R23-11; body renders above the caption line, caption on p.45)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getHasGetter    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

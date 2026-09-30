@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
+    LifeCycleState,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
@@ -359,6 +360,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -1088,6 +1092,14 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between AclScopeEnum literal values and their XML element text
+#: (AR:ACL-SCOPE-ENUM--SIMPLE).
+ACL_SCOPE_XML_MAP = {
+    "dependant": "DEPENDANT",
+    "descendant": "DESCENDANT",
+    "explicit": "EXPLICIT",
 }
 
 #: Mapping between SwImplPolicyEnum literal values and their XML element text
@@ -7142,6 +7154,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "BSW-VARIABLE-ACCESS")
             self.writeReferrable(child_element, access)
             self.setChildElementOptionalRefType(child_element, "ACCESSED-VARIABLE-REF", access.getAccessedVariableRef())
+            context_limitations = access.getContextLimitationRefs()
+            if len(context_limitations) > 0:
+                refs_element = ET.SubElement(child_element, "CONTEXT-LIMITATION-REFS")
+                for ref in context_limitations:
+                    self.setChildElementOptionalRefType(refs_element, "CONTEXT-LIMITATION-REF", ref)
 
     def writeBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getDataSendPoints()
@@ -7590,6 +7607,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setBswExclusiveAreaPolicy(self, element: ET.Element, policy: BswExclusiveAreaPolicy):
         child_element = ET.SubElement(element, "BSW-EXCLUSIVE-AREA-POLICY")
+        self.writeBswApiOptions(child_element, policy)
         self.setChildElementOptionalLiteral(child_element, "API-PRINCIPLE", policy.getApiPrinciple())
         self.setChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
         self.writeVariationPointCapable(child_element, policy)
@@ -14247,6 +14265,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBuildActionManifest(element, ar_element)
         elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
+        elif isinstance(ar_element, AclPermission):
+            self.writeAclPermission(element, ar_element)
+        elif isinstance(ar_element, AclObjectSet):
+            self.writeAclObjectSet(element, ar_element)
+        elif isinstance(ar_element, AclOperation):
+            self.writeAclOperation(element, ar_element)
+        elif isinstance(ar_element, AclRole):
+            self.writeAclRole(element, ar_element)
+        elif isinstance(ar_element, LifeCycleStateDefinitionGroup):
+            self.writeLifeCycleStateDefinitionGroup(element, ar_element)
+        elif isinstance(ar_element, ViewMapSet):
+            self.writeViewMapSet(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14776,6 +14806,169 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for global_element in global_elements:
                         self.setChildElementOptionalLiteral(elements_tag, "GLOBAL-ELEMENT", global_element)
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
+
+    def writeAclPermission(self, element: ET.Element, acl_permission: AclPermission):
+        if acl_permission is not None:
+            self.logger.debug("Write AclPermission <%s>" % acl_permission.getShortName())
+            child_element = ET.SubElement(element, "ACL-PERMISSION")
+            self.writeIdentifiable(child_element, acl_permission)
+            acl_contexts = acl_permission.getAclContexts()
+            if len(acl_contexts) > 0:
+                contexts_tag = ET.SubElement(child_element, "ACL-CONTEXTS")
+                for acl_context in acl_contexts:
+                    context_tag = ET.SubElement(contexts_tag, "ACL-CONTEXT")
+                    context_tag.text = acl_context.getValue()
+            acl_object_refs = acl_permission.getAclObjectRefs()
+            if len(acl_object_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-OBJECT-REFS")
+                for ref in acl_object_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-OBJECT-REF", ref)
+            acl_operation_refs = acl_permission.getAclOperationRefs()
+            if len(acl_operation_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-OPERATION-REFS")
+                for ref in acl_operation_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-OPERATION-REF", ref)
+            acl_role_refs = acl_permission.getAclRoleRefs()
+            if len(acl_role_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-ROLE-REFS")
+                for ref in acl_role_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-ROLE-REF", ref)
+            acl_scope = acl_permission.getAclScope()
+            if acl_scope is not None:
+                token = ACL_SCOPE_XML_MAP.get(acl_scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.getValue())
+                else:
+                    scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
+                    scope_tag.text = token
+
+    def writeAclObjectSet(self, element: ET.Element, acl_object_set: AclObjectSet):
+        if acl_object_set is not None:
+            self.logger.debug("Write AclObjectSet <%s>" % acl_object_set.getShortName())
+            child_element = ET.SubElement(element, "ACL-OBJECT-SET")
+            self.writeIdentifiable(child_element, acl_object_set)
+            acl_object_classes = acl_object_set.getAclObjectClasses()
+            if len(acl_object_classes) > 0:
+                classes_tag = ET.SubElement(child_element, "ACL-OBJECT-CLASSS")
+                for acl_object_class in acl_object_classes:
+                    class_tag = ET.SubElement(classes_tag, "ACL-OBJECT-CLASS")
+                    class_tag.text = acl_object_class.getValue()
+            acl_scope = acl_object_set.getAclScope()
+            if acl_scope is not None:
+                token = ACL_SCOPE_XML_MAP.get(acl_scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.getValue())
+                else:
+                    scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
+                    scope_tag.text = token
+            self.setChildElementOptionalRefType(child_element, "COLLECTION-REF", acl_object_set.getCollectionRef())
+            blueprint_refs = acl_object_set.getDerivedFromBlueprintRefs()
+            if len(blueprint_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "DERIVED-FROM-BLUEPRINT-REFS")
+                for ref in blueprint_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "DERIVED-FROM-BLUEPRINT-REF", ref)
+            engineering_objects = acl_object_set.getEngineeringObjects()
+            if len(engineering_objects) > 0:
+                objects_tag = ET.SubElement(child_element, "ENGINEERING-OBJECTS")
+                for engineering_object in engineering_objects:
+                    if isinstance(engineering_object, AutosarEngineeringObject):
+                        self.writeAutosarEngineeringObject(objects_tag, engineering_object)
+                    else:
+                        self.notImplemented("Unsupported EngineeringObject <%s>" % type(engineering_object))
+            object_definition_refs = acl_object_set.getObjectDefinitionRefs()
+            if len(object_definition_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "OBJECT-DEFINITION-REFS")
+                for ref in object_definition_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "OBJECT-DEFINITION-REF", ref)
+            object_refs = acl_object_set.getObjectRefs()
+            if len(object_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "OBJECT-REFS")
+                for ref in object_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "OBJECT-REF", ref)
+
+    def writeAclOperation(self, element: ET.Element, acl_operation: AclOperation):
+        if acl_operation is not None:
+            self.logger.debug("Write AclOperation <%s>" % acl_operation.getShortName())
+            child_element = ET.SubElement(element, "ACL-OPERATION")
+            self.writeIdentifiable(child_element, acl_operation)
+            implied_operation_refs = acl_operation.getImpliedOperationRefs()
+            if len(implied_operation_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "IMPLIED-OPERATION-REFS")
+                for ref in implied_operation_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "IMPLIED-OPERATION-REF", ref)
+
+    def writeAclRole(self, element: ET.Element, acl_role: AclRole):
+        if acl_role is not None:
+            self.logger.debug("Write AclRole <%s>" % acl_role.getShortName())
+            child_element = ET.SubElement(element, "ACL-ROLE")
+            self.writeIdentifiable(child_element, acl_role)
+            self.setChildElementOptionalUriString(child_element, "LDAP-URL", acl_role.getLdapUrl())
+
+    def writeLifeCycleState(self, element: ET.Element, lc_state: LifeCycleState):
+        if lc_state is not None:
+            child_element = ET.SubElement(element, "LIFE-CYCLE-STATE")
+            self.writeIdentifiable(child_element, lc_state)
+
+    def writeLifeCycleStateDefinitionGroupLcStates(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        lc_states = group.getLcStates()
+        if len(lc_states) > 0:
+            states_tag = ET.SubElement(element, "LC-STATES")
+            for lc_state in lc_states:
+                if isinstance(lc_state, LifeCycleState):
+                    self.writeLifeCycleState(states_tag, lc_state)
+                else:
+                    self.notImplemented("Unsupported LifeCycleState <%s>" % type(lc_state))
+
+    def writeLifeCycleStateDefinitionGroup(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        if group is not None:
+            self.logger.debug("Write LifeCycleStateDefinitionGroup <%s>" % group.getShortName())
+            child_element = ET.SubElement(element, "LIFE-CYCLE-STATE-DEFINITION-GROUP")
+            self.writeIdentifiable(child_element, group)
+            self.writeLifeCycleStateDefinitionGroupLcStates(child_element, group)
+
+    def writeViewMap(self, element: ET.Element, view_map: ViewMap):
+        if view_map is not None:
+            self.logger.debug("Write ViewMap <%s>" % view_map.getShortName())
+            child_element = ET.SubElement(element, "VIEW-MAP")
+            self.writeIdentifiable(child_element, view_map)
+            self.setChildElementOptionalIdentifier(child_element, "ROLE", view_map.getRole())
+            first_element_refs = view_map.getFirstElementRefs()
+            if len(first_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FIRST-ELEMENT-REFS")
+                for ref in first_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FIRST-ELEMENT-REF", ref)
+            second_element_refs = view_map.getSecondElementRefs()
+            if len(second_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "SECOND-ELEMENT-REFS")
+                for ref in second_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "SECOND-ELEMENT-REF", ref)
+            first_element_irefs = view_map.getFirstElementIRefs()
+            if len(first_element_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "FIRST-ELEMENT-INSTANCE-IREFS")
+                for instance_ref in first_element_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "FIRST-ELEMENT-INSTANCE-IREF", instance_ref)
+            second_element_irefs = view_map.getSecondElementIRefs()
+            if len(second_element_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "SECOND-ELEMENT-INSTANCE-IREFS")
+                for instance_ref in second_element_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "SECOND-ELEMENT-INSTANCE-IREF", instance_ref)
+
+    def writeViewMapSetViewMaps(self, element: ET.Element, view_map_set: ViewMapSet):
+        view_maps = view_map_set.getViewMaps()
+        if len(view_maps) > 0:
+            maps_tag = ET.SubElement(element, "VIEW-MAPS")
+            for view_map in view_maps:
+                if isinstance(view_map, ViewMap):
+                    self.writeViewMap(maps_tag, view_map)
+                else:
+                    self.notImplemented("Unsupported ViewMap <%s>" % type(view_map))
+
+    def writeViewMapSet(self, element: ET.Element, view_map_set: ViewMapSet):
+        if view_map_set is not None:
+            self.logger.debug("Write ViewMapSet <%s>" % view_map_set.getShortName())
+            child_element = ET.SubElement(element, "VIEW-MAP-SET")
+            self.writeIdentifiable(child_element, view_map_set)
+            self.writeViewMapSetViewMaps(child_element, view_map_set)
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

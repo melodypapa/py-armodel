@@ -208,6 +208,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import *  # noqa: F403

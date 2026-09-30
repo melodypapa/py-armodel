@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
+    LifeCycleState,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
@@ -476,6 +477,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
@@ -490,6 +494,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AclScopeEnum,
     AnyServiceInstanceId,
     AnyVersionString,
     ARLiteral,
@@ -1237,6 +1242,14 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between AclScopeEnum literal values and their XML element text
+#: (AR:ACL-SCOPE-ENUM--SIMPLE).
+ACL_SCOPE_XML_MAP = {
+    "dependant": "DEPENDANT",
+    "descendant": "DESCENDANT",
+    "explicit": "EXPLICIT",
 }
 
 #: Mapping between SwImplPolicyEnum literal values and their XML element text
@@ -4149,6 +4162,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswVariableAccess(self, element: ET.Element, access: BswVariableAccess):
         self.readReferrable(element, access)
         access.setAccessedVariableRef(self.getChildElementOptionalRefType(element, "ACCESSED-VARIABLE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
+            access.addContextLimitationRef(ref)
 
     def readBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "DATA-SEND-POINTS/*"):
@@ -4488,6 +4503,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getBswExclusiveAreaPolicy(self, element: ET.Element) -> BswExclusiveAreaPolicy:
         policy = BswExclusiveAreaPolicy()
+        self.readBswApiOptions(element, policy)
         policy.setApiPrinciple(self.getChildElementOptionalLiteral(element, "API-PRINCIPLE"))
         policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF"))
         self.readVariationPointCapable(element, policy)
@@ -14922,6 +14938,24 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MC-GROUP":
                 group = parent.createMcGroup(self.getShortName(child_element))
                 self.readMcGroup(child_element, group)
+            elif tag_name == "ACL-PERMISSION":
+                acl_permission = parent.createAclPermission(self.getShortName(child_element))
+                self.readAclPermission(child_element, acl_permission)
+            elif tag_name == "ACL-OBJECT-SET":
+                acl_object_set = parent.createAclObjectSet(self.getShortName(child_element))
+                self.readAclObjectSet(child_element, acl_object_set)
+            elif tag_name == "ACL-OPERATION":
+                acl_operation = parent.createAclOperation(self.getShortName(child_element))
+                self.readAclOperation(child_element, acl_operation)
+            elif tag_name == "ACL-ROLE":
+                acl_role = parent.createAclRole(self.getShortName(child_element))
+                self.readAclRole(child_element, acl_role)
+            elif tag_name == "LIFE-CYCLE-STATE-DEFINITION-GROUP":
+                group = parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element))
+                self.readLifeCycleStateDefinitionGroup(child_element, group)
+            elif tag_name == "VIEW-MAP-SET":
+                view_map_set = parent.createViewMapSet(self.getShortName(child_element))
+                self.readViewMapSet(child_element, view_map_set)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -15307,6 +15341,121 @@ class ARXMLParser(AbstractARXMLParser):
                 base.addGlobalElement(literal)
             base.setPackageRef(self.getChildElementOptionalRefType(child_element, "PACKAGE-REF"))
             parent.addReferenceBase(base)
+
+    def readAclPermission(self, element: ET.Element, acl_permission: AclPermission) -> AclPermission:
+        self.logger.debug("Read AclPermission <%s>" % acl_permission.getShortName())
+        self.readIdentifiable(element, acl_permission)
+        for child_element in self.findall(element, "ACL-CONTEXTS/ACL-CONTEXT"):
+            acl_permission.addAclContext(NameToken().setValue(child_element.text))
+        for object_ref in self.getChildElementRefTypeList(element, "ACL-OBJECT-REFS/ACL-OBJECT-REF"):
+            acl_permission.addAclObjectRef(object_ref)
+        for operation_ref in self.getChildElementRefTypeList(element, "ACL-OPERATION-REFS/ACL-OPERATION-REF"):
+            acl_permission.addAclOperationRef(operation_ref)
+        for role_ref in self.getChildElementRefTypeList(element, "ACL-ROLE-REFS/ACL-ROLE-REF"):
+            acl_permission.addAclRoleRef(role_ref)
+        acl_scope = self.find(element, "ACL-SCOPE")
+        if acl_scope is not None:
+            literal = None
+            for literal_name, token in ACL_SCOPE_XML_MAP.items():
+                if token == acl_scope.text:
+                    literal = literal_name
+                    break
+            if literal is not None:
+                acl_permission.setAclScope(AclScopeEnum().setValue(literal))
+            else:
+                self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.text)
+        return acl_permission
+
+    def readAclObjectSet(self, element: ET.Element, acl_object_set: AclObjectSet) -> AclObjectSet:
+        self.logger.debug("Read AclObjectSet <%s>" % acl_object_set.getShortName())
+        self.readIdentifiable(element, acl_object_set)
+        for child_element in self.findall(element, "ACL-OBJECT-CLASSS/ACL-OBJECT-CLASS"):
+            literal = ReferrableSubtypesEnum()
+            literal.setValue(child_element.text)
+            acl_object_set.addAclObjectClass(literal)
+        acl_scope = self.find(element, "ACL-SCOPE")
+        if acl_scope is not None:
+            literal = None
+            for literal_name, token in ACL_SCOPE_XML_MAP.items():
+                if token == acl_scope.text:
+                    literal = literal_name
+                    break
+            if literal is not None:
+                acl_object_set.setAclScope(AclScopeEnum().setValue(literal))
+            else:
+                self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.text)
+        acl_object_set.setCollectionRef(self.getChildElementOptionalRefType(element, "COLLECTION-REF"))
+        for blueprint_ref in self.getChildElementRefTypeList(element, "DERIVED-FROM-BLUEPRINT-REFS/DERIVED-FROM-BLUEPRINT-REF"):
+            acl_object_set.addDerivedFromBlueprintRef(blueprint_ref)
+        for child_element in self.findall(element, "ENGINEERING-OBJECTS/AUTOSAR-ENGINEERING-OBJECT"):
+            acl_object_set.addEngineeringObject(self.getAutosarEngineeringObject(child_element))
+        for object_definition_ref in self.getChildElementRefTypeList(element, "OBJECT-DEFINITION-REFS/OBJECT-DEFINITION-REF"):
+            acl_object_set.addObjectDefinitionRef(object_definition_ref)
+        for object_ref in self.getChildElementRefTypeList(element, "OBJECT-REFS/OBJECT-REF"):
+            acl_object_set.addObjectRef(object_ref)
+        return acl_object_set
+
+    def readAclOperation(self, element: ET.Element, acl_operation: AclOperation) -> AclOperation:
+        self.logger.debug("Read AclOperation <%s>" % acl_operation.getShortName())
+        self.readIdentifiable(element, acl_operation)
+        for implied_operation_ref in self.getChildElementRefTypeList(element, "IMPLIED-OPERATION-REFS/IMPLIED-OPERATION-REF"):
+            acl_operation.addImpliedOperationRef(implied_operation_ref)
+        return acl_operation
+
+    def readAclRole(self, element: ET.Element, acl_role: AclRole) -> AclRole:
+        self.logger.debug("Read AclRole <%s>" % acl_role.getShortName())
+        self.readIdentifiable(element, acl_role)
+        acl_role.setLdapUrl(self.getChildElementOptionalUriString(element, "LDAP-URL"))
+        return acl_role
+
+    def readLifeCycleState(self, element: ET.Element, lc_state: LifeCycleState) -> LifeCycleState:
+        self.logger.debug("Read LifeCycleState <%s>" % lc_state.getShortName())
+        self.readIdentifiable(element, lc_state)
+        return lc_state
+
+    def readLifeCycleStateDefinitionGroupLcStates(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        for child_element in self.findall(element, "LC-STATES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "LIFE-CYCLE-STATE":
+                lc_state = group.createLcState(self.getShortName(child_element))
+                self.readLifeCycleState(child_element, lc_state)
+            else:
+                self.notImplemented("Unsupported LifeCycleState <%s>" % tag_name)
+
+    def readLifeCycleStateDefinitionGroup(self, element: ET.Element, group: LifeCycleStateDefinitionGroup) -> LifeCycleStateDefinitionGroup:
+        self.logger.debug("Read LifeCycleStateDefinitionGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        self.readLifeCycleStateDefinitionGroupLcStates(element, group)
+        return group
+
+    def readViewMap(self, element: ET.Element, view_map: ViewMap) -> ViewMap:
+        self.logger.debug("Read ViewMap <%s>" % view_map.getShortName())
+        self.readIdentifiable(element, view_map)
+        view_map.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        for first_element_ref in self.getChildElementRefTypeList(element, "FIRST-ELEMENT-REFS/FIRST-ELEMENT-REF"):
+            view_map.addFirstElementRef(first_element_ref)
+        for second_element_ref in self.getChildElementRefTypeList(element, "SECOND-ELEMENT-REFS/SECOND-ELEMENT-REF"):
+            view_map.addSecondElementRef(second_element_ref)
+        for child_element in self.findall(element, "FIRST-ELEMENT-INSTANCE-IREFS/FIRST-ELEMENT-INSTANCE-IREF"):
+            view_map.addFirstElementIRef(self.getAnyInstanceRefFromElement(child_element))
+        for child_element in self.findall(element, "SECOND-ELEMENT-INSTANCE-IREFS/SECOND-ELEMENT-INSTANCE-IREF"):
+            view_map.addSecondElementIRef(self.getAnyInstanceRefFromElement(child_element))
+        return view_map
+
+    def readViewMapSetViewMaps(self, element: ET.Element, view_map_set: ViewMapSet):
+        for child_element in self.findall(element, "VIEW-MAPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VIEW-MAP":
+                view_map = view_map_set.createViewMap(self.getShortName(child_element))
+                self.readViewMap(child_element, view_map)
+            else:
+                self.notImplemented("Unsupported ViewMap <%s>" % tag_name)
+
+    def readViewMapSet(self, element: ET.Element, view_map_set: ViewMapSet) -> ViewMapSet:
+        self.logger.debug("Read ViewMapSet <%s>" % view_map_set.getShortName())
+        self.readIdentifiable(element, view_map_set)
+        self.readViewMapSetViewMaps(element, view_map_set)
+        return view_map_set
 
     def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
