@@ -420,16 +420,30 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `DateTime` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.48, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.48 (leading-caption page-split, p.109 via pdf_page.py);
+      Note verbatim in docstring (kept r-string for the pattern backslashes) + Tags;
+      zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestDateTime added (init + setValue with a spec-format timestamp) —
+      passes immediately (no Red observable, nothing to fix).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.48 Note verbatim (line-wrapped, Examples
+      block as rendered) + Tags; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; DATE literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.48, p.109`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [ ] Step 1 — Sync members & description from spec

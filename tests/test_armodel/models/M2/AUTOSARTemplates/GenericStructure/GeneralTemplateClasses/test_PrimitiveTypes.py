@@ -1634,3 +1634,18 @@ class TestCategoryString:
     def test_set_value(self):
         obj = CategoryString().setValue("MyCategory")
         assert obj.getValue() == "MyCategory"
+
+
+class TestDateTime:
+    """
+    Test class for DateTime functionality (Table 4.48).
+    """
+
+    def test_initialization(self):
+        obj = DateTime()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = DateTime().setValue("2009-07-23T14:38:00+01:00")
+        assert obj.getValue() == "2009-07-23T14:38:00+01:00"
