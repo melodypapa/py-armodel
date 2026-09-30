@@ -1291,7 +1291,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeRequestTypeMap`                                    | [x] Done    | 2b824ca5f8                               | Group11          |
 | `ModeSwitchEventTriggeredActivity`                      | [x] Done    | 8fa7710539                               | Group10          |
 | `ModeSwitchInterface`                                   | [ ] Implemented| N/A                                      | Group27          |
-| `ModeSwitchPoint`                                       | [x] Done    | N/A                                      | Group12          |
+| `ModeSwitchPoint`                                       | [x] Done    | 1037222ee7                               | Group12          |
 | `ModeSwitchReceiverComSpec`                             | [x] Done    | 67324d240c                               | Group10          |
 | `ModeSwitchSenderComSpec`                               | [x] Done    | 3fbf07cc78                               | Group10          |
 | `ModeSwitchedAckEvent`                                  | [ ] Implemented| N/A                                      | Group28          |
