@@ -127,7 +127,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum, ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
@@ -493,6 +493,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticDataElement,
     DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
@@ -10384,8 +10385,24 @@ class ARXMLParser(AbstractARXMLParser):
         if len(data_elements) > 0:
             if len(data_elements) > 1:
                 self.logger.warning("DATA-ELEMENTS carries %d items; the PDF multiplicity of DiagnosticAbstractParameter.dataElement is 0..1 — extra items ignored" % len(data_elements))
-            parameter.createDataElement(self.getShortName(data_elements[0]))
+            data_element = parameter.createDataElement(self.getShortName(data_elements[0]))
+            self.readDiagnosticDataElement(data_elements[0], data_element)
         parameter.setParameterSize(self.getChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE"))
+
+    def readDiagnosticDataElement(self, element: ET.Element, data_element: DiagnosticDataElement):
+        self.readIdentifiable(element, data_element)
+        array_size_semantics = self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS")
+        if array_size_semantics is not None:
+            data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(array_size_semantics.getValue()))
+        data_element.setMaxNumberOfElements(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ELEMENTS"))
+        data_element.setScalingInfoSize(self.getChildElementOptionalPositiveInteger(element, "SCALING-INFO-SIZE"))
+        data_element.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(data_element, VariationPointCapable):
+                data_element.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         self.readDiagnosticAbstractParameter(element, parameter)

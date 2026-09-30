@@ -370,6 +370,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticDataElement,
     DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
@@ -13548,9 +13549,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         data_element = parameter.getDataElement()
         if data_element is not None:
             data_elements_tag = ET.SubElement(element, "DATA-ELEMENTS")
-            data_element_element = ET.SubElement(data_elements_tag, "DIAGNOSTIC-DATA-ELEMENT")
-            self.writeReferrable(data_element_element, data_element)
+            self.writeDiagnosticDataElement(data_elements_tag, data_element)
         self.setChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE", parameter.getParameterSize())
+
+    def writeDiagnosticDataElement(self, element: ET.Element, data_element: DiagnosticDataElement):
+        self.logger.debug("Write DiagnosticDataElement %s" % data_element.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-ELEMENT")
+        self.writeIdentifiable(child_element, data_element, write_variation_point=False)
+        self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", data_element.getArraySizeSemantics())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS", data_element.getMaxNumberOfElements())
+        self.setChildElementOptionalPositiveInteger(child_element, "SCALING-INFO-SIZE", data_element.getScalingInfoSize())
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_element.getSwDataDefProps())
+        self.writeVariationPoint(child_element, data_element.getVariationPoint())
 
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")

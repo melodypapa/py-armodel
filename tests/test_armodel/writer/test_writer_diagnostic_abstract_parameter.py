@@ -8,8 +8,8 @@ the DIAGNOSTIC-PARAMETER complexType l.40615 serializes the group before IDENT/
 SUPPORT-INFO/VARIATION-POINT, the DIAGNOSTIC-PARAMETER-ELEMENT complexType
 l.40656 between the identity groups and ARRAY-SIZE/SUB-ELEMENTS). The PDF
 multiplicity of dataElement is 0..1 — the wrapper is emitted only when the field
-is set, with a single DIAGNOSTIC-DATA-ELEMENT item written identity-only until its
-own sync (queued Table 4.9 within this batch).
+is set, with a single DIAGNOSTIC-DATA-ELEMENT item dispatched to
+writeDiagnosticDataElement since the Table 4.9 sync.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_abstract_parameter.py
 """

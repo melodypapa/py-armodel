@@ -6,9 +6,11 @@ in the AUTOSAR GenericStructure module.
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticDataElement,
     DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
@@ -19,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
@@ -901,3 +904,117 @@ class TestDiagnosticParameterElement:
         factory_hints = typing.get_type_hints(DiagnosticParameterElement.createSubElement)
         assert factory_hints.get("short_name") is str
         assert factory_hints.get("return") is DiagnosticParameterElement
+
+
+class TestDiagnosticDataElement:
+    """
+    Test class for DiagnosticDataElement functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.9, p.41
+    """
+
+    def _make_obj(self) -> DiagnosticDataElement:
+        parent = AUTOSAR.getInstance()
+        return DiagnosticDataElement(parent, "De1")
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticDataElement is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "De1"
+        assert obj.getArraySizeSemantics() is None
+        assert obj.getMaxNumberOfElements() is None
+        assert obj.getScalingInfoSize() is None
+        assert obj.getSwDataDefProps() is None
+        assert obj.getVariationPoint() is None
+
+    def test_get_set_array_size_semantics(self):
+        """
+        Round-trips arraySizeSemantics; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
+        result = obj.setArraySizeSemantics(value)
+        assert result is obj  # method chaining
+        assert obj.getArraySizeSemantics() is value
+
+        obj.setArraySizeSemantics(None)
+        assert obj.getArraySizeSemantics() is value  # None is a no-op
+
+    def test_get_set_max_number_of_elements(self):
+        """
+        Round-trips maxNumberOfElements; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("4")
+        result = obj.setMaxNumberOfElements(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfElements() is value
+        assert obj.getMaxNumberOfElements().getValue() == 4
+
+        obj.setMaxNumberOfElements(None)
+        assert obj.getMaxNumberOfElements() is value  # None is a no-op
+
+    def test_get_set_scaling_info_size(self):
+        """
+        Round-trips scalingInfoSize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("8")
+        result = obj.setScalingInfoSize(value)
+        assert result is obj  # method chaining
+        assert obj.getScalingInfoSize() is value
+
+        obj.setScalingInfoSize(None)
+        assert obj.getScalingInfoSize() is value  # None is a no-op
+
+    def test_get_set_sw_data_def_props(self):
+        """
+        Round-trips swDataDefProps; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = SwDataDefProps()
+        result = obj.setSwDataDefProps(value)
+        assert result is obj  # method chaining
+        assert obj.getSwDataDefProps() is value
+
+        obj.setSwDataDefProps(None)
+        assert obj.getSwDataDefProps() is value  # None is a no-op
+
+    def test_variation_point_mixin(self):
+        """
+        Test the VariationPointCapable mixin accessors (VP-capable per Rule 0020: XSD group DIAGNOSTIC-DATA-ELEMENT carries VARIATION-POINT, Applicable for DiagnosticAbstractParameter.dataElement).
+        """
+        obj = self._make_obj()
+
+        assert obj.getVariationPoint() is None
+
+    def test_get_set_max_number_of_elements_type_hints(self):
+        """
+        Pin the PositiveInteger accessor annotations to the spec type (Rule 0003).
+        (arraySizeSemantics / swDataDefProps are TYPE_CHECKING cross-package names —
+        nothing pins those two annotations at runtime; see the class checklist.)
+        """
+        import typing
+
+        getter_hints = typing.get_type_hints(DiagnosticDataElement.getMaxNumberOfElements)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticDataElement.setMaxNumberOfElements)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticDataElement
+
+        getter_hints = typing.get_type_hints(DiagnosticDataElement.getScalingInfoSize)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticDataElement.setScalingInfoSize)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticDataElement

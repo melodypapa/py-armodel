@@ -735,7 +735,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 - [ ] `DiagnosticAbstractParameter` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.8, p.37
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - note (Step 1): own table = DEXT Table 4.8 (md caption L1004, body L1010-1018); ABSTRACT → ABC + instantiation guard; Base = ARObject → `__init__()`; attrs in displayed row order `bitOffset` (PositiveInteger 0..1), `dataElement` (DiagnosticDataElement 0..1 aggr → `createDataElement(short_name)`/`getDataElement()`; PDF 0..1 kept single per Rule 0001.4 — XSD resolves atpVariation/atpSplitable into the DATA-ELEMENTS wrapper with unbounded choice, absorbed by the helpers, extra items warn), `parameterSize` (PositiveInteger 0..1); NOT VP-capable (own group carries no VARIATION-POINT — the capability lands on the Type class DiagnosticDataElement per Rule 0020); constr_1790 + constr_1470 appended to class docstring.
-  - note (Step 6): reusable `readDiagnosticAbstractParameter`/`writeDiagnosticAbstractParameter` group helpers (Rule 0001.7); B01 debt resolved — readDiagnosticParameter/writeDiagnosticParameter now call them (base group serialized before IDENT/SUPPORT-INFO/VARIATION-POINT per XSD complexType L40615); DiagnosticParameterElement reader/writer call them after readIdentifiable/writeIdentifiable (complexType L40656 group order); dataElement child read/written identity-only until Table 4.9 lands in this batch; `__init__` calls ARObject.__init__ directly (cooperative super would hit Identifiable.__init__ under the DPE MRO); PositiveInteger via bottom-of-module import (noqa E402), DiagnosticDataElement via TYPE_CHECKING + function-local import (Rule 0005 deviations recorded).
+  - note (Step 6): reusable `readDiagnosticAbstractParameter`/`writeDiagnosticAbstractParameter` group helpers (Rule 0001.7); B01 debt resolved — readDiagnosticParameter/writeDiagnosticParameter now call them (base group serialized before IDENT/SUPPORT-INFO/VARIATION-POINT per XSD complexType L40615); DiagnosticParameterElement reader/writer call them after readIdentifiable/writeIdentifiable (complexType L40656 group order); dataElement child's identity-only serialization resolved by the Table 4.9 sync in this batch; `__init__` calls ARObject.__init__ directly (cooperative super would hit Identifiable.__init__ under the DPE MRO); PositiveInteger via bottom-of-module import (noqa E402), DiagnosticDataElement via TYPE_CHECKING + function-local import (Rule 0005 deviations recorded).
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -748,15 +748,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDataElement` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.9, p.41
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.9 (md caption L1116, body L1122-1130); Base most-derived = `Identifiable`; attrs in displayed row order `arraySizeSemantics` (shared ArraySizeSemanticsEnum 0..1), `maxNumberOfElements` (PositiveInteger 0..1), `scalingInfoSize` (PositiveInteger 0..1), `swDataDefProps` (SwDataDefProps 0..1 aggr, plain ARObject child → set/get pair, shared SW-DATA-DEF-PROPS helpers); VP-capable per Rule 0020 (XSD group L34124 carries VARIATION-POINT "Applicable for: DiagnosticAbstractParameter.dataElement", sequenceOffset=10000 → last) → VariationPointCapable mixin; constr_1394 appended to class docstring.
+  - note (Step 6): reader/writer cover the four attributes + trailing VARIATION-POINT in XSD group order (writeIdentifiable VP suppressed via write_variation_point=False, StackUsage precedent); Table 4.8 debt resolved — readDiagnosticAbstractParameter/writeDiagnosticAbstractParameter DATA-ELEMENTS branch now dispatches full read/writeDiagnosticDataElement with field values; ArraySizeSemanticsEnum/SwDataDefProps are TYPE_CHECKING annotation names (bottom-of-module import explodes the CommonStructure hub mid-bootstrap — Rule 0005 deviation recorded), so those two annotations are not runtime-pinned.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (18 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py::TestDiagnosticDataElement, tests/test_armodel/parser/test_diagnostic_data_element.py, tests/test_armodel/writer/test_writer_diagnostic_data_element.py + full parser/writer unit dirs green); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticContributionSet` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.14, p.57
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

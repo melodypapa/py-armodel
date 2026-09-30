@@ -7,7 +7,7 @@ AUTOSAR_00052.xsd l.31435). The PDF multiplicity of dataElement is 0..1 — the 
 resolves the atpVariation/atpSplitable stereotypes into the DATA-ELEMENTS wrapper
 with an unbounded choice, which the reusable helper absorbs into the single
 optional field (Rule 0001.4; extra items warn). The child DIAGNOSTIC-DATA-ELEMENT
-is read identity-only until its own sync (queued Table 4.9 within this batch).
+items are dispatched to readDiagnosticDataElement since the Table 4.9 sync.
 The group is reached through the concrete subclasses: readDiagnosticParameter
 (Table 4.5) and readDiagnosticParameterElement (Table 4.6).
 
