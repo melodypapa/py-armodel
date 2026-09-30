@@ -2456,3 +2456,42 @@ class TestEcucQuery:
         result = query.setEcucQueryExpression(expression)
         assert result is query
         assert query.getEcucQueryExpression() is expression
+
+
+class TestReferenceDefMemberAnnotations:
+    """
+    Pin the member annotation forms for the reference-def family (batch sync 2026-09-30).
+    """
+
+    def test_ecuc_reference_def_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(EcucReferenceDef.getDestinationRef)["return"] == typing.Optional[RefType]
+        assert typing.get_type_hints(EcucReferenceDef.setDestinationRef)["value"] == typing.Optional[RefType]
+        obj = EcucReferenceDef(None, "RefDef")
+        assert obj.destinationRef is None
+
+    def test_ecuc_uri_reference_def_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(EcucUriReferenceDef.getDestinationUriRef)["return"] == typing.Optional[RefType]
+        assert typing.get_type_hints(EcucUriReferenceDef.setDestinationUriRef)["value"] == typing.Optional[RefType]
+        obj = EcucUriReferenceDef(None, "UriRefDef")
+        assert obj.destinationUriRef is None
+        assert isinstance(obj.setDestinationUriRef(RefType().setValue("/X")), EcucUriReferenceDef)
+
+    def test_ecuc_symbolic_name_reference_def_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(EcucSymbolicNameReferenceDef.getDestinationRef)["return"] == typing.Optional[RefType]
+        assert typing.get_type_hints(EcucSymbolicNameReferenceDef.setDestinationRef)["value"] == typing.Optional[RefType]
+        obj = EcucSymbolicNameReferenceDef(None, "SymRefDef")
+        assert obj.destinationRef is None
+
+    def test_ecuc_container_def_destination_uri_refs_retyped(self):
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucContainerDef
+
+        hints = typing.get_type_hints(EcucContainerDef.addDestinationUriRef)
+        assert hints["value"] == typing.List[RefType] or hints["value"] == typing.Optional[typing.List[RefType]] or "RefType" in str(hints["value"])
