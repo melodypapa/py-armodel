@@ -665,40 +665,30 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `VerbatimStringPlain` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.68, p.115
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [x] `EngineeringObject` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.69, p.160; also CP_TPS_BSWModuleDescriptionTemplate Table 7.6, p.133 — already verified (short-circuit 2026-09-30)
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/EngineeringObject.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.68 (leading-caption page-split, p.115 via pdf_page.py);
+      Note verbatim in docstring; zero attribute rows (sibling VerbatimString carries
+      blueprintValue/xmlSpace — NOT part of this class's table).
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestVerbatimStringPlain pre-existed (init + setValue round-trip) and
+      passes — no Red observable, nothing to fix.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.68 Note verbatim (byte-identical);
+      __init__ has no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; VERBATIM-STRING-PLAIN literal on
+      consumers.
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): 5-column rows gained the release column (Rule 0012.3 gain-on-pass);
+      marker withheld (batch mode).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Annotation` — GeneralAnnotation — R23-11 FO_TPS_GenericStructureTemplate Table 4.72, p.163; also CP_TPS_SoftwareComponentTemplate Table 5.43, p.334 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/Documentation/Annotation.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `CseCodeType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.75, p.165; also CP_TPS_SoftwareComponentTemplate Table 4.15, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [ ] Step 1 — Sync members & description from spec

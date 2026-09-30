@@ -1468,8 +1468,8 @@ class VerbatimStringPlain(ARLiteral):
 
     # VerbatimStringPlain method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.68, p.115
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
