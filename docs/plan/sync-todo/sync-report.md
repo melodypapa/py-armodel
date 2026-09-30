@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 576 | 30.0% |
+| [x] Done | 577 | 30.0% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 212 | 11.0% |
+| [ ] Deferred | 211 | 11.0% |
 | [ ] Implemented | 543 | 28.2% |
 | [ ] Created | 579 | 30.1% |
 | [ ] Pending | 2 | 0.1% |
@@ -1457,7 +1457,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RPortPrototype`                                        | [x] Done    | 2cd6f3c46e                               | Group2           |
 | `RTEEvent`                                              | [x] Done    | f0483d5732                               | Group2           |
-| `RVariableInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RVariableInAtomicSwcInstanceRef`                       | [x] Done    | 74e821ccb8                               | Group11          |
 | `RamBlockStatusControlEnum`                             | [x] Done    | 343d2af672                               | Group10          |
 | `RapidPrototypingScenario`                              | [ ] Created | N/A                                      | Group29          |
 | `ReceiverAnnotation`                                    | [ ] Created | N/A                                      | Group27          |
