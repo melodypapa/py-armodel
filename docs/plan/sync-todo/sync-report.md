@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 580 | 30.2% |
+| [x] Done | 581 | 30.2% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 208 | 10.8% |
+| [ ] Deferred | 207 | 10.8% |
 | [ ] Implemented | 543 | 28.2% |
 | [ ] Created | 579 | 30.1% |
 | [ ] Pending | 2 | 0.1% |
@@ -1270,7 +1270,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MixedContentForVerbatim`                               | [x] Done    | 74549e6a51                               | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed1572                               | Group3           |
 | `MlFormula`                                             | [ ] Implemented| N/A                                      | Group21          |
-| `ModeAccessPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
+| `ModeAccessPoint`                                       | [x] Done    | N/A                                      | Group12          |
 | `ModeAccessPointIdent`                                  | [x] Done    | 918013a6ce                               | Group1           |
 | `ModeActivationKind`                                    | [x] Done    | 1625966930                               | Group11          |
 | `ModeDeclaration`                                       | [x] Done    | e3d79f89ca                               | Group22          |
