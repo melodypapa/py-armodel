@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 581 | 30.2% |
+| [x] Done | 582 | 30.3% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 207 | 10.8% |
+| [ ] Deferred | 206 | 10.7% |
 | [ ] Implemented | 543 | 28.2% |
 | [ ] Created | 579 | 30.1% |
 | [ ] Pending | 2 | 0.1% |
@@ -1291,7 +1291,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeRequestTypeMap`                                    | [x] Done    | 2b824ca5f8                               | Group11          |
 | `ModeSwitchEventTriggeredActivity`                      | [x] Done    | 8fa7710539                               | Group10          |
 | `ModeSwitchInterface`                                   | [ ] Implemented| N/A                                      | Group27          |
-| `ModeSwitchPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
+| `ModeSwitchPoint`                                       | [x] Done    | N/A                                      | Group12          |
 | `ModeSwitchReceiverComSpec`                             | [x] Done    | 67324d240c                               | Group10          |
 | `ModeSwitchSenderComSpec`                               | [x] Done    | 3fbf07cc78                               | Group10          |
 | `ModeSwitchedAckEvent`                                  | [ ] Implemented| N/A                                      | Group28          |

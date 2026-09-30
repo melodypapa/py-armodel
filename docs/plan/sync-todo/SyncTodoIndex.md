@@ -607,7 +607,7 @@ Status: **23/24** completed
 
 ## Group12
 
-Status: **5/15** completed
+Status: **6/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -616,7 +616,7 @@ Status: **5/15** completed
 | `VariableAccess`                     | [x] Done     | 12e743cc9b |
 | `InternalTriggeringPoint`            | [x] Done     | 96033eb3fe |
 | `ModeAccessPoint`                    | [x] Done     | 543d9df4e7 |
-| `ModeSwitchPoint`                    | [ ] Pending* | N/A        |
+| `ModeSwitchPoint`                    | [x] Done     | N/A        |
 | `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
 | `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
 | `DataReceivedEvent`                  | [ ] Pending* | N/A        |
