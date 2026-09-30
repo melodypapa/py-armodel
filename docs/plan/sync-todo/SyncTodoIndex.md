@@ -576,19 +576,19 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **1/24** completed
+Status: **10/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
-| `ModeActivationKind`                   | [ ] Pending* | N/A        |
-| `ModeDeclarationGroupPrototypeMapping` | [ ] Pending* | N/A        |
-| `ModeRequestTypeMap`                   | [ ] Pending* | N/A        |
-| `ClientServerApplicationErrorMapping`  | [ ] Pending* | N/A        |
-| `ClientServerOperationMapping`         | [ ] Pending* | N/A        |
-| `ClientServerInterfaceMapping`         | [ ] Pending* | N/A        |
-| `ModeInterfaceMapping`                 | [ ] Pending* | 8832375592 |
-| `VariableAndParameterInterfaceMapping` | [ ] Pending* | de2d5fe918 |
-| `Field`                                | [ ] Pending* | 413d1a4b62 |
+| `ModeActivationKind`                   | [x] Done     | 1625966930 |
+| `ModeDeclarationGroupPrototypeMapping` | [x] Done     | 96e9f073a2 |
+| `ModeRequestTypeMap`                   | [x] Done     | 2b824ca5f8 |
+| `ClientServerApplicationErrorMapping`  | [x] Done     | bc933575fd |
+| `ClientServerOperationMapping`         | [x] Done     | e301de1df9 |
+| `ClientServerInterfaceMapping`         | [x] Done     | cae5a51c92 |
+| `ModeInterfaceMapping`                 | [x] Done     | a598489544 |
+| `VariableAndParameterInterfaceMapping` | [x] Done     | 0e87cc4bb9 |
+| `Field`                                | [x] Done     | d31cad4d7e |
 | `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f90 |
 | `AbstractRequiredPortPrototype`        | [ ] Pending* | fb7a835f90 |
 | `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb8 |

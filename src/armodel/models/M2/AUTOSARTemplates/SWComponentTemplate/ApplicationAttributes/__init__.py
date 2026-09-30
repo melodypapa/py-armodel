@@ -634,9 +634,9 @@ class DelegatedPortAnnotation(GeneralAnnotation):
         return self
 
 
-__all__ = [    "SenderAnnotation",
+__all__ = [
+    "SenderAnnotation",
     "ReceiverAnnotation",
-
     "DataLimitKindEnum",
     "FilterDebouncingEnum",
     "ProcessingKindEnum",

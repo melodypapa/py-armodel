@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 554 | 28.8% |
+| [x] Done | 563 | 29.3% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 210 | 10.9% |
+| [ ] Deferred | 201 | 10.5% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -286,13 +286,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ClientIdDefinitionSet`                                 | [x] Done    | 01759771dd                               | Group5           |
 | `ClientIdRange`                                         | [x] Done    | fce66955f5                               | Group5           |
 | `ClientServerAnnotation`                                | [ ] Implemented| N/A                                      | Group27          |
-| `ClientServerApplicationErrorMapping`                   | [ ] Deferred| N/A                                      | Group11          |
+| `ClientServerApplicationErrorMapping`                   | [x] Done    | bc933575fd                               | Group11          |
 | `ClientServerInterface`                                 | [ ] Implemented| N/A                                      | Group27          |
-| `ClientServerInterfaceMapping`                          | [ ] Deferred| N/A                                      | Group11          |
+| `ClientServerInterfaceMapping`                          | [x] Done    | cae5a51c92                               | Group11          |
 | `ClientServerOperation`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `ClientServerOperationBlueprintMapping`                 | [ ] Created | N/A                                      | Group36          |
 | `ClientServerOperationComProps`                         | [ ] Created | N/A                                      | Group34          |
-| `ClientServerOperationMapping`                          | [ ] Deferred| N/A                                      | Group11          |
+| `ClientServerOperationMapping`                          | [x] Done    | e301de1df9                               | Group11          |
 | `ClientServerToSignalMapping`                           | [ ] Created | N/A                                      | Group31          |
 | `Code`                                                  | [x] Done    | 9f470606b5                               | Group1           |
 | `CollectableElement`                                    | [x] Done    | 3b31b7c402                               | Group1           |
@@ -934,7 +934,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FMFeatureSelectionState`                               | [ ] Created | N/A                                      | Group36          |
 | `FMFormulaByFeaturesAndAttributes`                      | [x] Done    | d69232bdf4                               | Group8           |
 | `FMFormulaByFeaturesAndSwSystemconsts`                  | [x] Done    | d69232bdf4                               | Group8           |
-| `Field`                                                 | [ ] Deferred| 413d1a4b62                               | Group11          |
+| `Field`                                                 | [x] Done    | d31cad4d7e                               | Group11          |
 | `FileInfoComment`                                       | [x] Done    | c62e1c8943                               | Group1           |
 | `FilterDebouncingEnum`                                  | [ ] Implemented| N/A                                      | Group27          |
 | `FirewallActionEnum`                                    | [x] Done    | ab2daa7785                               | Group3           |
@@ -1270,11 +1270,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MlFormula`                                             | [ ] Implemented| N/A                                      | Group21          |
 | `ModeAccessPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
 | `ModeAccessPointIdent`                                  | [x] Done    | 918013a6ce                               | Group1           |
-| `ModeActivationKind`                                    | [ ] Deferred| N/A                                      | Group11          |
+| `ModeActivationKind`                                    | [x] Done    | 1625966930                               | Group11          |
 | `ModeDeclaration`                                       | [x] Done    | e3d79f89ca                               | Group22          |
 | `ModeDeclarationGroup`                                  | [x] Done    | e3d79f89ca                               | Group22          |
 | `ModeDeclarationGroupPrototype`                         | [x] Done    | 51f2e1155f                               | Group1           |
-| `ModeDeclarationGroupPrototypeMapping`                  | [ ] Deferred| N/A                                      | Group11          |
+| `ModeDeclarationGroupPrototypeMapping`                  | [x] Done    | 96e9f073a2                               | Group11          |
 | `ModeDeclarationMapping`                                | [ ] Implemented| N/A                                      | Group27          |
 | `ModeDeclarationMappingSet`                             | [x] Done    | eeec29b637                               | Group1           |
 | `ModeDrivenTransmissionModeCondition`                   | [x] Done    | 206cf29517                               | Group5           |
@@ -1284,9 +1284,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeInBswInstanceRef`                                  | [ ] Implemented| N/A                                      | Group35          |
 | `ModeInSwcBswInstanceRef`                               | [x] Done    | 71ca6a5415                               | Group8           |
 | `ModeInSwcInstanceRef`                                  | [x] Done    | 70dcc26975                               | Group8           |
-| `ModeInterfaceMapping`                                  | [ ] Deferred| 8832375592                               | Group11          |
+| `ModeInterfaceMapping`                                  | [x] Done    | a598489544                               | Group11          |
 | `ModePortAnnotation`                                    | [ ] Implemented| N/A                                      | Group27          |
-| `ModeRequestTypeMap`                                    | [ ] Deferred| N/A                                      | Group11          |
+| `ModeRequestTypeMap`                                    | [x] Done    | 2b824ca5f8                               | Group11          |
 | `ModeSwitchEventTriggeredActivity`                      | [x] Done    | 8fa7710539                               | Group10          |
 | `ModeSwitchInterface`                                   | [ ] Implemented| N/A                                      | Group27          |
 | `ModeSwitchPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
@@ -1913,7 +1913,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `VariableAccess`                                        | [ ] Deferred| N/A                                      | Group12          |
 | `VariableAccessInEcuInstanceRef`                        | [ ] Deferred| N/A                                      | Group12          |
 | `VariableAccessScopeEnum`                               | [ ] Created | N/A                                      | Group29          |
-| `VariableAndParameterInterfaceMapping`                  | [ ] Deferred| de2d5fe918                               | Group11          |
+| `VariableAndParameterInterfaceMapping`                  | [x] Done    | 0e87cc4bb9                               | Group11          |
 | `VariableDataPrototype`                                 | [x] Done    | d3b5d680e2                               | Group2           |
 | `VariableDataPrototypeInSystemInstanceRef`              | [x] Done    | 1b3d673dac                               | Group7           |
 | `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done    | c8ac9ef7de                               | Group2           |

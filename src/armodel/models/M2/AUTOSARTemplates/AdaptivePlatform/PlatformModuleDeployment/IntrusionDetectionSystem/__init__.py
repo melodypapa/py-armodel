@@ -5,7 +5,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
-__all__ = ["SecurityEventStateFilter","SecurityEventFilterChain","SecurityEventContextProps","SecurityEventContextMappingCommConnector","SecurityEventContextMapping","SecurityEventAggregationFilter","IdsmTrafficLimitation","IdsmInstance","IdsPlatformInstantiation", "IdsmModuleInstantiation"]
+__all__ = [
+    "SecurityEventStateFilter",
+    "SecurityEventFilterChain",
+    "SecurityEventContextProps",
+    "SecurityEventContextMappingCommConnector",
+    "SecurityEventContextMapping",
+    "SecurityEventAggregationFilter",
+    "IdsmTrafficLimitation",
+    "IdsmInstance",
+    "IdsPlatformInstantiation",
+    "IdsmModuleInstantiation",
+]
 
 
 class IdsPlatformInstantiation(AtpStructureElement, ABC):
