@@ -22,7 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecRule, MacSecProps
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -176,7 +176,17 @@ class CouplingPortAbstractShaper(Identifiable, ABC):
     """Abstract class for the definition of coupling port shapers."""
 
     # CouplingPortAbstractShaper method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), abstract class CouplingPortAbstractShaper, AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] registerShaper    [x] impl  [x] docstring  [—] test  [—] reader  [—] writer  R23-11
+    # [x] getShaperClass    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getShaperTag      [x] impl  [x] docstring  [—] test  [—] reader  [—] writer  R23-11
+    # (accepted deviation, 2026-09-30 user arbitration: the XSD models this abstract class as the
+    #  empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER consumed by the CouplingPortFifo.shaper choice
+    #  (xsd L23763: COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER);
+    #  the repo maps that polymorphic choice to this registry-based abstract base + concrete subclasses
+    #  — the concrete children are queued in Group16 and register themselves at import time)
 
     _shaper_registry = {}
 
@@ -2791,14 +2801,19 @@ class IPSecConfig(ARObject):
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addIPSecRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPSecRules          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
         # Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
         self.ipSecConfigPropsRef: Optional[RefType] = None
+
+        # IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
+        self.ipSecRules: List[IPSecRule] = []
 
     def getIpSecConfigPropsRef(self) -> Optional[RefType]:
         """
@@ -2814,6 +2829,21 @@ class IPSecConfig(ARObject):
         if value is not None:
             self.ipSecConfigPropsRef = value
         return self
+
+    def addIPSecRule(self, value: Optional[IPSecRule]) -> IPSecConfig:
+        """
+        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
+        A None value is a no-op and does not extend the ipSecRules list.
+        """
+        if value is not None:
+            self.ipSecRules.append(value)
+        return self
+
+    def getIPSecRules(self) -> List[IPSecRule]:
+        """
+        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
+        """
+        return self.ipSecRules
 
 
 class NetworkEndpoint(Identifiable):

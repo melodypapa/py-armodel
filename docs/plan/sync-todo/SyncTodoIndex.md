@@ -607,24 +607,25 @@ Status: **15/24** completed
 
 ## Group12
 
-Status: **0/14** completed
+Status: **3/15** completed
 
-| Class Name                           | Status       | Commit ID |
-| ------------------------------------ | ------------ | --------- |
-| `ParameterAccess`                    | [ ] Pending* | N/A       |
-| `VariableAccess`                     | [ ] Pending* | N/A       |
-| `InternalTriggeringPoint`            | [ ] Pending* | N/A       |
-| `ModeAccessPoint`                    | [ ] Pending* | N/A       |
-| `ModeSwitchPoint`                    | [ ] Pending* | N/A       |
-| `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A       |
-| `DataReceiveErrorEvent`              | [ ] Pending* | N/A       |
-| `DataReceivedEvent`                  | [ ] Pending* | N/A       |
-| `DataSendCompletedEvent`             | [ ] Pending* | N/A       |
-| `DataWriteCompletedEvent`            | [ ] Pending* | N/A       |
-| `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A       |
-| `OperationInvokedEvent`              | [ ] Pending* | N/A       |
-| `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A       |
-| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A       |
+| Class Name                           | Status       | Commit ID  |
+| ------------------------------------ | ------------ | ---------- |
+| `ParameterAccess`                    | [x] Done     | 3b9f111270 |
+| `VariableAccessScopeEnum`            | [x] Done     | 12e743cc9b |
+| `VariableAccess`                     | [x] Done     | 12e743cc9b |
+| `InternalTriggeringPoint`            | [ ] Pending* | N/A        |
+| `ModeAccessPoint`                    | [ ] Pending* | N/A        |
+| `ModeSwitchPoint`                    | [ ] Pending* | N/A        |
+| `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
+| `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
+| `DataReceivedEvent`                  | [ ] Pending* | N/A        |
+| `DataSendCompletedEvent`             | [ ] Pending* | N/A        |
+| `DataWriteCompletedEvent`            | [ ] Pending* | N/A        |
+| `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
+| `OperationInvokedEvent`              | [ ] Pending* | N/A        |
+| `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A        |
+| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A        |
 
 ## Group13
 
@@ -692,99 +693,101 @@ Status: **2/25** completed
 
 Status: **0/24** completed
 
-| Class Name                    | Status          | Commit ID  |
-| ----------------------------- | --------------- | ---------- |
-| `CommunicationDirectionType`  | [ ] Implemented | 3378eb6247 |
-| `TransferPropertyEnum`        | [ ] Implemented | e6baac031c |
-| `MultiplexedPart`             | [ ] Pending*    | 66512d0602 |
-| `DynamicPart`                 | [ ] Pending*    | 4211085bc4 |
-| `SegmentPosition`             | [ ] Pending*    | 9546cf291b |
-| `ISignalPort`                 | [ ] Pending*    | b5f92f4b28 |
-| `ISignalIPduGroup`            | [ ] Pending*    | 1e758bd44e |
-| `MultiplexedIPdu`             | [ ] Pending*    | eba346cb51 |
-| `TriggerMode`                 | [ ] Implemented | cc609f42a3 |
-| `SecuredIPdu`                 | [ ] Pending*    | 0a98655a06 |
-| `SecuredPduHeaderEnum`        | [ ] Implemented | 3d5cb55dbe |
-| `UserDefinedIPdu`             | [ ] Pending*    | N/A        |
-| `UserDefinedPdu`              | [ ] Pending*    | N/A        |
-| `SystemSignal`                | [ ] Pending*    | 7c5d9e9d81 |
-| `TimeRangeType`               | [ ] Pending*    | dcbc6abdb3 |
-| `TimeRangeTypeTolerance`      | [ ] Pending*    | dcbc6abdb3 |
-| `TransmissionModeCondition`   | [ ] Pending*    | dcbc6abdb3 |
-| `TriggerIPduSendCondition`    | [ ] Pending*    | dcbc6abdb3 |
-| `CyclicTiming`                | [ ] Pending*    | dcbc6abdb3 |
-| `EventControlledTiming`       | [ ] Pending*    | dcbc6abdb3 |
-| `FlexrayChannelName`          | [ ] Pending*    | 7c137656f6 |
-| `PncGatewayTypeEnum`          | [ ] Pending*    | 7c137656f6 |
-| `TransmissionModeTiming`      | [ ] Pending*    | dcbc6abdb3 |
-| `TransmissionModeDeclaration` | [ ] Pending*    | dcbc6abdb3 |
+| Class Name                    | Status       | Commit ID  |
+| ----------------------------- | ------------ | ---------- |
+| `CommunicationDirectionType`  | [ ] Pending* | 3378eb6247 |
+| `TransferPropertyEnum`        | [ ] Pending* | e6baac031c |
+| `MultiplexedPart`             | [ ] Pending* | 66512d0602 |
+| `DynamicPart`                 | [ ] Pending* | 4211085bc4 |
+| `SegmentPosition`             | [ ] Pending* | 9546cf291b |
+| `ISignalPort`                 | [ ] Pending* | b5f92f4b28 |
+| `ISignalIPduGroup`            | [ ] Pending* | 1e758bd44e |
+| `MultiplexedIPdu`             | [ ] Pending* | eba346cb51 |
+| `TriggerMode`                 | [ ] Pending* | cc609f42a3 |
+| `SecuredIPdu`                 | [ ] Pending* | 0a98655a06 |
+| `SecuredPduHeaderEnum`        | [ ] Pending* | 3d5cb55dbe |
+| `UserDefinedIPdu`             | [ ] Pending* | N/A        |
+| `UserDefinedPdu`              | [ ] Pending* | N/A        |
+| `SystemSignal`                | [ ] Pending* | 7c5d9e9d81 |
+| `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
+| `TimeRangeTypeTolerance`      | [ ] Pending* | dcbc6abdb3 |
+| `TransmissionModeCondition`   | [ ] Pending* | dcbc6abdb3 |
+| `TriggerIPduSendCondition`    | [ ] Pending* | dcbc6abdb3 |
+| `CyclicTiming`                | [ ] Pending* | dcbc6abdb3 |
+| `EventControlledTiming`       | [ ] Pending* | dcbc6abdb3 |
+| `FlexrayChannelName`          | [ ] Pending* | 7c137656f6 |
+| `PncGatewayTypeEnum`          | [ ] Pending* | 7c137656f6 |
+| `TransmissionModeTiming`      | [ ] Pending* | dcbc6abdb3 |
+| `TransmissionModeDeclaration` | [ ] Pending* | dcbc6abdb3 |
 
 ## Group16
 
-Status: **0/27** completed
+Status: **0/29** completed
 
-| Class Name                        | Status          | Commit ID  |
-| --------------------------------- | --------------- | ---------- |
-| `RuntimeAddressConfigurationEnum` | [ ] Pending*    | c5bb322323 |
-| `IpAddressKeepEnum`               | [ ] Pending*    | c5bb322323 |
-| `Ipv6AddressSourceEnum`           | [ ] Pending*    | c5bb322323 |
-| `Ipv4AddressSourceEnum`           | [ ] Pending*    | 6c97ddc108 |
-| `DoIpEntity`                      | [ ] Pending*    | b1e4750b14 |
-| `TpPort`                          | [ ] Pending*    | b1e4750b14 |
-| `InitialSdDelayConfig`            | [ ] Pending*    | d7240be740 |
-| `EthernetPriorityRegeneration`    | [ ] Pending*    | b1e4750b14 |
-| `TimeSyncServerConfiguration`     | [ ] Pending*    | b1e4750b14 |
-| `CouplingPortAbstractShaper`      | [ ] Implemented | N/A        |
-| `MacMulticastGroup`               | [ ] Pending*    | b1e4750b14 |
-| `IPSecConfig`                     | [ ] Implemented | 6c97ddc108 |
-| `NetworkEndpoint`                 | [ ] Pending*    | 6c97ddc108 |
-| `VlanConfig`                      | [ ] Pending*    | b1e4750b14 |
-| `Ipv4Configuration`               | [ ] Pending*    | 6c97ddc108 |
-| `GenericTp`                       | [ ] Pending*    | N/A        |
-| `TcpTp`                           | [ ] Pending*    | N/A        |
-| `UdpTp`                           | [ ] Pending*    | N/A        |
-| `PduCollectionSemanticsEnum`      | [ ] Pending*    | 4b7c8dc79c |
-| `SocketConnectionIpduIdentifier`  | [ ] Pending*    | 4b7c8dc79c |
-| `SocketConnectionBundle`          | [ ] Pending*    | 4b7c8dc79c |
-| `RequestResponseDelay`            | [ ] Pending*    | d7240be740 |
-| `SdServerConfig`                  | [ ] Pending*    | d7240be740 |
-| `TcpOptionFilterList`             | [ ] Pending*    | 2d5b3256b4 |
-| `TcpOptionFilterSet`              | [ ] Pending*    | 2d5b3256b4 |
-| `IPv6ExtHeaderFilterList`         | [ ] Pending*    | 2d5b3256b4 |
-| `TimeSynchronization`             | [ ] Pending*    | b1e4750b14 |
+| Class Name                              | Status       | Commit ID  |
+| --------------------------------------- | ------------ | ---------- |
+| `RuntimeAddressConfigurationEnum`       | [ ] Pending* | c5bb322323 |
+| `IpAddressKeepEnum`                     | [ ] Pending* | c5bb322323 |
+| `Ipv6AddressSourceEnum`                 | [ ] Pending* | c5bb322323 |
+| `Ipv4AddressSourceEnum`                 | [ ] Pending* | 6c97ddc108 |
+| `DoIpEntity`                            | [ ] Pending* | b1e4750b14 |
+| `TpPort`                                | [ ] Pending* | b1e4750b14 |
+| `InitialSdDelayConfig`                  | [ ] Pending* | d7240be740 |
+| `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
+| `TimeSyncServerConfiguration`           | [ ] Pending* | b1e4750b14 |
+| `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
+| `CouplingPortAsynchronousTrafficShaper` | [ ] Pending  | N/A        |
+| `CouplingPortCreditBasedShaper`         | [ ] Pending  | N/A        |
+| `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
+| `IPSecConfig`                           | [ ] Pending* | 6c97ddc108 |
+| `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
+| `VlanConfig`                            | [ ] Pending* | b1e4750b14 |
+| `Ipv4Configuration`                     | [ ] Pending* | 6c97ddc108 |
+| `GenericTp`                             | [ ] Pending* | N/A        |
+| `TcpTp`                                 | [ ] Pending* | N/A        |
+| `UdpTp`                                 | [ ] Pending* | N/A        |
+| `PduCollectionSemanticsEnum`            | [ ] Pending* | 4b7c8dc79c |
+| `SocketConnectionIpduIdentifier`        | [ ] Pending* | 4b7c8dc79c |
+| `SocketConnectionBundle`                | [ ] Pending* | 4b7c8dc79c |
+| `RequestResponseDelay`                  | [ ] Pending* | d7240be740 |
+| `SdServerConfig`                        | [ ] Pending* | d7240be740 |
+| `TcpOptionFilterList`                   | [ ] Pending* | 2d5b3256b4 |
+| `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
+| `IPv6ExtHeaderFilterList`               | [ ] Pending* | 2d5b3256b4 |
+| `TimeSynchronization`                   | [ ] Pending* | b1e4750b14 |
 
 ## Group17
 
 Status: **0/26** completed
 
-| Class Name                                 | Status          | Commit ID |
-| ------------------------------------------ | --------------- | --------- |
-| `CanClusterBusOffRecovery`                 | [ ] Pending*    | N/A       |
-| `CanCommunicationConnector`                | [ ] Pending*    | N/A       |
-| `CanControllerConfiguration`               | [ ] Pending*    | N/A       |
-| `CanControllerConfigurationRequirements`   | [ ] Pending*    | N/A       |
-| `CanControllerFdConfigurationRequirements` | [ ] Pending*    | N/A       |
-| `ResumePosition`                           | [ ] Pending*    | N/A       |
-| `ApplicationEntry`                         | [ ] Pending*    | N/A       |
-| `LinScheduleTable`                         | [ ] Pending*    | N/A       |
-| `RunMode`                                  | [ ] Pending*    | N/A       |
-| `LinCommunicationConnector`                | [ ] Pending*    | N/A       |
-| `FlexrayFrameTriggering`                   | [ ] Pending*    | N/A       |
-| `FlexrayAbsolutelyScheduledTiming`         | [ ] Pending*    | N/A       |
-| `FlexrayCommunicationConnector`            | [ ] Pending*    | N/A       |
-| `FlexrayCommunicationController`           | [ ] Pending*    | N/A       |
-| `FlexrayPhysicalChannel`                   | [ ] Pending*    | N/A       |
-| `DataMapping`                              | [ ] Pending*    | N/A       |
-| `IndexedArrayElement`                      | [ ] Pending*    | N/A       |
-| `SenderRecRecordElementMapping`            | [ ] Pending*    | N/A       |
-| `SenderRecRecordTypeMapping`               | [ ] Pending*    | N/A       |
-| `SenderReceiverToSignalMapping`            | [ ] Pending*    | N/A       |
-| `SenderReceiverToSignalGroupMapping`       | [ ] Pending*    | N/A       |
-| `DefaultValueElement`                      | [ ] Implemented | N/A       |
-| `FrameMapping`                             | [ ] Pending*    | N/A       |
-| `ISignalMapping`                           | [ ] Pending*    | N/A       |
-| `TargetIPduRef`                            | [ ] Pending*    | N/A       |
-| `Gateway`                                  | [ ] Pending*    | N/A       |
+| Class Name                                 | Status       | Commit ID |
+| ------------------------------------------ | ------------ | --------- |
+| `CanClusterBusOffRecovery`                 | [ ] Pending* | N/A       |
+| `CanCommunicationConnector`                | [ ] Pending* | N/A       |
+| `CanControllerConfiguration`               | [ ] Pending* | N/A       |
+| `CanControllerConfigurationRequirements`   | [ ] Pending* | N/A       |
+| `CanControllerFdConfigurationRequirements` | [ ] Pending* | N/A       |
+| `ResumePosition`                           | [ ] Pending* | N/A       |
+| `ApplicationEntry`                         | [ ] Pending* | N/A       |
+| `LinScheduleTable`                         | [ ] Pending* | N/A       |
+| `RunMode`                                  | [ ] Pending* | N/A       |
+| `LinCommunicationConnector`                | [ ] Pending* | N/A       |
+| `FlexrayFrameTriggering`                   | [ ] Pending* | N/A       |
+| `FlexrayAbsolutelyScheduledTiming`         | [ ] Pending* | N/A       |
+| `FlexrayCommunicationConnector`            | [ ] Pending* | N/A       |
+| `FlexrayCommunicationController`           | [ ] Pending* | N/A       |
+| `FlexrayPhysicalChannel`                   | [ ] Pending* | N/A       |
+| `DataMapping`                              | [ ] Pending* | N/A       |
+| `IndexedArrayElement`                      | [ ] Pending* | N/A       |
+| `SenderRecRecordElementMapping`            | [ ] Pending* | N/A       |
+| `SenderRecRecordTypeMapping`               | [ ] Pending* | N/A       |
+| `SenderReceiverToSignalMapping`            | [ ] Pending* | N/A       |
+| `SenderReceiverToSignalGroupMapping`       | [ ] Pending* | N/A       |
+| `DefaultValueElement`                      | [ ] Pending* | N/A       |
+| `FrameMapping`                             | [ ] Pending* | N/A       |
+| `ISignalMapping`                           | [ ] Pending* | N/A       |
+| `TargetIPduRef`                            | [ ] Pending* | N/A       |
+| `Gateway`                                  | [ ] Pending* | N/A       |
 
 ## Group18
 
@@ -816,16 +819,16 @@ Status: **0/16** completed
 
 | Class Name                       | Status          | Commit ID |
 | -------------------------------- | --------------- | --------- |
-| `ConfigReferenceValue`           | [ ] Implemented | N/A       |
-| `EcucValueCollection`            | [ ] Implemented | N/A       |
-| `ModuleConfiguration`            | [ ] Implemented | N/A       |
-| `EcucConfigurationClassEnum`     | [ ] Implemented | N/A       |
-| `EcucScopeEnum`                  | [ ] Implemented | N/A       |
+| `ConfigReferenceValue`           | [ ] Pending*    | N/A       |
+| `EcucValueCollection`            | [ ] Pending*    | N/A       |
+| `ModuleConfiguration`            | [ ] Pending*    | N/A       |
+| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A       |
+| `EcucScopeEnum`                  | [ ] Pending*    | N/A       |
 | `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
-| `EcucBooleanParamDef`            | [ ] Implemented | N/A       |
-| `EcucFloatParamDef`              | [ ] Implemented | N/A       |
-| `EcucForeignReferenceDef`        | [ ] Implemented | N/A       |
-| `EcucLinkerSymbolDef`            | [ ] Implemented | N/A       |
+| `EcucBooleanParamDef`            | [ ] Pending*    | N/A       |
+| `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
+| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A       |
+| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A       |
 | `EcucReferenceDef`               | [ ] Implemented | N/A       |
 | `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
 | `EcucUriReferenceDef`            | [ ] Implemented | N/A       |
@@ -1527,13 +1530,12 @@ Status: **0/75** completed
 
 ## Group29
 
-Status: **0/75** completed
+Status: **0/74** completed
 
 | Class Name                                     | Status          | Commit ID |
 | ---------------------------------------------- | --------------- | --------- |
 | `SwcExclusiveAreaPolicy`                       | [ ] Implemented | N/A       |
 | `RteApiReturnValueProvisionEnum`               | [ ] Implemented | N/A       |
-| `VariableAccessScopeEnum`                      | [ ] Created     | N/A       |
 | `ExternalTriggeringPoint`                      | [ ] Implemented | N/A       |
 | `IncludedDataTypeSet`                          | [ ] Implemented | N/A       |
 | `SwcServiceDependency`                         | [ ] Implemented | N/A       |
@@ -1847,11 +1849,11 @@ Status: **0/75** completed
 | `DdsHistoryKindEnum`                   | [ ] Created     | N/A       |
 | `DdsResourceLimits`                    | [ ] Created     | N/A       |
 | `StaticSocketConnection`               | [ ] Implemented | N/A       |
-| `IPSecRule`                            | [ ] Created     | N/A       |
-| `IPSecConfigProps`                     | [ ] Created     | N/A       |
-| `IPsecIpProtocolEnum`                  | [ ] Created     | N/A       |
-| `IPsecPolicyEnum`                      | [ ] Created     | N/A       |
-| `IPsecModeEnum`                        | [ ] Created     | N/A       |
+| `IPSecRule`                            | [ ] Pending*    | N/A       |
+| `IPSecConfigProps`                     | [ ] Pending*    | N/A       |
+| `IPsecIpProtocolEnum`                  | [ ] Pending*    | N/A       |
+| `IPsecPolicyEnum`                      | [ ] Pending*    | N/A       |
+| `IPsecModeEnum`                        | [ ] Pending*    | N/A       |
 
 ## Group33
 
@@ -1859,8 +1861,8 @@ Status: **0/75** completed
 
 | Class Name                                  | Status          | Commit ID |
 | ------------------------------------------- | --------------- | --------- |
-| `IPsecHeaderTypeEnum`                       | [ ] Created     | N/A       |
-| `IPsecDpdActionEnum`                        | [ ] Created     | N/A       |
+| `IPsecHeaderTypeEnum`                       | [ ] Pending*    | N/A       |
+| `IPsecDpdActionEnum`                        | [ ] Pending*    | N/A       |
 | `EthernetFrameTriggering`                   | [ ] Created     | N/A       |
 | `UserDefinedEthernetFrame`                  | [ ] Created     | N/A       |
 | `Ieee1722TpEthernetFrame`                   | [ ] Created     | N/A       |

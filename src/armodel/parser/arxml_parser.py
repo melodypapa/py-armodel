@@ -439,7 +439,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
+    EcucForeignReferenceDef,
     EcucFunctionNameDef,
+    EcucLinkerSymbolDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucModuleDef,
@@ -727,7 +729,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess, VariableAccessScopeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
@@ -878,6 +880,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
+    IPsecDpdActionEnum,
+    IPsecHeaderTypeEnum,
+    IPsecIpProtocolEnum,
+    IPsecModeEnum,
+    IPsecPolicyEnum,
+    IPSecConfigProps,
+    IPSecRule,
     SecOcCryptoServiceMapping,
     TlsCryptoCipherSuite,
     TlsCryptoCipherSuiteProps,
@@ -886,6 +895,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
     CouplingPortRatePolicyActionEnum,
@@ -898,6 +908,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
+    IPSecConfig,
     Ipv4Configuration,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
@@ -1258,6 +1269,14 @@ SW_IMPL_POLICY_XML_MAP = {
     "measurementPoint": "MEASUREMENT-POINT",
     "queued": "QUEUED",
     "standard": "STANDARD",
+}
+
+#: Mapping between VariableAccessScopeEnum literal values and their XML element text
+#: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
+VARIABLE_ACCESS_SCOPE_XML_MAP = {
+    "communicationInterEcu": "COMMUNICATION-INTER-ECU",
+    "communicationIntraPartition": "COMMUNICATION-INTRA-PARTITION",
+    "interPartitionIntraEcu": "INTER-PARTITION-INTRA-ECU",
 }
 
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
@@ -7138,7 +7157,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readVariableAccess(self, element: ET.Element, access: VariableAccess):
         self.readIdentifiable(element, access)
         access.setAccessedVariable(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
-        access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
+        literal = self.getChildElementOptionalLiteral(element, "SCOPE")
+        if literal is not None:
+            camel = None
+            for camel_value, token in VARIABLE_ACCESS_SCOPE_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                access.setScope(VariableAccessScopeEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SCOPE <%s>" % literal.getText())
 
     def getTransformationComSpecProps(self, element: ET.Element) -> Optional[TransformationComSpecProps]:
         child = self.find(element, "*")
@@ -9552,6 +9581,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.readIdentifiable(element, end_point)
         end_point.setInfrastructureServices(self.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES"))
+        ip_sec_config_element = self.find(element, "IP-SEC-CONFIG")
+        if ip_sec_config_element is not None:
+            config = IPSecConfig()
+            end_point.setIpSecConfig(config)
+            self.readIPSecConfig(ip_sec_config_element, config)
         self.readNetworkEndPointNetworkEndPointAddress(element, end_point)
         end_point.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
 
@@ -11657,6 +11691,10 @@ class ARXMLParser(AbstractARXMLParser):
                 param_def = EcucMultilineStringParamDef(policy, self.getShortName(child_element))
                 self.readEcucMultilineStringParamDef(child_element, param_def)
                 policy.addParameter(param_def)
+            elif tag_name == "ECUC-LINKER-SYMBOL-DEF":
+                param_def = EcucLinkerSymbolDef(policy, self.getShortName(child_element))
+                self.readEcucLinkerSymbolDef(child_element, param_def)
+                policy.addParameter(param_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Parameter <%s>" % tag_name)
 
@@ -11678,6 +11716,10 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
                 ref_def = EcucInstanceReferenceDef(policy, self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
+                policy.addReference(ref_def)
+            elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
+                ref_def = EcucForeignReferenceDef(policy, self.getShortName(child_element))
+                self.readEcucForeignReferenceDef(child_element, ref_def)
                 policy.addReference(ref_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % tag_name)
@@ -11811,6 +11853,15 @@ class ARXMLParser(AbstractARXMLParser):
             param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
             param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
 
+    def readEcucLinkerSymbolDef(self, element: ET.Element, param_def: EcucLinkerSymbolDef):
+        self.readEcucParameterDef(element, param_def)
+        child_element = self.find(element, "ECUC-LINKER-SYMBOL-DEF-VARIANTS/ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
+        if child_element is not None:
+            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
+            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
+            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
+            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+
     def readEcucIntegerParamDef(self, element: ET.Element, param_def: EcucIntegerParamDef):
         self.readEcucParameterDef(element, param_def)
         param_def.setDefaultValue(self.getChildElementOptionalIntegerValue(element, "DEFAULT-VALUE"))
@@ -11878,6 +11929,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-MULTILINE-STRING-PARAM-DEF":
                 param_def = container_def.createEcucMultilineStringParamDef(self.getShortName(child_element))
                 self.readEcucMultilineStringParamDef(child_element, param_def)
+            elif tag_name == "ECUC-LINKER-SYMBOL-DEF":
+                param_def = container_def.createEcucLinkerSymbolDef(self.getShortName(child_element))
+                self.readEcucLinkerSymbolDef(child_element, param_def)
             else:
                 self.notImplemented("Unsupported Parameter <%s>" % tag_name)
 
@@ -11910,6 +11964,10 @@ class ARXMLParser(AbstractARXMLParser):
         ref_def.setDestinationContext(self.getChildElementOptionalLiteral(element, "DESTINATION-CONTEXT"))
         ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
 
+    def readEcucForeignReferenceDef(self, element: ET.Element, ref_def: EcucForeignReferenceDef):
+        self.readEcucAbstractExternalReferenceDef(element, ref_def)
+        ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
+
     def readEcucContainerDefReferences(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "REFERENCES/*"):
             tag_name = self.getTagName(child_element)
@@ -11925,6 +11983,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
                 ref_def = container_def.createEcucInstanceReferenceDef(self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
+                ref_def = container_def.createEcucForeignReferenceDef(self.getShortName(child_element))
+                self.readEcucForeignReferenceDef(child_element, ref_def)
             else:
                 self.notImplemented("Unsupported EcucReferenceDef <%s>" % tag_name)
 
@@ -14018,6 +14079,91 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, scheme)
         scheme.setSignatureSchemeId(self.getChildElementOptionalPositiveInteger(element, "SIGNATURE-SCHEME-ID"))
 
+    def readIPSecRule(self, element: ET.Element, rule: IPSecRule):
+        self.logger.debug("Read IPSecRule <%s>" % rule.getShortName())
+        self.readIdentifiable(element, rule)
+        literal = self.getChildElementOptionalLiteral(element, "DIRECTION")
+        if literal is not None:
+            e = CommunicationDirectionType()
+            e.setValue(literal.getValue())
+            rule.setDirection(e)
+        literal = self.getChildElementOptionalLiteral(element, "HEADER-TYPE")
+        if literal is not None:
+            e = IPsecHeaderTypeEnum()
+            e.setValue(literal.getValue())
+            rule.setHeaderType(e)
+        literal = self.getChildElementOptionalLiteral(element, "IP-PROTOCOL")
+        if literal is not None:
+            e = IPsecIpProtocolEnum()
+            e.setValue(literal.getValue())
+            rule.setIpProtocol(e)
+        for ref in self.getChildElementRefTypeList(element, "LOCAL-CERTIFICATE-REFS/LOCAL-CERTIFICATE-REF"):
+            rule.addLocalCertificateRef(ref)
+        rule.setLocalId(self.getChildElementOptionalString(element, "LOCAL-ID"))
+        rule.setLocalPortRangeEnd(self.getChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-END"))
+        rule.setLocalPortRangeStart(self.getChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-START"))
+        literal = self.getChildElementOptionalLiteral(element, "MODE")
+        if literal is not None:
+            e = IPsecModeEnum()
+            e.setValue(literal.getValue())
+            rule.setMode(e)
+        literal = self.getChildElementOptionalLiteral(element, "POLICY")
+        if literal is not None:
+            e = IPsecPolicyEnum()
+            e.setValue(literal.getValue())
+            rule.setPolicy(e)
+        rule.setPreSharedKeyRef(self.getChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF"))
+        rule.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-CERTIFICATE-REFS/REMOTE-CERTIFICATE-REF"):
+            rule.addRemoteCertificateRef(ref)
+        rule.setRemoteId(self.getChildElementOptionalString(element, "REMOTE-ID"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-IP-ADDRESS-REFS/REMOTE-IP-ADDRESS-REF"):
+            rule.addRemoteIpAddressRef(ref)
+        rule.setRemotePortRangeEnd(self.getChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END"))
+        rule.setRemotePortRangeStart(self.getChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START"))
+
+    def readIPSecConfigProps(self, element: ET.Element, props: IPSecConfigProps):
+        self.logger.debug("Read IPSecConfigProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        wrapper = self.find(element, "AH-CIPHER-SUITE-NAMES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "AH-CIPHER-SUITE-NAME"):
+                if child_element.text is not None:
+                    value = String()
+                    value.setValue(child_element.text)
+                    props.addAhCipherSuiteName(value)
+        literal = self.getChildElementOptionalLiteral(element, "DPD-ACTION")
+        if literal is not None:
+            e = IPsecDpdActionEnum()
+            e.setValue(literal.getValue())
+            props.setDpdAction(e)
+        props.setDpdDelay(self.getChildElementOptionalTimeValue(element, "DPD-DELAY"))
+        wrapper = self.find(element, "ESP-CIPHER-SUITE-NAMES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "ESP-CIPHER-SUITE-NAME"):
+                if child_element.text is not None:
+                    value = String()
+                    value.setValue(child_element.text)
+                    props.addEspCipherSuiteName(value)
+        props.setIkeCipherSuiteName(self.getChildElementOptionalString(element, "IKE-CIPHER-SUITE-NAME"))
+        props.setIkeOverTime(self.getChildElementOptionalTimeValue(element, "IKE-OVER-TIME"))
+        props.setIkeRandTime(self.getChildElementOptionalPositiveInteger(element, "IKE-RAND-TIME"))
+        props.setIkeReauthTime(self.getChildElementOptionalTimeValue(element, "IKE-REAUTH-TIME"))
+        props.setIkeRekeyTime(self.getChildElementOptionalTimeValue(element, "IKE-REKEY-TIME"))
+        props.setSaOverTime(self.getChildElementOptionalPositiveInteger(element, "SA-OVER-TIME"))
+        props.setSaRandTime(self.getChildElementOptionalTimeValue(element, "SA-RAND-TIME"))
+        props.setSaRekeyTime(self.getChildElementOptionalTimeValue(element, "SA-REKEY-TIME"))
+
+    def readIPSecConfig(self, element: ET.Element, config: IPSecConfig):
+        self.logger.debug("Read IPSecConfig")
+        config.setIpSecConfigPropsRef(self.getChildElementOptionalRefType(element, "IP-SEC-CONFIG-PROPS-REF"))
+        wrapper = self.find(element, "IP-SEC-RULES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "IP-SEC-RULE"):
+                rule = IPSecRule(config, self.getShortName(child_element))
+                config.addIPSecRule(rule)
+                self.readIPSecRule(child_element, rule)
+
     def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Read CryptoServiceCertificate <%s>" % certificate.getShortName())
         self.readIdentifiable(element, certificate)
@@ -14807,6 +14953,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CRYPTO-SERVICE-CERTIFICATE":
                 certificate = parent.createCryptoServiceCertificate(self.getShortName(child_element))
                 self.readCryptoServiceCertificate(child_element, certificate)
+            elif tag_name == "IP-SEC-CONFIG-PROPS":
+                props = parent.createIPSecConfigProps(self.getShortName(child_element))
+                self.readIPSecConfigProps(child_element, props)
             elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
                 primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
                 self.readCryptoServicePrimitive(child_element, primitive)

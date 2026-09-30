@@ -180,7 +180,7 @@ class EcucScopeEnum(AREnum):
     ECU = "ECU"
 
     # An element is only be applicable for the module it is defined in. Tags: atp.EnumerationLiteralIndex=1
-    LOCAL = "LOCAL"
+    LOCAL = "local"
 
     def __init__(self):
         super().__init__(
@@ -373,16 +373,16 @@ class EcucConfigurationClassEnum(AREnum):
     # (no methods)
 
     # Link Time: parts of configuration are delivered from another object code file Tags: atp.EnumerationLiteralIndex=0
-    LINK = "LINK"
+    LINK = "Link"
 
     # PostBuildTime: after compilation a configuration parameter can be changed. Tags: atp.EnumerationLiteralIndex=1
-    POST_BUILD = "POST-BUILD"
+    POST_BUILD = "PostBuild"
 
     # PreCompile Time: after compilation a configuration parameter can not be changed any more. Tags: atp.EnumerationLiteralIndex=2
-    PRE_COMPILE = "PRE-COMPILE"
+    PRE_COMPILE = "PreCompile"
 
     # PublishedInformation is used to specify the fact that certain information is fixed even before the pre-compile stage. Tags: atp.EnumerationLiteralIndex=3
-    PUBLISHED_INFORMATION = "PUBLISHED-INFORMATION"
+    PUBLISHED_INFORMATION = "PublishedInformation"
 
     def __init__(self):
         super().__init__(
@@ -938,19 +938,28 @@ class EcucBooleanParamDef(EcucParameterDef):
 
     # EcucBooleanParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.15, p.58
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: Boolean = None
+        # Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.defaultValue: Optional[Boolean] = None
 
-    def getDefaultValue(self) -> Boolean:
+    def getDefaultValue(self) -> Optional[Boolean]:
+        """
+        Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Boolean):
+    def setDefaultValue(self, value: Optional[Boolean]) -> "EcucBooleanParamDef":
+        """
+        Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self
@@ -1184,32 +1193,42 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
-    Specify a reference to an XML description of an entity described in another
-    AUTOSAR template.
+    Specify a reference to an XML description of an entity described in another AUTOSAR template.
+
+    [TPS_ECUC_02041] EcucForeignReferenceDef properties To be able to reference to descriptions of other AUTOSAR templates the parameter definition EcucForeignReferenceDef is used. With the attribute destinationType the type of the referenced entity has to be specified.
+
+    [TPS_ECUC_02042] Specification of the destinationType in a EcucForeignReferenceDef Since the AUTOSAR Schema generator rules require the class names of all Referrables to be unique within the AUTOSAR 'M2:: AUTOSAR Templates' metamodel, it is sufficient to provide only the actual class name of the referenced class in the destinationType, as shown in example 2.20.
+
+    [TPS_ECUC_06088] Specification of the destinationType format in a EcucForeignReferenceDef The string entered as destinationType shall have the name of a M2 class defined in the metamodel [8] under 'M2:: AUTOSAR Templates' as it is represented in the XML-Schema [10] and the referenced class needs to be derived (directly or indirectly) from Referrable. In the generated Parameter Definition XML file [7] the XML-Schema name shall be used.
     """
 
     # EcucForeignReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.31, p.75
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Aggregated by dispatch: reader ECUC-FOREIGN-REFERENCE-DEF branches
+    # (EcucParamConfContainerDef REFERENCES + EcucDestinationUriPolicy
+    # REFERENCES) + writer isinstance branches both present;
+    # createEcucForeignReferenceDef factory added on EcucParamConfContainerDef.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
-        self.destinationType: String = None
+        self.destinationType: Optional[String] = None
 
-    def getDestinationType(self) -> String:
+    def getDestinationType(self) -> Optional[String]:
         """
-        Gets the type in the AUTOSAR Metamodel to which this reference may point.
+        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
         """
         return self.destinationType
 
-    def setDestinationType(self, value: String) -> "EcucForeignReferenceDef":
+    def setDestinationType(self, value: Optional[String]) -> "EcucForeignReferenceDef":
         """
-        Sets the type in the AUTOSAR Metamodel to which this reference may point.
-        A None value is a no-op.
+        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        A None value is a no-op and does not overwrite an existing destinationType.
         """
         if value is not None:
             self.destinationType = value
@@ -1563,41 +1582,68 @@ class EcucFloatParamDef(EcucParameterDef):
 
     # EcucFloatParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.17, p.62
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMax                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMax                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: Float = None
-        self.max: Limit = None
-        self.min: Limit = None
+        # Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.defaultValue: Optional[Float] = None
 
-    def getDefaultValue(self) -> Float:
+        # Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.max: Optional[Limit] = None
+
+        # Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        self.min: Optional[Limit] = None
+
+    def getDefaultValue(self) -> Optional[Float]:
+        """
+        Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Float):
+    def setDefaultValue(self, value: Optional[Float]) -> "EcucFloatParamDef":
+        """
+        Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMax(self) -> Limit:
+    def getMax(self) -> Optional[Limit]:
+        """
+        Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.max
 
-    def setMax(self, value: Limit):
+    def setMax(self, value: Optional[Limit]) -> "EcucFloatParamDef":
+        """
+        Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing max.
+        """
         if value is not None:
             self.max = value
         return self
 
-    def getMin(self) -> Limit:
+    def getMin(self) -> Optional[Limit]:
+        """
+        Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        """
         return self.min
 
-    def setMin(self, value: Limit):
+    def setMin(self, value: Optional[Limit]) -> "EcucFloatParamDef":
+        """
+        Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing min.
+        """
         if value is not None:
             self.min = value
         return self
@@ -1763,6 +1809,16 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name, EcucMultilineStringParamDef)
 
+    def createEcucLinkerSymbolDef(self, short_name: str) -> "EcucLinkerSymbolDef":
+        """
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
+        """
+        if not self.IsElementExists(short_name, EcucLinkerSymbolDef):
+            param = EcucLinkerSymbolDef(self, short_name)
+            self.addElement(param)
+            self.parameters.append(param)
+        return self.getElement(short_name, EcucLinkerSymbolDef)
+
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
         The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
@@ -1820,6 +1876,16 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name, EcucInstanceReferenceDef)
+
+    def createEcucForeignReferenceDef(self, short_name: str) -> EcucForeignReferenceDef:
+        """
+        The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
+        """
+        if not self.IsElementExists(short_name, EcucForeignReferenceDef):
+            ref = EcucForeignReferenceDef(self, short_name)
+            self.addElement(ref)
+            self.references.append(ref)
+        return self.getElement(short_name, EcucForeignReferenceDef)
 
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
@@ -2154,11 +2220,14 @@ class EcucDestinationUriNestingContractEnum(AREnum):
 class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
     """
     Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
+
+    [TPS_ECUC_02031] Restriction on the length of EcucLinkerSymbolDef values and defaultValue The restriction on the length of the default value and the value of a EcucLinkerSymbolDef is set to 255 characters.
     """
 
     # EcucLinkerSymbolDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.21, p.65
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -26,6 +26,7 @@ class ParameterAccess(AbstractAccessPoint, VariationPointCapable):
 
     # ParameterAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.40, p.586
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessedParameter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -70,6 +71,7 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
 
     # VariableAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.33, p.567
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessedVariable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -84,7 +86,7 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
         self.accessedVariable: Optional[AutosarVariableRef] = None
 
         # This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition.
-        self.scope: Optional[ARLiteral] = None
+        self.scope: Optional[VariableAccessScopeEnum] = None
 
     def getAccessedVariable(self) -> Optional[AutosarVariableRef]:
         """This denotes the accessed variable."""
@@ -96,15 +98,40 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
             self.accessedVariable = value
         return self
 
-    def getScope(self) -> Optional[ARLiteral]:
+    def getScope(self) -> Optional[VariableAccessScopeEnum]:
         """This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition."""
         return self.scope
 
-    def setScope(self, value: Optional[ARLiteral]) -> VariableAccess:
+    def setScope(self, value: Optional[VariableAccessScopeEnum]) -> VariableAccess:
         """This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition. A None value is a no-op and does not overwrite an existing scope."""
         if value is not None:
             self.scope = value
         return self
+
+
+class VariableAccessScopeEnum(AREnum):
+    """
+    This enumeration defines scopes for communication.
+    """
+
+    # VariableAccessScopeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.34, p.567
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on VariableAccess.scope (SCOPE element; consumer: VariableAccess)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This case is foreseen to express that the corresponding communication shall be considered inter-ECU, i.e. it will cross the ECU boundary. This is considered the default case. Tags: atp.EnumerationLiteralIndex=0
+    COMMUNICATION_INTER_ECU = "communicationInterEcu"
+
+    # This case is foreseen to express that the corresponding communication shall not cross the boundary of a partition. Tags: atp.EnumerationLiteralIndex=1
+    COMMUNICATION_INTRA_PARTITION = "communicationIntraPartition"
+
+    # In this case the communication shall cross the boundaries of partitions within one ECU but it shall not cross the boundaries of the ECU itself. Tags: atp.EnumerationLiteralIndex=2
+    INTER_PARTITION_INTRA_ECU = "interPartitionIntraEcu"
+
+    def __init__(self):
+        super().__init__([VariableAccessScopeEnum.COMMUNICATION_INTER_ECU, VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION, VariableAccessScopeEnum.INTER_PARTITION_INTRA_ECU])
 
 
 class ArVariableInImplementationDataInstanceRef(ARObject):

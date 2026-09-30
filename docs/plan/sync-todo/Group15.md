@@ -24,8 +24,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on consuming classes)
-  - [—] Step 6 — Update parser & writer (Green) — N/A standalone enum
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on consuming classes)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none new
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (212 passed / 0 failed targeted, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
@@ -36,8 +36,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 2 — Write model class unit test (Red) — class already conformant; mirror test green on first run
   - [x] Step 3 — Implement model class (Green) — no change needed
   - [x] Step 4 — Sync docstrings (wipe + rewrite) — already verbatim, verified vs table
-  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum
-  - [—] Step 6 — Update parser & writer (Green) — N/A standalone enum
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (206 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
@@ -124,8 +124,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class, verbatim from start
-  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (TRIGGER-MODE element round-tripped via MultiplexedIPdu)
-  - [—] Step 6 — Update parser & writer (Green) — N/A standalone enum
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (TRIGGER-MODE element round-tripped via MultiplexedIPdu)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (3 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
@@ -149,8 +149,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class, verbatim from start
-  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (USE-SECURED-PDU-HEADER round-tripped via SecuredIPdu)
-  - [—] Step 6 — Update parser & writer (Green) — N/A standalone enum
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (USE-SECURED-PDU-HEADER round-tripped via SecuredIPdu)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (3 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)

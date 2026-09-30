@@ -305,14 +305,14 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed in step notes: bare-T 0..1 fields → PEP 526 Optional[Integer]; untyped accessors → typed guarded self-returning; old 4-col checklist → 6-column with `# Spec:` line; writer unmatched pair name setDefaultValueElement → writeDefaultValueElement + missing writeARObject added; module quoted annotations de-quoted with future import; STALE tracker row resolved — docs/examples/method_deviation_by_class_v2.md `## PduMappingDefaultValue` `defaultValueElement` aggr `missing` row removed (source covers it via dedicated typed list `defaultValueElements` + plural accessors; section header table citation corrected Table 8.6 → 8.5, p.841); docs/plan/deviation/ does not exist, docs/examples/method_deviation_by_class.md has no entries for this class; no Rule 0001.10 placeholders — member type Integer exists)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec (mirror of annotated steps above — row-format fix 2026-09-30: bare `[ ]` duplicates shadowed the completed `[x]` steps and regen classified the row Implemented)
+  - [x] Step 2 — Write model class unit test (Red) (mirror of annotated steps above)
+  - [x] Step 3 — Implement model class (Green) (mirror of annotated steps above)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) (mirror of annotated steps above)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (mirror of annotated steps above)
+  - [x] Step 6 — Update parser & writer (Green) (mirror of annotated steps above)
+  - [x] Step 7 — Update checklist comment (mirror of annotated steps above)
+  - [x] Step 8 — Deviations (mirror of annotated steps above)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13403 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FrameMapping` — ARObject — R23-11 markdown · Table 8.2

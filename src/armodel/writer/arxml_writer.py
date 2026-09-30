@@ -326,7 +326,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
+    EcucForeignReferenceDef,
     EcucFunctionNameDef,
+    EcucLinkerSymbolDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucModuleDef,
@@ -763,6 +765,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
+    IPSecConfigProps,
+    IPSecRule,
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
@@ -780,6 +784,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     ApplicationEndpoint,
     DoIpEntity,
     InfrastructureServices,
+    IPSecConfig,
     Ipv4Configuration,
     Ipv6Configuration,
     NetworkEndpoint,
@@ -1108,6 +1113,14 @@ SW_IMPL_POLICY_XML_MAP = {
     "measurementPoint": "MEASUREMENT-POINT",
     "queued": "QUEUED",
     "standard": "STANDARD",
+}
+
+#: Mapping between VariableAccessScopeEnum literal values and their XML element text
+#: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
+VARIABLE_ACCESS_SCOPE_XML_MAP = {
+    "communicationInterEcu": "COMMUNICATION-INTER-ECU",
+    "communicationIntraPartition": "COMMUNICATION-INTRA-PARTITION",
+    "interPartitionIntraEcu": "INTER-PARTITION-INTRA-ECU",
 }
 
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
@@ -1953,7 +1966,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeIdentifiable(child_element, access)
             self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
-            self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
+            scope = access.getScope()
+            if scope is not None:
+                token = VARIABLE_ACCESS_SCOPE_XML_MAP.get(scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported SCOPE <%s>" % scope.getValue())
+                else:
+                    scope_element = ET.SubElement(child_element, "SCOPE")
+                    scope_element.text = token
 
     def setSwValues(self, element: ET.Element, key: str, sw_values: SwValues):
         if sw_values is not None:
@@ -4144,7 +4164,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
         self.writeIdentifiable(child_element, access)
         self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
-        self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
+        scope = access.getScope()
+        if scope is not None:
+            token = VARIABLE_ACCESS_SCOPE_XML_MAP.get(scope.getValue())
+            if token is None:
+                self.notImplemented("Unsupported SCOPE <%s>" % scope.getValue())
+            else:
+                scope_element = ET.SubElement(child_element, "SCOPE")
+                scope_element.text = token
 
     def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: ParameterInAtomicSWCTypeInstanceRef):
         if parameter_iref is not None:
@@ -9606,6 +9633,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NETWORK-ENDPOINT")
         self.writeIdentifiable(child_element, end_point)
         self.setInfrastructureServices(child_element, "INFRASTRUCTURE-SERVICES", end_point.getInfrastructureServices())
+        ip_sec_config = end_point.getIpSecConfig()
+        if ip_sec_config is not None and (ip_sec_config.getIpSecConfigPropsRef() is not None or len(ip_sec_config.getIPSecRules()) > 0):
+            self.writeIPSecConfig(child_element, ip_sec_config)
         self.writeNetworkEndPointNetworkEndPointAddresses(child_element, end_point.getNetworkEndpointAddresses())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
 
@@ -10646,6 +10676,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             cond_tag = ET.SubElement(variants_tag, "ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL")
             self.writeEcucAbstractStringParamDef(cond_tag, param_def)
 
+    def writeEcucLinkerSymbolDef(self, element: ET.Element, param_def: EcucLinkerSymbolDef):
+        if param_def is not None:
+            child_element = ET.SubElement(element, "ECUC-LINKER-SYMBOL-DEF")
+            self.writeEcucParameterDef(child_element, param_def)
+            variants_tag = ET.SubElement(child_element, "ECUC-LINKER-SYMBOL-DEF-VARIANTS")
+            cond_tag = ET.SubElement(variants_tag, "ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
+            self.writeEcucAbstractStringParamDef(cond_tag, param_def)
+
     def writeEcucContainerDefParameters(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         parameters = container_def.getParameters()
         if len(parameters) > 0:
@@ -10667,6 +10705,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucFunctionNameDef(child_element, parameter)
                 elif isinstance(parameter, EcucMultilineStringParamDef):
                     self.writeEcucMultilineStringParamDef(child_element, parameter)
+                elif isinstance(parameter, EcucLinkerSymbolDef):
+                    self.writeEcucLinkerSymbolDef(child_element, parameter)
                 else:
                     self.notImplemented("Unsupported Parameter <%s>" % type(parameter))
 
@@ -10735,6 +10775,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "DESTINATION-CONTEXT", reference.getDestinationContext())
             self.setChildElementOptionalLiteral(child_element, "DESTINATION-TYPE", reference.getDestinationType())
 
+    def writeEcucForeignReferenceDef(self, element: ET.Element, reference: EcucForeignReferenceDef):
+        if reference is not None:
+            child_element = ET.SubElement(element, "ECUC-FOREIGN-REFERENCE-DEF")
+            self.writeEcucAbstractExternalReferenceDef(child_element, reference)
+            self.setChildElementOptionalLiteral(child_element, "DESTINATION-TYPE", reference.getDestinationType())
+
     def writeEcucContainerDefReferences(self, element: ET.Element, container_def: EcucContainerDef):
         references = container_def.getReferences()
         if len(references) > 0:
@@ -10748,6 +10794,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucChoiceReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
                     self.writeEcucInstanceReferenceDef(child_element, reference)
+                elif isinstance(reference, EcucForeignReferenceDef):
+                    self.writeEcucForeignReferenceDef(child_element, reference)
                 else:
                     self.notImplemented("Unsupported Reference <%s>" % type(reference))
 
@@ -10883,6 +10931,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucFunctionNameDef(parameters_element, parameter)
                 elif isinstance(parameter, EcucMultilineStringParamDef):
                     self.writeEcucMultilineStringParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucLinkerSymbolDef):
+                    self.writeEcucLinkerSymbolDef(parameters_element, parameter)
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Parameter <%s>" % type(parameter))
 
@@ -10899,6 +10949,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucChoiceReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
                     self.writeEcucInstanceReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucForeignReferenceDef):
+                    self.writeEcucForeignReferenceDef(references_element, reference)
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % type(reference))
 
@@ -12056,6 +12108,74 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CRYPTO-SIGNATURE-SCHEME")
         self.writeIdentifiable(child_element, scheme)
         self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", scheme.getSignatureSchemeId())
+
+    def writeIPSecRule(self, parent: ET.Element, rule: IPSecRule):
+        self.logger.debug("Write IPSecRule <%s>" % rule.getShortName())
+        element = ET.SubElement(parent, "IP-SEC-RULE")
+        self.writeIdentifiable(element, rule)
+        self.setChildElementOptionalLiteral(element, "DIRECTION", rule.getDirection())
+        self.setChildElementOptionalLiteral(element, "HEADER-TYPE", rule.getHeaderType())
+        self.setChildElementOptionalLiteral(element, "IP-PROTOCOL", rule.getIpProtocol())
+        refs = rule.getLocalCertificateRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "LOCAL-CERTIFICATE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "LOCAL-CERTIFICATE-REF", ref)
+        self.setChildElementOptionalString(element, "LOCAL-ID", rule.getLocalId())
+        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-END", rule.getLocalPortRangeEnd())
+        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-START", rule.getLocalPortRangeStart())
+        self.setChildElementOptionalLiteral(element, "MODE", rule.getMode())
+        self.setChildElementOptionalLiteral(element, "POLICY", rule.getPolicy())
+        self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", rule.getPreSharedKeyRef())
+        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", rule.getPriority())
+        refs = rule.getRemoteCertificateRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "REMOTE-CERTIFICATE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REMOTE-CERTIFICATE-REF", ref)
+        self.setChildElementOptionalString(element, "REMOTE-ID", rule.getRemoteId())
+        refs = rule.getRemoteIpAddressRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "REMOTE-IP-ADDRESS-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REMOTE-IP-ADDRESS-REF", ref)
+        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END", rule.getRemotePortRangeEnd())
+        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START", rule.getRemotePortRangeStart())
+
+    def writeIPSecConfigProps(self, parent: ET.Element, props: IPSecConfigProps):
+        self.logger.debug("Write IPSecConfigProps <%s>" % props.getShortName())
+        element = ET.SubElement(parent, "IP-SEC-CONFIG-PROPS")
+        self.writeIdentifiable(element, props)
+        names = props.getAhCipherSuiteNames()
+        if len(names) > 0:
+            names_tag = ET.SubElement(element, "AH-CIPHER-SUITE-NAMES")
+            for name in names:
+                self.setChildElementOptionalString(names_tag, "AH-CIPHER-SUITE-NAME", name)
+        self.setChildElementOptionalLiteral(element, "DPD-ACTION", props.getDpdAction())
+        self.setChildElementOptionalTimeValue(element, "DPD-DELAY", props.getDpdDelay())
+        names = props.getEspCipherSuiteNames()
+        if len(names) > 0:
+            names_tag = ET.SubElement(element, "ESP-CIPHER-SUITE-NAMES")
+            for name in names:
+                self.setChildElementOptionalString(names_tag, "ESP-CIPHER-SUITE-NAME", name)
+        self.setChildElementOptionalString(element, "IKE-CIPHER-SUITE-NAME", props.getIkeCipherSuiteName())
+        self.setChildElementOptionalTimeValue(element, "IKE-OVER-TIME", props.getIkeOverTime())
+        self.setChildElementOptionalPositiveInteger(element, "IKE-RAND-TIME", props.getIkeRandTime())
+        self.setChildElementOptionalTimeValue(element, "IKE-REAUTH-TIME", props.getIkeReauthTime())
+        self.setChildElementOptionalTimeValue(element, "IKE-REKEY-TIME", props.getIkeRekeyTime())
+        self.setChildElementOptionalPositiveInteger(element, "SA-OVER-TIME", props.getSaOverTime())
+        self.setChildElementOptionalTimeValue(element, "SA-RAND-TIME", props.getSaRandTime())
+        self.setChildElementOptionalTimeValue(element, "SA-REKEY-TIME", props.getSaRekeyTime())
+
+    def writeIPSecConfig(self, parent: ET.Element, config: IPSecConfig):
+        self.logger.debug("Write IPSecConfig")
+        element = ET.SubElement(parent, "IP-SEC-CONFIG")
+        self.setChildElementOptionalRefType(element, "IP-SEC-CONFIG-PROPS-REF", config.getIpSecConfigPropsRef())
+        rules = config.getIPSecRules()
+        if len(rules) > 0:
+            rules_tag = ET.SubElement(element, "IP-SEC-RULES")
+            for rule in rules:
+                self.writeIPSecRule(rules_tag, rule)
 
     def writeCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Write CryptoServiceCertificate <%s>" % certificate.getShortName())
@@ -14427,6 +14547,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCryptoSignatureScheme(element, ar_element)
         elif isinstance(ar_element, CryptoServiceCertificate):
             self.writeCryptoServiceCertificate(element, ar_element)
+        elif isinstance(ar_element, IPSecConfigProps):
+            self.writeIPSecConfigProps(element, ar_element)
         elif isinstance(ar_element, CryptoServicePrimitive):
             self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
@@ -14477,6 +14599,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucModuleConfigurationValues(element, ar_element)
         elif isinstance(ar_element, ModuleConfiguration):
             self.writeModuleConfiguration(element, ar_element)
+        elif isinstance(ar_element, EcucValueCollection):
+            self.writeEcucValueCollection(element, ar_element)
         elif isinstance(ar_element, EthTcpIpProps):
             self.writeEthTcpIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpIcmpProps):
