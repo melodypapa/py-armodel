@@ -105,12 +105,7 @@ def test_read_network_endpoint_ip_sec_config_wiring(parser):
 
 
 def test_read_network_endpoint_without_ip_sec_config(parser):
-    root = _snip(
-        "<NETWORK-ENDPOINT>"
-        "<SHORT-NAME>Ep1</SHORT-NAME>"
-        "<NETWORK-ENDPOINT-ADDRESSES></NETWORK-ENDPOINT-ADDRESSES>"
-        "</NETWORK-ENDPOINT>"
-    )
+    root = _snip("<NETWORK-ENDPOINT>" "<SHORT-NAME>Ep1</SHORT-NAME>" "<NETWORK-ENDPOINT-ADDRESSES></NETWORK-ENDPOINT-ADDRESSES>" "</NETWORK-ENDPOINT>")
     endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
     parser.readNetworkEndPoint(parser.find(root, "NETWORK-ENDPOINT"), endpoint)
 
