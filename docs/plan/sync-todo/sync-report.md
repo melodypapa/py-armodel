@@ -1457,7 +1457,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RPortPrototype`                                        | [x] Done    | 2cd6f3c46e                               | Group2           |
 | `RTEEvent`                                              | [x] Done    | f0483d5732                               | Group2           |
-| `RVariableInAtomicSwcInstanceRef`                       | [x] Done    | 74e821ccb8                               | Group11          |
+| `RVariableInAtomicSwcInstanceRef`                       | [x] Done    | 2014bb1a51                               | Group11          |
 | `RamBlockStatusControlEnum`                             | [x] Done    | 343d2af672                               | Group10          |
 | `RapidPrototypingScenario`                              | [ ] Created | N/A                                      | Group29          |
 | `ReceiverAnnotation`                                    | [ ] Created | N/A                                      | Group27          |

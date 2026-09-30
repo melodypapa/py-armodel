@@ -600,7 +600,7 @@ Status: **21/24** completed
 | `RModeGroupInAtomicSWCInstanceRef`     | [x] Done     | 7dd87307dd |
 | `POperationInAtomicSwcInstanceRef`     | [x] Done     | b6b0ea8cf7 |
 | `ROperationInAtomicSwcInstanceRef`     | [x] Done     | d7c9455251 |
-| `RVariableInAtomicSwcInstanceRef`      | [x] Done     | 74e821ccb8 |
+| `RVariableInAtomicSwcInstanceRef`      | [x] Done     | 2014bb1a51 |
 | `PTriggerInAtomicSwcTypeInstanceRef`   | [ ] Pending* | 74e821ccb8 |
 | `PPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb8 |
 | `RPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb8 |
