@@ -61,100 +61,36 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
 - [ ] `ReferrableSubtypesEnum` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.15, p.73
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [x] `AdminData` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.16, p.85 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/AdminData.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.15 (trailing-caption, p.73 via pdf_page.py); `| Primitive |`
+      table kind — NOT an AREnum: the Note says the possible values are intentionally not
+      shown (MMT-generated proxy; xml.xsd.type=string) → ARLiteral base kept with no
+      literals; Note verbatim in docstring.
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestReferrableSubtypesEnum pre-existed (init defaults) and passes —
+      no Red observable, nothing to fix.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs, zero literal members —
+      per the table's own Note the value set is MMT-generated and not displayed).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): FABRICATED class docstring ("Represents an enum for referrable
+      subtypes in AUTOSAR models.") REPLACED with the Table 4.15 Note verbatim + Tags
+      (Rule 0012.2.3 wipe-first); __init__ has no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; REFERRABLE-SUBTYPES-ENUM value form on
+      consumers (xml.mds.type attribute-form proxy).
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.15, p.73`; marker withheld
+      (batch mode).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `DocRevision` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.17, p.86 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/AdminData.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Sdg` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.19, p.90 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `SdgContents` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.20, p.91 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `SdgCaption` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 4.21, p.91 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Sd` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.22, p.91 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `Sdf` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.23, p.92 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+    - note (Step 8): literal values not modeled — per the spec table's own Note the
+      possible values are not shown (MMT-generated proxy for Referrable subclasses);
+      recorded as accepted. No missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `SdgDef` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 4.24, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
   - [ ] Step 1 — Sync members & description from spec
