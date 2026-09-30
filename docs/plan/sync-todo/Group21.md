@@ -260,41 +260,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `FullBindingTimeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 4.39, p.105; also FO_TPS_StandardizationTemplate Table 6.14, p.89
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [x] `AxisIndexType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.43, p.108; also CP_TPS_SoftwareComponentTemplate Table 5.101, p.425 — already verified (short-circuit 2026-09-30)
-  - module: M2/MSR/DataDictionary/RecordLayout.py
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.39 (leading-caption, p.105 via pdf_page.py); Enumeration
+      kind; Package M2::...::GeneralTemplateClasses::ModelRestrictionTypes — MODULE
+      REHOUSED from the PrimitiveTypes.py stub hint to the spec package (new module);
+      6 literals with verbatim descriptions and EnumerationLiteralIndex 0-5.
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): test_ModelRestrictionTypes.py TestFullBindingTimeEnum added (init +
+      6 literal member pins + getEnumValues order + setValue) — seen Red (module did not
+      exist) before implementation.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): AREnum subclass with the 6 UPPER_SNAKE literal members and the
+      literal tuple passed to super().__init__ (ResolutionPolicyEnum house shape); the
+      PrimitiveTypes.py stub removed; module exported via models/__init__.py.
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.39 Note verbatim; each literal carries
+      its table Description verbatim as the inline comment (house enum convention);
+      __init__ has no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; values serialize as VALID-BINDING-TIME
+      element text under AbstractVariationRestriction.validBindingTimes (covered there).
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column with the "(no methods)" enum-value
+      note; `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.39, p.105`;
+      marker withheld (batch mode).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [x] `BaseTypeEncodingString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.44, p.108; also CP_TPS_SoftwareComponentTemplate Table 5.25, p.291 — already verified (short-circuit 2026-09-30)
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+    - note (Step 8): XSD-vs-PDF arbitration — the R23-11 XSD FULL-BINDING-TIME-ENUM
+      (00052 l.136988) carries only 5 literals (SYSTEM-DESIGN-TIME absent) while the
+      markdown/PDF table documents 6; per Rule 0015 the PDF/markdown table wins → 6
+      literals modeled (SYSTEM-DESIGN-TIME included). No missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (344 passed / 0 failed
+    GeneralTemplateClasses suite); 9b deferred to batch confirmation (user instruction)
 - [ ] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
