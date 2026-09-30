@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 567 | 29.5% |
+| [x] Done | 568 | 29.6% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 197 | 10.3% |
+| [ ] Deferred | 196 | 10.2% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1449,7 +1449,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `QueuedReceiverComSpec`                                 | [x] Done    | bb5804989f                               | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `RModeGroupInAtomicSWCInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
-| `RModeInAtomicSwcInstanceRef`                           | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RModeInAtomicSwcInstanceRef`                           | [x] Done    | 5a3a7d14c0                               | Group11          |
 | `ROperationInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
 | `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
