@@ -1450,7 +1450,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PulseTestEnum`                                         | [ ] Implemented| N/A                                      | Group27          |
 | `QueuedReceiverComSpec`                                 | [x] Done    | bb5804989f                               | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ffc7                               | Group5           |
-| `RModeGroupInAtomicSWCInstanceRef`                      | [x] Done    | 74e821ccb8                               | Group11          |
+| `RModeGroupInAtomicSWCInstanceRef`                      | [x] Done    | 7dd87307dd                               | Group11          |
 | `RModeInAtomicSwcInstanceRef`                           | [x] Done    | 5a3a7d14c0                               | Group11          |
 | `ROperationInAtomicSwcInstanceRef`                      | [x] Done    | 74e821ccb8                               | Group11          |
 | `RPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
