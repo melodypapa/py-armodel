@@ -1370,7 +1370,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `OsTaskPreemptabilityEnum`                              | [x] Done    | c53a7febdc                               | Group5           |
 | `OsTaskProxy`                                           | [x] Done    | 61ccaa68eb                               | Group5           |
 | `PModeGroupInAtomicSwcInstanceRef`                      | [x] Done    | f517d795f6                               | Group11          |
-| `POperationInAtomicSwcInstanceRef`                      | [x] Done    | 74e821ccb8                               | Group11          |
+| `POperationInAtomicSwcInstanceRef`                      | [x] Done    | b6b0ea8cf7                               | Group11          |
 | `PPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
 | `PPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `PPortPrototype`                                        | [x] Done    | 0927333086                               | Group2           |

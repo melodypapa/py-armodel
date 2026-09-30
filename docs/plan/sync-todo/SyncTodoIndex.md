@@ -598,7 +598,7 @@ Status: **20/24** completed
 | `TriggerInAtomicSwcInstanceRef`        | [x] Done     | 839264b3a6 |
 | `PModeGroupInAtomicSwcInstanceRef`     | [x] Done     | f517d795f6 |
 | `RModeGroupInAtomicSWCInstanceRef`     | [x] Done     | 7dd87307dd |
-| `POperationInAtomicSwcInstanceRef`     | [x] Done     | 74e821ccb8 |
+| `POperationInAtomicSwcInstanceRef`     | [x] Done     | b6b0ea8cf7 |
 | `ROperationInAtomicSwcInstanceRef`     | [x] Done     | 74e821ccb8 |
 | `RVariableInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
 | `PTriggerInAtomicSwcTypeInstanceRef`   | [ ] Pending* | 74e821ccb8 |
