@@ -6,17 +6,17 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**1921 classes total**
+**1923 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
 | [x] Done | 500 | 26.0% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 195 | 10.2% |
-| [ ] Implemented | 620 | 32.3% |
-| [ ] Created | 595 | 31.0% |
-| [ ] Pending | 0 | 0.0% |
+| [ ] Deferred | 204 | 10.6% |
+| [ ] Implemented | 618 | 32.1% |
+| [ ] Created | 588 | 30.6% |
+| [ ] Pending | 2 | 0.1% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
@@ -361,8 +361,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CouplingElementEnum`                                   | [ ] Created | N/A                                      | Group30          |
 | `CouplingElementSwitchDetails`                          | [ ] Created | N/A                                      | Group30          |
 | `CouplingPort`                                          | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortAbstractShaper`                            | [ ] Implemented| N/A                                      | Group16          |
+| `CouplingPortAbstractShaper`                            | [ ] Deferred| N/A                                      | Group16          |
+| `CouplingPortAsynchronousTrafficShaper`                 | [ ] Pending | N/A                                      | Group16          |
 | `CouplingPortConnection`                                | [ ] Implemented| N/A                                      | Group30          |
+| `CouplingPortCreditBasedShaper`                         | [ ] Pending | N/A                                      | Group16          |
 | `CouplingPortDetails`                                   | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortFifo`                                      | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortRatePolicy`                                | [ ] Implemented| N/A                                      | Group30          |
@@ -1061,19 +1063,19 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IEEE1722TpRvfFrameRateEnum`                            | [ ] Created | N/A                                      | Group33          |
 | `IEEE1722TpRvfPixelDepthEnum`                           | [ ] Created | N/A                                      | Group33          |
 | `IEEE1722TpRvfPixelFormatEnum`                          | [ ] Created | N/A                                      | Group33          |
-| `IPSecConfig`                                           | [ ] Implemented| 6c97ddc108                               | Group16          |
-| `IPSecConfigProps`                                      | [ ] Created | N/A                                      | Group32          |
-| `IPSecRule`                                             | [ ] Created | N/A                                      | Group32          |
+| `IPSecConfig`                                           | [ ] Deferred| 6c97ddc108                               | Group16          |
+| `IPSecConfigProps`                                      | [ ] Deferred| N/A                                      | Group32          |
+| `IPSecRule`                                             | [ ] Deferred| N/A                                      | Group32          |
 | `IPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
 | `IPduMapping`                                           | [x] Done    | 9c8e10b37f                               | Group6           |
 | `IPduPort`                                              | [ ] Implemented| N/A                                      | Group31          |
 | `IPduSignalProcessingEnum`                              | [ ] Implemented| N/A                                      | Group31          |
 | `IPduTiming`                                            | [ ] Implemented| N/A                                      | Group31          |
-| `IPsecDpdActionEnum`                                    | [ ] Created | N/A                                      | Group33          |
-| `IPsecHeaderTypeEnum`                                   | [ ] Created | N/A                                      | Group33          |
-| `IPsecIpProtocolEnum`                                   | [ ] Created | N/A                                      | Group32          |
-| `IPsecModeEnum`                                         | [ ] Created | N/A                                      | Group32          |
-| `IPsecPolicyEnum`                                       | [ ] Created | N/A                                      | Group32          |
+| `IPsecDpdActionEnum`                                    | [ ] Deferred| N/A                                      | Group33          |
+| `IPsecHeaderTypeEnum`                                   | [ ] Deferred| N/A                                      | Group33          |
+| `IPsecIpProtocolEnum`                                   | [ ] Deferred| N/A                                      | Group32          |
+| `IPsecModeEnum`                                         | [ ] Deferred| N/A                                      | Group32          |
+| `IPsecPolicyEnum`                                       | [ ] Deferred| N/A                                      | Group32          |
 | `IPv6ExtHeaderFilterList`                               | [ ] Deferred| 2d5b3256b4                               | Group16          |
 | `IPv6ExtHeaderFilterSet`                                | [ ] Created | N/A                                      | Group32          |
 | `ISignal`                                               | [ ] Implemented| N/A                                      | Group31          |

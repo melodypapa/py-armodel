@@ -722,37 +722,39 @@ Status: **0/24** completed
 
 ## Group16
 
-Status: **0/27** completed
+Status: **0/29** completed
 
-| Class Name                        | Status          | Commit ID  |
-| --------------------------------- | --------------- | ---------- |
-| `RuntimeAddressConfigurationEnum` | [ ] Pending*    | c5bb322323 |
-| `IpAddressKeepEnum`               | [ ] Pending*    | c5bb322323 |
-| `Ipv6AddressSourceEnum`           | [ ] Pending*    | c5bb322323 |
-| `Ipv4AddressSourceEnum`           | [ ] Pending*    | 6c97ddc108 |
-| `DoIpEntity`                      | [ ] Pending*    | b1e4750b14 |
-| `TpPort`                          | [ ] Pending*    | b1e4750b14 |
-| `InitialSdDelayConfig`            | [ ] Pending*    | d7240be740 |
-| `EthernetPriorityRegeneration`    | [ ] Pending*    | b1e4750b14 |
-| `TimeSyncServerConfiguration`     | [ ] Pending*    | b1e4750b14 |
-| `CouplingPortAbstractShaper`      | [ ] Implemented | N/A        |
-| `MacMulticastGroup`               | [ ] Pending*    | b1e4750b14 |
-| `IPSecConfig`                     | [ ] Implemented | 6c97ddc108 |
-| `NetworkEndpoint`                 | [ ] Pending*    | 6c97ddc108 |
-| `VlanConfig`                      | [ ] Pending*    | b1e4750b14 |
-| `Ipv4Configuration`               | [ ] Pending*    | 6c97ddc108 |
-| `GenericTp`                       | [ ] Pending*    | N/A        |
-| `TcpTp`                           | [ ] Pending*    | N/A        |
-| `UdpTp`                           | [ ] Pending*    | N/A        |
-| `PduCollectionSemanticsEnum`      | [ ] Pending*    | 4b7c8dc79c |
-| `SocketConnectionIpduIdentifier`  | [ ] Pending*    | 4b7c8dc79c |
-| `SocketConnectionBundle`          | [ ] Pending*    | 4b7c8dc79c |
-| `RequestResponseDelay`            | [ ] Pending*    | d7240be740 |
-| `SdServerConfig`                  | [ ] Pending*    | d7240be740 |
-| `TcpOptionFilterList`             | [ ] Pending*    | 2d5b3256b4 |
-| `TcpOptionFilterSet`              | [ ] Pending*    | 2d5b3256b4 |
-| `IPv6ExtHeaderFilterList`         | [ ] Pending*    | 2d5b3256b4 |
-| `TimeSynchronization`             | [ ] Pending*    | b1e4750b14 |
+| Class Name                              | Status       | Commit ID  |
+| --------------------------------------- | ------------ | ---------- |
+| `RuntimeAddressConfigurationEnum`       | [ ] Pending* | c5bb322323 |
+| `IpAddressKeepEnum`                     | [ ] Pending* | c5bb322323 |
+| `Ipv6AddressSourceEnum`                 | [ ] Pending* | c5bb322323 |
+| `Ipv4AddressSourceEnum`                 | [ ] Pending* | 6c97ddc108 |
+| `DoIpEntity`                            | [ ] Pending* | b1e4750b14 |
+| `TpPort`                                | [ ] Pending* | b1e4750b14 |
+| `InitialSdDelayConfig`                  | [ ] Pending* | d7240be740 |
+| `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
+| `TimeSyncServerConfiguration`           | [ ] Pending* | b1e4750b14 |
+| `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
+| `CouplingPortAsynchronousTrafficShaper` | [ ] Pending  | N/A        |
+| `CouplingPortCreditBasedShaper`         | [ ] Pending  | N/A        |
+| `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
+| `IPSecConfig`                           | [ ] Pending* | 6c97ddc108 |
+| `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
+| `VlanConfig`                            | [ ] Pending* | b1e4750b14 |
+| `Ipv4Configuration`                     | [ ] Pending* | 6c97ddc108 |
+| `GenericTp`                             | [ ] Pending* | N/A        |
+| `TcpTp`                                 | [ ] Pending* | N/A        |
+| `UdpTp`                                 | [ ] Pending* | N/A        |
+| `PduCollectionSemanticsEnum`            | [ ] Pending* | 4b7c8dc79c |
+| `SocketConnectionIpduIdentifier`        | [ ] Pending* | 4b7c8dc79c |
+| `SocketConnectionBundle`                | [ ] Pending* | 4b7c8dc79c |
+| `RequestResponseDelay`                  | [ ] Pending* | d7240be740 |
+| `SdServerConfig`                        | [ ] Pending* | d7240be740 |
+| `TcpOptionFilterList`                   | [ ] Pending* | 2d5b3256b4 |
+| `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
+| `IPv6ExtHeaderFilterList`               | [ ] Pending* | 2d5b3256b4 |
+| `TimeSynchronization`                   | [ ] Pending* | b1e4750b14 |
 
 ## Group17
 
@@ -1847,11 +1849,11 @@ Status: **0/75** completed
 | `DdsHistoryKindEnum`                   | [ ] Created     | N/A       |
 | `DdsResourceLimits`                    | [ ] Created     | N/A       |
 | `StaticSocketConnection`               | [ ] Implemented | N/A       |
-| `IPSecRule`                            | [ ] Created     | N/A       |
-| `IPSecConfigProps`                     | [ ] Created     | N/A       |
-| `IPsecIpProtocolEnum`                  | [ ] Created     | N/A       |
-| `IPsecPolicyEnum`                      | [ ] Created     | N/A       |
-| `IPsecModeEnum`                        | [ ] Created     | N/A       |
+| `IPSecRule`                            | [ ] Pending*    | N/A       |
+| `IPSecConfigProps`                     | [ ] Pending*    | N/A       |
+| `IPsecIpProtocolEnum`                  | [ ] Pending*    | N/A       |
+| `IPsecPolicyEnum`                      | [ ] Pending*    | N/A       |
+| `IPsecModeEnum`                        | [ ] Pending*    | N/A       |
 
 ## Group33
 
@@ -1859,8 +1861,8 @@ Status: **0/75** completed
 
 | Class Name                                  | Status          | Commit ID |
 | ------------------------------------------- | --------------- | --------- |
-| `IPsecHeaderTypeEnum`                       | [ ] Created     | N/A       |
-| `IPsecDpdActionEnum`                        | [ ] Created     | N/A       |
+| `IPsecHeaderTypeEnum`                       | [ ] Pending*    | N/A       |
+| `IPsecDpdActionEnum`                        | [ ] Pending*    | N/A       |
 | `EthernetFrameTriggering`                   | [ ] Created     | N/A       |
 | `UserDefinedEthernetFrame`                  | [ ] Created     | N/A       |
 | `Ieee1722TpEthernetFrame`                   | [ ] Created     | N/A       |
