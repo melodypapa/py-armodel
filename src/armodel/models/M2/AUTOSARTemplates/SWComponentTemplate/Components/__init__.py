@@ -600,11 +600,12 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
 
     # AbstractProvidedPortPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.4, p.68 (R23-11; body renders above the caption line)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] _validateProvidedComSpec     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addProvidedComSpec           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getProvidedComSpecs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] _validateProvidedComSpec     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNonqueuedSenderComSpecs   [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):

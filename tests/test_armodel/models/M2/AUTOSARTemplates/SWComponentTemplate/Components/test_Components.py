@@ -937,6 +937,19 @@ class TestAbstractProvidedPortPrototypeSpecContract:
         port.addProvidedComSpec(None)
         assert port.getProvidedComSpecs() == [com_spec]
 
+    def test_validate_provided_comspec_returns_false_for_invalid_dest(self, caplog):
+        port = self._make()
+        com_spec = NonqueuedSenderComSpec()
+        reference = RefType().setValue("/Test/Variable")
+        reference.dest = "INVALID-DEST"
+        com_spec.setDataElementRef(reference)
+
+        with caplog.at_level(logging.WARNING):
+            assert port._validateProvidedComSpec(com_spec) is False
+
+        assert "Invalid DEST" in caplog.text
+        assert "NonqueuedSenderComSpec" in caplog.text
+
     def test_accessor_annotations(self):
         """addProvidedComSpec carries Optional[PPortComSpec] and chains; getProvidedComSpecs returns List[PPortComSpec] (Table 3.4 mults)."""
         from typing import Optional, get_type_hints
