@@ -2969,10 +2969,6 @@ class IEEE1722TpConnection(ARElement, ABC):
     pass
 
 
-class IPSecConfigProps(ARElement):
-    pass
-
-
 class IPv6ExtHeaderFilterSet(ARElement):
     pass
 

@@ -942,10 +942,6 @@ class IEEE1722TpAcfLinPart(Identifiable):
     pass
 
 
-class IPSecRule(Identifiable):
-    pass
-
-
 class J1939TpNode(Identifiable):
     pass
 
