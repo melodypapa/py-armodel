@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     PositiveUnlimitedInteger,
     RefType,
+    RegularExpression,
     RevisionLabelString,
     String,
     TimeValue,
@@ -98,6 +99,12 @@ class AbstractARXMLParser(ABC):
             return child_element.text
         return None
     """
+
+    def getChildElementOptionalStringValue(self, element: ET.Element, key: str) -> Optional[str]:
+        child_element = self.find(element, key)
+        if child_element is not None:
+            return child_element.text
+        return None
 
     def getChildElementLiteral(self, short_name: str, element: ET.Element, key: str) -> ARLiteral:
         child_element = self.find(element, key)
@@ -213,6 +220,18 @@ class AbstractARXMLParser(ABC):
             else:
                 name_token.setValue(child_element.text)
         return name_token
+
+    def getChildElementOptionalRegularExpression(self, element: ET.Element, key: str) -> Optional[RegularExpression]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = RegularExpression()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)

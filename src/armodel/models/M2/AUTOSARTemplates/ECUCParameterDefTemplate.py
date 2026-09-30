@@ -524,7 +524,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         super().__init__(parent, short_name)
 
         # Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
-        self.destinationUriRefs: List[EcucDestinationUriDefRefType] = []
+        self.destinationUriRefs: List[RefType] = []
 
         # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
@@ -538,13 +538,13 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         # Used to define whether the value element for this definition shall be provided with an index.
         self.requiresIndex: Optional[Boolean] = None
 
-    def getDestinationUriRefs(self) -> List[EcucDestinationUriDefRefType]:
+    def getDestinationUriRefs(self) -> List[RefType]:
         """
         Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
         """
         return self.destinationUriRefs
 
-    def addDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucContainerDef":
+    def addDestinationUriRef(self, value: RefType) -> "EcucContainerDef":
         """
         Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
         A None value is a no-op.
@@ -1060,36 +1060,44 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    ECUC reference definition using symbolic names with a destination reference.
+    This meta-class specifies that the implementation of the reference is done using a symbolic name defined by the referenced Container's shortName.
     """
 
     # EcucSymbolicNameReferenceDef method parity checklist:
-    # (legacy class, removed in R23-11; no spec table)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: R4.3.1/AUTOSAR_TPS_ECUConfiguration.pdf, Table 2.34, p.83
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDestinationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationRef: RefType = None
+        # Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+        self.destinationRef: Optional[RefType] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Optional[RefType]:
         """
-        Gets the reference to a parameter container.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Returns:
+            The destination reference, or None if not set
         """
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType) -> "EcucSymbolicNameReferenceDef":
+    def setDestinationRef(self, value: Optional[RefType]) -> "EcucSymbolicNameReferenceDef":
         """
-        Sets the reference to a parameter container.
-        A None value is a no-op.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Args:
+            value: The destination reference to set
+
+        Returns:
+            self for method chaining
         """
         if value is not None:
             self.destinationRef = value
         return self
-
-
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Specify alternative references where in the ECU Configuration description
@@ -1127,38 +1135,44 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    Specify references within the ECU Configuration Description between parameter
-    containers.
+    Specify references within the ECU Configuration Description between parameter containers.
     """
 
     # EcucReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.29, p.73
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Exactly one reference to a parameter container is allowed as destination.
-        self.destinationRef: RefType = None
+        # Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+        self.destinationRef: Optional[RefType] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Optional[RefType]:
         """
-        Gets the reference to a parameter container.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Returns:
+            The destination reference, or None if not set
         """
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType) -> "EcucReferenceDef":
+    def setDestinationRef(self, value: Optional[RefType]) -> "EcucReferenceDef":
         """
-        Sets the reference to a parameter container.
-        A None value is a no-op.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Args:
+            value: The destination reference to set
+
+        Returns:
+            self for method chaining
         """
         if value is not None:
             self.destinationRef = value
         return self
-
-
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Definition of reference with a destination that is specified via a destinationUri. With such a reference it is possible to define a reference to a EcucContainerDef in a different module independent from the concrete definition of the target container.
@@ -1166,31 +1180,39 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucUriReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.33, p.81
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationUriRef: EcucDestinationUriDefRefType = None
+        # Any EcucContainerDef with a destinationUri that is identical to the destinationUri that is referenced here defines a valid target. Stereotypes: atpUriDef
+        self.destinationUriRef: Optional[RefType] = None
 
-    def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
+    def getDestinationUriRef(self) -> Optional[RefType]:
         """
-        Gets the destination URI reference.
+        Any EcucContainerDef with a destinationUri that is identical to the destinationUri that is referenced here defines a valid target. Stereotypes: atpUriDef
+
+        Returns:
+            The destination URI reference, or None if not set
         """
         return self.destinationUriRef
 
-    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucUriReferenceDef":
+    def setDestinationUriRef(self, value: Optional[RefType]) -> "EcucUriReferenceDef":
         """
-        Sets the destination URI reference.
-        A None value is a no-op.
+        Any EcucContainerDef with a destinationUri that is identical to the destinationUri that is referenced here defines a valid target. Stereotypes: atpUriDef
+
+        Args:
+            value: The destination URI reference to set
+
+        Returns:
+            self for method chaining
         """
         if value is not None:
             self.destinationUriRef = value
         return self
-
-
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
     Specify a reference to an XML description of an entity described in another AUTOSAR template.
@@ -2266,10 +2288,10 @@ class EcucParameterDerivationFormula(FormulaExpression):
         super().__init__()
 
         # This is one particular EcucQuery used in the calculation formula.
-        self.ecucQueryRef: RefType = None
+        self.ecucQueryRef: Optional[RefType] = None
 
         # This indicates that the referenced query shall return a string.
-        self.ecucQueryStringRef: RefType = None
+        self.ecucQueryStringRef: Optional[RefType] = None
 
     def getEcucQueryRef(self) -> RefType:
         """

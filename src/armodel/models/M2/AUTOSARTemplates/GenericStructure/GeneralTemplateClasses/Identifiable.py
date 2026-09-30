@@ -770,44 +770,14 @@ class RptContainer(Identifiable):
     pass
 
 
-class SdgAttribute(Identifiable, ABC):
-    pass
 
 
-class SdgAbstractForeignReference(SdgAttribute, ABC):
-    pass
 
 
-class SdgAbstractPrimitiveAttribute(SdgAttribute, ABC):
-    pass
 
 
-class SdgAggregationWithVariation(SdgAttribute):
-    pass
 
 
-class SdgClass(Identifiable):
-    pass
-
-
-class SdgForeignReference(SdgAbstractForeignReference):
-    pass
-
-
-class SdgForeignReferenceWithVariation(SdgAbstractForeignReference):
-    pass
-
-
-class SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute):
-    pass
-
-
-class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
-    pass
-
-
-class SdgReference(SdgAttribute):
-    pass
 
 
 class SdgTailoring(DataFormatElementScope):

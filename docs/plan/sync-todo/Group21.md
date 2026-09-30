@@ -11,903 +11,1310 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [ ] `Identifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.5, p.61; also FO_TPS_StandardizationTemplate Table 4.4, p.43
+- [x] `Identifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.5, p.61; also FO_TPS_StandardizationTemplate Table 4.4, p.43 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `LLongName` — LanguageSpecific — R23-11 FO_TPS_GenericStructureTemplate Table 4.8, p.62; also CP_TPS_DiagnosticExtractTemplate Table 4.166, p.180
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `LLongName` — LanguageSpecific — R23-11 FO_TPS_GenericStructureTemplate Table 4.8, p.62; also CP_TPS_DiagnosticExtractTemplate Table 4.166, p.180 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `MixedContentForLongName` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.9, p.63
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `MixedContentForLongName` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.9, p.63 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Referrable` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.10, p.63
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `Referrable` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.10, p.63 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
 - [ ] `ReferrableSubtypesEnum` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.15, p.73
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `AdminData` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.16, p.85
-  - module: M2/MSR/AsamHdo/AdminData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DocRevision` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.17, p.86
-  - module: M2/MSR/AsamHdo/AdminData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Sdg` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.19, p.90
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `SdgContents` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.20, p.91
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `SdgCaption` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 4.21, p.91
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Sd` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.22, p.91
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Sdf` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.23, p.92
-  - module: M2/MSR/AsamHdo/SpecialData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.15 (trailing-caption, p.73 via pdf_page.py); `| Primitive |`
+      table kind — NOT an AREnum: the Note says the possible values are intentionally not
+      shown (MMT-generated proxy; xml.xsd.type=string) → ARLiteral base kept with no
+      literals; Note verbatim in docstring.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestReferrableSubtypesEnum pre-existed (init defaults) and passes —
+      no Red observable, nothing to fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs, zero literal members —
+      per the table's own Note the value set is MMT-generated and not displayed).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): FABRICATED class docstring ("Represents an enum for referrable
+      subtypes in AUTOSAR models.") REPLACED with the Table 4.15 Note verbatim + Tags
+      (Rule 0012.2.3 wipe-first); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; REFERRABLE-SUBTYPES-ENUM value form on
+      consumers (xml.mds.type attribute-form proxy).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.15, p.73`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): literal values not modeled — per the spec table's own Note the
+      possible values are not shown (MMT-generated proxy for Referrable subclasses);
+      recorded as accepted. No missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `SdgDef` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 4.24, p.99
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.24 (trailing-caption page-split; p.99 via pdf_page.py); Package M2::...::GeneralTemplateClasses::SpecialDataDef — REHOUSED from the ARPackage.py stub to the spec package (new module); Base ARElement (most-derived); attr sdgClass (SdgClass, *, aggr) → sdgClasses + addSdgClass; ARPackage.createSdgDef factory added (late import, mirroring the VariantHandling pattern).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ARElement subclass with (parent, short_name) ctor; sdgClasses List[SdgClass] PEP 526 under its Note.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.24 Note verbatim (the spec's own "similiar" spelling kept) + atp.recommendedPackage tag; attr Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; consumer dispatch added to the ARPackage element writer/parser chains.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
 - [ ] `SdgElementWithGid` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.25, p.99
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.25 (p.99 via pdf_page.py); abstract (spec header); REHOUSED from the ArObject.py stub; Base ARObject (most-derived); attr gid (NameToken, 0..1, attr).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): MIXIN-STYLE base: class-level gid default + accessors, NO __init__ — SdgElementWithGid sits in front of Identifiable in every concrete subclass MRO and an __init__ here would never run (VariationPointCapable/StereotypeMixins precedent, recorded in-code); no instantiation guard as a consequence.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.25 Note verbatim; gid Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): abstract instantiation guard dropped (mixin pattern — combined-inheritance constraint); no test asserts rejection for this class.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgClass` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → Optional[str]), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): dual-base (SdgElementWithGid, Identifiable) per the Base row; polymorphic attributes List[SdgAttribute] with addAttribute (Rule 0004 dedicated list, no registry filter); MetaClassName/TraceableText have no src classes → str/RefType.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.26 Note verbatim; member comments + accessor docstrings = table/XSD attr Notes verbatim ("Defintion" spec typo kept).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): extendsMetaClass typed Optional[str] (MetaClassName primitive has no src class); sdgConstraint typed List[RefType] (TraceableText ditto); SdgReference carries NO gid per its Base row/XSD group.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAttribute` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.27 (p.100 via pdf_page.py); abstract (spec header); REHOUSED from the Identifiable.py stub; Base row: ARObject, AbstractMultiplicityRestriction, Identifiable, MLR, Referrable → SdgAttribute(Identifiable, AbstractMultiplicityRestriction, ABC); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): abstract with (parent, short_name) ctor + type-guard; inherits the Identifiable member chain and the AbstractMultiplicityRestriction marker.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.27 Note verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): lowerMultiplicity/upperMultiplicity/upperMultiplicityInfinite (XSD group ABSTRACT-MULTIPLICITY-RESTRICTION) NOT modeled — the AbstractMultiplicityRestriction stub is empty and its members belong to that class's own (later-group) row.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAbstractPrimitiveAttribute` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAbstractPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.28 (p.100 via pdf_page.py); abstract (spec header); Base row adds AbstractValueRestriction → SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractValueRestriction, ABC); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): abstract with (parent, short_name) ctor + type-guard; MRO SdgAbstractPrimitiveAttribute → SdgElementWithGid (mixin) → SdgAttribute → Identifiable chain → AbstractMultiplicityRestriction → AbstractValueRestriction (mixin) → ARObject; value-restriction members initialize via class-level defaults.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.28 Note verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none beyond the mixin-pattern notes on SdgElementWithGid/AbstractValueRestriction.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgPrimitiveAttribute` — SdgAbstractPrimitiveAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.29 (leading-caption page-split; p.101 via pdf_page.py); Base row: full chain → SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute); zero own attribute rows (category/pattern semantics come from the inherited value restriction).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): concrete pass-through subclass with (parent, short_name) ctor.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.29 Note verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgPrimitiveAttributeWithVariation` — SdgAbstractPrimitiveAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.30 (trailing-caption; p.101 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, AbstractVariationRestriction); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): dual-base (SdgAbstractPrimitiveAttribute, AbstractVariationRestriction); validBindingTimes initialized per-instance in __init__ (mutable class-level default would be shared).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.30 Note verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAggregationWithVariation` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.31 (leading-caption; p.101 via pdf_page.py); Base row: ARObject, AMR, AbstractVariationRestriction, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction); attr subSdg (SdgClass, 0..1, ref) → subSdgRef.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): triple-base per the Base row; subSdgRef Optional[RefType] (Rule 0001.5 Ref suffix).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.31 Note verbatim ("Represents 'sdg'" kept); subSdg Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgReference` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.32 (leading-caption; p.101 via pdf_page.py); Base row has NO SdgElementWithGid (XSD SDG-REFERENCE group embeds no SDG-ELEMENT-WITH-GID) → SdgReference(SdgAttribute); attr destSdg (SdgClass, 0..1, ref) → destSdgRef.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): single-base SdgAttribute (Identifiable chain, no gid); destSdgRef Optional[RefType].
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.32 Note verbatim; destSdg long Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAbstractForeignReference` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.33 (header-cell lookup; p.102 via pdf_page.py); abstract (spec header); Base row: ARObject, AMR, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC); attr destMetaClass (MetaClassName, 0..1, attr → Optional[str]).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): abstract with (parent, short_name) ctor + type-guard; dual-base per the Base row.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.33 Note verbatim ("An abstract reference that can point to any referrable object in an AUTOSAR Model."); destMetaClass Note verbatim (lowercase "specifies..." as printed).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): destMetaClass typed Optional[str] (MetaClassName primitive has no src class).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgForeignReference` — SdgAbstractForeignReference — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.34 (trailing-caption; p.102 via pdf_page.py); Base row: full chain incl. SdgAbstractForeignReference → SdgForeignReference(SdgAbstractForeignReference); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): concrete pass-through subclass with (parent, short_name) ctor.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.34 Note verbatim (the "Sdx" sentence belongs to THIS class, not the abstract).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgForeignReferenceWithVariation` — SdgAbstractForeignReference — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgForeignReferenceWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.35 (leading-caption; p.102 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVariationRestriction); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): dual-base; validBindingTimes initialized per-instance in __init__.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.35 Note verbatim (the "Sdxf" sentence).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
 - [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.37 (header-cell lookup; p.103 via pdf_page.py); abstract
+      (spec header "(abstract)"); REHOUSED
+      from the ArObject.py stub hint to the spec package ModelRestrictionTypes; Base
+      ARObject (most-derived); 5 attrs in displayed order max/maxLength/min/minLength/
+      pattern (Limit, PositiveInteger, Limit, PositiveInteger, RegularExpression).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestAbstractValueRestriction added (abstract rejection + member
+      round-trip + None defaults) — abstract rejection seen Red (DID NOT RAISE TypeError
+      before the type-guard was added per the AtpInstanceRef house shape).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ABC + instantiation guard; 5 Optional members PEP 526 under their
+      Note comments (blank line between blocks); matched get/set pairs returning self;
+      the dependent ValueRestrictionWithSeverity stub rehoused alongside (its Base
+      references this class; its own sync row remains queued).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.37 Note verbatim; member comments +
+      getter/setter docstrings = table attr Notes verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): abstract-with-XML-attrs per Rule 0001.7 — helpers implemented
+      and exercised directly: tests/test_armodel/parser/test_abstract_value_restriction.py
+      (readAbstractValueRestriction: full + empty element) and
+      tests/test_armodel/writer/test_abstract_value_restriction.py (write: populated +
+      empty); concrete consumers (Sdg family) call these helpers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readAbstractValueRestriction / writeAbstractValueRestriction
+      added (MAX/MIN via setChildLimitElement+getChildLimitElement, MAX-LENGTH/
+      MIN-LENGTH via the PositiveInteger pair, PATTERN via a new
+      setChildElementOptionalRegularExpression/getChildElementOptionalRegularExpression
+      pair in the abstract writer/parser); no chained mutators.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.103`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; referenced classes Limit/PositiveInteger pre-existed,
+      RegularExpression synced earlier in this batch; Subclasses rows
+      (PrimitiveAttributeCondition, SdgAbstractPrimitiveAttribute, ValueRestrictionWithSeverity)
+      — SdgAbstractPrimitiveAttribute/ValueRestrictionWithSeverity handled in this
+      batch/queue, PrimitiveAttributeCondition belongs to a later group row.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (10 passed / 0 failed
+    new-file suite; GeneralTemplateClasses 349 passed); 9b deferred to batch
+    confirmation (user instruction)
 - [ ] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.38 (header-cell lookup; p.104 via pdf_page.py); abstract
+      (spec header "(abstract)"); REHOUSED from the ArObject.py stub hint to the spec
+      package ModelRestrictionTypes; Base ARObject (most-derived); attrs in displayed
+      order validBindingTime (FullBindingTimeEnum, *, xml.sequenceOffset=20 — modeled
+      plural validBindingTimes per Rule 0001.5) and variation (Boolean, 0..1,
+      xml.sequenceOffset=10); XSD order VARIATION then VALID-BINDING-TIMES.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestAbstractVariationRestriction added (abstract rejection + member
+      round-trip + None/empty defaults) — rejection Red observable before the guard
+      (same house shape as AbstractValueRestriction).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ABC + instantiation guard; variation Optional[Boolean] +
+      validBindingTimes List[FullBindingTimeEnum] PEP 526 under their Note comments;
+      get/setVariation + get/set/addValidBindingTimes; the dependent
+      VariationRestrictionWithSeverity stub rehoused alongside (its own sync row remains
+      queued).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.38 Note verbatim; member comments +
+      accessor docstrings = table attr Notes verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): abstract-with-XML-attrs per Rule 0001.7 — helpers exercised
+      directly: tests/test_armodel/parser/test_abstract_variation_restriction.py
+      (readAbstractVariationRestriction: populated + empty) and
+      tests/test_armodel/writer/test_abstract_variation_restriction.py (write:
+      populated + empty); consumers (Sdg *WithVariation family) call these helpers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readAbstractVariationRestriction / writeAbstractVariationRestriction
+      added (VARIATION via the Boolean pair; VALID-BINDING-TIMES wrapper with
+      VALID-BINDING-TIME element text read into FullBindingTimeEnum instances); no
+      chained mutators.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.38, p.104`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; FullBindingTimeEnum synced earlier in this batch; Subclasses
+      (SdgAggregationWithVariation, SdgForeignReferenceWithVariation,
+      SdgPrimitiveAttributeWithVariation, VariationRestrictionWithSeverity) handled in
+      this batch/queue.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (12 passed / 0 failed
+    new-file suite; GeneralTemplateClasses 642 passed); 9b deferred to batch
+    confirmation (user instruction)
 - [ ] `FullBindingTimeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 4.39, p.105; also FO_TPS_StandardizationTemplate Table 6.14, p.89
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `AxisIndexType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.43, p.108; also CP_TPS_SoftwareComponentTemplate Table 5.101, p.425
-  - module: M2/MSR/DataDictionary/RecordLayout.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `BaseTypeEncodingString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.44, p.108; also CP_TPS_SoftwareComponentTemplate Table 5.25, p.291
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.39 (leading-caption, p.105 via pdf_page.py); Enumeration
+      kind; Package M2::...::GeneralTemplateClasses::ModelRestrictionTypes — MODULE
+      REHOUSED from the PrimitiveTypes.py stub hint to the spec package (new module);
+      6 literals with verbatim descriptions and EnumerationLiteralIndex 0-5.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): test_ModelRestrictionTypes.py TestFullBindingTimeEnum added (init +
+      6 literal member pins + getEnumValues order + setValue) — seen Red (module did not
+      exist) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): AREnum subclass with the 6 UPPER_SNAKE literal members and the
+      literal tuple passed to super().__init__ (ResolutionPolicyEnum house shape); the
+      PrimitiveTypes.py stub removed; module exported via models/__init__.py.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.39 Note verbatim; each literal carries
+      its table Description verbatim as the inline comment (house enum convention);
+      __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; values serialize as VALID-BINDING-TIME
+      element text under AbstractVariationRestriction.validBindingTimes (covered there).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column with the "(no methods)" enum-value
+      note; `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.39, p.105`;
+      marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): XSD-vs-PDF arbitration — the R23-11 XSD FULL-BINDING-TIME-ENUM
+      (00052 l.136988) carries only 5 literals (SYSTEM-DESIGN-TIME absent) while the
+      markdown/PDF table documents 6; per Rule 0015 the PDF/markdown table wins → 6
+      literals modeled (SYSTEM-DESIGN-TIME included). No missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (344 passed / 0 failed
+    GeneralTemplateClasses suite); 9b deferred to batch confirmation (user instruction)
 - [ ] `CIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.45, p.108; also FO_TPS_StandardizationTemplate Table 4.5, p.43
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.45 (leading-caption page-split, p.108 via pdf_page.py);
+      Note verbatim in docstring + Tags; attrs blueprintValue (String, 1, attr) +
+      namePattern (String, 0..1, attr) — both pre-existed with matched accessors.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests pre-existed (TestCIdentifier: init defaults incl. both
+      members, get/set chaining for blueprintValue and namePattern) and pass — no Red
+      observable, nothing to fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES as-is (Optional[str]
+      PEP 526 members, matched get/set pairs, no fabricated fields); Green.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.45 Note verbatim + Tags (byte-identical —
+      no stale wording); member comments + accessor docstrings = table attr Notes
+      verbatim (blueprintValue carries atp.Status=draft accepted as-is); __init__ has no
+      docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; value serializes as the C-IDENTIFIER
+      literal on consuming elements; [—] reader/writer.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block with release column written; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.45, p.108`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): blueprintValue table Mult=1 vs XSD attribute optional (00052
+      attributeGroup C-IDENTIFIER l.14065) → Optional[str] kept, same treatment as the
+      stamped Identifier; namePattern 0..1 matches. No other deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `CategoryString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.47, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.47 (trailing-caption, p.109 via pdf_page.py); Note verbatim
+      in docstring + Tags; zero attribute rows (Primitive kind, pattern only).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestCategoryString added (init + setValue round-trip) — passes
+      immediately (class pre-existed; no Red observable, nothing to fix).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; ARLiteral base; no
+      fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.47 Note verbatim + Tags (byte-identical);
+      __init__ has no docstring; no members.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; CATEGORY-STRING literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.47, p.109`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `DateTime` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.48, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.48 (leading-caption page-split, p.109 via pdf_page.py);
+      Note verbatim in docstring (kept r-string for the pattern backslashes) + Tags;
+      zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestDateTime added (init + setValue with a spec-format timestamp) —
+      passes immediately (no Red observable, nothing to fix).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.48 Note verbatim (line-wrapped, Examples
+      block as rendered) + Tags; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; DATE literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.48, p.109`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `DiagRequirementIdString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.49, p.109; also CP_TPS_SoftwareComponentTemplate Table 13.16, p.754
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DisplayFormatString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.50, p.110; also CP_TPS_SoftwareComponentTemplate Table 5.42, p.334
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.49 FO_TPS primary (p.109 via pdf_page.py; the CP_TPS
+      SoftwareComponentTemplate Table 13.16 hit is the same class in the CP corpus);
+      Note verbatim in docstring + Tags; zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestDiagRequirementIdString added (init + setValue round-trip) —
+      passes immediately (no Red observable, nothing to fix).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.49 Note verbatim + Tags (pattern kept in
+      r-string form); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; DIAG-REQUIREMENT-ID-STRING literal on
+      consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.49, p.109`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (133 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `Ip4AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.51, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.143, p.468
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.51 FO_TPS primary (p.110 via pdf_page.py); Note verbatim in
+      docstring + Tags; zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestIp4AddressString added (init + setValue round-trip) — passes
+      immediately (no Red observable, nothing to fix).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.51 Note verbatim + Tags (r-string pattern
+      kept; Tags header colon normalized to house style); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; IP4-ADDRESS-STRING literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.51, p.110`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (135 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
+- [ ] `Ip6AddressString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.52, p.110; also CP_TPS_SystemTemplate Table 6.142, p.468
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.52 FO_TPS primary (p.110 via pdf_page.py); Note verbatim in
+      docstring + Tags; zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestIp6AddressString added (init + setValue round-trip) — passes
+      immediately (no Red observable, nothing to fix).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.52 Note verbatim + Tags (r-string pattern
+      kept; Tags header colon normalized to house style); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; IP4-ADDRESS-STRING literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.52, p.110`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (137 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `McdIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.54, p.111
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `NativeDeclarationString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.57, p.112; also CP_TPS_SoftwareComponentTemplate Table 5.40, p.333
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `PrimitiveIdentifier` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.58, p.112
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.54 (trailing-caption, p.111 via pdf_page.py); Note verbatim
+      in docstring + Tags (MCD-IDENTIFIER pattern); zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): init + value round-trip tests pre-existed (parametrized
+      test_remaining_primitive_types_... entry McdIdentifier "MCD-1") and pass — no Red
+      observable, nothing to fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.54 Note verbatim (already verbatim,
+      line-wrapped); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; MCD-IDENTIFIER literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column (block inserted — the class had no
+      checklist); `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.54,
+      p.111`; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `RegularExpression` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.60, p.112
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.60 (trailing-caption, p.112 via pdf_page.py); Note verbatim
+      in docstring + Tags; zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestRegularExpression added (init + setValue round-trip) — passes
+      immediately (no Red observable; the prior instantiability-only test stays).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): FABRICATED class docstring ("Represents a regular expression in
+      AUTOSAR models...") REPLACED with the Table 4.60 Note verbatim + Tags (Rule 0012.2.3
+      wipe-first); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; REGULAR-EXPRESSION literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.60, p.112`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `RevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.61, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `String` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.63, p.113
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.61 (trailing-caption, p.113 via pdf_page.py); Note verbatim
+      in docstring (bulleted legal-pattern list as rendered); zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): init + value round-trip tests pre-existed (parametrized entry
+      RevisionLabelString "R23-11") and pass — no Red observable, nothing to fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.61 Note verbatim (byte-identical, already
+      carried the full pattern text); __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; REVISION-LABEL-STRING literal on
+      consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist had `# Spec:` + 5-column rows but no release column —
+      rewritten to the 6-column format with release column (Rule 0012.3 gain-on-pass);
+      marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.65 (trailing-caption render, p.114 via pdf_page.py); Package
+      M2::...::GeneralTemplateClasses::PrimitiveTypes; class Note verbatim in docstring +
+      Tags; table kind Primitive (no Base row) → ARLiteral kept; attrs blueprintValue
+      (String, attr, xml.attribute) and namePattern (String, attr, xml.attribute).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestSymbolStringMembers added to test_PrimitiveTypes.py (init
+      defaults + get/setBlueprintValue + get/setNamePattern chaining) — seen Red 3 failed
+      before implementation (value round-trip test pre-existed).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): blueprintValue/namePattern added as Optional[str] PEP 526 members
+      under their Note comments (blank line between blocks); matched get/set pairs with
+      chaining, mirroring the stamped CIdentifier/Identifier shape; Green 127 passed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.65 Note verbatim + Tags block; member
+      inline comments + getter/setter docstrings = table attr Notes verbatim; __init__
+      has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; the value serializes as the
+      SYMBOL-STRING literal on consuming elements (enum/literal adaptation, Rules
+      0010-0011); [—] reader/writer.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block with release column written; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114`; marker withheld
+      (batch mode — stamp deferred to batch confirmation).
+  - [x] Step 8 — Deviations
+    - note (Step 8): namePattern table Mult=1 vs XSD attribute optional → Optional[str]
+      kept (attribute-form serialization, matches stamped Identifier/CIdentifier
+      treatment); blueprintValue atp.Status=draft accepted as-is. No other deviations;
+      no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
+    test_PrimitiveTypes.py; lint/black clean on touched file); 9b deferred to batch
+    confirmation (user instruction)
 - [ ] `UriString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.66, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `VerbatimString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.67, p.115
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.66 (trailing-caption, p.114 via pdf_page.py); Note verbatim
+      in docstring + Tags; zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): init + value round-trip tests pre-existed (parametrized entry
+      UriString "https://example.com/resource") and pass — no Red observable, nothing to
+      fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): FABRICATED class docstring ("This represents a URI string value.")
+      REPLACED with the Table 4.66 Note verbatim + Tags (Rule 0012.2.3 wipe-first);
+      __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; URI-STRING literal on consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): XSD-style `# Spec:` line replaced with the markdown-table citation
+      and the block rewritten to the 6-column format with release column; marker
+      withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `VerbatimStringPlain` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.68, p.115
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `EngineeringObject` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.69, p.160; also CP_TPS_BSWModuleDescriptionTemplate Table 7.6, p.133
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/EngineeringObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Annotation` — GeneralAnnotation — R23-11 FO_TPS_GenericStructureTemplate Table 4.72, p.163; also CP_TPS_SoftwareComponentTemplate Table 5.43, p.334
-  - module: M2/MSR/Documentation/Annotation.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.68 (leading-caption page-split, p.115 via pdf_page.py);
+      Note verbatim in docstring; zero attribute rows (sibling VerbatimString carries
+      blueprintValue/xmlSpace — NOT part of this class's table).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestVerbatimStringPlain pre-existed (init + setValue round-trip) and
+      passes — no Red observable, nothing to fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.68 Note verbatim (byte-identical);
+      __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; VERBATIM-STRING-PLAIN literal on
+      consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 5-column rows gained the release column (Rule 0012.3 gain-on-pass);
+      marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `CseCodeType` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.75, p.165; also CP_TPS_SoftwareComponentTemplate Table 4.15, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `TagWithOptionalValue` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.76, p.166; also CP_TPS_SystemTemplate Table 6.159, p.478
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/TagWithOptionalValue.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `AtpClassifier` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 5.1, p.173
-  - module: M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `AtpFeature` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 5.2, p.174
-  - module: M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `AtpInstanceRef` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 5.3, p.174
-  - module: M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.75 FO_TPS primary (p.165 via pdf_page.py); Note verbatim in
+      docstring + Tags (CSE-CODE-TYPE-STRING, xsd type unsignedInt); zero attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestCseCodeType pre-existed (init + setValue round-trip) and passes —
+      no Red observable, nothing to fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.75 Note verbatim (byte-identical);
+      __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; CSE-CODE-TYPE-STRING literal on
+      consumers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.75, p.165`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `EvaluatedVariantSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.23, p.257
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `PredefinedVariant` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.24, p.258
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DocumentationBlock` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.1, p.287; also CP_TPS_DiagnosticExtractTemplate Table 4.12, p.53
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 7.23 (header-cell lookup; p.257 via pdf_page.py); Package
+      M2::...::GenericStructure::VariantHandling — REHOUSED from the ARPackage.py stub
+      to join its stamped sibling PredefinedVariant; Base ARElement (most-derived);
+      attrs in displayed order approvalStatus (NameToken, 1, attr), evaluatedElement
+      (CollectableElement, *, ref → evaluatedElementRefs), evaluatedVariant
+      (PredefinedVariant, *, ref → evaluatedVariantRefs).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestEvaluatedVariantSet added to test_VariantHandling.py (factory
+      creation via ARPackage.createEvaluatedVariantSet + init defaults + setApprovalStatus
+      + addRef chaining) — seen Red before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ARElement subclass with (parent, short_name) ctor (PredefinedVariant
+      house shape); Optional[NameToken] + two List[RefType] members PEP 526 under their
+      Notes; ARPackage.createEvaluatedVariantSet factory added (IsElementExists guard);
+      ARPackage.py stub removed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 7.23 Note verbatim (multi-sentence incl.
+      the atp.recommendedPackage tag); member comments + accessor docstrings = table
+      attr Notes verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): parser test (temp-file load, ARPackage dispatch) + writer test
+      (save → re-parse → field-value compare round-trip) — Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readEvaluatedVariantSet (readIdentifiable + APPROVAL-STATUS via
+      the NameToken pair + EVALUATED-ELEMENT-REFS/EVALUATED-VARIANT-REFS via
+      getChildElementRefTypeList) with the EVALUATED-VARIANT-SET tag dispatch;
+      writeEvaluatedVariantSet (writeIdentifiable + setChildElementOptionalNameToken +
+      wrapper SubElements + setChildElementOptionalRefType) with the isinstance
+      dispatch; XML order per XSD group EVALUATED-VARIANT-SET.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.23, p.257`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; referenced classes CollectableElement/PredefinedVariant/
+      NameToken pre-exist (PredefinedVariant stamped).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (5 passed / 0 failed
+    new-file suite incl. the full round-trip); 9b deferred to batch confirmation (user
+    instruction)
+- [x] `PredefinedVariant` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.24, p.258 — already verified (short-circuit 2026-09-30)
+  - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `DocumentationBlock` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.1, p.287; also CP_TPS_DiagnosticExtractTemplate Table 4.12, p.53 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/BlockElements/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `MultiLanguageVerbatim` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.5, p.291
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `MultiLanguageVerbatim` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.5, p.291 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/MultilanguageData.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `List` — Base TBC (verify at Step 1) — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `List` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295 — already verified (short-circuit 2026-09-30)
+  - module: M2/MSR/Documentation/BlockElements/ListElements.py (· src: ARList)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — the spec
+    class `List` is realized in src as `ARList` in ListElements.py (recorded rename:
+    `List` shadows the Python builtin; the ARList checklist carries the alias note,
+    `# Spec: ... Table 9.8, p.295` and `# Spec verified: R23-11 (2026-09-27, user 9b
+    confirmation)` with reader/writer coverage for items/type). Quick deviation check
+    clean: table attrs item (Item 1..* aggr) / type (ListEnum 0..1 attr) both present
+    with matched accessors; Base ARObject, DocumentViewSelectable, Paginateable →
+    Paginateable most-derived ✓. 9 steps not re-run (Rule 0012.3); stamp already
+    confirmed. Cleanup this pass: the stray `class List(ARObject): pass` stub in
+    ArObject.py (a duplicate of the real ARList, no importers) removed.
+- [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `LabeledItem` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.12, p.296
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `LabeledItem` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.12, p.296 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `IndentSample` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.13, p.297
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `IndentSample` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.13, p.297 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `ItemLabelPosEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.14, p.297
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `ItemLabelPosEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.14, p.297 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DefList` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.15, p.298
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `DefList` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.15, p.298 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DefItem` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.16, p.298
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `DefItem` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.16, p.298 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `MlFormula` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.26, p.310
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `MlFormula` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.26, p.310 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/Formula.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Note` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.27, p.310
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `Note` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.27, p.310 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/Note.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `NoteTypeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.28, p.311
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `NoteTypeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.28, p.311 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/Note.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Traceable` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.29, p.313
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `Traceable` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.29, p.313 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/RequirementsTracing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `EmphasisText` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.34, p.317
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `EmphasisText` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.34, p.317 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `IndexEntry` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.36, p.317
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `IndexEntry` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.36, p.317 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Superscript` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 9.38, p.318
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `Superscript` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 9.38, p.318 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `Tt` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.39, p.319
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+- [x] `Tt` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 9.39, p.319 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/TextModel/InlineTextElements.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
 - [ ] `EEnumFont` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.44, p.322
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/MSR/Documentation/TextModel/InlineAttributeEnums.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 9.44 (trailing-caption, p.322 via pdf_page.py); Enumeration
+      kind; Package M2::MSR::Documentation::TextModel::InlineAttributeEnums — MODULE
+      REHOUSED from the PrimitiveTypes.py stub hint to the spec package (joins the
+      stamped ResolutionPolicyEnum/ShowContentEnum family); 2 literals.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestEEnumFont added to test_InlineAttributeEnums.py (init + literal
+      pins + getEnumValues order + setValue) — seen Red (class did not exist in this
+      module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): AREnum subclass, UPPER_SNAKE literal members, literal tuple in
+      super().__init__ (house enum shape); PrimitiveTypes.py stub removed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 9.44 Note verbatim; literal inline comments
+      = table Descriptions verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; values serialize as the FONT attribute
+      on EmphasisText.font (XSD E-ENUM-FONT--SIMPLE: DEFAULT/MONO).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column with the "(no methods)" enum-value
+      note; `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.44, p.322`;
+      marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; XSD literals match the table (DEFAULT, MONO).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (28 passed / 0 failed
+    test_InlineAttributeEnums.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `EEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.45, p.322
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DocumentationContext` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.56, p.327
+  - module: M2/MSR/Documentation/TextModel/InlineAttributeEnums.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 9.45 (trailing-caption, p.322 via pdf_page.py); Enumeration
+      kind; same InlineAttributeEnums rehouse as EEnumFont; 4 literals
+      (bold/bolditalic/italic/plain, EnumerationLiteralIndex 0-3); Aggregated by
+      EmphasisText.type.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestEEnum added to test_InlineAttributeEnums.py (init + literal pins
+      + getEnumValues order + setValue) — seen Red before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): AREnum subclass, 4 literal members, tuple in super().__init__;
+      PrimitiveTypes.py stub removed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 9.45 Note verbatim (multi-sentence, kept
+      whole); literal inline comments = table Descriptions verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; values serialize as the TYPE attribute
+      on EmphasisText.type (XSD E-ENUM--SIMPLE: BOLD/BOLDITALIC/ITALIC/PLAIN).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column with the "(no methods)" enum-value
+      note; `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.45, p.322`;
+      marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; XSD literals match the table.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (28 passed / 0 failed
+    test_InlineAttributeEnums.py); 9b deferred to batch confirmation (user instruction)
+- [x] `DocumentationContext` — MultilanguageReferrable — R23-11 FO_TPS_GenericStructureTemplate Table 9.56, p.327 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/DocumentationOnM1/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.

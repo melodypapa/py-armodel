@@ -1420,6 +1420,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, SwSystemconstantValueSet)
 
+    def createEvaluatedVariantSet(self, short_name: str) -> EvaluatedVariantSet:
+
+        if not self.IsElementExists(short_name, EvaluatedVariantSet):
+            element = EvaluatedVariantSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, EvaluatedVariantSet)
+
+    def createSdgDef(self, short_name: str) -> SdgDef:
+
+        if not self.IsElementExists(short_name, SdgDef):
+            element = SdgDef(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, SdgDef)
+
     def createPredefinedVariant(self, short_name: str) -> PredefinedVariant:
 
         if not self.IsElementExists(short_name, PredefinedVariant):
@@ -2237,7 +2251,11 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (  # noqa: E402
+    SdgDef,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa: E402
+    EvaluatedVariantSet,
     PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
@@ -2812,10 +2830,6 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     pass
 
 
-class EvaluatedVariantSet(ARElement):
-    pass
-
-
 class FMFeature(ARElement):
     pass
 
@@ -2888,9 +2902,6 @@ class PostBuildVariantCriterionValueSet(ARElement):
 class RapidPrototypingScenario(ARElement):
     pass
 
-
-class SdgDef(ARElement):
-    pass
 
 
 class SecurityEventContextMappingApplication(ARElement):

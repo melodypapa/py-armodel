@@ -476,6 +476,24 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgAggregationWithVariation,
+    SdgClass,
+    SdgDef,
+    SdgForeignReference,
+    SdgForeignReferenceWithVariation,
+    SdgPrimitiveAttribute,
+    SdgPrimitiveAttributeWithVariation,
+    SdgReference,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
+    AbstractValueRestriction,
+    AbstractVariationRestriction,
+    FullBindingTimeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    EvaluatedVariantSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -12102,6 +12120,137 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPredefinedVariantPostBuildVariantCriterionValueSetRefs(element, variant)
         self.readPredefinedVariantSwSystemconstantValueSetRefs(element, variant)
 
+    def readAbstractVariationRestriction(self, element: ET.Element, restriction: AbstractVariationRestriction):
+        restriction.setVariation(self.getChildElementOptionalBooleanValue(element, "VARIATION"))
+        times_element = self.find(element, "VALID-BINDING-TIMES")
+        if times_element is not None:
+            for child_element in self.findall(times_element, "VALID-BINDING-TIME"):
+                time = FullBindingTimeEnum()
+                time.setValue(child_element.text)
+                restriction.addValidBindingTime(time)
+
+    def readAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
+        restriction.setMax(self.getChildLimitElement(element, "MAX"))
+        restriction.setMaxLength(self.getChildElementOptionalPositiveInteger(element, "MAX-LENGTH"))
+        restriction.setMin(self.getChildLimitElement(element, "MIN"))
+        restriction.setMinLength(self.getChildElementOptionalPositiveInteger(element, "MIN-LENGTH"))
+        restriction.setPattern(self.getChildElementOptionalRegularExpression(element, "PATTERN"))
+
+    def readSdgDef(self, element: ET.Element, sdg_def: SdgDef):
+        self.logger.debug("Read SdgDef <%s>" % sdg_def.getShortName())
+        self.readIdentifiable(element, sdg_def)
+        self.readSdgDefSdgClasses(element, sdg_def)
+
+    def readSdgDefSdgClasses(self, element: ET.Element, sdg_def: SdgDef):
+        classes_element = self.find(element, "SDG-CLASSES")
+        if classes_element is not None:
+            for child_element in classes_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "SDG-CLASS":
+                    sdg_class = SdgClass(sdg_def, self.getShortName(child_element))
+                    self.readSdgClass(child_element, sdg_class)
+                    sdg_def.addSdgClass(sdg_class)
+
+    def readSdgClass(self, element: ET.Element, sdg_class: SdgClass):
+        self.logger.debug("Read SdgClass <%s>" % sdg_class.getShortName())
+        self.readIdentifiable(element, sdg_class)
+        sdg_class.setGid(self.getChildElementOptionalNameToken(element, "GID"))
+        sdg_class.setExtendsMetaClass(self.getChildElementOptionalStringValue(element, "EXTENDS-META-CLASS"))
+        sdg_class.setCaption(self.getChildElementOptionalBooleanValue(element, "CAPTION"))
+        self.readSdgClassAttributes(element, sdg_class)
+        self.readSdgClassSdgConstraintRefs(element, sdg_class)
+
+    def readSdgClassAttributes(self, element: ET.Element, sdg_class: SdgClass):
+        attributes_element = self.find(element, "ATTRIBUTES")
+        if attributes_element is not None:
+            for child_element in attributes_element:
+                tag_name = self.getTagName(child_element)
+                short_name = self.getShortName(child_element)
+                if tag_name == "SDG-AGGREGATION-WITH-VARIATION":
+                    attribute = SdgAggregationWithVariation(sdg_class, short_name)
+                    self.readSdgAggregationWithVariation(child_element, attribute)
+                elif tag_name == "SDG-FOREIGN-REFERENCE-WITH-VARIATION":
+                    attribute = SdgForeignReferenceWithVariation(sdg_class, short_name)
+                    self.readSdgForeignReferenceWithVariation(child_element, attribute)
+                elif tag_name == "SDG-FOREIGN-REFERENCE":
+                    attribute = SdgForeignReference(sdg_class, short_name)
+                    self.readSdgForeignReference(child_element, attribute)
+                elif tag_name == "SDG-PRIMITIVE-ATTRIBUTE-WITH-VARIATION":
+                    attribute = SdgPrimitiveAttributeWithVariation(sdg_class, short_name)
+                    self.readSdgPrimitiveAttributeWithVariation(child_element, attribute)
+                elif tag_name == "SDG-PRIMITIVE-ATTRIBUTE":
+                    attribute = SdgPrimitiveAttribute(sdg_class, short_name)
+                    self.readSdgPrimitiveAttribute(child_element, attribute)
+                elif tag_name == "SDG-REFERENCE":
+                    attribute = SdgReference(sdg_class, short_name)
+                    self.readSdgReference(child_element, attribute)
+                else:
+                    continue
+                sdg_class.addAttribute(attribute)
+
+    def readSdgClassSdgConstraintRefs(self, element: ET.Element, sdg_class: SdgClass):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "SDG-CONSTRAINT-REFS/" "SDG-CONSTRAINT-REF",
+        ):
+            sdg_class.addSdgConstraintRef(ref)
+
+    def readSdgPrimitiveAttribute(self, element: ET.Element, attribute: SdgPrimitiveAttribute):
+        self.readIdentifiable(element, attribute)
+        attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
+        self.readAbstractValueRestriction(element, attribute)
+
+    def readSdgPrimitiveAttributeWithVariation(self, element: ET.Element, attribute: SdgPrimitiveAttributeWithVariation):
+        self.readIdentifiable(element, attribute)
+        attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
+        self.readAbstractValueRestriction(element, attribute)
+        self.readAbstractVariationRestriction(element, attribute)
+
+    def readSdgAggregationWithVariation(self, element: ET.Element, attribute: SdgAggregationWithVariation):
+        self.readIdentifiable(element, attribute)
+        attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
+        self.readAbstractVariationRestriction(element, attribute)
+        attribute.setSubSdgRef(self.getChildElementOptionalRefType(element, "SUB-SDG-REF"))
+
+    def readSdgReference(self, element: ET.Element, attribute: SdgReference):
+        self.readIdentifiable(element, attribute)
+        attribute.setDestSdgRef(self.getChildElementOptionalRefType(element, "DEST-SDG-REF"))
+
+    def readSdgForeignReference(self, element: ET.Element, attribute: SdgForeignReference):
+        self.readIdentifiable(element, attribute)
+        attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
+        attribute.setDestMetaClass(self.getChildElementOptionalStringValue(element, "DEST-META-CLASS"))
+
+    def readSdgForeignReferenceWithVariation(self, element: ET.Element, attribute: SdgForeignReferenceWithVariation):
+        self.readIdentifiable(element, attribute)
+        attribute.setGid(self.getChildElementOptionalNameToken(element, "GID"))
+        attribute.setDestMetaClass(self.getChildElementOptionalStringValue(element, "DEST-META-CLASS"))
+        self.readAbstractVariationRestriction(element, attribute)
+
+    def readEvaluatedVariantSetApprovalStatus(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        variant_set.setApprovalStatus(self.getChildElementOptionalNameToken(element, "APPROVAL-STATUS"))
+
+    def readEvaluatedVariantSetEvaluatedElementRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "EVALUATED-ELEMENT-REFS/" "EVALUATED-ELEMENT-REF",
+        ):
+            variant_set.addEvaluatedElementRef(ref)
+
+    def readEvaluatedVariantSetEvaluatedVariantRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "EVALUATED-VARIANT-REFS/" "EVALUATED-VARIANT-REF",
+        ):
+            variant_set.addEvaluatedVariantRef(ref)
+
+    def readEvaluatedVariantSet(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        self.logger.debug("Read EvaluatedVariantSet <%s>" % variant_set.getShortName())
+        self.readIdentifiable(element, variant_set)
+        self.readEvaluatedVariantSetApprovalStatus(element, variant_set)
+        self.readEvaluatedVariantSetEvaluatedElementRefs(element, variant_set)
+        self.readEvaluatedVariantSetEvaluatedVariantRefs(element, variant_set)
+
     def readPostBuildVariantCriterion(self, element: ET.Element, criterion: PostBuildVariantCriterion):
         self.logger.debug("Read PostBuildVariantCriterion <%s>" % criterion.getShortName())
         self.readIdentifiable(element, criterion)
@@ -15031,6 +15180,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PREDEFINED-VARIANT":
                 variant = parent.createPredefinedVariant(self.getShortName(child_element))
                 self.readPredefinedVariant(child_element, variant)
+            elif tag_name == "EVALUATED-VARIANT-SET":
+                variant_set = parent.createEvaluatedVariantSet(self.getShortName(child_element))
+                self.readEvaluatedVariantSet(child_element, variant_set)
+            elif tag_name == "SDG-DEF":
+                sdg_def = parent.createSdgDef(self.getShortName(child_element))
+                self.readSdgDef(child_element, sdg_def)
             elif tag_name == "POST-BUILD-VARIANT-CRITERION":
                 criterion = parent.createPostBuildVariantCriterion(self.getShortName(child_element))
                 self.readPostBuildVariantCriterion(child_element, criterion)

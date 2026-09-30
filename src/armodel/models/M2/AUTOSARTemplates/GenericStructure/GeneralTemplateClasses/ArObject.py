@@ -94,14 +94,6 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     pass
 
 
-class AbstractValueRestriction(ARObject, ABC):
-    pass
-
-
-class AbstractVariationRestriction(ARObject, ABC):
-    pass
-
-
 class AttributeCondition(AbstractCondition, ABC):
     pass
 
@@ -290,10 +282,6 @@ class InvertCondition(AbstractCondition):
     pass
 
 
-class List(ARObject):
-    pass
-
-
 class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
     pass
 
@@ -326,10 +314,6 @@ class RptProfile(ARObject):
     pass
 
 
-class SdgElementWithGid(ARObject, ABC):
-    pass
-
-
 class SpecificationScope(ARObject):
     pass
 
@@ -343,14 +327,6 @@ class SwcModeManagerErrorEvent(ARObject):
 
 
 class TextualCondition(AbstractCondition):
-    pass
-
-
-class ValueRestrictionWithSeverity(AbstractValueRestriction):
-    pass
-
-
-class VariationRestrictionWithSeverity(AbstractVariationRestriction):
     pass
 
 
