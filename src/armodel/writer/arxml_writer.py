@@ -362,6 +362,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -13513,6 +13514,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF", mapping.getProviderSoftwareClusterRef())
         self.setChildElementOptionalRefType(element, "REQUESTER-SOFTWARE-CLUSTER-REF", mapping.getRequesterSoftwareClusterRef())
+
+    def writeDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
+        self.writeIdentifiable(element, did)
+        id_value = did.getId()
+        if id_value is not None:
+            id_element = ET.SubElement(element, "ID")
+            avp_element = ET.SubElement(id_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if id_value._text is not None:
+                avp_element.text = id_value._text
+            elif id_value._value is not None:
+                avp_element.text = str(id_value._value)
 
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())

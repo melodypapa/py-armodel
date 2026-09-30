@@ -378,7 +378,7 @@ __all__ = [
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
 
 
 class ReferenceBase(ARObject):
@@ -2474,7 +2474,42 @@ class DiagnosticAbstractAliasEvent(ARElement, ABC):
 
 
 class DiagnosticAbstractDataIdentifier(ARElement, ABC):
-    pass
+    """
+    This meta-class represents an abstract base class for the modeling of a diagnostic data identifier (DID).
+
+    [constr_1793] Existence of attribute DiagnosticAbstractDataIdentifier.id: For each DiagnosticAbstractDataIdentifier, attribute id shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticAbstractDataIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.4, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticAbstractDataIdentifier:
+            raise TypeError("DiagnosticAbstractDataIdentifier is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This is the numerical identifier used to identify the DiagnosticAbstractDataIdentifier in the scope of diagnostic workflow Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.id: Optional[PositiveInteger] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This is the numerical identifier used to identify the DiagnosticAbstractDataIdentifier in the scope of diagnostic workflow
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractDataIdentifier:
+        """
+        This is the numerical identifier used to identify the DiagnosticAbstractDataIdentifier in the scope of diagnostic workflow
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
 
 
 class DiagnosticAging(ARElement):

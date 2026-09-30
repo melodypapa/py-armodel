@@ -11,6 +11,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARElement,
     ARPackage,
     CpSwClusterToDiagEventMapping,
+    DiagnosticAbstractDataIdentifier,
+    DiagnosticDataIdentifier,
     DiagnosticMapping,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
@@ -24,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     Identifier,
     NameToken,
+    PositiveInteger,
     ReferrableSubtypesEnum,
     RefType,
     UriString,
@@ -1425,6 +1428,55 @@ class TestDiagnosticMapping:
         result = obj.setRequesterSoftwareClusterRef(None)
         assert result is obj  # method chaining with None
         assert obj.getRequesterSoftwareClusterRef() is ref  # None is a no-op
+
+
+class TestDiagnosticAbstractDataIdentifier:
+    """
+    Test class for DiagnosticAbstractDataIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.4, p.34
+    (abstract base; exercised through the concrete subclass DiagnosticDataIdentifier)
+    """
+
+    def _create_did(self) -> DiagnosticDataIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDataIdentifier(ar_root, "TestDid")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticAbstractDataIdentifier is initialized with the spec defaults.
+        """
+        obj = self._create_did()
+
+        assert obj.getShortName() == "TestDid"
+        assert isinstance(obj, DiagnosticAbstractDataIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getId() is None
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticAbstractDataIdentifier cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticAbstractDataIdentifier(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_get_set_id(self):
+        """
+        Test getId and setId round-trip and None no-op.
+        """
+        obj = self._create_did()
+
+        id_value = PositiveInteger()
+        id_value.setValue("4")
+        result = obj.setId(id_value)
+        assert result is obj  # method chaining
+        assert obj.getId() is id_value
+        assert obj.getId().getValue() == 4
+
+        result = obj.setId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getId() is id_value  # None is a no-op
 
 
 class TestImports:

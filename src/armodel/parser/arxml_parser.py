@@ -479,6 +479,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
@@ -10348,6 +10349,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         mapping.setProviderSoftwareClusterRef(self.getChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF"))
         mapping.setRequesterSoftwareClusterRef(self.getChildElementOptionalRefType(element, "REQUESTER-SOFTWARE-CLUSTER-REF"))
+
+    def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
+        self.readIdentifiable(element, did)
+        id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if id_avp_element is not None and id_avp_element.text is not None and id_avp_element.text.strip() != "":
+            id_value = PositiveInteger()
+            id_value.setValue(id_avp_element.text.strip())
+            did.setId(id_value)
 
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())

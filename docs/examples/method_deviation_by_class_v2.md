@@ -479,6 +479,13 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 |---|---|---|---|---|---|
 | `providedInterfaceTRef` | `TRefType` | `providedInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
+## `DiagnosticAbstractDataIdentifier`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.4
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — the single Table 4.4 attribute (`id`, PositiveInteger 0..1 attr, atpVariation stereotype) is modeled as `Optional[PositiveInteger]` with a typed get/set pair (None-no-op, chaining); Base most-derived = `ARElement` (abstract, instantiation guard); the XSD serializes ID wrapped in POSITIVE-INTEGER-VALUE-VARIATION-POINT (attribute-value variation, AUTOSAR_00052.xsd group DIAGNOSTIC-ABSTRACT-DATA-IDENTIFIER line 31403) — the wrapper is absorbed by the reusable reader/writer helpers `readDiagnosticAbstractDataIdentifier`/`writeDiagnosticAbstractDataIdentifier`, the model keeps the PDF type PositiveInteger; Kind=attr with atpVariation → attribute-value variation only, no class VP capability (Rule 0020); subclasses DiagnosticDataIdentifier/DiagnosticDynamicDataIdentifier (queued this batch) call the helpers at their own syncs.
+
 ## `DiagnosticCommonElement`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonElement`
