@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 577 | 30.0% |
+| [x] Done | 578 | 30.1% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 211 | 11.0% |
+| [ ] Deferred | 210 | 10.9% |
 | [ ] Implemented | 543 | 28.2% |
 | [ ] Created | 579 | 30.1% |
 | [ ] Pending | 2 | 0.1% |
@@ -1375,7 +1375,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `PPortPrototype`                                        | [x] Done    | 0927333086                               | Group2           |
 | `PRPortPrototype`                                       | [x] Done    | 043de7436d                               | Group2           |
-| `PTriggerInAtomicSwcTypeInstanceRef`                    | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `PTriggerInAtomicSwcTypeInstanceRef`                    | [x] Done    | 74e821ccb8                               | Group11          |
 | `PackageableElement`                                    | [x] Done    | bb032ddd55                               | Group1           |
 | `Paginateable`                                          | [x] Done    | 20e6ee88d0                               | Group3           |
 | `ParameterAccess`                                       | [x] Done    | 3b9f111270                               | Group12          |
