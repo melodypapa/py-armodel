@@ -379,7 +379,7 @@ __all__ = [
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
 
 
 class ReferenceBase(ARObject):
@@ -1543,6 +1543,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             contribution_set = DiagnosticContributionSet(self, short_name)
             self.addElement(contribution_set)
         return self.getElement(short_name, DiagnosticContributionSet)
+
+    def createDiagnosticProtocol(self, short_name: str) -> DiagnosticProtocol:
+        """
+        Creates a new DiagnosticProtocol with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticProtocol represents the ability to define a diagnostic
+        protocol.
+
+        Args:
+            short_name: The short name for the new DiagnosticProtocol
+
+        Returns:
+            The newly created or existing DiagnosticProtocol instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticProtocol):
+            protocol = DiagnosticProtocol(self, short_name)
+            self.addElement(protocol)
+        return self.getElement(short_name, DiagnosticProtocol)
 
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
@@ -3007,7 +3026,120 @@ class DiagnosticProofOfOwnership(DiagnosticAuthentication):
 
 
 class DiagnosticProtocol(ARElement):
-    pass
+    """
+    This meta-class represents the ability to define a diagnostic protocol.
+
+    [constr_1794] Existence of attribute DiagnosticProtocol.priority: For each DiagnosticProtocol, attribute priority shall exist at the time when the DEXT is complete.
+    [constr_1795] Existence of attribute DiagnosticProtocol.protocolKind: For each DiagnosticProtocol, attribute protocolKind shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticProtocol method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.15, p.58
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDiagnosticConnectionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticConnectionRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPriority                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolKind                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolKind                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendRespPendOnTransToBoot    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSendRespPendOnTransToBoot    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceTableRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceTableRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the collection of applicable Diagnostic Connections for this DiagnosticProtocol.
+        self.diagnosticConnectionRefs: List[RefType] = []
+
+        # This represents the priority of the diagnostic protocol in comparison to other diagnostic protocols. Lower numeric values represent higher protocol priority: • 0 - Highest protocol priority • 255 - Lowest protocol priority
+        self.priority: Optional[PositiveInteger] = None
+
+        # This identifies the applicable protocol.
+        self.protocolKind: Optional[NameToken] = None
+
+        # The purpose of this attribute is to define whether or not the ECU should send a NRC 0x78 (response pending) before transitioning to the bootloader (in this case the attribute shall be set to "true") or if the transition shall be initiated without sending NRC 0x78 (in this case the attribute shall be set to "false").
+        self.sendRespPendOnTransToBoot: Optional[Boolean] = None
+
+        # This represents the service table applicable for the given diagnostic protocol.
+        self.serviceTableRef: Optional[RefType] = None
+
+    def addDiagnosticConnectionRef(self, value: Optional[RefType]) -> DiagnosticProtocol:
+        """
+        This represents the collection of applicable Diagnostic Connections for this DiagnosticProtocol.
+        A None value is a no-op and does not append a diagnosticConnectionRef.
+        """
+        if value is not None:
+            self.diagnosticConnectionRefs.append(value)
+        return self
+
+    def getDiagnosticConnectionRefs(self) -> List[RefType]:
+        """
+        This represents the collection of applicable Diagnostic Connections for this DiagnosticProtocol.
+        """
+        return self.diagnosticConnectionRefs
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """
+        This represents the priority of the diagnostic protocol in comparison to other diagnostic protocols. Lower numeric values represent higher protocol priority: • 0 - Highest protocol priority • 255 - Lowest protocol priority
+        """
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> DiagnosticProtocol:
+        """
+        This represents the priority of the diagnostic protocol in comparison to other diagnostic protocols. Lower numeric values represent higher protocol priority: • 0 - Highest protocol priority • 255 - Lowest protocol priority
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getProtocolKind(self) -> Optional[NameToken]:
+        """
+        This identifies the applicable protocol.
+        """
+        return self.protocolKind
+
+    def setProtocolKind(self, value: Optional[NameToken]) -> DiagnosticProtocol:
+        """
+        This identifies the applicable protocol.
+        A None value is a no-op and does not overwrite an existing protocolKind.
+        """
+        if value is not None:
+            self.protocolKind = value
+        return self
+
+    def getSendRespPendOnTransToBoot(self) -> Optional[Boolean]:
+        """
+        The purpose of this attribute is to define whether or not the ECU should send a NRC 0x78 (response pending) before transitioning to the bootloader (in this case the attribute shall be set to "true") or if the transition shall be initiated without sending NRC 0x78 (in this case the attribute shall be set to "false").
+        """
+        return self.sendRespPendOnTransToBoot
+
+    def setSendRespPendOnTransToBoot(self, value: Optional[Boolean]) -> DiagnosticProtocol:
+        """
+        The purpose of this attribute is to define whether or not the ECU should send a NRC 0x78 (response pending) before transitioning to the bootloader (in this case the attribute shall be set to "true") or if the transition shall be initiated without sending NRC 0x78 (in this case the attribute shall be set to "false").
+        A None value is a no-op and does not overwrite an existing sendRespPendOnTransToBoot.
+        """
+        if value is not None:
+            self.sendRespPendOnTransToBoot = value
+        return self
+
+    def getServiceTableRef(self) -> Optional[RefType]:
+        """
+        This represents the service table applicable for the given diagnostic protocol.
+        """
+        return self.serviceTableRef
+
+    def setServiceTableRef(self, value: Optional[RefType]) -> DiagnosticProtocol:
+        """
+        This represents the service table applicable for the given diagnostic protocol.
+        A None value is a no-op and does not overwrite an existing serviceTableRef.
+        """
+        if value is not None:
+            self.serviceTableRef = value
+        return self
 
 
 class DiagnosticReadDTCInformation(ARElement):

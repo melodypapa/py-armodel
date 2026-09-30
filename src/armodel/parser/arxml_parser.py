@@ -491,6 +491,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticProtocol,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -10383,6 +10384,24 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"):
             contribution_set.addServiceTableRef(ref)
 
+    def readDiagnosticProtocol(self, element: ET.Element, protocol: DiagnosticProtocol):
+        self.logger.debug("Read DiagnosticProtocol <%s>" % protocol.getShortName())
+        self.readIdentifiable(element, protocol)
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
+            protocol.addDiagnosticConnectionRef(ref)
+        priority_avp_element = self.find(element, "PRIORITY/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if priority_avp_element is not None and priority_avp_element.text is not None and priority_avp_element.text.strip() != "":
+            priority_value = PositiveInteger()
+            priority_value.setValue(priority_avp_element.text.strip())
+            protocol.setPriority(priority_value)
+        protocol.setProtocolKind(self.getChildElementOptionalNameToken(element, "PROTOCOL-KIND"))
+        send_resp_pend_avp_element = self.find(element, "SEND-RESP-PEND-ON-TRANS-TO-BOOT/BOOLEAN-VALUE-VARIATION-POINT")
+        if send_resp_pend_avp_element is not None and send_resp_pend_avp_element.text is not None and send_resp_pend_avp_element.text.strip() != "":
+            send_resp_pend_value = Boolean()
+            send_resp_pend_value.setValue(send_resp_pend_avp_element.text.strip())
+            protocol.setSendRespPendOnTransToBoot(send_resp_pend_value)
+        protocol.setServiceTableRef(self.getChildElementOptionalRefType(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"))
+
     def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
         for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
@@ -15025,6 +15044,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDynamicDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-PROTOCOL":
+                protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
+                self.readDiagnosticProtocol(child_element, protocol)
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)

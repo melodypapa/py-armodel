@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
+    DiagnosticProtocol,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
@@ -1699,3 +1700,114 @@ class TestDiagnosticContributionSet:
         result = obj.addServiceTableRef(None)
         assert result is obj  # method chaining with None
         assert obj.getServiceTableRefs() == [ref]  # None is a no-op
+
+
+class TestDiagnosticProtocol:
+    """
+    Test class for DiagnosticProtocol functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.15, p.58
+    """
+
+    def _create_protocol(self) -> DiagnosticProtocol:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticProtocol(ar_root, "TestProtocol")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticProtocol is initialized with the spec defaults.
+        """
+        obj = self._create_protocol()
+
+        assert obj.getShortName() == "TestProtocol"
+        assert isinstance(obj, ARElement)
+        assert obj.getDiagnosticConnectionRefs() == []
+        assert obj.getPriority() is None
+        assert obj.getProtocolKind() is None
+        assert obj.getSendRespPendOnTransToBoot() is None
+        assert obj.getServiceTableRef() is None
+
+    def test_add_diagnostic_connection_ref(self):
+        """
+        Test addDiagnosticConnectionRef appends, returns self and ignores None.
+        """
+        obj = self._create_protocol()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-CONNECTION")
+        ref.setValue("/AUTOSAR/DiagnosticConnections/Conn")
+        result = obj.addDiagnosticConnectionRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDiagnosticConnectionRefs() == [ref]
+
+        result = obj.addDiagnosticConnectionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDiagnosticConnectionRefs() == [ref]  # None is a no-op
+
+    def test_get_set_priority(self):
+        """
+        Test getPriority and setPriority round-trip and None no-op.
+        """
+        obj = self._create_protocol()
+
+        priority = PositiveInteger()
+        priority.setValue("5")
+        result = obj.setPriority(priority)
+        assert result is obj  # method chaining
+        assert obj.getPriority() is priority
+        assert obj.getPriority().getValue() == 5
+
+        result = obj.setPriority(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPriority() is priority  # None is a no-op
+
+    def test_get_set_protocol_kind(self):
+        """
+        Test getProtocolKind and setProtocolKind round-trip and None no-op.
+        """
+        obj = self._create_protocol()
+
+        protocol_kind = NameToken()
+        protocol_kind.setValue("UDS")
+        result = obj.setProtocolKind(protocol_kind)
+        assert result is obj  # method chaining
+        assert obj.getProtocolKind() is protocol_kind
+        assert obj.getProtocolKind().getValue() == "UDS"
+
+        result = obj.setProtocolKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getProtocolKind() is protocol_kind  # None is a no-op
+
+    def test_get_set_send_resp_pend_on_trans_to_boot(self):
+        """
+        Test getSendRespPendOnTransToBoot and setSendRespPendOnTransToBoot round-trip and None no-op.
+        """
+        obj = self._create_protocol()
+
+        send_resp_pend = Boolean()
+        send_resp_pend.setValue(True)
+        result = obj.setSendRespPendOnTransToBoot(send_resp_pend)
+        assert result is obj  # method chaining
+        assert obj.getSendRespPendOnTransToBoot() is send_resp_pend
+
+        result = obj.setSendRespPendOnTransToBoot(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSendRespPendOnTransToBoot() is send_resp_pend  # None is a no-op
+
+    def test_get_set_service_table_ref(self):
+        """
+        Test getServiceTableRef and setServiceTableRef round-trip and None no-op.
+        """
+        obj = self._create_protocol()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-SERVICE-TABLE")
+        ref.setValue("/AUTOSAR/DiagnosticServiceTables/Table")
+        result = obj.setServiceTableRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getServiceTableRef() is ref
+
+        result = obj.setServiceTableRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getServiceTableRef() is ref  # None is a no-op

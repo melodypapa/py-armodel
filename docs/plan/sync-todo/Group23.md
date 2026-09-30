@@ -781,15 +781,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticProtocol` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.15, p.58
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base most-derived = `ARElement` (Table 4.15 Base chain incl.
+    DiagnosticCommonElement; ARElement is the most-derived model class).
+    Attrs: diagnosticConnection (`*` ref → diagnosticConnectionRefs), priority
+    (PositiveInteger 0..1, PRIORITY/POSITIVE-INTEGER-VALUE-VARIATION-POINT),
+    protocolKind (NameToken 0..1), sendRespPendOnTransToBoot (Boolean 0..1,
+    BOOLEAN-VALUE-VARIATION-POINT), serviceTable (0..1 ref, SERVICE-TABLES
+    wrapper). No deviations. constr_1794/1795 in class docstring.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (95 passed / 0 failed test_ARPackage.py + test_diagnostic_protocol.py + test_writer_diagnostic_protocol.py); 9b deferred to batch confirmation (user instruction)
 
 - [x] `TpConnectionIdent` — Referrable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.18, p.61; also CP_TPS_SystemTemplate Table 6.273, p.633 — already verified (short-circuit 2026-10-01)
   - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.

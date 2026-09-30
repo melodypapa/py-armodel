@@ -367,6 +367,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticProtocol,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13537,6 +13538,39 @@ class ARXMLWriter(AbstractARXMLWriter):
                 conditional_tag = ET.SubElement(service_tables_tag, "DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-SERVICE-TABLE-REF", ref)
 
+    def writeDiagnosticProtocol(self, element: ET.Element, protocol: DiagnosticProtocol):
+        self.logger.debug("Write DiagnosticProtocol %s" % protocol.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-PROTOCOL")
+        self.writeIdentifiable(child_element, protocol)
+        connection_refs = protocol.getDiagnosticConnectionRefs()
+        if len(connection_refs) > 0:
+            connections_tag = ET.SubElement(child_element, "DIAGNOSTIC-CONNECTIONS")
+            for ref in connection_refs:
+                conditional_tag = ET.SubElement(connections_tag, "DIAGNOSTIC-CONNECTION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-CONNECTION-REF", ref)
+        priority_value = protocol.getPriority()
+        if priority_value is not None:
+            priority_element = ET.SubElement(child_element, "PRIORITY")
+            avp_element = ET.SubElement(priority_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if priority_value._text is not None:
+                avp_element.text = priority_value._text
+            elif priority_value._value is not None:
+                avp_element.text = str(priority_value._value)
+        self.setChildElementOptionalNameToken(child_element, "PROTOCOL-KIND", protocol.getProtocolKind())
+        send_resp_pend_value = protocol.getSendRespPendOnTransToBoot()
+        if send_resp_pend_value is not None:
+            send_resp_pend_element = ET.SubElement(child_element, "SEND-RESP-PEND-ON-TRANS-TO-BOOT")
+            avp_element = ET.SubElement(send_resp_pend_element, "BOOLEAN-VALUE-VARIATION-POINT")
+            if send_resp_pend_value._text is not None:
+                avp_element.text = send_resp_pend_value._text
+            elif send_resp_pend_value._value is not None:
+                avp_element.text = "true" if send_resp_pend_value._value else "false"
+        service_table_ref = protocol.getServiceTableRef()
+        if service_table_ref is not None:
+            service_tables_tag = ET.SubElement(child_element, "SERVICE-TABLES")
+            conditional_tag = ET.SubElement(service_tables_tag, "DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-SERVICE-TABLE-REF", service_table_ref)
+
     def writeDiagnosticMapping(self, element: ET.Element, mapping: DiagnosticMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF", mapping.getProviderSoftwareClusterRef())
@@ -14637,6 +14671,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
+        elif isinstance(ar_element, DiagnosticProtocol):
+            self.writeDiagnosticProtocol(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
         elif isinstance(ar_element, DiagnosticDataIdentifier):
