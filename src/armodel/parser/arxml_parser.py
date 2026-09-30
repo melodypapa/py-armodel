@@ -476,6 +476,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
+    AbstractValueRestriction,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -12101,6 +12104,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPredefinedVariantIncludedVariantRefs(element, variant)
         self.readPredefinedVariantPostBuildVariantCriterionValueSetRefs(element, variant)
         self.readPredefinedVariantSwSystemconstantValueSetRefs(element, variant)
+
+    def readAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
+        restriction.setMax(self.getChildLimitElement(element, "MAX"))
+        restriction.setMaxLength(self.getChildElementOptionalPositiveInteger(element, "MAX-LENGTH"))
+        restriction.setMin(self.getChildLimitElement(element, "MIN"))
+        restriction.setMinLength(self.getChildElementOptionalPositiveInteger(element, "MIN-LENGTH"))
+        restriction.setPattern(self.getChildElementOptionalRegularExpression(element, "PATTERN"))
 
     def readPostBuildVariantCriterion(self, element: ET.Element, criterion: PostBuildVariantCriterion):
         self.logger.debug("Read PostBuildVariantCriterion <%s>" % criterion.getShortName())

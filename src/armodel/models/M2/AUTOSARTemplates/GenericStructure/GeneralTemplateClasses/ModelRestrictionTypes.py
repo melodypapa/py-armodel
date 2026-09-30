@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -50,3 +51,159 @@ class FullBindingTimeEnum(AREnum):
                 FullBindingTimeEnum.POST_BUILD,
             )
         )
+
+
+class AbstractValueRestriction(ARObject, ABC):
+    """
+    Restricts primitive values. A value is valid if all rules that are defined by this restriction evaluate to true.
+    """
+
+    # AbstractValueRestriction method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMax           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPattern       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPattern       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is AbstractValueRestriction:
+            raise TypeError("AbstractValueRestriction is an abstract class.")
+
+        super().__init__()
+
+        # Specifies the upper bounds for numeric values.
+        self.max: Optional[Limit] = None
+
+        # Specifies the maximum number of characters of textual values.
+        self.maxLength: Optional[PositiveInteger] = None
+
+        # Specifies the lower bounds for numeric values.
+        self.min: Optional[Limit] = None
+
+        # Specifies the minimal number of characters of textual values.
+        self.minLength: Optional[PositiveInteger] = None
+
+        # Defines the exact sequence of characters that are acceptable.
+        self.pattern: Optional[RegularExpression] = None
+
+    def getMax(self) -> Optional[Limit]:
+        """
+        Specifies the upper bounds for numeric values.
+
+        Returns:
+            The upper bound limit, or None if not set
+        """
+        return self.max
+
+    def setMax(self, value: Optional[Limit]):
+        """
+        Specifies the upper bounds for numeric values.
+
+        Args:
+            value: The upper bound limit to set
+
+        Returns:
+            self for method chaining
+        """
+        self.max = value
+        return self
+
+    def getMaxLength(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the maximum number of characters of textual values.
+
+        Returns:
+            The maximum length, or None if not set
+        """
+        return self.maxLength
+
+    def setMaxLength(self, value: Optional[PositiveInteger]):
+        """
+        Specifies the maximum number of characters of textual values.
+
+        Args:
+            value: The maximum length to set
+
+        Returns:
+            self for method chaining
+        """
+        self.maxLength = value
+        return self
+
+    def getMin(self) -> Optional[Limit]:
+        """
+        Specifies the lower bounds for numeric values.
+
+        Returns:
+            The lower bound limit, or None if not set
+        """
+        return self.min
+
+    def setMin(self, value: Optional[Limit]):
+        """
+        Specifies the lower bounds for numeric values.
+
+        Args:
+            value: The lower bound limit to set
+
+        Returns:
+            self for method chaining
+        """
+        self.min = value
+        return self
+
+    def getMinLength(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the minimal number of characters of textual values.
+
+        Returns:
+            The minimum length, or None if not set
+        """
+        return self.minLength
+
+    def setMinLength(self, value: Optional[PositiveInteger]):
+        """
+        Specifies the minimal number of characters of textual values.
+
+        Args:
+            value: The minimum length to set
+
+        Returns:
+            self for method chaining
+        """
+        self.minLength = value
+        return self
+
+    def getPattern(self) -> Optional[RegularExpression]:
+        """
+        Defines the exact sequence of characters that are acceptable.
+
+        Returns:
+            The regular expression pattern, or None if not set
+        """
+        return self.pattern
+
+    def setPattern(self, value: Optional[RegularExpression]):
+        """
+        Defines the exact sequence of characters that are acceptable.
+
+        Args:
+            value: The regular expression pattern to set
+
+        Returns:
+            self for method chaining
+        """
+        self.pattern = value
+        return self
+
+
+class ValueRestrictionWithSeverity(AbstractValueRestriction):
+    pass

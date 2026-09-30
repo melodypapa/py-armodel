@@ -1,11 +1,18 @@
 """
-Tests for the ModelRestrictionTypes module (FullBindingTimeEnum).
+Tests for the ModelRestrictionTypes module (FullBindingTimeEnum,
+AbstractValueRestriction).
 """
 
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
+    AbstractValueRestriction,
     FullBindingTimeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Limit,
+    PositiveInteger,
+    RegularExpression,
 )
 
 
@@ -41,3 +48,40 @@ class TestFullBindingTimeEnum:
     def test_set_value(self):
         enum = FullBindingTimeEnum().setValue(FullBindingTimeEnum.POST_BUILD)
         assert enum.getValue() == "POST-BUILD"
+
+
+class TestAbstractValueRestriction:
+    """
+    Test class for AbstractValueRestriction functionality (Table 4.37).
+    """
+
+    def test_abstract_rejection(self):
+        with pytest.raises(TypeError):
+            AbstractValueRestriction()
+
+    def test_member_round_trip(self):
+        class _Derived(AbstractValueRestriction):
+            pass
+
+        obj = _Derived()
+        assert obj.getMax() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMin() is None
+        assert obj.getMinLength() is None
+        assert obj.getPattern() is None
+
+        limit_max = Limit().setValue("10.0")
+        limit_min = Limit().setValue("0.0")
+        pattern = RegularExpression().setValue("[0-9]+")
+
+        assert obj.setMax(limit_max) is obj
+        assert obj.setMaxLength(PositiveInteger().setValue(5)) is obj
+        assert obj.setMin(limit_min) is obj
+        assert obj.setMinLength(PositiveInteger().setValue(1)) is obj
+        assert obj.setPattern(pattern) is obj
+
+        assert obj.getMax() is limit_max
+        assert obj.getMaxLength().getValue() == 5
+        assert obj.getMin() is limit_min
+        assert obj.getMinLength().getValue() == 1
+        assert obj.getPattern() is pattern

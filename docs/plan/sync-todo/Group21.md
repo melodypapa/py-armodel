@@ -236,17 +236,50 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.37 (header-cell lookup, p.104 cite corrected to the table's
+      own caption row via pdf_page.py); abstract (spec header "(abstract)"); REHOUSED
+      from the ArObject.py stub hint to the spec package ModelRestrictionTypes; Base
+      ARObject (most-derived); 5 attrs in displayed order max/maxLength/min/minLength/
+      pattern (Limit, PositiveInteger, Limit, PositiveInteger, RegularExpression).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestAbstractValueRestriction added (abstract rejection + member
+      round-trip + None defaults) — abstract rejection seen Red (DID NOT RAISE TypeError
+      before the type-guard was added per the AtpInstanceRef house shape).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ABC + instantiation guard; 5 Optional members PEP 526 under their
+      Note comments (blank line between blocks); matched get/set pairs returning self;
+      the dependent ValueRestrictionWithSeverity stub rehoused alongside (its Base
+      references this class; its own sync row remains queued).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.37 Note verbatim; member comments +
+      getter/setter docstrings = table attr Notes verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): abstract-with-XML-attrs per Rule 0001.7 — helpers implemented
+      and exercised directly: tests/test_armodel/parser/test_abstract_value_restriction.py
+      (readAbstractValueRestriction: full + empty element) and
+      tests/test_armodel/writer/test_abstract_value_restriction.py (write: populated +
+      empty); concrete consumers (Sdg family) call these helpers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readAbstractValueRestriction / writeAbstractValueRestriction
+      added (MAX/MIN via setChildLimitElement+getChildLimitElement, MAX-LENGTH/
+      MIN-LENGTH via the PositiveInteger pair, PATTERN via a new
+      setChildElementOptionalRegularExpression/getChildElementOptionalRegularExpression
+      pair in the abstract writer/parser); no chained mutators.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.104`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; referenced classes Limit/PositiveInteger pre-existed,
+      RegularExpression synced earlier in this batch; Subclasses rows
+      (PrimitiveAttributeCondition, SdgAbstractPrimitiveAttribute, ValueRestrictionWithSeverity)
+      — SdgAbstractPrimitiveAttribute/ValueRestrictionWithSeverity handled in this
+      batch/queue, PrimitiveAttributeCondition belongs to a later group row.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (10 passed / 0 failed
+    new-file suite; GeneralTemplateClasses 349 passed); 9b deferred to batch
+    confirmation (user instruction)
 - [ ] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
   - [ ] Step 1 — Sync members & description from spec

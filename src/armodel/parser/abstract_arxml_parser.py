@@ -32,7 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UnlimitedInteger,
     UriString,
     VerbatimString,
-)
+    RegularExpression)
 
 
 class AbstractARXMLParser(ABC):
@@ -213,6 +213,18 @@ class AbstractARXMLParser(ABC):
             else:
                 name_token.setValue(child_element.text)
         return name_token
+
+    def getChildElementOptionalRegularExpression(self, element: ET.Element, key: str) -> Optional[RegularExpression]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = RegularExpression()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)

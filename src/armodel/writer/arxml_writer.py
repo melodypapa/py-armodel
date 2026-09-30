@@ -359,6 +359,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
+    AbstractValueRestriction,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13125,6 +13128,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                     "SW-SYSTEMCONSTANT-VALUE-SET-REF",
                     ref,
                 )
+
+    def writeAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
+        self.setChildLimitElement(element, "MAX", restriction.getMax())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-LENGTH", restriction.getMaxLength())
+        self.setChildLimitElement(element, "MIN", restriction.getMin())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-LENGTH", restriction.getMinLength())
+        self.setChildElementOptionalRegularExpression(element, "PATTERN", restriction.getPattern())
 
     def writePredefinedVariant(self, element: ET.Element, variant: PredefinedVariant):
         self.logger.debug("PredefinedVariant %s" % variant.getShortName())

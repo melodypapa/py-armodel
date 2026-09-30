@@ -27,7 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
     UriString,
-)
+    RegularExpression)
 
 
 class AbstractARXMLWriter(ABC):
@@ -131,6 +131,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalAlignmentType(self, element: ET.Element, key: str, literal: AlignmentType):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalRegularExpression(self, element: ET.Element, key: str, literal: RegularExpression):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: CIdentifier):
