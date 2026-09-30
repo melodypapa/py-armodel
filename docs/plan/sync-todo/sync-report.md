@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 569 | 29.6% |
+| [x] Done | 570 | 29.7% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 195 | 10.2% |
+| [ ] Deferred | 194 | 10.1% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1367,7 +1367,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `OsTaskExecutionEvent`                                  | [ ] Created | N/A                                      | Group28          |
 | `OsTaskPreemptabilityEnum`                              | [x] Done    | c53a7febdc                               | Group5           |
 | `OsTaskProxy`                                           | [x] Done    | 61ccaa68eb                               | Group5           |
-| `PModeGroupInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `PModeGroupInAtomicSwcInstanceRef`                      | [x] Done    | 74e821ccb8                               | Group11          |
 | `POperationInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `PPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
 | `PPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
