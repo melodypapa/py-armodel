@@ -1679,3 +1679,18 @@ class TestIp4AddressString:
     def test_set_value(self):
         obj = Ip4AddressString().setValue("255.255.255.255")
         assert obj.getValue() == "255.255.255.255"
+
+
+class TestIp6AddressString:
+    """
+    Test class for Ip6AddressString functionality (Table 4.52).
+    """
+
+    def test_initialization(self):
+        obj = Ip6AddressString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
+        assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
