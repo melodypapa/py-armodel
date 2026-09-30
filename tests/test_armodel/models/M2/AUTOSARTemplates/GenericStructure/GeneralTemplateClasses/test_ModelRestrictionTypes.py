@@ -1,15 +1,17 @@
 """
 Tests for the ModelRestrictionTypes module (FullBindingTimeEnum,
-AbstractValueRestriction).
+AbstractValueRestriction, AbstractVariationRestriction).
 """
 
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
+    AbstractVariationRestriction,
     FullBindingTimeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
     Limit,
     PositiveInteger,
     RegularExpression,
@@ -85,3 +87,35 @@ class TestAbstractValueRestriction:
         assert obj.getMin() is limit_min
         assert obj.getMinLength().getValue() == 1
         assert obj.getPattern() is pattern
+
+
+class TestAbstractVariationRestriction:
+    """
+    Test class for AbstractVariationRestriction functionality (Table 4.38).
+    """
+
+    def test_abstract_rejection(self):
+        with pytest.raises(TypeError):
+            AbstractVariationRestriction()
+
+    def test_member_round_trip(self):
+        class _Derived(AbstractVariationRestriction):
+            pass
+
+        obj = _Derived()
+        assert obj.getVariation() is None
+        assert obj.getValidBindingTimes() == []
+
+        variation = Boolean().setValue(True)
+        assert obj.setVariation(variation) is obj
+        assert obj.getVariation() is variation
+
+        assert obj.addValidBindingTime(FullBindingTimeEnum().setValue(FullBindingTimeEnum.POST_BUILD)) is obj
+        assert obj.addValidBindingTime(FullBindingTimeEnum().setValue(FullBindingTimeEnum.PRE_COMPILE_TIME)) is obj
+        assert len(obj.getValidBindingTimes()) == 2
+        assert obj.getValidBindingTimes()[0].getValue() == "POST-BUILD"
+        assert obj.getValidBindingTimes()[1].getValue() == "PRE-COMPILE-TIME"
+
+        times = [FullBindingTimeEnum().setValue(FullBindingTimeEnum.LINK_TIME)]
+        assert obj.setValidBindingTimes(times) is obj
+        assert obj.getValidBindingTimes() is times

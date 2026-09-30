@@ -478,6 +478,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
+    AbstractVariationRestriction,
+    FullBindingTimeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
@@ -12104,6 +12106,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPredefinedVariantIncludedVariantRefs(element, variant)
         self.readPredefinedVariantPostBuildVariantCriterionValueSetRefs(element, variant)
         self.readPredefinedVariantSwSystemconstantValueSetRefs(element, variant)
+
+    def readAbstractVariationRestriction(self, element: ET.Element, restriction: AbstractVariationRestriction):
+        restriction.setVariation(self.getChildElementOptionalBooleanValue(element, "VARIATION"))
+        times_element = self.find(element, "VALID-BINDING-TIMES")
+        if times_element is not None:
+            for child_element in self.findall(times_element, "VALID-BINDING-TIME"):
+                time = FullBindingTimeEnum()
+                time.setValue(child_element.text)
+                restriction.addValidBindingTime(time)
 
     def readAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
         restriction.setMax(self.getChildLimitElement(element, "MAX"))

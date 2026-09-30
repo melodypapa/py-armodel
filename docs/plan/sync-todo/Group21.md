@@ -281,17 +281,50 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     new-file suite; GeneralTemplateClasses 349 passed); 9b deferred to batch
     confirmation (user instruction)
 - [ ] `AbstractVariationRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.38, p.104; also FO_TPS_StandardizationTemplate Table 6.13, p.89
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.38 (header-cell lookup; p.104 via pdf_page.py); abstract
+      (spec header "(abstract)"); REHOUSED from the ArObject.py stub hint to the spec
+      package ModelRestrictionTypes; Base ARObject (most-derived); attrs in displayed
+      order validBindingTime (FullBindingTimeEnum, *, xml.sequenceOffset=20 — modeled
+      plural validBindingTimes per Rule 0001.5) and variation (Boolean, 0..1,
+      xml.sequenceOffset=10); XSD order VARIATION then VALID-BINDING-TIMES.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestAbstractVariationRestriction added (abstract rejection + member
+      round-trip + None/empty defaults) — rejection Red observable before the guard
+      (same house shape as AbstractValueRestriction).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ABC + instantiation guard; variation Optional[Boolean] +
+      validBindingTimes List[FullBindingTimeEnum] PEP 526 under their Note comments;
+      get/setVariation + get/set/addValidBindingTimes; the dependent
+      VariationRestrictionWithSeverity stub rehoused alongside (its own sync row remains
+      queued).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.38 Note verbatim; member comments +
+      accessor docstrings = table attr Notes verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): abstract-with-XML-attrs per Rule 0001.7 — helpers exercised
+      directly: tests/test_armodel/parser/test_abstract_variation_restriction.py
+      (readAbstractVariationRestriction: populated + empty) and
+      tests/test_armodel/writer/test_abstract_variation_restriction.py (write:
+      populated + empty); consumers (Sdg *WithVariation family) call these helpers.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readAbstractVariationRestriction / writeAbstractVariationRestriction
+      added (VARIATION via the Boolean pair; VALID-BINDING-TIMES wrapper with
+      VALID-BINDING-TIME element text read into FullBindingTimeEnum instances); no
+      chained mutators.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.38, p.104`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; FullBindingTimeEnum synced earlier in this batch; Subclasses
+      (SdgAggregationWithVariation, SdgForeignReferenceWithVariation,
+      SdgPrimitiveAttributeWithVariation, VariationRestrictionWithSeverity) handled in
+      this batch/queue.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (12 passed / 0 failed
+    new-file suite; GeneralTemplateClasses 642 passed); 9b deferred to batch
+    confirmation (user instruction)
 - [ ] `FullBindingTimeEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 4.39, p.105; also FO_TPS_StandardizationTemplate Table 6.14, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec

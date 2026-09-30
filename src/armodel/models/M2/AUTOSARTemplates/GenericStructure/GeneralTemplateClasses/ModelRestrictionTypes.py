@@ -207,3 +207,92 @@ class AbstractValueRestriction(ARObject, ABC):
 
 class ValueRestrictionWithSeverity(AbstractValueRestriction):
     pass
+
+
+class AbstractVariationRestriction(ARObject, ABC):
+    """
+    Defines constraints on the usage of variation and on the valid binding times.
+    """
+
+    # AbstractVariationRestriction method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.38, p.104
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getVariation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValidBindingTimes  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValidBindingTimes  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addValidBindingTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is AbstractVariationRestriction:
+            raise TypeError("AbstractVariationRestriction is an abstract class.")
+
+        super().__init__()
+
+        # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
+        self.variation: Optional[Boolean] = None
+
+        # List of valid binding times. Tags: xml.sequenceOffset=20
+        self.validBindingTimes: List[FullBindingTimeEnum] = []
+
+    def getVariation(self) -> Optional[Boolean]:
+        """
+        Defines if the AUTOSAR model may define a Variation Point at this location.
+
+        Returns:
+            The variation flag, or None if not set
+        """
+        return self.variation
+
+    def setVariation(self, value: Optional[Boolean]):
+        """
+        Defines if the AUTOSAR model may define a Variation Point at this location.
+
+        Args:
+            value: The variation flag to set
+
+        Returns:
+            self for method chaining
+        """
+        self.variation = value
+        return self
+
+    def getValidBindingTimes(self) -> List[FullBindingTimeEnum]:
+        """
+        List of valid binding times.
+
+        Returns:
+            The list of valid binding times
+        """
+        return self.validBindingTimes
+
+    def setValidBindingTimes(self, values: List[FullBindingTimeEnum]):
+        """
+        List of valid binding times.
+
+        Args:
+            values: The list of valid binding times to set
+
+        Returns:
+            self for method chaining
+        """
+        self.validBindingTimes = values
+        return self
+
+    def addValidBindingTime(self, value: FullBindingTimeEnum):
+        """
+        List of valid binding times.
+
+        Args:
+            value: The valid binding time to append
+
+        Returns:
+            self for method chaining
+        """
+        self.validBindingTimes.append(value)
+        return self
+
+
+class VariationRestrictionWithSeverity(AbstractVariationRestriction):
+    pass

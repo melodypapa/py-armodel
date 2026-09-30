@@ -89,10 +89,6 @@ class AbstractCondition(ARObject, ABC):
 
 class AbstractMultiplicityRestriction(ARObject, ABC):
     pass
-
-class AbstractVariationRestriction(ARObject, ABC):
-    pass
-
 class AttributeCondition(AbstractCondition, ABC):
     pass
 
@@ -275,10 +271,6 @@ class SwcModeManagerErrorEvent(ARObject):
 
 class TextualCondition(AbstractCondition):
     pass
-
-class VariationRestrictionWithSeverity(AbstractVariationRestriction):
-    pass
-
 class AbstractGlobalTimeDomainProps(ARObject, ABC):
     pass
 

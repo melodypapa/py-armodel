@@ -361,6 +361,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
+    AbstractVariationRestriction,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
@@ -13128,6 +13129,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                     "SW-SYSTEMCONSTANT-VALUE-SET-REF",
                     ref,
                 )
+
+    def writeAbstractVariationRestriction(self, element: ET.Element, restriction: AbstractVariationRestriction):
+        self.setChildElementOptionalBooleanValue(element, "VARIATION", restriction.getVariation())
+        times = restriction.getValidBindingTimes()
+        if len(times) > 0:
+            times_element = ET.SubElement(element, "VALID-BINDING-TIMES")
+            for time in times:
+                time_element = ET.SubElement(times_element, "VALID-BINDING-TIME")
+                time_element.text = time.getValue()
 
     def writeAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
         self.setChildLimitElement(element, "MAX", restriction.getMax())
