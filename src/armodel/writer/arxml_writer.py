@@ -363,6 +363,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractValueRestriction,
     AbstractVariationRestriction,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    EvaluatedVariantSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13146,6 +13149,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "MIN-LENGTH", restriction.getMinLength())
         self.setChildElementOptionalRegularExpression(element, "PATTERN", restriction.getPattern())
 
+    def writeEvaluatedVariantSetApprovalStatus(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        self.setChildElementOptionalNameToken(element, "APPROVAL-STATUS", variant_set.getApprovalStatus())
+
+    def writeEvaluatedVariantSetEvaluatedElementRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        refs = variant_set.getEvaluatedElementRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "EVALUATED-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "EVALUATED-ELEMENT-REF", ref)
+
+    def writeEvaluatedVariantSetEvaluatedVariantRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        refs = variant_set.getEvaluatedVariantRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "EVALUATED-VARIANT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "EVALUATED-VARIANT-REF", ref)
+
+    def writeEvaluatedVariantSet(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        self.logger.debug("EvaluatedVariantSet %s" % variant_set.getShortName())
+        child_element = ET.SubElement(element, "EVALUATED-VARIANT-SET")
+        self.writeIdentifiable(child_element, variant_set)
+        self.writeEvaluatedVariantSetApprovalStatus(child_element, variant_set)
+        self.writeEvaluatedVariantSetEvaluatedElementRefs(child_element, variant_set)
+        self.writeEvaluatedVariantSetEvaluatedVariantRefs(child_element, variant_set)
+
     def writePredefinedVariant(self, element: ET.Element, variant: PredefinedVariant):
         self.logger.debug("PredefinedVariant %s" % variant.getShortName())
         child_element = ET.SubElement(element, "PREDEFINED-VARIANT")
@@ -14637,6 +14665,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwSystemconstantValueSet(element, ar_element)
         elif isinstance(ar_element, PredefinedVariant):
             self.writePredefinedVariant(element, ar_element)
+        elif isinstance(ar_element, EvaluatedVariantSet):
+            self.writeEvaluatedVariantSet(element, ar_element)
         elif isinstance(ar_element, PostBuildVariantCriterion):
             self.writePostBuildVariantCriterion(element, ar_element)
         elif isinstance(ar_element, McFunction):

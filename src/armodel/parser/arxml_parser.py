@@ -481,6 +481,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractVariationRestriction,
     FullBindingTimeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    EvaluatedVariantSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -12123,6 +12126,30 @@ class ARXMLParser(AbstractARXMLParser):
         restriction.setMinLength(self.getChildElementOptionalPositiveInteger(element, "MIN-LENGTH"))
         restriction.setPattern(self.getChildElementOptionalRegularExpression(element, "PATTERN"))
 
+    def readEvaluatedVariantSetApprovalStatus(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        variant_set.setApprovalStatus(self.getChildElementOptionalNameToken(element, "APPROVAL-STATUS"))
+
+    def readEvaluatedVariantSetEvaluatedElementRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "EVALUATED-ELEMENT-REFS/" "EVALUATED-ELEMENT-REF",
+        ):
+            variant_set.addEvaluatedElementRef(ref)
+
+    def readEvaluatedVariantSetEvaluatedVariantRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "EVALUATED-VARIANT-REFS/" "EVALUATED-VARIANT-REF",
+        ):
+            variant_set.addEvaluatedVariantRef(ref)
+
+    def readEvaluatedVariantSet(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        self.logger.debug("Read EvaluatedVariantSet <%s>" % variant_set.getShortName())
+        self.readIdentifiable(element, variant_set)
+        self.readEvaluatedVariantSetApprovalStatus(element, variant_set)
+        self.readEvaluatedVariantSetEvaluatedElementRefs(element, variant_set)
+        self.readEvaluatedVariantSetEvaluatedVariantRefs(element, variant_set)
+
     def readPostBuildVariantCriterion(self, element: ET.Element, criterion: PostBuildVariantCriterion):
         self.logger.debug("Read PostBuildVariantCriterion <%s>" % criterion.getShortName())
         self.readIdentifiable(element, criterion)
@@ -15052,6 +15079,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PREDEFINED-VARIANT":
                 variant = parent.createPredefinedVariant(self.getShortName(child_element))
                 self.readPredefinedVariant(child_element, variant)
+            elif tag_name == "EVALUATED-VARIANT-SET":
+                variant_set = parent.createEvaluatedVariantSet(self.getShortName(child_element))
+                self.readEvaluatedVariantSet(child_element, variant_set)
             elif tag_name == "POST-BUILD-VARIANT-CRITERION":
                 criterion = parent.createPostBuildVariantCriterion(self.getShortName(child_element))
                 self.readPostBuildVariantCriterion(child_element, criterion)

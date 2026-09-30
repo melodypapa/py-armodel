@@ -717,17 +717,47 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `EvaluatedVariantSet` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.23, p.257
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 7.23 (header-cell lookup; p.257 via pdf_page.py); Package
+      M2::...::GenericStructure::VariantHandling — REHOUSED from the ARPackage.py stub
+      to join its stamped sibling PredefinedVariant; Base ARElement (most-derived);
+      attrs in displayed order approvalStatus (NameToken, 1, attr), evaluatedElement
+      (CollectableElement, *, ref → evaluatedElementRefs), evaluatedVariant
+      (PredefinedVariant, *, ref → evaluatedVariantRefs).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestEvaluatedVariantSet added to test_VariantHandling.py (factory
+      creation via ARPackage.createEvaluatedVariantSet + init defaults + setApprovalStatus
+      + addRef chaining) — seen Red before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ARElement subclass with (parent, short_name) ctor (PredefinedVariant
+      house shape); Optional[NameToken] + two List[RefType] members PEP 526 under their
+      Notes; ARPackage.createEvaluatedVariantSet factory added (IsElementExists guard);
+      ARPackage.py stub removed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 7.23 Note verbatim (multi-sentence incl.
+      the atp.recommendedPackage tag); member comments + accessor docstrings = table
+      attr Notes verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): parser test (temp-file load, ARPackage dispatch) + writer test
+      (save → re-parse → field-value compare round-trip) — Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readEvaluatedVariantSet (readIdentifiable + APPROVAL-STATUS via
+      the NameToken pair + EVALUATED-ELEMENT-REFS/EVALUATED-VARIANT-REFS via
+      getChildElementRefTypeList) with the EVALUATED-VARIANT-SET tag dispatch;
+      writeEvaluatedVariantSet (writeIdentifiable + setChildElementOptionalNameToken +
+      wrapper SubElements + setChildElementOptionalRefType) with the isinstance
+      dispatch; XML order per XSD group EVALUATED-VARIANT-SET.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.23, p.257`; marker withheld
+      (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; referenced classes CollectableElement/PredefinedVariant/
+      NameToken pre-exist (PredefinedVariant stamped).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (5 passed / 0 failed
+    new-file suite incl. the full round-trip); 9b deferred to batch confirmation (user
+    instruction)
 - [x] `PredefinedVariant` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 7.24, p.258 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - [x] Step 1 — Sync members & description from spec
