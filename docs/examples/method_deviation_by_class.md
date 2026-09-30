@@ -2564,9 +2564,7 @@ No deviations — Table 5.22 has a single attribute row (`introduction`, Documen
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `transformationISignalProps` | `—` | `transformationISignalProps` | `EndToEndTransformationISignalProps` | — | type (spec many vs py single) |
+No deviations — the stale `type (spec many vs py single)` row on `transformationISignalProps` is removed (Rule 0014 to-fix, now fixed): both `ISignal` and `ISignalGroup` model `transformationISignalProps: List[TransformationISignalProps]` (spec `*`, R23-11 XSD wrapper TRANSFORMATION-I-SIGNAL-PROPSS) with `addTransformationISignalProps`/`getTransformationISignalProps` and full reader/writer dispatch over the three concrete subclasses.
 
 ## `ISignalIPdu`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 994
@@ -2773,9 +2771,7 @@ No deviations — Table 3.36 has no `Attribute` rows (all members inherited from
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::SWmapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `partitionRef` | `Ref (EcuPartition)` | Ref | missing |
+No deviations — all 4 Table 5.2 attributes modeled with full reader/writer coverage (`component` `*` iref → `componentIRefs: List[ComponentInSystemInstanceRef]` per the "InstanceRef implemented by" row, `controlledHwElement`/`ecuInstance`/`processingUnit` 0..1 ref → `Optional[RefType]` per the Kind `ref`→`Ref` suffix); XSD-only `PARTITION-REF` (atp.Status="removed", replaced by SwcToApplicationPartitionMapping/ApplicationPartitionToEcuPartitionMapping) not modeled (Rule 0015; no fixture carries it) — the former v1 `partitionRef` missing row resolved to removed in the 2026-09 sync; writer helper renamed `setSwcToEcuMapping` → `writeSwcToEcuMapping` (Rule 0013.2 matched readXxx/writeXxx pair, resolved in-pass) and the dropped CONTROLLED-HW-ELEMENT-REF/PROCESSING-UNIT-REF elements restored on both sides.
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235
@@ -3007,16 +3003,18 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | — *(missing)* | `—` | `transmitCancellation` | `Boolean` | — | missing |
 
 ## `LinTpConnection`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 615
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 616
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `dropNotRequestedNad` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `maxNumberOfRespPendingFrames` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `p2Max` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `p2Timing` | `TimeValue` | — | missing |
+| — *(missing)* | `—` | `dropNotRequestedNad` | `Boolean` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `maxNumberOfRespPendingFrames` | `PositiveInteger` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `p2Max` | `TimeValue` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `p2Timing` | `TimeValue` | — | deprecated (atp.Status=removed), not implemented |
+
+Resolved at the Table 6.261 sync (R23-11): the four "missing" rows were stale — all four elements carry `atp.Status="removed"` in the XSD (superseded by LinTpNode.dropNotRequestedNad or moved to LinTpNode p2Max/p2Timing/maxNumberOfRespPendingFrames), are absent from the R23-11 attribute column, and no integration fixture carries them (Rule 0019 condition 3 fails; Rule 0015). The former reader/writer gaps (MULTICAST-REF and VARIATION-POINT dropped on both sides) were fixed in the same pass; all nine Table 6.261 attributes now round-trip with full reader/writer coverage. Sibling note: the stamped CanTpConnection reader/writer has the same VARIATION-POINT gap (CAN-TP-CONNECTION is an XSD anchor) — to reconcile in a drift pass.
 
 ## `NmCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 672
@@ -3034,9 +3032,7 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `busSpecificNmEcu` | `Ref (EcuInstance)` | — | missing |
-| — *(missing)* | `—` | `nmMultipleChannelsEnabled` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `nmPassiveModeEnabled` | `Boolean` | — | missing |
+| `nmCoordinator` | `Optional[ARObject]` | `nmCoordinator` | `NmCoordinator` | aggr | placeholder — aggregated child class `NmCoordinator` (Table 6.302) not yet implemented; reader/writer coverage deferred (Rule 0001.10 / 0001.7). Stale 2026-09-23 rows (busSpecificNmEcu, nmMultipleChannelsEnabled, nmPassiveModeEnabled) removed at the Table 6.300 sync — none is an R23-11 NmEcu attribute. |
 
 ## `NmNode`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 675
@@ -3078,8 +3074,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `nmControlBitVectorEnabled` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `nmDataDisabled` | `Boolean` | — | missing |
+| — *(removed)* | — | `nmControlBitVectorEnabled` | `Boolean` | — | stale row removed at Table 6.308 sync — XSD-only (FLEXRAY-NM-CLUSTER-COUPLING/NM-CONTROL-BIT-VECTOR-ENABLED), absent from R23-11 Table 6.308; PDF authoritative (Rule 0015) |
+| — *(removed)* | — | `nmDataDisabled` | `Boolean` | — | stale row removed at Table 6.308 sync — XSD-only (FLEXRAY-NM-CLUSTER-COUPLING/NM-DATA-DISABLED), absent from R23-11 Table 6.308; PDF authoritative (Rule 0015) |
 
 ## `FlexrayNmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 679
@@ -3108,7 +3104,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `nmCarWakeUpFilterEnabled` | `Boolean` | — | missing |
+| — *(removed)* | — | `nmCarWakeUpFilterEnabled` | `Boolean` | — | stale row removed at Table 6.311 sync — not a CanNmCluster attribute in any verified corpus (owner in R23-11: CanNmNode Table 6.314); XSD-only NM-CAR-WAKE-UP-FILTER-ENABLED not modeled (Rule 0015) |
+| — *(removed)* | — | `nmCarWakeUpRxEnabled` / `nmChannelActive` / `nmUserDataLength` | `Boolean` / `Boolean` / `Integer` | — | XSD-only elements (CAN-NM-CLUSTER group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.311 and from the R4.3.1 Table 6.232 rendering; fields + parser/writer elements removed at sync (Rule 0015); no fixture carries the tags |
 
 ## `CanNmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 683
@@ -3126,7 +3123,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `canXlNmProps` | `CanXlNmNodeProps` | — | missing |
+| — *(removed)* | — | `canXlNmProps` | `CanXlNmNodeProps` | aggr | stale row removed at Table 6.314 sync — AP-only XSD element (CAN-XL-NM-PROPS, RestrictToStandards="AP", CAN-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.314; PDF authoritative (Rule 0015); not modeled |
+| — *(removed)* | — | `nmRangeConfig` | `CanNmRangeConfig` | aggr | XSD-only element with atp.Status="removed" (CAN-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.314 AND R4.3.1 Table 6.235; no fixture carries NM-RANGE-CONFIG so Rule 0019 merge condition 3 fails — fabricated field (was typed `RxIdentifierRange`, mismatching the XSD `CAN-NM-RANGE-CONFIG` shape) + parser/writer element removed at sync (Rule 0015 / Rule 0001.3 deprecated atp.Status="removed") |
 
 ## `UdpNmCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 687
@@ -3135,9 +3133,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `networkConfiguration` | `UdpNmNetworkConfiguration` | — | missing |
-| — *(missing)* | `—` | `nmUserDataLength` | `Integer` | — | missing |
-| — *(missing)* | `—` | `nmUserDataOffset` | `PositiveInteger` | — | missing |
+| — *(removed)* | — | `networkConfiguration` / `nmUserDataLength` / `nmUserDataOffset` | `UdpNmNetworkConfiguration` / `Integer` / `PositiveInteger` | — | stale rows removed at Table 6.315 sync — XSD-only elements (UDP-NM-CLUSTER group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.315; PDF authoritative (Rule 0015); no fixture carries the tags |
+| — *(removed)* | — | `nmChannelActive` | `Boolean` | — | XSD-only element present in R4.3.1 Table 6.237 but removed in R23-11 Table 6.315; no fixture carries NM-CHANNEL-ACTIVE so Rule 0019 merge condition 3 fails — field + parser/writer element removed at sync (Rule 0015) |
 
 ## `UdpNmClusterCoupling`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 688
@@ -3146,7 +3143,7 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `nmBusLoadReductionEnabled` | `Boolean` | — | missing |
+| — *(removed)* | — | `nmBusLoadReductionEnabled` | `Boolean` | — | stale row removed at Table 6.317 sync — XSD-only (UDP-NM-CLUSTER-COUPLING/NM-BUS-LOAD-REDUCTION-ENABLED), absent from R23-11 Table 6.317; PDF authoritative (Rule 0015) |
 
 ## `UdpNmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 688
@@ -3158,14 +3155,14 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | — *(missing)* | `—` | `nmRepeatMsgIndicationEnabled` | `Boolean` | — | missing |
 
 ## `UdpNmNode`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 688
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 689
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `communicationConnectorRef` | `Ref (EthernetCommunicationConnector)` | Ref | missing |
-| — *(missing)* | `—` | `nmPnHandleMultipleNetworkRequests` | `Boolean` | — | missing |
+| — *(removed)* | — | `communicationConnector` | `Ref (EthernetCommunicationConnector)` | ref | stale row removed at Table 6.318 sync — AP-only XSD element (COMMUNICATION-CONNECTOR-REF, RestrictToStandards="AP", UDP-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.318; PDF authoritative (Rule 0015); not modeled |
+| — *(removed)* | — | `nmPnHandleMultipleNetworkRequests` | `Boolean` | attr | stale row removed at Table 6.318 sync — AP-only XSD element (NM-PN-HANDLE-MULTIPLE-NETWORK-REQUESTS, RestrictToStandards="AP", UDP-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.318; PDF authoritative (Rule 0015); not modeled |
 
 ## `J1939NmCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 691
@@ -3210,13 +3207,11 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | — *(missing)* | `—` | `transmissionTrigger` | `Boolean` | — | missing |
 
 ## `EndToEndTransformationISignalProps`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 808
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 809
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `endToEndTransformationISignalPropsVariant` | `EndToEndTransformationISignalPropsConditional` | — | missing |
+No deviations — every Table 7.27 attribute (dataId `*` ordered, dataLength, maxDataLength, minDataLength, sourceId — all PositiveInteger) is modeled with typed fields, accessors and full reader/writer coverage through the VARIANTS/CONDITIONAL split wrapper. The stale `missing endToEndTransformationISignalPropsVariant` row is removed: the member is absent from the Table 7.27 Attribute column (XSD-only variation-split artifact of the `<<atpVariation>>` class stereotype, Rule 0015 — not modeled as a field); the END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/...-CONDITIONAL wrapper is read/written transparently into the owning object with no separate Conditional model (Rule 0001.7). Page corrected 808 → 809 (pdf_page.py caption page).
 
 ## `IPduMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 840

@@ -956,24 +956,33 @@ class DoIpTpConfig(TpConfig):
 
 class TpAddress(Identifiable, VariationPointCapable):
     """
-    Represents a generic transport protocol address in the system,
-    defining the transport address value for communication endpoints.
+    An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+
+    [constr_9227] Existence of TpAddress.tpAddress: For each TpAddress, the attribute tpAddress shall exist at the time when the System Description is complete.
     """
 
     # TpAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.238, p.588
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddress  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.tpAddress: Integer = None
+        # An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+        self.tpAddress: Optional[Integer] = None
 
-    def getTpAddress(self):
+    def getTpAddress(self) -> Optional[Integer]:
+        """An ECUs TP address on the referenced channel. This represents the diagnostic Address."""
         return self.tpAddress
 
-    def setTpAddress(self, value):
+    def setTpAddress(self, value: Optional[Integer]) -> "TpAddress":
+        """
+        An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+        A None value is a no-op and does not overwrite an existing tpAddress.
+        """
         if value is not None:
             self.tpAddress = value
         return self
@@ -981,113 +990,185 @@ class TpAddress(Identifiable, VariationPointCapable):
 
 class LinTpConnection(TpConnection, VariationPointCapable):
     """
-    Represents a LIN transport protocol connection in the system,
-    defining PDU references, timeout parameters, and transmitter/
-    receiver configurations for LIN TP communication.
+    A LinTP channel represents an internal path for the transmission or reception of a Pdu via LinTp and describes the sender and the receiver of this particular communication. LinTp supports (per Lin Cluster) the configuration of one Rx Tp-SDU and one Tx Tp-SDU per NAD the LinMaster uses to address one or more of its Lin Slaves. To support this an arbitrary number of LinTp Connections shall be described.
+
+    [constr_9260] Existence of LinTpConnection.dataPdu: For each LinTpConnection, the reference to NPdu in the role dataPdu shall exist at the time when the System Description is complete.
+
+    [constr_9261] Existence of LinTpConnection.linTpNSdu: For each LinTpConnection, the reference to IPdu in the role linTpNSdu shall exist at the time when the System Description is complete.
+
+    [constr_9262] Existence of LinTpConnection.receiver: For each LinTpConnection, at least one reference to LinTpNode in the role receiver shall exist at the time when the System Description is complete.
+
+    [constr_9263] Existence of LinTpConnection.transmitter: For each LinTpConnection, the reference to LinTpNode in the role transmitter shall exist at the time when the System Description is complete.
+
+    [constr_5377] IPdu shall only be referenced once from a LinTpConnection in the role linTpNSdu on a LinCluster: Each IPdu that is referenced in the role linTpNSdu from a LinTpConnection that is aggregated by a LinTpConfig that references a LinCluster shall not be referenced in the role linTpNSdu from a different LinTpConnection that is aggregated by a LinTpConfig that references the same LinCluster.
     """
 
     # LinTpConnection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataPduRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataPduRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getFlowControlRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setFlowControlRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinTpNSduRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setLinTpNSduRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMulticastRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMulticastRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getReceiverRefs              [x] impl  [ ] docstring  [ ] test
-    # [ ] addReceiverRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeoutAs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeoutAs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeoutCr                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeoutCr                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeoutCs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeoutCs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransmitterRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransmitterRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.261, p.616
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataPduRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPduRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowControlRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlowControlRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinTpNSduRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinTpNSduRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMulticastRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addReceiverRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiverRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTimeoutAs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAs        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCr        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCr        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCs        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmitterRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmitterRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dataPduRef: RefType = None
-        self.flowControlRef: RefType = None
-        self.linTpNSduRef: RefType = None
-        self.multicastRef: RefType = None
-        self.receiverRefs: List[RefType] = []
-        self.timeoutAs: TimeValue = None
-        self.timeoutCr: TimeValue = None
-        self.timeoutCs: TimeValue = None
-        self.transmitterRef: RefType = None
+        # Reference to an NPdu (Single Frame, First Frame or Consecutive Frame). The Single Frame network protocol data unit (SF N_PDU) shall be sent out by the sending network entity and can be received by one or multiple receiving network entities. The Single Frame (SF N_PDU) shall be sent out to transfer a service data unit that can be transferred via a single service request to the data link layer. This network protocol data unit shall be sent to transfer unsegmented messages. The First Frame network protocol data unit (FF N_PDU) identifies the first network protocol data unit (N_PDU) of a segmented message transmitted by a network sending entity and received by a receiving network entity. The Consecutive Frame network protocol data unit (CF N_PDU) transfers segments (N_Data) of the service data unit message data (<MessageData>). All network protocol data units (N_PDUs) transmitted by the sending entity after the First Frame network protocol data unit (FF N_PDU) shall be encoded as Consecutive Frames network protocol data units (CF N_PDUs).
+        self.dataPduRef: Optional[RefType] = None
 
-    def getDataPduRef(self):
+        # Reference to the Flow Control NPdu. The Flow Control network protocol data unit (FC N_PDU) is identified by the Flow Control protocol control information (FC N_PCI). The Flow Control network protocol data unit (FC N_PDU) instructs a sending network entity to start, stop or resume transmission of CF N_PDUs. The Flow Control network protocol data unit shall be sent by the receiving network layer entity to the sending network layer entity, when ready to receive more data, after correct reception of: a) First Frame network protocol data unit (FF N_PDU) b) the last Consecutive Frame network protocol data unit (CF N_PDU) of a block of Consecutive Frames (CF N_ PDU) if further Consecutive Frame network protocol data unit (CF N_PDU) need(s) to be sent.
+        self.flowControlRef: Optional[RefType] = None
+
+        # Reference to the IPdu that is segmented by the Transport Protocol.
+        self.linTpNSduRef: Optional[RefType] = None
+
+        # TP address for 1:n connections.
+        self.multicastRef: Optional[RefType] = None
+
+        # The target of the TP connection.
+        self.receiverRefs: List[RefType] = []
+
+        # Time for transmission of the LIN frame (any N-PDU) on the sender side. Specified in seconds.
+        self.timeoutAs: Optional[TimeValue] = None
+
+        # This attribute defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
+        self.timeoutCr: Optional[TimeValue] = None
+
+        # The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU.
+        self.timeoutCs: Optional[TimeValue] = None
+
+        # The source of the TP connection.
+        self.transmitterRef: Optional[RefType] = None
+
+    def getDataPduRef(self) -> Optional[RefType]:
+        """Reference to an NPdu (Single Frame, First Frame or Consecutive Frame). The Single Frame network protocol data unit (SF N_PDU) shall be sent out by the sending network entity and can be received by one or multiple receiving network entities. The Single Frame (SF N_PDU) shall be sent out to transfer a service data unit that can be transferred via a single service request to the data link layer. This network protocol data unit shall be sent to transfer unsegmented messages. The First Frame network protocol data unit (FF N_PDU) identifies the first network protocol data unit (N_PDU) of a segmented message transmitted by a network sending entity and received by a receiving network entity. The Consecutive Frame network protocol data unit (CF N_PDU) transfers segments (N_Data) of the service data unit message data (<MessageData>). All network protocol data units (N_PDUs) transmitted by the sending entity after the First Frame network protocol data unit (FF N_PDU) shall be encoded as Consecutive Frames network protocol data units (CF N_PDUs)."""
         return self.dataPduRef
 
-    def setDataPduRef(self, value):
+    def setDataPduRef(self, value: Optional[RefType]) -> "LinTpConnection":
+        """
+        Reference to an NPdu (Single Frame, First Frame or Consecutive Frame). The Single Frame network protocol data unit (SF N_PDU) shall be sent out by the sending network entity and can be received by one or multiple receiving network entities. The Single Frame (SF N_PDU) shall be sent out to transfer a service data unit that can be transferred via a single service request to the data link layer. This network protocol data unit shall be sent to transfer unsegmented messages. The First Frame network protocol data unit (FF N_PDU) identifies the first network protocol data unit (N_PDU) of a segmented message transmitted by a network sending entity and received by a receiving network entity. The Consecutive Frame network protocol data unit (CF N_PDU) transfers segments (N_Data) of the service data unit message data (<MessageData>). All network protocol data units (N_PDUs) transmitted by the sending entity after the First Frame network protocol data unit (FF N_PDU) shall be encoded as Consecutive Frames network protocol data units (CF N_PDUs).
+        A None value is a no-op and does not overwrite an existing dataPduRef.
+        """
         if value is not None:
             self.dataPduRef = value
         return self
 
-    def getFlowControlRef(self):
+    def getFlowControlRef(self) -> Optional[RefType]:
+        """Reference to the Flow Control NPdu. The Flow Control network protocol data unit (FC N_PDU) is identified by the Flow Control protocol control information (FC N_PCI). The Flow Control network protocol data unit (FC N_PDU) instructs a sending network entity to start, stop or resume transmission of CF N_PDUs. The Flow Control network protocol data unit shall be sent by the receiving network layer entity to the sending network layer entity, when ready to receive more data, after correct reception of: a) First Frame network protocol data unit (FF N_PDU) b) the last Consecutive Frame network protocol data unit (CF N_PDU) of a block of Consecutive Frames (CF N_ PDU) if further Consecutive Frame network protocol data unit (CF N_PDU) need(s) to be sent."""
         return self.flowControlRef
 
-    def setFlowControlRef(self, value):
+    def setFlowControlRef(self, value: Optional[RefType]) -> "LinTpConnection":
+        """
+        Reference to the Flow Control NPdu. The Flow Control network protocol data unit (FC N_PDU) is identified by the Flow Control protocol control information (FC N_PCI). The Flow Control network protocol data unit (FC N_PDU) instructs a sending network entity to start, stop or resume transmission of CF N_PDUs. The Flow Control network protocol data unit shall be sent by the receiving network layer entity to the sending network layer entity, when ready to receive more data, after correct reception of: a) First Frame network protocol data unit (FF N_PDU) b) the last Consecutive Frame network protocol data unit (CF N_PDU) of a block of Consecutive Frames (CF N_ PDU) if further Consecutive Frame network protocol data unit (CF N_PDU) need(s) to be sent.
+        A None value is a no-op and does not overwrite an existing flowControlRef.
+        """
         if value is not None:
             self.flowControlRef = value
         return self
 
-    def getLinTpNSduRef(self):
+    def getLinTpNSduRef(self) -> Optional[RefType]:
+        """Reference to the IPdu that is segmented by the Transport Protocol."""
         return self.linTpNSduRef
 
-    def setLinTpNSduRef(self, value):
+    def setLinTpNSduRef(self, value: Optional[RefType]) -> "LinTpConnection":
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol.
+        A None value is a no-op and does not overwrite an existing linTpNSduRef.
+        """
         if value is not None:
             self.linTpNSduRef = value
         return self
 
-    def getMulticastRef(self):
+    def getMulticastRef(self) -> Optional[RefType]:
+        """TP address for 1:n connections."""
         return self.multicastRef
 
-    def setMulticastRef(self, value):
+    def setMulticastRef(self, value: Optional[RefType]) -> "LinTpConnection":
+        """
+        TP address for 1:n connections.
+        A None value is a no-op and does not overwrite an existing multicastRef.
+        """
         if value is not None:
             self.multicastRef = value
         return self
 
-    def getReceiverRefs(self):
-        return self.receiverRefs
-
-    def addReceiverRef(self, value):
+    def addReceiverRef(self, value: Optional[RefType]) -> "LinTpConnection":
+        """
+        The target of the TP connection.
+        A None value is a no-op and does not extend the receiverRefs list.
+        """
         if value is not None:
             self.receiverRefs.append(value)
         return self
 
-    def getTimeoutAs(self):
+    def getReceiverRefs(self) -> List[RefType]:
+        """The target of the TP connection."""
+        return self.receiverRefs
+
+    def getTimeoutAs(self) -> Optional[TimeValue]:
+        """Time for transmission of the LIN frame (any N-PDU) on the sender side. Specified in seconds."""
         return self.timeoutAs
 
-    def setTimeoutAs(self, value):
+    def setTimeoutAs(self, value: Optional[TimeValue]) -> "LinTpConnection":
+        """
+        Time for transmission of the LIN frame (any N-PDU) on the sender side. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutAs.
+        """
         if value is not None:
             self.timeoutAs = value
         return self
 
-    def getTimeoutCr(self):
+    def getTimeoutCr(self) -> Optional[TimeValue]:
+        """This attribute defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds."""
         return self.timeoutCr
 
-    def setTimeoutCr(self, value):
+    def setTimeoutCr(self, value: Optional[TimeValue]) -> "LinTpConnection":
+        """
+        This attribute defines the timeout value for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutCr.
+        """
         if value is not None:
             self.timeoutCr = value
         return self
 
-    def getTimeoutCs(self):
+    def getTimeoutCs(self) -> Optional[TimeValue]:
+        """The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU."""
         return self.timeoutCs
 
-    def setTimeoutCs(self, value):
+    def setTimeoutCs(self, value: Optional[TimeValue]) -> "LinTpConnection":
+        """
+        The attribute timeoutCs represents the time (in seconds) which elapses between the transmit request of a CF N-PDU until the transmit request of the next CF N-PDU.
+        A None value is a no-op and does not overwrite an existing timeoutCs.
+        """
         if value is not None:
             self.timeoutCs = value
         return self
 
-    def getTransmitterRef(self):
+    def getTransmitterRef(self) -> Optional[RefType]:
+        """The source of the TP connection."""
         return self.transmitterRef
 
-    def setTransmitterRef(self, value):
+    def setTransmitterRef(self, value: Optional[RefType]) -> "LinTpConnection":
+        """
+        The source of the TP connection.
+        A None value is a no-op and does not overwrite an existing transmitterRef.
+        """
         if value is not None:
             self.transmitterRef = value
         return self

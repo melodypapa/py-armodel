@@ -87,6 +87,133 @@ def __getattr__(name):
 
 
 __all__ = [
+    "ViewMapSet",
+    "SwAxisType",
+    "SecurityEventDefinition",
+    "SecurityEventContextMappingFunctionalCluster",
+    "SecurityEventContextMappingBswModule",
+    "SecurityEventContextMappingApplication",
+    "SdgDef",
+    "RapidPrototypingScenario",
+    "PostBuildVariantCriterionValueSet",
+    "PhysicalDimensionMappingSet",
+    "LifeCycleStateDefinitionGroup",
+    "IdsDesign",
+    "FMFeatureSelectionSet",
+    "FMFeatureModel",
+    "FMFeatureMap",
+    "FMFeature",
+    "EvaluatedVariantSet",
+    "DiagnosticWriteDataByIdentifier",
+    "DiagnosticVerifyCertificateUnidirectional",
+    "DiagnosticVerifyCertificateBidirectional",
+    "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
+    "DiagnosticTroubleCodeGroup",
+    "DiagnosticTroubleCode",
+    "DiagnosticTransferExit",
+    "DiagnosticTestRoutineIdentifier",
+    "DiagnosticTestResult",
+    "DiagnosticStorageConditionPortMapping",
+    "DiagnosticStorageConditionGroup",
+    "DiagnosticStorageCondition",
+    "DiagnosticSessionControl",
+    "DiagnosticServiceDataMapping",
+    "DiagnosticSecurityEventReportingModeMapping",
+    "DiagnosticSecurityAccess",
+    "DiagnosticRoutineControl",
+    "DiagnosticRoutine",
+    "DiagnosticResponseOnEvent",
+    "DiagnosticRequestVehicleInfo",
+    "DiagnosticRequestUpload",
+    "DiagnosticRequestPowertrainFreezeFrameData",
+    "DiagnosticRequestOnBoardMonitoringTestResults",
+    "DiagnosticRequestFileTransfer",
+    "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
+    "DiagnosticRequestDownload",
+    "DiagnosticRequestControlOfOnBoardDevice",
+    "DiagnosticReadScalingDataByIdentifier",
+    "DiagnosticReadDataByPeriodicID",
+    "DiagnosticReadDataByIdentifier",
+    "DiagnosticReadDTCInformation",
+    "DiagnosticProtocol",
+    "DiagnosticProofOfOwnership",
+    "DiagnosticPowertrainFreezeFrame",
+    "DiagnosticParameterIdentifier",
+    "DiagnosticOperationCyclePortMapping",
+    "DiagnosticOperationCycle",
+    "DiagnosticMemoryIdentifier",
+    "DiagnosticMemoryDestinationPrimary",
+    "DiagnosticMemoryAddressableRangeAccess",
+    "DiagnosticMeasurementIdentifier",
+    "DiagnosticMasterToSlaveEventMapping",
+    "DiagnosticJ1939SwMapping",
+    "DiagnosticJ1939SpnMapping",
+    "DiagnosticJ1939Spn",
+    "DiagnosticJ1939Node",
+    "DiagnosticJ1939FreezeFrame",
+    "DiagnosticJ1939ExpandedFreezeFrame",
+    "DiagnosticIumprToFunctionIdentifierMapping",
+    "DiagnosticIumprGroup",
+    "DiagnosticIumprDenominatorGroup",
+    "DiagnosticIumpr",
+    "DiagnosticInfoType",
+    "DiagnosticIndicator",
+    "DiagnosticIOControl",
+    "DiagnosticFunctionIdentifier",
+    "DiagnosticFreezeFrame",
+    "DiagnosticFimEventGroup",
+    "DiagnosticFimAliasEventMapping",
+    "DiagnosticFimAliasEventGroupMapping",
+    "DiagnosticFimAliasEventGroup",
+    "DiagnosticFimAliasEvent",
+    "DiagnosticExtendedDataRecord",
+    "DiagnosticEventToTroubleCodeUdsMapping",
+    "DiagnosticEventToTroubleCodeJ1939Mapping",
+    "DiagnosticEventToStorageConditionGroupMapping",
+    "DiagnosticEventToSecurityEventMapping",
+    "DiagnosticEventToOperationCycleMapping",
+    "DiagnosticEventToEnableConditionGroupMapping",
+    "DiagnosticEventToDebounceAlgorithmMapping",
+    "DiagnosticEventPortMapping",
+    "DiagnosticSwMapping",
+    "DiagnosticEvent",
+    "DiagnosticEnableConditionGroup",
+    "DiagnosticEnableCondition",
+    "DiagnosticEcuReset",
+    "DiagnosticEcuInstanceProps",
+    "DiagnosticDynamicallyDefineDataIdentifier",
+    "DiagnosticDynamicDataIdentifier",
+    "DiagnosticDemProvidedDataMapping",
+    "DiagnosticDeAuthentication",
+    "DiagnosticDataTransfer",
+    "DiagnosticMemoryByAddress",
+    "DiagnosticDataIdentifierSet",
+    "DiagnosticDataIdentifier",
+    "DiagnosticDataByIdentifier",
+    "DiagnosticCustomServiceInstance",
+    "DiagnosticConditionGroup",
+    "DiagnosticCondition",
+    "DiagnosticComControl",
+    "DiagnosticClearDiagnosticInformation",
+    "DiagnosticAuthenticationConfiguration",
+    "DiagnosticAuthTransmitCertificateMapping",
+    "DiagnosticAuthTransmitCertificate",
+    "DiagnosticAuthentication",
+    "DiagnosticAuthRole",
+    "DiagnosticAging",
+    "DiagnosticAbstractDataIdentifier",
+    "DiagnosticAbstractAliasEvent",
+    "DataExchangePoint",
+    "CpSwClusterToDiagRoutineSubfunctionMapping",
+    "CpSwClusterToDiagEventMapping",
+    "CpSwClusterResourceToDiagFunctionIdMapping",
+    "CpSwClusterResourceToDiagDataElemMapping",
+    "DiagnosticMapping",
+    "CalibrationParameterValueSet",
+    "AclRole",
+    "AclPermission",
+    "AclOperation",
+    "AclObjectSet",
     "AdminData",
     "Annotation",
     "ApplicationArrayDataType",
@@ -1652,6 +1779,48 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(mapping_set)
         return self.getElement(short_name, ModeDeclarationMappingSet)
 
+    def createAclPermission(self, short_name: str) -> AclPermission:
+
+        if not self.IsElementExists(short_name, AclPermission):
+            acl_permission = AclPermission(self, short_name)
+            self.addElement(acl_permission)
+        return self.getElement(short_name, AclPermission)
+
+    def createAclObjectSet(self, short_name: str) -> AclObjectSet:
+
+        if not self.IsElementExists(short_name, AclObjectSet):
+            acl_object_set = AclObjectSet(self, short_name)
+            self.addElement(acl_object_set)
+        return self.getElement(short_name, AclObjectSet)
+
+    def createAclOperation(self, short_name: str) -> AclOperation:
+
+        if not self.IsElementExists(short_name, AclOperation):
+            acl_operation = AclOperation(self, short_name)
+            self.addElement(acl_operation)
+        return self.getElement(short_name, AclOperation)
+
+    def createAclRole(self, short_name: str) -> AclRole:
+
+        if not self.IsElementExists(short_name, AclRole):
+            acl_role = AclRole(self, short_name)
+            self.addElement(acl_role)
+        return self.getElement(short_name, AclRole)
+
+    def createLifeCycleStateDefinitionGroup(self, short_name: str) -> LifeCycleStateDefinitionGroup:
+
+        if not self.IsElementExists(short_name, LifeCycleStateDefinitionGroup):
+            group = LifeCycleStateDefinitionGroup(self, short_name)
+            self.addElement(group)
+        return self.getElement(short_name, LifeCycleStateDefinitionGroup)
+
+    def createViewMapSet(self, short_name: str) -> ViewMapSet:
+
+        if not self.IsElementExists(short_name, ViewMapSet):
+            view_map_set = ViewMapSet(self, short_name)
+            self.addElement(view_map_set)
+        return self.getElement(short_name, ViewMapSet)
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
@@ -1951,6 +2120,30 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name))
 
+    def getAclPermissions(self) -> List[AclPermission]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclPermission), self.elements), key=lambda a: a.short_name))
+
+    def getAclObjectSets(self) -> List[AclObjectSet]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclObjectSet), self.elements), key=lambda a: a.short_name))
+
+    def getAclOperations(self) -> List[AclOperation]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclOperation), self.elements), key=lambda a: a.short_name))
+
+    def getAclRoles(self) -> List[AclRole]:
+
+        return list(sorted(filter(lambda a: isinstance(a, AclRole), self.elements), key=lambda a: a.short_name))
+
+    def getLifeCycleStateDefinitionGroups(self) -> List[LifeCycleStateDefinitionGroup]:
+
+        return list(sorted(filter(lambda a: isinstance(a, LifeCycleStateDefinitionGroup), self.elements), key=lambda a: a.short_name))
+
+    def getViewMapSets(self) -> List[ViewMapSet]:
+
+        return list(sorted(filter(lambda a: isinstance(a, ViewMapSet), self.elements), key=lambda a: a.short_name))
+
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
@@ -2140,6 +2333,545 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  #
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection  # noqa: E402
 
 Collection.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (  # noqa: E402
+    AclObjectSet,
+    AclOperation,
+    AclPermission,
+    AclRole,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMapSet  # noqa: E402
+
+AclObjectSet.__bases__ = (ARElement,)
+AclOperation.__bases__ = (ARElement,)
+AclPermission.__bases__ = (ARElement,)
+AclRole.__bases__ = (ARElement,)
+ViewMapSet.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
+
+
+class CalibrationParameterValueSet(ARElement):
+    pass
+
+
+class DiagnosticMapping(ARElement, ABC):
+    pass
+
+
+class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
+    pass
+
+
+class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
+    pass
+
+
+class CpSwClusterToDiagEventMapping(DiagnosticMapping):
+    pass
+
+
+class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
+    pass
+
+
+class DataExchangePoint(ARElement):
+    pass
+
+
+class DiagnosticAbstractAliasEvent(ARElement, ABC):
+    pass
+
+
+class DiagnosticAbstractDataIdentifier(ARElement, ABC):
+    pass
+
+
+class DiagnosticAging(ARElement):
+    pass
+
+
+class DiagnosticAuthRole(ARElement):
+    pass
+
+
+class DiagnosticAuthentication(ARElement, ABC):
+    pass
+
+
+class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticClearDiagnosticInformation(ARElement):
+    pass
+
+
+class DiagnosticComControl(ARElement):
+    pass
+
+
+class DiagnosticCondition(ARElement, ABC):
+    pass
+
+
+class DiagnosticConditionGroup(ARElement, ABC):
+    pass
+
+
+class DiagnosticCustomServiceInstance(ARElement):
+    pass
+
+
+class DiagnosticDataByIdentifier(ARElement, ABC):
+    pass
+
+
+class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
+    pass
+
+
+class DiagnosticDataIdentifierSet(ARElement):
+    pass
+
+
+class DiagnosticMemoryByAddress(ARElement, ABC):
+    pass
+
+
+class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
+    pass
+
+
+class DiagnosticDeAuthentication(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
+    pass
+
+
+class DiagnosticDynamicallyDefineDataIdentifier(ARElement):
+    pass
+
+
+class DiagnosticEcuInstanceProps(ARElement):
+    pass
+
+
+class DiagnosticEcuReset(ARElement):
+    pass
+
+
+class DiagnosticEnableCondition(DiagnosticCondition):
+    pass
+
+
+class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):
+    pass
+
+
+class DiagnosticEvent(ARElement):
+    pass
+
+
+class DiagnosticSwMapping(DiagnosticMapping, ABC):
+    pass
+
+
+class DiagnosticEventPortMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticExtendedDataRecord(ARElement):
+    pass
+
+
+class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
+    pass
+
+
+class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
+    pass
+
+
+class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticFimAliasEventMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticFimEventGroup(ARElement):
+    pass
+
+
+class DiagnosticFreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticFunctionIdentifier(ARElement):
+    pass
+
+
+class DiagnosticIOControl(ARElement):
+    pass
+
+
+class DiagnosticIndicator(ARElement):
+    pass
+
+
+class DiagnosticInfoType(ARElement):
+    pass
+
+
+class DiagnosticIumpr(ARElement):
+    pass
+
+
+class DiagnosticIumprDenominatorGroup(ARElement):
+    pass
+
+
+class DiagnosticIumprGroup(ARElement):
+    pass
+
+
+class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticJ1939ExpandedFreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticJ1939FreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticJ1939Node(ARElement):
+    pass
+
+
+class DiagnosticJ1939Spn(ARElement):
+    pass
+
+
+class DiagnosticJ1939SpnMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticMeasurementIdentifier(ARElement):
+    pass
+
+
+class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
+    pass
+
+
+class DiagnosticMemoryDestinationPrimary(ARElement):
+    pass
+
+
+class DiagnosticMemoryIdentifier(ARElement):
+    pass
+
+
+class DiagnosticOperationCycle(ARElement):
+    pass
+
+
+class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticParameterIdentifier(ARElement):
+    pass
+
+
+class DiagnosticPowertrainFreezeFrame(ARElement):
+    pass
+
+
+class DiagnosticProofOfOwnership(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticProtocol(ARElement):
+    pass
+
+
+class DiagnosticReadDTCInformation(ARElement):
+    pass
+
+
+class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
+    pass
+
+
+class DiagnosticReadDataByPeriodicID(ARElement):
+    pass
+
+
+class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
+    pass
+
+
+class DiagnosticRequestControlOfOnBoardDevice(ARElement):
+    pass
+
+
+class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
+    pass
+
+
+class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
+    pass
+
+
+class DiagnosticRequestFileTransfer(ARElement):
+    pass
+
+
+class DiagnosticRequestOnBoardMonitoringTestResults(ARElement):
+    pass
+
+
+class DiagnosticRequestPowertrainFreezeFrameData(ARElement):
+    pass
+
+
+class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
+    pass
+
+
+class DiagnosticRequestVehicleInfo(ARElement):
+    pass
+
+
+class DiagnosticResponseOnEvent(ARElement):
+    pass
+
+
+class DiagnosticRoutine(ARElement):
+    pass
+
+
+class DiagnosticRoutineControl(ARElement):
+    pass
+
+
+class DiagnosticSecurityAccess(ARElement):
+    pass
+
+
+class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticServiceDataMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticSessionControl(ARElement):
+    pass
+
+
+class DiagnosticStorageCondition(DiagnosticCondition):
+    pass
+
+
+class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
+    pass
+
+
+class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
+    pass
+
+
+class DiagnosticTestResult(ARElement):
+    pass
+
+
+class DiagnosticTestRoutineIdentifier(ARElement):
+    pass
+
+
+class DiagnosticTransferExit(DiagnosticMemoryByAddress):
+    pass
+
+
+class DiagnosticTroubleCode(ARElement, ABC):
+    pass
+
+
+class DiagnosticTroubleCodeGroup(ARElement):
+    pass
+
+
+class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
+    pass
+
+
+class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
+    pass
+
+
+class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
+    pass
+
+
+class EvaluatedVariantSet(ARElement):
+    pass
+
+
+class FMFeature(ARElement):
+    pass
+
+
+class FMFeatureMap(ARElement):
+    pass
+
+
+class FMFeatureModel(ARElement):
+    pass
+
+
+class FMFeatureSelectionSet(ARElement):
+    pass
+
+
+class IdsDesign(ARElement):
+    pass
+
+
+class LifeCycleStateDefinitionGroup(ARElement):
+    """
+    This meta class represents the ability to define the states and properties of one particular life cycle. Tags: atp.recommendedPackage=LifeCycleStateDefintionGroups
+    """
+
+    # LifeCycleStateDefinitionGroup method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.1, p.388
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createLcState    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLcStates      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Describes a single life cycle state of this life cycle state definition group.
+        self.lcStates: List[LifeCycleState] = []
+
+    def createLcState(self, short_name: str) -> LifeCycleState:
+        """
+        Creates a LifeCycleState of this life cycle state definition group with the given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new LifeCycleState
+
+        Returns:
+            The created (or existing) LifeCycleState
+        """
+        if not self.IsElementExists(short_name, LifeCycleState):
+            state = LifeCycleState(self, short_name)
+            self.addElement(state)
+            self.lcStates.append(state)
+        return self.getElement(short_name, LifeCycleState)
+
+    def getLcStates(self) -> List[LifeCycleState]:
+        """
+        Describes a single life cycle state of this life cycle state definition group.
+        """
+        return self.lcStates
+
+
+class PhysicalDimensionMappingSet(ARElement):
+    pass
+
+
+class PostBuildVariantCriterionValueSet(ARElement):
+    pass
+
+
+class RapidPrototypingScenario(ARElement):
+    pass
+
+
+class SdgDef(ARElement):
+    pass
+
+
+class SecurityEventContextMappingApplication(ARElement):
+    pass
+
+
+class SecurityEventContextMappingBswModule(ARElement):
+    pass
+
+
+class SecurityEventContextMappingFunctionalCluster(ARElement):
+    pass
+
+
+class SecurityEventDefinition(ARElement):
+    pass
+
+
+class SwAxisType(ARElement):
+    pass

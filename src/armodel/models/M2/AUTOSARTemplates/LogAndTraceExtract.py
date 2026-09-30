@@ -592,3 +592,7 @@ class DltEcu(ARElement):
         if value is not None:
             self.ecuId = value
         return self
+
+
+class LogAndTraceMessageCollectionSet(ARElement):
+    pass

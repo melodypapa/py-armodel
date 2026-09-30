@@ -39,47 +39,67 @@ class CryptoServiceMapping(Identifiable, VariationPointCapable, ABC):
 
 class SecOcCryptoServiceMapping(CryptoServiceMapping):
     """
-    Represents a Secure Onboard Communication (SecOC) crypto service mapping,
-    defining authentication, key, and queue references for secure
-    communication between ECUs.
+    This meta-class has the ability to represent a crypto service mapping for the Pdu-based communication via SecOC.
     """
 
     # SecOcCryptoServiceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getCryptoServiceKeyRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCryptoServiceKeyRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] getCryptoServiceQueueRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setCryptoServiceQueueRef     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.49, p.375
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceKeyRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoServiceKeyRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceQueueRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoServiceQueueRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.authenticationRef: RefType = None
-        self.cryptoServiceKeyRef: RefType = None
-        self.cryptoServiceQueueRef: RefType = None
+        # This reference identifies the applicable crypto primitive for the authentication.
+        self.authenticationRef: Optional[RefType] = None
 
-    def getAuthenticationRef(self):
+        # This reference identifies the applicable crypto key.
+        self.cryptoServiceKeyRef: Optional[RefType] = None
+
+        # This reference identifies the CryptoServiceQueue the processing of this SecOcCryptoServiceMapping shall be performed in.
+        self.cryptoServiceQueueRef: Optional[RefType] = None
+
+    def getAuthenticationRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable crypto primitive for the authentication."""
         return self.authenticationRef
 
-    def setAuthenticationRef(self, value):
+    def setAuthenticationRef(self, value: Optional[RefType]) -> SecOcCryptoServiceMapping:
+        """
+        This reference identifies the applicable crypto primitive for the authentication.
+        A None value is a no-op and does not overwrite an existing authenticationRef.
+        """
         if value is not None:
             self.authenticationRef = value
         return self
 
-    def getCryptoServiceKeyRef(self):
+    def getCryptoServiceKeyRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable crypto key."""
         return self.cryptoServiceKeyRef
 
-    def setCryptoServiceKeyRef(self, value):
+    def setCryptoServiceKeyRef(self, value: Optional[RefType]) -> SecOcCryptoServiceMapping:
+        """
+        This reference identifies the applicable crypto key.
+        A None value is a no-op and does not overwrite an existing cryptoServiceKeyRef.
+        """
         if value is not None:
             self.cryptoServiceKeyRef = value
         return self
 
-    def getCryptoServiceQueueRef(self):
+    def getCryptoServiceQueueRef(self) -> Optional[RefType]:
+        """This reference identifies the CryptoServiceQueue the processing of this SecOcCryptoServiceMapping shall be performed in."""
         return self.cryptoServiceQueueRef
 
-    def setCryptoServiceQueueRef(self, value):
+    def setCryptoServiceQueueRef(self, value: Optional[RefType]) -> SecOcCryptoServiceMapping:
+        """
+        This reference identifies the CryptoServiceQueue the processing of this SecOcCryptoServiceMapping shall be performed in.
+        A None value is a no-op and does not overwrite an existing cryptoServiceQueueRef.
+        """
         if value is not None:
             self.cryptoServiceQueueRef = value
         return self

@@ -9,15 +9,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     Boolean,
-    Float,
     Integer,
     Numerical,
     PositiveInteger,
     RefType,
     TimeValue,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
-    RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     LinUnconditionalFrame,
@@ -118,18 +114,6 @@ def _pos_int(val=1):
     i = PositiveInteger()
     i.setValue(val)
     return i
-
-
-def _ar_pos_int(val=1):
-    i = PositiveInteger()
-    i.setValue(val)
-    return i
-
-
-def _float(val=1.5):
-    f = Float()
-    f.setValue(val)
-    return f
 
 
 def _time(val=2.5):
@@ -293,24 +277,21 @@ class TestWriteJ1939NodeName:
 class TestWriteCanNmNode:
     def test_writes_can_nm_node(self, writer):
         node = CanNmNode(MockParent(), "can_nm_node")
+        node.setAllNmMessagesKeepAwake(_bool(True))
+        node.setNmCarWakeUpFilterEnabled(_bool(True))
         node.setNmCarWakeUpRxEnabled(_bool(True))
-        node.setNmMsgCycleOffset(_float(0.1))
-        node.setNmMsgReducedTime(_float(0.2))
-        rx_range = RxIdentifierRange()
-        rx_range.setLowerCanId(_ar_pos_int(0x100))
-        rx_range.setUpperCanId(_ar_pos_int(0x1FF))
-        node.setNmRangeConfig(rx_range)
+        node.setNmMsgCycleOffset(_time(0.1))
+        node.setNmMsgReducedTime(_time(0.2))
         parent = _parent()
         writer.writeCanNmNode(parent, node)
         assert parent.find("CAN-NM-NODE") is not None
         child = parent.find("CAN-NM-NODE")
+        assert child.find("ALL-NM-MESSAGES-KEEP-AWAKE") is not None
+        assert child.find("NM-CAR-WAKE-UP-FILTER-ENABLED") is not None
         assert child.find("NM-CAR-WAKE-UP-RX-ENABLED") is not None
         assert child.find("NM-MSG-CYCLE-OFFSET") is not None
         assert child.find("NM-MSG-REDUCED-TIME") is not None
-        assert child.find("NM-RANGE-CONFIG") is not None
-        rc = child.find("NM-RANGE-CONFIG")
-        assert rc.find("LOWER-CAN-ID") is not None
-        assert rc.find("UPPER-CAN-ID") is not None
+        assert child.find("NM-RANGE-CONFIG") is None
 
 
 class TestWriteUdpNmNode:
@@ -476,27 +457,26 @@ class TestWriteCanNmCluster:
         cluster.setNmChannelSleepMaster(_bool(True))
         cluster.setNmSynchronizingNetwork(_bool(True))
         cluster.setNmBusloadReductionActive(_bool(True))
-        cluster.setNmCarWakeUpRxEnabled(_bool(False))
-        cluster.setNmCbvPosition(_numerical(3))
-        cluster.setNmChannelActive(_bool(True))
-        cluster.setNmImmediateNmCycleTime(_float(0.01))
-        cluster.setNmImmediateNmTransmissions(_numerical(5))
-        cluster.setNmMessageTimeoutTime(_float(1.0))
-        cluster.setNmMsgCycleTime(_float(0.1))
-        cluster.setNmNetworkTimeout(_float(2.0))
-        cluster.setNmNidPosition(_numerical(4))
-        cluster.setNmRemoteSleepIndicationTime(_float(1.5))
-        cluster.setNmRepeatMessageTime(_float(0.5))
-        cluster.setNmUserDataLength(_numerical(8))
-        cluster.setNmWaitBusSleepTime(_float(0.2))
+        cluster.setNmCarWakeUpBitPosition(_pos_int(2))
+        cluster.setNmCarWakeUpFilterNodeId(_pos_int(5))
+        cluster.setNmCbvPosition(_int(3))
+        cluster.setNmImmediateNmCycleTime(_time(0.01))
+        cluster.setNmImmediateNmTransmissions(_pos_int(5))
+        cluster.setNmMessageTimeoutTime(_time(1.0))
+        cluster.setNmMsgCycleTime(_time(0.1))
+        cluster.setNmNetworkTimeout(_time(2.0))
+        cluster.setNmNidPosition(_int(4))
+        cluster.setNmRemoteSleepIndicationTime(_time(1.5))
+        cluster.setNmRepeatMessageTime(_time(0.5))
+        cluster.setNmWaitBusSleepTime(_time(0.2))
         parent = _parent()
         writer.writeCanNmCluster(parent, cluster)
         assert parent.find("CAN-NM-CLUSTER") is not None
         c = parent.find("CAN-NM-CLUSTER")
         assert c.find("NM-BUSLOAD-REDUCTION-ACTIVE") is not None
-        assert c.find("NM-CAR-WAKE-UP-RX-ENABLED") is not None
+        assert c.find("NM-CAR-WAKE-UP-BIT-POSITION") is not None
+        assert c.find("NM-CAR-WAKE-UP-FILTER-NODE-ID") is not None
         assert c.find("NM-CBV-POSITION") is not None
-        assert c.find("NM-CHANNEL-ACTIVE") is not None
         assert c.find("NM-IMMEDIATE-NM-CYCLE-TIME") is not None
         assert c.find("NM-IMMEDIATE-NM-TRANSMISSIONS") is not None
         assert c.find("NM-MESSAGE-TIMEOUT-TIME") is not None
@@ -505,7 +485,6 @@ class TestWriteCanNmCluster:
         assert c.find("NM-NID-POSITION") is not None
         assert c.find("NM-REMOTE-SLEEP-INDICATION-TIME") is not None
         assert c.find("NM-REPEAT-MESSAGE-TIME") is not None
-        assert c.find("NM-USER-DATA-LENGTH") is not None
         assert c.find("NM-WAIT-BUS-SLEEP-TIME") is not None
 
 
@@ -517,7 +496,6 @@ class TestWriteUdpNmCluster:
         cluster.setNmChannelSleepMaster(_bool(False))
         cluster.setNmSynchronizingNetwork(_bool(True))
         cluster.setNmCbvPosition(_int(2))
-        cluster.setNmChannelActive(_bool(True))
         cluster.setNmImmediateNmCycleTime(_time(0.05))
         cluster.setNmImmediateNmTransmissions(_pos_int(3))
         cluster.setNmMessageTimeoutTime(_time(1.0))
@@ -533,7 +511,6 @@ class TestWriteUdpNmCluster:
         assert parent.find("UDP-NM-CLUSTER") is not None
         c = parent.find("UDP-NM-CLUSTER")
         assert c.find("NM-CBV-POSITION") is not None
-        assert c.find("NM-CHANNEL-ACTIVE") is not None
         assert c.find("NM-IMMEDIATE-NM-CYCLE-TIME") is not None
         assert c.find("NM-IMMEDIATE-NM-TRANSMISSIONS") is not None
         assert c.find("NM-MESSAGE-TIMEOUT-TIME") is not None
@@ -623,11 +600,8 @@ class TestWriteNmEcu:
         nm_ecu.setEcuInstanceRef(_ref("/ecu/i1", dest="ECU-INSTANCE"))
         nm_ecu.setNmBusSynchronizationEnabled(_bool(True))
         nm_ecu.setNmComControlEnabled(_bool(True))
-        nm_ecu.setNmNodeDetectionEnabled(_bool(False))
-        nm_ecu.setNmNodeIdEnabled(_bool(True))
         nm_ecu.setNmPduRxIndicationEnabled(_bool(False))
         nm_ecu.setNmRemoteSleepIndEnabled(_bool(True))
-        nm_ecu.setNmRepeatMsgIndEnabled(_bool(False))
         nm_ecu.setNmStateChangeIndEnabled(_bool(True))
         nm_ecu.setNmUserDataEnabled(_bool(False))
         parent = _parent()
@@ -637,11 +611,8 @@ class TestWriteNmEcu:
         assert c.find("ECU-INSTANCE-REF") is not None
         assert c.find("NM-BUS-SYNCHRONIZATION-ENABLED") is not None
         assert c.find("NM-COM-CONTROL-ENABLED") is not None
-        assert c.find("NM-NODE-DETECTION-ENABLED") is not None
-        assert c.find("NM-NODE-ID-ENABLED") is not None
         assert c.find("NM-PDU-RX-INDICATION-ENABLED") is not None
         assert c.find("NM-REMOTE-SLEEP-IND-ENABLED") is not None
-        assert c.find("NM-REPEAT-MSG-IND-ENABLED") is not None
         assert c.find("NM-STATE-CHANGE-IND-ENABLED") is not None
         assert c.find("NM-USER-DATA-ENABLED") is not None
 

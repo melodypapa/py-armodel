@@ -624,3 +624,215 @@ class Describable(ARObject, ABC):
         if value is not None:
             self.introduction = value
         return self
+
+
+class SpecElementReference(Identifiable, ABC):
+    pass
+
+
+class DataFormatElementReference(SpecElementReference, ABC):
+    pass
+
+
+class AbstractClassTailoring(DataFormatElementReference):
+    pass
+
+
+class AbstractSecurityEventFilter(Identifiable, ABC):
+    pass
+
+
+class DataFormatElementScope(DataFormatElementReference, ABC):
+    pass
+
+
+class AttributeTailoring(DataFormatElementScope, ABC):
+    pass
+
+
+class AggregationTailoring(AttributeTailoring):
+    pass
+
+
+class BlockState(Identifiable):
+    pass
+
+
+class ClassContentConditional(Identifiable):
+    pass
+
+
+class ConcreteClassTailoring(DataFormatElementScope):
+    pass
+
+
+class ConstraintTailoring(DataFormatElementScope):
+    pass
+
+
+class CpSoftwareClusterResource(Identifiable, ABC):
+    pass
+
+
+class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
+    pass
+
+
+class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
+    pass
+
+
+class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
+    pass
+
+
+class DiagnosticDataElement(Identifiable):
+    pass
+
+
+class DiagnosticDebounceAlgorithmProps(Identifiable):
+    pass
+
+
+class DiagnosticFunctionInhibitSource(Identifiable):
+    pass
+
+
+class DiagnosticParameterElement(Identifiable):
+    pass
+
+
+class DiagnosticRoutineSubfunction(Identifiable, ABC):
+    pass
+
+
+class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
+    pass
+
+
+class DiagnosticStartRoutine(DiagnosticRoutineSubfunction):
+    pass
+
+
+class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
+    pass
+
+
+class SpecElementScope(SpecElementReference, ABC):
+    pass
+
+
+class DocumentElementScope(SpecElementScope):
+    pass
+
+
+class FMAttributeDef(Identifiable):
+    pass
+
+
+class FMFeatureMapAssertion(Identifiable):
+    pass
+
+
+class FMFeatureMapCondition(Identifiable):
+    pass
+
+
+class FMFeatureMapElement(Identifiable):
+    pass
+
+
+class FMFeatureRelation(Identifiable):
+    pass
+
+
+class FMFeatureRestriction(Identifiable):
+    pass
+
+
+class FMFeatureSelection(Identifiable):
+    pass
+
+
+class IdsmRateLimitation(Identifiable):
+    pass
+
+
+class PrimitiveAttributeTailoring(AttributeTailoring):
+    pass
+
+
+class ReferenceTailoring(AttributeTailoring):
+    pass
+
+
+class RptContainer(Identifiable):
+    pass
+
+
+class SdgAttribute(Identifiable, ABC):
+    pass
+
+
+class SdgAbstractForeignReference(SdgAttribute, ABC):
+    pass
+
+
+class SdgAbstractPrimitiveAttribute(SdgAttribute, ABC):
+    pass
+
+
+class SdgAggregationWithVariation(SdgAttribute):
+    pass
+
+
+class SdgClass(Identifiable):
+    pass
+
+
+class SdgForeignReference(SdgAbstractForeignReference):
+    pass
+
+
+class SdgForeignReferenceWithVariation(SdgAbstractForeignReference):
+    pass
+
+
+class SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute):
+    pass
+
+
+class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
+    pass
+
+
+class SdgReference(SdgAttribute):
+    pass
+
+
+class SdgTailoring(DataFormatElementScope):
+    pass
+
+
+class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
+    pass
+
+
+class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
+    pass
+
+
+class SoConIPduIdentifier(Referrable):
+    pass
+
+
+class SpecificationDocumentScope(SpecElementScope):
+    pass
+
+
+class TDCpSoftwareClusterMapping(Identifiable):
+    pass
+
+
+class TDCpSoftwareClusterResourceMapping(Identifiable):
+    pass

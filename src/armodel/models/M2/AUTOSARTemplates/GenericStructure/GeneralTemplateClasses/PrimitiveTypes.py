@@ -355,18 +355,18 @@ class UriString(ARLiteral):
 
 class AlignmentType(ARLiteral):
     """
-    This primitive represents the alignment of objects within a memory section.
-    The value is in number of bits or UNKNOWN (deprecated), 8, 16, 32, 64,
-    UNSPECIFIED, BOOLEAN, or PTR. Typical values for numbers are 8, 16, 32, 64.
+    This primitive represents the alignment of objects within a memory section. The value is in number of bits or UNKNOWN (deprecated), 8 , 16, 32, 64 UNSPECIFIED, BOOLEAN, or PTR. Typical values for numbers are 8, 16, 32, 64.
 
     Tags:
         * xml.xsd.customType=ALIGNMENT-TYPE
-        * xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]*|0[bB][0-1]+|0[0-7]*|UNSPECIFIED|UNKNOWN|BOOLEAN|PTR
+        * xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]*|0[bB] [0-1]+|0[0-7]*|UNSPECIFIED|UNKNOWN|BOOLEAN|PTR
         * xml.xsd.type=string
     """
 
     # AlignmentType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.3, p.144
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1565,3 +1565,373 @@ class ViewTokens(ARLiteral):
 
     def __init__(self):
         super().__init__()
+
+
+class AclScopeEnum(AREnum):
+    """
+    This enumerator represents the scope of a definition in context of access control.
+    """
+
+    # AclScopeEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 11.6, p.384
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This specifies that the AclPermission applies to dependant (in particular referenced) operations / objects as well. Note that this includes the descendant ones. Tags: atp.EnumerationLiteralIndex=0
+    DEPENDANT = "dependant"
+
+    # This specifies that the AclPermission applies to descendant operations / objects as well. Tags: atp.EnumerationLiteralIndex=1
+    DESCENDANT = "descendant"
+
+    # This is indicates that the AclPermission applies to explicit objects / operations only. Tags: atp.EnumerationLiteralIndex=2
+    EXPLICIT = "explicit"
+
+    def __init__(self):
+        super().__init__(
+            [
+                AclScopeEnum.DEPENDANT,
+                AclScopeEnum.DESCENDANT,
+                AclScopeEnum.EXPLICIT,
+            ]
+        )
+
+
+class AdditionalBindingTimeEnum(AREnum):
+    pass
+
+
+class ContainerIPduHeaderTypeEnum(AREnum):
+    pass
+
+
+class ContainerIPduTriggerEnum(AREnum):
+    pass
+
+
+class CouplingElementEnum(AREnum):
+    pass
+
+
+class CryptoServiceKeyGenerationEnum(AREnum):
+    pass
+
+
+class DataConsistencyPolicyEnum(AREnum):
+    pass
+
+
+class DataExchangePointKind(AREnum):
+    pass
+
+
+class DdsDestinationOrderKindEnum(AREnum):
+    pass
+
+
+class DdsDurabilityKindEnum(AREnum):
+    pass
+
+
+class DdsDurabilityServiceHistoryKindEnum(AREnum):
+    pass
+
+
+class DdsHistoryKindEnum(AREnum):
+    pass
+
+
+class DdsLivenessKindEnum(AREnum):
+    pass
+
+
+class DdsOwnershipKindEnum(AREnum):
+    pass
+
+
+class DdsReliabilityKindEnum(AREnum):
+    pass
+
+
+class DefaultValueApplicationStrategyEnum(AREnum):
+    pass
+
+
+class DiagPduType(AREnum):
+    pass
+
+
+class DiagnosticClearDtcLimitationEnum(AREnum):
+    pass
+
+
+class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticDebounceBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
+    pass
+
+
+class DiagnosticEventClearAllowedEnum(AREnum):
+    pass
+
+
+class DiagnosticEventCombinationBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
+    pass
+
+
+class DiagnosticEventDisplacementStrategyEnum(AREnum):
+    pass
+
+
+class DiagnosticEventKindEnum(AREnum):
+    pass
+
+
+class DiagnosticEventWindowTimeEnum(AREnum):
+    pass
+
+
+class DiagnosticHandleDDDIConfigurationEnum(AREnum):
+    pass
+
+
+class DiagnosticInhibitionMaskEnum(AREnum):
+    pass
+
+
+class DiagnosticIumprKindEnum(AREnum):
+    pass
+
+
+class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
+    pass
+
+
+class DiagnosticObdSupportEnum(AREnum):
+    pass
+
+
+class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
+    pass
+
+
+class DiagnosticOperationCycleTypeEnum(AREnum):
+    pass
+
+
+class DiagnosticPeriodicRateCategoryEnum(AREnum):
+    pass
+
+
+class DiagnosticRecordTriggerEnum(AREnum):
+    pass
+
+
+class DiagnosticResponseOnEventActionEnum(AREnum):
+    pass
+
+
+class DiagnosticResponseToEcuResetEnum(AREnum):
+    pass
+
+
+class DiagnosticSignificanceEnum(AREnum):
+    pass
+
+
+class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
+    pass
+
+
+class DiagnosticTestResultUpdateEnum(AREnum):
+    pass
+
+
+class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
+    pass
+
+
+class DiagnosticTypeOfDtcSupportedEnum(AREnum):
+    pass
+
+
+class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
+    pass
+
+
+class DiagnosticUdsSeverityEnum(AREnum):
+    pass
+
+
+class DiagnosticWwhObdDtcClassEnum(AREnum):
+    pass
+
+
+class EEnum(AREnum):
+    pass
+
+
+class EEnumFont(AREnum):
+    pass
+
+
+class EthGlobalTimeMessageFormatEnum(AREnum):
+    pass
+
+
+class FMFeatureSelectionState(AREnum):
+    pass
+
+
+class FlowMeteringColorModeEnum(AREnum):
+    pass
+
+
+class FrArTpAckType(AREnum):
+    pass
+
+
+class FullBindingTimeEnum(AREnum):
+    pass
+
+
+class GlobalTimeCrcSupportEnum(AREnum):
+    pass
+
+
+class GlobalTimeCrcValidationEnum(AREnum):
+    pass
+
+
+class GlobalTimeIcvSupportEnum(AREnum):
+    pass
+
+
+class GlobalTimeIcvVerificationEnum(AREnum):
+    pass
+
+
+class GlobalTimePortRoleEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAafAes3DataTypeEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAafFormatEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAafNominalRateEnum(AREnum):
+    pass
+
+
+class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
+    pass
+
+
+class IEEE1722TpCrfPullEnum(AREnum):
+    pass
+
+
+class IEEE1722TpCrfTypeEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfColorSpaceEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfFrameRateEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfPixelDepthEnum(AREnum):
+    pass
+
+
+class IEEE1722TpRvfPixelFormatEnum(AREnum):
+    pass
+
+
+class IPsecDpdActionEnum(AREnum):
+    pass
+
+
+class IPsecHeaderTypeEnum(AREnum):
+    pass
+
+
+class IPsecIpProtocolEnum(AREnum):
+    pass
+
+
+class IPsecModeEnum(AREnum):
+    pass
+
+
+class IPsecPolicyEnum(AREnum):
+    pass
+
+
+class LinChecksumType(AREnum):
+    pass
+
+
+class MappingScopeEnum(AREnum):
+    pass
+
+
+class MaximumMessageLengthType(AREnum):
+    pass
+
+
+class MirroringProtocolEnum(AREnum):
+    pass
+
+
+class RxAcceptContainedIPduEnum(AREnum):
+    pass
+
+
+class SecurityEventContextDataSourceEnum(AREnum):
+    pass
+
+
+class SecurityEventReportingModeEnum(AREnum):
+    pass
+
+
+class SendIndicationEnum(AREnum):
+    pass
+
+
+class SeverityEnum(AREnum):
+    pass
+
+
+class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
+    pass
+
+
+class SwitchStreamFilterActionPortModificationEnum(AREnum):
+    pass
+
+
+class VariableAccessScopeEnum(AREnum):
+    pass

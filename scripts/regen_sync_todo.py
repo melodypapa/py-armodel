@@ -16,6 +16,7 @@ Conventions this encodes (do not "simplify" without re-deriving them):
 """
 
 import argparse
+import ast
 import difflib
 import re
 import subprocess
@@ -47,6 +48,9 @@ INDEX_INTRO = (
     "",
     "Status `*` (or an explicit `Deferred` status) = sync complete (Steps 1–8) but the `# Spec verified:`/`# XSD verified:` stamp is "
     "**deferred to a batch 9b user confirmation** (audited 2026-09-27 against the src stamps).",
+    "Class-availability lifecycle: `Created` = the class exists in src as an empty stub (dependency placeholder — e.g. the "
+    "Group21–36 stub pass) but implementation has not started · `Implemented` = the class exists in src with members but the "
+    "queued 9-step sync is not complete · `Pending` = the class is not available (not defined in src at all).",
     "",
     "",
 )
@@ -56,8 +60,10 @@ REPORT_INTRO = (
     "Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by name with status and commit ID.",
     "",
     "**Status legend:** `[x] Done` = 9-step sync complete AND `# Spec verified:`/`# XSD verified:` stamped in src · `[x]`/`[ ] Deferred` "
-    "= sync complete (Steps 1–8 green) but the stamp is **deferred to a batch 9b user confirmation** · `[ ] Pending` = sync not yet "
-    "complete. (Deferred set audited 2026-09-27 against the src stamps.)",
+    "= sync complete (Steps 1–8 green) but the stamp is **deferred to a batch 9b user confirmation** · `[ ] Created` = the class exists "
+    "in src as an empty stub (dependency placeholder) but implementation has not started · `[ ] Implemented` = the class exists in src "
+    "with members but the queued 9-step sync is not complete · `[ ] Pending` = the class is not available (not defined in src at all). "
+    "(Deferred set audited 2026-09-27 against the src stamps.)",
     "",
 )
 
@@ -130,6 +136,24 @@ def scan_stamps():
     return stamped
 
 
+def scan_src_classes():
+    """(stub_classes, defined_classes) from an AST scan of src/armodel — stubs are classes with an
+    EMPTY body (only docstring/pass/comments; dependency placeholders from the Group21-36 stub pass),
+    defined is every class name found. Drives the Created / Implemented / Pending lifecycle statuses."""
+    stubs, defined = set(), set()
+    for py in SRC.rglob("*.py"):
+        try:
+            tree = ast.parse(py.read_text(encoding="utf-8", errors="replace"))
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                defined.add(node.name)
+                if all(isinstance(s, (ast.Pass, ast.Expr)) for s in node.body):
+                    stubs.add(node.name)
+    return stubs, defined
+
+
 class DuplicateClassError(ValueError):
     pass
 
@@ -167,7 +191,7 @@ def parse_group_rows(cur_index, name_groups):
     return parsed
 
 
-def resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_report, name_groups):
+def resolve_row(g, name, checked, header_line, block, stamped, stubs, defined, cur_index, cur_report, name_groups):
     steps = {}
     for bl in block.split("\n"):
         sm = STEP_RE.match(bl)
@@ -210,6 +234,10 @@ def resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_re
         status = "Retired" if retired else ("Done" if name in stamped else "Done*")
     elif steps_complete:
         status = "Done" if name in stamped else "Pending*"
+    elif name in stubs:
+        status = "Created"
+    elif name in defined:
+        status = "Implemented"
     else:
         status = "Pending"
     if commit != "N/A":
@@ -217,7 +245,7 @@ def resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_re
     return {"name": name, "commit": commit, "status": status}
 
 
-REPORT_STATUS_ORDER = ("[x] Done", "[x] Deferred", "[x] Retired", "[ ] Deferred", "[ ] Pending")
+REPORT_STATUS_ORDER = ("[x] Done", "[x] Deferred", "[x] Retired", "[ ] Deferred", "[ ] Implemented", "[ ] Created", "[ ] Pending")
 
 
 def report_status(statuses):
@@ -229,13 +257,17 @@ def report_status(statuses):
         return "[x] Deferred"
     if any(s == "Pending*" for s in statuses):
         return "[ ] Deferred"
+    if any(s == "Implemented" for s in statuses):
+        return "[ ] Implemented"
+    if any(s == "Created" for s in statuses):
+        return "[ ] Created"
     return "[ ] Pending"
 
 
-def build(parsed, stamped, cur_index, cur_report, name_groups):
+def build(parsed, stamped, stubs, defined, cur_index, cur_report, name_groups):
     resolved = {}
     for g in GROUPS:
-        resolved[g] = [resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_report, name_groups) for (checked, name, header_line), block in parsed[g]]
+        resolved[g] = [resolve_row(g, name, checked, header_line, block, stamped, stubs, defined, cur_index, cur_report, name_groups) for (checked, name, header_line), block in parsed[g]]
 
     idx_lines = list(INDEX_INTRO)
     for g in GROUPS:
@@ -308,7 +340,8 @@ def main():
     cur_index = parse_current_index()
     cur_report = parse_current_report()
     stamped = scan_stamps()
-    index_text, report_text, resolved = build(parsed, stamped, cur_index, cur_report, name_groups)
+    stubs, defined = scan_src_classes()
+    index_text, report_text, resolved = build(parsed, stamped, stubs, defined, cur_index, cur_report, name_groups)
 
     targets = {"SyncTodoIndex.md": index_text, "sync-report.md": report_text}
     changed = [n for n, txt in targets.items() if (SYNC / n).read_text(encoding="utf-8") != txt]

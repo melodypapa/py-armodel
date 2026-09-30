@@ -593,3 +593,15 @@ class WaitPoint(Identifiable):
         if value is not None:
             self.triggerRef = value
         return self
+
+
+class ExternalTriggerOccurredEvent(RTEEvent):
+    pass
+
+
+class OsTaskExecutionEvent(RTEEvent):
+    pass
+
+
+class TransformerHardErrorEvent(RTEEvent):
+    pass

@@ -75,3 +75,123 @@ class DiagnosticServiceClass(DiagnosticCommonElement, ABC):
         if type(self) is DiagnosticServiceClass:
             raise TypeError("DiagnosticServiceClass is an abstract class.")
         super().__init__(parent, short_name)
+
+
+class DiagnosticAuthenticationClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticClearDiagnosticInformationClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticClearResetEmissionRelatedInfoClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticComControlClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticCustomServiceClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticDataTransferClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticEcuResetClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticIoControlClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticReadDTCInformationClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticReadMemoryByAddressClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticReadScalingDataByIdentifierClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestCurrentPowertrainDataClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestEmissionRelatedDTCClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestFileTransferClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestPowertrainFreezeFrameDataClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestUploadClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRequestVehicleInfoClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticRoutineControlClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticSecurityAccessClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticSessionControlClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticTransferExitClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticWriteDataByIdentifierClass(DiagnosticServiceClass):
+    pass
+
+
+class DiagnosticWriteMemoryByAddressClass(DiagnosticServiceClass):
+    pass

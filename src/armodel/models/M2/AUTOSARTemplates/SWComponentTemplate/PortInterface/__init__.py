@@ -1894,3 +1894,7 @@ class PortInterfaceMappingSet(ARElement):
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, TriggerInterfaceMapping)
+
+
+class ImplementationDataTypeSubElementRef(SubElementRef):
+    pass

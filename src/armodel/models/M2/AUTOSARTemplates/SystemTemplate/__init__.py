@@ -27,60 +27,110 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
+from abc import ABC
 
 
 class SwcToEcuMapping(Identifiable, VariationPointCapable):
     """
-    Represents the mapping between software components and ECU instances
-    in the system, defining how components are assigned to specific
-    ECUs including hardware element and processing unit references.
+    This meta-class is used: • to map SwComponentPrototypes to a specific ECU Instance unit, • optionally to map SwComponentPrototypes to a HwElement with category ProcessingUnit, • optionally to map SwComponentPrototypes typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator. For each combination of ECUInstance and the optional ProcessingUnit and the optional SensorActuator only one SwcToEcuMapping shall be used.
+
+    [constr_3263] Restriction of usage of SwcToEcuMapping in a System: For all SwcToEcuMappings in a System the following restriction applies: No two SwcToEcuMappings shall have the exact same reference to SwComponentPrototype, EcuInstance, processingUnit, controlledHwElement.
+
+    [constr_3021] Mapping of SensorActuatorSwComponents to SensorActuator HwElements: Only SwComponentPrototypes that are typed by SensorActuatorSwComponentType shall be mapped to a HwElement with category SensorActuator via the controlledHwElement relation.
+
+    [constr_3249] Category of HwElement for SwcToEcuMapping: The HwElement which is referenced from SwcToEcuMapping in the role processingUnit shall be of category "ProcessingUnit".
     """
 
     # SwcToEcuMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComponentIRefs            [x] impl  [ ] docstring  [ ] test
-    # [ ] addComponentIRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getControlledHwElementRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setControlledHwElementRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getProcessingUnitRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setProcessingUnitRef         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.2, p.197
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addComponentIRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComponentIRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getControlledHwElementRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setControlledHwElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessingUnitRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessingUnitRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # References to the software component instances that are mapped to the referenced ECUInstance. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ECU. If there is aditionally a mapping of some SwComponent Prototype INSIDE the Composition to another ECU Instance the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
         self.componentIRefs: List[ComponentInSystemInstanceRef] = []
-        self.controlledHwElementRef: RefType = None
-        self.ecuInstanceRef: RefType = None
-        self.processingUnitRef: RefType = None
 
-    def getComponentIRefs(self):
+        # Optional mapping of SwComponentPrototypes that are typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
+        self.controlledHwElementRef: Optional[RefType] = None
+
+        # Reference to a specific ECU Instance description.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # Optional mapping of software components to individual microcontroller cores residing in one ECU. A microcontroller core is described in the ECU Resource Template by the HwElement of HwCategory Processing Unit.
+        self.processingUnitRef: Optional[RefType] = None
+
+    def addComponentIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "SwcToEcuMapping":
+        """
+        References to the software component instances that are mapped to the referenced ECUInstance. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ECU. If there is aditionally a mapping of some SwComponent Prototype INSIDE the Composition to another ECU Instance the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not add to componentIRefs.
+        """
+        if value is not None:
+            self.componentIRefs.append(value)
+        return self
+
+    def getComponentIRefs(self) -> List[ComponentInSystemInstanceRef]:
+        """
+        References to the software component instances that are mapped to the referenced ECUInstance. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ECU. If there is aditionally a mapping of some SwComponent Prototype INSIDE the Composition to another ECU Instance the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
         return self.componentIRefs
 
-    def addComponentIRef(self, value):
-        self.componentIRefs.append(value)
-        return self
-
-    def getControlledHwElementRef(self):
+    def getControlledHwElementRef(self) -> Optional[RefType]:
+        """
+        Optional mapping of SwComponentPrototypes that are typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
+        """
         return self.controlledHwElementRef
 
-    def setControlledHwElementRef(self, value):
-        self.controlledHwElementRef = value
+    def setControlledHwElementRef(self, value: Optional[RefType]) -> "SwcToEcuMapping":
+        """
+        Optional mapping of SwComponentPrototypes that are typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
+
+        A None value is a no-op and does not overwrite an existing controlledHwElementRef.
+        """
+        if value is not None:
+            self.controlledHwElementRef = value
         return self
 
-    def getEcuInstanceRef(self):
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Reference to a specific ECU Instance description.
+        """
         return self.ecuInstanceRef
 
-    def setEcuInstanceRef(self, value):
-        self.ecuInstanceRef = value
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "SwcToEcuMapping":
+        """
+        Reference to a specific ECU Instance description.
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
         return self
 
-    def getProcessingUnitRef(self):
+    def getProcessingUnitRef(self) -> Optional[RefType]:
+        """
+        Optional mapping of software components to individual microcontroller cores residing in one ECU. A microcontroller core is described in the ECU Resource Template by the HwElement of HwCategory Processing Unit.
+        """
         return self.processingUnitRef
 
-    def setProcessingUnitRef(self, value):
-        self.processingUnitRef = value
+    def setProcessingUnitRef(self, value: Optional[RefType]) -> "SwcToEcuMapping":
+        """
+        Optional mapping of software components to individual microcontroller cores residing in one ECU. A microcontroller core is described in the ECU Resource Template by the HwElement of HwCategory Processing Unit.
+
+        A None value is a no-op and does not overwrite an existing processingUnitRef.
+        """
+        if value is not None:
+            self.processingUnitRef = value
         return self
 
 
@@ -174,8 +224,10 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApplicationPartitionToEcuPartitionMappings [x] impl  [ ] docstring  [ ] test
     # [ ] addApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
     # [ ] getAppOsTaskProxyToEcuTaskProxyMappings [x] impl  [ ] docstring  [ ] test
     # [ ] addAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] createAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
     # [ ] getComManagementMappings     [x] impl  [ ] docstring  [ ] test
     # [ ] addComManagementMapping      [x] impl  [ ] docstring  [ ] test
     # [ ] createComManagementMapping   [x] impl  [ ] docstring  [ ] test
@@ -258,12 +310,26 @@ class SystemMapping(Identifiable, VariationPointCapable):
         self.applicationPartitionToEcuPartitionMappings.append(value)
         return self
 
+    def createApplicationPartitionToEcuPartitionMapping(self, short_name: str) -> ApplicationPartitionToEcuPartitionMapping:
+        if not self.IsElementExists(short_name, ApplicationPartitionToEcuPartitionMapping):
+            mapping = ApplicationPartitionToEcuPartitionMapping(self, short_name)
+            self.addElement(mapping)
+            self.applicationPartitionToEcuPartitionMappings.append(mapping)
+        return self.getElement(short_name, ApplicationPartitionToEcuPartitionMapping)
+
     def getAppOsTaskProxyToEcuTaskProxyMappings(self):
         return self.appOsTaskProxyToEcuTaskProxyMappings
 
     def addAppOsTaskProxyToEcuTaskProxyMapping(self, value):
         self.appOsTaskProxyToEcuTaskProxyMappings.append(value)
         return self
+
+    def createAppOsTaskProxyToEcuTaskProxyMapping(self, short_name: str) -> AppOsTaskProxyToEcuTaskProxyMapping:
+        if not self.IsElementExists(short_name, AppOsTaskProxyToEcuTaskProxyMapping):
+            mapping = AppOsTaskProxyToEcuTaskProxyMapping(self, short_name)
+            self.addElement(mapping)
+            self.appOsTaskProxyToEcuTaskProxyMappings.append(mapping)
+        return self.getElement(short_name, AppOsTaskProxyToEcuTaskProxyMapping)
 
     def getComManagementMappings(self):
         return self.comManagementMappings
@@ -958,6 +1024,174 @@ class System(AtpStructureElement):
 
 
 __all__ = [
+    "UserDefinedTransformationProps",
+    "UserDefinedGlobalTimeSlave",
+    "UserDefinedGlobalTimeMaster",
+    "UserDefinedCommunicationConnector",
+    "TtcanCommunicationController",
+    "TriggerToSignalMapping",
+    "TransformationPropsSet",
+    "TransformationProps",
+    "SystemSignalToCommunicationResourceMapping",
+    "SystemSignalGroupToCommunicationResourceMapping",
+    "SwitchStreamIdentification",
+    "SwitchStreamGateEntry",
+    "SwitchStreamFilterRule",
+    "SwitchStreamFilterEntry",
+    "SwitchStreamFilterActionDestPortModification",
+    "SwitchFlowMeteringEntry",
+    "SwitchAsynchronousTrafficShaperGroupEntry",
+    "SwcToSwcSignal",
+    "SwcToSwcOperationArguments",
+    "SwcToApplicationPartitionMapping",
+    "StreamFilterRuleIpTp",
+    "StreamFilterRuleDataLinkLayer",
+    "StreamFilterPortRange",
+    "StreamFilterMACAddress",
+    "StreamFilterIpv6Address",
+    "StreamFilterIpv4Address",
+    "StreamFilterIEEE1722Tp",
+    "SomeipTpConnection",
+    "SomeipTpChannel",
+    "SomeipSdServerServiceInstanceConfig",
+    "SocketConnectionIpduIdentifierSet",
+    "SeparateSignalPath",
+    "SenderReceiverCompositeElementToSignalMapping",
+    "SOMEIPTransformationProps",
+    "RteEventInSystemToOsTaskProxyMapping",
+    "RteEventInSystemSeparation",
+    "RteEventInCompositionToOsTaskProxyMapping",
+    "RteEventInCompositionSeparation",
+    "PortElementToCommunicationResourceMapping",
+    "PncMapping",
+    "PermissibleSignalPath",
+    "NmCoordinator",
+    "NetworkSegmentIdentification",
+    "MacSecParticipantSet",
+    "J1939TpPg",
+    "J1939TpNode",
+    "J1939TpConnection",
+    "J1939TpConfig",
+    "J1939ControllerApplicationToJ1939NmNodeMapping",
+    "J1939ControllerApplication",
+    "Ipv6Props",
+    "Ipv6NdpProps",
+    "Ipv6FragmentationProps",
+    "Ipv4Props",
+    "Ipv4FragmentationProps",
+    "Ipv4AutoIpProps",
+    "Ipv4ArpProps",
+    "IPv6ExtHeaderFilterSet",
+    "IPSecRule",
+    "IPSecConfigProps",
+    "IEEE1722TpRvfConnection",
+    "IEEE1722TpIidcConnection",
+    "IEEE1722TpCrfConnection",
+    "IEEE1722TpConfig",
+    "IEEE1722TpAcfLinPart",
+    "IEEE1722TpAcfLin",
+    "IEEE1722TpAcfConnection",
+    "IEEE1722TpAcfCanPart",
+    "IEEE1722TpAcfCan",
+    "IEEE1722TpAcfBusPart",
+    "IEEE1722TpAcfBus",
+    "IEEE1722TpAafConnection",
+    "IEEE1722TpAvConnection",
+    "IEEE1722TpConnection",
+    "GlobalTimeSlave",
+    "GlobalTimeGateway",
+    "GlobalTimeFrSlave",
+    "GlobalTimeFrMaster",
+    "GlobalTimeEthSlave",
+    "GlobalTimeEthMaster",
+    "GlobalTimeDomain",
+    "GlobalTimeCorrectionProps",
+    "GlobalTimeCanSlave",
+    "GlobalTimeCanMaster",
+    "GlobalTimeMaster",
+    "GeneralPurposeConnection",
+    "FrGlobalTimeDomainProps",
+    "ForbiddenSignalPath",
+    "FlexrayTpPduPool",
+    "FlexrayTpNode",
+    "FlexrayTpEcu",
+    "FlexrayTpConnectionControl",
+    "FlexrayArTpNode",
+    "FlexrayArTpChannel",
+    "EthernetWakeupSleepOnDatalineConfig",
+    "EthTSynSubTlvConfig",
+    "EthTSynCrcFlags",
+    "EthIpProps",
+    "EthGlobalTimeManagedCouplingPort",
+    "EthGlobalTimeDomainProps",
+    "EcuResourceEstimation",
+    "Dhcpv6Props",
+    "DdsTransportPriority",
+    "DdsTopicData",
+    "DdsResourceLimits",
+    "DdsReliability",
+    "DdsOwnershipStrength",
+    "DdsOwnership",
+    "DdsLiveliness",
+    "DdsLifespan",
+    "DdsLatencyBudget",
+    "DdsHistory",
+    "DdsDurabilityService",
+    "DdsDurability",
+    "DdsDestinationOrder",
+    "DdsDeadline",
+    "DdsCpTopic",
+    "DdsCpServiceInstanceOperation",
+    "DdsCpServiceInstanceEvent",
+    "DdsCpQosProfile",
+    "DdsCpProvidedServiceInstance",
+    "DdsCpPartition",
+    "DdsCpISignalToDdsTopicMapping",
+    "DdsCpDomain",
+    "DdsCpConsumedServiceInstance",
+    "DdsCpServiceInstance",
+    "DdsCpConfig",
+    "DataComProps",
+    "CryptoServiceQueue",
+    "CryptoServiceKey",
+    "CpSoftwareClusterToResourceMapping",
+    "CpSoftwareClusterToEcuInstanceMapping",
+    "CpSoftwareClusterToApplicationPartitionMapping",
+    "CpSoftwareClusterResourceToApplicationPartitionMapping",
+    "CpSoftwareClusterResourcePool",
+    "CpSoftwareClusterMappingSet",
+    "CpSoftwareClusterBinaryManifestDescriptor",
+    "CouplingElementSwitchDetails",
+    "CouplingElementAbstractDetails",
+    "CouplingElement",
+    "ContainerIPdu",
+    "ComponentSeparation",
+    "ComponentClustering",
+    "MappingConstraint",
+    "CommonSignalPath",
+    "ClientServerToSignalMapping",
+    "ClientServerOperationComProps",
+    "CpSoftwareClusterCommunicationResourceProps",
+    "CanGlobalTimeDomainProps",
+    "BusMirrorLinPidToCanIdMapping",
+    "BusMirrorChannelMappingIp",
+    "BusMirrorChannelMappingCan",
+    "BusMirrorChannel",
+    "BusMirrorCanIdToCanIdMapping",
+    "BusMirrorCanIdRangeMapping",
+    "BinaryManifestResourceDefinition",
+    "BinaryManifestResource",
+    "BinaryManifestRequireResource",
+    "BinaryManifestProvideResource",
+    "BinaryManifestMetaDataField",
+    "BinaryManifestItemPointerValue",
+    "BinaryManifestItemNumericalValue",
+    "BinaryManifestItemValue",
+    "BinaryManifestItemDefinition",
+    "BinaryManifestItem",
+    "BinaryManifestAddressableObject",
+    "ApplicationPartition",
+    "AbstractGlobalTimeDomainProps",
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",
@@ -993,3 +1227,675 @@ __all__ = [
     "VariableDataPrototypeInSystemInstanceRef",
     "VariationPointCapable",
 ]
+
+
+class AbstractGlobalTimeDomainProps(ARObject, ABC):
+    pass
+
+
+class ApplicationPartition(ARElement):
+    pass
+
+
+class BinaryManifestAddressableObject(ARObject, ABC):
+    pass
+
+
+class BinaryManifestItem(Identifiable):
+    pass
+
+
+class BinaryManifestItemDefinition(Identifiable):
+    pass
+
+
+class BinaryManifestItemValue(ARObject, ABC):
+    pass
+
+
+class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
+    pass
+
+
+class BinaryManifestItemPointerValue(BinaryManifestItemValue):
+    pass
+
+
+class BinaryManifestMetaDataField(Identifiable):
+    pass
+
+
+class BinaryManifestProvideResource(Identifiable):
+    pass
+
+
+class BinaryManifestRequireResource(Identifiable):
+    pass
+
+
+class BinaryManifestResource(ARObject, ABC):
+    pass
+
+
+class BinaryManifestResourceDefinition(Identifiable):
+    pass
+
+
+class BusMirrorCanIdRangeMapping(ARObject):
+    pass
+
+
+class BusMirrorCanIdToCanIdMapping(ARObject):
+    pass
+
+
+class BusMirrorChannel(ARObject):
+    pass
+
+
+class BusMirrorChannelMappingCan(ARObject):
+    pass
+
+
+class BusMirrorChannelMappingIp(ARObject):
+    pass
+
+
+class BusMirrorLinPidToCanIdMapping(ARObject):
+    pass
+
+
+class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
+    pass
+
+
+class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
+    pass
+
+
+class ClientServerToSignalMapping(DataMapping):
+    pass
+
+
+class CommonSignalPath(ARObject):
+    pass
+
+
+class MappingConstraint(ARObject, ABC):
+    pass
+
+
+class ComponentClustering(MappingConstraint):
+    pass
+
+
+class ComponentSeparation(MappingConstraint):
+    pass
+
+
+class ContainerIPdu(ARObject):
+    pass
+
+
+class CouplingElement(ARObject):
+    pass
+
+
+class CouplingElementAbstractDetails(Identifiable, ABC):
+    pass
+
+
+class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
+    pass
+
+
+class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
+    pass
+
+
+class CpSoftwareClusterMappingSet(ARElement):
+    pass
+
+
+class CpSoftwareClusterResourcePool(ARElement):
+    pass
+
+
+class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToResourceMapping(Identifiable):
+    pass
+
+
+class CryptoServiceKey(ARElement):
+    pass
+
+
+class CryptoServiceQueue(ARElement):
+    pass
+
+
+class DataComProps(CpSoftwareClusterCommunicationResourceProps):
+    pass
+
+
+class DdsCpConfig(ARElement):
+    pass
+
+
+class DdsCpServiceInstance(Identifiable, ABC):
+    pass
+
+
+class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
+    pass
+
+
+class DdsCpDomain(Identifiable):
+    pass
+
+
+class DdsCpISignalToDdsTopicMapping(ARObject):
+    pass
+
+
+class DdsCpPartition(Identifiable):
+    pass
+
+
+class DdsCpProvidedServiceInstance(ARObject):
+    pass
+
+
+class DdsCpQosProfile(ARObject):
+    pass
+
+
+class DdsCpServiceInstanceEvent(ARObject):
+    pass
+
+
+class DdsCpServiceInstanceOperation(ARObject):
+    pass
+
+
+class DdsCpTopic(ARObject):
+    pass
+
+
+class DdsDeadline(ARObject):
+    pass
+
+
+class DdsDestinationOrder(ARObject):
+    pass
+
+
+class DdsDurability(ARObject):
+    pass
+
+
+class DdsDurabilityService(ARObject):
+    pass
+
+
+class DdsHistory(ARObject):
+    pass
+
+
+class DdsLatencyBudget(ARObject):
+    pass
+
+
+class DdsLifespan(ARObject):
+    pass
+
+
+class DdsLiveliness(ARObject):
+    pass
+
+
+class DdsOwnership(ARObject):
+    pass
+
+
+class DdsOwnershipStrength(ARObject):
+    pass
+
+
+class DdsReliability(ARObject):
+    pass
+
+
+class DdsResourceLimits(ARObject):
+    pass
+
+
+class DdsTopicData(ARObject):
+    pass
+
+
+class DdsTransportPriority(ARObject):
+    pass
+
+
+class Dhcpv6Props(ARObject):
+    pass
+
+
+class EcuResourceEstimation(ARObject):
+    pass
+
+
+class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class EthGlobalTimeManagedCouplingPort(ARObject):
+    pass
+
+
+class EthIpProps(ARElement):
+    pass
+
+
+class EthTSynCrcFlags(ARObject):
+    pass
+
+
+class EthTSynSubTlvConfig(ARObject):
+    pass
+
+
+class EthernetWakeupSleepOnDatalineConfig(ARObject):
+    pass
+
+
+class FlexrayArTpChannel(ARObject):
+    pass
+
+
+class FlexrayArTpNode(Identifiable):
+    pass
+
+
+class FlexrayTpConnectionControl(Identifiable):
+    pass
+
+
+class FlexrayTpEcu(ARObject):
+    pass
+
+
+class FlexrayTpNode(Identifiable):
+    pass
+
+
+class FlexrayTpPduPool(Identifiable):
+    pass
+
+
+class ForbiddenSignalPath(ARObject):
+    pass
+
+
+class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class GeneralPurposeConnection(ARElement):
+    pass
+
+
+class GlobalTimeMaster(Identifiable, ABC):
+    pass
+
+
+class GlobalTimeCanMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeCanSlave(Identifiable):
+    pass
+
+
+class GlobalTimeCorrectionProps(ARObject):
+    pass
+
+
+class GlobalTimeDomain(ARElement):
+    pass
+
+
+class GlobalTimeEthMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeEthSlave(Identifiable):
+    pass
+
+
+class GlobalTimeFrMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeFrSlave(Identifiable):
+    pass
+
+
+class GlobalTimeGateway(Identifiable):
+    pass
+
+
+class GlobalTimeSlave(ARObject, ABC):
+    pass
+
+
+class IEEE1722TpConnection(ARElement, ABC):
+    pass
+
+
+class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
+    pass
+
+
+class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpAcfBus(Identifiable, ABC):
+    pass
+
+
+class IEEE1722TpAcfBusPart(ARObject, ABC):
+    pass
+
+
+class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
+    pass
+
+
+class IEEE1722TpAcfCanPart(Identifiable):
+    pass
+
+
+class IEEE1722TpAcfConnection(IEEE1722TpConnection):
+    pass
+
+
+class IEEE1722TpAcfLin(ARObject):
+    pass
+
+
+class IEEE1722TpAcfLinPart(Identifiable):
+    pass
+
+
+class IEEE1722TpConfig(ARObject):
+    pass
+
+
+class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IPSecConfigProps(ARElement):
+    pass
+
+
+class IPSecRule(Identifiable):
+    pass
+
+
+class IPv6ExtHeaderFilterSet(ARElement):
+    pass
+
+
+class Ipv4ArpProps(ARObject):
+    pass
+
+
+class Ipv4AutoIpProps(ARObject):
+    pass
+
+
+class Ipv4FragmentationProps(ARObject):
+    pass
+
+
+class Ipv4Props(ARObject):
+    pass
+
+
+class Ipv6FragmentationProps(ARObject):
+    pass
+
+
+class Ipv6NdpProps(ARObject):
+    pass
+
+
+class Ipv6Props(ARObject):
+    pass
+
+
+class J1939ControllerApplication(ARElement):
+    pass
+
+
+class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
+    pass
+
+
+class J1939TpConfig(ARObject):
+    pass
+
+
+class J1939TpConnection(ARObject):
+    pass
+
+
+class J1939TpNode(Identifiable):
+    pass
+
+
+class J1939TpPg(ARObject):
+    pass
+
+
+class MacSecParticipantSet(ARElement):
+    pass
+
+
+class NetworkSegmentIdentification(ARObject):
+    pass
+
+
+class NmCoordinator(ARObject):
+    pass
+
+
+class PermissibleSignalPath(ARObject):
+    pass
+
+
+class PncMapping(ARObject):
+    pass
+
+
+class PortElementToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class RteEventInCompositionSeparation(Identifiable):
+    pass
+
+
+class RteEventInCompositionToOsTaskProxyMapping(ARObject):
+    pass
+
+
+class RteEventInSystemSeparation(Identifiable):
+    pass
+
+
+class RteEventInSystemToOsTaskProxyMapping(ARObject):
+    pass
+
+
+class SOMEIPTransformationProps(Identifiable):
+    pass
+
+
+class SenderReceiverCompositeElementToSignalMapping(DataMapping):
+    pass
+
+
+class SeparateSignalPath(ARObject):
+    pass
+
+
+class SocketConnectionIpduIdentifierSet(ARElement):
+    pass
+
+
+class SomeipSdServerServiceInstanceConfig(ARObject):
+    pass
+
+
+class SomeipTpChannel(Identifiable):
+    pass
+
+
+class SomeipTpConnection(ARObject):
+    pass
+
+
+class StreamFilterIEEE1722Tp(ARObject):
+    pass
+
+
+class StreamFilterIpv4Address(ARObject):
+    pass
+
+
+class StreamFilterIpv6Address(ARObject):
+    pass
+
+
+class StreamFilterMACAddress(ARObject):
+    pass
+
+
+class StreamFilterPortRange(ARObject):
+    pass
+
+
+class StreamFilterRuleDataLinkLayer(ARObject):
+    pass
+
+
+class StreamFilterRuleIpTp(ARObject):
+    pass
+
+
+class SwcToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class SwcToSwcOperationArguments(ARObject):
+    pass
+
+
+class SwcToSwcSignal(ARObject):
+    pass
+
+
+class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
+    pass
+
+
+class SwitchFlowMeteringEntry(Identifiable):
+    pass
+
+
+class SwitchStreamFilterActionDestPortModification(Identifiable):
+    pass
+
+
+class SwitchStreamFilterEntry(Identifiable):
+    pass
+
+
+class SwitchStreamFilterRule(Identifiable):
+    pass
+
+
+class SwitchStreamGateEntry(Identifiable):
+    pass
+
+
+class SwitchStreamIdentification(Identifiable):
+    pass
+
+
+class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class SystemSignalToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class TransformationProps(ARObject, ABC):
+    pass
+
+
+class TransformationPropsSet(ARElement):
+    pass
+
+
+class TriggerToSignalMapping(ARObject):
+    pass
+
+
+class TtcanCommunicationController(ARObject):
+    pass
+
+
+class UserDefinedCommunicationConnector(ARObject):
+    pass
+
+
+class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
+    pass
+
+
+class UserDefinedGlobalTimeSlave(Identifiable):
+    pass
+
+
+class UserDefinedTransformationProps(Identifiable):
+    pass

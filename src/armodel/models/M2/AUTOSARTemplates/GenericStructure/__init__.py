@@ -1,3 +1,5 @@
 from .BuildActionManifest import *  # noqa: F403
 from .FormulaLanguage import *  # noqa: F403
+from .RolesAndRights import *  # noqa: F403
+from .ViewMapSet import *  # noqa: F403
 from . import *  # noqa: F403

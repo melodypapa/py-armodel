@@ -1403,69 +1403,103 @@ class DataPrototypeTransformationProps(ARObject):
 
 class EndToEndTransformationISignalProps(TransformationISignalProps):
     """
-    Defines end-to-end transformation properties for interaction signals,
-    specifying data IDs, length constraints, and source identifiers
-    for protected signal transmission.
+    Holds all the ISignal specific attributes for the EndToEndTransformer.
     """
 
     # EndToEndTransformationISignalProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIds                   [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataId                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataLength                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataLength                [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxDataLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxDataLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinDataLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinDataLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] getSourceId                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setSourceId                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.27, p.809
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIds            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDataLength      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDataLength      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinDataLength      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinDataLength      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
         self.dataIds: List[PositiveInteger] = []
-        self.dataLength: PositiveInteger = None
-        self.maxDataLength: PositiveInteger = None
-        self.minDataLength: PositiveInteger = None
-        self.sourceId: PositiveInteger = None
 
-    def getDataIds(self):
-        return self.dataIds
+        # Length of payload and E2E header in bits.
+        self.dataLength: Optional[PositiveInteger] = None
 
-    def addDataId(self, value):
+        # Maximum length of payload and E2E header in bits.
+        self.maxDataLength: Optional[PositiveInteger] = None
+
+        # Minimum length of payload and E2E header in bits.
+        self.minDataLength: Optional[PositiveInteger] = None
+
+        # This attribute represents a unique numerical identifier identifying the source of a certain transmission. In case of C/S communication, this ID uniquely identifies the client. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
+        self.sourceId: Optional[PositiveInteger] = None
+
+    def addDataId(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+        """
+        This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
+        A None value is a no-op and does not extend the dataIds list.
+        """
         if value is not None:
             self.dataIds.append(value)
         return self
 
-    def getDataLength(self):
+    def getDataIds(self) -> List[PositiveInteger]:
+        """This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection."""
+        return self.dataIds
+
+    def getDataLength(self) -> Optional[PositiveInteger]:
+        """Length of payload and E2E header in bits."""
         return self.dataLength
 
-    def setDataLength(self, value):
+    def setDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+        """
+        Length of payload and E2E header in bits.
+        A None value is a no-op and does not overwrite an existing dataLength.
+        """
         if value is not None:
             self.dataLength = value
         return self
 
-    def getMaxDataLength(self):
+    def getMaxDataLength(self) -> Optional[PositiveInteger]:
+        """Maximum length of payload and E2E header in bits."""
         return self.maxDataLength
 
-    def setMaxDataLength(self, value):
+    def setMaxDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+        """
+        Maximum length of payload and E2E header in bits.
+        A None value is a no-op and does not overwrite an existing maxDataLength.
+        """
         if value is not None:
             self.maxDataLength = value
         return self
 
-    def getMinDataLength(self):
+    def getMinDataLength(self) -> Optional[PositiveInteger]:
+        """Minimum length of payload and E2E header in bits."""
         return self.minDataLength
 
-    def setMinDataLength(self, value):
+    def setMinDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+        """
+        Minimum length of payload and E2E header in bits.
+        A None value is a no-op and does not overwrite an existing minDataLength.
+        """
         if value is not None:
             self.minDataLength = value
         return self
 
-    def getSourceId(self):
+    def getSourceId(self) -> Optional[PositiveInteger]:
+        """This attribute represents a unique numerical identifier identifying the source of a certain transmission. In case of C/S communication, this ID uniquely identifies the client. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection."""
         return self.sourceId
 
-    def setSourceId(self, value):
+    def setSourceId(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+        """
+        This attribute represents a unique numerical identifier identifying the source of a certain transmission. In case of C/S communication, this ID uniquely identifies the client. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
+        A None value is a no-op and does not overwrite an existing sourceId.
+        """
         if value is not None:
             self.sourceId = value
         return self
@@ -2025,3 +2059,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef i
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
     ImplementationDataTypeElementInPortInterfaceRef,
 )
+
+
+class SOMEIPTransformationDescription(TransformationDescription):
+    pass
+
+
+class UserDefinedTransformationDescription(TransformationDescription):
+    pass

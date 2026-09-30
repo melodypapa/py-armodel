@@ -6,52 +6,81 @@ from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, PositiveInteger, RefType, TimeValue
 
 
 class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     """
-    Represents a mapping between application OS task proxies and ECU task proxies
-    in the Runtime Environment (RTE), defining how application-level tasks are
-    connected to ECU-level tasks for real-time execution coordination.
+    This meta-class is used to map an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu.
     """
 
     # AppOsTaskProxyToEcuTaskProxyMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAppTaskProxyRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setAppTaskProxyRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuTaskProxyRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuTaskProxyRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getOffset                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setOffset                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.17, p.209
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAppTaskProxyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAppTaskProxyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuTaskProxyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuTaskProxyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffset           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.appTaskProxyRef: RefType = None
-        self.ecuTaskProxyRef: RefType = None
-        self.offset: Optional[int] = None
+        # Reference to an OsTaskProxy that is created in the context of a SwComponent.
+        self.appTaskProxyRef: Optional[RefType] = None
 
-    def getAppTaskProxyRef(self):
+        # Reference to an OsTaskProxy that is created in the context of an EcuInstance.
+        self.ecuTaskProxyRef: Optional[RefType] = None
+
+        # This attribute is used to describe the position of the app TaskProxy in an ecuTaskProxy as a relative value, i.e. the values show only the relative position of the appTask Proxy in the ecuTaskProxy.
+        self.offset: Optional[Integer] = None
+
+    def getAppTaskProxyRef(self) -> Optional[RefType]:
+        """
+        Reference to an OsTaskProxy that is created in the context of a SwComponent.
+        """
         return self.appTaskProxyRef
 
-    def setAppTaskProxyRef(self, value):
+    def setAppTaskProxyRef(self, value: Optional[RefType]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
+        """
+        Reference to an OsTaskProxy that is created in the context of a SwComponent.
+
+        A None value is a no-op and does not overwrite an existing appTaskProxyRef.
+        """
         if value is not None:
             self.appTaskProxyRef = value
         return self
 
-    def getEcuTaskProxyRef(self):
+    def getEcuTaskProxyRef(self) -> Optional[RefType]:
+        """
+        Reference to an OsTaskProxy that is created in the context of an EcuInstance.
+        """
         return self.ecuTaskProxyRef
 
-    def setEcuTaskProxyRef(self, value):
+    def setEcuTaskProxyRef(self, value: Optional[RefType]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
+        """
+        Reference to an OsTaskProxy that is created in the context of an EcuInstance.
+
+        A None value is a no-op and does not overwrite an existing ecuTaskProxyRef.
+        """
         if value is not None:
             self.ecuTaskProxyRef = value
         return self
 
-    def getOffset(self) -> Optional[int]:
+    def getOffset(self) -> Optional[Integer]:
+        """
+        This attribute is used to describe the position of the app TaskProxy in an ecuTaskProxy as a relative value, i.e. the values show only the relative position of the appTask Proxy in the ecuTaskProxy.
+        """
         return self.offset
 
-    def setOffset(self, value: Optional[int]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
+    def setOffset(self, value: Optional[Integer]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
+        """
+        This attribute is used to describe the position of the app TaskProxy in an ecuTaskProxy as a relative value, i.e. the values show only the relative position of the appTask Proxy in the ecuTaskProxy.
+
+        A None value is a no-op and does not overwrite an existing offset.
+        """
         if value is not None:
             self.offset = value
         return self

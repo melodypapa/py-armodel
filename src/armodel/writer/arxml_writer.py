@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
+    LifeCycleState,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
@@ -357,6 +358,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -691,7 +695,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -926,6 +930,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmClusterCoupling,
     CanNmNode,
     FlexrayNmCluster,
+    FlexrayNmClusterCoupling,
     FlexrayNmEcu,
     FlexrayNmNode,
     J1939NmCluster,
@@ -941,7 +946,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataPrototypeInPortInterfaceRef,
@@ -1085,6 +1090,14 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between AclScopeEnum literal values and their XML element text
+#: (AR:ACL-SCOPE-ENUM--SIMPLE).
+ACL_SCOPE_XML_MAP = {
+    "dependant": "DEPENDANT",
+    "descendant": "DESCENDANT",
+    "explicit": "EXPLICIT",
 }
 
 #: Mapping between SwImplPolicyEnum literal values and their XML element text
@@ -7139,6 +7152,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "BSW-VARIABLE-ACCESS")
             self.writeReferrable(child_element, access)
             self.setChildElementOptionalRefType(child_element, "ACCESSED-VARIABLE-REF", access.getAccessedVariableRef())
+            context_limitations = access.getContextLimitationRefs()
+            if len(context_limitations) > 0:
+                refs_element = ET.SubElement(child_element, "CONTEXT-LIMITATION-REFS")
+                for ref in context_limitations:
+                    self.setChildElementOptionalRefType(refs_element, "CONTEXT-LIMITATION-REF", ref)
 
     def writeBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getDataSendPoints()
@@ -7587,6 +7605,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setBswExclusiveAreaPolicy(self, element: ET.Element, policy: BswExclusiveAreaPolicy):
         child_element = ET.SubElement(element, "BSW-EXCLUSIVE-AREA-POLICY")
+        self.writeBswApiOptions(child_element, policy)
         self.setChildElementOptionalLiteral(child_element, "API-PRINCIPLE", policy.getApiPrinciple())
         self.setChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
         self.writeVariationPointCapable(child_element, policy)
@@ -8607,15 +8626,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write CanNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-NODE")
         self.writeNmNode(child_element, nm_node)
+        self.setChildElementOptionalBooleanValue(child_element, "ALL-NM-MESSAGES-KEEP-AWAKE", nm_node.getAllNmMessagesKeepAwake())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-FILTER-ENABLED", nm_node.getNmCarWakeUpFilterEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", nm_node.getNmCarWakeUpRxEnabled())
-        self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
-        self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
-        self.setRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
 
     def writeUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "UDP-NM-NODE")
         self.writeNmNode(child_element, nm_node)
+        self.setChildElementOptionalBooleanValue(child_element, "ALL-NM-MESSAGES-KEEP-AWAKE", nm_node.getAllNmMessagesKeepAwake())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
 
     def writeJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
@@ -8665,6 +8686,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
 
+    def writeFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
+        child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER-COUPLING")
+        refs = coupling.getCoupledClusterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "NM-SCHEDULE-VARIANT", coupling.getNmScheduleVariant())
+
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Write NmConfigNmClusterCouplings <%s>" % config.getShortName())
         couplings = config.getNmClusterCouplings()
@@ -8675,6 +8705,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanNmClusterCoupling(child_element, coupling)
                 elif isinstance(coupling, UdpNmClusterCoupling):
                     self.writeUdpNmClusterCoupling(child_element, coupling)
+                elif isinstance(coupling, FlexrayNmClusterCoupling):
+                    self.writeFlexrayNmClusterCoupling(child_element, coupling)
                 else:
                     self.notImplemented("Unsupported Nm Cluster Coupling <%s>" % type(coupling))
 
@@ -8698,26 +8730,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmCluster(child_element, cluster)
 
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ACTIVE", cluster.getNmBusloadReductionActive())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", cluster.getNmCarWakeUpRxEnabled())
-        self.setChildElementOptionalNumericalValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-CHANNEL-ACTIVE", cluster.getNmChannelActive())
-        self.setChildElementOptionalFloatValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
-        self.setChildElementOptionalNumericalValue(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
-        self.setChildElementOptionalFloatValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
-        self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-TIME", cluster.getNmMsgCycleTime())
-        self.setChildElementOptionalFloatValue(child_element, "NM-NETWORK-TIMEOUT", cluster.getNmNetworkTimeout())
-        self.setChildElementOptionalNumericalValue(child_element, "NM-NID-POSITION", cluster.getNmNidPosition())
-        self.setChildElementOptionalFloatValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
-        self.setChildElementOptionalFloatValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
-        self.setChildElementOptionalNumericalValue(child_element, "NM-USER-DATA-LENGTH", cluster.getNmUserDataLength())
-        self.setChildElementOptionalFloatValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cluster.getNmCarWakeUpBitPosition())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cluster.getNmCarWakeUpFilterNodeId())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
+        self.setChildElementOptionalTimeValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-TIME", cluster.getNmMsgCycleTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-NETWORK-TIMEOUT", cluster.getNmNetworkTimeout())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-NID-POSITION", cluster.getNmNidPosition())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
 
     def writeUdpNmCluster(self, element: ET.Element, cluster: UdpNmCluster):
         self.logger.debug("Write UdpNmCluster <%s>" % cluster.getShortName())
         child_element = ET.SubElement(element, "UDP-NM-CLUSTER")
         self.writeNmCluster(child_element, cluster)
         self.setChildElementOptionalIntegerValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-CHANNEL-ACTIVE", cluster.getNmChannelActive())
         self.setChildElementOptionalTimeValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
         self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
         self.setChildElementOptionalTimeValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
@@ -8809,11 +8839,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", nm_ecu.getEcuInstanceRef())
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUS-SYNCHRONIZATION-ENABLED", nm_ecu.getNmBusSynchronizationEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-COM-CONTROL-ENABLED", nm_ecu.getNmComControlEnabled())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-NODE-DETECTION-ENABLED", nm_ecu.getNmNodeDetectionEnabled())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-NODE-ID-ENABLED", nm_ecu.getNmNodeIdEnabled())
+        self.setChildElementOptionalTimeValue(child_element, "NM-CYCLETIME-MAIN-FUNCTION", nm_ecu.getNmCycletimeMainFunction())
         self.setChildElementOptionalBooleanValue(child_element, "NM-PDU-RX-INDICATION-ENABLED", nm_ecu.getNmPduRxIndicationEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-REMOTE-SLEEP-IND-ENABLED", nm_ecu.getNmRemoteSleepIndEnabled())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-REPEAT-MSG-IND-ENABLED", nm_ecu.getNmRepeatMsgIndEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-STATE-CHANGE-IND-ENABLED", nm_ecu.getNmStateChangeIndEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-USER-DATA-ENABLED", nm_ecu.getNmUserDataEnabled())
 
@@ -9043,7 +9071,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, address)
             self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
 
-    def writeLinTpConfigTpAddresses(self, element: ET.Element, config: CanTpConfig):
+    def writeLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         addresses = config.getTpAddresses()
         if len(addresses) > 0:
             child_element = ET.SubElement(element, "TP-ADDRESSS")
@@ -9060,11 +9088,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "DATA-PDU-REF", connection.getDataPduRef())
             self.setChildElementOptionalRefType(child_element, "FLOW-CONTROL-REF", connection.getFlowControlRef())
             self.setChildElementOptionalRefType(child_element, "LIN-TP-N-SDU-REF", connection.getLinTpNSduRef())
+            self.setChildElementOptionalRefType(child_element, "MULTICAST-REF", connection.getMulticastRef())
             self.writeTpConnectionReceiverRefs(child_element, connection)
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-AS", connection.getTimeoutAs())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CR", connection.getTimeoutCr())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CS", connection.getTimeoutCs())
             self.setChildElementOptionalRefType(child_element, "TRANSMITTER-REF", connection.getTransmitterRef())
+            self.writeVariationPointCapable(child_element, connection)
 
     def writeLinTpConfigTpConnections(self, element: ET.Element, config: LinTpConfig):
         connections = config.getTpConnections()
@@ -11858,15 +11888,50 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
-    def setSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
-        child_element = ET.SubElement(element, "SWC-TO-ECU-MAPPING")
+    def writeApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
+        child_element = ET.SubElement(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPING")
+        self.writeIdentifiable(child_element, mapping, write_variation_point=False)
+        refs = mapping.getApplicationPartitionRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "APPLICATION-PARTITION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "APPLICATION-PARTITION-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "ECU-PARTITION-REF", mapping.getEcuPartitionRef())
+        self.writeVariationPointCapable(child_element, mapping)
+
+    def writeSystemMappingApplicationPartitionToEcuPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        partition_mappings = mapping.getApplicationPartitionToEcuPartitionMappings()
+        if len(partition_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPINGS")
+            for partition_mapping in partition_mappings:
+                self.writeApplicationPartitionToEcuPartitionMapping(mappings_tag, partition_mapping)
+
+    def writeAppOsTaskProxyToEcuTaskProxyMapping(self, element: ET.Element, mapping: AppOsTaskProxyToEcuTaskProxyMapping):
+        child_element = ET.SubElement(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING")
         self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "APP-TASK-PROXY-REF", mapping.getAppTaskProxyRef())
+        self.setChildElementOptionalRefType(child_element, "ECU-TASK-PROXY-REF", mapping.getEcuTaskProxyRef())
+        self.setChildElementOptionalIntegerValue(child_element, "OFFSET", mapping.getOffset())
+
+    def writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        app_ecu_mappings = mapping.getAppOsTaskProxyToEcuTaskProxyMappings()
+        if len(app_ecu_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS")
+            for app_ecu_mapping in app_ecu_mappings:
+                self.writeAppOsTaskProxyToEcuTaskProxyMapping(mappings_tag, app_ecu_mapping)
+
+    def writeSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
+        child_element = ET.SubElement(element, "SWC-TO-ECU-MAPPING")
+        self.writeIdentifiable(child_element, mapping, write_variation_point=False)
         irefs = mapping.getComponentIRefs()
         if len(irefs) > 0:
             irefs_tag = ET.SubElement(child_element, "COMPONENT-IREFS")
             for iref in irefs:
                 self.setComponentInSystemInstanceRef(irefs_tag, "COMPONENT-IREF", iref)
+        self.setChildElementOptionalRefType(child_element, "CONTROLLED-HW-ELEMENT-REF", mapping.getControlledHwElementRef())
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
+        self.setChildElementOptionalRefType(child_element, "PROCESSING-UNIT-REF", mapping.getProcessingUnitRef())
+        self.writeVariationPointCapable(child_element, mapping)
 
     def writeSystemMappingSwMappings(self, element: ET.Element, system_mapping: SystemMapping):
         sw_mappings = system_mapping.getSwMappings()
@@ -11874,7 +11939,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SW-MAPPINGS")
             for sw_mapping in sw_mappings:
                 if isinstance(sw_mapping, SwcToEcuMapping):
-                    self.setSwcToEcuMapping(child_element, sw_mapping)
+                    self.writeSwcToEcuMapping(child_element, sw_mapping)
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
 
@@ -11920,13 +11985,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         if mapping is not None:
             child_element = ET.SubElement(element, "SWC-TO-IMPL-MAPPING")
-            self.writeIdentifiable(child_element, mapping)
+            self.writeIdentifiable(child_element, mapping, write_variation_point=False)
             self.setChildElementOptionalRefType(child_element, "COMPONENT-IMPLEMENTATION-REF", mapping.getComponentImplementationRef())
             irefs = mapping.getComponentIRefs()
             if len(irefs) > 0:
                 irefs_tag = ET.SubElement(child_element, "COMPONENT-IREFS")
                 for iref in irefs:
                     self.setComponentInSystemInstanceRef(irefs_tag, "COMPONENT-IREF", iref)
+            self.writeVariationPointCapable(child_element, mapping)
 
     def writeSystemMappingSwImplMappings(self, element: ET.Element, mapping: SystemMapping):
         sw_impl_mappings = mapping.getSwImplMappings()
@@ -12105,6 +12171,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
+        self.writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(child_element, mapping)
+        self.writeSystemMappingApplicationPartitionToEcuPartitionMappings(child_element, mapping)
         self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
@@ -13086,6 +13154,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
             self.writeEndToEndTransformationISignalPropsDataIds(child_element, props)
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DATA-LENGTH", props.getMaxDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-DATA-LENGTH", props.getMinDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-ID", props.getSourceId())
 
     def writeSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         if props is not None:
@@ -14170,6 +14241,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBuildActionManifest(element, ar_element)
         elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
+        elif isinstance(ar_element, AclPermission):
+            self.writeAclPermission(element, ar_element)
+        elif isinstance(ar_element, AclObjectSet):
+            self.writeAclObjectSet(element, ar_element)
+        elif isinstance(ar_element, AclOperation):
+            self.writeAclOperation(element, ar_element)
+        elif isinstance(ar_element, AclRole):
+            self.writeAclRole(element, ar_element)
+        elif isinstance(ar_element, LifeCycleStateDefinitionGroup):
+            self.writeLifeCycleStateDefinitionGroup(element, ar_element)
+        elif isinstance(ar_element, ViewMapSet):
+            self.writeViewMapSet(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
@@ -14697,6 +14780,169 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for global_element in global_elements:
                         self.setChildElementOptionalLiteral(elements_tag, "GLOBAL-ELEMENT", global_element)
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
+
+    def writeAclPermission(self, element: ET.Element, acl_permission: AclPermission):
+        if acl_permission is not None:
+            self.logger.debug("Write AclPermission <%s>" % acl_permission.getShortName())
+            child_element = ET.SubElement(element, "ACL-PERMISSION")
+            self.writeIdentifiable(child_element, acl_permission)
+            acl_contexts = acl_permission.getAclContexts()
+            if len(acl_contexts) > 0:
+                contexts_tag = ET.SubElement(child_element, "ACL-CONTEXTS")
+                for acl_context in acl_contexts:
+                    context_tag = ET.SubElement(contexts_tag, "ACL-CONTEXT")
+                    context_tag.text = acl_context.getValue()
+            acl_object_refs = acl_permission.getAclObjectRefs()
+            if len(acl_object_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-OBJECT-REFS")
+                for ref in acl_object_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-OBJECT-REF", ref)
+            acl_operation_refs = acl_permission.getAclOperationRefs()
+            if len(acl_operation_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-OPERATION-REFS")
+                for ref in acl_operation_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-OPERATION-REF", ref)
+            acl_role_refs = acl_permission.getAclRoleRefs()
+            if len(acl_role_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ACL-ROLE-REFS")
+                for ref in acl_role_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ACL-ROLE-REF", ref)
+            acl_scope = acl_permission.getAclScope()
+            if acl_scope is not None:
+                token = ACL_SCOPE_XML_MAP.get(acl_scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.getValue())
+                else:
+                    scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
+                    scope_tag.text = token
+
+    def writeAclObjectSet(self, element: ET.Element, acl_object_set: AclObjectSet):
+        if acl_object_set is not None:
+            self.logger.debug("Write AclObjectSet <%s>" % acl_object_set.getShortName())
+            child_element = ET.SubElement(element, "ACL-OBJECT-SET")
+            self.writeIdentifiable(child_element, acl_object_set)
+            acl_object_classes = acl_object_set.getAclObjectClasses()
+            if len(acl_object_classes) > 0:
+                classes_tag = ET.SubElement(child_element, "ACL-OBJECT-CLASSS")
+                for acl_object_class in acl_object_classes:
+                    class_tag = ET.SubElement(classes_tag, "ACL-OBJECT-CLASS")
+                    class_tag.text = acl_object_class.getValue()
+            acl_scope = acl_object_set.getAclScope()
+            if acl_scope is not None:
+                token = ACL_SCOPE_XML_MAP.get(acl_scope.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.getValue())
+                else:
+                    scope_tag = ET.SubElement(child_element, "ACL-SCOPE")
+                    scope_tag.text = token
+            self.setChildElementOptionalRefType(child_element, "COLLECTION-REF", acl_object_set.getCollectionRef())
+            blueprint_refs = acl_object_set.getDerivedFromBlueprintRefs()
+            if len(blueprint_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "DERIVED-FROM-BLUEPRINT-REFS")
+                for ref in blueprint_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "DERIVED-FROM-BLUEPRINT-REF", ref)
+            engineering_objects = acl_object_set.getEngineeringObjects()
+            if len(engineering_objects) > 0:
+                objects_tag = ET.SubElement(child_element, "ENGINEERING-OBJECTS")
+                for engineering_object in engineering_objects:
+                    if isinstance(engineering_object, AutosarEngineeringObject):
+                        self.writeAutosarEngineeringObject(objects_tag, engineering_object)
+                    else:
+                        self.notImplemented("Unsupported EngineeringObject <%s>" % type(engineering_object))
+            object_definition_refs = acl_object_set.getObjectDefinitionRefs()
+            if len(object_definition_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "OBJECT-DEFINITION-REFS")
+                for ref in object_definition_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "OBJECT-DEFINITION-REF", ref)
+            object_refs = acl_object_set.getObjectRefs()
+            if len(object_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "OBJECT-REFS")
+                for ref in object_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "OBJECT-REF", ref)
+
+    def writeAclOperation(self, element: ET.Element, acl_operation: AclOperation):
+        if acl_operation is not None:
+            self.logger.debug("Write AclOperation <%s>" % acl_operation.getShortName())
+            child_element = ET.SubElement(element, "ACL-OPERATION")
+            self.writeIdentifiable(child_element, acl_operation)
+            implied_operation_refs = acl_operation.getImpliedOperationRefs()
+            if len(implied_operation_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "IMPLIED-OPERATION-REFS")
+                for ref in implied_operation_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "IMPLIED-OPERATION-REF", ref)
+
+    def writeAclRole(self, element: ET.Element, acl_role: AclRole):
+        if acl_role is not None:
+            self.logger.debug("Write AclRole <%s>" % acl_role.getShortName())
+            child_element = ET.SubElement(element, "ACL-ROLE")
+            self.writeIdentifiable(child_element, acl_role)
+            self.setChildElementOptionalUriString(child_element, "LDAP-URL", acl_role.getLdapUrl())
+
+    def writeLifeCycleState(self, element: ET.Element, lc_state: LifeCycleState):
+        if lc_state is not None:
+            child_element = ET.SubElement(element, "LIFE-CYCLE-STATE")
+            self.writeIdentifiable(child_element, lc_state)
+
+    def writeLifeCycleStateDefinitionGroupLcStates(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        lc_states = group.getLcStates()
+        if len(lc_states) > 0:
+            states_tag = ET.SubElement(element, "LC-STATES")
+            for lc_state in lc_states:
+                if isinstance(lc_state, LifeCycleState):
+                    self.writeLifeCycleState(states_tag, lc_state)
+                else:
+                    self.notImplemented("Unsupported LifeCycleState <%s>" % type(lc_state))
+
+    def writeLifeCycleStateDefinitionGroup(self, element: ET.Element, group: LifeCycleStateDefinitionGroup):
+        if group is not None:
+            self.logger.debug("Write LifeCycleStateDefinitionGroup <%s>" % group.getShortName())
+            child_element = ET.SubElement(element, "LIFE-CYCLE-STATE-DEFINITION-GROUP")
+            self.writeIdentifiable(child_element, group)
+            self.writeLifeCycleStateDefinitionGroupLcStates(child_element, group)
+
+    def writeViewMap(self, element: ET.Element, view_map: ViewMap):
+        if view_map is not None:
+            self.logger.debug("Write ViewMap <%s>" % view_map.getShortName())
+            child_element = ET.SubElement(element, "VIEW-MAP")
+            self.writeIdentifiable(child_element, view_map)
+            self.setChildElementOptionalIdentifier(child_element, "ROLE", view_map.getRole())
+            first_element_refs = view_map.getFirstElementRefs()
+            if len(first_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "FIRST-ELEMENT-REFS")
+                for ref in first_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "FIRST-ELEMENT-REF", ref)
+            second_element_refs = view_map.getSecondElementRefs()
+            if len(second_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "SECOND-ELEMENT-REFS")
+                for ref in second_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "SECOND-ELEMENT-REF", ref)
+            first_element_irefs = view_map.getFirstElementIRefs()
+            if len(first_element_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "FIRST-ELEMENT-INSTANCE-IREFS")
+                for instance_ref in first_element_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "FIRST-ELEMENT-INSTANCE-IREF", instance_ref)
+            second_element_irefs = view_map.getSecondElementIRefs()
+            if len(second_element_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "SECOND-ELEMENT-INSTANCE-IREFS")
+                for instance_ref in second_element_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "SECOND-ELEMENT-INSTANCE-IREF", instance_ref)
+
+    def writeViewMapSetViewMaps(self, element: ET.Element, view_map_set: ViewMapSet):
+        view_maps = view_map_set.getViewMaps()
+        if len(view_maps) > 0:
+            maps_tag = ET.SubElement(element, "VIEW-MAPS")
+            for view_map in view_maps:
+                if isinstance(view_map, ViewMap):
+                    self.writeViewMap(maps_tag, view_map)
+                else:
+                    self.notImplemented("Unsupported ViewMap <%s>" % type(view_map))
+
+    def writeViewMapSet(self, element: ET.Element, view_map_set: ViewMapSet):
+        if view_map_set is not None:
+            self.logger.debug("Write ViewMapSet <%s>" % view_map_set.getShortName())
+            child_element = ET.SubElement(element, "VIEW-MAP-SET")
+            self.writeIdentifiable(child_element, view_map_set)
+            self.writeViewMapSetViewMaps(child_element, view_map_set)
 
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:

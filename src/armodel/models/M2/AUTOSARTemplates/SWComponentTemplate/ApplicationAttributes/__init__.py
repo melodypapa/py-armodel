@@ -635,6 +635,8 @@ class DelegatedPortAnnotation(GeneralAnnotation):
 
 
 __all__ = [
+    "SenderAnnotation",
+    "ReceiverAnnotation",
     "DataLimitKindEnum",
     "FilterDebouncingEnum",
     "ProcessingKindEnum",
@@ -649,3 +651,11 @@ __all__ = [
     "TriggerPortAnnotation",
     "DelegatedPortAnnotation",
 ]
+
+
+class ReceiverAnnotation(SenderReceiverAnnotation):
+    pass
+
+
+class SenderAnnotation(SenderReceiverAnnotation):
+    pass
