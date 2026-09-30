@@ -595,7 +595,7 @@ Status: **20/24** completed
 | `ModeGroupInAtomicSwcInstanceRef`      | [x] Done     | cdb0951050 |
 | `OperationInAtomicSwcInstanceRef`      | [x] Done     | 5d9a9f9600 |
 | `RModeInAtomicSwcInstanceRef`          | [x] Done     | 5a3a7d14c0 |
-| `TriggerInAtomicSwcInstanceRef`        | [x] Done     | 74e821ccb8 |
+| `TriggerInAtomicSwcInstanceRef`        | [x] Done     | 839264b3a6 |
 | `PModeGroupInAtomicSwcInstanceRef`     | [x] Done     | 74e821ccb8 |
 | `RModeGroupInAtomicSWCInstanceRef`     | [x] Done     | 74e821ccb8 |
 | `POperationInAtomicSwcInstanceRef`     | [x] Done     | 74e821ccb8 |

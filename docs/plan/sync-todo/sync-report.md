@@ -1861,7 +1861,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransportProtocolConfiguration`                        | [x] Done    | 0014960828                               | Group6           |
 | `Trigger`                                               | [x] Done    | 131473204c                               | Group1           |
 | `TriggerIPduSendCondition`                              | [ ] Deferred| dcbc6abdb3                               | Group15          |
-| `TriggerInAtomicSwcInstanceRef`                         | [x] Done    | 74e821ccb8                               | Group11          |
+| `TriggerInAtomicSwcInstanceRef`                         | [x] Done    | 839264b3a6                               | Group11          |
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4cc                               | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8feb                               | Group1           |
 | `TriggerMapping`                                        | [x] Done    | 905c48d323                               | Group1           |
