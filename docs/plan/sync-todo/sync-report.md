@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 571 | 29.7% |
+| [x] Done | 584 | 30.4% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 217 | 11.3% |
+| [ ] Deferred | 204 | 10.6% |
 | [ ] Implemented | 543 | 28.2% |
 | [ ] Created | 579 | 30.1% |
 | [ ] Pending | 2 | 0.1% |
@@ -110,7 +110,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AssignNad`                                             | [ ] Implemented| N/A                                      | Group31          |
 | `AsynchronousServerCallPoint`                           | [x] Done    | 3223dde420                               | Group2           |
 | `AsynchronousServerCallResultPoint`                     | [x] Done    | 724f490c7a                               | Group2           |
-| `AsynchronousServerCallReturnsEvent`                    | [ ] Deferred| N/A                                      | Group12          |
+| `AsynchronousServerCallReturnsEvent`                    | [x] Done    | a706fd368b                               | Group12          |
 | `AtomicSwComponentType`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `AtpBlueprint`                                          | [x] Done    | 043de7436d                               | Group1           |
 | `AtpBlueprintMapping`                                   | [x] Done    | 493e272da6                               | Group1           |
@@ -1126,7 +1126,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `InternalBehavior`                                      | [x] Done    | 68e390b39e                               | Group22          |
 | `InternalConstrs`                                       | [ ] Implemented| N/A                                      | Group28          |
 | `InternalTriggerOccurredEvent`                          | [ ] Deferred| N/A                                      | Group12          |
-| `InternalTriggeringPoint`                               | [ ] Deferred| N/A                                      | Group12          |
+| `InternalTriggeringPoint`                               | [x] Done    | 96033eb3fe                               | Group12          |
 | `InterpolationRoutine`                                  | [x] Done    | 992a894be3                               | Group5           |
 | `InterpolationRoutineMapping`                           | [x] Done    | d00d57b42d                               | Group5           |
 | `InterpolationRoutineMappingSet`                        | [x] Done    | f3152abb23                               | Group5           |
@@ -1270,7 +1270,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MixedContentForVerbatim`                               | [x] Done    | 74549e6a51                               | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed1572                               | Group3           |
 | `MlFormula`                                             | [ ] Implemented| N/A                                      | Group21          |
-| `ModeAccessPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
+| `ModeAccessPoint`                                       | [x] Done    | 543d9df4e7                               | Group12          |
 | `ModeAccessPointIdent`                                  | [x] Done    | 918013a6ce                               | Group1           |
 | `ModeActivationKind`                                    | [x] Done    | 1625966930                               | Group11          |
 | `ModeDeclaration`                                       | [x] Done    | e3d79f89ca                               | Group22          |
@@ -1291,7 +1291,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeRequestTypeMap`                                    | [x] Done    | 2b824ca5f8                               | Group11          |
 | `ModeSwitchEventTriggeredActivity`                      | [x] Done    | 8fa7710539                               | Group10          |
 | `ModeSwitchInterface`                                   | [ ] Implemented| N/A                                      | Group27          |
-| `ModeSwitchPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
+| `ModeSwitchPoint`                                       | [x] Done    | 1037222ee7                               | Group12          |
 | `ModeSwitchReceiverComSpec`                             | [x] Done    | 67324d240c                               | Group10          |
 | `ModeSwitchSenderComSpec`                               | [x] Done    | 3fbf07cc78                               | Group10          |
 | `ModeSwitchedAckEvent`                                  | [ ] Implemented| N/A                                      | Group28          |
@@ -1369,13 +1369,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `OsTaskExecutionEvent`                                  | [ ] Created | N/A                                      | Group28          |
 | `OsTaskPreemptabilityEnum`                              | [x] Done    | c53a7febdc                               | Group5           |
 | `OsTaskProxy`                                           | [x] Done    | 61ccaa68eb                               | Group5           |
-| `PModeGroupInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
-| `POperationInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `PModeGroupInAtomicSwcInstanceRef`                      | [x] Done    | f517d795f6                               | Group11          |
+| `POperationInAtomicSwcInstanceRef`                      | [x] Done    | b6b0ea8cf7                               | Group11          |
 | `PPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
-| `PPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `PPortInCompositionInstanceRef`                         | [x] Done    | b36a560be9                               | Group11          |
 | `PPortPrototype`                                        | [x] Done    | 0927333086                               | Group2           |
 | `PRPortPrototype`                                       | [x] Done    | 043de7436d                               | Group2           |
-| `PTriggerInAtomicSwcTypeInstanceRef`                    | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `PTriggerInAtomicSwcTypeInstanceRef`                    | [x] Done    | dc2297cba8                               | Group11          |
 | `PackageableElement`                                    | [x] Done    | bb032ddd55                               | Group1           |
 | `Paginateable`                                          | [x] Done    | 20e6ee88d0                               | Group3           |
 | `ParameterAccess`                                       | [x] Done    | 3b9f111270                               | Group12          |
@@ -1450,14 +1450,14 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PulseTestEnum`                                         | [ ] Implemented| N/A                                      | Group27          |
 | `QueuedReceiverComSpec`                                 | [x] Done    | bb5804989f                               | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ffc7                               | Group5           |
-| `RModeGroupInAtomicSWCInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RModeGroupInAtomicSWCInstanceRef`                      | [x] Done    | 7dd87307dd                               | Group11          |
 | `RModeInAtomicSwcInstanceRef`                           | [x] Done    | 5a3a7d14c0                               | Group11          |
-| `ROperationInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `ROperationInAtomicSwcInstanceRef`                      | [x] Done    | d7c9455251                               | Group11          |
 | `RPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
-| `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RPortInCompositionInstanceRef`                         | [x] Done    | 6056133191                               | Group11          |
 | `RPortPrototype`                                        | [x] Done    | 2cd6f3c46e                               | Group2           |
 | `RTEEvent`                                              | [x] Done    | f0483d5732                               | Group2           |
-| `RVariableInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RVariableInAtomicSwcInstanceRef`                       | [x] Done    | 2014bb1a51                               | Group11          |
 | `RamBlockStatusControlEnum`                             | [x] Done    | 343d2af672                               | Group10          |
 | `RapidPrototypingScenario`                              | [ ] Created | N/A                                      | Group29          |
 | `ReceiverAnnotation`                                    | [ ] Created | N/A                                      | Group27          |
@@ -1863,7 +1863,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransportProtocolConfiguration`                        | [x] Done    | 0014960828                               | Group6           |
 | `Trigger`                                               | [x] Done    | 131473204c                               | Group1           |
 | `TriggerIPduSendCondition`                              | [ ] Deferred| dcbc6abdb3                               | Group15          |
-| `TriggerInAtomicSwcInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `TriggerInAtomicSwcInstanceRef`                         | [x] Done    | 839264b3a6                               | Group11          |
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4cc                               | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8feb                               | Group1           |
 | `TriggerMapping`                                        | [x] Done    | 905c48d323                               | Group1           |

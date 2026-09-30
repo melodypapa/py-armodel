@@ -2609,6 +2609,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Component <%s>" % type(component))
 
+    def writePPortInCompositionInstanceRef(self, element: ET.Element, p_port_in_composition_instance_ref: PPortInCompositionInstanceRef):
+        self.writeARObject(element, p_port_in_composition_instance_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", p_port_in_composition_instance_ref.getContextComponentRef())
+        self.setChildElementOptionalRefType(element, "TARGET-P-PORT-REF", p_port_in_composition_instance_ref.getTargetPPortRef())
+
+    def writeRPortInCompositionInstanceRef(self, element: ET.Element, r_port_in_composition_instance_ref: RPortInCompositionInstanceRef):
+        self.writeARObject(element, r_port_in_composition_instance_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", r_port_in_composition_instance_ref.getContextComponentRef())
+        self.setChildElementOptionalRefType(element, "TARGET-R-PORT-REF", r_port_in_composition_instance_ref.getTargetRPortRef())
+
     def writeAssemblySwConnector(self, element: ET.Element, sw_connector: AssemblySwConnector):
         child_element = ET.SubElement(element, "ASSEMBLY-SW-CONNECTOR")
         self.writeSwConnector(child_element, sw_connector)
@@ -2616,16 +2626,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if sw_connector.getProviderIRef() is not None:
             provider_iref_tag = ET.SubElement(child_element, "PROVIDER-IREF")
             provider_iref = sw_connector.getProviderIRef()
-            self.writeARObject(provider_iref_tag, provider_iref)
-            self.setChildElementOptionalRefType(provider_iref_tag, "CONTEXT-COMPONENT-REF", provider_iref.getContextComponentRef())
-            self.setChildElementOptionalRefType(provider_iref_tag, "TARGET-P-PORT-REF", provider_iref.getTargetPPortRef())
+            self.writePPortInCompositionInstanceRef(provider_iref_tag, provider_iref)
 
         if sw_connector.getRequesterIRef() is not None:
             requester_iref_tag = ET.SubElement(child_element, "REQUESTER-IREF")
             requester_iref = sw_connector.getRequesterIRef()
-            self.writeARObject(requester_iref_tag, requester_iref)
-            self.setChildElementOptionalRefType(requester_iref_tag, "CONTEXT-COMPONENT-REF", requester_iref.getContextComponentRef())
-            self.setChildElementOptionalRefType(requester_iref_tag, "TARGET-R-PORT-REF", requester_iref.getTargetRPortRef())
+            self.writeRPortInCompositionInstanceRef(requester_iref_tag, requester_iref)
 
     def writeDelegationSwConnector(self, element: ET.Element, sw_connector: DelegationSwConnector):
         connector_tag = ET.SubElement(element, "DELEGATION-SW-CONNECTOR")
@@ -2636,12 +2642,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             inner_port_iref = sw_connector.getInnerPortIRef()
             if isinstance(inner_port_iref, PPortInCompositionInstanceRef):
                 instance_ref_tag = ET.SubElement(inner_port_iref_tag, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
-                self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", inner_port_iref.getContextComponentRef())
-                self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-P-PORT-REF", inner_port_iref.getTargetPPortRef())
+                self.writePPortInCompositionInstanceRef(instance_ref_tag, inner_port_iref)
             elif isinstance(inner_port_iref, RPortInCompositionInstanceRef):
                 instance_ref_tag = ET.SubElement(inner_port_iref_tag, "R-PORT-IN-COMPOSITION-INSTANCE-REF")
-                self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", inner_port_iref.getContextComponentRef())
-                self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-R-PORT-REF", inner_port_iref.getTargetRPortRef())
+                self.writeRPortInCompositionInstanceRef(instance_ref_tag, inner_port_iref)
             else:
                 self._raiseError("Invalid inner port of DelegationSwConnector <%s>" % sw_connector.getShortName())
 

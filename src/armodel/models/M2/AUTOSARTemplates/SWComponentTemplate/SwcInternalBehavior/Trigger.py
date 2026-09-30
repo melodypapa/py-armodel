@@ -26,6 +26,7 @@ class InternalTriggeringPoint(AbstractAccessPoint, VariationPointCapable):
 
     # InternalTriggeringPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.30, p.561
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSwImplPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
