@@ -1694,3 +1694,18 @@ class TestIp6AddressString:
     def test_set_value(self):
         obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
         assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+
+
+class TestRegularExpression:
+    """
+    Test class for RegularExpression functionality (Table 4.60).
+    """
+
+    def test_initialization(self):
+        obj = RegularExpression()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = RegularExpression().setValue("[0-9]+")
+        assert obj.getValue() == "[0-9]+"

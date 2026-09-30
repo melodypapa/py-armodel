@@ -1474,12 +1474,17 @@ class VerbatimStringPlain(ARLiteral):
 
 class RegularExpression(ARLiteral):
     """
-    Represents a regular expression in AUTOSAR models.
-    This class is used for storing and handling regular expression patterns.
+    This is a regular expression as defined in http://www.w3.org/TR/xmlschema-2 As of now it is still produced as a string in XSD.
+
+    Tags:
+        * xml.xsd.customType=REGULAR-EXPRESSION
+        * xml.xsd.type=string
     """
 
     # RegularExpression method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.60, p.112
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
