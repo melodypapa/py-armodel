@@ -852,62 +852,85 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `IPSecRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.222, p.572
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py (FIXED from Identifiable.py — spec Package M2::AUTOSARTemplates::SystemTemplate::SecureCommunication)
+  - Note: markdown Table 6.222 body is split by an image/glyph interruption after localPortRangeEnd;
+    the continuation block (localPortRangeStart..remotePortRangeStart) carries the remaining 7 attrs in the
+    R23-11 markdown itself — verified row-by-row against XSD group IP-SEC-RULE (00052 L73884); no R4.3.1/XSD-doc
+    fallback rows. ikeAuthenticationMethod is XSD atp.Status="removed" — not modeled.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPSecConfigProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.223, p.573
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
+  - note: module bullet FIXED from GenericStructure/GeneralTemplateClasses/ARPackage.py —
+    spec Package row = `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication` (Rule 0007);
+    stub rehoused out of SystemTemplate/__init__.py per the IPSecRule (041bc7125) precedent.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPsecIpProtocolEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.224, p.574
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
+  - note: Table 6.224 Package row = SecureCommunication (XSD `mmt.qualifiedName="IPsecIpProtocolEnum"`,
+    `I-PSEC-IP-PROTOCOL-ENUM--SIMPLE`); literals ANY/ICMP/TCP/UDP = "any"/"icmp"/"tcp"/"udp" in displayed
+    markdown order (alphabetical, ≠ EnumerationLiteralIndex 3/2/1/0), descriptions verbatim; rehoused from
+    PrimitiveTypes.py stub → SystemTemplate/SecureCommunication.py; XSD AUTOSAR_00052.xsd L137702
+    cross-check: literal set + order match; stub-batch test tuple rehoused (VariableAccessScopeEnum
+    precedent 12e743cc9).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IPSecRule/IPSecConfigProps)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IPSecRule/IPSecConfigProps)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPsecPolicyEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.225, p.574
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
+  - note: Table 6.225 Package row = SecureCommunication (XSD `mmt.qualifiedName="IPsecPolicyEnum"`,
+    `I-PSEC-POLICY-ENUM--SIMPLE`); literals DROP/IPSEC/PASSTHROUGH/REJECT = "drop"/"ipsec"/"passthrough"/"reject"
+    in displayed markdown order (alphabetical, ≠ EnumerationLiteralIndex 3/1/2/4), descriptions verbatim;
+    rehoused from PrimitiveTypes.py stub → SystemTemplate/SecureCommunication.py; XSD AUTOSAR_00052.xsd
+    L137758 cross-check: literal set + order match; stub-batch test tuple rehoused.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IPSecRule/IPSecConfigProps)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IPSecRule/IPSecConfigProps)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPsecModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.226, p.575
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
+  - note: Table 6.226 Package row = SecureCommunication (XSD `mmt.qualifiedName="IPsecModeEnum"`,
+    `I-PSEC-MODE-ENUM--SIMPLE`); literals TRANSPORT/TUNNEL = "transport"/"tunnel" in displayed markdown
+    order (alphabetical, ≠ EnumerationLiteralIndex 1/0), descriptions verbatim; rehoused from
+    PrimitiveTypes.py stub → SystemTemplate/SecureCommunication.py; XSD AUTOSAR_00052.xsd L137742
+    cross-check: literal set + order match; stub-batch test tuple rehoused.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (value form on IPSecRule/IPSecConfigProps)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum (value form on IPSecRule/IPSecConfigProps)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 

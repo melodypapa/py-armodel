@@ -1869,26 +1869,6 @@ class IEEE1722TpRvfPixelFormatEnum(AREnum):
     pass
 
 
-class IPsecDpdActionEnum(AREnum):
-    pass
-
-
-class IPsecHeaderTypeEnum(AREnum):
-    pass
-
-
-class IPsecIpProtocolEnum(AREnum):
-    pass
-
-
-class IPsecModeEnum(AREnum):
-    pass
-
-
-class IPsecPolicyEnum(AREnum):
-    pass
-
-
 class LinChecksumType(AREnum):
     pass
 
@@ -1930,8 +1910,4 @@ class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
 
 
 class SwitchStreamFilterActionPortModificationEnum(AREnum):
-    pass
-
-
-class VariableAccessScopeEnum(AREnum):
     pass
