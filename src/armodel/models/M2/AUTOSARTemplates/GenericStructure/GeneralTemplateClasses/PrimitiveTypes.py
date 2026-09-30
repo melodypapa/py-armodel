@@ -792,11 +792,13 @@ class CIdentifier(ARLiteral):
     """
 
     # CIdentifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getBlueprintValue            [x] impl  [x] docstring  [ ] test
-    # [ ] setBlueprintValue            [x] impl  [x] docstring  [ ] test
-    # [ ] getNamePattern               [x] impl  [x] docstring  [ ] test
-    # [ ] setNamePattern               [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.45, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setNamePattern           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
