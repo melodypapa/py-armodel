@@ -945,17 +945,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
 - [ ] `EEnumFont` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.44, p.322
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - module: M2/MSR/Documentation/TextModel/InlineAttributeEnums.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 9.44 (trailing-caption, p.322 via pdf_page.py); Enumeration
+      kind; Package M2::MSR::Documentation::TextModel::InlineAttributeEnums — MODULE
+      REHOUSED from the PrimitiveTypes.py stub hint to the spec package (joins the
+      stamped ResolutionPolicyEnum/ShowContentEnum family); 2 literals.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestEEnumFont added to test_InlineAttributeEnums.py (init + literal
+      pins + getEnumValues order + setValue) — seen Red (class did not exist in this
+      module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): AREnum subclass, UPPER_SNAKE literal members, literal tuple in
+      super().__init__ (house enum shape); PrimitiveTypes.py stub removed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 9.44 Note verbatim; literal inline comments
+      = table Descriptions verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; values serialize as the FONT attribute
+      on EmphasisText.font (XSD E-ENUM-FONT--SIMPLE: DEFAULT/MONO).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column with the "(no methods)" enum-value
+      note; `# Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.44, p.322`;
+      marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; XSD literals match the table (DEFAULT, MONO).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (28 passed / 0 failed
+    test_InlineAttributeEnums.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `EEnum` — AREnum — R23-11 FO_TPS_GenericStructureTemplate Table 9.45, p.322
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [ ] Step 1 — Sync members & description from spec

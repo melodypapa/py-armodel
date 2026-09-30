@@ -12,7 +12,8 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowResourceShortNameEnum,
     ShowResourceTypeEnum,
     ShowSeeEnum,
-)
+    EEnum,
+    EEnumFont,)
 
 
 class TestResolutionPolicyEnum:
@@ -219,3 +220,47 @@ class TestShowSeeEnum:
         assert enum.setValue(ShowSeeEnum.SHOW_SEE) is enum
         assert enum.getValue() == "SHOW-SEE"
         assert enum.validateEnumValue("INVALID") is False
+
+
+class TestEEnumFont:
+    """
+    Test class for EEnumFont functionality (Table 9.44).
+    """
+
+    def test_initialization(self):
+        enum = EEnumFont()
+        assert enum is not None
+        assert enum._value is None
+
+    def test_literal_members(self):
+        assert EEnumFont.DEFAULT == "DEFAULT"
+        assert EEnumFont.MONO == "MONO"
+
+    def test_enum_values(self):
+        assert list(EEnumFont().getEnumValues()) == ["DEFAULT", "MONO"]
+
+    def test_set_value(self):
+        assert EEnumFont().setValue(EEnumFont.MONO).getValue() == "MONO"
+
+
+class TestEEnum:
+    """
+    Test class for EEnum functionality (Table 9.45).
+    """
+
+    def test_initialization(self):
+        enum = EEnum()
+        assert enum is not None
+        assert enum._value is None
+
+    def test_literal_members(self):
+        assert EEnum.BOLD == "BOLD"
+        assert EEnum.BOLDITALIC == "BOLDITALIC"
+        assert EEnum.ITALIC == "ITALIC"
+        assert EEnum.PLAIN == "PLAIN"
+
+    def test_enum_values(self):
+        assert list(EEnum().getEnumValues()) == ["BOLD", "BOLDITALIC", "ITALIC", "PLAIN"]
+
+    def test_set_value(self):
+        assert EEnum().setValue(EEnum.BOLDITALIC).getValue() == "BOLDITALIC"

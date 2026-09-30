@@ -1770,12 +1770,6 @@ class DiagnosticUdsSeverityEnum(AREnum):
 class DiagnosticWwhObdDtcClassEnum(AREnum):
     pass
 
-class EEnum(AREnum):
-    pass
-
-class EEnumFont(AREnum):
-    pass
-
 class EthGlobalTimeMessageFormatEnum(AREnum):
     pass
 

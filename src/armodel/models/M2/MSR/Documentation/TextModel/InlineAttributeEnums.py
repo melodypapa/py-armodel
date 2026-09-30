@@ -219,3 +219,51 @@ class ShowSeeEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowSeeEnum.NO_SHOW_SEE, ShowSeeEnum.SHOW_SEE))
+
+
+class EEnumFont(AREnum):
+    """
+    This specifies the possible kind of fonts to be used for emphasis.
+    """
+
+    # EEnumFont method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.44, p.322
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on EmphasisText.font (FONT attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The emphasis uses the default font. Tags: atp.EnumerationLiteralIndex=0
+    DEFAULT = "DEFAULT"
+
+    # The emphasis uses a monospaced font. Tags: atp.EnumerationLiteralIndex=1
+    MONO = "MONO"
+
+    def __init__(self):
+        super().__init__((EEnumFont.DEFAULT, EEnumFont.MONO))
+
+
+class EEnum(AREnum):
+    """
+    This specifies the possible kinds of emphasis as proposal how to render it on paper or screen. Note that it would have been better to use plain, weak (italic), strong (bold), veryStrong (bolditalic) ... But users complained about this.
+    """
+
+    # EEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.45, p.322
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on EmphasisText.type (TYPE attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The emphasis is preferably represented in boldface font. Tags: atp.EnumerationLiteralIndex=0
+    BOLD = "BOLD"
+
+    # The emphasis is preferably represented in boldface plus italic font. Tags: atp.EnumerationLiteralIndex=1
+    BOLDITALIC = "BOLDITALIC"
+
+    # The emphasis is preferably represented in italic font. Tags: atp.EnumerationLiteralIndex=2
+    ITALIC = "ITALIC"
+
+    # The emphasis has no specific rendering. It is used if e.g. semantic information is applied to the emphasis text. Tags: atp.EnumerationLiteralIndex=3
+    PLAIN = "PLAIN"
+
+    def __init__(self):
+        super().__init__((EEnum.BOLD, EEnum.BOLDITALIC, EEnum.ITALIC, EEnum.PLAIN))
