@@ -576,7 +576,7 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **10/24** completed
+Status: **11/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -589,7 +589,7 @@ Status: **10/24** completed
 | `ModeInterfaceMapping`                 | [x] Done     | a598489544 |
 | `VariableAndParameterInterfaceMapping` | [x] Done     | 0e87cc4bb9 |
 | `Field`                                | [x] Done     | d31cad4d7e |
-| `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f90 |
+| `AbstractProvidedPortPrototype`        | [x] Done     | 510d31dd57 |
 | `AbstractRequiredPortPrototype`        | [ ] Pending* | fb7a835f90 |
 | `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb8 |
 | `ModeGroupInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
