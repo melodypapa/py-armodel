@@ -1576,7 +1576,9 @@ class McdIdentifier(ARLiteral):
     """
 
     # McdIdentifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.54, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
