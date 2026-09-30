@@ -6,8 +6,6 @@ Round-trip counterpart: tests/test_armodel/parser/test_abstract_value_restrictio
 
 import xml.etree.ElementTree as ET
 
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,
 )

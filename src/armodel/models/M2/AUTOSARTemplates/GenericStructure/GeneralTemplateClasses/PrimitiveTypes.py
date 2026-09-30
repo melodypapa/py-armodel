@@ -1191,7 +1191,7 @@ class ArgumentDirectionEnum(AREnum):
         super().__init__((ArgumentDirectionEnum.IN, ArgumentDirectionEnum.INOUT, ArgumentDirectionEnum.OUT))
 
 class Ip4AddressString(ARLiteral):
-    """
+    r"""
     This is used to specify an IP4 address. Notation: 255.255.255.255
 
     Tags:

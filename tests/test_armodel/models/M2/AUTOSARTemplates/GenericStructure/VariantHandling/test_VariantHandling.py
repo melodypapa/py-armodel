@@ -3,15 +3,13 @@ Tests for the VariantHandling module classes.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
-    EvaluatedVariantSet,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
 )
-
-
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    EvaluatedVariantSet,
+)
 
 
 class TestEvaluatedVariantSet:

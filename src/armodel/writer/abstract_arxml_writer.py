@@ -23,11 +23,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveUnlimitedInteger,
     RefType,
+    RegularExpression,
     RevisionLabelString,
     String,
     TimeValue,
     UriString,
-    RegularExpression)
+)
 
 
 class AbstractARXMLWriter(ABC):

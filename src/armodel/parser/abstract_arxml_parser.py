@@ -26,13 +26,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     PositiveUnlimitedInteger,
     RefType,
+    RegularExpression,
     RevisionLabelString,
     String,
     TimeValue,
     UnlimitedInteger,
     UriString,
     VerbatimString,
-    RegularExpression)
+)
 
 
 class AbstractARXMLParser(ABC):

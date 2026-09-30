@@ -243,9 +243,9 @@ class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, Abstract
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-
         # List of valid binding times. Tags: xml.sequenceOffset=20
         self.validBindingTimes: List[FullBindingTimeEnum] = []
+
 
 class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction):
     """
@@ -261,7 +261,6 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
-
 
         # List of valid binding times. Tags: xml.sequenceOffset=20
         self.validBindingTimes: List[FullBindingTimeEnum] = []
@@ -403,9 +402,9 @@ class SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVari
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-
         # List of valid binding times. Tags: xml.sequenceOffset=20
         self.validBindingTimes: List[FullBindingTimeEnum] = []
+
 
 class SdgDef(ARElement):
     """

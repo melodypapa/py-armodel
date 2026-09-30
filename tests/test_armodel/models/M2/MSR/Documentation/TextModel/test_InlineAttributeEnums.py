@@ -2,6 +2,8 @@
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
+    EEnum,
+    EEnumFont,
     ResolutionPolicyEnum,
     ShowContentEnum,
     ShowResourceAliasNameEnum,
@@ -12,8 +14,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowResourceShortNameEnum,
     ShowResourceTypeEnum,
     ShowSeeEnum,
-    EEnum,
-    EEnumFont,)
+)
 
 
 class TestResolutionPolicyEnum:

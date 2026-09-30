@@ -2,9 +2,8 @@
 Tests for the ModelRestrictionTypes module (FullBindingTimeEnum,
 AbstractValueRestriction, AbstractVariationRestriction).
 """
-from typing import List
 
-import pytest
+from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractValueRestriction,

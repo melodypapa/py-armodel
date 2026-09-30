@@ -23,7 +23,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SdgAttribute,
     SdgClass,
     SdgDef,
-    SdgElementWithGid,
     SdgForeignReference,
     SdgForeignReferenceWithVariation,
     SdgPrimitiveAttribute,

@@ -8,8 +8,6 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     AbstractVariationRestriction,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
     FullBindingTimeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -22,7 +20,9 @@ class _Derived(AbstractVariationRestriction):
     def __init__(self):
         super().__init__()
         from typing import List
+
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import FullBindingTimeEnum as _F
+
         self.validBindingTimes: List[_F] = []
 
 
