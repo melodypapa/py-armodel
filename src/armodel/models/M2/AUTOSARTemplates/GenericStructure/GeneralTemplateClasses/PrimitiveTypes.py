@@ -341,13 +341,17 @@ class String(ARLiteral):
 
 class UriString(ARLiteral):
     """
-    This represents a URI string value.
+    A Uniform Resource Identifier (URI), is a compact string of characters used to identify or name a resource.
+
+    Tags:
+        * xml.xsd.customType=URI-STRING
+        * xml.xsd.type=string
     """
 
     # UriString method parity checklist:
-    # Spec: AUTOSAR_00052.xsd, URI-STRING type (R23-11)
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.66, p.114
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
