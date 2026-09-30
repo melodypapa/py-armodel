@@ -191,7 +191,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `CommunicationCluster` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.63, p.107; also CP_TPS_SystemTemplate Table 3.6, p.57
+- [x] `CommunicationCluster` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.63, p.107; also CP_TPS_SystemTemplate Table 3.6, p.57 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
