@@ -576,7 +576,7 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **12/24** completed
+Status: **13/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -592,7 +592,7 @@ Status: **12/24** completed
 | `AbstractProvidedPortPrototype`        | [x] Done     | 510d31dd57 |
 | `AbstractRequiredPortPrototype`        | [x] Done     | bbacb3368c |
 | `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb8 |
-| `ModeGroupInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
+| `ModeGroupInAtomicSwcInstanceRef`      | [x] Done     | cdb0951050 |
 | `OperationInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
 | `RModeInAtomicSwcInstanceRef`          | [ ] Pending* | 74e821ccb8 |
 | `TriggerInAtomicSwcInstanceRef`        | [ ] Pending* | 74e821ccb8 |

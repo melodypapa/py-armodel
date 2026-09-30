@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 565 | 29.4% |
+| [x] Done | 566 | 29.5% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 199 | 10.4% |
+| [ ] Deferred | 198 | 10.3% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1280,7 +1280,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeDrivenTransmissionModeCondition`                   | [x] Done    | 206cf29517                               | Group5           |
 | `ModeErrorBehavior`                                     | [x] Done    | e3d79f89ca                               | Group22          |
 | `ModeErrorReactionPolicyEnum`                           | [x] Done    | e3d79f89ca                               | Group22          |
-| `ModeGroupInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `ModeGroupInAtomicSwcInstanceRef`                       | [x] Done    | cdb0951050                               | Group11          |
 | `ModeInBswInstanceRef`                                  | [ ] Implemented| N/A                                      | Group35          |
 | `ModeInSwcBswInstanceRef`                               | [x] Done    | 71ca6a5415                               | Group8           |
 | `ModeInSwcInstanceRef`                                  | [x] Done    | 70dcc26975                               | Group8           |
