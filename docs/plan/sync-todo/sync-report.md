@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 568 | 29.6% |
+| [x] Done | 569 | 29.6% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 196 | 10.2% |
+| [ ] Deferred | 195 | 10.2% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1861,7 +1861,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransportProtocolConfiguration`                        | [x] Done    | 0014960828                               | Group6           |
 | `Trigger`                                               | [x] Done    | 131473204c                               | Group1           |
 | `TriggerIPduSendCondition`                              | [ ] Deferred| dcbc6abdb3                               | Group15          |
-| `TriggerInAtomicSwcInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `TriggerInAtomicSwcInstanceRef`                         | [x] Done    | 74e821ccb8                               | Group11          |
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4cc                               | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8feb                               | Group1           |
 | `TriggerMapping`                                        | [x] Done    | 905c48d323                               | Group1           |
