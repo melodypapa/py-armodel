@@ -1649,3 +1649,18 @@ class TestDateTime:
     def test_set_value(self):
         obj = DateTime().setValue("2009-07-23T14:38:00+01:00")
         assert obj.getValue() == "2009-07-23T14:38:00+01:00"
+
+
+class TestDiagRequirementIdString:
+    """
+    Test class for DiagRequirementIdString functionality (Table 4.49).
+    """
+
+    def test_initialization(self):
+        obj = DiagRequirementIdString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = DiagRequirementIdString().setValue("REQ-0042")
+        assert obj.getValue() == "REQ-0042"
