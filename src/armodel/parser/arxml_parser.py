@@ -474,12 +474,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
@@ -10358,6 +10359,16 @@ class ARXMLParser(AbstractARXMLParser):
             id_value.setValue(id_avp_element.text.strip())
             did.setId(id_value)
 
+    def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
+        self.readDiagnosticAbstractDataIdentifier(element, did)
+        for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
+            did.addDataElement(DiagnosticParameter())
+        did.setDidSize(self.getChildElementOptionalPositiveInteger(element, "DID-SIZE"))
+        did.setRepresentsVin(self.getChildElementOptionalBooleanValue(element, "REPRESENTS-VIN"))
+        support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
+        if support_info_byte_element is not None:
+            did.setSupportInfoByte(DiagnosticSupportInfoByte())
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -14920,6 +14931,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-CONNECTION":
                 connection = parent.createDiagnosticConnection(self.getShortName(child_element))
                 self.readDiagnosticConnection(child_element, connection)
+            elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
+                did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
+                self.readDiagnosticDataIdentifier(child_element, did)
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)

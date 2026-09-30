@@ -362,7 +362,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -13526,6 +13526,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             elif id_value._value is not None:
                 avp_element.text = str(id_value._value)
 
+    def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
+        self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-IDENTIFIER")
+        self.writeDiagnosticAbstractDataIdentifier(child_element, did)
+        data_elements = did.getDataElements()
+        if len(data_elements) > 0:
+            data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
+            for data_element in data_elements:
+                ET.SubElement(data_elements_tag, "DIAGNOSTIC-PARAMETER")
+        self.setChildElementOptionalPositiveInteger(child_element, "DID-SIZE", did.getDidSize())
+        self.setChildElementOptionalBooleanValue(child_element, "REPRESENTS-VIN", did.getRepresentsVin())
+        if did.getSupportInfoByte() is not None:
+            ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -14540,6 +14554,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDataIdentifier):
+            self.writeDiagnosticDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):

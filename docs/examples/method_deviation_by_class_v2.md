@@ -486,6 +486,13 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 
 No deviations — the single Table 4.4 attribute (`id`, PositiveInteger 0..1 attr, atpVariation stereotype) is modeled as `Optional[PositiveInteger]` with a typed get/set pair (None-no-op, chaining); Base most-derived = `ARElement` (abstract, instantiation guard); the XSD serializes ID wrapped in POSITIVE-INTEGER-VALUE-VARIATION-POINT (attribute-value variation, AUTOSAR_00052.xsd group DIAGNOSTIC-ABSTRACT-DATA-IDENTIFIER line 31403) — the wrapper is absorbed by the reusable reader/writer helpers `readDiagnosticAbstractDataIdentifier`/`writeDiagnosticAbstractDataIdentifier`, the model keeps the PDF type PositiveInteger; Kind=attr with atpVariation → attribute-value variation only, no class VP capability (Rule 0020); subclasses DiagnosticDataIdentifier/DiagnosticDynamicDataIdentifier (queued this batch) call the helpers at their own syncs.
 
+## `DiagnosticDataIdentifier`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.2
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — all four Table 4.2 attributes modeled: `dataElement` (DiagnosticParameter `*` aggr → `dataElements: List[DiagnosticParameter]` + addDataElement/getDataElements, spec-singular → plural per Rule 0001.4), `didSize` (PositiveInteger 0..1 attr), `representsVin` (Boolean 0..1 attr), `supportInfoByte` (DiagnosticSupportInfoByte 0..1 aggr → set/get pair); Base most-derived = `DiagnosticAbstractDataIdentifier` (inherits its id + reusable helpers, Rule 0001.7); reader/writer cover DATA-ELEMENTS (wrapper list, empty-wrapper omitted), DID-SIZE, REPRESENTS-VIN, SUPPORT-INFO-BYTE in XSD group order (AUTOSAR_00052.xsd group DIAGNOSTIC-DATA-IDENTIFIER line 34234) with ARPackage element dispatch (createDiagnosticDataIdentifier + readARPackageElements/writeARPackageElement branches). Pending debt (Rule 0001.7 identity-only child serialization): `DIAGNOSTIC-PARAMETER` items and `SUPPORT-INFO-BYTE` are emitted/read as identity-only until their classes sync (DiagnosticParameter this batch; DiagnosticSupportInfoByte queued Group25 Table 4.129) — value-asserting coverage lands with the child syncs.
+
 ## `DiagnosticCommonElement`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonElement`

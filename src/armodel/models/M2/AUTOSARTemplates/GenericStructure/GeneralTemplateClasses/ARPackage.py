@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -1584,6 +1584,26 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(security_level)
         return self.getElement(short_name, DiagnosticSecurityLevel)
 
+    def createDiagnosticDataIdentifier(self, short_name: str) -> DiagnosticDataIdentifier:
+        """
+        Creates a new DiagnosticDataIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDataIdentifier represents the ability to model a diagnostic
+        data identifier (DID) that is fully specified regarding the payload
+        at configuration-time.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticDataIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDataIdentifier):
+            did = DiagnosticDataIdentifier(self, short_name)
+            self.addElement(did)
+        return self.getElement(short_name, DiagnosticDataIdentifier)
+
     def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
         """
         Creates a new DiagnosticEnvironmentalCondition with the given short
@@ -2561,7 +2581,97 @@ class DiagnosticDataByIdentifier(ARElement, ABC):
 
 
 class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
-    pass
+    """
+    This meta-class represents the ability to model a diagnostic data identifier (DID) that is fully specified regarding the payload at configuration-time.
+    """
+
+    # DiagnosticDataIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.2, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDidSize          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDidSize          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRepresentsVin    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRepresentsVin    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportInfoByte  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportInfoByte  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is the dataElement associated with the Diagnostic DataIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, data Element.ident.shortName, dataElement.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.dataElements: List[DiagnosticParameter] = []
+
+        # This attribute indicates the size in bytes of the Diagnostic DataIdentifier.
+        self.didSize: Optional[PositiveInteger] = None
+
+        # This attributes indicates whether the specific Diagnostic DataIdentifier represents the vehicle identification.
+        self.representsVin: Optional[Boolean] = None
+
+        # This attribute represents the supported information associated with the DiagnosticDataIdentifier.
+        self.supportInfoByte: Optional[DiagnosticSupportInfoByte] = None
+
+    def addDataElement(self, value: Optional[DiagnosticParameter]) -> DiagnosticDataIdentifier:
+        """
+        This is the dataElement associated with the Diagnostic DataIdentifier.
+        A None value is a no-op and does not append a dataElement.
+        """
+        if value is not None:
+            self.dataElements.append(value)
+        return self
+
+    def getDataElements(self) -> List[DiagnosticParameter]:
+        """
+        This is the dataElement associated with the Diagnostic DataIdentifier.
+        """
+        return self.dataElements
+
+    def getDidSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute indicates the size in bytes of the Diagnostic DataIdentifier.
+        """
+        return self.didSize
+
+    def setDidSize(self, value: Optional[PositiveInteger]) -> DiagnosticDataIdentifier:
+        """
+        This attribute indicates the size in bytes of the Diagnostic DataIdentifier.
+        A None value is a no-op and does not overwrite an existing didSize.
+        """
+        if value is not None:
+            self.didSize = value
+        return self
+
+    def getRepresentsVin(self) -> Optional[Boolean]:
+        """
+        This attributes indicates whether the specific Diagnostic DataIdentifier represents the vehicle identification.
+        """
+        return self.representsVin
+
+    def setRepresentsVin(self, value: Optional[Boolean]) -> DiagnosticDataIdentifier:
+        """
+        This attributes indicates whether the specific Diagnostic DataIdentifier represents the vehicle identification.
+        A None value is a no-op and does not overwrite an existing representsVin.
+        """
+        if value is not None:
+            self.representsVin = value
+        return self
+
+    def getSupportInfoByte(self) -> Optional[DiagnosticSupportInfoByte]:
+        """
+        This attribute represents the supported information associated with the DiagnosticDataIdentifier.
+        """
+        return self.supportInfoByte
+
+    def setSupportInfoByte(self, value: Optional[DiagnosticSupportInfoByte]) -> DiagnosticDataIdentifier:
+        """
+        This attribute represents the supported information associated with the DiagnosticDataIdentifier.
+        A None value is a no-op and does not overwrite an existing supportInfoByte.
+        """
+        if value is not None:
+            self.supportInfoByte = value
+        return self
 
 
 class DiagnosticDataIdentifierSet(ARElement):

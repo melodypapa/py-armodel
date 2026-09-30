@@ -7,6 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
@@ -1477,6 +1478,96 @@ class TestDiagnosticAbstractDataIdentifier:
         result = obj.setId(None)
         assert result is obj  # method chaining with None
         assert obj.getId() is id_value  # None is a no-op
+
+
+class TestDiagnosticDataIdentifier:
+    """
+    Test class for DiagnosticDataIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.2, p.34
+    """
+
+    def _create_did(self) -> DiagnosticDataIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDataIdentifier(ar_root, "TestDid")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticDataIdentifier is initialized with the spec defaults.
+        """
+        obj = self._create_did()
+
+        assert obj.getShortName() == "TestDid"
+        assert isinstance(obj, DiagnosticAbstractDataIdentifier)
+        assert obj.getId() is None
+        assert obj.getDataElements() == []
+        assert obj.getDidSize() is None
+        assert obj.getRepresentsVin() is None
+        assert obj.getSupportInfoByte() is None
+
+    def test_add_data_element(self):
+        """
+        Test addDataElement appends, returns self and ignores None.
+        """
+        obj = self._create_did()
+
+        data_element = DiagnosticParameter()
+        result = obj.addDataElement(data_element)
+        assert result is obj  # method chaining
+        assert obj.getDataElements() == [data_element]
+
+        result = obj.addDataElement(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataElements() == [data_element]  # None is a no-op
+
+    def test_get_set_did_size(self):
+        """
+        Test getDidSize and setDidSize round-trip and None no-op.
+        """
+        obj = self._create_did()
+
+        did_size = PositiveInteger()
+        did_size.setValue("8")
+        result = obj.setDidSize(did_size)
+        assert result is obj  # method chaining
+        assert obj.getDidSize() is did_size
+        assert obj.getDidSize().getValue() == 8
+
+        result = obj.setDidSize(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDidSize() is did_size  # None is a no-op
+
+    def test_get_set_represents_vin(self):
+        """
+        Test getRepresentsVin and setRepresentsVin round-trip and None no-op.
+        """
+        obj = self._create_did()
+
+        represents_vin = Boolean()
+        represents_vin.setValue(True)
+        result = obj.setRepresentsVin(represents_vin)
+        assert result is obj  # method chaining
+        assert obj.getRepresentsVin() is represents_vin
+
+        result = obj.setRepresentsVin(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRepresentsVin() is represents_vin  # None is a no-op
+
+    def test_get_set_support_info_byte(self):
+        """
+        Test getSupportInfoByte and setSupportInfoByte round-trip and None no-op.
+        """
+        obj = self._create_did()
+
+        support_info_byte = DiagnosticSupportInfoByte()
+        result = obj.setSupportInfoByte(support_info_byte)
+        assert result is obj  # method chaining
+        assert obj.getSupportInfoByte() is support_info_byte
+
+        result = obj.setSupportInfoByte(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSupportInfoByte() is support_info_byte  # None is a no-op
 
 
 class TestImports:
