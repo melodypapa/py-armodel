@@ -607,14 +607,14 @@ Status: **23/24** completed
 
 ## Group12
 
-Status: **3/15** completed
+Status: **4/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
 | `ParameterAccess`                    | [x] Done     | 3b9f111270 |
 | `VariableAccessScopeEnum`            | [x] Done     | 12e743cc9b |
 | `VariableAccess`                     | [x] Done     | 12e743cc9b |
-| `InternalTriggeringPoint`            | [ ] Pending* | N/A        |
+| `InternalTriggeringPoint`            | [x] Done     | N/A        |
 | `ModeAccessPoint`                    | [ ] Pending* | N/A        |
 | `ModeSwitchPoint`                    | [ ] Pending* | N/A        |
 | `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
