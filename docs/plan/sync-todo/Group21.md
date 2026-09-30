@@ -575,28 +575,30 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `RevisionLabelString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.61, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [x] `String` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.63, p.113 — already verified (short-circuit 2026-09-30)
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.61 (trailing-caption, p.113 via pdf_page.py); Note verbatim
+      in docstring (bulleted legal-pattern list as rendered); zero attribute rows.
   - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): init + value round-trip tests pre-existed (parametrized entry
+      RevisionLabelString "R23-11") and pass — no Red observable, nothing to fix.
   - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check PASSES (zero attrs; no fabricated members).
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.61 Note verbatim (byte-identical, already
+      carried the full pattern text); __init__ has no docstring.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; REVISION-LABEL-STRING literal on
+      consumers.
   - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
   - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist had `# Spec:` + 5-column rows but no release column —
+      rewritten to the 6-column format with release column (Rule 0012.3 gain-on-pass);
+      marker withheld (batch mode).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
+    - note (Step 8): none; no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
+    test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [x] Step 1 — Sync members & description from spec
