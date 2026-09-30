@@ -1270,7 +1270,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MixedContentForVerbatim`                               | [x] Done    | 74549e6a51                               | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed1572                               | Group3           |
 | `MlFormula`                                             | [ ] Implemented| N/A                                      | Group21          |
-| `ModeAccessPoint`                                       | [x] Done    | N/A                                      | Group12          |
+| `ModeAccessPoint`                                       | [x] Done    | 543d9df4e7                               | Group12          |
 | `ModeAccessPointIdent`                                  | [x] Done    | 918013a6ce                               | Group1           |
 | `ModeActivationKind`                                    | [x] Done    | 1625966930                               | Group11          |
 | `ModeDeclaration`                                       | [x] Done    | e3d79f89ca                               | Group22          |
