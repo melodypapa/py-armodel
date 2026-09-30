@@ -3,6 +3,7 @@ Test cases for the ECUC Parameter Definition Template classes.
 These tests ensure 100% code coverage for all ECUC parameter definition classes.
 """
 
+import inspect
 from typing import Optional, get_type_hints
 
 import pytest
@@ -1588,6 +1589,26 @@ class TestEcucLinkerSymbolDef:
         assert result == symbol
         assert symbol.getRegularExpression() == r"\w+"
 
+    def test_inheritance(self):
+        """
+        Test EcucLinkerSymbolDef derives from EcucAbstractStringParamDef (Table 2.21 Base, most-derived).
+        """
+        parent, symbol = self._make_symbol()
+        assert isinstance(symbol, EcucAbstractStringParamDef)
+
+    def test_docstrings_verbatim(self):
+        """
+        Test the class docstring carries the Table 2.21 Note verbatim + the class requirement [TPS_ECUC_02031].
+        """
+        expected = inspect.cleandoc(
+            """
+            Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
+
+            [TPS_ECUC_02031] Restriction on the length of EcucLinkerSymbolDef values and defaultValue The restriction on the length of the default value and the value of a EcucLinkerSymbolDef is set to 255 characters.
+            """
+        )
+        assert inspect.cleandoc(EcucLinkerSymbolDef.__doc__) == expected
+
 
 class TestEcucMultilineStringParamDef:
     """
@@ -2099,6 +2120,24 @@ class TestEcucParamConfContainerDef:
         container2 = param_conf_container.createEcucParamConfContainerDef("TestContainer")
         assert container1 == container2
         assert len(param_conf_container.getSubContainers()) == 1
+
+    def test_create_ecuc_linker_symbol_def(self):
+        """
+        Test createEcucLinkerSymbolDef appends a parameter and returns the existing element on duplicate (Table 2.21 aggregated by EcucParamConfContainerDef.parameter).
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        param_conf_container = EcucParamConfContainerDef(parent, "TestParamConfContainerDef")
+
+        linker_symbol_def = param_conf_container.createEcucLinkerSymbolDef("TestLinkerSymbol")
+        assert linker_symbol_def is not None
+        assert isinstance(linker_symbol_def, EcucLinkerSymbolDef)
+        assert linker_symbol_def.getShortName() == "TestLinkerSymbol"
+        assert param_conf_container.getParameters() == [linker_symbol_def]
+
+        duplicate = param_conf_container.createEcucLinkerSymbolDef("TestLinkerSymbol")
+        assert duplicate is linker_symbol_def
+        assert len(param_conf_container.getParameters()) == 1
 
     def test_get_methods(self):
         """

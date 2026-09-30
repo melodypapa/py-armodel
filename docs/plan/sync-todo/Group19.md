@@ -890,18 +890,121 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       (integration round-trips incl.); npm run lint clean; black clean on
       all 6 touched code files; no marker in batch mode.
 
-- [ ] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — source TBC (locate table at Step 1)
+- [ ] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — R23-11 markdown · Table 2.21
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 2.21 AUTOSAR_CP_TPS_ECUConfiguration.md l.1707-1714
+    (caption l.1705; pdf_page.py: PDF p.65 caption hit). Concrete Class
+    (class-row `<<atpVariation>>` — not a VP-aggregation indicator per
+    Rule 0020); Package M2::AUTOSARTemplates::ECUCParameterDefTemplate;
+    Note "Configuration parameter type for Linker Symbol Names like those
+    used to specify memory locations of variables and constants."; Base
+    chain ARObject/AtpDefinition/EcucAbstractStringParamDef/
+    EcucCommonAttributes/EcucDefinitionElement/EcucParameterDef/
+    Identifiable/MultilanguageReferrable/Referrable → most-derived base
+    EcucAbstractStringParamDef (stamped R23-11, Table 2.18 p.63, same
+    file) — src matches, no flattening. EMPTY attribute table — corpus
+    l.1699 "The class EcucLinkerSymbolDef does not introduce any
+    additional attributes" (0 own rows; all attrs inherited from the
+    base — Rule 0002 empty-attribute-rendering case). XSD group
+    ECUC-LINKER-SYMBOL-DEF (AUTOSAR_00052.xsd l.52608, complexType
+    l.52630) = only the ECUC-LINKER-SYMBOL-DEF-VARIANTS/
+    ECUC-LINKER-SYMBOL-DEF-CONDITIONAL wrapper — no own attribute
+    elements; aggregators' PARAMETERS choices carry the element at
+    l.52117 + l.53107. Class requirement [TPS_ECUC_02031] (l.1697,
+    255-char value/defaultValue length restriction) → class docstring
+    per the batch convention (`\_` unescaped, glyph markers stripped).
+    Drift found: model already spec-shaped (base, verbatim Note
+    docstring, __init__) but reader/writer coverage ENTIRELY ABSENT —
+    no readEcucLinkerSymbolDef/writeEcucLinkerSymbolDef helpers, no
+    dispatch branch in any of the 4 aggregation sites, no
+    createEcucLinkerSymbolDef factory on EcucParamConfContainerDef →
+    elements silently dropped on round-trip (the Steps 5/6 fix). v1
+    tracker has a STALE `missing` row (ecucLinkerSymbolDefVariant /
+    EcucLinkerSymbolDefConditional) — Table 2.21's attribute column is
+    empty, the variant conditional is an XSD-only atpVariation artifact,
+    NOT a spec attribute (Rule 0015) → row resolved at Step 8. v2
+    tracker lists the class only in its generated "classes without a
+    spec attribute table" appendix (nothing to reconcile). No
+    integration fixture carries ECUC-LINKER-SYMBOL-DEF (no Rule 0019
+    combine case).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): extended the mirrored
+      ECUCParameterDefTemplate/test_ECUCParameterDefTemplate.py —
+      TestEcucLinkerSymbolDef.test_inheritance (isinstance pin on the
+      most-derived base EcucAbstractStringParamDef) +
+      test_docstrings_verbatim (inspect.cleandoc pin: class docstring ==
+      Table 2.21 Note verbatim + [TPS_ECUC_02031] appended per batch
+      convention) + TestEcucParamConfContainerDef
+      .test_create_ecuc_linker_symbol_def (create appends to parameters +
+      duplicate returns the existing instance). Seen Red 2 failed / 3
+      passed — the docstring pin failed on the missing [TPS_ECUC_02031]
+      requirement text; the factory test failed with AttributeError (no
+      createEcucLinkerSymbolDef).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES —
+      Table 2.21 has an EMPTY attribute column and the class declares
+      zero own fields (no fabrication, no flattening; all attrs inherited
+      from the stamped base EcucAbstractStringParamDef); Base = most-
+      derived EcucAbstractStringParamDef (stamped R23-11, Table 2.18) —
+      src already matched. Added createEcucLinkerSymbolDef factory on the
+      stamped aggregator EcucParamConfContainerDef (IsElementExists
+      duplicate-check + addElement + parameters append — sibling factory
+      shape; quoted `-> "EcucLinkerSymbolDef"` forward-ref return, this
+      module's no-PEP-563 convention, name defined later in the module).
+      Green: factory test passes; remaining Red is the Step 4 docstring
+      scope only (8 passed / 1 failed at this point).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): wiped and rewrote the class docstring — Table 2.21
+      Note verbatim ("Configuration parameter type for Linker Symbol
+      Names like those used to specify memory locations of variables and
+      constants.") + the class requirement [TPS_ECUC_02031] appended
+      verbatim (md l.1697, `\_` unescaped, `glyph[ceilingleft]`/
+      `glyph[floorright] ()` markers stripped — the ForeignReferenceDef
+      batch convention; the requirement targets this class's value/
+      defaultValue length). No getter/setter docstrings or __init__
+      member comments exist to wipe (0 own attributes — Rule 0002
+      empty-attribute case); `__init__` has no docstring; the new
+      factory's docstring is the EcucParamConfContainerDef parameter
+      Note verbatim (identical to the stamped sibling factories).
+      Green: mirrored file 146 passed.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): new tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py
+      TestEcucLinkerSymbolDefParameters (3 tests: container-site read with
+      DEFAULT-VALUE/MAX-LENGTH/MIN-LENGTH inside the CONDITIONAL, minimal read,
+      EcucDestinationUriPolicy-site dispatch) + tests/test_armodel/writer/
+      test_writer_ecuc_def.py TestWriterEcucLinkerSymbolDef (4 tests: direct write
+      structure + VARIANTS-wrapper-last XSD order, container-params dispatch,
+      policy-params dispatch, full save→reload round-trip with value asserts). Seen
+      Red 7 failed (3 parser — ECUC-LINKER-SYMBOL-DEF hit notImplemented; 4 writer —
+      no helpers/dispatch).
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): readEcucLinkerSymbolDef/writeEcucLinkerSymbolDef helpers added
+      (readEcucParameterDef + CONDITIONAL-wrapper content via the inherited base
+      accessors — EcucMultilineStringParamDef pattern; writer mirrors via
+      writeEcucParameterDef + VARIANTS/CONDITIONAL + writeEcucAbstractStringParamDef);
+      ECUC-LINKER-SYMBOL-DEF dispatch branches added after the MULTILINE branch in all
+      four aggregation sites (readEcucContainerDefParameters,
+      readEcucDestinationUriPolicyParameters, writeEcucContainerDefParameters,
+      writeEcucDestinationUriPolicyParameters); createEcucLinkerSymbolDef factory on
+      EcucParamConfContainerDef (Step 3); imports added. 7 passed (Green); touched
+      suites 384 passed.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column format, `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf,
+      Table 2.21, p.65`, single `__init__` row (Table 2.21 has zero attribute rows —
+      Rule 0002 empty-attribute case; reader/writer coverage claimed on the stamped
+      base EcucAbstractStringParamDef's rows, EcucMultilineStringParamDef precedent);
+      no marker written (unstamped batch).
+  - [x] Step 8 — Deviations
+    - note (Step 8): v1 tracker stale `missing` row (ecucLinkerSymbolDefVariant /
+      EcucLinkerSymbolDefConditional) resolved to removed (Rule 0015 — XSD-only
+      atpVariation split artifact, attribute column empty); missing reader/writer
+      coverage fixed in-pass, recorded as no-deviation rows + batch Note in
+      method_deviation_by_class.md; v2 tracker appendix needs no reconciliation; no
+      open deviation remains.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14995 passed / 0
+      failed incl. integration round-trips; npm run lint clean; black clean on all
+      touched files); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EcucReferenceDef` — EcucAbstractInternalReferenceDef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

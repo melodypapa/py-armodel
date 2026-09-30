@@ -1802,13 +1802,16 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 | — *(missing)* | `—` | `ecucFunctionNameDefVariant` | `EcucFunctionNameDefConditional` | — | missing |
 
 ## `EcucLinkerSymbolDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 65
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf` (R23-11)  | **page:** 65 (Table 2.21; caption md l.1705)
 - **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `ecucLinkerSymbolDefVariant` | `EcucLinkerSymbolDefConditional` | — | missing |
+| — *(removed)* | `—` | `ecucLinkerSymbolDefVariant` | `EcucLinkerSymbolDefConditional` | — | resolved to removed 2026-09-30 (Rule 0015) — stale pre-sync `missing` row: Table 2.21's attribute column is EMPTY (corpus l.1699 "The class EcucLinkerSymbolDef does not introduce any additional attributes"); the variant conditional is the XSD-only atpVariation split artifact (ECUC-LINKER-SYMBOL-DEF-VARIANTS/ECUC-LINKER-SYMBOL-DEF-CONDITIONAL wrapper, AUTOSAR_00052.xsd l.52608), not a spec attribute. |
+| — *(no deviation)* | — | — | — | — | No deviations — Table 2.21 has zero attribute rows; the class declares no own fields and inherits its accessors from the stamped base EcucAbstractStringParamDef (Table 2.18, R23-11) — Rule 0002 empty-attribute case, no fabrication/flattening. The pre-sync state had NO reader/writer coverage (ECUC-LINKER-SYMBOL-DEF elements were silently dropped on round-trip): readEcucLinkerSymbolDef/writeEcucLinkerSymbolDef helpers (VARIANTS/CONDITIONAL wrapper pattern of the stamped sibling EcucMultilineStringParamDef), both aggregation dispatch branches (EcucParamConfContainerDef via the new createEcucLinkerSymbolDef factory; EcucDestinationUriPolicy via direct construction + addParameter) and the round-trip tests were added in this pass (Rule 0001.7 five-place pattern completed), not deviation rows. |
+
+**Note:** Batch sync 2026-09-30 (Group19 row 10; the class pre-existed unstamped). Table 2.21 is complete in the markdown (caption l.1705, body l.1707-1714); PDF p.65 caption hit via pdf_page.py. XSD group ECUC-LINKER-SYMBOL-DEF (AUTOSAR_00052.xsd l.52608, complexType l.52630) = base groups (… + ECUC-ABSTRACT-STRING-PARAM-DEF) + the VARIANTS/CONDITIONAL wrapper only (sequenceOffset=10000 LAST); the CONDITIONAL content group carries the ECUC-ABSTRACT-STRING-PARAM-DEF content (DEFAULT-VALUE/MAX-LENGTH/MIN-LENGTH/REGULAR-EXPRESSION), populated via the inherited base accessors. Class docstring = Table 2.21 Note verbatim + class requirement [TPS_ECUC_02031] (md l.1697, `\_` unescaped, glyph markers stripped — batch convention). The class-row `<<atpVariation>>` split wrapper is handled transparently in reader/writer per Rule 0001.7 (EcucMultilineStringParamDef precedent); not a Rule 0020 mixin case. No Rule 0001.10 missing referenced types. No integration fixture carries ECUC-LINKER-SYMBOL-DEF (no Rule 0019 combine case).
 
 ## `EcucChoiceReferenceDef`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 74

@@ -824,8 +824,8 @@ Status: **0/16** completed
 | `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
 | `EcucBooleanParamDef`            | [ ] Pending*    | N/A       |
 | `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
-| `EcucForeignReferenceDef`        | [ ] Implemented | N/A       |
-| `EcucLinkerSymbolDef`            | [ ] Implemented | N/A       |
+| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A       |
+| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A       |
 | `EcucReferenceDef`               | [ ] Implemented | N/A       |
 | `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
 | `EcucUriReferenceDef`            | [ ] Implemented | N/A       |

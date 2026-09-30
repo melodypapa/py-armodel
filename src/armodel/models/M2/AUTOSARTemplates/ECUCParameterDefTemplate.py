@@ -1809,6 +1809,16 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name, EcucMultilineStringParamDef)
 
+    def createEcucLinkerSymbolDef(self, short_name: str) -> "EcucLinkerSymbolDef":
+        """
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
+        """
+        if not self.IsElementExists(short_name, EcucLinkerSymbolDef):
+            param = EcucLinkerSymbolDef(self, short_name)
+            self.addElement(param)
+            self.parameters.append(param)
+        return self.getElement(short_name, EcucLinkerSymbolDef)
+
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
         The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
@@ -2210,11 +2220,14 @@ class EcucDestinationUriNestingContractEnum(AREnum):
 class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
     """
     Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
+
+    [TPS_ECUC_02031] Restriction on the length of EcucLinkerSymbolDef values and defaultValue The restriction on the length of the default value and the value of a EcucLinkerSymbolDef is set to 255 characters.
     """
 
     # EcucLinkerSymbolDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.21, p.65
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -327,6 +327,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFloatParamDef,
     EcucForeignReferenceDef,
     EcucFunctionNameDef,
+    EcucLinkerSymbolDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucModuleDef,
@@ -10629,6 +10630,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             cond_tag = ET.SubElement(variants_tag, "ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL")
             self.writeEcucAbstractStringParamDef(cond_tag, param_def)
 
+    def writeEcucLinkerSymbolDef(self, element: ET.Element, param_def: EcucLinkerSymbolDef):
+        if param_def is not None:
+            child_element = ET.SubElement(element, "ECUC-LINKER-SYMBOL-DEF")
+            self.writeEcucParameterDef(child_element, param_def)
+            variants_tag = ET.SubElement(child_element, "ECUC-LINKER-SYMBOL-DEF-VARIANTS")
+            cond_tag = ET.SubElement(variants_tag, "ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
+            self.writeEcucAbstractStringParamDef(cond_tag, param_def)
+
     def writeEcucContainerDefParameters(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         parameters = container_def.getParameters()
         if len(parameters) > 0:
@@ -10650,6 +10659,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucFunctionNameDef(child_element, parameter)
                 elif isinstance(parameter, EcucMultilineStringParamDef):
                     self.writeEcucMultilineStringParamDef(child_element, parameter)
+                elif isinstance(parameter, EcucLinkerSymbolDef):
+                    self.writeEcucLinkerSymbolDef(child_element, parameter)
                 else:
                     self.notImplemented("Unsupported Parameter <%s>" % type(parameter))
 
@@ -10874,6 +10885,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucFunctionNameDef(parameters_element, parameter)
                 elif isinstance(parameter, EcucMultilineStringParamDef):
                     self.writeEcucMultilineStringParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucLinkerSymbolDef):
+                    self.writeEcucLinkerSymbolDef(parameters_element, parameter)
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Parameter <%s>" % type(parameter))
 

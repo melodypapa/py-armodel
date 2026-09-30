@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDestinationUriDefRefType,
     EcucFloatParamDef,
     EcucForeignReferenceDef,
+    EcucLinkerSymbolDef,
     EcucModuleDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
@@ -1335,6 +1336,71 @@ class TestWriterEcucAddInfoParamDef:
             rt = params[0]
             assert rt.getShortName() == "AddInfo"
             assert rt.getOrigin().getValue() == "AUTOSAR_ECUC"
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+
+
+class TestWriterEcucLinkerSymbolDef:
+    def test_write_structure_and_xsd_order(self, writer):
+        container = _make_container()
+        param = container.createEcucLinkerSymbolDef("Sym")
+        param.setDefaultValue(_verbatim("Os_LinkSymbol"))
+        param.setMaxLength(_posint(32))
+        parent = _parent()
+        writer.writeEcucLinkerSymbolDef(parent, param)
+        sym = parent.find("ECUC-LINKER-SYMBOL-DEF")
+        assert sym is not None
+        assert sym.find("SHORT-NAME").text == "Sym"
+        children = [c.tag for c in sym]
+        assert children[-1] == "ECUC-LINKER-SYMBOL-DEF-VARIANTS"
+        cond = sym.find("ECUC-LINKER-SYMBOL-DEF-VARIANTS/ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
+        assert cond is not None
+        assert cond.find("DEFAULT-VALUE").text == "Os_LinkSymbol"
+        assert cond.find("MAX-LENGTH").text == "32"
+
+    def test_container_def_parameters_dispatch(self, writer):
+        container = _make_container()
+        container.createEcucLinkerSymbolDef("Sym")
+        parent = _parent()
+        writer.writeEcucContainerDefParameters(parent, container)
+        assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF") is not None
+        assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF/SHORT-NAME").text == "Sym"
+
+    def test_destination_uri_policy_dispatch(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriPolicy
+
+        policy = EcucDestinationUriPolicy()
+        policy.addParameter(EcucLinkerSymbolDef(policy, "Sym"))
+        parent = _parent()
+        writer.writeEcucDestinationUriPolicyParameters(parent, policy)
+        assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF") is not None
+
+    def test_round_trip(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucLinkerSymbolDef("Sym")
+        param.setDefaultValue(_verbatim("Os_LinkSymbol"))
+        param.setMaxLength(_posint(32))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("Sym", EcucLinkerSymbolDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() == "Os_LinkSymbol"
+            assert reloaded_param.getMaxLength().getValue() == 32
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
