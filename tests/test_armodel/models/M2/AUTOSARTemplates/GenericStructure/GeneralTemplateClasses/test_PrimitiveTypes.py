@@ -1619,3 +1619,18 @@ class TestSymbolStringMembers:
         result = symbol.setNamePattern("TestPattern")
         assert result is symbol
         assert symbol.getNamePattern() == "TestPattern"
+
+
+class TestCategoryString:
+    """
+    Test class for CategoryString functionality (Table 4.47).
+    """
+
+    def test_initialization(self):
+        obj = CategoryString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = CategoryString().setValue("MyCategory")
+        assert obj.getValue() == "MyCategory"
