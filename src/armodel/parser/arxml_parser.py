@@ -7959,6 +7959,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readNvBlockDescriptor(child_element, descriptor)
 
     def readPPortInCompositionInstanceRef(self, element: ET.Element, p_port_in_composition_instance_ref: PPortInCompositionInstanceRef):
+        self.readARObject(element, p_port_in_composition_instance_ref)
         p_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF"))
         p_port_in_composition_instance_ref.setTargetPPortRef(self.getChildElementOptionalRefType(element, "TARGET-P-PORT-REF"))
 
@@ -7973,6 +7974,7 @@ class ARXMLParser(AbstractARXMLParser):
         """
 
     def readRPortInCompositionInstanceRef(self, element, r_port_in_composition_instance_ref: RPortInCompositionInstanceRef):
+        self.readARObject(element, r_port_in_composition_instance_ref)
         r_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF"))
         r_port_in_composition_instance_ref.setTargetRPortRef(self.getChildElementOptionalRefType(element, "TARGET-R-PORT-REF"))
 
@@ -7990,7 +7992,6 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "PROVIDER-IREF")
         if child_element is not None:
             provide_iref = PPortInCompositionInstanceRef()
-            self.readARObject(child_element, provide_iref)
             self.readPPortInCompositionInstanceRef(child_element, provide_iref)
             parent.setProviderIRef(provide_iref)
 
@@ -7998,7 +7999,6 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "REQUESTER-IREF")
         if child_element is not None:
             requester_iref = RPortInCompositionInstanceRef()
-            self.readARObject(child_element, requester_iref)
             self.readRPortInCompositionInstanceRef(child_element, requester_iref)
             parent.setRequesterIRef(requester_iref)
 
