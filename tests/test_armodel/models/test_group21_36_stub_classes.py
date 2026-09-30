@@ -2745,7 +2745,8 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication",
         "LinFrame",
     ),
-    ("armodel.models.M2.MSR.Documentation.BlockElements.ListElements", "List", "armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView", "Paginateable"),
+    # spec class `List` — src: ARList (recorded rename; `List` shadows the Python builtin)
+    ("armodel.models.M2.MSR.Documentation.BlockElements.ListElements", "ARList", "armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView", "Paginateable"),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "LogAndTraceMessageCollectionSet",
