@@ -836,3 +836,207 @@ class TDCpSoftwareClusterMapping(Identifiable):
 
 class TDCpSoftwareClusterResourceMapping(Identifiable):
     pass
+
+
+class BinaryManifestItem(Identifiable):
+    pass
+
+
+class BinaryManifestItemDefinition(Identifiable):
+    pass
+
+
+class BinaryManifestMetaDataField(Identifiable):
+    pass
+
+
+class BinaryManifestProvideResource(Identifiable):
+    pass
+
+
+class BinaryManifestRequireResource(Identifiable):
+    pass
+
+
+class BinaryManifestResourceDefinition(Identifiable):
+    pass
+
+
+class CouplingElementAbstractDetails(Identifiable, ABC):
+    pass
+
+
+class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
+    pass
+
+
+class CpSoftwareClusterToResourceMapping(Identifiable):
+    pass
+
+
+class DdsCpDomain(Identifiable):
+    pass
+
+
+class DdsCpPartition(Identifiable):
+    pass
+
+
+class DdsCpServiceInstance(Identifiable, ABC):
+    pass
+
+
+class FlexrayArTpNode(Identifiable):
+    pass
+
+
+class FlexrayTpConnectionControl(Identifiable):
+    pass
+
+
+class FlexrayTpNode(Identifiable):
+    pass
+
+
+class FlexrayTpPduPool(Identifiable):
+    pass
+
+
+class GlobalTimeCanSlave(Identifiable):
+    pass
+
+
+class GlobalTimeEthSlave(Identifiable):
+    pass
+
+
+class GlobalTimeFrSlave(Identifiable):
+    pass
+
+
+class GlobalTimeGateway(Identifiable):
+    pass
+
+
+class GlobalTimeMaster(Identifiable, ABC):
+    pass
+
+
+class IEEE1722TpAcfBus(Identifiable, ABC):
+    pass
+
+
+class IEEE1722TpAcfCanPart(Identifiable):
+    pass
+
+
+class IEEE1722TpAcfLinPart(Identifiable):
+    pass
+
+
+class J1939TpNode(Identifiable):
+    pass
+
+
+class PortElementToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class RteEventInCompositionSeparation(Identifiable):
+    pass
+
+
+class RteEventInSystemSeparation(Identifiable):
+    pass
+
+
+class SOMEIPTransformationProps(Identifiable):
+    pass
+
+
+class SomeipTpChannel(Identifiable):
+    pass
+
+
+class SwcToApplicationPartitionMapping(Identifiable):
+    pass
+
+
+class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
+    pass
+
+
+class SwitchFlowMeteringEntry(Identifiable):
+    pass
+
+
+class SwitchStreamFilterActionDestPortModification(Identifiable):
+    pass
+
+
+class SwitchStreamFilterEntry(Identifiable):
+    pass
+
+
+class SwitchStreamFilterRule(Identifiable):
+    pass
+
+
+class SwitchStreamGateEntry(Identifiable):
+    pass
+
+
+class SwitchStreamIdentification(Identifiable):
+    pass
+
+
+class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class SystemSignalToCommunicationResourceMapping(Identifiable):
+    pass
+
+
+class UserDefinedGlobalTimeSlave(Identifiable):
+    pass
+
+
+class UserDefinedTransformationProps(Identifiable):
+    pass
+
+
+class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
+    pass
+
+
+class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
+    pass
+
+
+class GlobalTimeCanMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeEthMaster(GlobalTimeMaster):
+    pass
+
+
+class GlobalTimeFrMaster(GlobalTimeMaster):
+    pass
+
+
+class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
+    pass
+
+
+class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
+    pass

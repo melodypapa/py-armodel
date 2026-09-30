@@ -6,14 +6,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 __all__ = [
-    "SecurityEventStateFilter",
-    "SecurityEventFilterChain",
-    "SecurityEventContextProps",
-    "SecurityEventContextMappingCommConnector",
-    "SecurityEventContextMapping",
-    "SecurityEventAggregationFilter",
-    "IdsmTrafficLimitation",
-    "IdsmInstance",
     "IdsPlatformInstantiation",
     "IdsmModuleInstantiation",
 ]
@@ -101,35 +93,3 @@ class IdsmModuleInstantiation(IdsPlatformInstantiation):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
-
-class IdsmInstance(ARObject):
-    pass
-
-
-class IdsmTrafficLimitation(ARObject):
-    pass
-
-
-class SecurityEventAggregationFilter(ARObject):
-    pass
-
-
-class SecurityEventContextMapping(ARObject, ABC):
-    pass
-
-
-class SecurityEventContextMappingCommConnector(ARObject):
-    pass
-
-
-class SecurityEventContextProps(ARObject):
-    pass
-
-
-class SecurityEventFilterChain(ARObject):
-    pass
-
-
-class SecurityEventStateFilter(ARObject):
-    pass

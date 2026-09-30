@@ -344,6 +344,34 @@ __all__ = [
     "ARPackage",
     "PackageableElement",
     "ReferenceBase",
+    "ApplicationPartition",
+    "BswCompositionTiming",
+    "BswModuleTiming",
+    "CpSoftwareClusterBinaryManifestDescriptor",
+    "CpSoftwareClusterMappingSet",
+    "CpSoftwareClusterResourcePool",
+    "CryptoServiceKey",
+    "CryptoServiceQueue",
+    "DdsCpConfig",
+    "EcuTiming",
+    "EthIpProps",
+    "GeneralPurposeConnection",
+    "GlobalTimeDomain",
+    "IEEE1722TpAafConnection",
+    "IEEE1722TpAcfConnection",
+    "IEEE1722TpAvConnection",
+    "IEEE1722TpConnection",
+    "IEEE1722TpCrfConnection",
+    "IEEE1722TpIidcConnection",
+    "IEEE1722TpRvfConnection",
+    "IPSecConfigProps",
+    "IPv6ExtHeaderFilterSet",
+    "J1939ControllerApplication",
+    "LogAndTraceMessageCollectionSet",
+    "MacSecParticipantSet",
+    "SocketConnectionIpduIdentifierSet",
+    "TransformationPropsSet",
+    "VfbTiming",
 ]
 
 
@@ -2882,4 +2910,112 @@ class SecurityEventDefinition(ARElement):
 
 
 class SwAxisType(ARElement):
+    pass
+
+
+class ApplicationPartition(ARElement):
+    pass
+
+
+class BswCompositionTiming(ARElement):
+    pass
+
+
+class BswModuleTiming(ARElement):
+    pass
+
+
+class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
+    pass
+
+
+class CpSoftwareClusterMappingSet(ARElement):
+    pass
+
+
+class CpSoftwareClusterResourcePool(ARElement):
+    pass
+
+
+class CryptoServiceKey(ARElement):
+    pass
+
+
+class CryptoServiceQueue(ARElement):
+    pass
+
+
+class DdsCpConfig(ARElement):
+    pass
+
+
+class EcuTiming(ARElement):
+    pass
+
+
+class EthIpProps(ARElement):
+    pass
+
+
+class GeneralPurposeConnection(ARElement):
+    pass
+
+
+class GlobalTimeDomain(ARElement):
+    pass
+
+
+class IEEE1722TpConnection(ARElement, ABC):
+    pass
+
+
+class IPv6ExtHeaderFilterSet(ARElement):
+    pass
+
+
+class J1939ControllerApplication(ARElement):
+    pass
+
+
+class LogAndTraceMessageCollectionSet(ARElement):
+    pass
+
+
+class MacSecParticipantSet(ARElement):
+    pass
+
+
+class SocketConnectionIpduIdentifierSet(ARElement):
+    pass
+
+
+class TransformationPropsSet(ARElement):
+    pass
+
+
+class VfbTiming(ARElement):
+    pass
+
+
+class IEEE1722TpAcfConnection(IEEE1722TpConnection):
+    pass
+
+
+class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
+    pass
+
+
+class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
+    pass
+
+
+class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
     pass

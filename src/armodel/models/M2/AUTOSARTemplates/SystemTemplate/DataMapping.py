@@ -653,3 +653,11 @@ class DataTypePolicyEnum(AREnum):
                 DataTypePolicyEnum.TRANSFORMING_I_SIGNAL,
             )
         )
+
+
+class ClientServerToSignalMapping(DataMapping):
+    pass
+
+
+class SenderReceiverCompositeElementToSignalMapping(DataMapping):
+    pass
