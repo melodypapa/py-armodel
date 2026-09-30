@@ -1375,7 +1375,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `PPortPrototype`                                        | [x] Done    | 0927333086                               | Group2           |
 | `PRPortPrototype`                                       | [x] Done    | 043de7436d                               | Group2           |
-| `PTriggerInAtomicSwcTypeInstanceRef`                    | [x] Done    | 74e821ccb8                               | Group11          |
+| `PTriggerInAtomicSwcTypeInstanceRef`                    | [x] Done    | dc2297cba8                               | Group11          |
 | `PackageableElement`                                    | [x] Done    | bb032ddd55                               | Group1           |
 | `Paginateable`                                          | [x] Done    | 20e6ee88d0                               | Group3           |
 | `ParameterAccess`                                       | [x] Done    | 3b9f111270                               | Group12          |
