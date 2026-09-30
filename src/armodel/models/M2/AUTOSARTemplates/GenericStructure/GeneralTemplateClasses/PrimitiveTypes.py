@@ -1483,10 +1483,66 @@ class SymbolString(ARLiteral):
     """
 
     # SymbolString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        self.blueprintValue: Optional[str] = None
+
+        # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
+        self.namePattern: Optional[str] = None
+
+    def getBlueprintValue(self) -> Optional[str]:
+        """
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+
+        Returns:
+            The blueprint value, or None if not set
+        """
+        return self.blueprintValue
+
+    def setBlueprintValue(self, value: str):
+        """
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+
+        Args:
+            value: The blueprint value to set
+
+        Returns:
+            self for method chaining
+        """
+        self.blueprintValue = value
+        return self
+
+    def getNamePattern(self) -> Optional[str]:
+        """
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+
+        Returns:
+            The name pattern, or None if not set
+        """
+        return self.namePattern
+
+    def setNamePattern(self, value: str):
+        """
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+
+        Args:
+            value: The name pattern to set
+
+        Returns:
+            self for method chaining
+        """
+        self.namePattern = value
+        return self
 
 
 class McdIdentifier(ARLiteral):

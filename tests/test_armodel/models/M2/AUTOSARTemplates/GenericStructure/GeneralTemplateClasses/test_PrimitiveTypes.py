@@ -1578,3 +1578,44 @@ class TestAclScopeEnum:
         assert enum.validateEnumValue("descendant") is True
         assert enum.validateEnumValue("explicit") is True
         assert enum.validateEnumValue("invalid") is False
+
+
+class TestSymbolStringMembers:
+    """
+    Test class for SymbolString spec attributes (Table 4.65).
+    """
+
+    def test_initialization(self):
+        """
+        Test SymbolString initialization.
+        """
+        symbol = SymbolString()
+
+        assert symbol is not None
+        assert symbol._value is None
+        assert symbol.blueprintValue is None
+        assert symbol.namePattern is None
+
+    def test_blueprint_value_methods(self):
+        """
+        Test blueprint value methods.
+        """
+        symbol = SymbolString()
+
+        assert symbol.getBlueprintValue() is None
+
+        result = symbol.setBlueprintValue("TestValue")
+        assert result is symbol
+        assert symbol.getBlueprintValue() == "TestValue"
+
+    def test_name_pattern_methods(self):
+        """
+        Test name pattern methods.
+        """
+        symbol = SymbolString()
+
+        assert symbol.getNamePattern() is None
+
+        result = symbol.setNamePattern("TestPattern")
+        assert result is symbol
+        assert symbol.getNamePattern() == "TestPattern"

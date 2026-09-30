@@ -517,16 +517,41 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
 - [ ] `SymbolString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.65, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.65 (trailing-caption render, p.114 via pdf_page.py); Package
+      M2::...::GeneralTemplateClasses::PrimitiveTypes; class Note verbatim in docstring +
+      Tags; table kind Primitive (no Base row) → ARLiteral kept; attrs blueprintValue
+      (String, attr, xml.attribute) and namePattern (String, attr, xml.attribute).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): TestSymbolStringMembers added to test_PrimitiveTypes.py (init
+      defaults + get/setBlueprintValue + get/setNamePattern chaining) — seen Red 3 failed
+      before implementation (value round-trip test pre-existed).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): blueprintValue/namePattern added as Optional[str] PEP 526 members
+      under their Note comments (blank line between blocks); matched get/set pairs with
+      chaining, mirroring the stamped CIdentifier/Identifier shape; Green 127 passed.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.65 Note verbatim + Tags block; member
+      inline comments + getter/setter docstrings = table attr Notes verbatim; __init__
+      has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): N/A — no own XML element; the value serializes as the
+      SYMBOL-STRING literal on consuming elements (enum/literal adaptation, Rules
+      0010-0011); [—] reader/writer.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): N/A — see Step 5.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block with release column written; `# Spec:
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114`; marker withheld
+      (batch mode — stamp deferred to batch confirmation).
+  - [x] Step 8 — Deviations
+    - note (Step 8): namePattern table Mult=1 vs XSD attribute optional → Optional[str]
+      kept (attribute-form serialization, matches stamped Identifier/CIdentifier
+      treatment); blueprintValue atp.Status=draft accepted as-is. No other deviations;
+      no missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (127 passed / 0 failed
+    test_PrimitiveTypes.py; lint/black clean on touched file); 9b deferred to batch
+    confirmation (user instruction)
 - [ ] `UriString` — ARLiteral — R23-11 FO_TPS_GenericStructureTemplate Table 4.66, p.114
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - [ ] Step 1 — Sync members & description from spec
