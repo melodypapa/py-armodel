@@ -8,9 +8,9 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IPSecConfig, NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfigProps, IPSecRule
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IPSecConfig, NetworkEndpoint
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecRule
 from armodel.writer.arxml_writer import ARXMLWriter
 
 NS = "http://autosar.org/schema/r4.0"
