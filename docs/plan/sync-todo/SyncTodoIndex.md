@@ -576,7 +576,7 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **10/24** completed
+Status: **15/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -589,12 +589,12 @@ Status: **10/24** completed
 | `ModeInterfaceMapping`                 | [x] Done     | a598489544 |
 | `VariableAndParameterInterfaceMapping` | [x] Done     | 0e87cc4bb9 |
 | `Field`                                | [x] Done     | d31cad4d7e |
-| `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f90 |
-| `AbstractRequiredPortPrototype`        | [ ] Pending* | fb7a835f90 |
+| `AbstractProvidedPortPrototype`        | [x] Done     | 510d31dd57 |
+| `AbstractRequiredPortPrototype`        | [x] Done     | bbacb3368c |
 | `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb8 |
-| `ModeGroupInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
-| `OperationInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
-| `RModeInAtomicSwcInstanceRef`          | [ ] Pending* | 74e821ccb8 |
+| `ModeGroupInAtomicSwcInstanceRef`      | [x] Done     | cdb0951050 |
+| `OperationInAtomicSwcInstanceRef`      | [x] Done     | 5d9a9f9600 |
+| `RModeInAtomicSwcInstanceRef`          | [x] Done     | 5a3a7d14c0 |
 | `TriggerInAtomicSwcInstanceRef`        | [ ] Pending* | 74e821ccb8 |
 | `PModeGroupInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb8 |
 | `RModeGroupInAtomicSWCInstanceRef`     | [ ] Pending* | 74e821ccb8 |

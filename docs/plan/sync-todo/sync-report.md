@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 563 | 29.3% |
+| [x] Done | 568 | 29.6% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 201 | 10.5% |
+| [ ] Deferred | 196 | 10.2% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -43,8 +43,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractImplementationDataTypeElement`                 | [x] Done    | cabd5469e9                               | Group1           |
 | `AbstractMultiplicityRestriction`                       | [ ] Created | N/A                                      | Group36          |
 | `AbstractNumericalVariationPoint`                       | [x] Done    | d5c96fd954                               | Group8           |
-| `AbstractProvidedPortPrototype`                         | [ ] Deferred| fb7a835f90                               | Group11          |
-| `AbstractRequiredPortPrototype`                         | [ ] Deferred| fb7a835f90                               | Group11          |
+| `AbstractProvidedPortPrototype`                         | [x] Done    | 510d31dd57                               | Group11          |
+| `AbstractRequiredPortPrototype`                         | [x] Done    | bbacb3368c                               | Group11          |
 | `AbstractRuleBasedValueSpecification`                   | [ ] Implemented| N/A                                      | Group28          |
 | `AbstractSecurityEventFilter`                           | [ ] Created | N/A                                      | Group36          |
 | `AbstractServiceInstance`                               | [ ] Implemented| N/A                                      | Group32          |
@@ -1280,7 +1280,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeDrivenTransmissionModeCondition`                   | [x] Done    | 206cf29517                               | Group5           |
 | `ModeErrorBehavior`                                     | [x] Done    | e3d79f89ca                               | Group22          |
 | `ModeErrorReactionPolicyEnum`                           | [x] Done    | e3d79f89ca                               | Group22          |
-| `ModeGroupInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `ModeGroupInAtomicSwcInstanceRef`                       | [x] Done    | cdb0951050                               | Group11          |
 | `ModeInBswInstanceRef`                                  | [ ] Implemented| N/A                                      | Group35          |
 | `ModeInSwcBswInstanceRef`                               | [x] Done    | 71ca6a5415                               | Group8           |
 | `ModeInSwcInstanceRef`                                  | [x] Done    | 70dcc26975                               | Group8           |
@@ -1359,7 +1359,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ObdRatioServiceNeeds`                                  | [ ] Implemented| N/A                                      | Group29          |
 | `OffsetTimingConstraint`                                | [x] Done    | e305e80e2a                               | Group8           |
 | `OperationCycleTypeEnum`                                | [ ] Implemented| N/A                                      | Group29          |
-| `OperationInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `OperationInAtomicSwcInstanceRef`                       | [x] Done    | 5d9a9f9600                               | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe68                               | Group5           |
 | `OperationInvokedEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
 | `OrderedMaster`                                         | [x] Done    | 5d62450236                               | Group6           |
@@ -1449,7 +1449,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `QueuedReceiverComSpec`                                 | [x] Done    | bb5804989f                               | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `RModeGroupInAtomicSWCInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
-| `RModeInAtomicSwcInstanceRef`                           | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RModeInAtomicSwcInstanceRef`                           | [x] Done    | 5a3a7d14c0                               | Group11          |
 | `ROperationInAtomicSwcInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
 | `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
