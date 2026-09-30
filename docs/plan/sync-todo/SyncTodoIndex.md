@@ -576,7 +576,7 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **18/24** completed
+Status: **19/24** completed
 
 | Class Name                             | Status       | Commit ID  |
 | -------------------------------------- | ------------ | ---------- |
@@ -598,7 +598,7 @@ Status: **18/24** completed
 | `TriggerInAtomicSwcInstanceRef`        | [x] Done     | 74e821ccb8 |
 | `PModeGroupInAtomicSwcInstanceRef`     | [x] Done     | 74e821ccb8 |
 | `RModeGroupInAtomicSWCInstanceRef`     | [x] Done     | 74e821ccb8 |
-| `POperationInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb8 |
+| `POperationInAtomicSwcInstanceRef`     | [x] Done     | 74e821ccb8 |
 | `ROperationInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb8 |
 | `RVariableInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
 | `PTriggerInAtomicSwcTypeInstanceRef`   | [ ] Pending* | 74e821ccb8 |
