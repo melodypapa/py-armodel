@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 564 | 29.4% |
+| [x] Done | 565 | 29.4% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 200 | 10.4% |
+| [ ] Deferred | 199 | 10.4% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -44,7 +44,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractMultiplicityRestriction`                       | [ ] Created | N/A                                      | Group36          |
 | `AbstractNumericalVariationPoint`                       | [x] Done    | d5c96fd954                               | Group8           |
 | `AbstractProvidedPortPrototype`                         | [x] Done    | 510d31dd57                               | Group11          |
-| `AbstractRequiredPortPrototype`                         | [ ] Deferred| fb7a835f90                               | Group11          |
+| `AbstractRequiredPortPrototype`                         | [x] Done    | bbacb3368c                               | Group11          |
 | `AbstractRuleBasedValueSpecification`                   | [ ] Implemented| N/A                                      | Group28          |
 | `AbstractSecurityEventFilter`                           | [ ] Created | N/A                                      | Group36          |
 | `AbstractServiceInstance`                               | [ ] Implemented| N/A                                      | Group32          |
