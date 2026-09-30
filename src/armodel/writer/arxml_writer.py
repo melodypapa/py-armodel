@@ -362,7 +362,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier, DiagnosticDynamicDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    DiagnosticAbstractDataIdentifier,
+    DiagnosticContributionSet,
+    DiagnosticDataIdentifier,
+    DiagnosticDynamicDataIdentifier,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -13513,6 +13518,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-REF", connection.getResponseOnEventRef())
 
+    def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
+        self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
+        self.writeIdentifiable(child_element, contribution_set)
+        if contribution_set.getCommonProperties() is not None:
+            ET.SubElement(child_element, "COMMON-PROPERTIES")
+        element_refs = contribution_set.getElementRefs()
+        if len(element_refs) > 0:
+            elements_tag = ET.SubElement(child_element, "ELEMENTS")
+            for ref in element_refs:
+                conditional_tag = ET.SubElement(elements_tag, "DIAGNOSTIC-COMMON-ELEMENT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-COMMON-ELEMENT-REF", ref)
+        service_table_refs = contribution_set.getServiceTableRefs()
+        if len(service_table_refs) > 0:
+            service_tables_tag = ET.SubElement(child_element, "SERVICE-TABLES")
+            for ref in service_table_refs:
+                conditional_tag = ET.SubElement(service_tables_tag, "DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-SERVICE-TABLE-REF", ref)
+
     def writeDiagnosticMapping(self, element: ET.Element, mapping: DiagnosticMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF", mapping.getProviderSoftwareClusterRef())
@@ -14611,6 +14635,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePdurIPduGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticConnection):
             self.writeDiagnosticConnection(element, ar_element)
+        elif isinstance(ar_element, DiagnosticContributionSet):
+            self.writeDiagnosticContributionSet(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
         elif isinstance(ar_element, DiagnosticDataIdentifier):

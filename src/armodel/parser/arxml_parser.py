@@ -476,6 +476,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     DiagnosticAbstractParameter,
+    DiagnosticCommonProps,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticSupportInfoByte,
@@ -485,7 +486,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier, DiagnosticDynamicDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    DiagnosticAbstractDataIdentifier,
+    DiagnosticContributionSet,
+    DiagnosticDataIdentifier,
+    DiagnosticDynamicDataIdentifier,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
@@ -10366,6 +10372,17 @@ class ARXMLParser(AbstractARXMLParser):
             id_value.setValue(id_avp_element.text.strip())
             did.setId(id_value)
 
+    def readDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
+        self.logger.debug("Read DiagnosticContributionSet <%s>" % contribution_set.getShortName())
+        self.readIdentifiable(element, contribution_set)
+        common_properties_element = self.find(element, "COMMON-PROPERTIES")
+        if common_properties_element is not None:
+            contribution_set.setCommonProperties(DiagnosticCommonProps())
+        for ref in self.getChildElementRefTypeList(element, "ELEMENTS/DIAGNOSTIC-COMMON-ELEMENT-REF-CONDITIONAL/DIAGNOSTIC-COMMON-ELEMENT-REF"):
+            contribution_set.addElementRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"):
+            contribution_set.addServiceTableRef(ref)
+
     def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
         for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
@@ -14999,6 +15016,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-CONNECTION":
                 connection = parent.createDiagnosticConnection(self.getShortName(child_element))
                 self.readDiagnosticConnection(child_element, connection)
+            elif tag_name == "DIAGNOSTIC-CONTRIBUTION-SET":
+                contribution_set = parent.createDiagnosticContributionSet(self.getShortName(child_element))
+                self.readDiagnosticContributionSet(child_element, contribution_set)
             elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDataIdentifier(child_element, did)

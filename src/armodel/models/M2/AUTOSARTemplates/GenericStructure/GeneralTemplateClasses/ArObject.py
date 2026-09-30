@@ -248,10 +248,6 @@ class DiagnosticConnectedIndicator(ARObject):
     pass
 
 
-class DiagnosticContributionSet(ARObject):
-    pass
-
-
 class DiagnosticControlDTCSetting(ARObject):
     pass
 

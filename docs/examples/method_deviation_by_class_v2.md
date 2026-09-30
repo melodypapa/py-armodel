@@ -479,6 +479,17 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 |---|---|---|---|---|---|
 | `providedInterfaceTRef` | `TRefType` | `providedInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
+## `DiagnosticContributionSet`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 57  | **table:** Table 4.14
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(missing)* | — | `ecuInstance` | `EcuInstance` | ref | deprecated (atp.Status=removed), not implemented (XSD ECU-INSTANCE-REFS, AUTOSAR_00052.xsd l.33732; absent from Table 4.14 rendering) |
+
+Base most-derived = `ARElement` (Table 4.14 Base chain — FIXED from the queued stub's `ARObject`, Rule 0001.2; module relocated ArObject.py → ARPackage.py accordingly). All three Table 4.14 attributes modeled: `commonProperties` (DiagnosticCommonProps 0..1 aggr → set/get pair, child Base `ARObject` so no createXxx), `element` (DiagnosticCommonElement `*` ref → `elementRefs: List[RefType]` + addElementRef/getElementRefs), `serviceTable` (DiagnosticServiceTable `*` ref → `serviceTableRefs: List[RefType]` + addServiceTableRef/getServiceTableRefs); ref rows carry atpVariation → capability lands on the generated REF-CONDITIONAL wrapper classes, not on DiagnosticContributionSet (Rule 0020 NOT-indicator); XSD group order COMMON-PROPERTIES, ELEMENTS, SERVICE-TABLES (AUTOSAR_00052.xsd l.33717) with wrapper lists emitted only when non-empty; ARPackage element dispatch (createDiagnosticContributionSet + readARPackageElements/writeARPackageElement branches). Pending debt (Rule 0001.7 identity-only child serialization): `COMMON-PROPERTIES` is emitted/read as identity-only until DiagnosticCommonProps syncs (this batch, Table 4.19) — value-asserting coverage lands with that sync.
+
 ## `DiagnosticAbstractDataIdentifier`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.4
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`

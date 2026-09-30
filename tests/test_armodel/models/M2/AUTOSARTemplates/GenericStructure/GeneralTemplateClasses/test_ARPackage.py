@@ -7,12 +7,13 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
     CpSwClusterToDiagEventMapping,
     DiagnosticAbstractDataIdentifier,
+    DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
@@ -1624,3 +1625,77 @@ class TestImports:
 
         for name in ("AclPermission", "AclObjectSet", "AclOperation", "AclRole", "LifeCycleStateDefinitionGroup", "ViewMapSet"):
             assert hasattr(models, name), "%s missing from armodel.models" % name
+
+
+class TestDiagnosticContributionSet:
+    """
+    Test class for DiagnosticContributionSet functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.14, p.57
+    """
+
+    def _create_set(self) -> DiagnosticContributionSet:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticContributionSet(ar_root, "TestContributionSet")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticContributionSet is initialized with the spec defaults.
+        """
+        obj = self._create_set()
+
+        assert obj.getShortName() == "TestContributionSet"
+        assert isinstance(obj, ARElement)
+        assert obj.getCommonProperties() is None
+        assert obj.getElementRefs() == []
+        assert obj.getServiceTableRefs() == []
+
+    def test_get_set_common_properties(self):
+        """
+        Test getCommonProperties and setCommonProperties round-trip and None no-op.
+        """
+        obj = self._create_set()
+
+        common_properties = DiagnosticCommonProps()
+        result = obj.setCommonProperties(common_properties)
+        assert result is obj  # method chaining
+        assert obj.getCommonProperties() is common_properties
+
+        result = obj.setCommonProperties(None)
+        assert result is obj  # method chaining with None
+        assert obj.getCommonProperties() is common_properties  # None is a no-op
+
+    def test_add_element_ref(self):
+        """
+        Test addElementRef appends, returns self and ignores None.
+        """
+        obj = self._create_set()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-COMMON-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagnosticCommonElements/Did")
+        result = obj.addElementRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getElementRefs() == [ref]
+
+        result = obj.addElementRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getElementRefs() == [ref]  # None is a no-op
+
+    def test_add_service_table_ref(self):
+        """
+        Test addServiceTableRef appends, returns self and ignores None.
+        """
+        obj = self._create_set()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-SERVICE-TABLE")
+        ref.setValue("/AUTOSAR/DiagnosticServiceTables/Table")
+        result = obj.addServiceTableRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getServiceTableRefs() == [ref]
+
+        result = obj.addServiceTableRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getServiceTableRefs() == [ref]  # None is a no-op

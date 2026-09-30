@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -192,6 +192,7 @@ __all__ = [
     "DiagnosticDataByIdentifier",
     "DiagnosticCustomServiceInstance",
     "DiagnosticConditionGroup",
+    "DiagnosticContributionSet",
     "DiagnosticCondition",
     "DiagnosticComControl",
     "DiagnosticClearDiagnosticInformation",
@@ -1524,6 +1525,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(connection)
         return self.getElement(short_name, DiagnosticConnection)
 
+    def createDiagnosticContributionSet(self, short_name: str) -> DiagnosticContributionSet:
+        """
+        Creates a new DiagnosticContributionSet with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticContributionSet represents a root node of a diagnostic
+        extract that bundles a given set of diagnostic model elements.
+
+        Args:
+            short_name: The short name for the new DiagnosticContributionSet
+
+        Returns:
+            The newly created or existing DiagnosticContributionSet instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticContributionSet):
+            contribution_set = DiagnosticContributionSet(self, short_name)
+            self.addElement(contribution_set)
+        return self.getElement(short_name, DiagnosticContributionSet)
+
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
         Creates a new Diagnostic Service Table with the given short name,
@@ -2589,6 +2609,80 @@ class DiagnosticCondition(ARElement, ABC):
 
 class DiagnosticConditionGroup(ARElement, ABC):
     pass
+
+
+class DiagnosticContributionSet(ARElement):
+    """
+    This meta-class represents a root node of a diagnostic extract. It bundles a given set of diagnostic model elements. The granularity of the DiagonsticContributionSet is arbitrary in order to support the aspect of decentralized configuration, i.e. different contributors can come up with an own DiagnosticContribution Set.
+    """
+
+    # DiagnosticContributionSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.14, p.57
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommonProperties  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommonProperties  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addElementRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getElementRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addServiceTableRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceTableRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents a collection of diagnostic properties that are shared among the entire DiagnosticContributionSet.
+        self.commonProperties: Optional[DiagnosticCommonProps] = None
+
+        # This represents a DiagnosticCommonElement considered in the context of the DiagnosticContributionSet
+        self.elementRefs: List[RefType] = []
+
+        # This represents the collection of DiagnosticServiceTables to be considered in the scope of this DiagnosticContributionSet.
+        self.serviceTableRefs: List[RefType] = []
+
+    def getCommonProperties(self) -> Optional[DiagnosticCommonProps]:
+        """
+        This attribute represents a collection of diagnostic properties that are shared among the entire DiagnosticContributionSet.
+        """
+        return self.commonProperties
+
+    def setCommonProperties(self, value: Optional[DiagnosticCommonProps]) -> DiagnosticContributionSet:
+        """
+        This attribute represents a collection of diagnostic properties that are shared among the entire DiagnosticContributionSet.
+        A None value is a no-op and does not overwrite an existing commonProperties.
+        """
+        if value is not None:
+            self.commonProperties = value
+        return self
+
+    def addElementRef(self, value: Optional[RefType]) -> DiagnosticContributionSet:
+        """
+        This represents a DiagnosticCommonElement considered in the context of the DiagnosticContributionSet
+        A None value is a no-op and does not append an elementRef.
+        """
+        if value is not None:
+            self.elementRefs.append(value)
+        return self
+
+    def getElementRefs(self) -> List[RefType]:
+        """
+        This represents a DiagnosticCommonElement considered in the context of the DiagnosticContributionSet
+        """
+        return self.elementRefs
+
+    def addServiceTableRef(self, value: Optional[RefType]) -> DiagnosticContributionSet:
+        """
+        This represents the collection of DiagnosticServiceTables to be considered in the scope of this DiagnosticContributionSet.
+        A None value is a no-op and does not append a serviceTableRef.
+        """
+        if value is not None:
+            self.serviceTableRefs.append(value)
+        return self
+
+    def getServiceTableRefs(self) -> List[RefType]:
+        """
+        This represents the collection of DiagnosticServiceTables to be considered in the scope of this DiagnosticContributionSet.
+        """
+        return self.serviceTableRefs
 
 
 class DiagnosticCustomServiceInstance(ARElement):

@@ -762,15 +762,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticContributionSet` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.14, p.57
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base most-derived = `ARElement` per Table 4.14 Base chain — FIXED from
+    the queued stub's `ARObject` (Rule 0001.2); module relocated ArObject.py →
+    ARPackage.py (ArObject.py cannot import ARElement — ARPackage imports
+    ArObject). Attrs: commonProperties (0..1 aggr), element/serviceTable (`*`
+    ref → elementRefs/serviceTableRefs); ecuInstance removed (atp.Status) →
+    deviation row. COMMON-PROPERTIES identity-only until DiagnosticCommonProps
+    syncs (this batch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (102 passed / 0 failed test_ARPackage.py + test_ArObject.py + test_diagnostic_contribution_set.py + test_writer_diagnostic_contribution_set.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticProtocol` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.15, p.58
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
