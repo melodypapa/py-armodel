@@ -906,6 +906,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
+    IPSecConfig,
     Ipv4Configuration,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
@@ -9578,6 +9579,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.readIdentifiable(element, end_point)
         end_point.setInfrastructureServices(self.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES"))
+        ip_sec_config_element = self.find(element, "IP-SEC-CONFIG")
+        if ip_sec_config_element is not None:
+            config = IPSecConfig()
+            end_point.setIpSecConfig(config)
+            self.readIPSecConfig(ip_sec_config_element, config)
         self.readNetworkEndPointNetworkEndPointAddress(element, end_point)
         end_point.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
 
@@ -14119,6 +14125,16 @@ class ARXMLParser(AbstractARXMLParser):
         props.setSaRandTime(self.getChildElementOptionalTimeValue(element, "SA-RAND-TIME"))
         props.setSaRekeyTime(self.getChildElementOptionalTimeValue(element, "SA-REKEY-TIME"))
 
+    def readIPSecConfig(self, element: ET.Element, config: IPSecConfig):
+        self.logger.debug("Read IPSecConfig")
+        config.setIpSecConfigPropsRef(self.getChildElementOptionalRefType(element, "IP-SEC-CONFIG-PROPS-REF"))
+        wrapper = self.find(element, "IP-SEC-RULES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "IP-SEC-RULE"):
+                rule = IPSecRule(config, self.getShortName(child_element))
+                config.addIPSecRule(rule)
+                self.readIPSecRule(child_element, rule)
+
     def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Read CryptoServiceCertificate <%s>" % certificate.getShortName())
         self.readIdentifiable(element, certificate)
@@ -14908,6 +14924,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CRYPTO-SERVICE-CERTIFICATE":
                 certificate = parent.createCryptoServiceCertificate(self.getShortName(child_element))
                 self.readCryptoServiceCertificate(child_element, certificate)
+            elif tag_name == "IP-SEC-CONFIG-PROPS":
+                props = parent.createIPSecConfigProps(self.getShortName(child_element))
+                self.readIPSecConfigProps(child_element, props)
             elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
                 primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
                 self.readCryptoServicePrimitive(child_element, primitive)

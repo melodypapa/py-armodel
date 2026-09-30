@@ -782,6 +782,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     ApplicationEndpoint,
     DoIpEntity,
     InfrastructureServices,
+    IPSecConfig,
     Ipv4Configuration,
     Ipv6Configuration,
     NetworkEndpoint,
@@ -9630,6 +9631,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NETWORK-ENDPOINT")
         self.writeIdentifiable(child_element, end_point)
         self.setInfrastructureServices(child_element, "INFRASTRUCTURE-SERVICES", end_point.getInfrastructureServices())
+        ip_sec_config = end_point.getIpSecConfig()
+        if ip_sec_config is not None and (ip_sec_config.getIpSecConfigPropsRef() is not None or len(ip_sec_config.getIPSecRules()) > 0):
+            self.writeIPSecConfig(child_element, ip_sec_config)
         self.writeNetworkEndPointNetworkEndPointAddresses(child_element, end_point.getNetworkEndpointAddresses())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
 
@@ -12139,6 +12143,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(element, "SA-RAND-TIME", props.getSaRandTime())
         self.setChildElementOptionalTimeValue(element, "SA-REKEY-TIME", props.getSaRekeyTime())
 
+    def writeIPSecConfig(self, parent: ET.Element, config: IPSecConfig):
+        self.logger.debug("Write IPSecConfig")
+        element = ET.SubElement(parent, "IP-SEC-CONFIG")
+        self.setChildElementOptionalRefType(element, "IP-SEC-CONFIG-PROPS-REF", config.getIpSecConfigPropsRef())
+        rules = config.getIPSecRules()
+        if len(rules) > 0:
+            rules_tag = ET.SubElement(element, "IP-SEC-RULES")
+            for rule in rules:
+                self.writeIPSecRule(rules_tag, rule)
+
     def writeCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
         self.logger.debug("Write CryptoServiceCertificate <%s>" % certificate.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-CERTIFICATE")
@@ -14509,6 +14523,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCryptoSignatureScheme(element, ar_element)
         elif isinstance(ar_element, CryptoServiceCertificate):
             self.writeCryptoServiceCertificate(element, ar_element)
+        elif isinstance(ar_element, IPSecConfigProps):
+            self.writeIPSecConfigProps(element, ar_element)
         elif isinstance(ar_element, CryptoServicePrimitive):
             self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):

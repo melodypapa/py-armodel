@@ -1008,6 +1008,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(certificate)
         return self.getElement(short_name, CryptoServiceCertificate)
 
+    def createIPSecConfigProps(self, short_name: str) -> IPSecConfigProps:
+
+        if not self.IsElementExists(short_name, IPSecConfigProps):
+            props = IPSecConfigProps(self, short_name)
+            self.addElement(props)
+        return self.getElement(short_name, IPSecConfigProps)
+
     def createCryptoServicePrimitive(self, short_name: str) -> CryptoServicePrimitive:
 
         if not self.IsElementExists(short_name, CryptoServicePrimitive):
@@ -2296,6 +2303,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
+    IPSecConfigProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
