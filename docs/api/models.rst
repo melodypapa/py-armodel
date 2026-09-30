@@ -261,6 +261,48 @@ UUID Manager
    :undoc-members:
    :show-inheritance:
 
+Special Data Definitions
+------------------------
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef.SdgDef
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef.SdgClass
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef.SdgPrimitiveAttribute
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Model Restriction Types
+-----------------------
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes.AbstractValueRestriction
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes.AbstractVariationRestriction
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes.FullBindingTimeEnum
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Usage Examples
 --------------
 
