@@ -230,9 +230,6 @@ class FMFeatureDecomposition(ARObject):
 class InvertCondition(AbstractCondition):
     pass
 
-class List(ARObject):
-    pass
-
 class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
     pass
 

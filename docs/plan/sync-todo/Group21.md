@@ -794,18 +794,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
   - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
-- [ ] `List` — Base TBC (verify at Step 1) — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+- [x] `List` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.8, p.295 — already verified (short-circuit 2026-09-30)
+  - module: M2/MSR/Documentation/BlockElements/ListElements.py (· src: ARList)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group21 header rule) — the spec
+    class `List` is realized in src as `ARList` in ListElements.py (recorded rename:
+    `List` shadows the Python builtin; the ARList checklist carries the alias note,
+    `# Spec: ... Table 9.8, p.295` and `# Spec verified: R23-11 (2026-09-27, user 9b
+    confirmation)` with reader/writer coverage for items/type). Quick deviation check
+    clean: table attrs item (Item 1..* aggr) / type (ListEnum 0..1 attr) both present
+    with matched accessors; Base ARObject, DocumentViewSelectable, Paginateable →
+    Paginateable most-derived ✓. 9 steps not re-run (Rule 0012.3); stamp already
+    confirmed. Cleanup this pass: the stray `class List(ARObject): pass` stub in
+    ArObject.py (a duplicate of the real ARList, no importers) removed.
 - [x] `LabeledList` — Paginateable — R23-11 FO_TPS_GenericStructureTemplate Table 9.11, p.296 — already verified (short-circuit 2026-09-30)
   - module: M2/MSR/Documentation/BlockElements/ListElements.py
   - [x] Step 1 — Sync members & description from spec
