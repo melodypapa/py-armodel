@@ -101,6 +101,11 @@ class AbstractARXMLWriter(ABC):
             child_element.text = value
     """
 
+    def setChildElementOptionalStringValue(self, element: ET.Element, key: str, value: str):
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            child_element.text = value
+
     def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: Numerical):
         if numerical is not None:
             child_element = ET.SubElement(element, key)

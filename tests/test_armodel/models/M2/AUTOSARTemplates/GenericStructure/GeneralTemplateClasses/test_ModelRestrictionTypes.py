@@ -2,6 +2,7 @@
 Tests for the ModelRestrictionTypes module (FullBindingTimeEnum,
 AbstractValueRestriction, AbstractVariationRestriction).
 """
+from typing import List
 
 import pytest
 
@@ -57,9 +58,16 @@ class TestAbstractValueRestriction:
     Test class for AbstractValueRestriction functionality (Table 4.37).
     """
 
-    def test_abstract_rejection(self):
-        with pytest.raises(TypeError):
-            AbstractValueRestriction()
+    def test_mixin_defaults(self):
+        class _Derived(AbstractValueRestriction):
+            pass
+
+        obj = _Derived()
+        assert obj.max is None
+        assert obj.maxLength is None
+        assert obj.min is None
+        assert obj.minLength is None
+        assert obj.pattern is None
 
     def test_member_round_trip(self):
         class _Derived(AbstractValueRestriction):
@@ -94,13 +102,21 @@ class TestAbstractVariationRestriction:
     Test class for AbstractVariationRestriction functionality (Table 4.38).
     """
 
-    def test_abstract_rejection(self):
-        with pytest.raises(TypeError):
-            AbstractVariationRestriction()
+    def test_mixin_defaults(self):
+        class _Derived(AbstractVariationRestriction):
+            def __init__(self):
+                super().__init__()
+                self.validBindingTimes: List[FullBindingTimeEnum] = []
+
+        obj = _Derived()
+        assert obj.variation is None
+        assert obj.validBindingTimes == []
 
     def test_member_round_trip(self):
         class _Derived(AbstractVariationRestriction):
-            pass
+            def __init__(self):
+                super().__init__()
+                self.validBindingTimes: List[FullBindingTimeEnum] = []
 
         obj = _Derived()
         assert obj.getVariation() is None

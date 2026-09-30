@@ -73,26 +73,15 @@ class AbstractValueRestriction(ARObject, ABC):
     # [x] getPattern       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPattern       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self):
-        if type(self) is AbstractValueRestriction:
-            raise TypeError("AbstractValueRestriction is an abstract class.")
-
-        super().__init__()
-
-        # Specifies the upper bounds for numeric values.
-        self.max: Optional[Limit] = None
-
-        # Specifies the maximum number of characters of textual values.
-        self.maxLength: Optional[PositiveInteger] = None
-
-        # Specifies the lower bounds for numeric values.
-        self.min: Optional[Limit] = None
-
-        # Specifies the minimal number of characters of textual values.
-        self.minLength: Optional[PositiveInteger] = None
-
-        # Defines the exact sequence of characters that are acceptable.
-        self.pattern: Optional[RegularExpression] = None
+    # Class-level defaults — the ONLY initialization. The repo's Referrable.__init__
+    # calls ARObject.__init__ directly (bypassing super()), so an __init__ here may
+    # never run under combined inheritance (e.g. SdgPrimitiveAttribute). This mirrors
+    # the VariationPointCapable mixin pattern (StereotypeMixins.py).
+    max: Optional[Limit] = None
+    maxLength: Optional[PositiveInteger] = None
+    min: Optional[Limit] = None
+    minLength: Optional[PositiveInteger] = None
+    pattern: Optional[RegularExpression] = None
 
     def getMax(self) -> Optional[Limit]:
         """
@@ -224,17 +213,12 @@ class AbstractVariationRestriction(ARObject, ABC):
     # [x] setValidBindingTimes  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addValidBindingTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self):
-        if type(self) is AbstractVariationRestriction:
-            raise TypeError("AbstractVariationRestriction is an abstract class.")
-
-        super().__init__()
-
-        # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
-        self.variation: Optional[Boolean] = None
-
-        # List of valid binding times. Tags: xml.sequenceOffset=20
-        self.validBindingTimes: List[FullBindingTimeEnum] = []
+    # Class-level default — the ONLY initialization (VariationPointCapable mixin
+    # pattern; see AbstractValueRestriction above for the combined-inheritance reason).
+    # The validBindingTimes LIST is mutable: it is initialized per-instance by every
+    # concrete subclass __init__ (a class-level list default would be shared).
+    # Defines if the AUTOSAR model may define a Variation Point at this location. Tags: xml.sequenceOffset=10
+    variation: Optional[Boolean] = None
 
     def getVariation(self) -> Optional[Boolean]:
         """

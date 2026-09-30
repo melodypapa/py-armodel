@@ -254,9 +254,6 @@ class RptHook(ARObject):
 class RptProfile(ARObject):
     pass
 
-class SdgElementWithGid(ARObject, ABC):
-    pass
-
 class SpecificationScope(ARObject):
     pass
 

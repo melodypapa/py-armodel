@@ -99,6 +99,12 @@ class AbstractARXMLParser(ABC):
         return None
     """
 
+    def getChildElementOptionalStringValue(self, element: ET.Element, key: str) -> Optional[str]:
+        child_element = self.find(element, key)
+        if child_element is not None:
+            return child_element.text
+        return None
+
     def getChildElementLiteral(self, short_name: str, element: ET.Element, key: str) -> ARLiteral:
         child_element = self.find(element, key)
         if child_element is not None:
