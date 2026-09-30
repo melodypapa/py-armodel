@@ -1213,17 +1213,19 @@ class ArgumentDirectionEnum(AREnum):
 
 
 class Ip4AddressString(ARLiteral):
-    r"""
+    """
     This is used to specify an IP4 address. Notation: 255.255.255.255
 
-    Tags
+    Tags:
         * xml.xsd.customType=IP4-ADDRESS-STRING
         * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
         * xml.xsd.type=string
     """
 
     # Ip4AddressString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.51, p.110
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

@@ -1664,3 +1664,18 @@ class TestDiagRequirementIdString:
     def test_set_value(self):
         obj = DiagRequirementIdString().setValue("REQ-0042")
         assert obj.getValue() == "REQ-0042"
+
+
+class TestIp4AddressString:
+    """
+    Test class for Ip4AddressString functionality (Table 4.51).
+    """
+
+    def test_initialization(self):
+        obj = Ip4AddressString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = Ip4AddressString().setValue("255.255.255.255")
+        assert obj.getValue() == "255.255.255.255"
