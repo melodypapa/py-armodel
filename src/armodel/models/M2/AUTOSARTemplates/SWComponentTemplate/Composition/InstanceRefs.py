@@ -72,7 +72,7 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
 
 class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     # PPortInCompositionInstanceRef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.15, p.950 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.15, p.951 (R23-11)
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -115,32 +115,42 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 
 class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     # RPortInCompositionInstanceRef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.16, p.951 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.16, p.952 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getContextComponentRef  [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setContextComponentRef  [x] impl  [—] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTargetRPortRef       [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTargetRPortRef       [x] impl  [—] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextComponentRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextComponentRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Tags: xml.sequenceOffset=20
         self.contextComponentRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
         self.targetRPortRef: Optional[RefType] = None
 
     def getContextComponentRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=20"""
         return self.contextComponentRef
 
     def setContextComponentRef(self, value: Optional[RefType]) -> "RPortInCompositionInstanceRef":
+        """Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextComponentRef."""
         if value is not None:
             self.contextComponentRef = value
         return self
 
     def getTargetRPortRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=30"""
         return self.targetRPortRef
 
     def setTargetRPortRef(self, value: Optional[RefType]) -> "RPortInCompositionInstanceRef":
+        """Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetRPortRef."""
         if value is not None:
             self.targetRPortRef = value
         return self

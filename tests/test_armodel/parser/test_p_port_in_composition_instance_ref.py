@@ -1,5 +1,5 @@
 """
-Tests for reading P-PORT-IN-COMPOSITION-INSTANCE-REF elements — PPortInCompositionInstanceRef, Table D.15 (p.950, R23-11).
+Tests for reading P-PORT-IN-COMPOSITION-INSTANCE-REF elements — PPortInCompositionInstanceRef, Table D.15 (p.951, R23-11).
 
 PPortInCompositionInstanceRef (Base = PortInCompositionTypeInstanceRef) carries two own
 reference elements whose reader element order must follow the XSD sequence
