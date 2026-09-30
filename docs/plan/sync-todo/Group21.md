@@ -238,8 +238,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 - [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
   - [x] Step 1 — Sync members & description from spec
-    - note (Step 1): Table 4.37 (header-cell lookup, p.104 cite corrected to the table's
-      own caption row via pdf_page.py); abstract (spec header "(abstract)"); REHOUSED
+    - note (Step 1): Table 4.37 (header-cell lookup; p.103 via pdf_page.py); abstract
+      (spec header "(abstract)"); REHOUSED
       from the ArObject.py stub hint to the spec package ModelRestrictionTypes; Base
       ARObject (most-derived); 5 attrs in displayed order max/maxLength/min/minLength/
       pattern (Limit, PositiveInteger, Limit, PositiveInteger, RegularExpression).
@@ -269,7 +269,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
       pair in the abstract writer/parser); no chained mutators.
   - [x] Step 7 — Update checklist comment
     - note (Step 7): 6-column block + release column; `# Spec:
-      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.104`; marker withheld
+      AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.103`; marker withheld
       (batch mode).
   - [x] Step 8 — Deviations
     - note (Step 8): none; referenced classes Limit/PositiveInteger pre-existed,
