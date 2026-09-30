@@ -352,3 +352,407 @@ class ValueRestrictionWithSeverity(AbstractValueRestriction):
 
 class VariationRestrictionWithSeverity(AbstractVariationRestriction):
     pass
+
+
+class AbstractGlobalTimeDomainProps(ARObject, ABC):
+    pass
+
+
+class BinaryManifestAddressableObject(ARObject, ABC):
+    pass
+
+
+class BinaryManifestItemValue(ARObject, ABC):
+    pass
+
+
+class BinaryManifestResource(ARObject, ABC):
+    pass
+
+
+class BusMirrorCanIdRangeMapping(ARObject):
+    pass
+
+
+class BusMirrorCanIdToCanIdMapping(ARObject):
+    pass
+
+
+class BusMirrorChannel(ARObject):
+    pass
+
+
+class BusMirrorChannelMappingCan(ARObject):
+    pass
+
+
+class BusMirrorChannelMappingIp(ARObject):
+    pass
+
+
+class BusMirrorLinPidToCanIdMapping(ARObject):
+    pass
+
+
+class CommonSignalPath(ARObject):
+    pass
+
+
+class ContainerIPdu(ARObject):
+    pass
+
+
+class CouplingElement(ARObject):
+    pass
+
+
+class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
+    pass
+
+
+class DdsCpISignalToDdsTopicMapping(ARObject):
+    pass
+
+
+class DdsCpProvidedServiceInstance(ARObject):
+    pass
+
+
+class DdsCpQosProfile(ARObject):
+    pass
+
+
+class DdsCpServiceInstanceEvent(ARObject):
+    pass
+
+
+class DdsCpServiceInstanceOperation(ARObject):
+    pass
+
+
+class DdsCpTopic(ARObject):
+    pass
+
+
+class DdsDeadline(ARObject):
+    pass
+
+
+class DdsDestinationOrder(ARObject):
+    pass
+
+
+class DdsDurability(ARObject):
+    pass
+
+
+class DdsDurabilityService(ARObject):
+    pass
+
+
+class DdsHistory(ARObject):
+    pass
+
+
+class DdsLatencyBudget(ARObject):
+    pass
+
+
+class DdsLifespan(ARObject):
+    pass
+
+
+class DdsLiveliness(ARObject):
+    pass
+
+
+class DdsOwnership(ARObject):
+    pass
+
+
+class DdsOwnershipStrength(ARObject):
+    pass
+
+
+class DdsReliability(ARObject):
+    pass
+
+
+class DdsResourceLimits(ARObject):
+    pass
+
+
+class DdsTopicData(ARObject):
+    pass
+
+
+class DdsTransportPriority(ARObject):
+    pass
+
+
+class Dhcpv6Props(ARObject):
+    pass
+
+
+class EcuResourceEstimation(ARObject):
+    pass
+
+
+class EthGlobalTimeManagedCouplingPort(ARObject):
+    pass
+
+
+class EthTSynCrcFlags(ARObject):
+    pass
+
+
+class EthTSynSubTlvConfig(ARObject):
+    pass
+
+
+class EthernetWakeupSleepOnDatalineConfig(ARObject):
+    pass
+
+
+class FlexrayArTpChannel(ARObject):
+    pass
+
+
+class FlexrayTpEcu(ARObject):
+    pass
+
+
+class ForbiddenSignalPath(ARObject):
+    pass
+
+
+class GlobalTimeCorrectionProps(ARObject):
+    pass
+
+
+class GlobalTimeSlave(ARObject, ABC):
+    pass
+
+
+class IEEE1722TpAcfBusPart(ARObject, ABC):
+    pass
+
+
+class IEEE1722TpAcfLin(ARObject):
+    pass
+
+
+class IEEE1722TpConfig(ARObject):
+    pass
+
+
+class IdsmInstance(ARObject):
+    pass
+
+
+class IdsmTrafficLimitation(ARObject):
+    pass
+
+
+class Ipv4ArpProps(ARObject):
+    pass
+
+
+class Ipv4AutoIpProps(ARObject):
+    pass
+
+
+class Ipv4FragmentationProps(ARObject):
+    pass
+
+
+class Ipv4Props(ARObject):
+    pass
+
+
+class Ipv6FragmentationProps(ARObject):
+    pass
+
+
+class Ipv6NdpProps(ARObject):
+    pass
+
+
+class Ipv6Props(ARObject):
+    pass
+
+
+class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
+    pass
+
+
+class J1939TpConfig(ARObject):
+    pass
+
+
+class J1939TpConnection(ARObject):
+    pass
+
+
+class J1939TpPg(ARObject):
+    pass
+
+
+class MappingConstraint(ARObject, ABC):
+    pass
+
+
+class NetworkSegmentIdentification(ARObject):
+    pass
+
+
+class NmCoordinator(ARObject):
+    pass
+
+
+class PermissibleSignalPath(ARObject):
+    pass
+
+
+class PncMapping(ARObject):
+    pass
+
+
+class RteEventInCompositionToOsTaskProxyMapping(ARObject):
+    pass
+
+
+class RteEventInSystemToOsTaskProxyMapping(ARObject):
+    pass
+
+
+class SecurityEventAggregationFilter(ARObject):
+    pass
+
+
+class SecurityEventContextMapping(ARObject, ABC):
+    pass
+
+
+class SecurityEventContextMappingCommConnector(ARObject):
+    pass
+
+
+class SecurityEventContextProps(ARObject):
+    pass
+
+
+class SecurityEventFilterChain(ARObject):
+    pass
+
+
+class SecurityEventStateFilter(ARObject):
+    pass
+
+
+class SeparateSignalPath(ARObject):
+    pass
+
+
+class SomeipSdServerServiceInstanceConfig(ARObject):
+    pass
+
+
+class SomeipTpConnection(ARObject):
+    pass
+
+
+class StreamFilterIEEE1722Tp(ARObject):
+    pass
+
+
+class StreamFilterIpv4Address(ARObject):
+    pass
+
+
+class StreamFilterIpv6Address(ARObject):
+    pass
+
+
+class StreamFilterMACAddress(ARObject):
+    pass
+
+
+class StreamFilterPortRange(ARObject):
+    pass
+
+
+class StreamFilterRuleDataLinkLayer(ARObject):
+    pass
+
+
+class StreamFilterRuleIpTp(ARObject):
+    pass
+
+
+class SwcToSwcOperationArguments(ARObject):
+    pass
+
+
+class SwcToSwcSignal(ARObject):
+    pass
+
+
+class SystemTiming(ARObject):
+    pass
+
+
+class TDCpSoftwareClusterMappingSet(ARObject):
+    pass
+
+
+class TransformationProps(ARObject, ABC):
+    pass
+
+
+class TriggerToSignalMapping(ARObject):
+    pass
+
+
+class TtcanCommunicationController(ARObject):
+    pass
+
+
+class UserDefinedCommunicationConnector(ARObject):
+    pass
+
+
+class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
+    pass
+
+
+class BinaryManifestItemPointerValue(BinaryManifestItemValue):
+    pass
+
+
+class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
+    pass
+
+
+class ComponentClustering(MappingConstraint):
+    pass
+
+
+class ComponentSeparation(MappingConstraint):
+    pass
+
+
+class DataComProps(CpSoftwareClusterCommunicationResourceProps):
+    pass
+
+
+class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass

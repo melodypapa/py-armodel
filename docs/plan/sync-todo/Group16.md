@@ -133,18 +133,44 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `CouplingPortAbstractShaper` — Identifiable — ARBITRATION REQUIRED (no Class/Enumeration table in R23-11, R4.3.1 or R4.4.0 corpora; no own construct in any XSD — only COUPLING-PORT-SHAPER / COUPLING-PORT-CREDIT-BASED-SHAPER / COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER exist)
+- [ ] `CouplingPortAbstractShaper` — Identifiable — XSD-only abstract class — R23-11 XSD · xsd:group COUPLING-PORT-ABSTRACT-SHAPER (00052.xsd L23449, atp.Status="candidate")
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - note (Step 1 finding 2026-09-28): repo-invented abstract registry base over the real XSD shaper classes (same "Abstract*" pattern as the retired ConcreteTDEventVfb case, but its concrete children DO exist in the XSD). Current body is an ABC with a shaper registry + abstract guard, model test present. NOTHING TO SYNC — no spec text exists. User arbitration needed: keep as accepted deviation (documented helper base) or retire like ConcreteTDEventVfb.
-  - [ ] Step 1 — Sync members & description from spec — BLOCKED: no spec source (arbitration)
-  - [ ] Step 2 — Write model class unit test (Red) — existing test_coupling_port_abstract_shaper_model.py
-  - [ ] Step 3 — Implement model class (Green) — no change
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A (no spec Note)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
-  - [ ] Step 6 — Update parser & writer (Green) — N/A
-  - [ ] Step 7 — Update checklist comment — existing
-  - [ ] Step 8 — Deviations — whole-class arbitration pending
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — deferred to user arbitration
+  - note (arbitration RESOLVED 2026-09-30): the 2026-09-28 "no own construct in any XSD" claim was WRONG — the XSD DOES carry the abstract class as the empty group COUPLING-PORT-ABSTRACT-SHAPER (L23449-23455, documentation "Abstract class for the definition of coupling port shapers." — matches the class docstring verbatim; mmt.qualifiedName="CouplingPortAbstractShaper"). KEEP as accepted deviation: the repo maps the XSD polymorphic choice (CouplingPortFifo.shaper, L23763: COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER) onto this registry-based abstract base + concrete subclasses; retirement (ConcreteTDEventVfb pattern) rejected — concrete children are real XSD classes. Consequence recorded: the concrete children are queued as NEW rows below; the registry stays unwired ({} after import) until they exist and register themselves. Checklist rebuilt XSD-only (`# Spec:` cites the XSD group line; release column R23-11).
+  - [x] Step 1 — Sync members & description from spec — XSD group located (L23449); abstract class, empty sequence, no attributes; no PDF/markdown table in any corpus → XSD-only variant
+  - [x] Step 2 — Write model class unit test (Red) — existing test_coupling_port_abstract_shaper_model.py (3 passed; registry/dispatch pins)
+  - [x] Step 3 — Implement model class (Green) — no change (ABC + abstract guard + registry are the accepted mapping)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — N/A class docstring already = XSD documentation verbatim; no per-attr members (empty sequence)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A abstract class (no own XML element; the SHAPER choice round-trips via CouplingPortFifo, queued Group30)
+  - [x] Step 6 — Update parser & writer (Green) — N/A abstract class (readCouplingPortFifo L12216 / writeCouplingPortFifo L11152 dispatch through the registry)
+  - [x] Step 7 — Update checklist comment — rebuilt 6-column XSD-only with accepted-deviation note
+  - [x] Step 8 — Deviations — accepted deviation documented in the checklist comment + docs/examples/method_deviation_by_class.md (## CouplingPortAbstractShaper); children queued (see new rows)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
+
+- [ ] `CouplingPortAsynchronousTrafficShaper` — CouplingPortAbstractShaper — NEW row (discovered 2026-09-30 as missing CouplingPortAbstractShaper concrete child / CouplingPortFifo.shaper choice member, Rule 0001.10/0016.4) — XSD-only · xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER (00052.xsd L23458, atp.Status="candidate")
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - note: no Class/Enumeration table in any corpus (candidate-status CP class). XSD members: committedBurstSize (PositiveInteger 0..1), committedInformationRate (PositiveInteger 0..1), trafficShaperGroup (ref 0..1). Must register itself in CouplingPortAbstractShaper._shaper_registry ("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER") at import time; consumer dispatch = readCouplingPortFifo/writeCouplingPortFifo SHAPER choice.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `CouplingPortCreditBasedShaper` — CouplingPortAbstractShaper — NEW row (discovered 2026-09-30 as missing CouplingPortAbstractShaper concrete child / CouplingPortFifo.shaper choice member, Rule 0001.10/0016.4) — XSD-only · xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER (00052.xsd L23597, atp.Status="candidate")
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - note: no Class/Enumeration table in any corpus (candidate-status CP class). XSD members: idleSlope (PositiveInteger 0..1), lowerBoundary (PositiveInteger 0..1), upperBoundary (PositiveInteger 0..1). Must register itself in CouplingPortAbstractShaper._shaper_registry ("COUPLING-PORT-CREDIT-BASED-SHAPER") at import time; consumer dispatch = readCouplingPortFifo/writeCouplingPortFifo SHAPER choice.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `MacMulticastGroup` — Identifiable — R23-11 markdown · Table 3.48 (CP_TPS_SystemTemplate), p.104 — commit b1e4750b1
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + macMulticastAddress; rw via readMacMulticastGroup complete
@@ -160,16 +186,17 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `IPSecConfig` — ARObject — R23-11 markdown · Table 6.221 (CP_TPS_SystemTemplate), p.571 — commit 6c97ddc10
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as Ipv4Configuration/NetworkEndpoint but the row was omitted from this queue; member type of NetworkEndpoint.ipSecConfig — its Step 8 flags "ipSecConfig AGGR RW UNWIRED, IPSecConfig created minimal — ipSecRule aggr omitted, member classes IPSecRule/IPSecConfigProps not modeled") — class body carries `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571` checklist, NO `# Spec verified:` yet
+  - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as Ipv4Configuration/NetworkEndpoint but the row was omitted from this queue; member type of NetworkEndpoint.ipSecConfig)
+  - note (re-completion 2026-09-30): minimal-class deviation RESOLVED — TRAILING-CAPTION trap identified (markdown caption "Table 6.221: IPSecConfig" carries IPSecRule's body BELOW it; the real IPSecConfig body renders ABOVE the caption: Class header cell IPSecConfig, Base ARObject, Aggregated by NetworkEndpoint.ipSecConfig, attrs ipSecConfigProps ref 0..1 + ipSecRule aggr *). Added ipSecRules dedicated typed list + addIPSecRule/getIPSecRules; wired readIPSecConfig/writeIPSecConfig (XSD group IP-SEC-CONFIG L73645: IP-SEC-CONFIG-PROPS-REF → IP-SEC-RULES wrapper of unbounded IP-SEC-RULE); NetworkEndpoint read/write wiring at XSD position (after INFRASTRUCTURE-SERVICES, before NETWORK-ENDPOINT-ADDRESSES); cascade member classes synced in the same pass: IPSecRule (041bc7125), IPSecConfigProps (38cd00c06), 5 IPsec enums (28454d15e..07673b907) — IPSecConfigProps also got ARPackage.element dispatch + createIPSecConfigProps. Housing kept in EthernetTopology.py (consumer adjacency; SecureCommunication.py already imports EthernetTopology-side names — rehouse would cycle). Tests: test_IPSecConfig.py (model, 10), test_ipsec_config.py (parser 4 + writer 5)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [—] Step 5 — N/A at class level (no own XML dispatch — ipSecConfig AGGR RW unwired, pending NetworkEndpoint consumer wiring / user arbitration on the IPSecRule/IPSecConfigProps cascade)
-  - [—] Step 6 — N/A at class level (same — 1 attr ipSecConfigPropsRef typed Optional[RefType], reader/writer [—] per checklist)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations — see feat note above (minimal class per user-flagged cascade; mirror test test_IPSecConfig.py)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 8 — Deviations — minimal-class deviation resolved (see re-completion note); no tracker entries existed for this class
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NetworkEndpoint` — Identifiable — R23-11 markdown · Table 6.134 (CP_TPS_SystemTemplate), p.463 — commit 6c97ddc10
   - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 5 attr notes; Step 8 deviation: ipSecConfig AGGR RW UNWIRED (IPSecConfig created minimal — ipSecRule aggr omitted, member classes IPSecRule/IPSecConfigProps not modeled, would cascade into SecureCommunication family) — flagged for user

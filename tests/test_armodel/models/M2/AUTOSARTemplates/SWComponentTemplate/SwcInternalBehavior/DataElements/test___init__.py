@@ -4,6 +4,7 @@ Tests cover all classes and methods in the DataElements.py file to achieve 100% 
 """
 
 import typing
+from inspect import cleandoc
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -14,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     AutosarVariableRef,
     ParameterAccess,
     VariableAccess,
+    VariableAccessScopeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (
     ParameterInAtomicSWCTypeInstanceRef,
@@ -134,14 +136,12 @@ class TestVariableAccess:
 
     def test_get_set_scope(self):
         """Test scope round-trip, None no-op and type hints."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         var_access = VariableAccess(ar_root, "TestVariableAccess")
 
-        scope = ARLiteral()
-        scope.setValue("communicationIntraPartition")
+        scope = VariableAccessScopeEnum()
+        scope.setValue(VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION)
 
         assert var_access.setScope(scope) is var_access
         assert var_access.getScope() is scope
@@ -151,9 +151,40 @@ class TestVariableAccess:
         assert var_access.getScope() is scope
 
         hints = typing.get_type_hints(VariableAccess.setScope)
-        assert hints.get("value") == typing.Optional[ARLiteral]
+        assert hints.get("value") == typing.Optional[VariableAccessScopeEnum]
         assert hints.get("return") is VariableAccess
-        assert typing.get_type_hints(VariableAccess.getScope).get("return") == typing.Optional[ARLiteral]
+        assert typing.get_type_hints(VariableAccess.getScope).get("return") == typing.Optional[VariableAccessScopeEnum]
+
+
+class TestVariableAccessScopeEnum:
+    """Test class for VariableAccessScopeEnum class."""
+
+    def test_initialization(self):
+        """Test VariableAccessScopeEnum instantiation and literal values."""
+        enum = VariableAccessScopeEnum()
+
+        assert VariableAccessScopeEnum.COMMUNICATION_INTER_ECU == "communicationInterEcu"
+        assert VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION == "communicationIntraPartition"
+        assert VariableAccessScopeEnum.INTER_PARTITION_INTRA_ECU == "interPartitionIntraEcu"
+        assert enum.getEnumValues() == [
+            VariableAccessScopeEnum.COMMUNICATION_INTER_ECU,
+            VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION,
+            VariableAccessScopeEnum.INTER_PARTITION_INTRA_ECU,
+        ]
+
+    def test_members(self):
+        """Test member presence and setValue/getValue round-trip."""
+        assert hasattr(VariableAccessScopeEnum, "COMMUNICATION_INTER_ECU")
+        assert hasattr(VariableAccessScopeEnum, "COMMUNICATION_INTRA_PARTITION")
+        assert hasattr(VariableAccessScopeEnum, "INTER_PARTITION_INTRA_ECU")
+
+        enum = VariableAccessScopeEnum()
+        enum.setValue(VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION)
+        assert enum.getValue() == "communicationIntraPartition"
+
+    def test_has_spec_note(self):
+        """The class docstring carries the Table 7.34 Note verbatim."""
+        assert cleandoc(VariableAccessScopeEnum.__doc__) == "This enumeration defines scopes for communication."
 
 
 PARAMETER_CLASS_NOTE = (

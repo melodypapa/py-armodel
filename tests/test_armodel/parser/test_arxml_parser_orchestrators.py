@@ -1475,7 +1475,7 @@ class TestRunnableEntityOrchestrator:
         assert iref.getPortPrototypeRef().getValue() == "/pp"
         assert iref.getTargetDataPrototypeRef().getValue() == "/Var"
         assert access.getScope() is not None
-        assert access.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
+        assert access.getScope().getValue() == "communicationIntraPartition"
 
     def test_readRunnableEntity_with_asynchronousServerCallResultPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -2661,6 +2661,8 @@ class TestEcucDefAndValueHandlers:
         parser.readEcucValueCollection(element, collection)
         assert collection.getEcuExtractRef().getValue() == "/sys"
         assert len(collection.getEcucValueRefs()) == 1
+        assert collection.getEcucValueRefs()[0].getValue() == "/values"
+        assert collection.getEcucValueRefs()[0].getDest() == "ECUC-MODULE-CONFIGURATION-VALUES"
 
     def test_readEcucModuleConfigurationValues_full(self, parser):
         from armodel.models import EcucModuleConfigurationValues

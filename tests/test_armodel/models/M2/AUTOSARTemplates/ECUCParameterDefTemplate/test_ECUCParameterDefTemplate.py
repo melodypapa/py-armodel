@@ -3,6 +3,7 @@ Test cases for the ECUC Parameter Definition Template classes.
 These tests ensure 100% code coverage for all ECUC parameter definition classes.
 """
 
+import inspect
 from typing import Optional, get_type_hints
 
 import pytest
@@ -55,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Limit, RefType, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -179,10 +180,10 @@ class TestEcucScopeEnum:
 
     def test_literal_members(self):
         """
-        Test that the two spec literals are defined with their XSD value strings.
+        Test that the two spec literals are defined with their Table 2.7 Literal values.
         """
         assert EcucScopeEnum.ECU == "ECU"
-        assert EcucScopeEnum.LOCAL == "LOCAL"
+        assert EcucScopeEnum.LOCAL == "local"
 
     def test_enum_values(self):
         """
@@ -190,7 +191,7 @@ class TestEcucScopeEnum:
         """
         scope_enum = EcucScopeEnum()
 
-        assert scope_enum.getEnumValues() == ["ECU", "LOCAL"]
+        assert scope_enum.getEnumValues() == ["ECU", "local"]
 
     def test_set_value(self):
         """
@@ -199,7 +200,7 @@ class TestEcucScopeEnum:
         scope_enum = EcucScopeEnum()
         scope_enum.setValue(EcucScopeEnum.LOCAL)
 
-        assert scope_enum.getValue() == "LOCAL"
+        assert scope_enum.getValue() == "local"
 
 
 class TestEcucDefinitionElement:
@@ -475,12 +476,12 @@ class TestEcucConfigurationClassEnum:
 
     def test_literal_members(self):
         """
-        Test that the four spec literals are defined with their XSD value strings.
+        Test that the four spec literals are defined with their Table 2.12 Literal values.
         """
-        assert EcucConfigurationClassEnum.LINK == "LINK"
-        assert EcucConfigurationClassEnum.POST_BUILD == "POST-BUILD"
-        assert EcucConfigurationClassEnum.PRE_COMPILE == "PRE-COMPILE"
-        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PUBLISHED-INFORMATION"
+        assert EcucConfigurationClassEnum.LINK == "Link"
+        assert EcucConfigurationClassEnum.POST_BUILD == "PostBuild"
+        assert EcucConfigurationClassEnum.PRE_COMPILE == "PreCompile"
+        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PublishedInformation"
 
     def test_enum_values(self):
         """
@@ -489,10 +490,10 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
 
         assert config_class_enum.getEnumValues() == [
-            "LINK",
-            "POST-BUILD",
-            "PRE-COMPILE",
-            "PUBLISHED-INFORMATION",
+            "Link",
+            "PostBuild",
+            "PreCompile",
+            "PublishedInformation",
         ]
 
     def test_set_value(self):
@@ -502,7 +503,7 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
         config_class_enum.setValue(EcucConfigurationClassEnum.PRE_COMPILE)
 
-        assert config_class_enum.getValue() == "PRE-COMPILE"
+        assert config_class_enum.getValue() == "PreCompile"
 
 
 class TestEcucDestinationUriNestingContractEnum:
@@ -1020,6 +1021,31 @@ class TestEcucBooleanParamDef:
         assert result == bool_param
         assert bool_param.getDefaultValue() is True
 
+    def test_set_default_value_none_no_op(self):
+        """
+        Test that setDefaultValue(None) is a no-op and does not overwrite an existing defaultValue.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        bool_param = EcucBooleanParamDef(parent, "TestBooleanParam")
+
+        assert bool_param.setDefaultValue(None) is bool_param
+        assert bool_param.getDefaultValue() is None
+
+        bool_param.setDefaultValue(Boolean().setValue(True))
+        assert bool_param.setDefaultValue(None) is bool_param
+        assert bool_param.getDefaultValue().getValue() is True
+
+    def test_member_annotations(self):
+        """
+        getDefaultValue/setDefaultValue shall resolve to Optional[Boolean] / EcucBooleanParamDef
+        (Rule 0003/0006 get_type_hints pin; spec Mult. 0..1 → Optional; the quoted self-return is
+        this module's required forward-ref form, no PEP 563 here).
+        """
+        assert get_type_hints(EcucBooleanParamDef.getDefaultValue)["return"] == Optional[Boolean]
+        assert get_type_hints(EcucBooleanParamDef.setDefaultValue)["value"] == Optional[Boolean]
+        assert get_type_hints(EcucBooleanParamDef.setDefaultValue)["return"] is EcucBooleanParamDef
+
 
 class TestEcucAbstractReferenceDef:
     """
@@ -1333,6 +1359,54 @@ class TestEcucForeignReferenceDef:
         assert result == foreign_ref_def
         assert foreign_ref_def.getDestinationType() == "TestType"
 
+    def test_set_destination_type_none_no_op(self):
+        """
+        Test that setDestinationType(None) is a no-op and does not overwrite an existing destinationType.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        foreign_ref_def = EcucForeignReferenceDef(parent, "TestForeignRefDef")
+
+        assert foreign_ref_def.setDestinationType(None) is foreign_ref_def
+        assert foreign_ref_def.getDestinationType() is None
+
+        foreign_ref_def.setDestinationType(String().setValue("Frame"))
+        assert foreign_ref_def.setDestinationType(None) is foreign_ref_def
+        assert foreign_ref_def.getDestinationType().getValue() == "Frame"
+
+    def test_setter_returns_self(self):
+        """
+        Test that the setter returns self for method chaining (Rule 0004).
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        foreign_ref_def = EcucForeignReferenceDef(parent, "TestForeignRefDef")
+
+        assert foreign_ref_def.setDestinationType(String().setValue("Frame")) is foreign_ref_def
+
+    def test_member_annotations(self):
+        """
+        getDestinationType/setDestinationType shall resolve to Optional[String] / EcucForeignReferenceDef
+        (Rule 0003/0006 get_type_hints pin; spec Mult. 0..1 → Optional; the quoted self-return is this
+        module's required forward-ref form, no PEP 563 here).
+        """
+        assert get_type_hints(EcucForeignReferenceDef.getDestinationType)["return"] == Optional[String]
+        assert get_type_hints(EcucForeignReferenceDef.setDestinationType)["value"] == Optional[String]
+        assert get_type_hints(EcucForeignReferenceDef.setDestinationType)["return"] is EcucForeignReferenceDef
+
+    def test_docstrings_verbatim(self):
+        """
+        Member docstrings must carry the Table 2.31 Notes verbatim (Rule 0001.4/0012).
+        """
+        assert EcucForeignReferenceDef.__doc__ is not None, "Class docstring must contain spec Note"
+        assert "Specify a reference to an XML description of an entity described in another AUTOSAR template." in EcucForeignReferenceDef.__doc__, "Class docstring must contain spec Note verbatim"
+
+        note = "The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to."
+        for method_name in ("getDestinationType", "setDestinationType"):
+            method = getattr(EcucForeignReferenceDef, method_name)
+            assert method.__doc__ is not None, "%s must have a docstring" % method_name
+            assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
 
 class TestEcucInstanceReferenceDef:
     """
@@ -1514,6 +1588,26 @@ class TestEcucLinkerSymbolDef:
         result = symbol.setRegularExpression(r"\w+")
         assert result == symbol
         assert symbol.getRegularExpression() == r"\w+"
+
+    def test_inheritance(self):
+        """
+        Test EcucLinkerSymbolDef derives from EcucAbstractStringParamDef (Table 2.21 Base, most-derived).
+        """
+        parent, symbol = self._make_symbol()
+        assert isinstance(symbol, EcucAbstractStringParamDef)
+
+    def test_docstrings_verbatim(self):
+        """
+        Test the class docstring carries the Table 2.21 Note verbatim + the class requirement [TPS_ECUC_02031].
+        """
+        expected = inspect.cleandoc(
+            """
+            Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
+
+            [TPS_ECUC_02031] Restriction on the length of EcucLinkerSymbolDef values and defaultValue The restriction on the length of the default value and the value of a EcucLinkerSymbolDef is set to 255 characters.
+            """
+        )
+        assert inspect.cleandoc(EcucLinkerSymbolDef.__doc__) == expected
 
 
 class TestEcucMultilineStringParamDef:
@@ -1803,6 +1897,50 @@ class TestEcucFloatParamDef:
 
         assert float_param.getMin() is None
 
+    def test_set_default_value_none_no_op(self):
+        """
+        Test that setDefaultValue(None) is a no-op and does not overwrite an existing defaultValue.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("AUTOSAR")
+        float_param = EcucFloatParamDef(parent, "TestFloatParam")
+
+        assert float_param.setDefaultValue(None) is float_param
+        assert float_param.getDefaultValue() is None
+
+        float_param.setDefaultValue(Float().setValue("3.14"))
+        assert float_param.setDefaultValue(None) is float_param
+        assert float_param.getDefaultValue().getValue() == 3.14
+
+    def test_setter_returns_self(self):
+        """
+        Test that every setter returns self for method chaining (Rule 0004).
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("AUTOSAR")
+        float_param = EcucFloatParamDef(parent, "TestFloatParam")
+
+        assert float_param.setDefaultValue(Float().setValue("1.5")) is float_param
+        assert float_param.setMax(Limit().setValue("99.5")) is float_param
+        assert float_param.setMin(Limit().setValue("0.0")) is float_param
+
+    def test_member_annotations(self):
+        """
+        getDefaultValue/setDefaultValue/getMax/setMax/getMin/setMin shall resolve to
+        Optional[Float]/Optional[Limit] / EcucFloatParamDef (Rule 0003/0006 get_type_hints pin;
+        spec Mult. 0..1 → Optional; the quoted self-return is this module's required forward-ref
+        form, no PEP 563 here).
+        """
+        assert get_type_hints(EcucFloatParamDef.getDefaultValue)["return"] == Optional[Float]
+        assert get_type_hints(EcucFloatParamDef.setDefaultValue)["value"] == Optional[Float]
+        assert get_type_hints(EcucFloatParamDef.setDefaultValue)["return"] is EcucFloatParamDef
+        assert get_type_hints(EcucFloatParamDef.getMax)["return"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMax)["value"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMax)["return"] is EcucFloatParamDef
+        assert get_type_hints(EcucFloatParamDef.getMin)["return"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMin)["value"] == Optional[Limit]
+        assert get_type_hints(EcucFloatParamDef.setMin)["return"] is EcucFloatParamDef
+
 
 class TestEcucChoiceContainerDef:
     def test_initialization(self):
@@ -1982,6 +2120,24 @@ class TestEcucParamConfContainerDef:
         container2 = param_conf_container.createEcucParamConfContainerDef("TestContainer")
         assert container1 == container2
         assert len(param_conf_container.getSubContainers()) == 1
+
+    def test_create_ecuc_linker_symbol_def(self):
+        """
+        Test createEcucLinkerSymbolDef appends a parameter and returns the existing element on duplicate (Table 2.21 aggregated by EcucParamConfContainerDef.parameter).
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        param_conf_container = EcucParamConfContainerDef(parent, "TestParamConfContainerDef")
+
+        linker_symbol_def = param_conf_container.createEcucLinkerSymbolDef("TestLinkerSymbol")
+        assert linker_symbol_def is not None
+        assert isinstance(linker_symbol_def, EcucLinkerSymbolDef)
+        assert linker_symbol_def.getShortName() == "TestLinkerSymbol"
+        assert param_conf_container.getParameters() == [linker_symbol_def]
+
+        duplicate = param_conf_container.createEcucLinkerSymbolDef("TestLinkerSymbol")
+        assert duplicate is linker_symbol_def
+        assert len(param_conf_container.getParameters()) == 1
 
     def test_get_methods(self):
         """

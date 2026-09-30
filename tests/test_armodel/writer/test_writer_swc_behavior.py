@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     AutosarVariableRef,  # noqa E501
     ParameterAccess,
     VariableAccess,
+    VariableAccessScopeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (  # noqa E501
     ParameterInAtomicSWCTypeInstanceRef,
@@ -652,7 +653,7 @@ class TestWriterVariableAccess:
         iref.setTargetDataPrototypeRef(_ref("/Var", "VARIABLE-DATA-PROTOTYPE"))
         ref.setAutosarVariableIRef(iref)
         access.setAccessedVariable(ref)
-        access.setScope(_literal("COMMUNICATION-INTRA-PARTITION"))
+        access.setScope(VariableAccessScopeEnum().setValue(VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION))
         parent = _parent()
         writer.writeVariableAccess(parent, access)
         va = parent.find("VARIABLE-ACCESS")
@@ -877,7 +878,7 @@ class TestVariableAccessRoundTrip:
         iref.setTargetDataPrototypeRef(_ref("/Var", "VARIABLE-DATA-PROTOTYPE"))
         ref.setAutosarVariableIRef(iref)
         va.setAccessedVariable(ref)
-        va.setScope(_literal("COMMUNICATION-INTRA-PARTITION"))
+        va.setScope(VariableAccessScopeEnum().setValue(VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -894,7 +895,7 @@ class TestVariableAccessRoundTrip:
             assert iref_2.getTargetDataPrototypeRef().getValue() == "/Var"
             assert va_2.getAccessedVariable().getLocalVariableRef() is None
             assert va_2.getScope() is not None
-            assert va_2.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
+            assert va_2.getScope().getValue() == "communicationIntraPartition"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
