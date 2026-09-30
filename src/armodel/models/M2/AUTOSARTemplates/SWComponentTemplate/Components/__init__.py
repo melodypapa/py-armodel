@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+import logging
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
@@ -47,6 +50,9 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
         SwcInternalBehavior,
     )
+
+
+logger = logging.getLogger(__name__)
 
 
 class SwComponentType(AtpType, ABC):
@@ -609,30 +615,59 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
         # Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec
         self.providedComSpecs: List[PPortComSpec] = []
 
-    def _validateProvidedComSpec(self, com_spec: PPortComSpec):
+    def _validateProvidedComSpec(self, com_spec: PPortComSpec) -> bool:
         if isinstance(com_spec, NonqueuedSenderComSpec):
             data_element_ref = com_spec.getDataElementRef()
-            if data_element_ref is not None and data_element_ref.getDest() != "VARIABLE-DATA-PROTOTYPE":
-                raise ValueError("Invalid operation dest of NonqueuedSenderComSpec")
-        elif isinstance(com_spec, ServerComSpec):
-            pass
+            if data_element_ref is not None:
+                dest = data_element_ref.getDest()
+                if dest != "VARIABLE-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for NonqueuedSenderComSpec.dataElementRef: expected VARIABLE-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, QueuedSenderComSpec):
-            pass
+            data_element_ref = com_spec.getDataElementRef()
+            if data_element_ref is not None:
+                dest = data_element_ref.getDest()
+                if dest != "VARIABLE-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for QueuedSenderComSpec.dataElementRef: expected VARIABLE-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
+        elif isinstance(com_spec, ServerComSpec):
+            operation_ref = com_spec.getOperationRef()
+            if operation_ref is not None:
+                dest = operation_ref.getDest()
+                if dest != "CLIENT-SERVER-OPERATION":
+                    logger.warning("Invalid DEST for ServerComSpec.operationRef: expected CLIENT-SERVER-OPERATION, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, ModeSwitchSenderComSpec):
-            pass
+            mode_group_ref = com_spec.getModeGroupRef()
+            if mode_group_ref is not None:
+                dest = mode_group_ref.getDest()
+                if dest != "MODE-DECLARATION-GROUP-PROTOTYPE":
+                    logger.warning("Invalid DEST for ModeSwitchSenderComSpec.modeGroupRef: expected MODE-DECLARATION-GROUP-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, NvProvideComSpec):
-            pass
+            variable_ref = com_spec.getVariableRef()
+            if variable_ref is not None:
+                dest = variable_ref.getDest()
+                if dest != "VARIABLE-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for NvProvideComSpec.variableRef: expected VARIABLE-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, ParameterProvideComSpec):
-            pass
+            parameter_ref = com_spec.getParameterRef()
+            if parameter_ref is not None:
+                dest = parameter_ref.getDest()
+                if dest != "PARAMETER-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for ParameterProvideComSpec.parameterRef: expected PARAMETER-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         else:
-            raise ValueError("Unsupported com spec")
+            logger.warning("Unsupported PPortComSpec <%s>; skipping", type(com_spec).__name__)
+            return False
+        return True
 
     def addProvidedComSpec(self, com_spec: Optional[PPortComSpec]) -> AbstractProvidedPortPrototype:
         """
         Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec. A None value is a no-op and does not append anything.
         """
-        if com_spec is not None:
-            self._validateProvidedComSpec(com_spec)
+        if com_spec is not None and self._validateProvidedComSpec(com_spec):
             self.providedComSpecs.append(com_spec)
         return self
 
@@ -669,34 +704,59 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
         # Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec
         self.requiredComSpecs: List[RPortComSpec] = []
 
-    def _validateRequiredComSpec(self, com_spec: RPortComSpec):
+    def _validateRequiredComSpec(self, com_spec: RPortComSpec) -> bool:
         if isinstance(com_spec, ClientComSpec):
             operation_ref = com_spec.getOperationRef()
-            if operation_ref is not None and operation_ref.getDest() != "CLIENT-SERVER-OPERATION":
-                raise ValueError("Invalid operation dest of ClientComSpec.")
+            if operation_ref is not None:
+                dest = operation_ref.getDest()
+                if dest != "CLIENT-SERVER-OPERATION":
+                    logger.warning("Invalid DEST for ClientComSpec.operationRef: expected CLIENT-SERVER-OPERATION, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, NonqueuedReceiverComSpec):
             data_element_ref = com_spec.getDataElementRef()
-            if data_element_ref is not None and data_element_ref.getDest() != "VARIABLE-DATA-PROTOTYPE":
-                raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
+            if data_element_ref is not None:
+                dest = data_element_ref.getDest()
+                if dest != "VARIABLE-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for NonqueuedReceiverComSpec.dataElementRef: expected VARIABLE-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, QueuedReceiverComSpec):
-            pass
+            data_element_ref = com_spec.getDataElementRef()
+            if data_element_ref is not None:
+                dest = data_element_ref.getDest()
+                if dest != "VARIABLE-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for QueuedReceiverComSpec.dataElementRef: expected VARIABLE-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
-            pass
+            mode_group_ref = com_spec.getModeGroupRef()
+            if mode_group_ref is not None:
+                dest = mode_group_ref.getDest()
+                if dest != "MODE-DECLARATION-GROUP-PROTOTYPE":
+                    logger.warning("Invalid DEST for ModeSwitchReceiverComSpec.modeGroupRef: expected MODE-DECLARATION-GROUP-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, ParameterRequireComSpec):
             parameter_ref = com_spec.getParameterRef()
-            if parameter_ref is not None and parameter_ref.getDest() != "PARAMETER-DATA-PROTOTYPE":
-                raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
+            if parameter_ref is not None:
+                dest = parameter_ref.getDest()
+                if dest != "PARAMETER-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for ParameterRequireComSpec.parameterRef: expected PARAMETER-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         elif isinstance(com_spec, NvRequireComSpec):
-            pass
+            variable_ref = com_spec.getVariableRef()
+            if variable_ref is not None:
+                dest = variable_ref.getDest()
+                if dest != "VARIABLE-DATA-PROTOTYPE":
+                    logger.warning("Invalid DEST for NvRequireComSpec.variableRef: expected VARIABLE-DATA-PROTOTYPE, got %s; skipping ComSpec", dest)
+                    return False
         else:
-            raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
+            logger.warning("Unsupported RPortComSpec <%s>; skipping", type(com_spec).__name__)
+            return False
+        return True
 
     def addRequiredComSpec(self, com_spec: Optional[RPortComSpec]) -> AbstractRequiredPortPrototype:
         """
         Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec. A None value is a no-op and does not append anything.
         """
-        if com_spec is not None:
-            self._validateRequiredComSpec(com_spec)
+        if com_spec is not None and self._validateRequiredComSpec(com_spec):
             self.requiredComSpecs.append(com_spec)
         return self
 

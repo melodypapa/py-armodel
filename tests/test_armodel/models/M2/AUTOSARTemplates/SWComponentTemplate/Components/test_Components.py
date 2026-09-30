@@ -2,6 +2,7 @@
 This module contains tests for the Components subdirectory in SWComponentTemplate.
 """
 
+import logging
 from abc import ABC
 from typing import List
 
@@ -23,11 +24,16 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ModeSwitchSenderComSpec,
     NonqueuedReceiverComSpec,
     NonqueuedSenderComSpec,
+    NvProvideComSpec,
+    NvRequireComSpec,
+    ParameterProvideComSpec,
     ParameterRequireComSpec,
     PPortComSpec,
     QueuedReceiverComSpec,
     QueuedSenderComSpec,
+    ReceiverComSpec,
     RPortComSpec,
+    SenderComSpec,
     ServerComSpec,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
@@ -51,9 +57,118 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 
+COMSPEC_DEST_CASES = (
+    ("PPort", NonqueuedSenderComSpec, "setDataElementRef", "VARIABLE-DATA-PROTOTYPE"),
+    ("PPort", QueuedSenderComSpec, "setDataElementRef", "VARIABLE-DATA-PROTOTYPE"),
+    ("PPort", ServerComSpec, "setOperationRef", "CLIENT-SERVER-OPERATION"),
+    ("PPort", ModeSwitchSenderComSpec, "setModeGroupRef", "MODE-DECLARATION-GROUP-PROTOTYPE"),
+    ("PPort", NvProvideComSpec, "setVariableRef", "VARIABLE-DATA-PROTOTYPE"),
+    ("PPort", ParameterProvideComSpec, "setParameterRef", "PARAMETER-DATA-PROTOTYPE"),
+    ("RPort", ClientComSpec, "setOperationRef", "CLIENT-SERVER-OPERATION"),
+    ("RPort", NonqueuedReceiverComSpec, "setDataElementRef", "VARIABLE-DATA-PROTOTYPE"),
+    ("RPort", QueuedReceiverComSpec, "setDataElementRef", "VARIABLE-DATA-PROTOTYPE"),
+    ("RPort", ModeSwitchReceiverComSpec, "setModeGroupRef", "MODE-DECLARATION-GROUP-PROTOTYPE"),
+    ("RPort", NvRequireComSpec, "setVariableRef", "VARIABLE-DATA-PROTOTYPE"),
+    ("RPort", ParameterRequireComSpec, "setParameterRef", "PARAMETER-DATA-PROTOTYPE"),
+)
+
+
+def _create_comspec_port(port_side):
+    document = AUTOSAR.getInstance()
+    document.clear()
+    ar_root = document.createARPackage("AUTOSAR")
+    if port_side == "PPort":
+        port = PPortPrototype(ar_root, "Provided")
+        return port, port.addProvidedComSpec, port.getProvidedComSpecs
+    port = RPortPrototype(ar_root, "Required")
+    return port, port.addRequiredComSpec, port.getRequiredComSpecs
+
+
+def _concrete_descendants(base_class):
+    descendants = set()
+    for child_class in base_class.__subclasses__():
+        descendants.update(_concrete_descendants(child_class))
+        if child_class not in (SenderComSpec, ReceiverComSpec) and child_class.__module__ == base_class.__module__:
+            descendants.add(child_class)
+    return descendants
+
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
     """Test class for Components module classes."""
+
+    def test_comspec_dest_matrix_covers_all_concrete_children(self):
+        provided_types = {com_spec_type for side, com_spec_type, _, _ in COMSPEC_DEST_CASES if side == "PPort"}
+        required_types = {com_spec_type for side, com_spec_type, _, _ in COMSPEC_DEST_CASES if side == "RPort"}
+        assert provided_types == _concrete_descendants(PPortComSpec)
+        assert required_types == _concrete_descendants(RPortComSpec)
+
+    @pytest.mark.parametrize(
+        ("port_side", "com_spec_type", "setter_name", "expected_dest"),
+        COMSPEC_DEST_CASES,
+        ids=["%s-%s" % (case[0], case[1].__name__) for case in COMSPEC_DEST_CASES],
+    )
+    def test_comspec_with_matching_dest_is_appended(self, port_side, com_spec_type, setter_name, expected_dest):
+        _, add_com_spec, get_com_specs = _create_comspec_port(port_side)
+        com_spec = com_spec_type()
+        reference = RefType().setValue("/Test/Target")
+        reference.dest = expected_dest
+        getattr(com_spec, setter_name)(reference)
+
+        add_com_spec(com_spec)
+
+        assert get_com_specs() == [com_spec]
+
+    @pytest.mark.parametrize(
+        ("port_side", "com_spec_type", "setter_name", "expected_dest"),
+        COMSPEC_DEST_CASES,
+        ids=["%s-%s" % (case[0], case[1].__name__) for case in COMSPEC_DEST_CASES],
+    )
+    def test_comspec_with_mismatching_dest_warns_and_is_skipped(self, caplog, port_side, com_spec_type, setter_name, expected_dest):
+        _, add_com_spec, get_com_specs = _create_comspec_port(port_side)
+        com_spec = com_spec_type()
+        reference = RefType().setValue("/Test/Target")
+        reference.dest = "INVALID-DEST"
+        getattr(com_spec, setter_name)(reference)
+
+        with caplog.at_level(logging.WARNING):
+            add_com_spec(com_spec)
+
+        assert com_spec not in get_com_specs()
+        assert "Invalid DEST" in caplog.text
+        assert com_spec_type.__name__ in caplog.text
+        assert expected_dest in caplog.text
+        assert "INVALID-DEST" in caplog.text
+
+    @pytest.mark.parametrize(
+        ("port_side", "com_spec_type", "setter_name", "expected_dest"),
+        COMSPEC_DEST_CASES,
+        ids=["%s-%s" % (case[0], case[1].__name__) for case in COMSPEC_DEST_CASES],
+    )
+    def test_comspec_without_reference_is_appended_without_warning(self, caplog, port_side, com_spec_type, setter_name, expected_dest):
+        _, add_com_spec, get_com_specs = _create_comspec_port(port_side)
+        com_spec = com_spec_type()
+
+        with caplog.at_level(logging.WARNING):
+            add_com_spec(com_spec)
+
+        assert get_com_specs() == [com_spec]
+        assert caplog.records == []
+
+    @pytest.mark.parametrize(
+        ("port_side", "com_spec_base"),
+        (("PPort", PPortComSpec), ("RPort", RPortComSpec)),
+    )
+    def test_unsupported_comspec_warns_and_is_skipped(self, caplog, port_side, com_spec_base):
+        _, add_com_spec, get_com_specs = _create_comspec_port(port_side)
+        unsupported_type = type("Unsupported%sComSpec" % port_side, (com_spec_base,), {})
+        com_spec = unsupported_type()
+
+        with caplog.at_level(logging.WARNING):
+            add_com_spec(com_spec)
+
+        assert get_com_specs() == []
+        assert "Unsupported" in caplog.text
+        assert unsupported_type.__name__ in caplog.text
 
     def test_PortPrototype(self):
         """Test PortPrototype class."""
@@ -111,8 +226,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         # Test ModeSwitchSenderComSpec to cover line 111
         mode_switch_spec = ModeSwitchSenderComSpec()
-        mode_switch_spec.dataElementRef = RefType()
-        mode_switch_spec.dataElementRef.dest = "VARIABLE-DATA-PROTOTYPE"
+        mode_group_ref = RefType().setValue("/Test/ModeGroup")
+        mode_group_ref.dest = "MODE-DECLARATION-GROUP-PROTOTYPE"
+        mode_switch_spec.setModeGroupRef(mode_group_ref)
         provided_port.addProvidedComSpec(mode_switch_spec)
         assert mode_switch_spec in provided_port.getProvidedComSpecs()
 
@@ -430,82 +546,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
             required_port.addRequiredComSpec(com_spec)
 
         assert required_port.getRequiredComSpecs() == [client_without_ref, receiver_without_ref, parameter_without_ref, client_with_ref, receiver_with_ref, parameter_with_ref]
-
-    def test_Validate_PPortComSpec_Errors(self):
-        """Test validation error paths for PPortComSpec."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        provided_port = PPortPrototype(ar_root, "TestProvidedPort")
-
-        # Test NonqueuedSenderComSpec with invalid dest
-        com_spec_invalid_dest = NonqueuedSenderComSpec()
-        ref = RefType()
-        ref.setValue("/Test/Variable")
-        ref.dest = "INVALID-DEST"
-        com_spec_invalid_dest.dataElementRef = ref
-        with pytest.raises(ValueError) as exc_info:
-            provided_port.addProvidedComSpec(com_spec_invalid_dest)
-        assert "Invalid operation dest of NonqueuedSenderComSpec" in str(exc_info.value)
-        assert com_spec_invalid_dest not in provided_port.getProvidedComSpecs()
-
-        # Test unsupported com spec type
-        class UnsupportedComSpec(PPortComSpec):
-            def __init__(self):
-                super().__init__()
-
-        unsupported_spec = UnsupportedComSpec()
-        with pytest.raises(ValueError) as exc_info:
-            provided_port._validateProvidedComSpec(unsupported_spec)
-        assert "Unsupported com spec" in str(exc_info.value)
-
-    def test_Validate_RPortComSpec_Errors(self):
-        """Test validation error paths for RPortComSpec."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        required_port = RPortPrototype(ar_root, "TestRequiredPort")
-
-        # Test ClientComSpec with invalid dest
-        client_spec = ClientComSpec()
-        client_ref = RefType()
-        client_ref.setValue("/Test/Operation")
-        client_ref.dest = "INVALID-DEST"
-        client_spec.operationRef = client_ref
-        with pytest.raises(ValueError) as exc_info:
-            required_port.addRequiredComSpec(client_spec)
-        assert "Invalid operation dest of ClientComSpec." in str(exc_info.value)
-        assert client_spec not in required_port.getRequiredComSpecs()
-
-        # Test NonqueuedReceiverComSpec with invalid dest
-        receiver_spec = NonqueuedReceiverComSpec()
-        receiver_ref = RefType()
-        receiver_ref.setValue("/Test/Variable")
-        receiver_ref.dest = "INVALID-DEST"
-        receiver_spec.dataElementRef = receiver_ref
-        with pytest.raises(ValueError) as exc_info:
-            required_port.addRequiredComSpec(receiver_spec)
-        assert "Invalid date element dest of NonqueuedReceiverComSpec." in str(exc_info.value)
-        assert receiver_spec not in required_port.getRequiredComSpecs()
-
-        # Test ParameterRequireComSpec with invalid dest
-        param_spec = ParameterRequireComSpec()
-        param_ref = RefType()
-        param_ref.setValue("/Test/Parameter")
-        param_ref.dest = "INVALID-DEST"
-        param_spec.parameterRef = param_ref
-        with pytest.raises(ValueError) as exc_info:
-            required_port.addRequiredComSpec(param_spec)
-        assert "Invalid parameter dest of ParameterRequireComSpec." in str(exc_info.value)
-        assert param_spec not in required_port.getRequiredComSpecs()
-
-        # Test unsupported RPortComSpec type
-        class UnsupportedRPortComSpec(RPortComSpec):
-            def __init__(self):
-                super().__init__()
-
-        unsupported_spec = UnsupportedRPortComSpec()
-        with pytest.raises(ValueError) as exc_info:
-            required_port._validateRequiredComSpec(unsupported_spec)
-        assert "Unsupported RPortComSpec" in str(exc_info.value)
 
     def test_getNonqueuedSenderComSpecs(self):
         """Test getting nonqueued sender com specs filter."""
