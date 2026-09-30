@@ -474,7 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, DiagnosticParameterSupportInfo, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
@@ -10362,12 +10362,29 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
         for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
-            did.addDataElement(DiagnosticParameter())
+            data_element = DiagnosticParameter()
+            self.readDiagnosticParameter(child_element, data_element)
+            did.addDataElement(data_element)
         did.setDidSize(self.getChildElementOptionalPositiveInteger(element, "DID-SIZE"))
         did.setRepresentsVin(self.getChildElementOptionalBooleanValue(element, "REPRESENTS-VIN"))
         support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
         if support_info_byte_element is not None:
             did.setSupportInfoByte(DiagnosticSupportInfoByte())
+
+    def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
+        self.readARObject(element, parameter)
+        ident_element = self.find(element, "IDENT")
+        if ident_element is not None:
+            parameter.createIdent(self.getShortName(ident_element))
+        support_info_element = self.find(element, "SUPPORT-INFO")
+        if support_info_element is not None:
+            parameter.setSupportInfo(DiagnosticParameterSupportInfo())
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(parameter, VariationPointCapable):
+                parameter.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)

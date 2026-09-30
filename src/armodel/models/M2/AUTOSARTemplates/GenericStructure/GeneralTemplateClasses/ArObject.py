@@ -2,14 +2,19 @@
 Abstract base class of all AUTOSAR objects.
 """
 
+from __future__ import annotations
+
 from abc import ABC
 from typing import TYPE_CHECKING, Dict, Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
         DateTime,
         String,
     )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
 
 
 class ARObject(ABC):
@@ -50,7 +55,7 @@ class ARObject(ABC):
         """
         return self.checksum
 
-    def setChecksum(self, value: Optional["String"]) -> "ARObject":
+    def setChecksum(self, value: Optional["String"]) -> ARObject:
         """
         Checksum calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine if an ArObject has changed. The checksum has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the checksum. A None value is a no-op and does not overwrite an existing checksum.
         """
@@ -64,7 +69,7 @@ class ARObject(ABC):
         """
         return self.timestamp
 
-    def setTimestamp(self, value: Optional["DateTime"]) -> "ARObject":
+    def setTimestamp(self, value: Optional["DateTime"]) -> ARObject:
         """
         Timestamp calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine the last change of an ArObject. The timestamp has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. A None value is a no-op and does not overwrite an existing timestamp.
         """
@@ -202,8 +207,61 @@ class DiagnosticMemoryDestinationUserDefined(ARObject):
     pass
 
 
-class DiagnosticParameter(DiagnosticAbstractParameter):
-    pass
+class DiagnosticParameter(DiagnosticAbstractParameter, VariationPointCapable):
+    """
+    This meta-class represents the ability to describe information relevant for the execution of a specific diagnostic service, i.e. it can be taken to parameterize the service.
+    """
+
+    # DiagnosticParameter method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.5, p.36
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createIdent     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSupportInfo  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportInfo  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        super().__init__()
+
+        # The aggregation in the role ident provides the ability to make the DiagnosticAbstractParameter identifiable. From the semantical point of view, the AbstractDiagnostic Parameter is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let AbstractDiagnostic Parameter directly inherit from Identifiable). Stereotypes: atpIdentityContributor
+        self.ident: Optional[DiagnosticParameterIdent] = None
+
+        # This attribute represents the ability to define which bit of the support info byte is representing this part of the PID.
+        self.supportInfo: Optional[DiagnosticParameterSupportInfo] = None
+
+    def createIdent(self, short_name: str) -> DiagnosticParameterIdent:
+        """
+        The aggregation in the role ident provides the ability to make the DiagnosticAbstractParameter identifiable. From the semantical point of view, the AbstractDiagnostic Parameter is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let AbstractDiagnostic Parameter directly inherit from Identifiable).
+        The existing ident is returned when the short name already exists (no duplicate creation).
+        """
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
+
+        if self.ident is None or self.ident.getShortName() != short_name:
+            self.ident = DiagnosticParameterIdent(self, short_name)
+        return self.ident
+
+    def getIdent(self) -> Optional[DiagnosticParameterIdent]:
+        """
+        The aggregation in the role ident provides the ability to make the DiagnosticAbstractParameter identifiable. From the semantical point of view, the AbstractDiagnostic Parameter is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let AbstractDiagnostic Parameter directly inherit from Identifiable).
+        """
+        return self.ident
+
+    def getSupportInfo(self) -> Optional[DiagnosticParameterSupportInfo]:
+        """
+        This attribute represents the ability to define which bit of the support info byte is representing this part of the PID.
+        """
+        return self.supportInfo
+
+    def setSupportInfo(self, value: Optional[DiagnosticParameterSupportInfo]) -> DiagnosticParameter:
+        """
+        This attribute represents the ability to define which bit of the support info byte is representing this part of the PID.
+        A None value is a no-op and does not overwrite an existing supportInfo.
+        """
+        if value is not None:
+            self.supportInfo = value
+        return self
 
 
 class DiagnosticParameterElementAccess(ARObject):

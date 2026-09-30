@@ -692,15 +692,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticParameter` — DiagnosticAbstractParameter — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.5, p.36
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.5 (md body L969-977, caption L967); Base most-derived = `DiagnosticAbstractParameter` — UN-SYNCED STUB (queued Group23 Table 4.8, later batch): only own rows modeled (ident, supportInfo), no base members fabricated; VP-capable per Rule 0020 (XSD group L40573 carries VARIATION-POINT, Applicable for DiagnosticDataIdentifier.dataElement) → VariationPointCapable mixin.
+  - note (Step 6): DATA-ELEMENTS identity-only debt replaced — readDiagnosticDataIdentifier/readDiagnosticParameter + writeDiagnosticParameter now read/write real DIAGNOSTIC-PARAMETER items; recorded deviation (Rule 0005): cross-package DiagnosticParameterIdent import uses a function-local import in createIdent + TYPE_CHECKING annotation name (eager bottom import in ArObject.py — model-graph root — explodes the SWComponentTemplate/CommonStructure bootstrap); identity-only debt remains for IDENT child (Group23 Table 4.7) and SUPPORT-INFO child (Group24 Table 4.128).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (11 passed / 0 failed test_ArObject.py::TestDiagnosticParameter, tests/test_armodel/parser/test_diagnostic_parameter.py, tests/test_armodel/writer/test_writer_diagnostic_parameter.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticParameterElement` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.6, p.36
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

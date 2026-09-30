@@ -363,6 +363,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier, DiagnosticDynamicDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -13534,11 +13535,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(data_elements) > 0:
             data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
             for data_element in data_elements:
-                ET.SubElement(data_elements_tag, "DIAGNOSTIC-PARAMETER")
+                self.writeDiagnosticParameter(data_elements_tag, data_element)
         self.setChildElementOptionalPositiveInteger(child_element, "DID-SIZE", did.getDidSize())
         self.setChildElementOptionalBooleanValue(child_element, "REPRESENTS-VIN", did.getRepresentsVin())
         if did.getSupportInfoByte() is not None:
             ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
+
+    def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
+        child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")
+        self.writeARObject(child_element, parameter)
+        ident = parameter.getIdent()
+        if ident is not None:
+            ident_element = ET.SubElement(child_element, "IDENT")
+            self.writeReferrable(ident_element, ident)
+        if parameter.getSupportInfo() is not None:
+            ET.SubElement(child_element, "SUPPORT-INFO")
+        self.writeVariationPointCapable(child_element, parameter)
 
     def writeDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
         self.logger.debug("Write DiagnosticDynamicDataIdentifier %s" % did.getShortName())
