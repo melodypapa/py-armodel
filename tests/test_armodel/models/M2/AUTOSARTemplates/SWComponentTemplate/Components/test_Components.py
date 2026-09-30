@@ -1000,6 +1000,13 @@ class TestAbstractRequiredPortPrototypeSpecContract:
 
         assert issubclass(AbstractRequiredPortPrototype, PortPrototype)
 
+    def test_attribute_note_comment_verbatim(self):
+        import inspect
+
+        init_source = inspect.getsource(AbstractRequiredPortPrototype.__init__)
+        assert "# Required communication attributes, one for each interface element." in init_source
+        assert "# Required communication attributes, one for each interface element. Stereotypes:" not in init_source
+
     def test_add_get_required_com_specs(self):
         """Test requiredComSpecs list round-trip, chaining and None no-op (Table 3.3 requiredComSpec, `*` aggr)."""
         port = self._make()
@@ -1009,6 +1016,19 @@ class TestAbstractRequiredPortPrototypeSpecContract:
         assert port.getRequiredComSpecs() == [com_spec]
         port.addRequiredComSpec(None)
         assert port.getRequiredComSpecs() == [com_spec]
+
+    def test_validate_required_comspec_returns_false_for_invalid_dest(self, caplog):
+        port = self._make()
+        com_spec = NonqueuedReceiverComSpec()
+        reference = RefType().setValue("/Test/Variable")
+        reference.dest = "INVALID-DEST"
+        com_spec.setDataElementRef(reference)
+
+        with caplog.at_level(logging.WARNING):
+            assert port._validateRequiredComSpec(com_spec) is False
+
+        assert "Invalid DEST" in caplog.text
+        assert "NonqueuedReceiverComSpec" in caplog.text
 
     def test_accessor_annotations(self):
         """addRequiredComSpec carries Optional[RPortComSpec] and chains; getRequiredComSpecs returns List[RPortComSpec] (Table 3.3 mults)."""
