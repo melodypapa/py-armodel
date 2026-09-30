@@ -10,9 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRuleProps,
     StateDependentFirewall,
 )
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (  # noqa: F401
-    IdsPlatformInstantiation,
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (
+    # noqa: F401     IdsPlatformInstantiation,
     IdsmModuleInstantiation,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     IdsmInstance,
     IdsmTrafficLimitation,
     SecurityEventAggregationFilter,
@@ -21,7 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     SecurityEventContextProps,
     SecurityEventFilterChain,
     SecurityEventStateFilter,
-)
+)  # noqa: F401
 
 __all__ = [
     "SecurityEventStateFilter",

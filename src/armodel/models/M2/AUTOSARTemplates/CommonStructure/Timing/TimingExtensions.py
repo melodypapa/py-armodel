@@ -191,27 +191,3 @@ class SwcTiming(TimingExtension):
         if value is not None:
             self.behaviorRef = value
         return self
-
-
-class BswCompositionTiming(ARElement):
-    pass
-
-
-class BswModuleTiming(ARElement):
-    pass
-
-
-class EcuTiming(ARElement):
-    pass
-
-
-class SystemTiming(ARObject):
-    pass
-
-
-class TDCpSoftwareClusterMappingSet(ARObject):
-    pass
-
-
-class VfbTiming(ARElement):
-    pass
