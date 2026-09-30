@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterToDiagEventMapping,
     DiagnosticAbstractDataIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
@@ -1568,6 +1569,46 @@ class TestDiagnosticDataIdentifier:
         result = obj.setSupportInfoByte(None)
         assert result is obj  # method chaining with None
         assert obj.getSupportInfoByte() is support_info_byte  # None is a no-op
+
+
+class TestDiagnosticDynamicDataIdentifier:
+    """
+    Test class for DiagnosticDynamicDataIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.3, p.34
+    (no own attributes; base members exercised through the inherited accessors)
+    """
+
+    def _create_did(self) -> DiagnosticDynamicDataIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDynamicDataIdentifier(ar_root, "TestDynamicDid")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticDynamicDataIdentifier is initialized with the spec defaults.
+        """
+        obj = self._create_did()
+
+        assert obj.getShortName() == "TestDynamicDid"
+        assert isinstance(obj, DiagnosticAbstractDataIdentifier)
+        assert obj.getId() is None
+
+    def test_base_accessors(self):
+        """
+        Test that the inherited DiagnosticAbstractDataIdentifier accessors work.
+        """
+        obj = self._create_did()
+
+        id_value = PositiveInteger()
+        id_value.setValue("7")
+        result = obj.setId(id_value)
+        assert result is obj  # method chaining
+        assert obj.getId() is id_value
+        assert obj.getId().getValue() == 7
+
+        obj.setId(None)
+        assert obj.getId() is id_value  # None is a no-op
 
 
 class TestImports:

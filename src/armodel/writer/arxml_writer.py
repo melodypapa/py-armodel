@@ -362,7 +362,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier, DiagnosticDynamicDataIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -13540,6 +13540,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if did.getSupportInfoByte() is not None:
             ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
 
+    def writeDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
+        self.logger.debug("Write DiagnosticDynamicDataIdentifier %s" % did.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER")
+        self.writeDiagnosticAbstractDataIdentifier(child_element, did)
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -14556,6 +14561,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticServiceTable(element, ar_element)
         elif isinstance(ar_element, DiagnosticDataIdentifier):
             self.writeDiagnosticDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDynamicDataIdentifier):
+            self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):

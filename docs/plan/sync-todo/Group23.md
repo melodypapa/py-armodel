@@ -664,15 +664,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDynamicDataIdentifier` — DiagnosticAbstractDataIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.3, p.34
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.3 (md caption L910, body L912-919); attribute table renders no rows (`-`), matching XSD group L35097 (empty sequence) — no own attributes; Base most-derived = `DiagnosticAbstractDataIdentifier`.
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicDataIdentifier` factory + readARPackageElements DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch; own reader/writer delegate to the base helpers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (10 passed / 0 failed test_ARPackage.py::TestDiagnosticDynamicDataIdentifier, tests/test_armodel/parser/test_diagnostic_dynamic_data_identifier.py, tests/test_armodel/writer/test_writer_diagnostic_dynamic_data_identifier.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticAbstractDataIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.4, p.34
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

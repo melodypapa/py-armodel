@@ -480,7 +480,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier, DiagnosticDynamicDataIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
@@ -10369,6 +10369,9 @@ class ARXMLParser(AbstractARXMLParser):
         if support_info_byte_element is not None:
             did.setSupportInfoByte(DiagnosticSupportInfoByte())
 
+    def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
+        self.readDiagnosticAbstractDataIdentifier(element, did)
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -14934,6 +14937,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
+                did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
+                self.readDiagnosticDynamicDataIdentifier(child_element, did)
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)

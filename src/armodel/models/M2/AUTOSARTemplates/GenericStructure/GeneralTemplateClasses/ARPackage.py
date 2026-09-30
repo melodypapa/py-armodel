@@ -1604,6 +1604,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(did)
         return self.getElement(short_name, DiagnosticDataIdentifier)
 
+    def createDiagnosticDynamicDataIdentifier(self, short_name: str) -> DiagnosticDynamicDataIdentifier:
+        """
+        Creates a new DiagnosticDynamicDataIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDynamicDataIdentifier represents the ability to define a
+        diagnostic data identifier (DID) at run-time.
+
+        Args:
+            short_name: The short name for the new DiagnosticDynamicDataIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticDynamicDataIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDynamicDataIdentifier):
+            did = DiagnosticDynamicDataIdentifier(self, short_name)
+            self.addElement(did)
+        return self.getElement(short_name, DiagnosticDynamicDataIdentifier)
+
     def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
         """
         Creates a new DiagnosticEnvironmentalCondition with the given short
@@ -2695,7 +2714,18 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
 
 
 class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
-    pass
+    """
+    This meta-class represents the ability to define a diagnostic data identifier (DID) at run-time.
+    """
+
+    # DiagnosticDynamicDataIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.3, p.34
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; base id coverage via readDiagnosticAbstractDataIdentifier/writeDiagnosticAbstractDataIdentifier, own coverage via the DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER dispatch)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticDynamicallyDefineDataIdentifier(ARElement):
