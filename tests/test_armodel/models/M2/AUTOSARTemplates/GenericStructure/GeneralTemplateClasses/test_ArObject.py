@@ -2,15 +2,21 @@
 Tests for the ARObject class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 6.1).
 """
 
+import typing
+
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    DiagnosticAbstractParameter,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     DateTime,
+    PositiveInteger,
     String,
 )
 
@@ -133,3 +139,104 @@ class TestDiagnosticParameter:
         obj = self._create_parameter()
 
         assert obj.getVariationPoint() is None
+
+
+class TestDiagnosticAbstractParameter:
+    """
+    Test class for DiagnosticAbstractParameter functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.8, p.37
+    (abstract; subclasses DiagnosticParameter and DiagnosticParameterElement —
+    base accessors exercised through DiagnosticParameter per the abstract-class
+    test convention.)
+    """
+
+    def test_abstract_initialization(self):
+        """
+        DiagnosticAbstractParameter is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticAbstractParameter()
+
+    def test_base_properties(self):
+        """
+        Exercises every base getter/setter through the concrete DiagnosticParameter:
+        chaining, round-trip, and a final None no-op for the whole set.
+        """
+        obj = DiagnosticParameter()
+
+        assert obj.getBitOffset() is None
+        assert obj.getDataElement() is None
+        assert obj.getParameterSize() is None
+
+        bit_offset = PositiveInteger()
+        bit_offset.setValue("8")
+        assert obj.setBitOffset(bit_offset) is obj
+        assert obj.getBitOffset() is bit_offset
+
+        data_element = obj.createDataElement("De1")
+        assert data_element is not None
+        assert data_element.getShortName() == "De1"
+        assert data_element.getParent() is obj
+        assert obj.getDataElement() is data_element
+
+        parameter_size = PositiveInteger()
+        parameter_size.setValue("16")
+        assert obj.setParameterSize(parameter_size) is obj
+        assert obj.getParameterSize() is parameter_size
+
+        obj.setBitOffset(None)
+        assert obj.getBitOffset() is bit_offset  # None is a no-op
+        obj.setParameterSize(None)
+        assert obj.getParameterSize() is parameter_size  # None is a no-op
+
+    def test_create_data_element_duplicate(self):
+        """
+        Test createDataElement returns the existing element for a duplicate short name.
+        """
+        obj = DiagnosticParameter()
+
+        data_element = obj.createDataElement("De1")
+        duplicate = obj.createDataElement("De1")
+        assert duplicate is data_element  # duplicate short name returns the existing element
+
+        replaced = obj.createDataElement("De2")
+        assert replaced is not data_element
+        assert obj.getDataElement() is replaced
+
+    def test_get_set_bit_offset_type_hints(self):
+        """
+        Pin the bitOffset accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticAbstractParameter.getBitOffset)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticAbstractParameter.setBitOffset)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticAbstractParameter
+
+    def test_get_set_parameter_size_type_hints(self):
+        """
+        Pin the parameterSize accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticAbstractParameter.getParameterSize)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticAbstractParameter.setParameterSize)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticAbstractParameter
+
+    def test_subclass_inherits_base_fields(self):
+        """
+        Both subclasses initialize the inherited base fields via their __init__ chains.
+        """
+        parameter = DiagnosticParameter()
+        assert parameter.getBitOffset() is None
+        assert parameter.getDataElement() is None
+        assert parameter.getParameterSize() is None
+
+        element = DiagnosticParameterElement(AUTOSAR.getInstance(), "Elem1")
+        assert element.getBitOffset() is None
+        assert element.getDataElement() is None
+        assert element.getParameterSize() is None
+        assert element.getShortName() == "Elem1"

@@ -474,7 +474,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, DiagnosticParameterSupportInfo, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    DiagnosticAbstractParameter,
+    DiagnosticParameter,
+    DiagnosticParameterSupportInfo,
+    DiagnosticSupportInfoByte,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
@@ -10372,8 +10377,18 @@ class ARXMLParser(AbstractARXMLParser):
         if support_info_byte_element is not None:
             did.setSupportInfoByte(DiagnosticSupportInfoByte())
 
-    def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
+    def readDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.readARObject(element, parameter)
+        parameter.setBitOffset(self.getChildElementOptionalPositiveInteger(element, "BIT-OFFSET"))
+        data_elements = self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-DATA-ELEMENT")
+        if len(data_elements) > 0:
+            if len(data_elements) > 1:
+                self.logger.warning("DATA-ELEMENTS carries %d items; the PDF multiplicity of DiagnosticAbstractParameter.dataElement is 0..1 — extra items ignored" % len(data_elements))
+            parameter.createDataElement(self.getShortName(data_elements[0]))
+        parameter.setParameterSize(self.getChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE"))
+
+    def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
+        self.readDiagnosticAbstractParameter(element, parameter)
         ident_element = self.find(element, "IDENT")
         if ident_element is not None:
             ident = parameter.createIdent(self.getShortName(ident_element))
@@ -10390,6 +10405,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticParameterElement(self, element: ET.Element, parameter_element: DiagnosticParameterElement):
         self.readIdentifiable(element, parameter_element)
+        self.readDiagnosticAbstractParameter(element, parameter_element)
         parameter_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         for child_element in self.findall(element, "SUB-ELEMENTS/DIAGNOSTIC-PARAMETER-ELEMENT"):
             sub_element = parameter_element.createSubElement(self.getShortName(child_element))

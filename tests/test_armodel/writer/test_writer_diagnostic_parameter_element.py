@@ -37,10 +37,16 @@ class TestWriteDiagnosticParameterElement:
         return DiagnosticParameterElement(AUTOSAR.getInstance(), "Elem1")
 
     def test_write_field_values_in_xsd_order(self):
-        """Test that ARRAY-SIZE and SUB-ELEMENTS are emitted in XSD order with their values."""
+        """Test that the inherited base group, ARRAY-SIZE and SUB-ELEMENTS are emitted in XSD order with their values."""
         parameter_element = self._make_element()
+        bit_offset = PositiveInteger()
+        bit_offset.setValue("8")
+        parameter_element.setBitOffset(bit_offset)
+        parameter_size = PositiveInteger()
+        parameter_size.setValue("16")
+        parameter_element.setParameterSize(parameter_size)
         array_size = PositiveInteger()
-        array_size.setValue("8")
+        array_size.setValue("4")
         parameter_element.setArraySize(array_size)
         parameter_element.createSubElement("Sub1")
 
@@ -50,14 +56,16 @@ class TestWriteDiagnosticParameterElement:
         child = parent.find("DIAGNOSTIC-PARAMETER-ELEMENT")
         assert child is not None
         assert child.find("SHORT-NAME").text == "Elem1"
-        assert child.find("ARRAY-SIZE").text == "8"
+        assert child.find("BIT-OFFSET").text == "8"
+        assert child.find("PARAMETER-SIZE").text == "16"
+        assert child.find("ARRAY-SIZE").text == "4"
         sub_elements = child.find("SUB-ELEMENTS")
         assert sub_elements is not None
         items = list(sub_elements)
         assert [item.tag for item in items] == ["DIAGNOSTIC-PARAMETER-ELEMENT"]
         assert items[0].find("SHORT-NAME").text == "Sub1"
         tags = [c.tag for c in child]
-        assert tags == ["SHORT-NAME", "ARRAY-SIZE", "SUB-ELEMENTS"]
+        assert tags == ["SHORT-NAME", "BIT-OFFSET", "PARAMETER-SIZE", "ARRAY-SIZE", "SUB-ELEMENTS"]
 
     def test_write_unset_fields_omits_tags(self):
         """Test that an empty aggregation emits no wrapper and unset attribute emits no element."""

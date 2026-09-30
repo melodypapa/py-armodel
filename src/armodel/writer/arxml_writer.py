@@ -363,7 +363,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticAbstractDataIdentifier, DiagnosticDataIdentifier, DiagnosticDynamicDataIdentifier
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -13542,9 +13542,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         if did.getSupportInfoByte() is not None:
             ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
 
+    def writeDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
+        self.writeARObject(element, parameter)
+        self.setChildElementOptionalPositiveInteger(element, "BIT-OFFSET", parameter.getBitOffset())
+        data_element = parameter.getDataElement()
+        if data_element is not None:
+            data_elements_tag = ET.SubElement(element, "DATA-ELEMENTS")
+            data_element_element = ET.SubElement(data_elements_tag, "DIAGNOSTIC-DATA-ELEMENT")
+            self.writeReferrable(data_element_element, data_element)
+        self.setChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE", parameter.getParameterSize())
+
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")
-        self.writeARObject(child_element, parameter)
+        self.writeDiagnosticAbstractParameter(child_element, parameter)
         ident = parameter.getIdent()
         if ident is not None:
             self.writeDiagnosticParameterIdent(child_element, ident)
@@ -13556,6 +13566,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticParameterElement %s" % parameter_element.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER-ELEMENT")
         self.writeIdentifiable(child_element, parameter_element)
+        self.writeDiagnosticAbstractParameter(child_element, parameter_element)
         self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", parameter_element.getArraySize())
         sub_elements = parameter_element.getSubElements()
         if len(sub_elements) > 0:

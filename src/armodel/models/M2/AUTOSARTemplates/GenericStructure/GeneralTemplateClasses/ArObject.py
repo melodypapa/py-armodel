@@ -15,6 +15,7 @@ if TYPE_CHECKING:
         String,
     )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement
 
 
 class ARObject(ABC):
@@ -136,7 +137,95 @@ class ClientServerOperationBlueprintMapping(ARObject):
 
 
 class DiagnosticAbstractParameter(ARObject, ABC):
-    pass
+    """
+    This meta-class represents an abstract base class for modeling a diagnostic parameter.
+
+    [constr_1790] Existence of attribute DiagnosticAbstractParameter.bitOffset: For each DiagnosticParameter, attribute bitOffset shall exist at the time when the DEXT is complete.
+    [constr_1470] Value of DiagnosticAbstractParameter.bitOffset: The value of DiagnosticAbstractParameter.bitOffset shall only be set to a multiple of 8 at the time when the DEXT is complete.
+    """
+
+    # DiagnosticAbstractParameter method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.8, p.37
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitOffset       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitOffset       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDataElement  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElement     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getParameterSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Subclasses: DiagnosticParameter (Table 4.5), DiagnosticParameterElement
+    # (Table 4.6). PDF Mult of dataElement is 0..1 — the XSD resolves the
+    # atpVariation/atpSplitable stereotypes into the DATA-ELEMENTS wrapper with an
+    # unbounded choice (single-field model stays PDF-correct, Rule 0001.4); the
+    # wrapper is absorbed by the reusable read/write helpers (Rule 0001.7).
+    # __init__ calls ARObject.__init__ directly (Referrable precedent): cooperative
+    # super() would dispatch to Identifiable.__init__(parent, short_name) under the
+    # DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable) MRO and
+    # fail on missing arguments.
+
+    def __init__(self):
+        if type(self) is DiagnosticAbstractParameter:
+            raise TypeError("DiagnosticAbstractParameter is an abstract class.")
+
+        ARObject.__init__(self)
+
+        # This represents the bitOffset of the DiagnosticParameter. The value of the bitOffset shall always be interpreted as relative to the start of the enclosing DiagnosticData Identifier, DiagnosticParameterIdentifier, or Diagnostic RoutineSubfunction.
+        self.bitOffset: Optional[PositiveInteger] = None
+
+        # This represents the related dataElement of the Diagnostic Parameter
+        self.dataElement: Optional[DiagnosticDataElement] = None
+
+        # This attribute allows for the specification of the parameter size. This information is relevant if there is a gap between one diagnostic parameter and the following diagnostic parameter (or the tail of the telegram). The unit is bit and the values shall be multiples of 8.
+        self.parameterSize: Optional[PositiveInteger] = None
+
+    def getBitOffset(self) -> Optional[PositiveInteger]:
+        """
+        This represents the bitOffset of the DiagnosticParameter. The value of the bitOffset shall always be interpreted as relative to the start of the enclosing DiagnosticData Identifier, DiagnosticParameterIdentifier, or Diagnostic RoutineSubfunction.
+        """
+        return self.bitOffset
+
+    def setBitOffset(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractParameter:
+        """
+        This represents the bitOffset of the DiagnosticParameter. The value of the bitOffset shall always be interpreted as relative to the start of the enclosing DiagnosticData Identifier, DiagnosticParameterIdentifier, or Diagnostic RoutineSubfunction.
+        A None value is a no-op and does not overwrite an existing bitOffset.
+        """
+        if value is not None:
+            self.bitOffset = value
+        return self
+
+    def createDataElement(self, short_name: str) -> DiagnosticDataElement:
+        """
+        This represents the related dataElement of the Diagnostic Parameter
+        The existing data element is returned when the short name already exists (no duplicate creation).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement
+
+        if self.dataElement is None or self.dataElement.getShortName() != short_name:
+            self.dataElement = DiagnosticDataElement(self, short_name)
+        return self.dataElement
+
+    def getDataElement(self) -> Optional[DiagnosticDataElement]:
+        """
+        This represents the related dataElement of the Diagnostic Parameter
+        """
+        return self.dataElement
+
+    def getParameterSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute allows for the specification of the parameter size. This information is relevant if there is a gap between one diagnostic parameter and the following diagnostic parameter (or the tail of the telegram). The unit is bit and the values shall be multiples of 8.
+        """
+        return self.parameterSize
+
+    def setParameterSize(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractParameter:
+        """
+        This attribute allows for the specification of the parameter size. This information is relevant if there is a gap between one diagnostic parameter and the following diagnostic parameter (or the tail of the telegram). The unit is bit and the values shall be multiples of 8.
+        A None value is a no-op and does not overwrite an existing parameterSize.
+        """
+        if value is not None:
+            self.parameterSize = value
+        return self
 
 
 class DiagnosticClearResetEmissionRelatedInfo(ARObject):
@@ -814,3 +903,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     pass
+
+
+# Cycle-breaker (Rule 0005): PrimitiveTypes imports ARObject from this module, so the
+# PositiveInteger name needed by DiagnosticAbstractParameter's annotations must be bound
+# at the bottom, after every class above is defined. Placed here so get_type_hints can
+# resolve the bitOffset/parameterSize annotations at runtime on Python 3.8.
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger  # noqa: E402

@@ -88,6 +88,12 @@ def test_write_read_round_trip_via_element(parser):
     """Test the write → serialize → parse → read cycle over the element tree (no document dispatch yet)."""
     parent = AUTOSAR.getInstance()
     parameter_element = DiagnosticParameterElement(parent, "Elem1")
+    bit_offset = PositiveInteger()
+    bit_offset.setValue("2")
+    parameter_element.setBitOffset(bit_offset)
+    parameter_size = PositiveInteger()
+    parameter_size.setValue("24")
+    parameter_element.setParameterSize(parameter_size)
     array_size = PositiveInteger()
     array_size.setValue("8")
     parameter_element.setArraySize(array_size)
@@ -104,6 +110,10 @@ def test_write_read_round_trip_via_element(parser):
     wrapped = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, serialized))
     ARXMLParser().readDiagnosticParameterElement(wrapped[0][0], reparsed)
 
+    assert reparsed.getBitOffset() is not None
+    assert reparsed.getBitOffset().getValue() == 2
+    assert reparsed.getParameterSize() is not None
+    assert reparsed.getParameterSize().getValue() == 24
     assert reparsed.getArraySize() is not None
     assert reparsed.getArraySize().getValue() == 8
     assert len(reparsed.getSubElements()) == 1
