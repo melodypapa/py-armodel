@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 566 | 29.5% |
+| [x] Done | 567 | 29.5% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 198 | 10.3% |
+| [ ] Deferred | 197 | 10.3% |
 | [ ] Implemented | 559 | 29.1% |
 | [ ] Created | 587 | 30.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1359,7 +1359,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ObdRatioServiceNeeds`                                  | [ ] Implemented| N/A                                      | Group29          |
 | `OffsetTimingConstraint`                                | [x] Done    | e305e80e2a                               | Group8           |
 | `OperationCycleTypeEnum`                                | [ ] Implemented| N/A                                      | Group29          |
-| `OperationInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `OperationInAtomicSwcInstanceRef`                       | [x] Done    | 5d9a9f9600                               | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe68                               | Group5           |
 | `OperationInvokedEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
 | `OrderedMaster`                                         | [x] Done    | 5d62450236                               | Group6           |
