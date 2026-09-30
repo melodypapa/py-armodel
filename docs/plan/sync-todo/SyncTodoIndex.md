@@ -576,38 +576,38 @@ Status: **32/32** completed
 
 ## Group11
 
-Status: **23/24** completed
+Status: **24/24** completed
 
-| Class Name                             | Status       | Commit ID  |
-| -------------------------------------- | ------------ | ---------- |
-| `ModeActivationKind`                   | [x] Done     | 1625966930 |
-| `ModeDeclarationGroupPrototypeMapping` | [x] Done     | 96e9f073a2 |
-| `ModeRequestTypeMap`                   | [x] Done     | 2b824ca5f8 |
-| `ClientServerApplicationErrorMapping`  | [x] Done     | bc933575fd |
-| `ClientServerOperationMapping`         | [x] Done     | e301de1df9 |
-| `ClientServerInterfaceMapping`         | [x] Done     | cae5a51c92 |
-| `ModeInterfaceMapping`                 | [x] Done     | a598489544 |
-| `VariableAndParameterInterfaceMapping` | [x] Done     | 0e87cc4bb9 |
-| `Field`                                | [x] Done     | d31cad4d7e |
-| `AbstractProvidedPortPrototype`        | [x] Done     | 510d31dd57 |
-| `AbstractRequiredPortPrototype`        | [x] Done     | bbacb3368c |
-| `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb8 |
-| `ModeGroupInAtomicSwcInstanceRef`      | [x] Done     | cdb0951050 |
-| `OperationInAtomicSwcInstanceRef`      | [x] Done     | 5d9a9f9600 |
-| `RModeInAtomicSwcInstanceRef`          | [x] Done     | 5a3a7d14c0 |
-| `TriggerInAtomicSwcInstanceRef`        | [x] Done     | 839264b3a6 |
-| `PModeGroupInAtomicSwcInstanceRef`     | [x] Done     | f517d795f6 |
-| `RModeGroupInAtomicSWCInstanceRef`     | [x] Done     | 7dd87307dd |
-| `POperationInAtomicSwcInstanceRef`     | [x] Done     | b6b0ea8cf7 |
-| `ROperationInAtomicSwcInstanceRef`     | [x] Done     | d7c9455251 |
-| `RVariableInAtomicSwcInstanceRef`      | [x] Done     | 2014bb1a51 |
-| `PTriggerInAtomicSwcTypeInstanceRef`   | [x] Done     | dc2297cba8 |
-| `PPortInCompositionInstanceRef`        | [x] Done     | b36a560be9 |
-| `RPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb8 |
+| Class Name                             | Status   | Commit ID  |
+| -------------------------------------- | -------- | ---------- |
+| `ModeActivationKind`                   | [x] Done | 1625966930 |
+| `ModeDeclarationGroupPrototypeMapping` | [x] Done | 96e9f073a2 |
+| `ModeRequestTypeMap`                   | [x] Done | 2b824ca5f8 |
+| `ClientServerApplicationErrorMapping`  | [x] Done | bc933575fd |
+| `ClientServerOperationMapping`         | [x] Done | e301de1df9 |
+| `ClientServerInterfaceMapping`         | [x] Done | cae5a51c92 |
+| `ModeInterfaceMapping`                 | [x] Done | a598489544 |
+| `VariableAndParameterInterfaceMapping` | [x] Done | 0e87cc4bb9 |
+| `Field`                                | [x] Done | d31cad4d7e |
+| `AbstractProvidedPortPrototype`        | [x] Done | 510d31dd57 |
+| `AbstractRequiredPortPrototype`        | [x] Done | bbacb3368c |
+| `ServiceProxySwComponentType`          | [x] Done | 74e821ccb8 |
+| `ModeGroupInAtomicSwcInstanceRef`      | [x] Done | cdb0951050 |
+| `OperationInAtomicSwcInstanceRef`      | [x] Done | 5d9a9f9600 |
+| `RModeInAtomicSwcInstanceRef`          | [x] Done | 5a3a7d14c0 |
+| `TriggerInAtomicSwcInstanceRef`        | [x] Done | 839264b3a6 |
+| `PModeGroupInAtomicSwcInstanceRef`     | [x] Done | f517d795f6 |
+| `RModeGroupInAtomicSWCInstanceRef`     | [x] Done | 7dd87307dd |
+| `POperationInAtomicSwcInstanceRef`     | [x] Done | b6b0ea8cf7 |
+| `ROperationInAtomicSwcInstanceRef`     | [x] Done | d7c9455251 |
+| `RVariableInAtomicSwcInstanceRef`      | [x] Done | 2014bb1a51 |
+| `PTriggerInAtomicSwcTypeInstanceRef`   | [x] Done | dc2297cba8 |
+| `PPortInCompositionInstanceRef`        | [x] Done | b36a560be9 |
+| `RPortInCompositionInstanceRef`        | [x] Done | 6056133191 |
 
 ## Group12
 
-Status: **6/15** completed
+Status: **7/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -617,7 +617,7 @@ Status: **6/15** completed
 | `InternalTriggeringPoint`            | [x] Done     | 96033eb3fe |
 | `ModeAccessPoint`                    | [x] Done     | 543d9df4e7 |
 | `ModeSwitchPoint`                    | [x] Done     | 1037222ee7 |
-| `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
+| `AsynchronousServerCallReturnsEvent` | [x] Done     | N/A        |
 | `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
 | `DataReceivedEvent`                  | [ ] Pending* | N/A        |
 | `DataSendCompletedEvent`             | [ ] Pending* | N/A        |

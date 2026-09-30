@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 582 | 30.3% |
+| [x] Done | 584 | 30.4% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 206 | 10.7% |
+| [ ] Deferred | 204 | 10.6% |
 | [ ] Implemented | 543 | 28.2% |
 | [ ] Created | 579 | 30.1% |
 | [ ] Pending | 2 | 0.1% |
@@ -110,7 +110,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AssignNad`                                             | [ ] Implemented| N/A                                      | Group31          |
 | `AsynchronousServerCallPoint`                           | [x] Done    | 3223dde420                               | Group2           |
 | `AsynchronousServerCallResultPoint`                     | [x] Done    | 724f490c7a                               | Group2           |
-| `AsynchronousServerCallReturnsEvent`                    | [ ] Deferred| N/A                                      | Group12          |
+| `AsynchronousServerCallReturnsEvent`                    | [x] Done    | N/A                                      | Group12          |
 | `AtomicSwComponentType`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `AtpBlueprint`                                          | [x] Done    | 043de7436d                               | Group1           |
 | `AtpBlueprintMapping`                                   | [x] Done    | 493e272da6                               | Group1           |
@@ -1454,7 +1454,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RModeInAtomicSwcInstanceRef`                           | [x] Done    | 5a3a7d14c0                               | Group11          |
 | `ROperationInAtomicSwcInstanceRef`                      | [x] Done    | d7c9455251                               | Group11          |
 | `RPortComSpec`                                          | [ ] Implemented| N/A                                      | Group27          |
-| `RPortInCompositionInstanceRef`                         | [ ] Deferred| 74e821ccb8                               | Group11          |
+| `RPortInCompositionInstanceRef`                         | [x] Done    | 6056133191                               | Group11          |
 | `RPortPrototype`                                        | [x] Done    | 2cd6f3c46e                               | Group2           |
 | `RTEEvent`                                              | [x] Done    | f0483d5732                               | Group2           |
 | `RVariableInAtomicSwcInstanceRef`                       | [x] Done    | 2014bb1a51                               | Group11          |
