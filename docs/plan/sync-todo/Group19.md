@@ -1044,35 +1044,39 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `EcucConditionFormula` — pure-text formula class — locate spec table at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `EcucParameterDerivationFormula` — pure-text formula class — locate spec table at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `EcucQueryExpression` — pure-text formula class — locate spec table at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `EcucConditionFormula` — pure-text formula class — locate spec table at Step 1 — already verified (short-circuit 2026-09-30)
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 (Group19 header rule) — `# Spec verified: R23-11` marker present in src (Table 2.43, p.100); quick deviation check clean: Base FormulaExpression (spec most-derived), members ecucQueryRef/ecucQueryStringRef Optional[RefType] PEP 526 under verbatim Notes, reader/writer coverage [x], drift-fix note (2026-09-25 re-parent) recorded in the checklist. 9 steps not re-run (Rule 0012.3); stamp already present.
+- [ ] `EcucParameterDerivationFormula` — pure-text formula class — locate spec table at Step 1 — already verified (short-circuit 2026-09-30)
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 — `# Spec verified: R23-11` marker present in src (Table 2.39, p.88); quick check found ONE Rule 0003 drift: the two members were bare `RefType = None` assignments — FIXED this pass (Optional[RefType] PEP 526, Rule 0012.3 drift fix, marker retained; accessor pins already passed). Rest clean: Base FormulaExpression, members ecucQueryRef/ecucQueryStringRef with verbatim Notes, reader/writer [x]. 9 steps not re-run.
+- [ ] `EcucQueryExpression` — pure-text formula class — locate spec table at Step 1 — already verified (short-circuit 2026-09-30)
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note: already-verified short-circuit 2026-09-30 — `# Spec verified: R23-11` marker present in src (Table 2.41, p.90); quick deviation check clean: Base ARObject (XSD ECUC-QUERY-EXPRESSION complexType embeds AR-OBJECT only), members configElementDefGlobalRef/configElementDefLocalRef Optional[RefType] PEP 526 under verbatim Notes (the markdown render shows only the local row — a render artifact; the XSD group carries both CONFIG-ELEMENT-DEF-GLOBAL-REF and -LOCAL-REF and the class Note references the global search), reader/writer [x]. 9 steps not re-run.
