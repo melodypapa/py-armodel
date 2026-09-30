@@ -92,148 +92,412 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (139 passed / 0 failed
     test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 - [ ] `SdgDef` — ARElement — R23-11 FO_TPS_GenericStructureTemplate Table 4.24, p.99
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.24 (trailing-caption page-split; p.99 via pdf_page.py); Package M2::...::GeneralTemplateClasses::SpecialDataDef — REHOUSED from the ARPackage.py stub to the spec package (new module); Base ARElement (most-derived); attr sdgClass (SdgClass, *, aggr) → sdgClasses + addSdgClass; ARPackage.createSdgDef factory added (late import, mirroring the VariantHandling pattern).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): ARElement subclass with (parent, short_name) ctor; sdgClasses List[SdgClass] PEP 526 under its Note.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.24 Note verbatim (the spec's own "similiar" spelling kept) + atp.recommendedPackage tag; attr Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none; consumer dispatch added to the ARPackage element writer/parser chains.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
 - [ ] `SdgElementWithGid` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.25, p.99
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.25 (p.99 via pdf_page.py); abstract (spec header); REHOUSED from the ArObject.py stub; Base ARObject (most-derived); attr gid (NameToken, 0..1, attr).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): MIXIN-STYLE base: class-level gid default + accessors, NO __init__ — SdgElementWithGid sits in front of Identifiable in every concrete subclass MRO and an __init__ here would never run (VariationPointCapable/StereotypeMixins precedent, recorded in-code); no instantiation guard as a consequence.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.25 Note verbatim; gid Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): abstract instantiation guard dropped (mixin pattern — combined-inheritance constraint); no test asserts rejection for this class.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgClass` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgClass` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.26, p.100
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.26 (leading-caption page-split — attr rows in the continuation block, p.100 via pdf_page.py); Base row lists both SdgElementWithGid and Identifiable → dual inheritance SdgClass(SdgElementWithGid, Identifiable); attrs extendsMetaClass (MetaClassName, 0..1, attr → Optional[str]), caption (Boolean, 0..1, attr), attribute (SdgAttribute, *, aggr, ordered → attributes + addAttribute), sdgConstraint (TraceableText, *, ref → sdgConstraintRefs).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): dual-base (SdgElementWithGid, Identifiable) per the Base row; polymorphic attributes List[SdgAttribute] with addAttribute (Rule 0004 dedicated list, no registry filter); MetaClassName/TraceableText have no src classes → str/RefType.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.26 Note verbatim; member comments + accessor docstrings = table/XSD attr Notes verbatim ("Defintion" spec typo kept).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): extendsMetaClass typed Optional[str] (MetaClassName primitive has no src class); sdgConstraint typed List[RefType] (TraceableText ditto); SdgReference carries NO gid per its Base row/XSD group.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAttribute` — Identifiable — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.27, p.100
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.27 (p.100 via pdf_page.py); abstract (spec header); REHOUSED from the Identifiable.py stub; Base row: ARObject, AbstractMultiplicityRestriction, Identifiable, MLR, Referrable → SdgAttribute(Identifiable, AbstractMultiplicityRestriction, ABC); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): abstract with (parent, short_name) ctor + type-guard; inherits the Identifiable member chain and the AbstractMultiplicityRestriction marker.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.27 Note verbatim; __init__ has no docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): lowerMultiplicity/upperMultiplicity/upperMultiplicityInfinite (XSD group ABSTRACT-MULTIPLICITY-RESTRICTION) NOT modeled — the AbstractMultiplicityRestriction stub is empty and its members belong to that class's own (later-group) row.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAbstractPrimitiveAttribute` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAbstractPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.28, p.100
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.28 (p.100 via pdf_page.py); abstract (spec header); Base row adds AbstractValueRestriction → SdgAbstractPrimitiveAttribute(SdgElementWithGid, SdgAttribute, AbstractValueRestriction, ABC); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): abstract with (parent, short_name) ctor + type-guard; MRO SdgAbstractPrimitiveAttribute → SdgElementWithGid (mixin) → SdgAttribute → Identifiable chain → AbstractMultiplicityRestriction → AbstractValueRestriction (mixin) → ARObject; value-restriction members initialize via class-level defaults.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.28 Note verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none beyond the mixin-pattern notes on SdgElementWithGid/AbstractValueRestriction.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgPrimitiveAttribute` — SdgAbstractPrimitiveAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgPrimitiveAttribute` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.29, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.29 (leading-caption page-split; p.101 via pdf_page.py); Base row: full chain → SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute); zero own attribute rows (category/pattern semantics come from the inherited value restriction).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): concrete pass-through subclass with (parent, short_name) ctor.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.29 Note verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgPrimitiveAttributeWithVariation` — SdgAbstractPrimitiveAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgPrimitiveAttributeWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.30, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.30 (trailing-caption; p.101 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute, AbstractVariationRestriction); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): dual-base (SdgAbstractPrimitiveAttribute, AbstractVariationRestriction); validBindingTimes initialized per-instance in __init__ (mutable class-level default would be shared).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.30 Note verbatim.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAggregationWithVariation` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAggregationWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.31, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.31 (leading-caption; p.101 via pdf_page.py); Base row: ARObject, AMR, AbstractVariationRestriction, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVariationRestriction); attr subSdg (SdgClass, 0..1, ref) → subSdgRef.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): triple-base per the Base row; subSdgRef Optional[RefType] (Rule 0001.5 Ref suffix).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.31 Note verbatim ("Represents 'sdg'" kept); subSdg Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgReference` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.32, p.101
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.32 (leading-caption; p.101 via pdf_page.py); Base row has NO SdgElementWithGid (XSD SDG-REFERENCE group embeds no SDG-ELEMENT-WITH-GID) → SdgReference(SdgAttribute); attr destSdg (SdgClass, 0..1, ref) → destSdgRef.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): single-base SdgAttribute (Identifiable chain, no gid); destSdgRef Optional[RefType].
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.32 Note verbatim; destSdg long Note verbatim on accessor docstrings.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgAbstractForeignReference` — SdgAttribute — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgAbstractForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.33, p.102
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.33 (header-cell lookup; p.102 via pdf_page.py); abstract (spec header); Base row: ARObject, AMR, Identifiable, MLR, Referrable, SdgAttribute, SdgElementWithGid → SdgAbstractForeignReference(SdgElementWithGid, SdgAttribute, ABC); attr destMetaClass (MetaClassName, 0..1, attr → Optional[str]).
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): abstract with (parent, short_name) ctor + type-guard; dual-base per the Base row.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.33 Note verbatim ("An abstract reference that can point to any referrable object in an AUTOSAR Model."); destMetaClass Note verbatim (lowercase "specifies..." as printed).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): destMetaClass typed Optional[str] (MetaClassName primitive has no src class).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgForeignReference` — SdgAbstractForeignReference — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgForeignReference` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.34, p.102
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.34 (trailing-caption; p.102 via pdf_page.py); Base row: full chain incl. SdgAbstractForeignReference → SdgForeignReference(SdgAbstractForeignReference); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): concrete pass-through subclass with (parent, short_name) ctor.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.34 Note verbatim (the "Sdx" sentence belongs to THIS class, not the abstract).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
-- [ ] `SdgForeignReferenceWithVariation` — SdgAbstractForeignReference — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdgForeignReferenceWithVariation` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.35, p.102
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/SpecialDataDef.py
+  - [x] Step 1 — Sync members & description from spec
+    - note (Step 1): Table 4.35 (leading-caption; p.102 via pdf_page.py); Base row adds AbstractVariationRestriction → SdgForeignReferenceWithVariation(SdgAbstractForeignReference, AbstractVariationRestriction); zero own attribute rows.
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): tests added in test_SpecialDataDef.py (family suite: abstract
+      rejections, member round-trips, adder chaining) — seen Red (classes did not exist
+      in this module) before implementation.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): dual-base; validBindingTimes initialized per-instance in __init__.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring = Table 4.35 Note verbatim (the "Sdxf" sentence).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): family parser test (tests/test_armodel/parser/test_sdg_def.py —
+      full SDG-DEF document with all 6 attribute kinds) + writer round-trip test
+      (tests/test_armodel/writer/test_sdg_def.py — build → save → re-parse → field-value
+      compare); Red before wiring.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): readSdgDef/writeSdgDef + the SDG-DEF ARPackage-element dispatch;
+      readSdgClass/writeSdgClass (GID, EXTENDS-META-CLASS, CAPTION, ATTRIBUTES choice
+      over the 6 concrete Sdg attribute classes, SDG-CONSTRAINT-REFS); per-concrete
+      read/write helpers calling the readAbstractValueRestriction/writeAbstractValueRestriction
+      and readAbstractVariationRestriction/writeAbstractVariationRestriction helpers;
+      XML element order per the XSD group sequences; new active
+      setChildElementOptionalStringValue/getChildElementOptionalStringValue pair in the
+      abstract writer/parser (the old same-named helpers were docstring relics).
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): 6-column block + release column; marker withheld (batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): none.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (362 passed / 0 failed
+    family suites; 14,043 passed / 0 failed models+parser+writer sweep); 9b deferred to
+    batch confirmation (user instruction)
 
 - [ ] `AbstractValueRestriction` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 4.37, p.103; also FO_TPS_StandardizationTemplate Table 6.9, p.87
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ModelRestrictionTypes.py
