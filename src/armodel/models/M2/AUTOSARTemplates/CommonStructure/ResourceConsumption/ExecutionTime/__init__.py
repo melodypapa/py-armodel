@@ -76,7 +76,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
 
         # Provides information on the MemorySectionLocation which is involved in the
         # ExecutionTime description.
-        self.memorySectionLocations: List["MemorySectionLocation"] = []
+        self.memorySectionLocations: List[MemorySectionLocation] = []
 
         # Provides information on the detailed SoftwareContext used to provide the
         # ExecutionTime description. [constr_10314] The attribute shall exist at the
@@ -209,7 +209,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.includedLibraryRefs
 
-    def addMemorySectionLocation(self, value: Optional["MemorySectionLocation"]) -> ExecutionTime:
+    def addMemorySectionLocation(self, value: Optional[MemorySectionLocation]) -> ExecutionTime:
         """
         Adds a MemorySectionLocation which is involved in the ExecutionTime description.
 
@@ -223,7 +223,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
             self.memorySectionLocations.append(value)
         return self
 
-    def getMemorySectionLocations(self) -> List["MemorySectionLocation"]:
+    def getMemorySectionLocations(self) -> List[MemorySectionLocation]:
         """
         Gets the MemorySectionLocations which are involved in the ExecutionTime description.
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
@@ -39,7 +40,7 @@ class SwValues(ARObject):
         self.vf: List[Numerical] = []
 
         # This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
-        self.vg: Optional["ValueGroup"] = None
+        self.vg: Optional[ValueGroup] = None
 
         # This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
         self.vt: Optional[VerbatimString] = None
@@ -47,7 +48,7 @@ class SwValues(ARObject):
         # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints.
         self.vtf: List[NumericalOrText] = []
 
-    def addV(self, v: Optional[Numerical]) -> "SwValues":
+    def addV(self, v: Optional[Numerical]) -> SwValues:
         """
         This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
         A None value is a no-op and does not append anything.
@@ -71,7 +72,7 @@ class SwValues(ARObject):
         """
         return self.v
 
-    def addVf(self, vf: Optional[Numerical]) -> "SwValues":
+    def addVf(self, vf: Optional[Numerical]) -> SwValues:
         """
         This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
         A None value is a no-op and does not append anything.
@@ -95,7 +96,7 @@ class SwValues(ARObject):
         """
         return self.vf
 
-    def getVg(self) -> Optional["ValueGroup"]:
+    def getVg(self) -> Optional[ValueGroup]:
         """
         This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
 
@@ -104,7 +105,7 @@ class SwValues(ARObject):
         """
         return self.vg
 
-    def setVg(self, value: Optional["ValueGroup"]) -> "SwValues":
+    def setVg(self, value: Optional[ValueGroup]) -> SwValues:
         """
         This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
         A None value is a no-op and does not overwrite an existing vg.
@@ -128,7 +129,7 @@ class SwValues(ARObject):
         """
         return self.vt
 
-    def setVt(self, value: Optional[VerbatimString]) -> "SwValues":
+    def setVt(self, value: Optional[VerbatimString]) -> SwValues:
         """
         This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
         A None value is a no-op and does not overwrite an existing vt.
@@ -143,7 +144,7 @@ class SwValues(ARObject):
             self.vt = value
         return self
 
-    def addVtf(self, vtf: Optional[NumericalOrText]) -> "SwValues":
+    def addVtf(self, vtf: Optional[NumericalOrText]) -> SwValues:
         """
         This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints.
         A None value is a no-op and does not append anything.
@@ -204,7 +205,7 @@ class SwValueCont(ARObject):
         """This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40."""
         return self.swArraysize
 
-    def setSwArraysize(self, value: Optional[ValueList]) -> "SwValueCont":
+    def setSwArraysize(self, value: Optional[ValueList]) -> SwValueCont:
         """This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing swArraysize."""
         if value is not None:
             self.swArraysize = value
@@ -214,7 +215,7 @@ class SwValueCont(ARObject):
         """swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=50."""
         return self.swValuesPhys
 
-    def setSwValuesPhys(self, value: Optional[SwValues]) -> "SwValueCont":
+    def setSwValuesPhys(self, value: Optional[SwValues]) -> SwValueCont:
         """swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing swValuesPhys."""
         if value is not None:
             self.swValuesPhys = value
@@ -224,7 +225,7 @@ class SwValueCont(ARObject):
         """This represents the physical unit of the provided values. Tags: xml.sequenceOffset=20."""
         return self.unitRef
 
-    def setUnitRef(self, value: Optional[RefType]) -> "SwValueCont":
+    def setUnitRef(self, value: Optional[RefType]) -> SwValueCont:
         """This represents the physical unit of the provided values. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing unitRef."""
         if value is not None:
             self.unitRef = value
@@ -234,7 +235,7 @@ class SwValueCont(ARObject):
         """This specifies how the physical units of the current value set shall be displayed in documents or in user interfaces of tools. Tags: xml.sequenceOffset=30."""
         return self.unitDisplayName
 
-    def setUnitDisplayName(self, value: Optional[SingleLanguageUnitNames]) -> "SwValueCont":
+    def setUnitDisplayName(self, value: Optional[SingleLanguageUnitNames]) -> SwValueCont:
         """This specifies how the physical units of the current value set shall be displayed in documents or in user interfaces of tools. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing unitDisplayName."""
         if value is not None:
             self.unitDisplayName = value
@@ -274,7 +275,7 @@ class ValueGroup(ARObject):
         """
         return self.label
 
-    def setLabel(self, value: Optional[MultilanguageLongName]) -> "ValueGroup":
+    def setLabel(self, value: Optional[MultilanguageLongName]) -> ValueGroup:
         """
         This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table.
         A None value is a no-op and does not overwrite an existing label.
@@ -298,7 +299,7 @@ class ValueGroup(ARObject):
         """
         return self.vgContents
 
-    def setVgContents(self, value: Optional[SwValues]) -> "ValueGroup":
+    def setVgContents(self, value: Optional[SwValues]) -> ValueGroup:
         """
         This represents the contents of the value group.
         A None value is a no-op and does not overwrite an existing vgContents.

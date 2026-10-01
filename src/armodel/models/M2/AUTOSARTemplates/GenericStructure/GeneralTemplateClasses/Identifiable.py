@@ -42,11 +42,11 @@ class Referrable(ARObject, ABC):
 
         ARObject.__init__(self)
 
-        self.parent = parent
-        self.short_name = short_name
+        self.parent: ARObject = parent
+        self.short_name: str = short_name
 
         # This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90
-        self.shortNameFragments: List["ShortNameFragment"] = []
+        self.shortNameFragments: List[ShortNameFragment] = []
 
     @property
     def shortName(self) -> str:
@@ -91,7 +91,7 @@ class Referrable(ARObject, ABC):
         """
         return self.full_name
 
-    def addShortNameFragment(self, value: Optional["ShortNameFragment"]) -> Referrable:
+    def addShortNameFragment(self, value: Optional[ShortNameFragment]) -> Referrable:
         """
         Adds a short name fragment that specifies how the shortName is composed of several shortNameFragments.
         A None value is a no-op and does not append anything.
@@ -106,7 +106,7 @@ class Referrable(ARObject, ABC):
             self.shortNameFragments.append(value)
         return self
 
-    def getShortNameFragments(self) -> List["ShortNameFragment"]:
+    def getShortNameFragments(self) -> List[ShortNameFragment]:
         """
         Gets the short name fragments that specify how the shortName is composed of several shortNameFragments.
 
@@ -197,7 +197,7 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         return self.longName
 
-    def setLongName(self, value: Optional["MultilanguageLongName"]) -> MultilanguageReferrable:
+    def setLongName(self, value: Optional[MultilanguageLongName]) -> MultilanguageReferrable:
         """
         This specifies the long name of the object. Long name is targeted to human readers and acts like a headline.
         A None value is a no-op and does not overwrite an existing longName.
@@ -985,44 +985,14 @@ class RptContainer(Identifiable):
     pass
 
 
-class SdgAttribute(Identifiable, ABC):
-    pass
 
 
-class SdgAbstractForeignReference(SdgAttribute, ABC):
-    pass
 
 
-class SdgAbstractPrimitiveAttribute(SdgAttribute, ABC):
-    pass
 
 
-class SdgAggregationWithVariation(SdgAttribute):
-    pass
 
 
-class SdgClass(Identifiable):
-    pass
-
-
-class SdgForeignReference(SdgAbstractForeignReference):
-    pass
-
-
-class SdgForeignReferenceWithVariation(SdgAbstractForeignReference):
-    pass
-
-
-class SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute):
-    pass
-
-
-class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
-    pass
-
-
-class SdgReference(SdgAttribute):
-    pass
 
 
 class SdgTailoring(DataFormatElementScope):

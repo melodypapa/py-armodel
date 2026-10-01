@@ -711,7 +711,7 @@ class ServiceDependency(ARObject, ABC):
         self.diagnosticRelevance: Optional[ServiceDiagnosticRelevanceEnum] = None
 
         # This attribute can be taken to contribute to the creation of symbolic name values.
-        self.symbolicNameProps: Optional["SymbolicNameProps"] = None
+        self.symbolicNameProps: Optional[SymbolicNameProps] = None
 
     def getAssignedDataType(self) -> Optional[RoleBasedDataTypeAssignment]:
         """
@@ -758,13 +758,13 @@ class ServiceDependency(ARObject, ABC):
             self.diagnosticRelevance = value
         return self
 
-    def getSymbolicNameProps(self) -> Optional["SymbolicNameProps"]:
+    def getSymbolicNameProps(self) -> Optional[SymbolicNameProps]:
         """
         This attribute can be taken to contribute to the creation of symbolic name values.
         """
         return self.symbolicNameProps
 
-    def setSymbolicNameProps(self, value: Optional["SymbolicNameProps"]) -> ServiceDependency:
+    def setSymbolicNameProps(self, value: Optional[SymbolicNameProps]) -> ServiceDependency:
         """
         This attribute can be taken to contribute to the creation of symbolic name values.
         Only sets the value if it is not None.

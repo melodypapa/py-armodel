@@ -566,11 +566,11 @@ class ARPackage(CollectableElement, VariationPointCapable):
         super().__init__(parent, short_name)
 
         # This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
-        self.arPackages: List["ARPackage"] = []
+        self.arPackages: List[ARPackage] = []
         # This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
         self.referenceBases: List[ReferenceBase] = []
 
-    def getARPackages(self) -> List["ARPackage"]:
+    def getARPackages(self) -> List[ARPackage]:
         """
         This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
 
@@ -1421,6 +1421,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = SwSystemconstantValueSet(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SwSystemconstantValueSet)
+
+    def createEvaluatedVariantSet(self, short_name: str) -> EvaluatedVariantSet:
+
+        if not self.IsElementExists(short_name, EvaluatedVariantSet):
+            element = EvaluatedVariantSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, EvaluatedVariantSet)
+
+    def createSdgDef(self, short_name: str) -> SdgDef:
+
+        if not self.IsElementExists(short_name, SdgDef):
+            element = SdgDef(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, SdgDef)
 
     def createPredefinedVariant(self, short_name: str) -> PredefinedVariant:
 
@@ -2535,7 +2549,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements), key=lambda a: a.short_name))
 
-    def getCollections(self) -> List["Collection"]:
+    def getCollections(self) -> List[Collection]:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 
         return list(sorted(filter(lambda a: isinstance(a, Collection), self.elements), key=lambda a: a.short_name))
@@ -2638,7 +2652,11 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (  # noqa: E402
+    SdgDef,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa: E402
+    EvaluatedVariantSet,
     PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
@@ -4013,10 +4031,6 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     pass
 
 
-class EvaluatedVariantSet(ARElement):
-    pass
-
-
 class FMFeature(ARElement):
     pass
 
@@ -4089,9 +4103,6 @@ class PostBuildVariantCriterionValueSet(ARElement):
 class RapidPrototypingScenario(ARElement):
     pass
 
-
-class SdgDef(ARElement):
-    pass
 
 
 class SecurityEventContextMappingApplication(ARElement):

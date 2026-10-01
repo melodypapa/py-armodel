@@ -24,13 +24,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagRequirementIdString,
+    DisplayFormatString,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTypeOfDtcSupportedEnum,
-    DiagRequirementIdString,
-    DisplayFormatString,
     Float,
     Identifier,
     Integer,
@@ -1583,6 +1583,138 @@ class TestAclScopeEnum:
         assert enum.validateEnumValue("descendant") is True
         assert enum.validateEnumValue("explicit") is True
         assert enum.validateEnumValue("invalid") is False
+
+
+class TestSymbolStringMembers:
+    """
+    Test class for SymbolString spec attributes (Table 4.65).
+    """
+
+    def test_initialization(self):
+        """
+        Test SymbolString initialization.
+        """
+        symbol = SymbolString()
+
+        assert symbol is not None
+        assert symbol._value is None
+        assert symbol.blueprintValue is None
+        assert symbol.namePattern is None
+
+    def test_blueprint_value_methods(self):
+        """
+        Test blueprint value methods.
+        """
+        symbol = SymbolString()
+
+        assert symbol.getBlueprintValue() is None
+
+        result = symbol.setBlueprintValue("TestValue")
+        assert result is symbol
+        assert symbol.getBlueprintValue() == "TestValue"
+
+    def test_name_pattern_methods(self):
+        """
+        Test name pattern methods.
+        """
+        symbol = SymbolString()
+
+        assert symbol.getNamePattern() is None
+
+        result = symbol.setNamePattern("TestPattern")
+        assert result is symbol
+        assert symbol.getNamePattern() == "TestPattern"
+
+
+class TestCategoryString:
+    """
+    Test class for CategoryString functionality (Table 4.47).
+    """
+
+    def test_initialization(self):
+        obj = CategoryString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = CategoryString().setValue("MyCategory")
+        assert obj.getValue() == "MyCategory"
+
+
+class TestDateTime:
+    """
+    Test class for DateTime functionality (Table 4.48).
+    """
+
+    def test_initialization(self):
+        obj = DateTime()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = DateTime().setValue("2009-07-23T14:38:00+01:00")
+        assert obj.getValue() == "2009-07-23T14:38:00+01:00"
+
+
+class TestDiagRequirementIdString:
+    """
+    Test class for DiagRequirementIdString functionality (Table 4.49).
+    """
+
+    def test_initialization(self):
+        obj = DiagRequirementIdString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = DiagRequirementIdString().setValue("REQ-0042")
+        assert obj.getValue() == "REQ-0042"
+
+
+class TestIp4AddressString:
+    """
+    Test class for Ip4AddressString functionality (Table 4.51).
+    """
+
+    def test_initialization(self):
+        obj = Ip4AddressString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = Ip4AddressString().setValue("255.255.255.255")
+        assert obj.getValue() == "255.255.255.255"
+
+
+class TestIp6AddressString:
+    """
+    Test class for Ip6AddressString functionality (Table 4.52).
+    """
+
+    def test_initialization(self):
+        obj = Ip6AddressString()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = Ip6AddressString().setValue("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF")
+        assert obj.getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+
+
+class TestRegularExpression:
+    """
+    Test class for RegularExpression functionality (Table 4.60).
+    """
+
+    def test_initialization(self):
+        obj = RegularExpression()
+        assert obj is not None
+        assert obj._value is None
+
+    def test_set_value(self):
+        obj = RegularExpression().setValue("[0-9]+")
+        assert obj.getValue() == "[0-9]+"
+
 
 
 class TestDiagnosticOccurrenceCounterProcessingEnum:

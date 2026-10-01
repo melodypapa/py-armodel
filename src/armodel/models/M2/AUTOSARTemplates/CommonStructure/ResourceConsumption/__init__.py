@@ -4,6 +4,9 @@ This module contains the ResourceConsumption class, its aggregated context class
 classes for representing resource consumption in AUTOSAR models.
 """
 
+from __future__ import annotations
+
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
     AnalyzedExecutionTime,
     ExecutionTime,
@@ -56,7 +59,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.additionalInformation
 
-    def setAdditionalInformation(self, value: Optional[String]) -> "HardwareConfiguration":
+    def setAdditionalInformation(self, value: Optional[String]) -> HardwareConfiguration:
         """
         Specifies additional information on the Hardware Configuration.
         A None value is a no-op and does not overwrite an existing additionalInformation.
@@ -71,7 +74,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processorMode
 
-    def setProcessorMode(self, value: Optional[String]) -> "HardwareConfiguration":
+    def setProcessorMode(self, value: Optional[String]) -> HardwareConfiguration:
         """
         Specifies in which mode the processor is operating.
         A None value is a no-op and does not overwrite an existing processorMode.
@@ -86,7 +89,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processorSpeed
 
-    def setProcessorSpeed(self, value: Optional[String]) -> "HardwareConfiguration":
+    def setProcessorSpeed(self, value: Optional[String]) -> HardwareConfiguration:
         """
         Specifies the speed the processor is operating.
         A None value is a no-op and does not overwrite an existing processorSpeed.
@@ -125,7 +128,7 @@ class SoftwareContext(ARObject):
         """
         return self.input
 
-    def setInput(self, value: Optional[String]) -> "SoftwareContext":
+    def setInput(self, value: Optional[String]) -> SoftwareContext:
         """
         Specifies the input vector which is used to provide the ExecutionTime.
         A None value is a no-op and does not overwrite an existing input.
@@ -140,7 +143,7 @@ class SoftwareContext(ARObject):
         """
         return self.state
 
-    def setState(self, value: Optional[String]) -> "SoftwareContext":
+    def setState(self, value: Optional[String]) -> SoftwareContext:
         """
         Specifies the state the software is in when the Execution Time is provided.
         A None value is a no-op and does not overwrite an existing state.
@@ -191,7 +194,7 @@ class ResourceConsumption(Identifiable):
         super().__init__(parent, short_name)
 
         # Set of access count values.
-        self.accessCountSets: List["AccessCountSet"] = []
+        self.accessCountSets: List[AccessCountSet] = []
 
         # Collection of the execution time descriptions for this implementation. The aggregation of executionTime is subject to variability with the purpose to support the conditional existence of runnable entities.
         self.executionTimes: List[ExecutionTime] = []
@@ -208,13 +211,13 @@ class ResourceConsumption(Identifiable):
         # Collection of the stack memory usage for each runnable entity of this implementation. The aggregation of Stack Usage is subject to variability with the purpose to support the conditional existence of runnable entities.
         self.stackUsages: List[StackUsage] = []
 
-    def addAccessCountSet(self, value: Optional["AccessCountSet"]) -> "ResourceConsumption":
+    def addAccessCountSet(self, value: Optional[AccessCountSet]) -> ResourceConsumption:
         """Set of access count values. A None value is a no-op and does not append anything."""
         if value is not None:
             self.accessCountSets.append(value)
         return self
 
-    def getAccessCountSets(self) -> List["AccessCountSet"]:
+    def getAccessCountSets(self) -> List[AccessCountSet]:
         """Set of access count values"""
         return self.accessCountSets
 

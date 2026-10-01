@@ -607,55 +607,55 @@ Status: **24/24** completed
 
 ## Group12
 
-Status: **7/15** completed
+Status: **15/15** completed
 
-| Class Name                           | Status       | Commit ID  |
-| ------------------------------------ | ------------ | ---------- |
-| `ParameterAccess`                    | [x] Done     | 3b9f111270 |
-| `VariableAccessScopeEnum`            | [x] Done     | 12e743cc9b |
-| `VariableAccess`                     | [x] Done     | 12e743cc9b |
-| `InternalTriggeringPoint`            | [x] Done     | 96033eb3fe |
-| `ModeAccessPoint`                    | [x] Done     | 543d9df4e7 |
-| `ModeSwitchPoint`                    | [x] Done     | 1037222ee7 |
-| `AsynchronousServerCallReturnsEvent` | [x] Done     | a706fd368b |
-| `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
-| `DataReceivedEvent`                  | [ ] Pending* | N/A        |
-| `DataSendCompletedEvent`             | [ ] Pending* | N/A        |
-| `DataWriteCompletedEvent`            | [ ] Pending* | N/A        |
-| `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
-| `OperationInvokedEvent`              | [ ] Pending* | N/A        |
-| `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A        |
-| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A        |
+| Class Name                           | Status   | Commit ID  |
+| ------------------------------------ | -------- | ---------- |
+| `ParameterAccess`                    | [x] Done | 3b9f111270 |
+| `VariableAccessScopeEnum`            | [x] Done | 12e743cc9b |
+| `VariableAccess`                     | [x] Done | 12e743cc9b |
+| `InternalTriggeringPoint`            | [x] Done | 96033eb3fe |
+| `ModeAccessPoint`                    | [x] Done | 543d9df4e7 |
+| `ModeSwitchPoint`                    | [x] Done | 1037222ee7 |
+| `AsynchronousServerCallReturnsEvent` | [x] Done | a706fd368b |
+| `DataReceiveErrorEvent`              | [x] Done | b5ead83e20 |
+| `DataReceivedEvent`                  | [x] Done | 5d23170856 |
+| `DataSendCompletedEvent`             | [x] Done | 57e1abeea2 |
+| `DataWriteCompletedEvent`            | [x] Done | df2a6b3a70 |
+| `InternalTriggerOccurredEvent`       | [x] Done | ac0bbe5799 |
+| `OperationInvokedEvent`              | [x] Done | e607622c82 |
+| `RteEventInEcuInstanceRef`           | [x] Done | dd76ebd8bf |
+| `VariableAccessInEcuInstanceRef`     | [x] Done | b52183a6b4 |
 
 ## Group13
 
-Status: **0/23** completed
+Status: **23/23** completed
 
-| Class Name                              | Status       | Commit ID  |
-| --------------------------------------- | ------------ | ---------- |
-| `BswApiOptions`                         | [ ] Pending* | N/A        |
-| `BswModuleCallPoint`                    | [ ] Pending* | N/A        |
-| `BswDirectCallPoint`                    | [ ] Pending* | N/A        |
-| `BswSynchronousServerCallPoint`         | [ ] Pending* | N/A        |
-| `BswInternalTriggeringPoint`            | [ ] Pending* | N/A        |
-| `BswInterruptEntity`                    | [ ] Pending* | N/A        |
-| `BswModeSwitchAckRequest`               | [ ] Pending* | N/A        |
-| `BswDataReceptionPolicy`                | [ ] Pending* | 7e3a2541a3 |
-| `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A        |
-| `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
-| `BswDataReceivedEvent`                  | [ ] Pending* | N/A        |
-| `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
-| `BswModeManagerErrorEvent`              | [ ] Pending* | N/A        |
-| `BswModeSwitchedAckEvent`               | [ ] Pending* | 160eae8f23 |
-| `BswTimingEvent`                        | [ ] Pending* | 1a0a0619b2 |
-| `BswEntryRelationshipEnum`              | [ ] Pending* | 994c3903cb |
-| `BswEntryRelationship`                  | [ ] Pending* | 75c6517342 |
-| `BswEntryRelationshipSet`               | [ ] Pending* | a4d57abd3a |
-| `BswModuleClientServerEntry`            | [ ] Pending* | e69bc46baa |
-| `BswModuleDependency`                   | [ ] Pending* | 1ca038b144 |
-| `SwcBswRunnableMapping`                 | [ ] Pending* | c52cece662 |
-| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending* | 659c2bf174 |
-| `SwcBswSynchronizedTrigger`             | [ ] Pending* | 6b4b9d6d10 |
+| Class Name                              | Status   | Commit ID  |
+| --------------------------------------- | -------- | ---------- |
+| `BswApiOptions`                         | [x] Done | 816c64f3d0 |
+| `BswModuleCallPoint`                    | [x] Done | 879aacf8c4 |
+| `BswDirectCallPoint`                    | [x] Done | 518ebf6a09 |
+| `BswSynchronousServerCallPoint`         | [x] Done | f23ec00417 |
+| `BswInternalTriggeringPoint`            | [x] Done | f67e3865ef |
+| `BswInterruptEntity`                    | [x] Done | f19be09d07 |
+| `BswModeSwitchAckRequest`               | [x] Done | 8d9cad6b3c |
+| `BswDataReceptionPolicy`                | [x] Done | 893f5df32e |
+| `BswQueuedDataReceptionPolicy`          | [x] Done | 254de705ea |
+| `BswAsynchronousServerCallReturnsEvent` | [x] Done | f2df52d4b5 |
+| `BswDataReceivedEvent`                  | [x] Done | e316f1e6ea |
+| `BswInternalTriggerOccurredEvent`       | [x] Done | caffd21921 |
+| `BswModeManagerErrorEvent`              | [x] Done | 91083c1916 |
+| `BswModeSwitchedAckEvent`               | [x] Done | a250dbe4b5 |
+| `BswTimingEvent`                        | [x] Done | 361ab10d5e |
+| `BswEntryRelationshipEnum`              | [x] Done | ff1903b513 |
+| `BswEntryRelationship`                  | [x] Done | 1872edcae1 |
+| `BswEntryRelationshipSet`               | [x] Done | cdbfc4ebf0 |
+| `BswModuleClientServerEntry`            | [x] Done | f57417a6a2 |
+| `BswModuleDependency`                   | [x] Done | 7686874a67 |
+| `SwcBswRunnableMapping`                 | [x] Done | 4f1681d55f |
+| `SwcBswSynchronizedModeGroupPrototype`  | [x] Done | d024ea8472 |
+| `SwcBswSynchronizedTrigger`             | [x] Done | c7756e2bea |
 
 ## Group14
 
@@ -815,7 +815,7 @@ Status: **0/17** completed
 
 ## Group19
 
-Status: **0/16** completed
+Status: **3/16** completed
 
 | Class Name                       | Status          | Commit ID |
 | -------------------------------- | --------------- | --------- |
@@ -832,9 +832,9 @@ Status: **0/16** completed
 | `EcucReferenceDef`               | [ ] Implemented | N/A       |
 | `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
 | `EcucUriReferenceDef`            | [ ] Implemented | N/A       |
-| `EcucConditionFormula`           | [ ] Implemented | N/A       |
-| `EcucParameterDerivationFormula` | [ ] Implemented | N/A       |
-| `EcucQueryExpression`            | [ ] Implemented | N/A       |
+| `EcucConditionFormula`           | [x] Done        | N/A       |
+| `EcucParameterDerivationFormula` | [x] Done        | N/A       |
+| `EcucQueryExpression`            | [x] Done        | N/A       |
 
 ## Group20
 
@@ -874,85 +874,65 @@ Status: **7/29** completed
 
 ## Group21
 
-Status: **0/75** completed
+Status: **23/55** completed
 
-| Class Name                           | Status          | Commit ID |
-| ------------------------------------ | --------------- | --------- |
-| `Identifier`                         | [ ] Implemented | N/A       |
-| `LLongName`                          | [ ] Implemented | N/A       |
-| `MixedContentForLongName`            | [ ] Implemented | N/A       |
-| `Referrable`                         | [ ] Implemented | N/A       |
-| `ReferrableSubtypesEnum`             | [ ] Implemented | N/A       |
-| `AdminData`                          | [ ] Implemented | N/A       |
-| `DocRevision`                        | [ ] Implemented | N/A       |
-| `Sdg`                                | [ ] Implemented | N/A       |
-| `SdgContents`                        | [ ] Implemented | N/A       |
-| `SdgCaption`                         | [ ] Implemented | N/A       |
-| `Sd`                                 | [ ] Implemented | N/A       |
-| `Sdf`                                | [ ] Implemented | N/A       |
-| `SdgDef`                             | [ ] Created     | N/A       |
-| `SdgElementWithGid`                  | [ ] Created     | N/A       |
-| `SdgClass`                           | [ ] Created     | N/A       |
-| `SdgAttribute`                       | [ ] Created     | N/A       |
-| `SdgAbstractPrimitiveAttribute`      | [ ] Created     | N/A       |
-| `SdgPrimitiveAttribute`              | [ ] Created     | N/A       |
-| `SdgPrimitiveAttributeWithVariation` | [ ] Created     | N/A       |
-| `SdgAggregationWithVariation`        | [ ] Created     | N/A       |
-| `SdgReference`                       | [ ] Created     | N/A       |
-| `SdgAbstractForeignReference`        | [ ] Created     | N/A       |
-| `SdgForeignReference`                | [ ] Created     | N/A       |
-| `SdgForeignReferenceWithVariation`   | [ ] Created     | N/A       |
-| `AbstractValueRestriction`           | [ ] Created     | N/A       |
-| `AbstractVariationRestriction`       | [ ] Created     | N/A       |
-| `FullBindingTimeEnum`                | [ ] Created     | N/A       |
-| `AxisIndexType`                      | [ ] Created     | N/A       |
-| `BaseTypeEncodingString`             | [ ] Implemented | N/A       |
-| `CIdentifier`                        | [ ] Implemented | N/A       |
-| `CategoryString`                     | [ ] Implemented | N/A       |
-| `DateTime`                           | [ ] Implemented | N/A       |
-| `DiagRequirementIdString`            | [ ] Implemented | N/A       |
-| `DisplayFormatString`                | [ ] Implemented | N/A       |
-| `Ip4AddressString`                   | [ ] Implemented | N/A       |
-| `Ip6AddressString`                   | [ ] Implemented | N/A       |
-| `McdIdentifier`                      | [ ] Implemented | N/A       |
-| `NativeDeclarationString`            | [ ] Implemented | N/A       |
-| `PrimitiveIdentifier`                | [ ] Implemented | N/A       |
-| `RegularExpression`                  | [ ] Implemented | N/A       |
-| `RevisionLabelString`                | [ ] Created     | N/A       |
-| `String`                             | [ ] Implemented | N/A       |
-| `SymbolString`                       | [ ] Implemented | N/A       |
-| `UriString`                          | [ ] Implemented | N/A       |
-| `VerbatimString`                     | [ ] Implemented | N/A       |
-| `VerbatimStringPlain`                | [ ] Implemented | N/A       |
-| `EngineeringObject`                  | [ ] Implemented | N/A       |
-| `Annotation`                         | [ ] Implemented | N/A       |
-| `CseCodeType`                        | [ ] Implemented | N/A       |
-| `TagWithOptionalValue`               | [ ] Implemented | N/A       |
-| `AtpClassifier`                      | [ ] Implemented | N/A       |
-| `AtpFeature`                         | [ ] Implemented | N/A       |
-| `AtpInstanceRef`                     | [ ] Implemented | N/A       |
-| `EvaluatedVariantSet`                | [ ] Created     | N/A       |
-| `PredefinedVariant`                  | [ ] Implemented | N/A       |
-| `DocumentationBlock`                 | [ ] Implemented | N/A       |
-| `MultiLanguageVerbatim`              | [ ] Implemented | N/A       |
-| `List`                               | [ ] Created     | N/A       |
-| `LabeledList`                        | [ ] Implemented | N/A       |
-| `LabeledItem`                        | [ ] Implemented | N/A       |
-| `IndentSample`                       | [ ] Implemented | N/A       |
-| `ItemLabelPosEnum`                   | [ ] Implemented | N/A       |
-| `DefList`                            | [ ] Implemented | N/A       |
-| `DefItem`                            | [ ] Implemented | N/A       |
-| `MlFormula`                          | [ ] Implemented | N/A       |
-| `Note`                               | [ ] Implemented | N/A       |
-| `NoteTypeEnum`                       | [ ] Implemented | N/A       |
-| `Traceable`                          | [ ] Implemented | N/A       |
-| `EmphasisText`                       | [ ] Implemented | N/A       |
-| `IndexEntry`                         | [ ] Implemented | N/A       |
-| `Superscript`                        | [ ] Implemented | N/A       |
-| `Tt`                                 | [ ] Implemented | N/A       |
-| `EEnumFont`                          | [ ] Created     | N/A       |
-| `EEnum`                              | [ ] Created     | N/A       |
-| `DocumentationContext`               | [ ] Implemented | N/A       |
+| Class Name                           | Status       | Commit ID |
+| ------------------------------------ | ------------ | --------- |
+| `Identifier`                         | [x] Done     | N/A       |
+| `LLongName`                          | [x] Done     | N/A       |
+| `MixedContentForLongName`            | [x] Done     | N/A       |
+| `Referrable`                         | [x] Done     | N/A       |
+| `ReferrableSubtypesEnum`             | [ ] Pending* | N/A       |
+| `SdgDef`                             | [ ] Pending* | N/A       |
+| `SdgElementWithGid`                  | [ ] Pending* | N/A       |
+| `SdgClass`                           | [ ] Pending* | N/A       |
+| `SdgAttribute`                       | [ ] Pending* | N/A       |
+| `SdgAbstractPrimitiveAttribute`      | [ ] Pending* | N/A       |
+| `SdgPrimitiveAttribute`              | [ ] Pending* | N/A       |
+| `SdgPrimitiveAttributeWithVariation` | [ ] Pending* | N/A       |
+| `SdgAggregationWithVariation`        | [ ] Pending* | N/A       |
+| `SdgReference`                       | [ ] Pending* | N/A       |
+| `SdgAbstractForeignReference`        | [ ] Pending* | N/A       |
+| `SdgForeignReference`                | [ ] Pending* | N/A       |
+| `SdgForeignReferenceWithVariation`   | [ ] Pending* | N/A       |
+| `AbstractValueRestriction`           | [ ] Pending* | N/A       |
+| `AbstractVariationRestriction`       | [ ] Pending* | N/A       |
+| `FullBindingTimeEnum`                | [ ] Pending* | N/A       |
+| `CIdentifier`                        | [ ] Pending* | N/A       |
+| `CategoryString`                     | [ ] Pending* | N/A       |
+| `DateTime`                           | [ ] Pending* | N/A       |
+| `DiagRequirementIdString`            | [ ] Pending* | N/A       |
+| `Ip4AddressString`                   | [ ] Pending* | N/A       |
+| `Ip6AddressString`                   | [ ] Pending* | N/A       |
+| `McdIdentifier`                      | [ ] Pending* | N/A       |
+| `RegularExpression`                  | [ ] Pending* | N/A       |
+| `RevisionLabelString`                | [ ] Pending* | N/A       |
+| `SymbolString`                       | [ ] Pending* | N/A       |
+| `UriString`                          | [ ] Pending* | N/A       |
+| `VerbatimStringPlain`                | [ ] Pending* | N/A       |
+| `CseCodeType`                        | [ ] Pending* | N/A       |
+| `EvaluatedVariantSet`                | [ ] Pending* | N/A       |
+| `PredefinedVariant`                  | [x] Done     | N/A       |
+| `DocumentationBlock`                 | [x] Done     | N/A       |
+| `MultiLanguageVerbatim`              | [x] Done     | N/A       |
+| `List`                               | [x] Done*    | N/A       |
+| `LabeledList`                        | [x] Done     | N/A       |
+| `LabeledItem`                        | [x] Done     | N/A       |
+| `IndentSample`                       | [x] Done     | N/A       |
+| `ItemLabelPosEnum`                   | [x] Done     | N/A       |
+| `DefList`                            | [x] Done     | N/A       |
+| `DefItem`                            | [x] Done     | N/A       |
+| `MlFormula`                          | [x] Done     | N/A       |
+| `Note`                               | [x] Done     | N/A       |
+| `NoteTypeEnum`                       | [x] Done     | N/A       |
+| `Traceable`                          | [x] Done     | N/A       |
+| `EmphasisText`                       | [x] Done     | N/A       |
+| `IndexEntry`                         | [x] Done     | N/A       |
+| `Superscript`                        | [x] Done     | N/A       |
+| `Tt`                                 | [x] Done     | N/A       |
+| `EEnumFont`                          | [ ] Pending* | N/A       |
+| `EEnum`                              | [ ] Pending* | N/A       |
+| `DocumentationContext`               | [x] Done     | N/A       |
 
 ## Group22
 

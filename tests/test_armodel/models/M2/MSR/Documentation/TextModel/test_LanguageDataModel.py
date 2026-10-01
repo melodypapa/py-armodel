@@ -302,7 +302,7 @@ class TestMixedContentForOverviewParagraph:
             assert getter_hints["return"] == expected, name
             assert setter_hints["value"] == expected, name
 
-        assert MixedContentForOverviewParagraph.setFt.__annotations__["value"] == "Optional['SlOverviewParagraph']"
+        assert MixedContentForOverviewParagraph.setFt.__annotations__["value"] == "Optional[SlOverviewParagraph]"
         assert MixedContentForOverviewParagraph.setTraceRef.__annotations__["value"] == "Optional[Traceable]"
 
 

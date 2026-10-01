@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # This module contains AUTOSAR System Template classes for data transformation
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
@@ -78,7 +80,7 @@ class DataTransformation(Identifiable, VariationPointCapable):
         """
         return self.dataTransformationKind
 
-    def setDataTransformationKind(self, value: Optional[DataTransformationKindEnum]) -> "DataTransformation":
+    def setDataTransformationKind(self, value: Optional[DataTransformationKindEnum]) -> DataTransformation:
         """
         This attribute controls the kind of DataTransformation to be applied.
         A None value is a no-op and does not overwrite an existing dataTransformationKind.
@@ -93,7 +95,7 @@ class DataTransformation(Identifiable, VariationPointCapable):
         """
         return self.executeDespiteDataUnavailability
 
-    def setExecuteDespiteDataUnavailability(self, value: Optional[Boolean]) -> "DataTransformation":
+    def setExecuteDespiteDataUnavailability(self, value: Optional[Boolean]) -> DataTransformation:
         """
         Specifies whether the transformer chain is executed even if no input data are available.
         A None value is a no-op and does not overwrite an existing executeDespiteDataUnavailability.
@@ -108,7 +110,7 @@ class DataTransformation(Identifiable, VariationPointCapable):
         """
         return self.transformerChainRefs
 
-    def addTransformerChainRef(self, value: Optional[RefType]) -> "DataTransformation":
+    def addTransformerChainRef(self, value: Optional[RefType]) -> DataTransformation:
         """
         This attribute represents the definition of a chain of transformers that are supposed to be executed according to the order of being referenced from DataTransformation.
         A None value is a no-op and does not add to transformerChainRefs.
@@ -151,7 +153,7 @@ class BufferProperties(ARObject):
         """
         return self.headerLength
 
-    def setHeaderLength(self, value: Optional[Integer]) -> "BufferProperties":
+    def setHeaderLength(self, value: Optional[Integer]) -> BufferProperties:
         """
         Defines the length of the header (in bits) this transformer will add in front of the data.
         A None value is a no-op and does not overwrite an existing headerLength.
@@ -166,7 +168,7 @@ class BufferProperties(ARObject):
         """
         return self.inPlace
 
-    def setInPlace(self, value: Optional[Boolean]) -> "BufferProperties":
+    def setInPlace(self, value: Optional[Boolean]) -> BufferProperties:
         """
         If set, the transformer uses the input buffer as output buffer.
         A None value is a no-op and does not overwrite an existing inPlace.
@@ -276,7 +278,7 @@ class E2EProfileCompatibilityProps(ARElement):
         """
         return self.transitToInvalidExtended
 
-    def setTransitToInvalidExtended(self, value: Optional[Boolean]) -> "E2EProfileCompatibilityProps":
+    def setTransitToInvalidExtended(self, value: Optional[Boolean]) -> E2EProfileCompatibilityProps:
         """
         E2E State machine behavior concerning transition from NODATA/INIT to INVALID value=0 (false): no direct transition from NODATA to INVALID, no transition from INIT to INVALID due to counter-related faults (Autosar R19-11 or former behavior) value=1 (true): direct transition from NODATA to INVALID covered, transition from INIT to INVALID due to counter-related faults covered (state machine extended)
 
@@ -417,7 +419,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.clearFromValidToInvalid
 
-    def setClearFromValidToInvalid(self, value: Optional[Boolean]) -> "EndToEndTransformationDescription":
+    def setClearFromValidToInvalid(self, value: Optional[Boolean]) -> EndToEndTransformationDescription:
         """
         Clear monitoring window on transition from state Valid to state Invalid.
 
@@ -433,7 +435,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.counterOffset
 
-    def setCounterOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setCounterOffset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Offset of the counter in the Data[] array in bits.
 
@@ -449,7 +451,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.crcOffset
 
-    def setCrcOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setCrcOffset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Offset of the CRC in the Data[] array in bits.
 
@@ -465,7 +467,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.dataIdMode
 
-    def setDataIdMode(self, value: Optional[DataIdModeEnum]) -> "EndToEndTransformationDescription":
+    def setDataIdMode(self, value: Optional[DataIdModeEnum]) -> EndToEndTransformationDescription:
         """
         This attribute describes the inclusion mode that is used to include the implicit two-byte Data ID in the one-byte CRC.
 
@@ -481,7 +483,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.dataIdNibbleOffset
 
-    def setDataIdNibbleOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setDataIdNibbleOffset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Offset of the Data ID nibble in the Data[] array in bits.
 
@@ -497,7 +499,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.e2eProfileCompatibilityPropsRef
 
-    def setE2eProfileCompatibilityPropsRef(self, value: Optional[RefType]) -> "EndToEndTransformationDescription":
+    def setE2eProfileCompatibilityPropsRef(self, value: Optional[RefType]) -> EndToEndTransformationDescription:
         """
         Reference to additional settings for the E2E state machine.
 
@@ -513,7 +515,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.maxDeltaCounter
 
-    def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
 
@@ -529,7 +531,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.maxErrorStateInit
 
-    def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT.
 
@@ -545,7 +547,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.maxErrorStateInvalid
 
-    def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID.
 
@@ -561,7 +563,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.maxErrorStateValid
 
-    def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID.
 
@@ -577,7 +579,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.maxNoNewOrRepeatedData
 
-    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         The maximum allowed amount of consecutive failed counter checks.
 
@@ -593,7 +595,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.minOkStateInit
 
-    def setMinOkStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMinOkStateInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT.
 
@@ -609,7 +611,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.minOkStateInvalid
 
-    def setMinOkStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMinOkStateInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID.
 
@@ -625,7 +627,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.minOkStateValid
 
-    def setMinOkStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setMinOkStateValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID.
 
@@ -641,7 +643,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.offset
 
-    def setOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setOffset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Offset of the E2E header in the Data[] array in bits.
 
@@ -657,7 +659,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.profileBehavior
 
-    def setProfileBehavior(self, value: Optional[EndToEndProfileBehaviorEnum]) -> "EndToEndTransformationDescription":
+    def setProfileBehavior(self, value: Optional[EndToEndProfileBehaviorEnum]) -> EndToEndTransformationDescription:
         """
         Behavior of the check functionality
 
@@ -673,7 +675,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.profileName
 
-    def setProfileName(self, value: Optional[NameToken]) -> "EndToEndTransformationDescription":
+    def setProfileName(self, value: Optional[NameToken]) -> EndToEndTransformationDescription:
         """
         Definition of the E2E profile.
 
@@ -689,7 +691,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.syncCounterInit
 
-    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Number of checks required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.
 
@@ -705,7 +707,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.upperHeaderBitsToShift
 
-    def setUpperHeaderBitsToShift(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setUpperHeaderBitsToShift(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         This attribute describes the number of upper-header bits to be shifted. value = 0 or not present: shift of upper header is NOT performed. value > 0: the E2E Transformer on the protect-side, takes the first upperHeaderBitsToShift bits from the upper buffer (e.g. SOME/IP header part generated by SOME/IP transformer) and shifts them towards the lower bytes and bits within the Data[] for the length of the E2E header (e.g. 12 bytes in case of E2E Profile 4). This means the shift distance is fixed - it depends on the E2E header size - what is configured here is the number of bits that are to be shifted. This option is defined because the Some/IP header generated by SOME/IP transformer shall be, due to compatibility between non-protected and E2E-protected communication, at the same position, which is before E2E header.
 
@@ -721,7 +723,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.windowSizeInit
 
-    def setWindowSizeInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setWindowSizeInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Size of the monitoring window of state Init for the E2E state machine.
 
@@ -737,7 +739,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.windowSizeInvalid
 
-    def setWindowSizeInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setWindowSizeInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Size of the monitoring window of state Invalid for the E2E state machine.
 
@@ -753,7 +755,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.windowSizeValid
 
-    def setWindowSizeValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+    def setWindowSizeValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Size of the monitoring window of state Valid for the E2E state machine.
 
@@ -839,7 +841,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         # Version of the implemented protocol.
         self.version: Optional[String] = None
 
-    def setBufferProperties(self, value: Optional[BufferProperties]) -> "TransformationTechnology":
+    def setBufferProperties(self, value: Optional[BufferProperties]) -> TransformationTechnology:
         """
         Aggregation of the mandatory BufferProperties.
         A None value is a no-op and does not overwrite an existing bufferProperties.
@@ -854,7 +856,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         """
         return self.bufferProperties
 
-    def setHasInternalState(self, value: Optional[Boolean]) -> "TransformationTechnology":
+    def setHasInternalState(self, value: Optional[Boolean]) -> TransformationTechnology:
         """
         This attribute defines whether the Transformer has an internal state or not.
         A None value is a no-op and does not overwrite an existing hasInternalState.
@@ -869,7 +871,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         """
         return self.hasInternalState
 
-    def setNeedsOriginalData(self, value: Optional[Boolean]) -> "TransformationTechnology":
+    def setNeedsOriginalData(self, value: Optional[Boolean]) -> TransformationTechnology:
         """
         Specifies whether this transformer gets access to the SWC's original data.
         A None value is a no-op and does not overwrite an existing needsOriginalData.
@@ -884,7 +886,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         """
         return self.needsOriginalData
 
-    def setProtocol(self, value: Optional[String]) -> "TransformationTechnology":
+    def setProtocol(self, value: Optional[String]) -> TransformationTechnology:
         """
         Specifies the protocol that is implemented by this transformer.
         A None value is a no-op and does not overwrite an existing protocol.
@@ -899,7 +901,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         """
         return self.protocol
 
-    def setTransformationDescription(self, value: Optional[TransformationDescription]) -> "TransformationTechnology":
+    def setTransformationDescription(self, value: Optional[TransformationDescription]) -> TransformationTechnology:
         """
         A transformer can be configured with transformer specific parameters which are represented by the Transformer Description.
         A None value is a no-op and does not overwrite an existing transformationDescription.
@@ -914,7 +916,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         """
         return self.transformationDescription
 
-    def setTransformerClass(self, value: Optional[TransformerClassEnum]) -> "TransformationTechnology":
+    def setTransformerClass(self, value: Optional[TransformerClassEnum]) -> TransformationTechnology:
         """
         Specifies to which transformer class this transformer belongs.
         A None value is a no-op and does not overwrite an existing transformerClass.
@@ -929,7 +931,7 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         """
         return self.transformerClass
 
-    def setVersion(self, value: Optional[String]) -> "TransformationTechnology":
+    def setVersion(self, value: Optional[String]) -> TransformationTechnology:
         """
         Version of the implemented protocol.
         A None value is a no-op and does not overwrite an existing version.
@@ -1085,7 +1087,7 @@ class TlvDataIdDefinition(ARObject):
         """This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor"""
         return self.id
 
-    def setId(self, value: Optional[PositiveInteger]) -> "TlvDataIdDefinition":
+    def setId(self, value: Optional[PositiveInteger]) -> TlvDataIdDefinition:
         """
         This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor
         A None value is a no-op and does not overwrite an existing id.
@@ -1098,7 +1100,7 @@ class TlvDataIdDefinition(ARObject):
         """This reference assigns a tlvDataId to a given argument of a ClientServerOperation."""
         return self.tlvArgumentRef
 
-    def setTlvArgumentRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+    def setTlvArgumentRef(self, value: Optional[RefType]) -> TlvDataIdDefinition:
         """
         This reference assigns a tlvDataId to a given argument of a ClientServerOperation.
         A None value is a no-op and does not overwrite an existing tlvArgumentRef.
@@ -1111,7 +1113,7 @@ class TlvDataIdDefinition(ARObject):
         """This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement."""
         return self.tlvImplementationDataTypeElementRef
 
-    def setTlvImplementationDataTypeElementRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+    def setTlvImplementationDataTypeElementRef(self, value: Optional[RefType]) -> TlvDataIdDefinition:
         """
         This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement.
         A None value is a no-op and does not overwrite an existing tlvImplementationDataTypeElementRef.
@@ -1124,7 +1126,7 @@ class TlvDataIdDefinition(ARObject):
         """This reference associates the definition of a TLV data id with a given ApplicationRecordElement."""
         return self.tlvRecordElementRef
 
-    def setTlvRecordElementRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+    def setTlvRecordElementRef(self, value: Optional[RefType]) -> TlvDataIdDefinition:
         """
         This reference associates the definition of a TLV data id with a given ApplicationRecordElement.
         A None value is a no-op and does not overwrite an existing tlvRecordElementRef.
@@ -1159,7 +1161,7 @@ class TlvDataIdDefinitionSet(ARElement):
         """
         return self.tlvDataIdDefinitions
 
-    def addTlvDataIdDefinition(self, value: Optional[TlvDataIdDefinition]) -> "TlvDataIdDefinitionSet":
+    def addTlvDataIdDefinition(self, value: Optional[TlvDataIdDefinition]) -> TlvDataIdDefinitionSet:
         """
         This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
         A None value is a no-op and does not add to tlvDataIdDefinitions.
@@ -1205,7 +1207,7 @@ class TransformationISignalProps(Describable, ABC):
         """
         return self.csErrorReaction
 
-    def setCsErrorReaction(self, value: Optional[CSTransformerErrorReactionEnum]) -> "TransformationISignalProps":
+    def setCsErrorReaction(self, value: Optional[CSTransformerErrorReactionEnum]) -> TransformationISignalProps:
         """
         Defines whether the transformer chain of client/server communication coordinates an autonomous error reaction together with the RTE or whether any error reaction is the responsibility of the application.
         A None value is a no-op and does not overwrite an existing csErrorReaction.
@@ -1214,13 +1216,13 @@ class TransformationISignalProps(Describable, ABC):
             self.csErrorReaction = value
         return self
 
-    def getDataPrototypeTransformationProps(self) -> List["DataPrototypeTransformationProps"]:
+    def getDataPrototypeTransformationProps(self) -> List[DataPrototypeTransformationProps]:
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         """
         return self.dataPrototypeTransformationProps
 
-    def setDataPrototypeTransformationProps(self, value: Optional[List["DataPrototypeTransformationProps"]]) -> "TransformationISignalProps":
+    def setDataPrototypeTransformationProps(self, value: Optional[List[DataPrototypeTransformationProps]]) -> TransformationISignalProps:
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         A None value is a no-op and does not overwrite an existing dataPrototypeTransformationProps.
@@ -1229,7 +1231,7 @@ class TransformationISignalProps(Describable, ABC):
             self.dataPrototypeTransformationProps = value
         return self
 
-    def addDataPrototypeTransformationProps(self, value: Optional["DataPrototypeTransformationProps"]) -> "TransformationISignalProps":
+    def addDataPrototypeTransformationProps(self, value: Optional[DataPrototypeTransformationProps]) -> TransformationISignalProps:
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         A None value is a no-op and does not add to dataPrototypeTransformationProps.
@@ -1244,7 +1246,7 @@ class TransformationISignalProps(Describable, ABC):
         """
         return self.transformerRef
 
-    def setTransformerRef(self, value: Optional[RefType]) -> "TransformationISignalProps":
+    def setTransformerRef(self, value: Optional[RefType]) -> TransformationISignalProps:
         """
         Reference to the TransformationTechnology description that contains transformer specific and ISignal independent configuration properties.
         A None value is a no-op and does not overwrite an existing transformerRef.
@@ -1281,7 +1283,7 @@ class DataPrototypeReference(ARObject, ABC):
         """
         return self.tagId
 
-    def setTagId(self, value: Optional[PositiveInteger]) -> "DataPrototypeReference":
+    def setTagId(self, value: Optional[PositiveInteger]) -> DataPrototypeReference:
         """
         This attribute represents the ability to specify a tag-id for the serialization of a specific DataPrototype in the context of a (potentially deeply-nested) composite data structure.
         A None value is a no-op and does not overwrite an existing tagId.
@@ -1308,15 +1310,15 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
         super().__init__()
 
         # This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
-        self.dataPrototypeInClientServerInterface: Optional["DataPrototypeInClientServerInterfaceInstanceRef"] = None
+        self.dataPrototypeInClientServerInterface: Optional[DataPrototypeInClientServerInterfaceInstanceRef] = None
 
-    def getDataPrototypeInClientServerInterface(self) -> Optional["DataPrototypeInClientServerInterfaceInstanceRef"]:
+    def getDataPrototypeInClientServerInterface(self) -> Optional[DataPrototypeInClientServerInterfaceInstanceRef]:
         """
         This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
         """
         return self.dataPrototypeInClientServerInterface
 
-    def setDataPrototypeInClientServerInterface(self, value: Optional["DataPrototypeInClientServerInterfaceInstanceRef"]) -> "DataPrototypeInPortInterfaceRef":
+    def setDataPrototypeInClientServerInterface(self, value: Optional[DataPrototypeInClientServerInterfaceInstanceRef]) -> DataPrototypeInPortInterfaceRef:
         """
         This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
         A None value is a no-op and does not overwrite an existing dataPrototypeInClientServerInterface.
@@ -1361,7 +1363,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.dataPrototypeInPortInterfaceRef
 
-    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeInPortInterfaceRef]) -> "DataPrototypeTransformationProps":
+    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeInPortInterfaceRef]) -> DataPrototypeTransformationProps:
         """
         Reference to a DataPrototype that is transported in the serialized ISignal.
         A None value is a no-op and does not overwrite an existing dataPrototypeInPortInterfaceRef.
@@ -1376,7 +1378,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.networkRepresentationProps
 
-    def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> "DataPrototypeTransformationProps":
+    def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> DataPrototypeTransformationProps:
         """
         Specification of the actual network representation for the referenced primitive DataPrototype. If a network representation is provided then the baseType shall be used by the Transformer as input for the serialization/deserilaization. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
         A None value is a no-op and does not overwrite an existing networkRepresentationProps.
@@ -1391,7 +1393,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.transformationPropsRef
 
-    def setTransformationPropsRef(self, value: Optional[RefType]) -> "DataPrototypeTransformationProps":
+    def setTransformationPropsRef(self, value: Optional[RefType]) -> DataPrototypeTransformationProps:
         """
         Collection of AutosarDataPrototype related configuration settings for a transformer.
         A None value is a no-op and does not overwrite an existing transformationPropsRef.
@@ -1439,7 +1441,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         # This attribute represents a unique numerical identifier identifying the source of a certain transmission. In case of C/S communication, this ID uniquely identifies the client. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
         self.sourceId: Optional[PositiveInteger] = None
 
-    def addDataId(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+    def addDataId(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
         A None value is a no-op and does not extend the dataIds list.
@@ -1456,7 +1458,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         """Length of payload and E2E header in bits."""
         return self.dataLength
 
-    def setDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+    def setDataLength(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Length of payload and E2E header in bits.
         A None value is a no-op and does not overwrite an existing dataLength.
@@ -1469,7 +1471,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         """Maximum length of payload and E2E header in bits."""
         return self.maxDataLength
 
-    def setMaxDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+    def setMaxDataLength(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Maximum length of payload and E2E header in bits.
         A None value is a no-op and does not overwrite an existing maxDataLength.
@@ -1482,7 +1484,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         """Minimum length of payload and E2E header in bits."""
         return self.minDataLength
 
-    def setMinDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+    def setMinDataLength(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Minimum length of payload and E2E header in bits.
         A None value is a no-op and does not overwrite an existing minDataLength.
@@ -1495,7 +1497,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         """This attribute represents a unique numerical identifier identifying the source of a certain transmission. In case of C/S communication, this ID uniquely identifies the client. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection."""
         return self.sourceId
 
-    def setSourceId(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationISignalProps":
+    def setSourceId(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         This attribute represents a unique numerical identifier identifying the source of a certain transmission. In case of C/S communication, this ID uniquely identifies the client. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEnd Protection.
         A None value is a no-op and does not overwrite an existing sourceId.
@@ -1570,7 +1572,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.implementsLegacyStringSerialization
 
-    def setImplementsLegacyStringSerialization(self, value: Optional[Boolean]) -> "SOMEIPTransformationISignalProps":
+    def setImplementsLegacyStringSerialization(self, value: Optional[Boolean]) -> SOMEIPTransformationISignalProps:
         """
         This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
         A None value is a no-op and does not overwrite an existing implementsLegacyStringSerialization.
@@ -1585,7 +1587,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.interfaceVersion
 
-    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
+    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         The interface version the SOME/IP transformer shall use.
         A None value is a no-op and does not overwrite an existing interfaceVersion.
@@ -1600,7 +1602,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.isDynamicLengthFieldSize
 
-    def setIsDynamicLengthFieldSize(self, value: Optional[Boolean]) -> "SOMEIPTransformationISignalProps":
+    def setIsDynamicLengthFieldSize(self, value: Optional[Boolean]) -> SOMEIPTransformationISignalProps:
         """
         This attribute shall be used to determine the wire type in the context of using the TLV encoding.
         A None value is a no-op and does not overwrite an existing isDynamicLengthFieldSize.
@@ -1615,7 +1617,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.messageType
 
-    def setMessageType(self, value: Optional[SOMEIPMessageTypeEnum]) -> "SOMEIPTransformationISignalProps":
+    def setMessageType(self, value: Optional[SOMEIPMessageTypeEnum]) -> SOMEIPTransformationISignalProps:
         """
         The Message Type which shall be placed into the SOME/IP header.
         A None value is a no-op and does not overwrite an existing messageType.
@@ -1630,7 +1632,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfArrayLengthFields
 
-    def setSizeOfArrayLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
+    def setSizeOfArrayLengthFields(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
         A None value is a no-op and does not overwrite an existing sizeOfArrayLengthFields.
@@ -1645,7 +1647,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfStringLengthFields
 
-    def setSizeOfStringLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
+    def setSizeOfStringLengthFields(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
         A None value is a no-op and does not overwrite an existing sizeOfStringLengthFields.
@@ -1660,7 +1662,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfStructLengthFields
 
-    def setSizeOfStructLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
+    def setSizeOfStructLengthFields(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
         A None value is a no-op and does not overwrite an existing sizeOfStructLengthFields.
@@ -1675,7 +1677,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfUnionLengthFields
 
-    def setSizeOfUnionLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
+    def setSizeOfUnionLengthFields(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
         A None value is a no-op and does not overwrite an existing sizeOfUnionLengthFields.
@@ -1684,7 +1686,7 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
             self.sizeOfUnionLengthFields = value
         return self
 
-    def addTlvDataIdDefinitionRef(self, value: Optional[RefType]) -> "SOMEIPTransformationISignalProps":
+    def addTlvDataIdDefinitionRef(self, value: Optional[RefType]) -> SOMEIPTransformationISignalProps:
         """
         This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
         A None value is a no-op and does not add to tlvDataIdDefinitionRefs.
@@ -1816,7 +1818,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.clearFromValidToInvalid
 
-    def setClearFromValidToInvalid(self, value: Optional[Boolean]) -> "EndToEndTransformationComSpecProps":
+    def setClearFromValidToInvalid(self, value: Optional[Boolean]) -> EndToEndTransformationComSpecProps:
         """
         Clear monitoring window on transition from state Valid to state Invalid.
         A None value is a no-op and does not overwrite an existing clearFromValidToInvalid.
@@ -1831,7 +1833,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.disableEndToEndCheck
 
-    def setDisableEndToEndCheck(self, value: Optional[Boolean]) -> "EndToEndTransformationComSpecProps":
+    def setDisableEndToEndCheck(self, value: Optional[Boolean]) -> EndToEndTransformationComSpecProps:
         """
         Disables/Enables the E2E check. The E2Eheader is removed from the payload independent from the setting of this attribute.
         A None value is a no-op and does not overwrite an existing disableEndToEndCheck.
@@ -1846,7 +1848,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.disableEndToEndStateMachine
 
-    def setDisableEndToEndStateMachine(self, value: Optional[Boolean]) -> "EndToEndTransformationComSpecProps":
+    def setDisableEndToEndStateMachine(self, value: Optional[Boolean]) -> EndToEndTransformationComSpecProps:
         """
         Disables the E2EStateMachine (only E2E check functionality is performed)
         A None value is a no-op and does not overwrite an existing disableEndToEndStateMachine.
@@ -1861,7 +1863,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.e2eProfileCompatibilityPropsRef
 
-    def setE2eProfileCompatibilityPropsRef(self, value: Optional[RefType]) -> "EndToEndTransformationComSpecProps":
+    def setE2eProfileCompatibilityPropsRef(self, value: Optional[RefType]) -> EndToEndTransformationComSpecProps:
         """
         Reference to additional settings for the E2E state machine.
         A None value is a no-op and does not overwrite an existing e2eProfileCompatibilityPropsRef.
@@ -1876,7 +1878,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.maxDeltaCounter
 
-    def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
         A None value is a no-op and does not overwrite an existing maxDeltaCounter.
@@ -1891,7 +1893,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.maxErrorStateInit
 
-    def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
         A None value is a no-op and does not overwrite an existing maxErrorStateInit.
@@ -1906,7 +1908,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.maxErrorStateInvalid
 
-    def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
         A None value is a no-op and does not overwrite an existing maxErrorStateInvalid.
@@ -1921,7 +1923,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.maxErrorStateValid
 
-    def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
         A None value is a no-op and does not overwrite an existing maxErrorStateValid.
@@ -1936,7 +1938,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.maxNoNewOrRepeatedData
 
-    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
         A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
@@ -1951,7 +1953,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.minOkStateInit
 
-    def setMinOkStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMinOkStateInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 1.
         A None value is a no-op and does not overwrite an existing minOkStateInit.
@@ -1966,7 +1968,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.minOkStateInvalid
 
-    def setMinOkStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMinOkStateInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 1.
         A None value is a no-op and does not overwrite an existing minOkStateInvalid.
@@ -1981,7 +1983,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.minOkStateValid
 
-    def setMinOkStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setMinOkStateValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 1.
         A None value is a no-op and does not overwrite an existing minOkStateValid.
@@ -1996,7 +1998,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.syncCounterInit
 
-    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
         A None value is a no-op and does not overwrite an existing syncCounterInit.
@@ -2011,7 +2013,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.windowSizeInit
 
-    def setWindowSizeInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setWindowSizeInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Size of the monitoring window of state Init for the E2E state machine.
         A None value is a no-op and does not overwrite an existing windowSizeInit.
@@ -2026,7 +2028,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.windowSizeInvalid
 
-    def setWindowSizeInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setWindowSizeInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Size of the monitoring window of state Invalid for the E2E state machine.
         A None value is a no-op and does not overwrite an existing windowSizeInvalid.
@@ -2041,7 +2043,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.windowSizeValid
 
-    def setWindowSizeValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+    def setWindowSizeValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Size of the monitoring window of state Valid for the E2E state machine.
         A None value is a no-op and does not overwrite an existing windowSizeValid.

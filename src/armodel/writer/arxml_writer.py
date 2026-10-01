@@ -375,6 +375,23 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgAggregationWithVariation,
+    SdgClass,
+    SdgDef,
+    SdgForeignReference,
+    SdgForeignReferenceWithVariation,
+    SdgPrimitiveAttribute,
+    SdgPrimitiveAttributeWithVariation,
+    SdgReference,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
+    AbstractValueRestriction,
+    AbstractVariationRestriction,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    EvaluatedVariantSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
@@ -13209,6 +13226,132 @@ class ARXMLWriter(AbstractARXMLWriter):
                     ref,
                 )
 
+    def writeAbstractVariationRestriction(self, element: ET.Element, restriction: AbstractVariationRestriction):
+        self.setChildElementOptionalBooleanValue(element, "VARIATION", restriction.getVariation())
+        times = restriction.getValidBindingTimes()
+        if len(times) > 0:
+            times_element = ET.SubElement(element, "VALID-BINDING-TIMES")
+            for time in times:
+                time_element = ET.SubElement(times_element, "VALID-BINDING-TIME")
+                time_element.text = time.getValue()
+
+    def writeAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
+        self.setChildLimitElement(element, "MAX", restriction.getMax())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-LENGTH", restriction.getMaxLength())
+        self.setChildLimitElement(element, "MIN", restriction.getMin())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-LENGTH", restriction.getMinLength())
+        self.setChildElementOptionalRegularExpression(element, "PATTERN", restriction.getPattern())
+
+    def writeSdgDef(self, element: ET.Element, sdg_def: SdgDef):
+        self.logger.debug("SdgDef %s" % sdg_def.getShortName())
+        child_element = ET.SubElement(element, "SDG-DEF")
+        self.writeIdentifiable(child_element, sdg_def)
+        self.writeSdgDefSdgClasses(child_element, sdg_def)
+
+    def writeSdgDefSdgClasses(self, element: ET.Element, sdg_def: SdgDef):
+        sdg_classes = sdg_def.getSdgClasses()
+        if len(sdg_classes) > 0:
+            classes_element = ET.SubElement(element, "SDG-CLASSES")
+            for sdg_class in sdg_classes:
+                self.writeSdgClass(classes_element, sdg_class)
+
+    def writeSdgClass(self, element: ET.Element, sdg_class: SdgClass):
+        child_element = ET.SubElement(element, "SDG-CLASS")
+        self.writeIdentifiable(child_element, sdg_class)
+        self.setChildElementOptionalNameToken(child_element, "GID", sdg_class.getGid())
+        self.setChildElementOptionalStringValue(child_element, "EXTENDS-META-CLASS", sdg_class.getExtendsMetaClass())
+        self.setChildElementOptionalBooleanValue(child_element, "CAPTION", sdg_class.getCaption())
+        self.writeSdgClassAttributes(child_element, sdg_class)
+        self.writeSdgClassSdgConstraintRefs(child_element, sdg_class)
+
+    def writeSdgClassAttributes(self, element: ET.Element, sdg_class: SdgClass):
+        attributes = sdg_class.getAttributes()
+        if len(attributes) > 0:
+            attributes_element = ET.SubElement(element, "ATTRIBUTES")
+            for attribute in attributes:
+                if isinstance(attribute, SdgAggregationWithVariation):
+                    self.writeSdgAggregationWithVariation(attributes_element, attribute)
+                elif isinstance(attribute, SdgForeignReferenceWithVariation):
+                    self.writeSdgForeignReferenceWithVariation(attributes_element, attribute)
+                elif isinstance(attribute, SdgForeignReference):
+                    self.writeSdgForeignReference(attributes_element, attribute)
+                elif isinstance(attribute, SdgPrimitiveAttributeWithVariation):
+                    self.writeSdgPrimitiveAttributeWithVariation(attributes_element, attribute)
+                elif isinstance(attribute, SdgPrimitiveAttribute):
+                    self.writeSdgPrimitiveAttribute(attributes_element, attribute)
+                elif isinstance(attribute, SdgReference):
+                    self.writeSdgReference(attributes_element, attribute)
+
+    def writeSdgClassSdgConstraintRefs(self, element: ET.Element, sdg_class: SdgClass):
+        refs = sdg_class.getSdgConstraintRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "SDG-CONSTRAINT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "SDG-CONSTRAINT-REF", ref)
+
+    def writeSdgPrimitiveAttribute(self, element: ET.Element, attribute: SdgPrimitiveAttribute):
+        child_element = ET.SubElement(element, "SDG-PRIMITIVE-ATTRIBUTE")
+        self.writeIdentifiable(child_element, attribute)
+        self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
+        self.writeAbstractValueRestriction(child_element, attribute)
+
+    def writeSdgPrimitiveAttributeWithVariation(self, element: ET.Element, attribute: SdgPrimitiveAttributeWithVariation):
+        child_element = ET.SubElement(element, "SDG-PRIMITIVE-ATTRIBUTE-WITH-VARIATION")
+        self.writeIdentifiable(child_element, attribute)
+        self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
+        self.writeAbstractValueRestriction(child_element, attribute)
+        self.writeAbstractVariationRestriction(child_element, attribute)
+
+    def writeSdgAggregationWithVariation(self, element: ET.Element, attribute: SdgAggregationWithVariation):
+        child_element = ET.SubElement(element, "SDG-AGGREGATION-WITH-VARIATION")
+        self.writeIdentifiable(child_element, attribute)
+        self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
+        self.writeAbstractVariationRestriction(child_element, attribute)
+        self.setChildElementOptionalRefType(child_element, "SUB-SDG-REF", attribute.getSubSdgRef())
+
+    def writeSdgReference(self, element: ET.Element, attribute: SdgReference):
+        child_element = ET.SubElement(element, "SDG-REFERENCE")
+        self.writeIdentifiable(child_element, attribute)
+        self.setChildElementOptionalRefType(child_element, "DEST-SDG-REF", attribute.getDestSdgRef())
+
+    def writeSdgForeignReference(self, element: ET.Element, attribute: SdgForeignReference):
+        child_element = ET.SubElement(element, "SDG-FOREIGN-REFERENCE")
+        self.writeIdentifiable(child_element, attribute)
+        self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
+        self.setChildElementOptionalStringValue(child_element, "DEST-META-CLASS", attribute.getDestMetaClass())
+
+    def writeSdgForeignReferenceWithVariation(self, element: ET.Element, attribute: SdgForeignReferenceWithVariation):
+        child_element = ET.SubElement(element, "SDG-FOREIGN-REFERENCE-WITH-VARIATION")
+        self.writeIdentifiable(child_element, attribute)
+        self.setChildElementOptionalNameToken(child_element, "GID", attribute.getGid())
+        self.setChildElementOptionalStringValue(child_element, "DEST-META-CLASS", attribute.getDestMetaClass())
+        self.writeAbstractVariationRestriction(child_element, attribute)
+
+    def writeEvaluatedVariantSetApprovalStatus(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        self.setChildElementOptionalNameToken(element, "APPROVAL-STATUS", variant_set.getApprovalStatus())
+
+    def writeEvaluatedVariantSetEvaluatedElementRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        refs = variant_set.getEvaluatedElementRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "EVALUATED-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "EVALUATED-ELEMENT-REF", ref)
+
+    def writeEvaluatedVariantSetEvaluatedVariantRefs(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        refs = variant_set.getEvaluatedVariantRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "EVALUATED-VARIANT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "EVALUATED-VARIANT-REF", ref)
+
+    def writeEvaluatedVariantSet(self, element: ET.Element, variant_set: EvaluatedVariantSet):
+        self.logger.debug("EvaluatedVariantSet %s" % variant_set.getShortName())
+        child_element = ET.SubElement(element, "EVALUATED-VARIANT-SET")
+        self.writeIdentifiable(child_element, variant_set)
+        self.writeEvaluatedVariantSetApprovalStatus(child_element, variant_set)
+        self.writeEvaluatedVariantSetEvaluatedElementRefs(child_element, variant_set)
+        self.writeEvaluatedVariantSetEvaluatedVariantRefs(child_element, variant_set)
+
     def writePredefinedVariant(self, element: ET.Element, variant: PredefinedVariant):
         self.logger.debug("PredefinedVariant %s" % variant.getShortName())
         child_element = ET.SubElement(element, "PREDEFINED-VARIANT")
@@ -15078,6 +15221,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwSystemconstantValueSet(element, ar_element)
         elif isinstance(ar_element, PredefinedVariant):
             self.writePredefinedVariant(element, ar_element)
+        elif isinstance(ar_element, EvaluatedVariantSet):
+            self.writeEvaluatedVariantSet(element, ar_element)
+        elif isinstance(ar_element, SdgDef):
+            self.writeSdgDef(element, ar_element)
         elif isinstance(ar_element, PostBuildVariantCriterion):
             self.writePostBuildVariantCriterion(element, ar_element)
         elif isinstance(ar_element, McFunction):

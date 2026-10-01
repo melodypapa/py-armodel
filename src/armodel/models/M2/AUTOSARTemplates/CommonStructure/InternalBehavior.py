@@ -4,6 +4,9 @@ in the CommonStructure module. Internal behavior classes define executable entit
 exclusive areas, and event handling mechanisms within AUTOSAR components and BSW modules.
 """
 
+from __future__ import annotations
+
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional
@@ -114,7 +117,7 @@ class ExecutableEntity(Identifiable, ABC):
         # Addressing method related to this code entity. Via an association to the same SwAddrMethod, it can be specified that several code entities (even of different modules or components) shall be located in the same memory without already specifying the memory section itself.
         self.swAddrMethodRef: Optional[RefType] = None
 
-    def createActivationReason(self, short_name: str) -> "ExecutableEntityActivationReason":
+    def createActivationReason(self, short_name: str) -> ExecutableEntityActivationReason:
         """
         Creates (or returns an existing) ExecutableEntityActivationReason
         aggregated by this executable entity.
@@ -131,7 +134,7 @@ class ExecutableEntity(Identifiable, ABC):
             self.activationReasons.append(reason)
         return self.getElement(short_name, ExecutableEntityActivationReason)
 
-    def getActivationReasons(self) -> List["ExecutableEntityActivationReason"]:
+    def getActivationReasons(self) -> List[ExecutableEntityActivationReason]:
         """
         Gets the activation reasons. If the ExecutableEntity provides at least one activation Reason element the RTE resp. BSW Scheduler shall provide means to read the activation vector of this executable entity execution. If no activationReason element is provided the feature of being able to determine the activating RTEEvent is disabled for this ExecutableEntity.
 
@@ -140,7 +143,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.activationReasons
 
-    def addActivationReason(self, value: "ExecutableEntityActivationReason") -> "ExecutableEntity":
+    def addActivationReason(self, value: ExecutableEntityActivationReason) -> ExecutableEntity:
         """
         Adds an activation reason to this executable entity.
 
@@ -163,7 +166,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.canEnterRefs
 
-    def addCanEnterRef(self, value: RefType) -> "ExecutableEntity":
+    def addCanEnterRef(self, value: RefType) -> ExecutableEntity:
         """
         Adds a reference to an exclusive area that this executable entity can
         enter/leave through explicit API calls.
@@ -187,7 +190,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.exclusiveAreaNestingOrderRefs
 
-    def addExclusiveAreaNestingOrderRef(self, value: RefType) -> "ExecutableEntity":
+    def addExclusiveAreaNestingOrderRef(self, value: RefType) -> ExecutableEntity:
         """
         Adds a reference to an ExclusiveAreaNestingOrder recognized by this
         executable entity.
@@ -211,7 +214,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.minimumStartInterval
 
-    def setMinimumStartInterval(self, value: Optional[TimeValue]) -> "ExecutableEntity":
+    def setMinimumStartInterval(self, value: Optional[TimeValue]) -> ExecutableEntity:
         """
         Sets the minimum start interval. Specifies the time in seconds by which two consecutive starts of an ExecutableEntity are guaranteed to be separated.
         Only sets the value if it is not None.
@@ -247,7 +250,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.reentrancyLevel
 
-    def setReentrancyLevel(self, value: Optional[ReentrancyLevelEnum]) -> "ExecutableEntity":
+    def setReentrancyLevel(self, value: Optional[ReentrancyLevelEnum]) -> ExecutableEntity:
         """
         Sets the reentrancy level. The reentrancy level of this ExecutableEntity. See the documentation of the enumeration type ReentrancyLevel Enum for details. Please note that nonReentrant interfaces can have also reentrant or multicoreReentrant implementations, and reentrant interfaces can also have multicoreReentrant implementations.
         Only sets the value if it is not None.
@@ -271,7 +274,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.runsInsideRefs
 
-    def addRunsInsideRef(self, value: RefType) -> "ExecutableEntity":
+    def addRunsInsideRef(self, value: RefType) -> ExecutableEntity:
         """
         Adds a reference to an exclusive area that this executable entity runs
         completely inside.
@@ -295,7 +298,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.swAddrMethodRef
 
-    def setSwAddrMethodRef(self, value: Optional[RefType]) -> "ExecutableEntity":
+    def setSwAddrMethodRef(self, value: Optional[RefType]) -> ExecutableEntity:
         """
         Sets the software address method reference. Addressing method related to this code entity. Via an association to the same SwAddrMethod, it can be specified that several code entities (even of different modules or components) shall be located in the same memory without already specifying the memory section itself.
         Only sets the value if it is not None.
@@ -353,7 +356,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         self.exclusiveAreas: List[ExclusiveArea] = []
 
         # This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-        self.exclusiveAreaNestingOrders: List["ExclusiveAreaNestingOrder"] = []
+        self.exclusiveAreaNestingOrders: List[ExclusiveAreaNestingOrder] = []
 
         # Describes a read and writeable static memory object representing measurerment variables implemented by this software component. The term "static" is used in the meaning of "non-temporary" and does not necessarily specify a linker encapsulation. This kind of memory is only supported if supportsMultipleInstantiation is FALSE. The shortName of the VariableDataPrototype has to be equal with the 'C' identifier of the described variable. The aggregation of staticMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticMemory.shortName, staticMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.staticMemories: List[VariableDataPrototype] = []
@@ -374,7 +377,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return self.constantMemories
 
-    def addConstantValueMappingRef(self, value: RefType) -> "InternalBehavior":
+    def addConstantValueMappingRef(self, value: RefType) -> InternalBehavior:
         """
         Reference to the ConstantSpecificationMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
         Only adds the value if it is not None.
@@ -398,7 +401,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return self.constantValueMappingRefs
 
-    def addDataTypeMappingRef(self, value: RefType) -> "InternalBehavior":
+    def addDataTypeMappingRef(self, value: RefType) -> InternalBehavior:
         """
         Reference to the DataTypeMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
         Only adds the value if it is not None.
@@ -447,7 +450,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return self.exclusiveAreas
 
-    def createExclusiveAreaNestingOrder(self, short_name: str) -> "ExclusiveAreaNestingOrder":
+    def createExclusiveAreaNestingOrder(self, short_name: str) -> ExclusiveAreaNestingOrder:
         """
         This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
@@ -463,7 +466,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             self.exclusiveAreaNestingOrders.append(nesting_order)
         return self.getElement(short_name, ExclusiveAreaNestingOrder)
 
-    def getExclusiveAreaNestingOrders(self) -> List["ExclusiveAreaNestingOrder"]:
+    def getExclusiveAreaNestingOrders(self) -> List[ExclusiveAreaNestingOrder]:
         """
         This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
@@ -587,7 +590,7 @@ class ExclusiveAreaNestingOrder(Referrable, VariationPointCapable):
         """
         return self.exclusiveAreaRefs
 
-    def addExclusiveAreaRef(self, value: RefType) -> "ExclusiveAreaNestingOrder":
+    def addExclusiveAreaRef(self, value: RefType) -> ExclusiveAreaNestingOrder:
         """
         This represents a specific scenario of how Exclusive Areas can be used in terms of the nesting order.
         Only adds the value if it is not None.
@@ -639,7 +642,7 @@ class ExecutableEntityActivationReason(ImplementationProps):
         """
         return self.bitPosition
 
-    def setBitPosition(self, value: Optional[PositiveInteger]) -> "ExecutableEntityActivationReason":
+    def setBitPosition(self, value: Optional[PositiveInteger]) -> ExecutableEntityActivationReason:
         """
         Sets the position of the enclosing ExecutableEntityActivationReason in
         the activation vector. A None value is a no-op and does not overwrite

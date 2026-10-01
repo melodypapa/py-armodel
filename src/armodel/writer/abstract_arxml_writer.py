@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveUnlimitedInteger,
     RefType,
+    RegularExpression,
     RevisionLabelString,
     String,
     TimeValue,
@@ -101,6 +102,11 @@ class AbstractARXMLWriter(ABC):
             child_element.text = value
     """
 
+    def setChildElementOptionalStringValue(self, element: ET.Element, key: str, value: str):
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            child_element.text = value
+
     def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: Numerical):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
@@ -131,6 +137,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalAlignmentType(self, element: ET.Element, key: str, literal: AlignmentType):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalRegularExpression(self, element: ET.Element, key: str, literal: RegularExpression):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: CIdentifier):

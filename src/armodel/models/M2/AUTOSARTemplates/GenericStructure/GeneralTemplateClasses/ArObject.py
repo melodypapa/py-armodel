@@ -4,6 +4,7 @@ Abstract base class of all AUTOSAR objects.
 
 from __future__ import annotations
 
+
 from abc import ABC
 from typing import TYPE_CHECKING, Dict, Optional
 
@@ -42,21 +43,21 @@ class ARObject(ABC):
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
 
-        self.parent: Optional["ARObject"] = None
+        self.parent: Optional[ARObject] = None
 
         # Checksum calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine if an ArObject has changed. The checksum has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the checksum.
-        self.checksum: Optional["String"] = None
+        self.checksum: Optional[String] = None
 
         # Timestamp calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine the last change of an ArObject. The timestamp has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp.
-        self.timestamp: Optional["DateTime"] = None
+        self.timestamp: Optional[DateTime] = None
 
-    def getChecksum(self) -> Optional["String"]:
+    def getChecksum(self) -> Optional[String]:
         """
         Checksum calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine if an ArObject has changed. The checksum has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the checksum.
         """
         return self.checksum
 
-    def setChecksum(self, value: Optional["String"]) -> ARObject:
+    def setChecksum(self, value: Optional[String]) -> ARObject:
         """
         Checksum calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine if an ArObject has changed. The checksum has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the checksum. A None value is a no-op and does not overwrite an existing checksum.
         """
@@ -64,13 +65,13 @@ class ARObject(ABC):
             self.checksum = value
         return self
 
-    def getTimestamp(self) -> Optional["DateTime"]:
+    def getTimestamp(self) -> Optional[DateTime]:
         """
         Timestamp calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine the last change of an ArObject. The timestamp has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp.
         """
         return self.timestamp
 
-    def setTimestamp(self, value: Optional["DateTime"]) -> ARObject:
+    def setTimestamp(self, value: Optional[DateTime]) -> ARObject:
         """
         Timestamp calculated by the user's tool environment for an ArObject. May be used in an own tool environment to determine the last change of an ArObject. The timestamp has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. A None value is a no-op and does not overwrite an existing timestamp.
         """
@@ -97,14 +98,6 @@ class AbstractCondition(ARObject, ABC):
 
 
 class AbstractMultiplicityRestriction(ARObject, ABC):
-    pass
-
-
-class AbstractValueRestriction(ARObject, ABC):
-    pass
-
-
-class AbstractVariationRestriction(ARObject, ABC):
     pass
 
 
@@ -747,10 +740,6 @@ class InvertCondition(AbstractCondition):
     pass
 
 
-class List(ARObject):
-    pass
-
-
 class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
     pass
 
@@ -783,10 +772,6 @@ class RptProfile(ARObject):
     pass
 
 
-class SdgElementWithGid(ARObject, ABC):
-    pass
-
-
 class SpecificationScope(ARObject):
     pass
 
@@ -800,14 +785,6 @@ class SwcModeManagerErrorEvent(ARObject):
 
 
 class TextualCondition(AbstractCondition):
-    pass
-
-
-class ValueRestrictionWithSeverity(AbstractValueRestriction):
-    pass
-
-
-class VariationRestrictionWithSeverity(AbstractVariationRestriction):
     pass
 
 

@@ -139,11 +139,11 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         ValueSpecification.__init__(self)
 
         # Category of this application value specification
-        self.category = None
+        self.category: Optional[Identifier] = None
         # Software axis content for this value specification
-        self.swAxisCont = []
+        self.swAxisCont: List[RuleBasedAxisCont] = []
         # Software value content for this value specification
-        self.swValueCont = None
+        self.swValueCont: Optional[RuleBasedValueCont] = None
 
     def getCategory(self):
         """

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
@@ -40,13 +41,13 @@ class EcucConditionSpecification(ARObject):
         # Informal description of the condition used to to define existence dependencies.
         self.informalFormula: Optional[MlFormula] = None
 
-    def getConditionFormula(self) -> Optional["EcucConditionFormula"]:
+    def getConditionFormula(self) -> Optional[EcucConditionFormula]:
         """
         Definition of the formula used to define existence dependencies.
         """
         return self.conditionFormula
 
-    def setConditionFormula(self, value: "EcucConditionFormula") -> "EcucConditionSpecification":
+    def setConditionFormula(self, value: EcucConditionFormula) -> EcucConditionSpecification:
         """
         Definition of the formula used to define existence dependencies.
         A None value is a no-op.
@@ -55,13 +56,13 @@ class EcucConditionSpecification(ARObject):
             self.conditionFormula = value
         return self
 
-    def getEcucQueries(self) -> List["EcucQuery"]:
+    def getEcucQueries(self) -> List[EcucQuery]:
         """
         Query to the ECU Configuration Description.
         """
         return self.ecucQueries
 
-    def createEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+    def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
         Creates or returns an existing EcucQuery aggregated by this condition specification.
         """
@@ -74,7 +75,7 @@ class EcucConditionSpecification(ARObject):
         self.ecucQueries.append(query)
         return query
 
-    def getEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+    def getEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
         Gets the EcucQuery with the given short name, or None if not present.
         """
@@ -89,7 +90,7 @@ class EcucConditionSpecification(ARObject):
         """
         return self.informalFormula
 
-    def setInformalFormula(self, value: MlFormula) -> "EcucConditionSpecification":
+    def setInformalFormula(self, value: MlFormula) -> EcucConditionSpecification:
         """
         Informal description of the condition used to to define existence dependencies.
         A None value is a no-op.
@@ -118,18 +119,18 @@ class EcucValidationCondition(Identifiable):
         super().__init__(parent, short_name)
 
         # Query to the ECU Configuration Description.
-        self.ecucQueries: List["EcucQuery"] = []
+        self.ecucQueries: List[EcucQuery] = []
 
         # Definition of the formula used to define validation condition.
-        self.validationFormula: Optional["EcucConditionFormula"] = None
+        self.validationFormula: Optional[EcucConditionFormula] = None
 
-    def getEcucQueries(self) -> List["EcucQuery"]:
+    def getEcucQueries(self) -> List[EcucQuery]:
         """
         Query to the ECU Configuration Description.
         """
         return self.ecucQueries
 
-    def createEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+    def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
         Creates or returns an existing EcucQuery aggregated by this validation condition.
         """
@@ -142,7 +143,7 @@ class EcucValidationCondition(Identifiable):
         self.ecucQueries.append(query)
         return query
 
-    def getEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+    def getEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
         Gets the EcucQuery with the given short name, or None if not present.
         """
@@ -151,13 +152,13 @@ class EcucValidationCondition(Identifiable):
                 return query
         return None
 
-    def getValidationFormula(self) -> Optional["EcucConditionFormula"]:
+    def getValidationFormula(self) -> Optional[EcucConditionFormula]:
         """
         Definition of the formula used to define validation condition.
         """
         return self.validationFormula
 
-    def setValidationFormula(self, value: "EcucConditionFormula") -> "EcucValidationCondition":
+    def setValidationFormula(self, value: EcucConditionFormula) -> EcucValidationCondition:
         """
         Definition of the formula used to define validation condition.
         A None value is a no-op.
@@ -524,7 +525,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         super().__init__(parent, short_name)
 
         # Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
-        self.destinationUriRefs: List[EcucDestinationUriDefRefType] = []
+        self.destinationUriRefs: List[RefType] = []
 
         # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
@@ -538,13 +539,13 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         # Used to define whether the value element for this definition shall be provided with an index.
         self.requiresIndex: Optional[Boolean] = None
 
-    def getDestinationUriRefs(self) -> List[EcucDestinationUriDefRefType]:
+    def getDestinationUriRefs(self) -> List[RefType]:
         """
         Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
         """
         return self.destinationUriRefs
 
-    def addDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucContainerDef":
+    def addDestinationUriRef(self, value: RefType) -> EcucContainerDef:
         """
         Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
         A None value is a no-op.
@@ -559,7 +560,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         """
         return self.multiplicityConfigClasses
 
-    def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass) -> "EcucContainerDef":
+    def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass) -> EcucContainerDef:
         """
         Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
         A None value is a no-op.
@@ -574,7 +575,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         """
         return self.origin
 
-    def setOrigin(self, value: Optional[String]) -> "EcucContainerDef":
+    def setOrigin(self, value: Optional[String]) -> EcucContainerDef:
         """
         This attribute specifies whether this configuration container is an AUTOSAR standardized container or whether it is vendor-specific.
         A None value is a no-op and does not overwrite an existing origin.
@@ -589,7 +590,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         """
         return self.postBuildVariantMultiplicity
 
-    def setPostBuildVariantMultiplicity(self, value: Optional[Boolean]) -> "EcucContainerDef":
+    def setPostBuildVariantMultiplicity(self, value: Optional[Boolean]) -> EcucContainerDef:
         """
         Indicates if a container may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
         A None value is a no-op and does not overwrite an existing postBuildVariantMultiplicity.
@@ -604,7 +605,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         """
         return self.requiresIndex
 
-    def setRequiresIndex(self, value: Optional[Boolean]) -> "EcucContainerDef":
+    def setRequiresIndex(self, value: Optional[Boolean]) -> EcucContainerDef:
         """
         Used to define whether the value element for this definition shall be provided with an index.
         A None value is a no-op and does not overwrite an existing requiresIndex.
@@ -788,21 +789,21 @@ class EcucDerivationSpecification(ARObject):
         super().__init__()
 
         # Definition of the formula used to calculate the value of the configuration element.
-        self.calculationFormula: Optional["EcucParameterDerivationFormula"] = None
+        self.calculationFormula: Optional[EcucParameterDerivationFormula] = None
 
         # Query to the ECU Configuration Description.
-        self.ecucQueries: List["EcucQuery"] = []
+        self.ecucQueries: List[EcucQuery] = []
 
         # Informal description of the derivation used to calculate the value of the configuration element.
         self.informalFormula: Optional[MlFormula] = None
 
-    def getCalculationFormula(self) -> Optional["EcucParameterDerivationFormula"]:
+    def getCalculationFormula(self) -> Optional[EcucParameterDerivationFormula]:
         """
         Definition of the formula used to calculate the value of the configuration element.
         """
         return self.calculationFormula
 
-    def setCalculationFormula(self, value: Optional["EcucParameterDerivationFormula"]) -> "EcucDerivationSpecification":
+    def setCalculationFormula(self, value: Optional[EcucParameterDerivationFormula]) -> EcucDerivationSpecification:
         """
         Definition of the formula used to calculate the value of the configuration element.
         A None value is a no-op.
@@ -811,13 +812,13 @@ class EcucDerivationSpecification(ARObject):
             self.calculationFormula = value
         return self
 
-    def getEcucQueries(self) -> List["EcucQuery"]:
+    def getEcucQueries(self) -> List[EcucQuery]:
         """
         Query to the ECU Configuration Description.
         """
         return self.ecucQueries
 
-    def createEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+    def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
         Creates or returns an existing EcucQuery aggregated by this derivation specification.
         """
@@ -830,7 +831,7 @@ class EcucDerivationSpecification(ARObject):
         self.ecucQueries.append(query)
         return query
 
-    def getEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+    def getEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
         Gets the EcucQuery with the given short name, or None if not present.
         """
@@ -845,7 +846,7 @@ class EcucDerivationSpecification(ARObject):
         """
         return self.informalFormula
 
-    def setInformalFormula(self, value: Optional[MlFormula]) -> "EcucDerivationSpecification":
+    def setInformalFormula(self, value: Optional[MlFormula]) -> EcucDerivationSpecification:
         """
         Informal description of the derivation used to calculate the value of the configuration element.
         A None value is a no-op.
@@ -955,7 +956,7 @@ class EcucBooleanParamDef(EcucParameterDef):
         """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Optional[Boolean]) -> "EcucBooleanParamDef":
+    def setDefaultValue(self, value: Optional[Boolean]) -> EcucBooleanParamDef:
         """
         Default value of the boolean configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         A None value is a no-op and does not overwrite an existing defaultValue.
@@ -992,7 +993,7 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
         """
         return self.withAuto
 
-    def setWithAuto(self, value: Optional[Boolean]) -> "EcucAbstractReferenceDef":
+    def setWithAuto(self, value: Optional[Boolean]) -> EcucAbstractReferenceDef:
         """
         Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
         A None value is a no-op and does not overwrite an existing withAuto.
@@ -1029,7 +1030,7 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
         """
         return self.requiresSymbolicNameValue
 
-    def setRequiresSymbolicNameValue(self, value: Optional[Boolean]) -> "EcucAbstractInternalReferenceDef":
+    def setRequiresSymbolicNameValue(self, value: Optional[Boolean]) -> EcucAbstractInternalReferenceDef:
         """
         If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108.
         A None value is a no-op and does not overwrite an existing requiresSymbolicNameValue.
@@ -1060,36 +1061,44 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    ECUC reference definition using symbolic names with a destination reference.
+    This meta-class specifies that the implementation of the reference is done using a symbolic name defined by the referenced Container's shortName.
     """
 
     # EcucSymbolicNameReferenceDef method parity checklist:
-    # (legacy class, removed in R23-11; no spec table)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: R4.3.1/AUTOSAR_TPS_ECUConfiguration.pdf, Table 2.34, p.83
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDestinationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationRef: RefType = None
+        # Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+        self.destinationRef: Optional[RefType] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Optional[RefType]:
         """
-        Gets the reference to a parameter container.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Returns:
+            The destination reference, or None if not set
         """
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType) -> "EcucSymbolicNameReferenceDef":
+    def setDestinationRef(self, value: Optional[RefType]) -> EcucSymbolicNameReferenceDef:
         """
-        Sets the reference to a parameter container.
-        A None value is a no-op.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Args:
+            value: The destination reference to set
+
+        Returns:
+            self for method chaining
         """
         if value is not None:
             self.destinationRef = value
         return self
-
-
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Specify alternative references where in the ECU Configuration description
@@ -1115,7 +1124,7 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
         """
         return self.destinationRefs
 
-    def addDestinationRef(self, value: RefType) -> "EcucChoiceReferenceDef":
+    def addDestinationRef(self, value: RefType) -> EcucChoiceReferenceDef:
         """
         All the possible parameter containers for the reference are specified.
         A None value is a no-op and does not overwrite an existing destinationRefs.
@@ -1127,38 +1136,44 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    Specify references within the ECU Configuration Description between parameter
-    containers.
+    Specify references within the ECU Configuration Description between parameter containers.
     """
 
     # EcucReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.29, p.73
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Exactly one reference to a parameter container is allowed as destination.
-        self.destinationRef: RefType = None
+        # Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+        self.destinationRef: Optional[RefType] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Optional[RefType]:
         """
-        Gets the reference to a parameter container.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Returns:
+            The destination reference, or None if not set
         """
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType) -> "EcucReferenceDef":
+    def setDestinationRef(self, value: Optional[RefType]) -> EcucReferenceDef:
         """
-        Sets the reference to a parameter container.
-        A None value is a no-op.
+        Exactly one reference to a parameter container is allowed as destination. Stereotypes: atpUriDef
+
+        Args:
+            value: The destination reference to set
+
+        Returns:
+            self for method chaining
         """
         if value is not None:
             self.destinationRef = value
         return self
-
-
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Definition of reference with a destination that is specified via a destinationUri. With such a reference it is possible to define a reference to a EcucContainerDef in a different module independent from the concrete definition of the target container.
@@ -1166,31 +1181,39 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucUriReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.33, p.81
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationUriRef: EcucDestinationUriDefRefType = None
+        # Any EcucContainerDef with a destinationUri that is identical to the destinationUri that is referenced here defines a valid target. Stereotypes: atpUriDef
+        self.destinationUriRef: Optional[RefType] = None
 
-    def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
+    def getDestinationUriRef(self) -> Optional[RefType]:
         """
-        Gets the destination URI reference.
+        Any EcucContainerDef with a destinationUri that is identical to the destinationUri that is referenced here defines a valid target. Stereotypes: atpUriDef
+
+        Returns:
+            The destination URI reference, or None if not set
         """
         return self.destinationUriRef
 
-    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucUriReferenceDef":
+    def setDestinationUriRef(self, value: Optional[RefType]) -> EcucUriReferenceDef:
         """
-        Sets the destination URI reference.
-        A None value is a no-op.
+        Any EcucContainerDef with a destinationUri that is identical to the destinationUri that is referenced here defines a valid target. Stereotypes: atpUriDef
+
+        Args:
+            value: The destination URI reference to set
+
+        Returns:
+            self for method chaining
         """
         if value is not None:
             self.destinationUriRef = value
         return self
-
-
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
     Specify a reference to an XML description of an entity described in another AUTOSAR template.
@@ -1225,7 +1248,7 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
         """
         return self.destinationType
 
-    def setDestinationType(self, value: Optional[String]) -> "EcucForeignReferenceDef":
+    def setDestinationType(self, value: Optional[String]) -> EcucForeignReferenceDef:
         """
         The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationType.
@@ -1265,7 +1288,7 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
         """
         return self.destinationContext
 
-    def setDestinationContext(self, value: Optional[String]) -> "EcucInstanceReferenceDef":
+    def setDestinationContext(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
         The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationContext.
@@ -1280,7 +1303,7 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
         """
         return self.destinationType
 
-    def setDestinationType(self, value: Optional[String]) -> "EcucInstanceReferenceDef":
+    def setDestinationType(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
         The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationType.
@@ -1495,7 +1518,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         """
         return self.ecucCond
 
-    def setEcucCond(self, value: Optional[EcucConditionSpecification]) -> "EcucEnumerationLiteralDef":
+    def setEcucCond(self, value: Optional[EcucConditionSpecification]) -> EcucEnumerationLiteralDef:
         """
         If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored.
         A None value is a no-op and does not overwrite an existing ecucCond.
@@ -1510,7 +1533,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         """
         return self.origin
 
-    def setOrigin(self, value: Optional[String]) -> "EcucEnumerationLiteralDef":
+    def setOrigin(self, value: Optional[String]) -> EcucEnumerationLiteralDef:
         """
         String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific.
         A None value is a no-op and does not overwrite an existing origin.
@@ -1549,7 +1572,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
         """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Optional[Identifier]) -> "EcucEnumerationParamDef":
+    def setDefaultValue(self, value: Optional[Identifier]) -> EcucEnumerationParamDef:
         """
         Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
         A None value is a no-op and does not overwrite an existing defaultValue.
@@ -1609,7 +1632,7 @@ class EcucFloatParamDef(EcucParameterDef):
         """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Optional[Float]) -> "EcucFloatParamDef":
+    def setDefaultValue(self, value: Optional[Float]) -> EcucFloatParamDef:
         """
         Default value of the float configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         A None value is a no-op and does not overwrite an existing defaultValue.
@@ -1624,7 +1647,7 @@ class EcucFloatParamDef(EcucParameterDef):
         """
         return self.max
 
-    def setMax(self, value: Optional[Limit]) -> "EcucFloatParamDef":
+    def setMax(self, value: Optional[Limit]) -> EcucFloatParamDef:
         """
         Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         A None value is a no-op and does not overwrite an existing max.
@@ -1639,7 +1662,7 @@ class EcucFloatParamDef(EcucParameterDef):
         """
         return self.min
 
-    def setMin(self, value: Optional[Limit]) -> "EcucFloatParamDef":
+    def setMin(self, value: Optional[Limit]) -> EcucFloatParamDef:
         """
         Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         A None value is a no-op and does not overwrite an existing min.
@@ -1665,15 +1688,15 @@ class EcucChoiceContainerDef(EcucContainerDef):
         super().__init__(parent, short_name)
 
         # The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
-        self.choices: List["EcucParamConfContainerDef"] = []
+        self.choices: List[EcucParamConfContainerDef] = []
 
-    def getChoices(self) -> List["EcucParamConfContainerDef"]:
+    def getChoices(self) -> List[EcucParamConfContainerDef]:
         """
         The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
         """
         return self.choices
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
         """
         The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
         """
@@ -1729,7 +1752,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.parameters
 
-    def createEcucAddInfoParamDef(self, short_name: str) -> "EcucAddInfoParamDef":
+    def createEcucAddInfoParamDef(self, short_name: str) -> EcucAddInfoParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
@@ -1799,7 +1822,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(ref)
         return self.getElement(short_name, EcucFunctionNameDef)
 
-    def createEcucMultilineStringParamDef(self, short_name: str) -> "EcucMultilineStringParamDef":
+    def createEcucMultilineStringParamDef(self, short_name: str) -> EcucMultilineStringParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
@@ -1809,7 +1832,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name, EcucMultilineStringParamDef)
 
-    def createEcucLinkerSymbolDef(self, short_name: str) -> "EcucLinkerSymbolDef":
+    def createEcucLinkerSymbolDef(self, short_name: str) -> EcucLinkerSymbolDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
@@ -1903,7 +1926,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.subContainers.append(container)
         return self.getElement(short_name, EcucChoiceContainerDef)
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
         """
         The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         """
@@ -1958,7 +1981,7 @@ class EcucConditionFormula(FormulaExpression):
         """
         return self.ecucQueryRef
 
-    def setEcucQueryRef(self, value: Optional[RefType]) -> "EcucConditionFormula":
+    def setEcucQueryRef(self, value: Optional[RefType]) -> EcucConditionFormula:
         """
         The EcucQuery serves as a argument for the formula.
         A None value is a no-op.
@@ -1973,7 +1996,7 @@ class EcucConditionFormula(FormulaExpression):
         """
         return self.ecucQueryStringRef
 
-    def setEcucQueryStringRef(self, value: Optional[RefType]) -> "EcucConditionFormula":
+    def setEcucQueryStringRef(self, value: Optional[RefType]) -> EcucConditionFormula:
         """
         This indicates that the referenced query shall return a string.
         A None value is a no-op.
@@ -2001,7 +2024,7 @@ class EcucDefinitionCollection(AtpBlueprintable):
         # References to the module definitions of individual software modules.
         self.moduleRefs: List[RefType] = []
 
-    def addModuleRef(self, value: RefType) -> "EcucDefinitionCollection":
+    def addModuleRef(self, value: RefType) -> EcucDefinitionCollection:
         """
         Adds a reference to the module definition of an individual software module.
         A None value is a no-op and does not append anything.
@@ -2033,15 +2056,15 @@ class EcucDestinationUriDef(Identifiable):
         super().__init__(parent, short_name)
 
         # Description of the targeted EcucContainerDef.
-        self.destinationUriPolicy: Optional["EcucDestinationUriPolicy"] = None
+        self.destinationUriPolicy: Optional[EcucDestinationUriPolicy] = None
 
-    def getDestinationUriPolicy(self) -> Optional["EcucDestinationUriPolicy"]:
+    def getDestinationUriPolicy(self) -> Optional[EcucDestinationUriPolicy]:
         """
         Description of the targeted EcucContainerDef.
         """
         return self.destinationUriPolicy
 
-    def setDestinationUriPolicy(self, value: Optional["EcucDestinationUriPolicy"]) -> "EcucDestinationUriDef":
+    def setDestinationUriPolicy(self, value: Optional[EcucDestinationUriPolicy]) -> EcucDestinationUriDef:
         """
         Description of the targeted EcucContainerDef.
         A None value is a no-op and does not overwrite an existing destinationUriPolicy.
@@ -2084,7 +2107,7 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         self.destinationUriDefs.append(element)
         return element
 
-    def addDestinationUriDef(self, value: EcucDestinationUriDef) -> "EcucDestinationUriDefSet":
+    def addDestinationUriDef(self, value: EcucDestinationUriDef) -> EcucDestinationUriDefSet:
         """
         This is one particular EcucDestinationUriDef.
         A None value is a no-op.
@@ -2119,7 +2142,7 @@ class EcucDestinationUriPolicy(ARObject):
         self.containers: List[EcucContainerDef] = []
 
         # This attribute defines how the referenced target EcucContainerDef is described.
-        self.destinationUriNestingContract: Optional["EcucDestinationUriNestingContractEnum"] = None
+        self.destinationUriNestingContract: Optional[EcucDestinationUriNestingContractEnum] = None
 
         # Description of parameters that are contained in the target container.
         self.parameters: List[EcucParameterDef] = []
@@ -2133,7 +2156,7 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.containers
 
-    def addContainer(self, value: EcucContainerDef) -> "EcucDestinationUriPolicy":
+    def addContainer(self, value: EcucContainerDef) -> EcucDestinationUriPolicy:
         """
         Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
         A None value is a no-op.
@@ -2142,13 +2165,13 @@ class EcucDestinationUriPolicy(ARObject):
             self.containers.append(value)
         return self
 
-    def getDestinationUriNestingContract(self) -> Optional["EcucDestinationUriNestingContractEnum"]:
+    def getDestinationUriNestingContract(self) -> Optional[EcucDestinationUriNestingContractEnum]:
         """
         This attribute defines how the referenced target EcucContainerDef is described.
         """
         return self.destinationUriNestingContract
 
-    def setDestinationUriNestingContract(self, value: Optional["EcucDestinationUriNestingContractEnum"]) -> "EcucDestinationUriPolicy":
+    def setDestinationUriNestingContract(self, value: Optional[EcucDestinationUriNestingContractEnum]) -> EcucDestinationUriPolicy:
         """
         This attribute defines how the referenced target EcucContainerDef is described.
         A None value is a no-op.
@@ -2163,7 +2186,7 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.parameters
 
-    def addParameter(self, value: EcucParameterDef) -> "EcucDestinationUriPolicy":
+    def addParameter(self, value: EcucParameterDef) -> EcucDestinationUriPolicy:
         """
         Description of parameters that are contained in the target container.
         A None value is a no-op.
@@ -2178,7 +2201,7 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.references
 
-    def addReference(self, value: EcucAbstractReferenceDef) -> "EcucDestinationUriPolicy":
+    def addReference(self, value: EcucAbstractReferenceDef) -> EcucDestinationUriPolicy:
         """
         Description of references that are contained in the target container.
         A None value is a no-op.
@@ -2266,10 +2289,10 @@ class EcucParameterDerivationFormula(FormulaExpression):
         super().__init__()
 
         # This is one particular EcucQuery used in the calculation formula.
-        self.ecucQueryRef: RefType = None
+        self.ecucQueryRef: Optional[RefType] = None
 
         # This indicates that the referenced query shall return a string.
-        self.ecucQueryStringRef: RefType = None
+        self.ecucQueryStringRef: Optional[RefType] = None
 
     def getEcucQueryRef(self) -> RefType:
         """
@@ -2277,7 +2300,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         """
         return self.ecucQueryRef
 
-    def setEcucQueryRef(self, value: RefType) -> "EcucParameterDerivationFormula":
+    def setEcucQueryRef(self, value: RefType) -> EcucParameterDerivationFormula:
         """
         This is one particular EcucQuery used in the calculation formula.
         A None value is a no-op.
@@ -2292,7 +2315,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         """
         return self.ecucQueryStringRef
 
-    def setEcucQueryStringRef(self, value: RefType) -> "EcucParameterDerivationFormula":
+    def setEcucQueryStringRef(self, value: RefType) -> EcucParameterDerivationFormula:
         """
         This indicates that the referenced query shall return a string.
         A None value is a no-op.
@@ -2318,15 +2341,15 @@ class EcucQuery(Identifiable):
         super().__init__(parent, short_name)
 
         # This is the EcucQuery used in the calculation formula or the condition formula.
-        self.ecucQueryExpression: "EcucQueryExpression" = None
+        self.ecucQueryExpression: EcucQueryExpression = None
 
-    def getEcucQueryExpression(self) -> "EcucQueryExpression":
+    def getEcucQueryExpression(self) -> EcucQueryExpression:
         """
         This is the EcucQuery used in the calculation formula or the condition formula.
         """
         return self.ecucQueryExpression
 
-    def setEcucQueryExpression(self, value: Optional["EcucQueryExpression"]) -> "EcucQuery":
+    def setEcucQueryExpression(self, value: Optional[EcucQueryExpression]) -> EcucQuery:
         """
         This is the EcucQuery used in the calculation formula or the condition formula.
         A None value is a no-op.
@@ -2365,7 +2388,7 @@ class EcucQueryExpression(ARObject):
         """
         return self.configElementDefGlobalRef
 
-    def setConfigElementDefGlobalRef(self, value: Optional[RefType]) -> "EcucQueryExpression":
+    def setConfigElementDefGlobalRef(self, value: Optional[RefType]) -> EcucQueryExpression:
         """
         The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
         A None value is a no-op.
@@ -2380,7 +2403,7 @@ class EcucQueryExpression(ARObject):
         """
         return self.configElementDefLocalRef
 
-    def setConfigElementDefLocalRef(self, value: Optional[RefType]) -> "EcucQueryExpression":
+    def setConfigElementDefLocalRef(self, value: Optional[RefType]) -> EcucQueryExpression:
         """
         The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
         A None value is a no-op.

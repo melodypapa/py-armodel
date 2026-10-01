@@ -67,7 +67,7 @@ class SignalServiceTranslationElementProps(Identifiable):
         super().__init__(parent, short_name)
 
         # Reference to the leaf element the SignalServiceTranslationElementProps apply to.
-        self.element: Optional["DataPrototypeInPortInterfaceRef"] = None
+        self.element: Optional[DataPrototypeInPortInterfaceRef] = None
 
         # Defines an optional filter to be applied during translation.
         self.filter: Optional[DataFilter] = None
@@ -75,13 +75,13 @@ class SignalServiceTranslationElementProps(Identifiable):
         # Defines whether the source element (which is mapped to the referenced element) triggers the sending of the respective payload.
         self.transmissionTrigger: Optional[Boolean] = None
 
-    def getElement(self) -> Optional["DataPrototypeInPortInterfaceRef"]:
+    def getElement(self) -> Optional[DataPrototypeInPortInterfaceRef]:
         """
         Reference to the leaf element the SignalService TranslationElementProps apply to.
         """
         return self.element
 
-    def setElement(self, value: Optional["DataPrototypeInPortInterfaceRef"]) -> SignalServiceTranslationElementProps:
+    def setElement(self, value: Optional[DataPrototypeInPortInterfaceRef]) -> SignalServiceTranslationElementProps:
         """
         Reference to the leaf element the SignalService TranslationElementProps apply to.
         A None value is a no-op and does not overwrite an existing element.

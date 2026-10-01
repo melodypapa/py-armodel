@@ -8,7 +8,6 @@ import re
 from typing import List, Optional, Sequence, Union, Any
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-
 class ARType(ABC):
     """
     Abstract base class for all AUTOSAR types.
@@ -94,7 +93,6 @@ class ARType(ABC):
         """
         return self.shortLabel
 
-
 class ARLiteral(ARType):
     """
     Base class for literal AUTOSAR types.
@@ -136,7 +134,6 @@ class ARLiteral(ARType):
             Uppercase string representation
         """
         return self.value.upper()
-
 
 class Numerical(ARLiteral):
     """
@@ -214,7 +211,6 @@ class Numerical(ARLiteral):
         else:
             return str(self._value)
 
-
 class Float(Numerical):
     """
     An instance of Float is an element from the set of real numbers.
@@ -247,7 +243,6 @@ class Float(Numerical):
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
 
-
 class TimeValue(Float):
     """
     This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
@@ -264,7 +259,6 @@ class TimeValue(Float):
 
     def __init__(self):
         super().__init__()
-
 
 class AREnum(ARLiteral):
     """
@@ -319,7 +313,6 @@ class AREnum(ARLiteral):
             return True
         return False
 
-
 class String(ARLiteral):
     """
     This represents a String in which white-space shall be normalized before processing. For example: in order to compare two Strings: • leading and trailing white-space needs to be removed • consecutive white-space (blank, cr, lf, tab) needs to be replaced by one blank.
@@ -338,20 +331,22 @@ class String(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class UriString(ARLiteral):
     """
-    This represents a URI string value.
+    A Uniform Resource Identifier (URI), is a compact string of characters used to identify or name a resource.
+
+    Tags:
+        * xml.xsd.customType=URI-STRING
+        * xml.xsd.type=string
     """
 
     # UriString method parity checklist:
-    # Spec: AUTOSAR_00052.xsd, URI-STRING type (R23-11)
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.66, p.114
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class AlignmentType(ARLiteral):
     """
@@ -370,7 +365,6 @@ class AlignmentType(ARLiteral):
 
     def __init__(self):
         super().__init__()
-
 
 class SectionInitializationPolicyType(ARLiteral):
     """
@@ -403,7 +397,6 @@ class SectionInitializationPolicyType(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class CseCodeType(ARLiteral):
     """
     This primitive represents an ASAM CSE (Codes for Scaling Units) based on the
@@ -416,11 +409,12 @@ class CseCodeType(ARLiteral):
     """
 
     # CseCodeType method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.75, p.165
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class DisplayFormatString(ARLiteral):
     """
@@ -435,11 +429,10 @@ class DisplayFormatString(ARLiteral):
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.42, p.334
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-
 
 class NativeDeclarationString(ARLiteral):
     """
@@ -455,11 +448,10 @@ class NativeDeclarationString(ARLiteral):
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.40, p.333
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-
 
 class BaseTypeEncodingString(ARLiteral):
     """
@@ -479,7 +471,6 @@ class BaseTypeEncodingString(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class PrimitiveIdentifier(ARLiteral):
     """
     This meta-class has the ability to contain a string. Please note that this meta-class has only been introduced to fix an issue with the generation of attributes on primitives in context with [TPS_XMLSPR_00024].
@@ -495,23 +486,27 @@ class PrimitiveIdentifier(ARLiteral):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.58, p.112
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-
 
 class ReferrableSubtypesEnum(ARLiteral):
     """
-    Represents an enum for referrable subtypes in AUTOSAR models.
+    This primitive is a proxy for an enum generated by the MMT. It allows to refer to any subclass of Referrable. Due to technical reasons the possible values are not shown in this class table.
+
+    Tags:
+        * xml.mds.type=REFERRABLE-SUBTYPES-ENUM
+        * xml.xsd.type=string
     """
 
     # ReferrableSubtypesEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.15, p.73
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class PositiveInteger(Numerical):
     """
@@ -550,7 +545,6 @@ class PositiveInteger(Numerical):
             self._value = self._convertStringToNumberValue(val)
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
-
 
 class Boolean(ARType):
     """
@@ -634,7 +628,6 @@ class Boolean(ARType):
             else:
                 return "false"
 
-
 class NameToken(ARLiteral):
     """
     This is an identifier as used in xml, e.g. xml-names. Typical usages are, for example, the names of type
@@ -655,7 +648,6 @@ class NameToken(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class PositiveUnlimitedInteger(PositiveInteger):
     r"""
     This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal.
@@ -668,7 +660,6 @@ class PositiveUnlimitedInteger(PositiveInteger):
 
     # PositiveUnlimitedInteger method parity checklist:
     # (no methods)
-
 
 class Integer(Numerical):
     r"""
@@ -690,7 +681,6 @@ class Integer(Numerical):
     def __init__(self):
         super().__init__()
 
-
 class UnlimitedInteger(Integer):
     r"""
     An instance of UnlimitedInteger is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
@@ -709,7 +699,6 @@ class UnlimitedInteger(Integer):
 
     def __init__(self):
         super().__init__()
-
 
 class Identifier(ARLiteral):
     """
@@ -779,7 +768,6 @@ class Identifier(ARLiteral):
             self.namePattern = value
         return self
 
-
 class CIdentifier(ARLiteral):
     """
     This datatype represents a string, that follows the rules of C-identifiers.
@@ -792,11 +780,13 @@ class CIdentifier(ARLiteral):
     """
 
     # CIdentifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getBlueprintValue            [x] impl  [x] docstring  [ ] test
-    # [ ] setBlueprintValue            [x] impl  [x] docstring  [ ] test
-    # [ ] getNamePattern               [x] impl  [x] docstring  [ ] test
-    # [ ] setNamePattern               [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.45, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setNamePattern           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -848,7 +838,6 @@ class CIdentifier(ARLiteral):
         self.namePattern = value
         return self
 
-
 class RevisionLabelString(ARLiteral):
     """
     This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
@@ -867,10 +856,8 @@ class RevisionLabelString(ARLiteral):
 
     # RevisionLabelString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.61, p.113
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — primitive type; value serialized as REVISION-LABEL-STRING via getChildElementOptionalRevisionLabelString / setChildElementOptionalRevisionLabelString
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
 class IntervalTypeEnum(AREnum):
     """
@@ -897,7 +884,6 @@ class IntervalTypeEnum(AREnum):
                 IntervalTypeEnum.OPEN,
             ]
         )
-
 
 class Limit(ARObject):
     """
@@ -969,7 +955,6 @@ class Limit(ARObject):
             self.value = value
         return self
 
-
 class Ref(ARLiteral):
     """
     This primitive denotes a name based reference. For detailed syntax see the xsd.pattern. • first slash (relative or absolute reference) [optional] • Identifier [required] • a sequence of slashes and Identifiers [optional] This primitive is used by the meta-model tools to create the references.
@@ -1037,7 +1022,6 @@ class Ref(ARLiteral):
         if value is not None:
             self.index = value
         return self
-
 
 class RefType(ARObject):
     """
@@ -1145,7 +1129,6 @@ class RefType(ARObject):
             return m.group(1)
         return self.value
 
-
 class TRefType(RefType):
     """
     Represents a typed reference type in AUTOSAR models.
@@ -1157,7 +1140,6 @@ class TRefType(RefType):
 
     def __init__(self):
         super().__init__()
-
 
 class DiagRequirementIdString(ARLiteral):
     r"""
@@ -1171,11 +1153,12 @@ class DiagRequirementIdString(ARLiteral):
     """
 
     # DiagRequirementIdString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.49, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class ArgumentDirectionEnum(AREnum):
     """
@@ -1207,23 +1190,23 @@ class ArgumentDirectionEnum(AREnum):
         """
         super().__init__((ArgumentDirectionEnum.IN, ArgumentDirectionEnum.INOUT, ArgumentDirectionEnum.OUT))
 
-
 class Ip4AddressString(ARLiteral):
     r"""
     This is used to specify an IP4 address. Notation: 255.255.255.255
 
-    Tags
+    Tags:
         * xml.xsd.customType=IP4-ADDRESS-STRING
         * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
         * xml.xsd.type=string
     """
 
     # Ip4AddressString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.51, p.110
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class Ip6AddressString(ARLiteral):
     r"""
@@ -1238,11 +1221,12 @@ class Ip6AddressString(ARLiteral):
     """
 
     # Ip6AddressString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.52, p.110
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class MacAddressString(ARLiteral):
     """
@@ -1262,7 +1246,6 @@ class MacAddressString(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class CategoryString(ARLiteral):
     """
     This represents the pattern applicable to categories.
@@ -1276,11 +1259,12 @@ class CategoryString(ARLiteral):
     """
 
     # CategoryString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.47, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class AnyServiceInstanceId(ARLiteral):
     r"""
@@ -1301,7 +1285,6 @@ class AnyServiceInstanceId(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class AnyVersionString(ARLiteral):
     r"""
     Tags:
@@ -1318,7 +1301,6 @@ class AnyVersionString(ARLiteral):
 
     def __init__(self):
         super().__init__()
-
 
 class ByteOrderEnum(AREnum):
     """
@@ -1347,7 +1329,6 @@ class ByteOrderEnum(AREnum):
                 ByteOrderEnum.OPAQUE,
             ]
         )
-
 
 class MonotonyEnum(AREnum):
     """
@@ -1395,7 +1376,6 @@ class MonotonyEnum(AREnum):
             ]
         )
 
-
 class DateTime(ARLiteral):
     r"""
     A datatype representing a timestamp. The smallest granularity is 1 second.
@@ -1414,11 +1394,12 @@ class DateTime(ARLiteral):
     """
 
     # DateTime method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.48, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class VerbatimString(ARLiteral):
     """
@@ -1442,7 +1423,6 @@ class VerbatimString(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class VerbatimStringPlain(ARLiteral):
     """
     This primitive represents a string in which white-space needs to be preserved.
@@ -1453,25 +1433,28 @@ class VerbatimStringPlain(ARLiteral):
 
     # VerbatimStringPlain method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.68, p.115
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class RegularExpression(ARLiteral):
     """
-    Represents a regular expression in AUTOSAR models.
-    This class is used for storing and handling regular expression patterns.
+    This is a regular expression as defined in http://www.w3.org/TR/xmlschema-2 As of now it is still produced as a string in XSD.
+
+    Tags:
+        * xml.xsd.customType=REGULAR-EXPRESSION
+        * xml.xsd.type=string
     """
 
     # RegularExpression method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.60, p.112
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class SymbolString(ARLiteral):
     """
@@ -1483,11 +1466,66 @@ class SymbolString(ARLiteral):
     """
 
     # SymbolString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.65, p.114
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        self.blueprintValue: Optional[str] = None
+
+        # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
+        self.namePattern: Optional[str] = None
+
+    def getBlueprintValue(self) -> Optional[str]:
+        """
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+
+        Returns:
+            The blueprint value, or None if not set
+        """
+        return self.blueprintValue
+
+    def setBlueprintValue(self, value: str):
+        """
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+
+        Args:
+            value: The blueprint value to set
+
+        Returns:
+            self for method chaining
+        """
+        self.blueprintValue = value
+        return self
+
+    def getNamePattern(self) -> Optional[str]:
+        """
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+
+        Returns:
+            The name pattern, or None if not set
+        """
+        return self.namePattern
+
+    def setNamePattern(self, value: str):
+        """
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+
+        Args:
+            value: The name pattern to set
+
+        Returns:
+            self for method chaining
+        """
+        self.namePattern = value
+        return self
 
 class McdIdentifier(ARLiteral):
     """
@@ -1503,11 +1541,12 @@ class McdIdentifier(ARLiteral):
     """
 
     # McdIdentifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.54, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
-
 
 class MimeTypeString(ARLiteral):
     """
@@ -1527,7 +1566,6 @@ class MimeTypeString(ARLiteral):
     def __init__(self):
         super().__init__()
 
-
 class NameTokens(ARLiteral):
     """
     This is a white-space separated list of name tokens.
@@ -1545,7 +1583,6 @@ class NameTokens(ARLiteral):
 
     def __init__(self):
         super().__init__()
-
 
 class ViewTokens(ARLiteral):
     """
@@ -1565,7 +1602,6 @@ class ViewTokens(ARLiteral):
 
     def __init__(self):
         super().__init__()
-
 
 class AclScopeEnum(AREnum):
     """
@@ -1596,94 +1632,71 @@ class AclScopeEnum(AREnum):
             ]
         )
 
-
 class AdditionalBindingTimeEnum(AREnum):
     pass
-
 
 class ContainerIPduHeaderTypeEnum(AREnum):
     pass
 
-
 class ContainerIPduTriggerEnum(AREnum):
     pass
-
 
 class CouplingElementEnum(AREnum):
     pass
 
-
 class CryptoServiceKeyGenerationEnum(AREnum):
     pass
-
 
 class DataConsistencyPolicyEnum(AREnum):
     pass
 
-
 class DataExchangePointKind(AREnum):
     pass
-
 
 class DdsDestinationOrderKindEnum(AREnum):
     pass
 
-
 class DdsDurabilityKindEnum(AREnum):
     pass
-
 
 class DdsDurabilityServiceHistoryKindEnum(AREnum):
     pass
 
-
 class DdsHistoryKindEnum(AREnum):
     pass
-
 
 class DdsLivenessKindEnum(AREnum):
     pass
 
-
 class DdsOwnershipKindEnum(AREnum):
     pass
-
 
 class DdsReliabilityKindEnum(AREnum):
     pass
 
-
 class DefaultValueApplicationStrategyEnum(AREnum):
     pass
-
 
 class DiagPduType(AREnum):
     pass
 
-
 class DiagnosticClearDtcLimitationEnum(AREnum):
     pass
-
 
 class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
     pass
 
-
 class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
     pass
-
 
 class DiagnosticDebounceBehaviorEnum(AREnum):
     pass
 
-
 class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
     pass
 
-
 class DiagnosticEventClearAllowedEnum(AREnum):
     pass
-
 
 class DiagnosticEventCombinationBehaviorEnum(AREnum):
     """
@@ -1710,7 +1723,6 @@ class DiagnosticEventCombinationBehaviorEnum(AREnum):
             ]
         )
 
-
 class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
     """
     Select reporting format of events. Applicable only for Event Combination on Retrieval.
@@ -1732,38 +1744,29 @@ class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
             ]
         )
 
-
 class DiagnosticEventDisplacementStrategyEnum(AREnum):
     pass
-
 
 class DiagnosticEventKindEnum(AREnum):
     pass
 
-
 class DiagnosticEventWindowTimeEnum(AREnum):
     pass
-
 
 class DiagnosticHandleDDDIConfigurationEnum(AREnum):
     pass
 
-
 class DiagnosticInhibitionMaskEnum(AREnum):
     pass
-
 
 class DiagnosticIumprKindEnum(AREnum):
     pass
 
-
 class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
     pass
 
-
 class DiagnosticObdSupportEnum(AREnum):
     pass
-
 
 class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
     """
@@ -1790,22 +1793,17 @@ class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
             ]
         )
 
-
 class DiagnosticOperationCycleTypeEnum(AREnum):
     pass
-
 
 class DiagnosticPeriodicRateCategoryEnum(AREnum):
     pass
 
-
 class DiagnosticRecordTriggerEnum(AREnum):
     pass
 
-
 class DiagnosticResponseOnEventActionEnum(AREnum):
     pass
-
 
 class DiagnosticResponseToEcuResetEnum(AREnum):
     """
@@ -1832,22 +1830,17 @@ class DiagnosticResponseToEcuResetEnum(AREnum):
             ]
         )
 
-
 class DiagnosticSignificanceEnum(AREnum):
     pass
-
 
 class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
     pass
 
-
 class DiagnosticTestResultUpdateEnum(AREnum):
     pass
 
-
 class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
     pass
-
 
 class DiagnosticTypeOfDtcSupportedEnum(AREnum):
     """
@@ -1886,146 +1879,101 @@ class DiagnosticTypeOfDtcSupportedEnum(AREnum):
             ]
         )
 
-
 class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
     pass
-
 
 class DiagnosticUdsSeverityEnum(AREnum):
     pass
 
-
 class DiagnosticWwhObdDtcClassEnum(AREnum):
     pass
-
-
-class EEnum(AREnum):
-    pass
-
-
-class EEnumFont(AREnum):
-    pass
-
 
 class EthGlobalTimeMessageFormatEnum(AREnum):
     pass
 
-
 class FMFeatureSelectionState(AREnum):
     pass
-
 
 class FlowMeteringColorModeEnum(AREnum):
     pass
 
-
 class FrArTpAckType(AREnum):
     pass
-
-
-class FullBindingTimeEnum(AREnum):
-    pass
-
 
 class GlobalTimeCrcSupportEnum(AREnum):
     pass
 
-
 class GlobalTimeCrcValidationEnum(AREnum):
     pass
-
 
 class GlobalTimeIcvSupportEnum(AREnum):
     pass
 
-
 class GlobalTimeIcvVerificationEnum(AREnum):
     pass
-
 
 class GlobalTimePortRoleEnum(AREnum):
     pass
 
-
 class IEEE1722TpAafAes3DataTypeEnum(AREnum):
     pass
-
 
 class IEEE1722TpAafFormatEnum(AREnum):
     pass
 
-
 class IEEE1722TpAafNominalRateEnum(AREnum):
     pass
-
 
 class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
     pass
 
-
 class IEEE1722TpCrfPullEnum(AREnum):
     pass
-
 
 class IEEE1722TpCrfTypeEnum(AREnum):
     pass
 
-
 class IEEE1722TpRvfColorSpaceEnum(AREnum):
     pass
-
 
 class IEEE1722TpRvfFrameRateEnum(AREnum):
     pass
 
-
 class IEEE1722TpRvfPixelDepthEnum(AREnum):
     pass
-
 
 class IEEE1722TpRvfPixelFormatEnum(AREnum):
     pass
 
-
 class LinChecksumType(AREnum):
     pass
-
 
 class MappingScopeEnum(AREnum):
     pass
 
-
 class MaximumMessageLengthType(AREnum):
     pass
-
 
 class MirroringProtocolEnum(AREnum):
     pass
 
-
 class RxAcceptContainedIPduEnum(AREnum):
     pass
-
 
 class SecurityEventContextDataSourceEnum(AREnum):
     pass
 
-
 class SecurityEventReportingModeEnum(AREnum):
     pass
-
 
 class SendIndicationEnum(AREnum):
     pass
 
-
 class SeverityEnum(AREnum):
     pass
 
-
 class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
     pass
-
 
 class SwitchStreamFilterActionPortModificationEnum(AREnum):
     pass

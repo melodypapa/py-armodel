@@ -3,7 +3,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Numerical, Identifier, Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RefType, Numerical, Identifier, Integer
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
@@ -513,4 +513,99 @@ class VariationPoint(ARObject):
         """This condition acts as Binding Function for the Variation Point. Note that the multiplicity is 0..1 in order to support pure postBuild variants. A None value is a no-op and does not overwrite an existing swSyscond."""
         if value is not None:
             self.swSyscond = value
+        return self
+
+
+class EvaluatedVariantSet(ARElement):
+    """
+    This meta class represents the ability to express if a set of ARElements is able to support one or more particular variants. In other words, for a given set of evaluatedElements this meta class represents a table of evaluated variants, where each PredefinedVariant represents one column. In this column each descendant sw SystemconstantValue resp. postbuildVariantCriterionValue represents one entry. In a graphical representation each swSystemconstantValueSet / postBuildVariantCriterionValueSet could be used as an intermediate headline in the table column. If the approvalStatus is "APPROVED" it expresses that the collection of CollectableElements is known be valid for the given evaluatedVariants. Note that the EvaluatedVariantSet is a CollectableElement. This allows to establish a hierarchy of EvaluatedVariantSets. Tags: atp.recommendedPackage=EvaluatedVariantSets
+    """
+
+    # EvaluatedVariantSet method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.23, p.257
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApprovalStatus           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApprovalStatus           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEvaluatedElementRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addEvaluatedElementRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEvaluatedVariantRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addEvaluatedVariantRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized.
+        self.approvalStatus: Optional[NameToken] = None
+
+        # This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
+        self.evaluatedElementRefs: List[RefType] = []
+
+        # This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
+        self.evaluatedVariantRefs: List[RefType] = []
+
+    def getApprovalStatus(self) -> Optional[NameToken]:
+        """
+        Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized.
+
+        Returns:
+            The approval status, or None if not set
+        """
+        return self.approvalStatus
+
+    def setApprovalStatus(self, value: Optional[NameToken]):
+        """
+        Defines the approval status of a predefined variant. Two values are predefined: "APPROVED" and "REJECTED": • Approved variants are known to work. • Rejected variants are known NOT to work. Further values can be approved on a per-company basis; within AUTOSAR only "APPROVED" and "REJECTED" should be recognized.
+
+        Args:
+            value: The approval status to set
+
+        Returns:
+            self for method chaining
+        """
+        self.approvalStatus = value
+        return self
+
+    def getEvaluatedElementRefs(self) -> List[RefType]:
+        """
+        This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
+
+        Returns:
+            The list of evaluated element references
+        """
+        return self.evaluatedElementRefs
+
+    def addEvaluatedElementRef(self, value: RefType):
+        """
+        This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
+
+        Args:
+            value: The evaluated element reference to append
+
+        Returns:
+            self for method chaining
+        """
+        self.evaluatedElementRefs.append(value)
+        return self
+
+    def getEvaluatedVariantRefs(self) -> List[RefType]:
+        """
+        This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
+
+        Returns:
+            The list of evaluated variant references
+        """
+        return self.evaluatedVariantRefs
+
+    def addEvaluatedVariantRef(self, value: RefType):
+        """
+        This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
+
+        Args:
+            value: The evaluated variant reference to append
+
+        Returns:
+            self for method chaining
+        """
+        self.evaluatedVariantRefs.append(value)
         return self

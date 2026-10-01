@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -115,7 +116,7 @@ class SwRecordLayoutV(ARObject):
         """This association allows to refer to a base type in case a specific encoding is intended. If no base type is referred, the base type referenced initially in the corresponding DataPrototype is to be used. Tags: xml.sequenceOffset=30"""
         return self.baseTypeRef
 
-    def setBaseTypeRef(self, value: Optional[RefType]) -> "SwRecordLayoutV":
+    def setBaseTypeRef(self, value: Optional[RefType]) -> SwRecordLayoutV:
         """This association allows to refer to a base type in case a specific encoding is intended. If no base type is referred, the base type referenced initially in the corresponding DataPrototype is to be used. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing baseTypeRef."""
         if value is not None:
             self.baseTypeRef = value
@@ -225,17 +226,17 @@ class SwRecordLayoutGroupContent(ARObject):
         """This association allows to support reusable \"sub\"-record layouts. In particular, the contents of the referenced record layout shall be used as if the record layout group in the referenced record layout was aggregated in the current record layout group. So, semantically it would be equivalent to replace the particular association with an aggregation of the sw RecordLayoutGroup of the referenced SwRecordLayout."""
         return self.swRecordLayoutRef
 
-    def setSwRecordLayoutRef(self, value: Optional[RefType]) -> "SwRecordLayoutGroupContent":
+    def setSwRecordLayoutRef(self, value: Optional[RefType]) -> SwRecordLayoutGroupContent:
         """This association allows to support reusable \"sub\"-record layouts. In particular, the contents of the referenced record layout shall be used as if the record layout group in the referenced record layout was aggregated in the current record layout group. So, semantically it would be equivalent to replace the particular association with an aggregation of the sw RecordLayoutGroup of the referenced SwRecordLayout. A None value is a no-op and does not overwrite an existing swRecordLayoutRef."""
         if value is not None:
             self.swRecordLayoutRef = value
         return self
 
-    def getSwRecordLayoutGroup(self) -> Optional["SwRecordLayoutGroup"]:
+    def getSwRecordLayoutGroup(self) -> Optional[SwRecordLayoutGroup]:
         """This aggregation provides support for nested iterations. For example, if a map is to be handled, then we might have two nested SwRecordLayoutGroups, one for the x-axis and one for the y-axis. The inner iteration runs faster."""
         return self.swRecordLayoutGroup
 
-    def setSwRecordLayoutGroup(self, value: Optional["SwRecordLayoutGroup"]) -> "SwRecordLayoutGroupContent":
+    def setSwRecordLayoutGroup(self, value: Optional[SwRecordLayoutGroup]) -> SwRecordLayoutGroupContent:
         """This aggregation provides support for nested iterations. For example, if a map is to be handled, then we might have two nested SwRecordLayoutGroups, one for the x-axis and one for the y-axis. The inner iteration runs faster. A None value is a no-op and does not overwrite an existing swRecordLayoutGroup."""
         if value is not None:
             self.swRecordLayoutGroup = value
@@ -245,7 +246,7 @@ class SwRecordLayoutGroupContent(ARObject):
         """Particular Value specification for this record layout group."""
         return self.swRecordLayoutV
 
-    def setSwRecordLayoutV(self, value: Optional[SwRecordLayoutV]) -> "SwRecordLayoutGroupContent":
+    def setSwRecordLayoutV(self, value: Optional[SwRecordLayoutV]) -> SwRecordLayoutGroupContent:
         """Particular Value specification for this record layout group. A None value is a no-op and does not overwrite an existing swRecordLayoutV."""
         if value is not None:
             self.swRecordLayoutV = value
@@ -455,7 +456,7 @@ class SwRecordLayout(ARElement):
         """This is the top level record layout group. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false"""
         return self.swRecordLayoutGroup
 
-    def setSwRecordLayoutGroup(self, value: Optional[SwRecordLayoutGroup]) -> "SwRecordLayout":
+    def setSwRecordLayoutGroup(self, value: Optional[SwRecordLayoutGroup]) -> SwRecordLayout:
         """This is the top level record layout group. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing swRecordLayoutGroup."""
         if value is not None:
             self.swRecordLayoutGroup = value

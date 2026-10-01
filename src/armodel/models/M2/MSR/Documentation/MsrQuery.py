@@ -188,7 +188,7 @@ class MsrQueryP2(ARObject):
         self.msrQueryProps: Optional[MsrQueryProps] = None
 
         # This represents the result of the query.
-        self.msrQueryResultP2: Optional["DocumentationBlock"] = None
+        self.msrQueryResultP2: Optional[DocumentationBlock] = None
 
     def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
         """
@@ -210,7 +210,7 @@ class MsrQueryP2(ARObject):
             self.msrQueryProps = value
         return self
 
-    def getMsrQueryResultP2(self) -> Optional["DocumentationBlock"]:
+    def getMsrQueryResultP2(self) -> Optional[DocumentationBlock]:
         """
         This represents the result of the query.
 
@@ -219,7 +219,7 @@ class MsrQueryP2(ARObject):
         """
         return self.msrQueryResultP2
 
-    def setMsrQueryResultP2(self, value: Optional["DocumentationBlock"]) -> MsrQueryP2:
+    def setMsrQueryResultP2(self, value: Optional[DocumentationBlock]) -> MsrQueryP2:
         """
         This represents the result of the query. A None value is a no-op and does not overwrite an existing msrQueryResultP2.
 

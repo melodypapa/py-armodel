@@ -365,6 +365,21 @@ whose values are `null` or empty lists; Excel keeps the complete column set.
 
 ## 1.12. Change notes:
 
+**Version 1.9.8**
+
+* Synced the remaining Group19–Group22 queue classes to the AUTOSAR R23-11 spec: 35 classes, including the 12-class SdgDef family (new `SpecialDataDef` module) and the new `ModelRestrictionTypes` module (`FullBindingTimeEnum`, `AbstractValueRestriction`, `AbstractVariationRestriction`), `EvaluatedVariantSet`, `EEnumFont`/`EEnum` (rehoused to `InlineAttributeEnums`), and 14 `PrimitiveTypes` literal classes; `SymbolString` gained its table's `blueprintValue`/`namePattern` attributes (PR #871)
+* Added SDG-DEF and EVALUATED-VARIANT-SET parser/writer coverage with `ARPackage` dispatch (`createSdgDef`, `createEvaluatedVariantSet`)
+* Flipped already-verified Group19–Group22 queue rows via the already-verified short-circuit rule; replaced fabricated docstrings on `RegularExpression`, `UriString` and `ReferrableSubtypesEnum` with the verbatim spec Notes
+* Retyped `EcucUriReferenceDef.destinationUriRef` and `EcucContainerDef.destinationUriRefs` to `RefType` (the `EcucDestinationUriDefRefType` phantom arbitration)
+* Completed the Group1–Group12 sync queue (491 classes) against the AUTOSAR R23-11 spec: framework and ARPackage classes (`ReferenceBase`, `MultilanguageReferrable`, `Identifiable`, `ShortNameFragment`), SWC components, port prototypes/interfaces and the full ComSpec family, RTE events, server call and mode access points, BSW behavior policies
+* Synced the MSR data-model families: constants and value specifications, computation methods (`CompuConst` family, `CompuGenericMath`), data constraints, record layouts, calibration classes (`Prms`/`GeneralParameter` family, `SwCalprmAxisSet`, `SwRecordLayout`), MSR query chapters and the documentation text model (`LParagraph`/`SlParagraph`, `MixedContent*` carriers, OASIS tables, figures, lists)
+* Synced the variation-point family (`VariationPoint`, attribute-value variation points, `PostBuildVariantCondition`/`Criterion`/`CriterionValue`, `SwSystemconstValue`, `ConditionByFormula`, `FormulaExpression`) and timing classes (`OffsetTimingConstraint`, `SynchronizationTimingConstraint`, `TimingDescriptionEventChain`, `MultidimensionalTime`, `TDEventVfb`); retired the fabricated `ConcreteTDEventVfb` subclass and moved direct-use support onto `TDEventVfb` (PRs #806, #823, #827, #841)
+* Synced the instance-reference families (composition, atomic SWC, system and ECU instance refs) and the mapping-set family (`DataTypeMappingSet`, `PortInterfaceMappingSet`, `ModeDeclarationMappingSet`, `InterpolationRoutineMappingSet`, `SwcBswMapping`) (PRs #818, #856, #860, #862, #869)
+* Synced the system/communication families: network management (`NmConfig`, `NmCluster` family), Ethernet topology and TCP/IP props, frames and PDUs, NvBlock cluster, End-to-End protection, transformer (SOMEIP/TLV), diagnostics (`Dcm` family, `DiagnosticServiceInstance`), DLT/Log-and-Trace, DoIP, secure communication (TLS/crypto services, `FirewallRule`, `CryptoKeySlot`), blueprints, feature model, hardware resources and life cycles
+* Unified the `atpMixedString` stereotype handling: interface-level `AtpMixedString` mixin redesign with the new `StereotypeMixins` module and `MixedContentForUnitNames`; merged `ARNumerical` into `Numerical` (PRs #785, #798, #808, #823)
+* Retyped `VariableAccess.scope` to the new `VariableAccessScopeEnum` and completed Group12 (`ParameterAccess` gained its table's `swDataDefProps`); fixed `xml:space` and VARIATION-POINT round-trip losses (PRs #812, #816, #841, #856)
+* Bumped project version metadata to 1.9.8
+
 **Version 1.9.7**
 
 * Synced EcuInstance TCP/IP stack props classes to AUTOSAR R23-11 spec: `TcpProps` (Table 3.111), `UdpProps` (Table 3.110), `EthTcpIpProps` (Table 3.109), `TcpIpIcmpv4Props` (Table 3.113), `TcpIpIcmpv6Props` (Table 3.114) with parser/writer coverage and ARPackage dispatch for `EthTcpIpProps` (PR #746)

@@ -76,7 +76,7 @@ class Note(ARObject, VariationPointCapable):
         self.label: Optional[MultilanguageLongName] = None
 
         # This is the text content of the note.
-        self.noteText: Optional["DocumentationBlock"] = None
+        self.noteText: Optional[DocumentationBlock] = None
 
         # Type of the Note. Default is "HINT"
         self.noteType: Optional[NoteTypeEnum] = None
@@ -101,7 +101,7 @@ class Note(ARObject, VariationPointCapable):
             self.label = value
         return self
 
-    def getNoteText(self) -> Optional["DocumentationBlock"]:
+    def getNoteText(self) -> Optional[DocumentationBlock]:
         """
         This is the text content of the note.
 
@@ -110,7 +110,7 @@ class Note(ARObject, VariationPointCapable):
         """
         return self.noteText
 
-    def setNoteText(self, value: Optional["DocumentationBlock"]) -> Note:
+    def setNoteText(self, value: Optional[DocumentationBlock]) -> Note:
         """
         This is the text content of the note. A None value is a no-op and does not overwrite an existing noteText.
 

@@ -411,13 +411,13 @@ class SenderComSpec(PPortComSpec, ABC):
             self.dataElementRef = value
         return self
 
-    def getHandleOutOfRange(self) -> Optional["HandleOutOfRangeEnum"]:
+    def getHandleOutOfRange(self) -> Optional[HandleOutOfRangeEnum]:
         """
         This attribute controls how out-of-range values shall be dealt with.
         """
         return self.handleOutOfRange
 
-    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> SenderComSpec:
+    def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> SenderComSpec:
         """
         This attribute controls how out-of-range values shall be dealt with.
         A None value is a no-op and does not overwrite an existing handleOutOfRange.
@@ -616,7 +616,7 @@ class ClientComSpec(RPortComSpec):
             self.operationRef = value
         return self
 
-    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> ClientComSpec:
+    def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ClientComSpec:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         A None value is a no-op and does not append anything.
@@ -625,7 +625,7 @@ class ClientComSpec(RPortComSpec):
             self.transformationComSpecProps.append(value)
         return self
 
-    def getTransformationComSpecProps(self) -> List["TransformationComSpecProps"]:
+    def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         """
@@ -916,13 +916,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.dataElementRef = value
         return self
 
-    def getHandleOutOfRange(self) -> Optional["HandleOutOfRangeEnum"]:
+    def getHandleOutOfRange(self) -> Optional[HandleOutOfRangeEnum]:
         """
         This attribute controls how values that are out of the specified range are handled according to the values of HandleOutOfRangeEnum.
         """
         return self.handleOutOfRange
 
-    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> ReceiverComSpec:
+    def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> ReceiverComSpec:
         """
         This attribute controls how values that are out of the specified range are handled according to the values of HandleOutOfRangeEnum.
         A None value is a no-op and does not overwrite an existing handleOutOfRange.
@@ -931,13 +931,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.handleOutOfRange = value
         return self
 
-    def getHandleOutOfRangeStatus(self) -> Optional["HandleOutOfRangeStatusEnum"]:
+    def getHandleOutOfRangeStatus(self) -> Optional[HandleOutOfRangeStatusEnum]:
         """
         Control the way how return values are created in case of an out-of-range situation.
         """
         return self.handleOutOfRangeStatus
 
-    def setHandleOutOfRangeStatus(self, value: Optional["HandleOutOfRangeStatusEnum"]) -> ReceiverComSpec:
+    def setHandleOutOfRangeStatus(self, value: Optional[HandleOutOfRangeStatusEnum]) -> ReceiverComSpec:
         """
         Control the way how return values are created in case of an out-of-range situation.
         A None value is a no-op and does not overwrite an existing handleOutOfRangeStatus.
@@ -1036,7 +1036,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.syncCounterInit = value
         return self
 
-    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> ReceiverComSpec:
+    def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ReceiverComSpec:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         A None value is a no-op and does not append anything.
@@ -1045,7 +1045,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.transformationComSpecProps.append(value)
         return self
 
-    def getTransformationComSpecProps(self) -> List["TransformationComSpecProps"]:
+    def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         """
@@ -1473,7 +1473,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.handleNeverReceived: Optional[Boolean] = None
 
         # This attribute controls the behavior with respect to the handling of timeouts.
-        self.handleTimeoutType: Optional["HandleTimeoutEnum"] = None
+        self.handleTimeoutType: Optional[HandleTimeoutEnum] = None
 
         # Initial value to be used in case the sending component is not yet initialized. If the sender also specifies an initial value, then the receiver's value will be used.
         self.initValue: Optional[ValueSpecification] = None
@@ -1556,13 +1556,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
             self.handleNeverReceived = value
         return self
 
-    def getHandleTimeoutType(self) -> Optional["HandleTimeoutEnum"]:
+    def getHandleTimeoutType(self) -> Optional[HandleTimeoutEnum]:
         """
         This attribute controls the behavior with respect to the handling of timeouts.
         """
         return self.handleTimeoutType
 
-    def setHandleTimeoutType(self, value: Optional["HandleTimeoutEnum"]) -> NonqueuedReceiverComSpec:
+    def setHandleTimeoutType(self, value: Optional[HandleTimeoutEnum]) -> NonqueuedReceiverComSpec:
         """
         This attribute controls the behavior with respect to the handling of timeouts.
         A None value is a no-op and does not overwrite an existing handleTimeoutType.
