@@ -607,7 +607,7 @@ Status: **24/24** completed
 
 ## Group12
 
-Status: **10/15** completed
+Status: **11/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -621,7 +621,7 @@ Status: **10/15** completed
 | `DataReceiveErrorEvent`              | [x] Done     | b5ead83e20 |
 | `DataReceivedEvent`                  | [x] Done     | 5d23170856 |
 | `DataSendCompletedEvent`             | [x] Done     | 57e1abeea2 |
-| `DataWriteCompletedEvent`            | [ ] Pending* | N/A        |
+| `DataWriteCompletedEvent`            | [x] Done     | df2a6b3a70 |
 | `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
 | `OperationInvokedEvent`              | [ ] Pending* | N/A        |
 | `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A        |
