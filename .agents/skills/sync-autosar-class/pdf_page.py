@@ -47,7 +47,7 @@ def scan_pdf(pdf_path):
         text = _pypdf_text(reader, i)
         if "Table" not in text:
             continue
-        for m in re.finditer(r"Table\s+(\d+\.\d+)\s*:\s*([A-Za-z0-9][A-Za-z0-9_\-]*)", text):
+        for m in re.finditer(r"Table\s+([A-Z]?\d+\.\d+|[A-Z]\.\d+)\s*:\s*([A-Za-z0-9][A-Za-z0-9_\-]*)", text):
             tid, cls = m.group(1), m.group(2)
             if tid not in tables:
                 tables[tid] = [cls, i + 1, "Table %s: %s" % (tid, cls)]
