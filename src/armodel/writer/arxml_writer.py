@@ -1309,6 +1309,13 @@ DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP = {
     "reportingInChronlogicalOrderOldestFirst": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
 }
 
+#: Mapping between DiagnosticHandleDDDIConfigurationEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-HANDLE-DDDI-CONFIGURATION-ENUM--SIMPLE).
+DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP = {
+    "nonVolatile": "NON-VOLATILE",
+    "volatile": "VOLATILE",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """

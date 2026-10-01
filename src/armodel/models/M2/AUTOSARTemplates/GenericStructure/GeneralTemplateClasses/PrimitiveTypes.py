@@ -1754,7 +1754,29 @@ class DiagnosticEventWindowTimeEnum(AREnum):
     pass
 
 class DiagnosticHandleDDDIConfigurationEnum(AREnum):
-    pass
+    """
+    This meta-class represents the options for controlling how the configuration of the DynamicallyDefineDataIdentifiers is done in the given context.
+    """
+
+    # DiagnosticHandleDDDIConfigurationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.95, p.128
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This indicates that the configuration of DynamicallyDefineDataIdentifier shall be stored as non-volatile data. Tags: atp.EnumerationLiteralIndex=0
+    NON_VOLATILE = "nonVolatile"
+
+    # This indicates that the configuration of DynamicallyDefineDataIdentifier shall be handled as volatile data. Tags: atp.EnumerationLiteralIndex=1
+    VOLATILE = "volatile"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE,
+                DiagnosticHandleDDDIConfigurationEnum.VOLATILE,
+            ]
+        )
 
 class DiagnosticInhibitionMaskEnum(AREnum):
     pass

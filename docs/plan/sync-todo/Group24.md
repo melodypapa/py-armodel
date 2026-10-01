@@ -662,14 +662,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticHandleDDDIConfigurationEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.95, p.128
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled in FIRST (before dependent Table 4.94 DiagnosticDynamicallyDefineDataIdentifierClass —
+      dependency-first per sync convention). Literals in displayed order nonVolatile (idx 0, NON-VOLATILE) /
+      volatile (idx 1, VOLATILE); Note cell-wrap "DynamicallyDefine DataIdentifiers" healed to
+      "DynamicallyDefineDataIdentifiers" (XSD complexType l.134457 documentation agrees).
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP
+      pre-registered in parser/writer for the consuming attribute (DiagnosticResponseToEcuResetEnum precedent);
+      consumer tests land with the Table 4.94 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.96, p.129

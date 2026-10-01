@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTypeOfDtcSupportedEnum,
@@ -1918,3 +1919,43 @@ class TestDiagnosticResponseToEcuResetEnum:
         enum.setValue(DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET)
 
         assert enum.getValue() == "respondBeforeReset"
+
+
+class TestDiagnosticHandleDDDIConfigurationEnum:
+    """
+    Test class for DiagnosticHandleDDDIConfigurationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.95, p.128
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticHandleDDDIConfigurationEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticHandleDDDIConfigurationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["nonVolatile", "volatile"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticHandleDDDIConfigurationEnum member values.
+        """
+        enum = DiagnosticHandleDDDIConfigurationEnum()
+
+        assert DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE == "nonVolatile"
+        assert DiagnosticHandleDDDIConfigurationEnum.VOLATILE == "volatile"
+
+        assert enum.validateEnumValue("nonVolatile") is True
+        assert enum.validateEnumValue("volatile") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticHandleDDDIConfigurationEnum instantiability and getValue.
+        """
+        enum = DiagnosticHandleDDDIConfigurationEnum()
+        enum.setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
+
+        assert enum.getValue() == "nonVolatile"
