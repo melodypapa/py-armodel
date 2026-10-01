@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 636 | 33.4% |
+| [x] Done | 638 | 33.5% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 209 | 11.0% |
+| [ ] Deferred | 207 | 10.9% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -192,7 +192,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswModeSwitchedAckEvent`                               | [x] Done    | a250dbe4b5                               | Group13          |
 | `BswModuleCallPoint`                                    | [x] Done    | 879aacf8c4                               | Group13          |
 | `BswModuleClientServerEntry`                            | [x] Done    | f57417a6a2                               | Group13          |
-| `BswModuleDependency`                                   | [ ] Deferred| 1ca038b144                               | Group13          |
+| `BswModuleDependency`                                   | [x] Done    | 7686874a67                               | Group13          |
 | `BswModuleDescription`                                  | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswModuleEntity`                                       | [x] Done    | 88b336bfe9                               | Group22          |
 | `BswModuleEntry`                                        | [x] Done    | 1a5b05b196                               | Group22          |
@@ -1693,7 +1693,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwValues`                                              | [ ] Implemented| N/A                                      | Group28          |
 | `SwVariableRefProxy`                                    | [ ] Implemented| N/A                                      | Group28          |
 | `SwcBswMapping`                                         | [x] Done    | 58b2c68a57                               | Group1           |
-| `SwcBswRunnableMapping`                                 | [ ] Deferred| c52cece662                               | Group13          |
+| `SwcBswRunnableMapping`                                 | [x] Done    | 4f1681d55f                               | Group13          |
 | `SwcBswSynchronizedModeGroupPrototype`                  | [ ] Deferred| 659c2bf174                               | Group13          |
 | `SwcBswSynchronizedTrigger`                             | [ ] Deferred| 6b4b9d6d10                               | Group13          |
 | `SwcExclusiveAreaPolicy`                                | [ ] Implemented| N/A                                      | Group29          |
