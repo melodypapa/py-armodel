@@ -14,7 +14,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
+    CpSwClusterResourceToDiagDataElemMapping,
+    CpSwClusterResourceToDiagFunctionIdMapping,
     CpSwClusterToDiagEventMapping,
+    CpSwClusterToDiagRoutineSubfunctionMapping,
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
@@ -5392,4 +5395,279 @@ class TestDiagnosticFimFunctionMapping:
         assert package.getElement("M1", DiagnosticFimFunctionMapping) is element
 
         duplicate = package.createDiagnosticFimFunctionMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestCpSwClusterToDiagEventMapping:
+    """
+    Test class for CpSwClusterToDiagEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.46, p.272
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticEvent. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterToDiagEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterToDiagEventMapping(ar_root, "TestCpSwClusterToDiagEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterToDiagEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterToDiagEventMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getDiagnosticEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterToDiagEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterToDiagEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setDiagnosticEventRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+
+    def test_create_cpSwClusterToDiagEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterToDiagEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterToDiagEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterToDiagEventMapping) is element
+
+        duplicate = package.createCpSwClusterToDiagEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestCpSwClusterResourceToDiagDataElemMapping:
+    """
+    Test class for CpSwClusterResourceToDiagDataElemMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.47, p.273
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticDataElement. This allows for indicating that the CpSoftwareClusterResource is used to convey the DiagnosticDataElement. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterResourceToDiagDataElemMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterResourceToDiagDataElemMapping(ar_root, "TestCpSwClusterResourceToDiagDataElemMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterResourceToDiagDataElemMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterResourceToDiagDataElemMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getDiagnosticDataElementRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterResourceToDiagDataElemMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterResourceToDiagDataElemMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setDiagnosticDataElementRef(RefType().setValue("/AUTOSAR/DiagnosticDataElement1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getDiagnosticDataElementRef().getValue() == "/AUTOSAR/DiagnosticDataElement1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setDiagnosticDataElementRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getDiagnosticDataElementRef().getValue() == "/AUTOSAR/DiagnosticDataElement1"  # None is a no-op
+
+    def test_create_cpSwClusterResourceToDiagDataElemMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterResourceToDiagDataElemMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterResourceToDiagDataElemMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterResourceToDiagDataElemMapping) is element
+
+        duplicate = package.createCpSwClusterResourceToDiagDataElemMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestCpSwClusterToDiagRoutineSubfunctionMapping:
+    """
+    Test class for CpSwClusterToDiagRoutineSubfunctionMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.48, p.274
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterToDiagRoutineSubfunctionMapping(ar_root, "TestCpSwClusterToDiagRoutineSubfunctionMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterToDiagRoutineSubfunctionMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterToDiagRoutineSubfunctionMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getRoutineSubfunctionRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterToDiagRoutineSubfunctionMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterToDiagRoutineSubfunctionMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setRoutineSubfunctionRef(RefType().setValue("/AUTOSAR/RoutineSubfunction1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getRoutineSubfunctionRef().getValue() == "/AUTOSAR/RoutineSubfunction1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setRoutineSubfunctionRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getRoutineSubfunctionRef().getValue() == "/AUTOSAR/RoutineSubfunction1"  # None is a no-op
+
+    def test_create_cpSwClusterToDiagRoutineSubfunctionMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterToDiagRoutineSubfunctionMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterToDiagRoutineSubfunctionMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterToDiagRoutineSubfunctionMapping) is element
+
+        duplicate = package.createCpSwClusterToDiagRoutineSubfunctionMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestCpSwClusterResourceToDiagFunctionIdMapping:
+    """
+    Test class for CpSwClusterResourceToDiagFunctionIdMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.49, p.275
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterResourceToDiagFunctionIdMapping(ar_root, "TestCpSwClusterResourceToDiagFunctionIdMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterResourceToDiagFunctionIdMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterResourceToDiagFunctionIdMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getFunctionIdentifierRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterResourceToDiagFunctionIdMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterResourceToDiagFunctionIdMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setFunctionIdentifierRef(RefType().setValue("/AUTOSAR/FunctionIdentifier1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getFunctionIdentifierRef().getValue() == "/AUTOSAR/FunctionIdentifier1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setFunctionIdentifierRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getFunctionIdentifierRef().getValue() == "/AUTOSAR/FunctionIdentifier1"  # None is a no-op
+
+    def test_create_cpSwClusterResourceToDiagFunctionIdMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterResourceToDiagFunctionIdMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterResourceToDiagFunctionIdMapping) is element
+
+        duplicate = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element

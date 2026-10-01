@@ -431,6 +431,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToTroubleCodeJ1939Mapping,
+    CpSwClusterToDiagEventMapping,
+    CpSwClusterResourceToDiagDataElemMapping,
+    CpSwClusterToDiagRoutineSubfunctionMapping,
+    CpSwClusterResourceToDiagFunctionIdMapping,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -446,6 +450,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticVerifyCertificateUnidirectional,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
@@ -456,6 +461,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewM
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    CpSoftwareClusterResource,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -13924,6 +13930,51 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ACTUAL-EVENT-REF", mapping.getActualEventRef())
         self.setChildElementOptionalRefType(child_element, "ALIAS-EVENT-REF", mapping.getAliasEventRef())
 
+    def writeCpSwClusterToDiagEventMapping(self, element: ET.Element, mapping: CpSwClusterToDiagEventMapping):
+        self.logger.debug("Write CpSwClusterToDiagEventMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "CP-SW-CLUSTER-TO-DIAG-EVENT-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF", mapping.getCpSoftwareClusterResourceRef())
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+
+    def writeCpSwClusterResourceToDiagDataElemMapping(self, element: ET.Element, mapping: CpSwClusterResourceToDiagDataElemMapping):
+        self.logger.debug("Write CpSwClusterResourceToDiagDataElemMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "CP-SW-CLUSTER-RESOURCE-TO-DIAG-DATA-ELEM-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF", mapping.getCpSoftwareClusterResourceRef())
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-DATA-ELEMENT-REF", mapping.getDiagnosticDataElementRef())
+
+    def writeCpSwClusterToDiagRoutineSubfunctionMapping(self, element: ET.Element, mapping: CpSwClusterToDiagRoutineSubfunctionMapping):
+        self.logger.debug("Write CpSwClusterToDiagRoutineSubfunctionMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "CP-SW-CLUSTER-TO-DIAG-ROUTINE-SUBFUNCTION-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF", mapping.getCpSoftwareClusterResourceRef())
+        self.setChildElementOptionalRefType(child_element, "ROUTINE-SUBFUNCTION-REF", mapping.getRoutineSubfunctionRef())
+
+    def writeCpSwClusterResourceToDiagFunctionIdMapping(self, element: ET.Element, mapping: CpSwClusterResourceToDiagFunctionIdMapping):
+        self.logger.debug("Write CpSwClusterResourceToDiagFunctionIdMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF", mapping.getCpSoftwareClusterResourceRef())
+        self.setChildElementOptionalRefType(child_element, "FUNCTION-IDENTIFIER-REF", mapping.getFunctionIdentifierRef())
+
+    def writeRoleBasedResourceDependency(self, element: ET.Element, dependency: RoleBasedResourceDependency):
+        self.logger.debug("Write RoleBasedResourceDependency")
+        self.setChildElementOptionalRefType(element, "RESOURCE-REF", dependency.getResourceRef())
+        self.setChildElementOptionalIdentifier(element, "ROLE", dependency.getRole())
+
+    def writeCpSoftwareClusterResource(self, element: ET.Element, resource: CpSoftwareClusterResource):
+        self.logger.debug("Write CpSoftwareClusterResource %s" % resource.getShortName())
+        self.writeIdentifiable(element, resource)
+        dependent_resources = resource.getDependentResources()
+        if len(dependent_resources) > 0:
+            deps_tag = ET.SubElement(element, "DEPENDENT-RESOURCES")
+            for dependency in dependent_resources:
+                dep_element = ET.SubElement(deps_tag, "ROLE-BASED-RESOURCE-DEPENDENCY")
+                self.writeRoleBasedResourceDependency(dep_element, dependency)
+        self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", resource.getGlobalResourceId())
+        self.setChildElementOptionalBooleanValue(element, "IS-MANDATORY", resource.getIsMandatory())
+
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING")
@@ -15411,6 +15462,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticFimAliasEventGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticFimAliasEventGroupMapping):
             self.writeDiagnosticFimAliasEventGroupMapping(element, ar_element)
+        elif isinstance(ar_element, CpSwClusterToDiagEventMapping):
+            self.writeCpSwClusterToDiagEventMapping(element, ar_element)
+        elif isinstance(ar_element, CpSwClusterResourceToDiagDataElemMapping):
+            self.writeCpSwClusterResourceToDiagDataElemMapping(element, ar_element)
+        elif isinstance(ar_element, CpSwClusterToDiagRoutineSubfunctionMapping):
+            self.writeCpSwClusterToDiagRoutineSubfunctionMapping(element, ar_element)
+        elif isinstance(ar_element, CpSwClusterResourceToDiagFunctionIdMapping):
+            self.writeCpSwClusterResourceToDiagFunctionIdMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToTroubleCodeJ1939Mapping):
             self.writeDiagnosticEventToTroubleCodeJ1939Mapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticIumprToFunctionIdentifierMapping):

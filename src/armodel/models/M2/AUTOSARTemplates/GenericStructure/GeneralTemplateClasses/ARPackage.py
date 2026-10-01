@@ -2304,6 +2304,78 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, DiagnosticEventToTroubleCodeJ1939Mapping)
 
+    def createCpSwClusterResourceToDiagFunctionIdMapping(self, short_name: str) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        """
+        Creates a new CpSwClusterResourceToDiagFunctionIdMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterResourceToDiagFunctionIdMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier..
+
+        Args:
+            short_name: The short name for the new CpSwClusterResourceToDiagFunctionIdMapping
+
+        Returns:
+            The newly created or existing CpSwClusterResourceToDiagFunctionIdMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterResourceToDiagFunctionIdMapping):
+            element = CpSwClusterResourceToDiagFunctionIdMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterResourceToDiagFunctionIdMapping)
+
+    def createCpSwClusterToDiagRoutineSubfunctionMapping(self, short_name: str) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        """
+        Creates a new CpSwClusterToDiagRoutineSubfunctionMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterToDiagRoutineSubfunctionMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine..
+
+        Args:
+            short_name: The short name for the new CpSwClusterToDiagRoutineSubfunctionMapping
+
+        Returns:
+            The newly created or existing CpSwClusterToDiagRoutineSubfunctionMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterToDiagRoutineSubfunctionMapping):
+            element = CpSwClusterToDiagRoutineSubfunctionMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterToDiagRoutineSubfunctionMapping)
+
+    def createCpSwClusterResourceToDiagDataElemMapping(self, short_name: str) -> CpSwClusterResourceToDiagDataElemMapping:
+        """
+        Creates a new CpSwClusterResourceToDiagDataElemMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterResourceToDiagDataElemMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticDataElement. This allows for indicating that the CpSoftwareClusterResource is used to convey the DiagnosticDataElement..
+
+        Args:
+            short_name: The short name for the new CpSwClusterResourceToDiagDataElemMapping
+
+        Returns:
+            The newly created or existing CpSwClusterResourceToDiagDataElemMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterResourceToDiagDataElemMapping):
+            element = CpSwClusterResourceToDiagDataElemMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterResourceToDiagDataElemMapping)
+
+    def createCpSwClusterToDiagEventMapping(self, short_name: str) -> CpSwClusterToDiagEventMapping:
+        """
+        Creates a new CpSwClusterToDiagEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterToDiagEventMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticEvent. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new CpSwClusterToDiagEventMapping
+
+        Returns:
+            The newly created or existing CpSwClusterToDiagEventMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterToDiagEventMapping):
+            element = CpSwClusterToDiagEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterToDiagEventMapping)
+
     def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
         """
         Creates a new DiagnosticFimAliasEventGroup with the given short name,
@@ -3429,19 +3501,211 @@ class DiagnosticMapping(ARElement, ABC):
 
 
 class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticDataElement. This allows for indicating that the CpSoftwareClusterResource is used to convey the DiagnosticDataElement. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterResourceToDiagDataElemMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.47, p.273
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference represents the affected DiagnosticDataElement. Tags: atp.Status=draft
+        self.diagnosticDataElementRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagDataElemMapping:
+        """
+        This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getDiagnosticDataElementRef(self) -> Optional[RefType]:
+        """
+        This reference represents the affected DiagnosticDataElement. Tags: atp.Status=draft
+        """
+        return self.diagnosticDataElementRef
+
+    def setDiagnosticDataElementRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagDataElemMapping:
+        """
+        This reference represents the affected DiagnosticDataElement. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing diagnosticDataElementRef.
+        """
+        if value is not None:
+            self.diagnosticDataElementRef = value
+        return self
 
 
 class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterResourceToDiagFunctionIdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.49, p.275
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference identifies the mapped DiagnosticFunctionIdentifier. Tags: atp.Status=draft
+        self.functionIdentifierRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getFunctionIdentifierRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped DiagnosticFunctionIdentifier. Tags: atp.Status=draft
+        """
+        return self.functionIdentifierRef
+
+    def setFunctionIdentifierRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        """
+        This reference identifies the mapped DiagnosticFunctionIdentifier. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing functionIdentifierRef.
+        """
+        if value is not None:
+            self.functionIdentifierRef = value
+        return self
 
 
 class CpSwClusterToDiagEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticEvent. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterToDiagEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.46, p.272
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference identifies the mapped DiagnosticEvent. Tags: atp.Status=draft
+        self.diagnosticEventRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterToDiagEventMapping:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped DiagnosticEvent. Tags: atp.Status=draft
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> CpSwClusterToDiagEventMapping:
+        """
+        This reference identifies the mapped DiagnosticEvent. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
 
 
 class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterToDiagRoutineSubfunctionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.48, p.274
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutineSubfunctionRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutineSubfunctionRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference identifies the mapped subfunction of a DiagnosticRoutine. Tags: atp.Status=draft
+        self.routineSubfunctionRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getRoutineSubfunctionRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped subfunction of a DiagnosticRoutine. Tags: atp.Status=draft
+        """
+        return self.routineSubfunctionRef
+
+    def setRoutineSubfunctionRef(self, value: Optional[RefType]) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        """
+        This reference identifies the mapped subfunction of a DiagnosticRoutine. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing routineSubfunctionRef.
+        """
+        if value is not None:
+            self.routineSubfunctionRef = value
+        return self
 
 
 class DataExchangePoint(ARElement):

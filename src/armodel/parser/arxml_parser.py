@@ -487,6 +487,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
@@ -554,6 +555,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToTroubleCodeJ1939Mapping,
+    CpSwClusterToDiagEventMapping,
+    CpSwClusterResourceToDiagDataElemMapping,
+    CpSwClusterToDiagRoutineSubfunctionMapping,
+    CpSwClusterResourceToDiagFunctionIdMapping,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -573,6 +578,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    CpSoftwareClusterResource,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -10586,6 +10592,40 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setActualEventRef(self.getChildElementOptionalRefType(element, "ACTUAL-EVENT-REF"))
         mapping.setAliasEventRef(self.getChildElementOptionalRefType(element, "ALIAS-EVENT-REF"))
 
+    def readCpSwClusterToDiagEventMapping(self, element: ET.Element, mapping: CpSwClusterToDiagEventMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setCpSoftwareClusterResourceRef(self.getChildElementOptionalRefType(element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF"))
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+
+    def readCpSwClusterResourceToDiagDataElemMapping(self, element: ET.Element, mapping: CpSwClusterResourceToDiagDataElemMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setCpSoftwareClusterResourceRef(self.getChildElementOptionalRefType(element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF"))
+        mapping.setDiagnosticDataElementRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-DATA-ELEMENT-REF"))
+
+    def readCpSwClusterToDiagRoutineSubfunctionMapping(self, element: ET.Element, mapping: CpSwClusterToDiagRoutineSubfunctionMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setCpSoftwareClusterResourceRef(self.getChildElementOptionalRefType(element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF"))
+        mapping.setRoutineSubfunctionRef(self.getChildElementOptionalRefType(element, "ROUTINE-SUBFUNCTION-REF"))
+
+    def readCpSwClusterResourceToDiagFunctionIdMapping(self, element: ET.Element, mapping: CpSwClusterResourceToDiagFunctionIdMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setCpSoftwareClusterResourceRef(self.getChildElementOptionalRefType(element, "CP-SOFTWARE-CLUSTER-RESOURCE-REF"))
+        mapping.setFunctionIdentifierRef(self.getChildElementOptionalRefType(element, "FUNCTION-IDENTIFIER-REF"))
+
+    def readRoleBasedResourceDependency(self, element: ET.Element, dependency: RoleBasedResourceDependency):
+        self.readARObject(element, dependency)
+        dependency.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
+        dependency.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+
+    def readCpSoftwareClusterResource(self, element: ET.Element, resource: CpSoftwareClusterResource):
+        self.readIdentifiable(element, resource)
+        for dep_element in self.findall(element, "DEPENDENT-RESOURCES/ROLE-BASED-RESOURCE-DEPENDENCY"):
+            dependency = RoleBasedResourceDependency()
+            self.readRoleBasedResourceDependency(dep_element, dependency)
+            resource.addDependentResource(dependency)
+        resource.setGlobalResourceId(self.getChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID"))
+        resource.setIsMandatory(self.getChildElementOptionalBooleanValue(element, "IS-MANDATORY"))
+
     def readDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
@@ -15728,6 +15768,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING":
                 mapping = parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element))
                 self.readDiagnosticFimAliasEventGroupMapping(child_element, mapping)
+            elif tag_name == "CP-SW-CLUSTER-TO-DIAG-EVENT-MAPPING":
+                mapping = parent.createCpSwClusterToDiagEventMapping(self.getShortName(child_element))
+                self.readCpSwClusterToDiagEventMapping(child_element, mapping)
+            elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-DATA-ELEM-MAPPING":
+                mapping = parent.createCpSwClusterResourceToDiagDataElemMapping(self.getShortName(child_element))
+                self.readCpSwClusterResourceToDiagDataElemMapping(child_element, mapping)
+            elif tag_name == "CP-SW-CLUSTER-TO-DIAG-ROUTINE-SUBFUNCTION-MAPPING":
+                mapping = parent.createCpSwClusterToDiagRoutineSubfunctionMapping(self.getShortName(child_element))
+                self.readCpSwClusterToDiagRoutineSubfunctionMapping(child_element, mapping)
+            elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING":
+                mapping = parent.createCpSwClusterResourceToDiagFunctionIdMapping(self.getShortName(child_element))
+                self.readCpSwClusterResourceToDiagFunctionIdMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
                 mapping = parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element))
                 self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, mapping)

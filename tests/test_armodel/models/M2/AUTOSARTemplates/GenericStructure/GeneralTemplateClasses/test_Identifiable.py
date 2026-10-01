@@ -8,7 +8,9 @@ import typing
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import RoleBasedResourceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    CpSoftwareClusterResource,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -19,7 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -1123,3 +1125,140 @@ class TestDiagnosticAuthTransmitCertificateEvaluation:
         duplicate = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
         assert duplicate is evaluation  # duplicate short name returns the existing element
         assert len(certificate.getCertificateEvaluations()) == 1
+
+class TestCpSoftwareClusterResource:
+    """
+    Test class for CpSoftwareClusterResource functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.44, p.271
+    """
+
+    CLASS_NOTE = "Represents a single resource required or provided by a CP Software Cluster. Tags: atp.recommendedPackage=Resources"
+
+    def _make_obj(self) -> CpSoftwareClusterResource:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSoftwareClusterResource(ar_root, "TestResource")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSoftwareClusterResource instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestResource"
+        assert obj.getDependentResources() == []
+        assert obj.getGlobalResourceId() is None
+        assert obj.getIsMandatory() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSoftwareClusterResource.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSoftwareClusterResource.__init__.__doc__ is None
+
+    def test_add_get_dependent_resources(self):
+        """
+        Round-trips the dependentResource aggregation; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        dep1 = RoleBasedResourceDependency()
+        result = obj.addDependentResource(dep1)
+        assert result is obj  # method chaining
+        dep2 = RoleBasedResourceDependency()
+        obj.addDependentResource(dep2)
+
+        deps = obj.getDependentResources()
+        assert len(deps) == 2
+        assert deps[0] is dep1
+        assert deps[1] is dep2
+
+        result = obj.addDependentResource(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getDependentResources()) == 2  # None is a no-op
+
+    def test_get_set_global_resource_id_and_is_mandatory(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        gid = PositiveInteger()
+        gid.setValue("42")
+        obj.setGlobalResourceId(gid)
+        mandatory = Boolean()
+        mandatory.setValue(True)
+        obj.setIsMandatory(mandatory)
+
+        assert obj.getGlobalResourceId() is gid
+        assert obj.getGlobalResourceId().getValue() == 42
+        assert obj.getIsMandatory() is mandatory
+        assert obj.getIsMandatory().getValue() is True
+
+        obj.setGlobalResourceId(None)
+        obj.setIsMandatory(None)
+        assert obj.getGlobalResourceId() is gid  # None is a no-op
+        assert obj.getIsMandatory() is mandatory  # None is a no-op
+
+
+class TestRoleBasedResourceDependency:
+    """
+    Test class for RoleBasedResourceDependency functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.45, p.272
+    """
+
+    CLASS_NOTE = "This class specifies a dependency between CpSoftwareClusterResources."
+
+    def _make_obj(self) -> RoleBasedResourceDependency:
+        return RoleBasedResourceDependency()
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete RoleBasedResourceDependency instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj is not None
+        assert obj.getResourceRef() is None
+        assert obj.getRole() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert RoleBasedResourceDependency.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert RoleBasedResourceDependency.__init__.__doc__ is None
+
+    def test_get_set_resource_ref_and_role(self):
+        """
+        Round-trips the reference and the role; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType().setValue("/AUTOSAR/Resources/Res1").setDest("CP-SOFTWARE-CLUSTER-RESOURCE")
+        obj.setResourceRef(ref)
+        role = Identifier()
+        role.setValue("consumer")
+        obj.setRole(role)
+
+        assert obj.getResourceRef() is ref
+        assert obj.getRole() is role
+        assert obj.getRole().getValue() == "consumer"
+
+        obj.setResourceRef(None)
+        obj.setRole(None)
+        assert obj.getResourceRef() is ref  # None is a no-op
+        assert obj.getRole() is role  # None is a no-op
