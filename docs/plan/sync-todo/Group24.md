@@ -486,14 +486,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 - [ ] `DiagnosticIOControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.80, p.118
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
   - note (Step 1): member-type dependency `DiagnosticControlEnableMaskBit` (controlEnableMaskBit, `*` aggr) is queued unsynced below — pulled in FIRST as its own pass per the dependency-first rule.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticIOControl` factory + readARPackageElements DIAGNOSTIC-IO-CONTROL branch + writeARPackageElement isinstance branch; the controlEnableMaskBit aggregation is read/written via the CONTROL-ENABLE-MASK-BITS wrapper dispatching to the (pulled-in) read/writeDiagnosticControlEnableMaskBit helpers.
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticIoControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.81, p.118

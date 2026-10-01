@@ -414,6 +414,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticIOControl,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -14026,6 +14027,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in controlled_data_elements:
                 self.setChildElementOptionalRefType(refs_tag, "CONTROLLED-DATA-ELEMENT-REF", ref)
 
+    def writeDiagnosticIOControl(self, element: ET.Element, io_control: DiagnosticIOControl):
+        self.logger.debug("Write DiagnosticIOControl %s" % io_control.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IO-CONTROL")
+        self.writeIdentifiable(child_element, io_control)
+        mask_bits = io_control.getControlEnableMaskBits()
+        if len(mask_bits) > 0:
+            mask_bits_tag = ET.SubElement(child_element, "CONTROL-ENABLE-MASK-BITS")
+            for mask_bit in mask_bits:
+                self.writeDiagnosticControlEnableMaskBit(mask_bits_tag, mask_bit)
+        self.setChildElementOptionalRefType(child_element, "DATA-IDENTIFIER-REF", io_control.getDataIdentifier())
+        self.setChildElementOptionalBooleanValue(child_element, "FREEZE-CURRENT-STATE", io_control.getFreezeCurrentState())
+        self.setChildElementOptionalRefType(child_element, "IO-CONTROL-CLASS-REF", io_control.getIoControlClass())
+        self.setChildElementOptionalBooleanValue(child_element, "RESET-TO-DEFAULT", io_control.getResetToDefault())
+        self.setChildElementOptionalBooleanValue(child_element, "SHORT-TERM-ADJUSTMENT", io_control.getShortTermAdjustment())
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -15238,6 +15254,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuReset(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuResetClass):
             self.writeDiagnosticEcuResetClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIOControl):
+            self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):

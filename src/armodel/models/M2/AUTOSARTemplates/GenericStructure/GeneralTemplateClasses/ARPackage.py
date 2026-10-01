@@ -21,7 +21,13 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    DiagnosticCommonProps,
+    DiagnosticControlEnableMaskBit,
+    DiagnosticParameter,
+    DiagnosticSupportInfoByte,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -2183,6 +2189,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(condition)
         return self.getElement(short_name, DiagnosticEnvironmentalCondition)
 
+    def createDiagnosticIOControl(self, short_name: str) -> DiagnosticIOControl:
+        """
+        Creates a new DiagnosticIOControl with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIOControl represents an instance of the "I/O Control"
+        diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticIOControl
+
+        Returns:
+            The newly created or existing DiagnosticIOControl instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticIOControl):
+            io_control = DiagnosticIOControl(self, short_name)
+            self.addElement(io_control)
+        return self.getElement(short_name, DiagnosticIOControl)
+
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
         Creates a new DiagnosticAccessPermission with the given short name,
@@ -3778,7 +3803,141 @@ class DiagnosticFunctionIdentifier(ARElement):
 
 
 class DiagnosticIOControl(ARElement):
-    pass
+    """This represents an instance of the "I/O Control" diagnostic service."""
+
+    # DiagnosticIOControl method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.80, p.118
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addControlEnableMaskBit        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlEnableMaskBits       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataIdentifier              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdentifier              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreezeCurrentState          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreezeCurrentState          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIoControlClass              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIoControlClass              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResetToDefault              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResetToDefault              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortTermAdjustment         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortTermAdjustment         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the control mask record consisting of single bits.
+        self.controlEnableMaskBit: List[DiagnosticControlEnableMaskBit] = []
+
+        # This represents the corresponding DiagnosticData Identifier
+        self.dataIdentifier: Optional[RefType] = None
+
+        # Setting this attribute to true represents the ability of the Dcm to execute a freezeCurrentState.
+        self.freezeCurrentState: Optional[Boolean] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticIOControl in the given context.
+        self.ioControlClass: Optional[RefType] = None
+
+        # Setting this attribute to true represents the ability of the Dcm to execute a resetToDefault.
+        self.resetToDefault: Optional[Boolean] = None
+
+        # Setting this attribute to true represents the ability of the Dcm to execute a shortTermAdjustment.
+        self.shortTermAdjustment: Optional[Boolean] = None
+
+    def addControlEnableMaskBit(self, value: Optional[DiagnosticControlEnableMaskBit]) -> DiagnosticIOControl:
+        """
+        This aggregation represents the control mask record consisting of single bits.
+
+        A None value is a no-op and does not append a controlEnableMaskBit.
+        """
+        if value is not None:
+            self.controlEnableMaskBit.append(value)
+        return self
+
+    def getControlEnableMaskBits(self) -> List[DiagnosticControlEnableMaskBit]:
+        """
+        This aggregation represents the control mask record consisting of single bits.
+        """
+        return self.controlEnableMaskBit
+
+    def getDataIdentifier(self) -> Optional[RefType]:
+        """
+        This represents the corresponding DiagnosticData Identifier
+        """
+        return self.dataIdentifier
+
+    def setDataIdentifier(self, value: Optional[RefType]) -> DiagnosticIOControl:
+        """
+        This represents the corresponding DiagnosticData Identifier
+
+        A None value is a no-op and does not overwrite an existing dataIdentifier.
+        """
+        if value is not None:
+            self.dataIdentifier = value
+        return self
+
+    def getFreezeCurrentState(self) -> Optional[Boolean]:
+        """
+        Setting this attribute to true represents the ability of the Dcm to execute a freezeCurrentState.
+        """
+        return self.freezeCurrentState
+
+    def setFreezeCurrentState(self, value: Optional[Boolean]) -> DiagnosticIOControl:
+        """
+        Setting this attribute to true represents the ability of the Dcm to execute a freezeCurrentState.
+
+        A None value is a no-op and does not overwrite an existing freezeCurrentState.
+        """
+        if value is not None:
+            self.freezeCurrentState = value
+        return self
+
+    def getIoControlClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticIOControl in the given context.
+        """
+        return self.ioControlClass
+
+    def setIoControlClass(self, value: Optional[RefType]) -> DiagnosticIOControl:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticIOControl in the given context.
+
+        A None value is a no-op and does not overwrite an existing ioControlClass.
+        """
+        if value is not None:
+            self.ioControlClass = value
+        return self
+
+    def getResetToDefault(self) -> Optional[Boolean]:
+        """
+        Setting this attribute to true represents the ability of the Dcm to execute a resetToDefault.
+        """
+        return self.resetToDefault
+
+    def setResetToDefault(self, value: Optional[Boolean]) -> DiagnosticIOControl:
+        """
+        Setting this attribute to true represents the ability of the Dcm to execute a resetToDefault.
+
+        A None value is a no-op and does not overwrite an existing resetToDefault.
+        """
+        if value is not None:
+            self.resetToDefault = value
+        return self
+
+    def getShortTermAdjustment(self) -> Optional[Boolean]:
+        """
+        Setting this attribute to true represents the ability of the Dcm to execute a shortTermAdjustment.
+        """
+        return self.shortTermAdjustment
+
+    def setShortTermAdjustment(self, value: Optional[Boolean]) -> DiagnosticIOControl:
+        """
+        Setting this attribute to true represents the ability of the Dcm to execute a shortTermAdjustment.
+
+        A None value is a no-op and does not overwrite an existing shortTermAdjustment.
+        """
+        if value is not None:
+            self.shortTermAdjustment = value
+        return self
 
 
 class DiagnosticIndicator(ARElement):

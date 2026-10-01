@@ -10,7 +10,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps, DiagnosticControlEnableMaskBit, DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticIOControl,
     DiagnosticMapping,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
@@ -3404,3 +3405,196 @@ class TestDiagnosticReadScalingDataByIdentifier:
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
         assert duplicate is read_scaling  # duplicate short name returns the existing element
+
+
+class TestDiagnosticIOControl:
+    """
+    Test class for DiagnosticIOControl functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.80, p.118
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "I/O Control" diagnostic service.'
+    CONTROL_ENABLE_MASK_BIT_NOTE = "This aggregation represents the control mask record consisting of single bits."
+    DATA_IDENTIFIER_NOTE = "This represents the corresponding DiagnosticData Identifier"
+    FREEZE_CURRENT_STATE_NOTE = "Setting this attribute to true represents the ability of the Dcm to execute a freezeCurrentState."
+    IO_CONTROL_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticIOControl in the given context."
+    )
+    RESET_TO_DEFAULT_NOTE = "Setting this attribute to true represents the ability of the Dcm to execute a resetToDefault."
+    SHORT_TERM_ADJUSTMENT_NOTE = "Setting this attribute to true represents the ability of the Dcm to execute a shortTermAdjustment."
+
+    def _make_obj(self) -> DiagnosticIOControl:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticIOControl(ar_root, "TestIOControl")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticIOControl instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestIOControl"
+        assert isinstance(obj, ARElement)
+        assert obj.getControlEnableMaskBits() == []
+        assert obj.getDataIdentifier() is None
+        assert obj.getFreezeCurrentState() is None
+        assert obj.getIoControlClass() is None
+        assert obj.getResetToDefault() is None
+        assert obj.getShortTermAdjustment() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticIOControl.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIOControl.__init__.__doc__ is None
+
+    def test_add_control_enable_mask_bit(self):
+        """
+        Test addControlEnableMaskBit append and None no-op.
+        """
+        obj = self._make_obj()
+
+        mask_bit = DiagnosticControlEnableMaskBit()
+        result = obj.addControlEnableMaskBit(mask_bit)
+        assert result is obj  # method chaining
+        assert obj.getControlEnableMaskBits() == [mask_bit]
+
+        result = obj.addControlEnableMaskBit(None)
+        assert result is obj  # method chaining with None
+        assert obj.getControlEnableMaskBits() == [mask_bit]  # None is a no-op
+
+    def test_get_set_data_identifier(self):
+        """
+        Round-trips the dataIdentifier ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-DATA-IDENTIFIER", "/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID")
+        result = obj.setDataIdentifier(ref)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifier() is ref
+        assert obj.getDataIdentifier().getValue() == "/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID"
+        assert obj.getDataIdentifier().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER"
+
+        result = obj.setDataIdentifier(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataIdentifier() is ref  # None is a no-op
+
+    def test_get_set_freeze_current_state(self):
+        """
+        Round-trips the freezeCurrentState boolean; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue("true")
+        result = obj.setFreezeCurrentState(value)
+        assert result is obj  # method chaining
+        assert obj.getFreezeCurrentState() is value
+        assert obj.getFreezeCurrentState().getValue() is True
+
+        result = obj.setFreezeCurrentState(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFreezeCurrentState() is value  # None is a no-op
+
+    def test_get_set_io_control_class(self):
+        """
+        Round-trips the ioControlClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-IO-CONTROL-CLASS", "/AUTOSAR/DiagnosticIoControlClasses/IoControlClass")
+        result = obj.setIoControlClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getIoControlClass() is ref
+        assert obj.getIoControlClass().getValue() == "/AUTOSAR/DiagnosticIoControlClasses/IoControlClass"
+        assert obj.getIoControlClass().getDest() == "DIAGNOSTIC-IO-CONTROL-CLASS"
+
+        result = obj.setIoControlClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIoControlClass() is ref  # None is a no-op
+
+    def test_get_set_reset_to_default(self):
+        """
+        Round-trips the resetToDefault boolean; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue("true")
+        result = obj.setResetToDefault(value)
+        assert result is obj  # method chaining
+        assert obj.getResetToDefault() is value
+        assert obj.getResetToDefault().getValue() is True
+
+        result = obj.setResetToDefault(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResetToDefault() is value  # None is a no-op
+
+    def test_get_set_short_term_adjustment(self):
+        """
+        Round-trips the shortTermAdjustment boolean; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue("true")
+        result = obj.setShortTermAdjustment(value)
+        assert result is obj  # method chaining
+        assert obj.getShortTermAdjustment() is value
+        assert obj.getShortTermAdjustment().getValue() is True
+
+        result = obj.setShortTermAdjustment(None)
+        assert result is obj  # method chaining with None
+        assert obj.getShortTermAdjustment() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticIOControl.getControlEnableMaskBits.__doc__) == self.CONTROL_ENABLE_MASK_BIT_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.addControlEnableMaskBit.__doc__) == (self.CONTROL_ENABLE_MASK_BIT_NOTE + "\n\nA None value is a no-op and does not append a controlEnableMaskBit.")
+        assert inspect.cleandoc(DiagnosticIOControl.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")
+        assert inspect.cleandoc(DiagnosticIOControl.getFreezeCurrentState.__doc__) == self.FREEZE_CURRENT_STATE_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setFreezeCurrentState.__doc__) == (
+            self.FREEZE_CURRENT_STATE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing freezeCurrentState."
+        )
+        assert inspect.cleandoc(DiagnosticIOControl.getIoControlClass.__doc__) == self.IO_CONTROL_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setIoControlClass.__doc__) == (self.IO_CONTROL_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ioControlClass.")
+        assert inspect.cleandoc(DiagnosticIOControl.getResetToDefault.__doc__) == self.RESET_TO_DEFAULT_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setResetToDefault.__doc__) == (self.RESET_TO_DEFAULT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing resetToDefault.")
+        assert inspect.cleandoc(DiagnosticIOControl.getShortTermAdjustment.__doc__) == self.SHORT_TERM_ADJUSTMENT_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setShortTermAdjustment.__doc__) == (
+            self.SHORT_TERM_ADJUSTMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing shortTermAdjustment."
+        )
+
+    def test_create_diagnostic_io_control(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticIoControls")
+        io_control = package.createDiagnosticIOControl("IOControl1")
+
+        assert io_control is not None
+        assert isinstance(io_control, DiagnosticIOControl)
+        assert io_control.getShortName() == "IOControl1"
+        assert package.getElement("IOControl1", DiagnosticIOControl) is io_control
+
+        duplicate = package.createDiagnosticIOControl("IOControl1")
+        assert duplicate is io_control  # duplicate short name returns the existing element

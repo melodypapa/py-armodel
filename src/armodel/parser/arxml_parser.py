@@ -538,6 +538,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticIOControl,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -10705,6 +10706,19 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "CONTROLLED-DATA-ELEMENT-REFS/CONTROLLED-DATA-ELEMENT-REF"):
             mask_bit.addControlledDataElement(ref)
 
+    def readDiagnosticIOControl(self, element: ET.Element, io_control: DiagnosticIOControl):
+        self.logger.debug("Read DiagnosticIOControl <%s>" % io_control.getShortName())
+        self.readIdentifiable(element, io_control)
+        for child_element in self.findall(element, "CONTROL-ENABLE-MASK-BITS/DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT"):
+            mask_bit = DiagnosticControlEnableMaskBit()
+            self.readDiagnosticControlEnableMaskBit(child_element, mask_bit)
+            io_control.addControlEnableMaskBit(mask_bit)
+        io_control.setDataIdentifier(self.getChildElementOptionalRefType(element, "DATA-IDENTIFIER-REF"))
+        io_control.setFreezeCurrentState(self.getChildElementOptionalBooleanValue(element, "FREEZE-CURRENT-STATE"))
+        io_control.setIoControlClass(self.getChildElementOptionalRefType(element, "IO-CONTROL-CLASS-REF"))
+        io_control.setResetToDefault(self.getChildElementOptionalBooleanValue(element, "RESET-TO-DEFAULT"))
+        io_control.setShortTermAdjustment(self.getChildElementOptionalBooleanValue(element, "SHORT-TERM-ADJUSTMENT"))
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -15601,6 +15615,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
                 ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
                 self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+            elif tag_name == "DIAGNOSTIC-IO-CONTROL":
+                io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
+                self.readDiagnosticIOControl(child_element, io_control)
             elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
                 read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
