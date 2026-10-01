@@ -508,6 +508,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticVerifyCertificateBidirectional,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -10719,6 +10720,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, configuration)
         self.readDiagnosticAuthentication(element, configuration)
 
+    def readDiagnosticVerifyCertificateBidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateBidirectional):
+        self.logger.debug("Read DiagnosticVerifyCertificateBidirectional <%s>" % verification.getShortName())
+        self.readIdentifiable(element, verification)
+        self.readDiagnosticAuthentication(element, verification)
+
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
         self.readIdentifiable(element, auth_role)
@@ -15268,6 +15274,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
                 configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
                 self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
+            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
+                verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
+                self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)

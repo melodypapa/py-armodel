@@ -388,6 +388,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticVerifyCertificateBidirectional,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticCommonProps, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13903,6 +13904,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, configuration)
         self.writeDiagnosticAuthentication(child_element, configuration)
 
+    def writeDiagnosticVerifyCertificateBidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateBidirectional):
+        self.logger.debug("Write DiagnosticVerifyCertificateBidirectional %s" % verification.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL")
+        self.writeIdentifiable(child_element, verification)
+        self.writeDiagnosticAuthentication(child_element, verification)
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -14882,6 +14889,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthenticationClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthenticationConfiguration):
             self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
+        elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
+            self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):

@@ -1576,6 +1576,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(configuration)
         return self.getElement(short_name, DiagnosticAuthenticationConfiguration)
 
+    def createDiagnosticVerifyCertificateBidirectional(self, short_name: str) -> DiagnosticVerifyCertificateBidirectional:
+        """
+        Creates a new DiagnosticVerifyCertificateBidirectional with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticVerifyCertificateBidirectional represents the subfunction to do
+        a bidirectional verification of the certificate.
+
+        Args:
+            short_name: The short name for the new DiagnosticVerifyCertificateBidirectional
+
+        Returns:
+            The newly created or existing DiagnosticVerifyCertificateBidirectional instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticVerifyCertificateBidirectional):
+            verification = DiagnosticVerifyCertificateBidirectional(self, short_name)
+            self.addElement(verification)
+        return self.getElement(short_name, DiagnosticVerifyCertificateBidirectional)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -3692,7 +3711,15 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
 
 
 class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
-    pass
+    """This meta-class represents the subfunction to do a bidirectional verification of the certificate."""
+
+    # DiagnosticVerifyCertificateBidirectional method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.54, p.99
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):

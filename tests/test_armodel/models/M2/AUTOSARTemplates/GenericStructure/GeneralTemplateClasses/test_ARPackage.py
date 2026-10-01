@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticVerifyCertificateBidirectional,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
@@ -2408,3 +2409,81 @@ class TestDiagnosticAuthenticationConfiguration:
 
         duplicate = package.createDiagnosticAuthenticationConfiguration("AuthCfg1")
         assert duplicate is configuration  # duplicate short name returns the existing element
+
+
+class TestDiagnosticVerifyCertificateBidirectional:
+    """
+    Test class for DiagnosticVerifyCertificateBidirectional functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.54, p.99
+    """
+
+    CLASS_NOTE = "This meta-class represents the subfunction to do a bidirectional verification of the certificate."
+
+    def _create_verification(self) -> DiagnosticVerifyCertificateBidirectional:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticVerifyCertificateBidirectional(ar_root, "TestVerification")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticVerifyCertificateBidirectional instantiates with the spec defaults.
+        """
+        obj = self._create_verification()
+
+        assert obj.getShortName() == "TestVerification"
+        assert isinstance(obj, DiagnosticAuthentication)
+        assert obj.getAuthenticationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticVerifyCertificateBidirectional.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticVerifyCertificateBidirectional.__init__.__doc__ is None
+
+    def test_defines_no_new_public_members(self):
+        """
+        Test that the class defines no own public members (Table 4.54 attribute row is "-").
+        """
+        own_public = {name for name, member in vars(DiagnosticVerifyCertificateBidirectional).items() if not name.startswith("_")}
+        assert own_public == set()
+
+    def test_inherited_authentication_class_accessors(self):
+        """
+        Test the inherited getAuthenticationClass/setAuthenticationClass round-trip and None no-op.
+        """
+        obj = self._create_verification()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTHENTICATION-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass")
+        result = obj.setAuthenticationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthenticationClass() is ref
+        assert obj.getAuthenticationClass().getValue() == "/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass"
+        assert obj.getAuthenticationClass().getDest() == "DIAGNOSTIC-AUTHENTICATION-CLASS"
+
+        result = obj.setAuthenticationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthenticationClass() is ref  # None is a no-op
+
+    def test_create_diagnostic_verify_certificate_bidirectional(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("VerifyCertificateBidirectionals")
+        verification = package.createDiagnosticVerifyCertificateBidirectional("VerifyBidir1")
+
+        assert verification is not None
+        assert isinstance(verification, DiagnosticVerifyCertificateBidirectional)
+        assert verification.getShortName() == "VerifyBidir1"
+        assert package.getElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional) is verification
+
+        duplicate = package.createDiagnosticVerifyCertificateBidirectional("VerifyBidir1")
+        assert duplicate is verification  # duplicate short name returns the existing element
