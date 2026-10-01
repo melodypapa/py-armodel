@@ -425,76 +425,76 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note (Step 1): Base most-derived = DiagnosticMapping; attrs displayed order: actualEventRef, aliasEventRef; XSD own group l.37523 order ACTUAL-EVENT-REF → ALIAS-EVENT-REF; word-splits corrected (DiagnosticFimAliasEventGroup); reader/writer reuse readDiagnosticMapping/writeDiagnosticMapping
 - [ ] `DiagnosticFimFunctionMapping` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.37, p.265
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (356 passed test_ARPackage.py + 30 batch-6 parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `86bff0a4f`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping (queue row claimed ARObject — generation artifact); no pre-existing stub (class created); attrs displayed order: mappedBswServiceDependencyRef, mappedFlatSwcServiceDependencyRef, mappedFunctionRef, mappedSwcServiceDependencyIRef (iref); XSD own group l.37694 order MAPPED-BSW-SERVICE-DEPENDENCY-REF → MAPPED-FLAT-SWC-SERVICE-DEPENDENCY-REF → MAPPED-FUNCTION-REF → MAPPED-SWC-SERVICE-DEPENDENCY-IREF; markdown notes verbatim (lowercase 'the latter' kept)
 - [ ] `DiagnosticIumprToFunctionIdentifierMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.39, p.265
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (356 passed test_ARPackage.py + 30 batch-6 parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `86bff0a4f`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs displayed order: functionIdentifierRef, iumprRef; XSD own group l.38838 order FUNCTION-IDENTIFIER-REF → IUMPR-REF
 - [ ] `DiagnosticJ1939SpnMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.40, p.267
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (356 passed test_ARPackage.py + 30 batch-6 parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `86bff0a4f`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs displayed order: sendingNodeRefs (LIST + addSendingNodeRef), spnRef, systemSignalRef; XSD own group l.39113 order SENDING-NODE-REFS/SENDING-NODE-REF → SPN-REF → SYSTEM-SIGNAL-REF; markdown notes verbatim ('Even tough' typo kept)
 - [ ] `DiagnosticJ1939Node` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.41, p.267
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (356 passed test_ARPackage.py + 30 batch-6 parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `86bff0a4f`
+  - note (Step 1): Base most-derived = DiagnosticCommonElement (stub re-based ARElement → DiagnosticCommonElement per spec table); attr: nmNodeRef (NM-NODE-REF); XSD own group l.39022 order NM-NODE-REF; reader/writer call readIdentifiable/writeIdentifiable; XSD tag DIAGNOSTIC-J-1939-NODE (J-1939 dash preserved)
 - [ ] `DiagnosticJ1939SwMapping` — DiagnosticSwMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.42, p.268
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (356 passed test_ARPackage.py + 30 batch-6 parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `86bff0a4f`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping; attrs displayed order: nodeRef, swComponentPrototypeIRef (iref, tail ComponentInCompositionInstanceRef joined); XSD own group l.39190 order NODE-REF → SW-COMPONENT-PROTOTYPE-IREF
 - [ ] `DiagnosticEventToTroubleCodeJ1939Mapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.43, p.269
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (356 passed test_ARPackage.py + 30 batch-6 parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `86bff0a4f`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs displayed order: diagnosticEventRef, troubleCodeJ1939Ref; XSD own group l.37015 order DIAGNOSTIC-EVENT-REF → TROUBLE-CODE-J-1939-REF
 - [ ] `CpSoftwareClusterResource` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.44, p.271; also CP_TPS_SystemTemplate Table 11.6, p.901
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
   - [ ] Step 1 — Sync members & description from spec
