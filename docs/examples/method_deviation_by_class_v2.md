@@ -539,6 +539,13 @@ No deviations — the single Table 4.27 attribute (`customServiceClass` Diagnost
 
 No deviations — the single Table 4.28 attribute (`customServiceId` PositiveInteger 0..1 attr) modeled as `customServiceId: Optional[PositiveInteger]` + get/set pair (None no-op, chaining), field/accessor types all `Optional[PositiveInteger]`; Base most-derived = `DiagnosticServiceClass` (stub base already correct, kept); class Note verbatim in the docstring with constr_1330 appended; not VP-capable (XSD group l.33976 carries no VARIATION-POINT); XSD DIAGNOSTIC-SERVICE-CLASS base group carries only an `atp.Status="removed"` ACCESS-PERMISSION-REF — deprecated, not modeled (no readDiagnosticServiceClass helper needed); ARPackage element dispatch per the 5-place pattern (createDiagnosticCustomServiceClass factory + DIAGNOSTIC-CUSTOM-SERVICE-CLASS readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests); wire: plain CUSTOM-SERVICE-ID text via getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger. This sync also resolves the DiagnosticCustomServiceInstance report-only note (1) — the ref target is now fully synced.
 
+## `DiagnosticAuthRole`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 77  | **table:** Table 4.34
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — the two Table 4.34 attributes in displayed order (`bitPosition` PositiveInteger 0..1 attr, `isDefault` Boolean 0..1 attr) modeled as `Optional[PositiveInteger]` / `Optional[Boolean]` fields + get/set pairs (None no-op, chaining); Base most-derived = `ARElement` (stub base already correct, kept); class Note verbatim in the docstring (Tags tail dropped); no constr rows for this class (the markdown constr after the table targets DiagnosticAccessPermission.authenticationEnabled — not appended); not VP-capable (XSD group l.31670 carries no VARIATION-POINT); ARPackage element dispatch per the 5-place pattern (createDiagnosticAuthRole factory + DIAGNOSTIC-AUTH-ROLE readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests); wire: BIT-POSITION text via getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger, IS-DEFAULT text via getChildElementOptionalBooleanValue / setChildElementOptionalBooleanValue.
+
 ## `DiagnosticCommonProps`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 65  | **table:** Table 4.19
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`

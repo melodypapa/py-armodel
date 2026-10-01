@@ -488,6 +488,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import A
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAuthRole,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
@@ -10618,6 +10619,12 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
             permission.addSecurityLevelRef(ref)
 
+    def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
+        self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
+        self.readIdentifiable(element, auth_role)
+        auth_role.setBitPosition(self.getChildElementOptionalPositiveInteger(element, "BIT-POSITION"))
+        auth_role.setIsDefault(self.getChildElementOptionalBooleanValue(element, "IS-DEFAULT"))
+
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
             table.addDiagnosticConnectionRef(ref)
@@ -15140,6 +15147,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
                 permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
                 self.readDiagnosticAccessPermission(child_element, permission)
+            elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
+                auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
+                self.readDiagnosticAuthRole(child_element, auth_role)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)

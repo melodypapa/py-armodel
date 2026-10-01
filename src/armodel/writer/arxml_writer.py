@@ -364,6 +364,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import A
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAuthRole,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
@@ -13797,6 +13798,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in level_refs:
                 self.setChildElementOptionalRefType(refs_tag, "SECURITY-LEVEL-REF", ref)
 
+    def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
+        self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
+        self.writeIdentifiable(child_element, auth_role)
+        self.setChildElementOptionalPositiveInteger(child_element, "BIT-POSITION", auth_role.getBitPosition())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-DEFAULT", auth_role.getIsDefault())
+
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()
         if len(refs) > 0:
@@ -14755,6 +14763,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEnvironmentalCondition(element, ar_element)
         elif isinstance(ar_element, DiagnosticAccessPermission):
             self.writeDiagnosticAccessPermission(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthRole):
+            self.writeDiagnosticAuthRole(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):

@@ -1518,6 +1518,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(cluster)
         return self.getElement(short_name, EthernetCluster)
 
+    def createDiagnosticAuthRole(self, short_name: str) -> DiagnosticAuthRole:
+        """
+        Creates a new DiagnosticAuthRole with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAuthRole represents the ability to specify an authentication
+        role that can be used to deliver fine-grained access rights.
+
+        Args:
+            short_name: The short name for the new DiagnosticAuthRole
+
+        Returns:
+            The newly created or existing DiagnosticAuthRole instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthRole):
+            auth_role = DiagnosticAuthRole(self, short_name)
+            self.addElement(auth_role)
+        return self.getElement(short_name, DiagnosticAuthRole)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -2634,7 +2653,57 @@ class DiagnosticAging(ARElement):
 
 
 class DiagnosticAuthRole(ARElement):
-    pass
+    """This meta-class represents the ability to specify an authentication role that can be used to deliver fine-grained access rights."""
+
+    # DiagnosticAuthRole method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.34, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitPosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitPosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsDefault     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsDefault     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute allows for the specification of the position of the enclosing role in a bitfield of roles.
+        self.bitPosition: Optional[PositiveInteger] = None
+
+        # This attribute indicates whether the enclosing role is considered a default role.
+        self.isDefault: Optional[Boolean] = None
+
+    def getBitPosition(self) -> Optional[PositiveInteger]:
+        """
+        This attribute allows for the specification of the position of the enclosing role in a bitfield of roles.
+        """
+        return self.bitPosition
+
+    def setBitPosition(self, value: Optional[PositiveInteger]):
+        """
+        This attribute allows for the specification of the position of the enclosing role in a bitfield of roles.
+
+        A None value is a no-op and does not overwrite an existing bitPosition.
+        """
+        if value is not None:
+            self.bitPosition = value
+        return self
+
+    def getIsDefault(self) -> Optional[Boolean]:
+        """
+        This attribute indicates whether the enclosing role is considered a default role.
+        """
+        return self.isDefault
+
+    def setIsDefault(self, value: Optional[Boolean]):
+        """
+        This attribute indicates whether the enclosing role is considered a default role.
+
+        A None value is a no-op and does not overwrite an existing isDefault.
+        """
+        if value is not None:
+            self.isDefault = value
+        return self
 
 
 class DiagnosticAuthentication(ARElement, ABC):

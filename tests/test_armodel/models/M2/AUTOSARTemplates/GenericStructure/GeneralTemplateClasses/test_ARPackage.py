@@ -3,6 +3,8 @@ This module contains comprehensive tests for the ARPackage.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -14,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARPackage,
     CpSwClusterToDiagEventMapping,
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAuthRole,
     DiagnosticContributionSet,
     DiagnosticCustomServiceInstance,
     DiagnosticDataIdentifier,
@@ -1892,3 +1895,102 @@ class TestDiagnosticCustomServiceInstance:
 
         duplicate = package.createDiagnosticCustomServiceInstance("Svc1")
         assert duplicate is instance  # duplicate short name returns the existing element
+
+
+class TestDiagnosticAuthRole:
+    """
+    Test class for DiagnosticAuthRole functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.34, p.77
+    """
+
+    AUTH_ROLE_NOTE = "This meta-class represents the ability to specify an authentication role that can be used to deliver fine-grained access rights."
+    BIT_POSITION_NOTE = "This attribute allows for the specification of the position of the enclosing role in a bitfield of roles."
+    IS_DEFAULT_NOTE = "This attribute indicates whether the enclosing role is considered a default role."
+
+    def _create_auth_role(self) -> DiagnosticAuthRole:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticAuthRole(ar_root, "TestAuthRole")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticAuthRole is initialized with the spec defaults.
+        """
+        obj = self._create_auth_role()
+
+        assert obj.getShortName() == "TestAuthRole"
+        assert isinstance(obj, ARElement)
+        assert obj.getBitPosition() is None
+        assert obj.getIsDefault() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (Tags tail dropped).
+        """
+        assert DiagnosticAuthRole.__doc__ == self.AUTH_ROLE_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthRole.__init__.__doc__ is None
+
+    def test_get_set_bit_position(self):
+        """
+        Test getBitPosition and setBitPosition round-trip and None no-op.
+        """
+        obj = self._create_auth_role()
+
+        bit_position = PositiveInteger()
+        bit_position.setValue("7")
+        result = obj.setBitPosition(bit_position)
+        assert result is obj  # method chaining
+        assert obj.getBitPosition() is bit_position
+        assert obj.getBitPosition().getValue() == 7
+
+        result = obj.setBitPosition(None)
+        assert result is obj  # method chaining with None
+        assert obj.getBitPosition() is bit_position  # None is a no-op
+
+    def test_get_set_is_default(self):
+        """
+        Test getIsDefault and setIsDefault round-trip and None no-op.
+        """
+        obj = self._create_auth_role()
+
+        is_default = Boolean()
+        is_default.setValue(True)
+        result = obj.setIsDefault(is_default)
+        assert result is obj  # method chaining
+        assert obj.getIsDefault() is is_default
+        assert obj.getIsDefault().getValue() is True
+
+        result = obj.setIsDefault(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIsDefault() is is_default  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that the accessor docstrings are the spec Notes verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticAuthRole.getBitPosition.__doc__) == self.BIT_POSITION_NOTE
+        assert inspect.cleandoc(DiagnosticAuthRole.setBitPosition.__doc__) == (self.BIT_POSITION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing bitPosition.")
+        assert inspect.cleandoc(DiagnosticAuthRole.getIsDefault.__doc__) == self.IS_DEFAULT_NOTE
+        assert inspect.cleandoc(DiagnosticAuthRole.setIsDefault.__doc__) == (self.IS_DEFAULT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing isDefault.")
+
+    def test_create_diagnostic_auth_role(self):
+        """
+        Test createDiagnosticAuthRole creates, appends and returns the existing one for a duplicate short name.
+        """
+        package = AUTOSAR.getInstance().createARPackage("AuthRoles")
+
+        auth_role = package.createDiagnosticAuthRole("Role1")
+        assert auth_role is not None
+        assert isinstance(auth_role, DiagnosticAuthRole)
+        assert auth_role.getShortName() == "Role1"
+        assert auth_role.getParent() is package
+        assert package.getElement("Role1", DiagnosticAuthRole) is auth_role
+
+        duplicate = package.createDiagnosticAuthRole("Role1")
+        assert duplicate is auth_role  # duplicate short name returns the existing element
