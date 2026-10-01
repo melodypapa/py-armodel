@@ -836,6 +836,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
+    CouplingPortCreditBasedShaper,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortRatePolicy,
@@ -11351,11 +11352,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child, shaper)
             if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
                 self.writeCouplingPortAsynchronousTrafficShaper(child, shaper)
+            elif isinstance(shaper, CouplingPortCreditBasedShaper):
+                self.writeCouplingPortCreditBasedShaper(child, shaper)
 
     def writeCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
         self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", shaper.getCommittedBurstSize())
         self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", shaper.getCommittedInformationRate())
         self.setChildElementOptionalRefType(element, "TRAFFIC-SHAPER-GROUP-REF", shaper.getTrafficShaperGroupRef())
+
+    def writeCouplingPortCreditBasedShaper(self, element: ET.Element, shaper: CouplingPortCreditBasedShaper):
+        self.setChildElementOptionalPositiveInteger(element, "IDLE-SLOPE", shaper.getIdleSlope())
+        self.setChildElementOptionalPositiveInteger(element, "LOWER-BOUNDARY", shaper.getLowerBoundary())
+        self.setChildElementOptionalPositiveInteger(element, "UPPER-BOUNDARY", shaper.getUpperBoundary())
 
     def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         if scheduler is not None:

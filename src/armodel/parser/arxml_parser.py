@@ -939,6 +939,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
+    CouplingPortCreditBasedShaper,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortRatePolicy,
@@ -13103,6 +13104,8 @@ class ARXMLParser(AbstractARXMLParser):
                     self.readIdentifiable(child, shaper)
                     if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
                         self.readCouplingPortAsynchronousTrafficShaper(child, shaper)
+                    elif isinstance(shaper, CouplingPortCreditBasedShaper):
+                        self.readCouplingPortCreditBasedShaper(child, shaper)
                     fifo.setShaper(shaper)
                 else:
                     self.notImplemented("Unsupported CouplingPort shaper <%s>" % tag)
@@ -13113,6 +13116,11 @@ class ARXMLParser(AbstractARXMLParser):
         refs = self.getChildElementRefTypeList(element, "TRAFFIC-SHAPER-GROUP-REF")
         if len(refs) > 0:
             shaper.setTrafficShaperGroupRef(refs[0])
+
+    def readCouplingPortCreditBasedShaper(self, element: ET.Element, shaper: CouplingPortCreditBasedShaper):
+        shaper.setIdleSlope(self.getChildElementOptionalPositiveInteger(element, "IDLE-SLOPE"))
+        shaper.setLowerBoundary(self.getChildElementOptionalPositiveInteger(element, "LOWER-BOUNDARY"))
+        shaper.setUpperBoundary(self.getChildElementOptionalPositiveInteger(element, "UPPER-BOUNDARY"))
 
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)
