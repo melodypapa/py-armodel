@@ -736,8 +736,8 @@ Status: **0/29** completed
 | `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
 | `TimeSyncServerConfiguration`           | [ ] Pending* | b1e4750b14 |
 | `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
-| `CouplingPortAsynchronousTrafficShaper` | [ ] Pending  | N/A        |
-| `CouplingPortCreditBasedShaper`         | [ ] Pending  | N/A        |
+| `CouplingPortAsynchronousTrafficShaper` | [ ] Pending* | N/A        |
+| `CouplingPortCreditBasedShaper`         | [ ] Pending* | N/A        |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
 | `IPSecConfig`                           | [ ] Pending* | 6c97ddc108 |
 | `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
@@ -829,9 +829,9 @@ Status: **3/16** completed
 | `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
 | `EcucForeignReferenceDef`        | [ ] Pending*    | N/A       |
 | `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A       |
-| `EcucReferenceDef`               | [ ] Implemented | N/A       |
-| `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
-| `EcucUriReferenceDef`            | [ ] Implemented | N/A       |
+| `EcucReferenceDef`               | [ ] Pending*    | N/A       |
+| `EcucSymbolicNameReferenceDef`   | [ ] Pending*    | N/A       |
+| `EcucUriReferenceDef`            | [ ] Pending*    | N/A       |
 | `EcucConditionFormula`           | [x] Done        | N/A       |
 | `EcucParameterDerivationFormula` | [x] Done        | N/A       |
 | `EcucQueryExpression`            | [x] Done        | N/A       |
