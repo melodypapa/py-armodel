@@ -2160,6 +2160,96 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, DiagnosticStorageConditionPortMapping)
 
+    def createDiagnosticEventToSecurityEventMapping(self, short_name: str) -> DiagnosticEventToSecurityEventMapping:
+        """
+        Creates a new DiagnosticEventToSecurityEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToSecurityEventMapping: This meta-class represents the ability to map a security event that is defined in the context of the Security Extract to a diagnostic event defined on the context of the DiagnosticExtract..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToSecurityEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToSecurityEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToSecurityEventMapping):
+            element = DiagnosticEventToSecurityEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToSecurityEventMapping)
+
+    def createDiagnosticMasterToSlaveEventMapping(self, short_name: str) -> DiagnosticMasterToSlaveEventMapping:
+        """
+        Creates a new DiagnosticMasterToSlaveEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMasterToSlaveEventMapping: This meta-class provides the ability to map a master diagnostic event with a slave diagnostic event such that reporting of the master event with a given value also reports the slave event with the same value.
+
+        Args:
+            short_name: The short name for the new DiagnosticMasterToSlaveEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticMasterToSlaveEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticMasterToSlaveEventMapping):
+            element = DiagnosticMasterToSlaveEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticMasterToSlaveEventMapping)
+
+    def createDiagnosticDemProvidedDataMapping(self, short_name: str) -> DiagnosticDemProvidedDataMapping:
+        """
+        Creates a new DiagnosticDemProvidedDataMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDemProvidedDataMapping: This represents the ability to define the nature of a data access for a DiagnosticDataElement in the Dem..
+
+        Args:
+            short_name: The short name for the new DiagnosticDemProvidedDataMapping
+
+        Returns:
+            The newly created or existing DiagnosticDemProvidedDataMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDemProvidedDataMapping):
+            element = DiagnosticDemProvidedDataMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticDemProvidedDataMapping)
+
+    def createDiagnosticSecurityEventReportingModeMapping(self, short_name: str) -> DiagnosticSecurityEventReportingModeMapping:
+        """
+        Creates a new DiagnosticSecurityEventReportingModeMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSecurityEventReportingModeMapping: This meta-class represents the ability to associate a location in a DID with a security event. The purpose of this mapping is that the location in the DID contains the setting of the reporting mode for the specific security event. This means that the reporting mode of the security event can be set via the diagnostic service WriteDataByIdentifier..
+
+        Args:
+            short_name: The short name for the new DiagnosticSecurityEventReportingModeMapping
+
+        Returns:
+            The newly created or existing DiagnosticSecurityEventReportingModeMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSecurityEventReportingModeMapping):
+            element = DiagnosticSecurityEventReportingModeMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticSecurityEventReportingModeMapping)
+
+    def createDiagnosticAuthTransmitCertificateMapping(self, short_name: str) -> DiagnosticAuthTransmitCertificateMapping:
+        """
+        Creates a new DiagnosticAuthTransmitCertificateMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAuthTransmitCertificateMapping: This meta-class represents the ability to associate a CryptoServiceCertificate with a DiagnosticAuthCertificateEvaluation with the purpose to configure the evaluation of the certificate..
+
+        Args:
+            short_name: The short name for the new DiagnosticAuthTransmitCertificateMapping
+
+        Returns:
+            The newly created or existing DiagnosticAuthTransmitCertificateMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthTransmitCertificateMapping):
+            element = DiagnosticAuthTransmitCertificateMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticAuthTransmitCertificateMapping)
+
     def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
         """
         Creates a new DiagnosticEnableConditionPortMapping with the given short name,
@@ -3349,7 +3439,55 @@ class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
 
 
 class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CryptoServiceCertificate with a DiagnosticAuthCertificateEvaluation with the purpose to configure the evaluation of the certificate. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticAuthTransmitCertificateMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.17, p.242
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCryptoServiceCertificateRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceCertificateRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the description of the applicable crypto certificate.
+        self.cryptoServiceCertificateRefs: List[RefType] = []
+
+        # This reference identifies the applicable DiagnosticAuthTransmitCertificate service instance (via the aggregation in the role certificateEvaluation).
+        self.serviceInstanceRef: Optional[RefType] = None
+
+    def addCryptoServiceCertificateRef(self, value: Optional[RefType]) -> DiagnosticAuthTransmitCertificateMapping:
+        """
+        This reference identifies the description of the applicable crypto certificate.
+        A None value is a no-op and does not append a cryptoServiceCertificateRef.
+        """
+        if value is not None:
+            self.cryptoServiceCertificateRefs.append(value)
+        return self
+
+    def getCryptoServiceCertificateRefs(self) -> List[RefType]:
+        """
+        This reference identifies the description of the applicable crypto certificate.
+        """
+        return self.cryptoServiceCertificateRefs
+
+    def getServiceInstanceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable DiagnosticAuthTransmitCertificate service instance (via the aggregation in the role certificateEvaluation).
+        """
+        return self.serviceInstanceRef
+
+    def setServiceInstanceRef(self, value: Optional[RefType]) -> DiagnosticAuthTransmitCertificateMapping:
+        """
+        This reference identifies the applicable DiagnosticAuthTransmitCertificate service instance (via the aggregation in the role certificateEvaluation).
+        A None value is a no-op and does not overwrite an existing serviceInstanceRef.
+        """
+        if value is not None:
+            self.serviceInstanceRef = value
+        return self
 
 
 class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
@@ -3662,7 +3800,55 @@ class DiagnosticDeAuthentication(DiagnosticAuthentication):
 
 
 class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
-    pass
+    """This represents the ability to define the nature of a data access for a DiagnosticDataElement in the Dem. Tags: atp.recommendedPackage=DiagnosticServiceMappings"""
+
+    # DiagnosticDemProvidedDataMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.28, p.255
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataProvider                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataProvider                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the DiagnosticDataElement for which the access is further qualified by the DiagnosticDemProvidedDataMapping.
+        self.dataElementRef: Optional[RefType] = None
+
+        # This represents the ability to further specify the access within the Dem.
+        self.dataProvider: Optional[NameToken] = None
+
+    def getDataElementRef(self) -> Optional[RefType]:
+        """
+        This represents the DiagnosticDataElement for which the access is further qualified by the DiagnosticDemProvidedDataMapping.
+        """
+        return self.dataElementRef
+
+    def setDataElementRef(self, value: Optional[RefType]) -> DiagnosticDemProvidedDataMapping:
+        """
+        This represents the DiagnosticDataElement for which the access is further qualified by the DiagnosticDemProvidedDataMapping.
+        A None value is a no-op and does not overwrite an existing dataElementRef.
+        """
+        if value is not None:
+            self.dataElementRef = value
+        return self
+
+    def getDataProvider(self) -> Optional[NameToken]:
+        """
+        This represents the ability to further specify the access within the Dem.
+        """
+        return self.dataProvider
+
+    def setDataProvider(self, value: Optional[NameToken]) -> DiagnosticDemProvidedDataMapping:
+        """
+        This represents the ability to further specify the access within the Dem.
+        A None value is a no-op and does not overwrite an existing dataProvider.
+        """
+        if value is not None:
+            self.dataProvider = value
+        return self
 
 
 class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
@@ -4090,7 +4276,55 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
 
 
 class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to map a security event that is defined in the context of the Security Extract to a diagnostic event defined on the context of the DiagnosticExtract. Tags: atp.Status=candidate atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToSecurityEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.30, p.257
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventPropsRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventPropsRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the applicable diagnostic event. Tags: atp.Status=candidate
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # This reference identifies the qualification of the applicable security event Tags: atp.Status=candidate
+        self.securityEventPropsRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable diagnostic event. Tags: atp.Status=candidate
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToSecurityEventMapping:
+        """
+        This reference identifies the applicable diagnostic event. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getSecurityEventPropsRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the qualification of the applicable security event Tags: atp.Status=candidate
+        """
+        return self.securityEventPropsRef
+
+    def setSecurityEventPropsRef(self, value: Optional[RefType]) -> DiagnosticEventToSecurityEventMapping:
+        """
+        This reference identifies the qualification of the applicable security event Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing securityEventPropsRef.
+        """
+        if value is not None:
+            self.securityEventPropsRef = value
+        return self
 
 
 class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
@@ -4438,7 +4672,55 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
 
 
 class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class provides the ability to map a master diagnostic event with a slave diagnostic event such that reporting of the master event with a given value also reports the slave event with the same value Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticMasterToSlaveEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.29, p.256
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMasterEventRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasterEventRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveEventRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveEventRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the master diagnostic event.
+        self.masterEventRef: Optional[RefType] = None
+
+        # This represents the slave diagnostic event.
+        self.slaveEventRef: Optional[RefType] = None
+
+    def getMasterEventRef(self) -> Optional[RefType]:
+        """
+        This represents the master diagnostic event.
+        """
+        return self.masterEventRef
+
+    def setMasterEventRef(self, value: Optional[RefType]) -> DiagnosticMasterToSlaveEventMapping:
+        """
+        This represents the master diagnostic event.
+        A None value is a no-op and does not overwrite an existing masterEventRef.
+        """
+        if value is not None:
+            self.masterEventRef = value
+        return self
+
+    def getSlaveEventRef(self) -> Optional[RefType]:
+        """
+        This represents the slave diagnostic event.
+        """
+        return self.slaveEventRef
+
+    def setSlaveEventRef(self, value: Optional[RefType]) -> DiagnosticMasterToSlaveEventMapping:
+        """
+        This represents the slave diagnostic event.
+        A None value is a no-op and does not overwrite an existing slaveEventRef.
+        """
+        if value is not None:
+            self.slaveEventRef = value
+        return self
 
 
 class DiagnosticMeasurementIdentifier(ARElement):
@@ -4827,7 +5109,55 @@ class DiagnosticSecurityAccess(ARElement):
 
 
 class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a location in a DID with a security event. The purpose of this mapping is that the location in the DID contains the setting of the reporting mode for the specific security event. This means that the reporting mode of the security event can be set via the diagnostic service WriteDataByIdentifier. Tags: atp.Status=candidate atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticSecurityEventReportingModeMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.18, p.243
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the data element that carries the information about the reporting mode. Tags: atp.Status=candidate
+        self.dataElementRef: Optional[RefType] = None
+
+        # This reference identifies the mapped security event. Tags: atp.Status=candidate
+        self.securityEventRef: Optional[RefType] = None
+
+    def getDataElementRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the data element that carries the information about the reporting mode. Tags: atp.Status=candidate
+        """
+        return self.dataElementRef
+
+    def setDataElementRef(self, value: Optional[RefType]) -> DiagnosticSecurityEventReportingModeMapping:
+        """
+        This reference identifies the data element that carries the information about the reporting mode. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing dataElementRef.
+        """
+        if value is not None:
+            self.dataElementRef = value
+        return self
+
+    def getSecurityEventRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped security event. Tags: atp.Status=candidate
+        """
+        return self.securityEventRef
+
+    def setSecurityEventRef(self, value: Optional[RefType]) -> DiagnosticSecurityEventReportingModeMapping:
+        """
+        This reference identifies the mapped security event. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing securityEventRef.
+        """
+        if value is not None:
+            self.securityEventRef = value
+        return self
 
 
 class DiagnosticParameterElementAccess(ARObject):

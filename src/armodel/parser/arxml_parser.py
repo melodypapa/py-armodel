@@ -544,6 +544,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOperationCyclePortMapping,
     DiagnosticEnableConditionPortMapping,
     DiagnosticStorageConditionPortMapping,
+    DiagnosticAuthTransmitCertificateMapping,
+    DiagnosticSecurityEventReportingModeMapping,
+    DiagnosticDemProvidedDataMapping,
+    DiagnosticMasterToSlaveEventMapping,
+    DiagnosticEventToSecurityEventMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -10534,6 +10539,32 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setSwcFlatServiceDependencyRef(self.getChildElementOptionalRefType(element, "SWC-FLAT-SERVICE-DEPENDENCY-REF"))
         mapping.setSwcServiceDependencyInSystemIRef(self.getChildElementOptionalRefType(element, "SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF"))
 
+    def readDiagnosticAuthTransmitCertificateMapping(self, element: ET.Element, mapping: DiagnosticAuthTransmitCertificateMapping):
+        self.readDiagnosticMapping(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "CRYPTO-SERVICE-CERTIFICATE-REFS/CRYPTO-SERVICE-CERTIFICATE-REF"):
+            mapping.addCryptoServiceCertificateRef(ref)
+        mapping.setServiceInstanceRef(self.getChildElementOptionalRefType(element, "SERVICE-INSTANCE-REF"))
+
+    def readDiagnosticSecurityEventReportingModeMapping(self, element: ET.Element, mapping: DiagnosticSecurityEventReportingModeMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        mapping.setSecurityEventRef(self.getChildElementOptionalRefType(element, "SECURITY-EVENT-REF"))
+
+    def readDiagnosticDemProvidedDataMapping(self, element: ET.Element, mapping: DiagnosticDemProvidedDataMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        mapping.setDataProvider(self.getChildElementOptionalNameToken(element, "DATA-PROVIDER"))
+
+    def readDiagnosticMasterToSlaveEventMapping(self, element: ET.Element, mapping: DiagnosticMasterToSlaveEventMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setMasterEventRef(self.getChildElementOptionalRefType(element, "MASTER-EVENT-REF"))
+        mapping.setSlaveEventRef(self.getChildElementOptionalRefType(element, "SLAVE-EVENT-REF"))
+
+    def readDiagnosticEventToSecurityEventMapping(self, element: ET.Element, mapping: DiagnosticEventToSecurityEventMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setSecurityEventPropsRef(self.getChildElementOptionalRefType(element, "SECURITY-EVENT-PROPS-REF"))
+
     def readDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setOperationCycleRef(self.getChildElementOptionalRefType(element, "OPERATION-CYCLE-REF"))
@@ -15606,6 +15637,21 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
                 mapping = parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element))
                 self.readDiagnosticStorageConditionPortMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-MAPPING":
+                mapping = parent.createDiagnosticAuthTransmitCertificateMapping(self.getShortName(child_element))
+                self.readDiagnosticAuthTransmitCertificateMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-SECURITY-EVENT-REPORTING-MODE-MAPPING":
+                mapping = parent.createDiagnosticSecurityEventReportingModeMapping(self.getShortName(child_element))
+                self.readDiagnosticSecurityEventReportingModeMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING":
+                mapping = parent.createDiagnosticDemProvidedDataMapping(self.getShortName(child_element))
+                self.readDiagnosticDemProvidedDataMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING":
+                mapping = parent.createDiagnosticMasterToSlaveEventMapping(self.getShortName(child_element))
+                self.readDiagnosticMasterToSlaveEventMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING":
+                mapping = parent.createDiagnosticEventToSecurityEventMapping(self.getShortName(child_element))
+                self.readDiagnosticEventToSecurityEventMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
                 mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
                 self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)

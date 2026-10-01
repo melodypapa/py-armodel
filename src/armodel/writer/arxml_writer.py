@@ -421,6 +421,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOperationCyclePortMapping,
     DiagnosticEnableConditionPortMapping,
     DiagnosticStorageConditionPortMapping,
+    DiagnosticAuthTransmitCertificateMapping,
+    DiagnosticSecurityEventReportingModeMapping,
+    DiagnosticDemProvidedDataMapping,
+    DiagnosticMasterToSlaveEventMapping,
+    DiagnosticEventToSecurityEventMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -13855,6 +13860,45 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "SWC-FLAT-SERVICE-DEPENDENCY-REF", mapping.getSwcFlatServiceDependencyRef())
         self.setChildElementOptionalRefType(child_element, "SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF", mapping.getSwcServiceDependencyInSystemIRef())
 
+    def writeDiagnosticAuthTransmitCertificateMapping(self, element: ET.Element, mapping: DiagnosticAuthTransmitCertificateMapping):
+        self.logger.debug("Write DiagnosticAuthTransmitCertificateMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        cryptoServiceCertificate_refs = mapping.getCryptoServiceCertificateRefs()
+        if len(cryptoServiceCertificate_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CRYPTO-SERVICE-CERTIFICATE-REFS")
+            for ref in cryptoServiceCertificate_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CRYPTO-SERVICE-CERTIFICATE-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "SERVICE-INSTANCE-REF", mapping.getServiceInstanceRef())
+
+    def writeDiagnosticSecurityEventReportingModeMapping(self, element: ET.Element, mapping: DiagnosticSecurityEventReportingModeMapping):
+        self.logger.debug("Write DiagnosticSecurityEventReportingModeMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-EVENT-REPORTING-MODE-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", mapping.getDataElementRef())
+        self.setChildElementOptionalRefType(child_element, "SECURITY-EVENT-REF", mapping.getSecurityEventRef())
+
+    def writeDiagnosticDemProvidedDataMapping(self, element: ET.Element, mapping: DiagnosticDemProvidedDataMapping):
+        self.logger.debug("Write DiagnosticDemProvidedDataMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", mapping.getDataElementRef())
+        self.setChildElementOptionalNameToken(child_element, "DATA-PROVIDER", mapping.getDataProvider())
+
+    def writeDiagnosticMasterToSlaveEventMapping(self, element: ET.Element, mapping: DiagnosticMasterToSlaveEventMapping):
+        self.logger.debug("Write DiagnosticMasterToSlaveEventMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "MASTER-EVENT-REF", mapping.getMasterEventRef())
+        self.setChildElementOptionalRefType(child_element, "SLAVE-EVENT-REF", mapping.getSlaveEventRef())
+
+    def writeDiagnosticEventToSecurityEventMapping(self, element: ET.Element, mapping: DiagnosticEventToSecurityEventMapping):
+        self.logger.debug("Write DiagnosticEventToSecurityEventMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "SECURITY-EVENT-PROPS-REF", mapping.getSecurityEventPropsRef())
+
     def writeDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.logger.debug("Write DiagnosticOperationCyclePortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING")
@@ -15259,6 +15303,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEnableConditionPortMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticStorageConditionPortMapping):
             self.writeDiagnosticStorageConditionPortMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthTransmitCertificateMapping):
+            self.writeDiagnosticAuthTransmitCertificateMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityEventReportingModeMapping):
+            self.writeDiagnosticSecurityEventReportingModeMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDemProvidedDataMapping):
+            self.writeDiagnosticDemProvidedDataMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticMasterToSlaveEventMapping):
+            self.writeDiagnosticMasterToSlaveEventMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToSecurityEventMapping):
+            self.writeDiagnosticEventToSecurityEventMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToDebounceAlgorithmMapping):
             self.writeDiagnosticEventToDebounceAlgorithmMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToEnableConditionGroupMapping):
