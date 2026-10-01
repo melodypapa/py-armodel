@@ -1488,6 +1488,14 @@ DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP = {
     "defineByMemoryAddress": "DEFINE-BY-MEMORY-ADDRESS",
 }
 
+#: Mapping between DiagnosticPeriodicRateCategoryEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-PERIODIC-RATE-CATEGORY-ENUM--SIMPLE).
+DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP = {
+    "periodicRateFast": "PERIODIC-RATE-FAST",
+    "periodicRateMedium": "PERIODIC-RATE-MEDIUM",
+    "periodicRateSlow": "PERIODIC-RATE-SLOW",
+}
+
 
 class ARXMLParser(AbstractARXMLParser):
     """

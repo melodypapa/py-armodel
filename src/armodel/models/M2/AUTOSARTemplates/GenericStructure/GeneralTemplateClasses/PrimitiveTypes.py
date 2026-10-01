@@ -1845,7 +1845,33 @@ class DiagnosticOperationCycleTypeEnum(AREnum):
     pass
 
 class DiagnosticPeriodicRateCategoryEnum(AREnum):
-    pass
+    """
+    This meta-class provides possible values for the setting of the periodic rate.
+    """
+
+    # DiagnosticPeriodicRateCategoryEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.100, p.131
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This value represents a fast periodic rate. Tags: atp.EnumerationLiteralIndex=0
+    PERIODIC_RATE_FAST = "periodicRateFast"
+
+    # This value represents a medium periodic rate. Tags: atp.EnumerationLiteralIndex=1
+    PERIODIC_RATE_MEDIUM = "periodicRateMedium"
+
+    # This value represents a slow periodic rate. Tags: atp.EnumerationLiteralIndex=2
+    PERIODIC_RATE_SLOW = "periodicRateSlow"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST,
+                DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM,
+                DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW,
+            ]
+        )
 
 class DiagnosticRecordTriggerEnum(AREnum):
     pass

@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -2002,3 +2003,45 @@ class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
         enum.setValue(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER)
 
         assert enum.getValue() == "defineByIdentifier"
+
+
+class TestDiagnosticPeriodicRateCategoryEnum:
+    """
+    Test class for DiagnosticPeriodicRateCategoryEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.100, p.131
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticPeriodicRateCategoryEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticPeriodicRateCategoryEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["periodicRateFast", "periodicRateMedium", "periodicRateSlow"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticPeriodicRateCategoryEnum member values.
+        """
+        enum = DiagnosticPeriodicRateCategoryEnum()
+
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST == "periodicRateFast"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM == "periodicRateMedium"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW == "periodicRateSlow"
+
+        assert enum.validateEnumValue("periodicRateFast") is True
+        assert enum.validateEnumValue("periodicRateMedium") is True
+        assert enum.validateEnumValue("periodicRateSlow") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticPeriodicRateCategoryEnum instantiability and getValue.
+        """
+        enum = DiagnosticPeriodicRateCategoryEnum()
+        enum.setValue(DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW)
+
+        assert enum.getValue() == "periodicRateSlow"

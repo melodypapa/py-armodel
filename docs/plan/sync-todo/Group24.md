@@ -769,14 +769,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticPeriodicRateCategoryEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.100, p.131
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled in FIRST (before dependent Table 4.99 DiagnosticPeriodicRate, itself pulled in
+      before dependent Table 4.98 DiagnosticReadDataByPeriodicIDClass — dependency-first per sync convention).
+      Literals in displayed order periodicRateFast (idx 0, PERIODIC-RATE-FAST) / periodicRateMedium
+      (idx 1, PERIODIC-RATE-MEDIUM) / periodicRateSlow (idx 2, PERIODIC-RATE-SLOW); XSD SIMPLE type l.134901.
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP
+      pre-registered in parser/writer for the consuming attribute; consumer tests land with the Table 4.99 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticResponseOnEvent` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.101, p.132
