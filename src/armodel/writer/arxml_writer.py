@@ -443,6 +443,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
@@ -13893,6 +13894,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             for request in requests:
                 self.writeDiagnosticParameter(requests_tag, request)
         responses = stop_routine.getResponse()
+        if len(responses) > 0:
+            responses_tag = ET.SubElement(child_element, "RESPONSES")
+            for response in responses:
+                self.writeDiagnosticParameter(responses_tag, response)
+
+    def writeDiagnosticRequestRoutineResults(self, element: ET.Element, request_results: DiagnosticRequestRoutineResults):
+        self.logger.debug("Write DiagnosticRequestRoutineResults %s" % request_results.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-ROUTINE-RESULTS")
+        self.writeIdentifiable(child_element, request_results)
+        self.writeDiagnosticRoutineSubfunction(child_element, request_results)
+        requests = request_results.getRequest()
+        if len(requests) > 0:
+            requests_tag = ET.SubElement(child_element, "REQUESTS")
+            for request in requests:
+                self.writeDiagnosticParameter(requests_tag, request)
+        responses = request_results.getResponse()
         if len(responses) > 0:
             responses_tag = ET.SubElement(child_element, "RESPONSES")
             for response in responses:

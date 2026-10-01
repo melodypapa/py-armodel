@@ -560,6 +560,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
@@ -10534,6 +10535,19 @@ class ARXMLParser(AbstractARXMLParser):
             response = DiagnosticParameter()
             self.readDiagnosticParameter(child_element, response)
             stop_routine.addResponse(response)
+
+    def readDiagnosticRequestRoutineResults(self, element: ET.Element, request_results: DiagnosticRequestRoutineResults):
+        self.logger.debug("Read DiagnosticRequestRoutineResults <%s>" % request_results.getShortName())
+        self.readIdentifiable(element, request_results)
+        self.readDiagnosticRoutineSubfunction(element, request_results)
+        for child_element in self.findall(element, "REQUESTS/DIAGNOSTIC-PARAMETER"):
+            request = DiagnosticParameter()
+            self.readDiagnosticParameter(child_element, request)
+            request_results.addRequest(request)
+        for child_element in self.findall(element, "RESPONSES/DIAGNOSTIC-PARAMETER"):
+            response = DiagnosticParameter()
+            self.readDiagnosticParameter(child_element, response)
+            request_results.addResponse(response)
 
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)

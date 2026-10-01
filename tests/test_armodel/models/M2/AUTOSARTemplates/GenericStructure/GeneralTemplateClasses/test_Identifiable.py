@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
@@ -1381,3 +1382,92 @@ class TestDiagnosticStopRoutine:
         adder_hints = typing.get_type_hints(DiagnosticStopRoutine.addResponse)
         assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
         assert adder_hints.get("return") is DiagnosticStopRoutine
+
+
+class TestDiagnosticRequestRoutineResults:
+    """
+    Test class for DiagnosticRequestRoutineResults functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.88, p.125
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define the result of a diagnostic routine execution."
+
+    def _make_obj(self) -> DiagnosticRequestRoutineResults:
+        return DiagnosticRequestRoutineResults(AUTOSAR.getInstance(), "RequestResults1")
+
+    def test_subclass_chain(self):
+        """
+        Test that DiagnosticRequestRoutineResults derives from DiagnosticRoutineSubfunction.
+        """
+        assert issubclass(DiagnosticRequestRoutineResults, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticRequestRoutineResults is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "RequestResults1"
+        assert obj.getRequest() == []
+        assert obj.getResponse() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestRoutineResults.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestRoutineResults.__init__.__doc__ is None
+
+    def test_add_get_request(self):
+        """
+        Appends request parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        first = DiagnosticParameter()
+        result = obj.addRequest(first)
+        assert result is obj  # method chaining
+        second = DiagnosticParameter()
+        obj.addRequest(second)
+        assert obj.getRequest() == [first, second]
+
+        obj.addRequest(None)
+        assert obj.getRequest() == [first, second]  # None is a no-op
+
+    def test_add_get_response(self):
+        """
+        Appends response parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticParameter()
+        result = obj.addResponse(value)
+        assert result is obj  # method chaining
+        assert obj.getResponse() == [value]
+
+        obj.addResponse(None)
+        assert obj.getResponse() == [value]  # None is a no-op
+
+    def test_get_add_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.getRequest)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.addRequest)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticRequestRoutineResults
+
+        getter_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.getResponse)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.addResponse)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticRequestRoutineResults

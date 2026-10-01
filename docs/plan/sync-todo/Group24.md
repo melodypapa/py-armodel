@@ -587,14 +587,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestRoutineResults` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.88, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): PULLED IN ahead of its consumer DiagnosticRoutine (Rule 0016.5 — Routine.requestResult references it); Table 4.88 body matched by Class row (leading caption); concrete (base DiagnosticRoutineSubfunction synced first); own attrs request/response (DiagnosticParameter `*` aggr) — XSD group DIAGNOSTIC-REQUEST-ROUTINE-RESULTS (AUTOSAR_00052.xsd l.42402) = REQUESTS/RESPONSES wrappers; Aggregated by DiagnosticRoutine.requestResult — no factory/dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): read/writeDiagnosticRequestRoutineResults mirrors the Start/Stop passes — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.requestResult).
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticRoutineControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.89, p.125
