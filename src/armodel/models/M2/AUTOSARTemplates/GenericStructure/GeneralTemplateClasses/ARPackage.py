@@ -1595,6 +1595,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(verification)
         return self.getElement(short_name, DiagnosticVerifyCertificateBidirectional)
 
+    def createDiagnosticVerifyCertificateUnidirectional(self, short_name: str) -> DiagnosticVerifyCertificateUnidirectional:
+        """
+        Creates a new DiagnosticVerifyCertificateUnidirectional with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticVerifyCertificateUnidirectional represents the subfunction to do
+        a unidirectional verification of the certificate.
+
+        Args:
+            short_name: The short name for the new DiagnosticVerifyCertificateUnidirectional
+
+        Returns:
+            The newly created or existing DiagnosticVerifyCertificateUnidirectional instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticVerifyCertificateUnidirectional):
+            verification = DiagnosticVerifyCertificateUnidirectional(self, short_name)
+            self.addElement(verification)
+        return self.getElement(short_name, DiagnosticVerifyCertificateUnidirectional)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -3723,7 +3742,15 @@ class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
 
 
 class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
-    pass
+    """This meta-class represents the subfunction to do a unidirectional verification of the certificate."""
+
+    # DiagnosticVerifyCertificateUnidirectional method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.55, p.100
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):

@@ -389,6 +389,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
+    DiagnosticVerifyCertificateUnidirectional,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticCommonProps, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13910,6 +13911,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, verification)
         self.writeDiagnosticAuthentication(child_element, verification)
 
+    def writeDiagnosticVerifyCertificateUnidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateUnidirectional):
+        self.logger.debug("Write DiagnosticVerifyCertificateUnidirectional %s" % verification.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL")
+        self.writeIdentifiable(child_element, verification)
+        self.writeDiagnosticAuthentication(child_element, verification)
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -14891,6 +14898,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
             self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
+        elif isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):
+            self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):
