@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthRole,
+    DiagnosticAuthTransmitCertificate,
     DiagnosticContributionSet,
     DiagnosticCustomServiceInstance,
     DiagnosticDataIdentifier,
@@ -37,7 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
@@ -2724,3 +2725,91 @@ class TestDiagnosticProofOfOwnership:
 
         duplicate = package.createDiagnosticProofOfOwnership("Proof1")
         assert duplicate is proof_of_ownership  # duplicate short name returns the existing element
+
+
+class TestDiagnosticAuthTransmitCertificate:
+    """
+    Test class for DiagnosticAuthTransmitCertificate functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.58, p.100
+    """
+
+    CLASS_NOTE = "This meta-class represents the sub-function to transmit a certificate"
+
+    def _create_certificate(self) -> DiagnosticAuthTransmitCertificate:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticAuthTransmitCertificate(ar_root, "TestCertificate")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticAuthTransmitCertificate instantiates with the spec defaults.
+        """
+        obj = self._create_certificate()
+
+        assert obj.getShortName() == "TestCertificate"
+        assert isinstance(obj, DiagnosticAuthentication)
+        assert obj.getAuthenticationClass() is None
+        assert obj.getCertificateEvaluations() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAuthTransmitCertificate.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthTransmitCertificate.__init__.__doc__ is None
+
+    def test_inherited_authentication_class_accessors(self):
+        """
+        Test the inherited getAuthenticationClass/setAuthenticationClass round-trip and None no-op.
+        """
+        obj = self._create_certificate()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTHENTICATION-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass")
+        result = obj.setAuthenticationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthenticationClass() is ref
+        assert obj.getAuthenticationClass().getValue() == "/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass"
+        assert obj.getAuthenticationClass().getDest() == "DIAGNOSTIC-AUTHENTICATION-CLASS"
+
+        result = obj.setAuthenticationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthenticationClass() is ref  # None is a no-op
+
+    def test_create_certificate_evaluation(self):
+        """
+        Test that the * aggregation certificateEvaluation creates and reuses the child.
+        """
+        obj = self._create_certificate()
+
+        evaluation = obj.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
+        assert evaluation is not None
+        assert isinstance(evaluation, DiagnosticAuthTransmitCertificateEvaluation)
+        assert evaluation.getShortName() == "Eval1"
+        assert obj.getCertificateEvaluations() == [evaluation]
+
+        duplicate = obj.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
+        assert duplicate is evaluation  # duplicate short name returns the existing element
+        assert len(obj.getCertificateEvaluations()) == 1
+
+    def test_create_diagnostic_auth_transmit_certificate(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("AuthTransmitCertificates")
+        certificate = package.createDiagnosticAuthTransmitCertificate("Certificate1")
+
+        assert certificate is not None
+        assert isinstance(certificate, DiagnosticAuthTransmitCertificate)
+        assert certificate.getShortName() == "Certificate1"
+        assert package.getElement("Certificate1", DiagnosticAuthTransmitCertificate) is certificate
+
+        duplicate = package.createDiagnosticAuthTransmitCertificate("Certificate1")
+        assert duplicate is certificate  # duplicate short name returns the existing element

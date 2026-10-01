@@ -382,6 +382,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthRole,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
+    DiagnosticAuthTransmitCertificate,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
@@ -400,6 +401,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
     Identifiable,
@@ -13907,6 +13909,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, configuration)
         self.writeDiagnosticAuthentication(child_element, configuration)
 
+    def writeDiagnosticAuthTransmitCertificate(self, element: ET.Element, certificate: DiagnosticAuthTransmitCertificate):
+        self.logger.debug("Write DiagnosticAuthTransmitCertificate %s" % certificate.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE")
+        self.writeIdentifiable(child_element, certificate)
+        self.writeDiagnosticAuthentication(child_element, certificate)
+        evaluations = certificate.getCertificateEvaluations()
+        if len(evaluations) > 0:
+            evaluations_element = ET.SubElement(child_element, "CERTIFICATE-EVALUATIONS")
+            for evaluation in evaluations:
+                self.writeDiagnosticAuthTransmitCertificateEvaluation(evaluations_element, evaluation)
+
+    def writeDiagnosticAuthTransmitCertificateEvaluation(self, element: ET.Element, evaluation: DiagnosticAuthTransmitCertificateEvaluation):
+        self.logger.debug("Write DiagnosticAuthTransmitCertificateEvaluation %s" % evaluation.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-EVALUATION")
+        self.writeIdentifiable(child_element, evaluation)
+
     def writeDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
         self.logger.debug("Write DiagnosticDeAuthentication %s" % de_authentication.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DE-AUTHENTICATION")
@@ -14910,6 +14928,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthenticationClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthenticationConfiguration):
             self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthTransmitCertificate):
+            self.writeDiagnosticAuthTransmitCertificate(element, ar_element)
         elif isinstance(ar_element, DiagnosticDeAuthentication):
             self.writeDiagnosticDeAuthentication(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):

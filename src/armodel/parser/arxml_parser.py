@@ -502,6 +502,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthRole,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
+    DiagnosticAuthTransmitCertificate,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
@@ -520,6 +521,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
     Identifiable,
@@ -10723,6 +10725,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, configuration)
         self.readDiagnosticAuthentication(element, configuration)
 
+    def readDiagnosticAuthTransmitCertificate(self, element: ET.Element, certificate: DiagnosticAuthTransmitCertificate):
+        self.logger.debug("Read DiagnosticAuthTransmitCertificate <%s>" % certificate.getShortName())
+        self.readIdentifiable(element, certificate)
+        self.readDiagnosticAuthentication(element, certificate)
+        for eval_element in self.findall(element, "CERTIFICATE-EVALUATIONS/DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-EVALUATION"):
+            evaluation = certificate.createDiagnosticAuthTransmitCertificateEvaluation(self.getShortName(eval_element))
+            self.readDiagnosticAuthTransmitCertificateEvaluation(eval_element, evaluation)
+
+    def readDiagnosticAuthTransmitCertificateEvaluation(self, element: ET.Element, evaluation: DiagnosticAuthTransmitCertificateEvaluation):
+        self.logger.debug("Read DiagnosticAuthTransmitCertificateEvaluation <%s>" % evaluation.getShortName())
+        self.readIdentifiable(element, evaluation)
+
     def readDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
         self.logger.debug("Read DiagnosticDeAuthentication <%s>" % de_authentication.getShortName())
         self.readIdentifiable(element, de_authentication)
@@ -15292,6 +15306,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
                 configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
                 self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
+            elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE":
+                certificate = parent.createDiagnosticAuthTransmitCertificate(self.getShortName(child_element))
+                self.readDiagnosticAuthTransmitCertificate(child_element, certificate)
             elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
                 de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
                 self.readDiagnosticDeAuthentication(child_element, de_authentication)

@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -1576,6 +1576,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(configuration)
         return self.getElement(short_name, DiagnosticAuthenticationConfiguration)
 
+    def createDiagnosticAuthTransmitCertificate(self, short_name: str) -> DiagnosticAuthTransmitCertificate:
+        """
+        Creates a new DiagnosticAuthTransmitCertificate with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAuthTransmitCertificate represents the sub-function to transmit a certificate.
+
+        Args:
+            short_name: The short name for the new DiagnosticAuthTransmitCertificate
+
+        Returns:
+            The newly created or existing DiagnosticAuthTransmitCertificate instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthTransmitCertificate):
+            certificate = DiagnosticAuthTransmitCertificate(self, short_name)
+            self.addElement(certificate)
+        return self.getElement(short_name, DiagnosticAuthTransmitCertificate)
+
     def createDiagnosticDeAuthentication(self, short_name: str) -> DiagnosticDeAuthentication:
         """
         Creates a new DiagnosticDeAuthentication with the given short name,
@@ -2933,7 +2951,37 @@ class DiagnosticAuthentication(ARElement, ABC):
 
 
 class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
-    pass
+    """This meta-class represents the sub-function to transmit a certificate"""
+
+    # DiagnosticAuthTransmitCertificate method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.58, p.100
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCertificateEvaluations                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDiagnosticAuthTransmitCertificateEvaluation  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents a collection of certificate evaluation configurations.
+        self.certificateEvaluations: List[DiagnosticAuthTransmitCertificateEvaluation] = []
+
+    def getCertificateEvaluations(self) -> List[DiagnosticAuthTransmitCertificateEvaluation]:
+        """
+        This aggregation represents a collection of certificate evaluation configurations.
+        """
+        return self.certificateEvaluations
+
+    def createDiagnosticAuthTransmitCertificateEvaluation(self, short_name: str) -> DiagnosticAuthTransmitCertificateEvaluation:
+        """
+        This aggregation represents a collection of certificate evaluation configurations.
+        The existing evaluation is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthTransmitCertificateEvaluation):
+            evaluation = DiagnosticAuthTransmitCertificateEvaluation(self, short_name)
+            self.addElement(evaluation)
+            self.certificateEvaluations.append(evaluation)
+        return self.getElement(short_name, DiagnosticAuthTransmitCertificateEvaluation)
 
 
 class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
