@@ -385,6 +385,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
     DiagnosticCompareTypeEnum,
     DiagnosticEnvCompareCondition,
+    DiagnosticEnvDataCondition,
     DiagnosticEnvConditionFormula,
     DiagnosticEnvironmentalCondition,
     DiagnosticLogicalOperatorEnum,
@@ -10571,6 +10572,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, condition)
         condition.setCompareType(self._readEnumToken(element, "COMPARE-TYPE", DiagnosticCompareTypeEnum, DIAGNOSTIC_COMPARE_TYPE_XML_MAP))
 
+    def readDiagnosticEnvDataCondition(self, element: ET.Element, condition: DiagnosticEnvDataCondition):
+        self.readDiagnosticEnvCompareCondition(element, condition)
+        condition.setCompareValue(self.getChildValueSpecification(element, "COMPARE-VALUE"))
+        condition.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+
     def readDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.readARObject(element, formula)
         formula.setNrcValue(self.getChildElementOptionalPositiveInteger(element, "NRC-VALUE"))
@@ -10588,6 +10594,10 @@ class ARXMLParser(AbstractARXMLParser):
                 if tag_name == "DIAGNOSTIC-ENV-CONDITION-FORMULA":
                     part = DiagnosticEnvConditionFormula()
                     self.readDiagnosticEnvConditionFormula(child_element, part)
+                    formula.addPart(part)
+                elif tag_name == "DIAGNOSTIC-ENV-DATA-CONDITION":
+                    part = DiagnosticEnvDataCondition()
+                    self.readDiagnosticEnvDataCondition(child_element, part)
                     formula.addPart(part)
                 else:
                     self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % tag_name)

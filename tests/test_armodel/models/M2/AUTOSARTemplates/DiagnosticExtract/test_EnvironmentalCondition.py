@@ -6,22 +6,26 @@ DiagnosticEnvConditionFormula (Table 4.36), DiagnosticLogicalOperatorEnum
 DiagnosticEnvModeElement (Table 4.44).
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
     DiagnosticCompareTypeEnum,
     DiagnosticEnvCompareCondition,
     DiagnosticEnvConditionFormula,
     DiagnosticEnvConditionFormulaPart,
+    DiagnosticEnvDataCondition,
     DiagnosticEnvironmentalCondition,
     DiagnosticEnvModeElement,
     DiagnosticLogicalOperatorEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, PositiveInteger, RefType
 
 ENV_CONDITION_NOTE = (
     "The meta-class DiagnosticEnvironmentalCondition formalizes the idea of a condition which is evaluated during runtime of the ECU by looking at "
@@ -356,3 +360,74 @@ class Test_DiagnosticEnvCompareCondition:
         parsed = _ConcreteCompareCondition()
         ARXMLParser().readDiagnosticEnvCompareCondition(reloaded[0], parsed)
         assert parsed.getCompareType().getValue() == "isEqual"
+
+
+class Test_DiagnosticEnvDataCondition:
+    """Test cases for DiagnosticEnvDataCondition (Table 4.41, p.84)."""
+
+    CLASS_DOCSTRING = (
+        "A DiagnosticEnvDataCondition is an atomic condition that compares the current value of the referenced DiagnosticDataElement "
+        "with a constant value defined by the ValueSpecification. All compareTypes are supported.\n"
+        "\n"
+        "[constr_1802] Existence of DiagnosticEnvDataCondition.compareValue: For each DiagnosticEnvDataCondition, that attribute "
+        "compareValue shall exist at the time when the DEXT is complete.\n"
+        "\n"
+        "[constr_1803] Existence of DiagnosticEnvDataCondition.dataElement: For each DiagnosticEnvDataCondition, that attribute "
+        "dataElement shall exist at the time when the DEXT is complete."
+    )
+    COMPARE_VALUE_NOTE = "This attribute represents a fixed compare value taken to evaluate the compare condition."
+    DATA_ELEMENT_NOTE = "This reference represents the related diagnostic data element."
+
+    def test_is_concrete(self):
+        condition = DiagnosticEnvDataCondition()
+        assert condition is not None
+
+    def test_is_diagnostic_env_compare_condition_subclass(self):
+        assert issubclass(DiagnosticEnvDataCondition, DiagnosticEnvCompareCondition)
+        assert issubclass(DiagnosticEnvDataCondition, DiagnosticEnvConditionFormulaPart)
+        assert issubclass(DiagnosticEnvDataCondition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvDataCondition.__init__.__doc__ is None
+
+    def test_defaults(self):
+        condition = DiagnosticEnvDataCondition()
+        assert condition.getCompareValue() is None
+        assert condition.getDataElementRef() is None
+        assert condition.getCompareType() is None
+
+    def test_get_set_compare_value(self):
+        condition = DiagnosticEnvDataCondition()
+        value_spec = TextValueSpecification()
+        literal = ARLiteral()
+        literal.setValue("42")
+        value_spec.setValue(literal)
+        assert condition.setCompareValue(value_spec) is condition
+        assert condition.getCompareValue() is value_spec
+        condition.setCompareValue(None)
+        assert condition.getCompareValue() is value_spec
+
+    def test_get_set_data_element_ref(self):
+        condition = DiagnosticEnvDataCondition()
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagDataElements/Dde1")
+        assert condition.setDataElementRef(ref) is condition
+        assert condition.getDataElementRef() is ref
+        condition.setDataElementRef(None)
+        assert condition.getDataElementRef() is ref
+
+    def test_inherited_compare_type(self):
+        condition = DiagnosticEnvDataCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL)
+        condition.setCompareType(compare_type)
+        assert condition.getCompareType() is compare_type
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.getCompareValue.__doc__) == self.COMPARE_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.setCompareValue.__doc__) == (self.COMPARE_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing compareValue.")
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.getDataElementRef.__doc__) == self.DATA_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.setDataElementRef.__doc__) == (self.DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataElementRef.")

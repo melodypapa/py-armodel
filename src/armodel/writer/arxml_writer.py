@@ -276,7 +276,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvCompareCondition, DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
+    DiagnosticEnvCompareCondition,
+    DiagnosticEnvConditionFormula,
+    DiagnosticEnvDataCondition,
+    DiagnosticEnvironmentalCondition,
+)
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -13757,6 +13762,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(element, condition)
         self._writeEnumToken(element, "COMPARE-TYPE", condition.getCompareType(), DIAGNOSTIC_COMPARE_TYPE_XML_MAP)
 
+    def writeDiagnosticEnvDataCondition(self, element: ET.Element, condition: DiagnosticEnvDataCondition):
+        self.logger.debug("Write DiagnosticEnvDataCondition")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-DATA-CONDITION")
+        self.writeDiagnosticEnvCompareCondition(child_element, condition)
+        self.setChildValueSpecification(child_element, "COMPARE-VALUE", condition.getCompareValue())
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", condition.getDataElementRef())
+
     def writeDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.writeARObject(element, formula)
         self.setChildElementOptionalPositiveInteger(element, "NRC-VALUE", formula.getNrcValue())
@@ -13768,6 +13780,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(part, DiagnosticEnvConditionFormula):
                     child_element = ET.SubElement(parts_tag, "DIAGNOSTIC-ENV-CONDITION-FORMULA")
                     self.writeDiagnosticEnvConditionFormula(child_element, part)
+                elif isinstance(part, DiagnosticEnvDataCondition):
+                    self.writeDiagnosticEnvDataCondition(parts_tag, part)
                 else:
                     self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % type(part).__name__)
 

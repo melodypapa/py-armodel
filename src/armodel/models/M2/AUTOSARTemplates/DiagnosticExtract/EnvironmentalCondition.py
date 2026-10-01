@@ -6,7 +6,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
 
 
 class DiagnosticLogicalOperatorEnum(AREnum):
@@ -273,7 +273,63 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
 
 
 class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
-    pass
+    """
+    A DiagnosticEnvDataCondition is an atomic condition that compares the current value of the referenced DiagnosticDataElement with a constant value defined by the ValueSpecification. All compareTypes are supported.
+
+    [constr_1802] Existence of DiagnosticEnvDataCondition.compareValue: For each DiagnosticEnvDataCondition, that attribute compareValue shall exist at the time when the DEXT is complete.
+
+    [constr_1803] Existence of DiagnosticEnvDataCondition.dataElement: For each DiagnosticEnvDataCondition, that attribute dataElement shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnvDataCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.41, p.84
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompareValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompareValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElementRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents a fixed compare value taken to evaluate the compare condition.
+        self.compareValue: Optional[ValueSpecification] = None
+
+        # This reference represents the related diagnostic data element.
+        self.dataElementRef: Optional[RefType] = None
+
+    def getCompareValue(self) -> Optional[ValueSpecification]:
+        """
+        This attribute represents a fixed compare value taken to evaluate the compare condition.
+        """
+        return self.compareValue
+
+    def setCompareValue(self, value: Optional[ValueSpecification]):
+        """
+        This attribute represents a fixed compare value taken to evaluate the compare condition.
+
+        A None value is a no-op and does not overwrite an existing compareValue.
+        """
+        if value is not None:
+            self.compareValue = value
+        return self
+
+    def getDataElementRef(self) -> Optional[RefType]:
+        """
+        This reference represents the related diagnostic data element.
+        """
+        return self.dataElementRef
+
+    def setDataElementRef(self, value: Optional[RefType]):
+        """
+        This reference represents the related diagnostic data element.
+
+        A None value is a no-op and does not overwrite an existing dataElementRef.
+        """
+        if value is not None:
+            self.dataElementRef = value
+        return self
 
 
 class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
@@ -282,3 +338,6 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
 
 class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     pass
+
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification  # noqa: E402

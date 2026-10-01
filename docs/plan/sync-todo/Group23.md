@@ -987,15 +987,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEnvDataCondition` — DiagnosticEnvCompareCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.41, p.84
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.41 (md L2377-2391); concrete Class; Base most-derived = `DiagnosticEnvCompareCondition`
+    (stub base already correct); attrs in displayed order `compareValue` (ValueSpecification 0..1 aggr →
+    `Optional[ValueSpecification]` + set/get, shared getChild/setChildValueSpecification dispatch; XSD choice has 12
+    alternatives, APPLICATION-ASSOC-MAP-VALUE-SPECIFICATION not modeled — report-only Rule 0001.10), `dataElement`
+    (DiagnosticDataElement 0..1 ref → `dataElementRef: Optional[RefType]`, DATA-ELEMENT-REF); constr_1802 + constr_1803
+    appended to class docstring; not VP-capable (compareValue carries vh.variationPointApplicable="false" — no
+    VARIATION-POINT in the XSD group, Rule 0020); ValueSpecification imported bottom-of-module (Rule 0001.8
+    cycle-breaker). XSD formula PARTS dispatch WIRED: DIAGNOSTIC-ENV-DATA-CONDITION branch in
+    readDiagnosticEnvConditionFormula + writeDiagnosticEnvConditionFormula PARTS loop (dispatch point was clear).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (62 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py, tests/test_armodel/parser/test_diagnostic_env_data_condition.py, tests/test_armodel/writer/test_writer_diagnostic_env_data_condition.py + 6 passed/0 failed neighbor env-condition round-trip tests); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticEnvDataElementCondition` — DiagnosticEnvCompareCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.42, p.85
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
