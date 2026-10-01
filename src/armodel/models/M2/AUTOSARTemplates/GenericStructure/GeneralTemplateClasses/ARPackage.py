@@ -1668,6 +1668,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(verification)
         return self.getElement(short_name, DiagnosticVerifyCertificateUnidirectional)
 
+    def createDiagnosticComControl(self, short_name: str) -> DiagnosticComControl:
+        """
+        Creates a new DiagnosticComControl with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticComControl represents an instance of the "Communication Control" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticComControl
+
+        Returns:
+            The newly created or existing DiagnosticComControl instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticComControl):
+            com_control = DiagnosticComControl(self, short_name)
+            self.addElement(com_control)
+        return self.getElement(short_name, DiagnosticComControl)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -3043,7 +3061,57 @@ class DiagnosticClearDiagnosticInformation(ARElement):
 
 
 class DiagnosticComControl(ARElement):
-    pass
+    """This represents an instance of the "Communication Control" diagnostic service."""
+
+    # DiagnosticComControl method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.64, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComControlClass           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComControlClass           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCustomSubFunctionNumber   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomSubFunctionNumber   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticComControl in the given context.
+        self.comControlClass: Optional[RefType] = None
+
+        # This attribute shall be used to define a custom sub-function number if none of the standardized values of category shall be used.
+        self.customSubFunctionNumber: Optional[PositiveInteger] = None
+
+    def getComControlClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticComControl in the given context.
+        """
+        return self.comControlClass
+
+    def setComControlClass(self, value: Optional[RefType]) -> DiagnosticComControl:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticComControl in the given context.
+
+        A None value is a no-op and does not overwrite an existing comControlClass.
+        """
+        if value is not None:
+            self.comControlClass = value
+        return self
+
+    def getCustomSubFunctionNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute shall be used to define a custom sub-function number if none of the standardized values of category shall be used.
+        """
+        return self.customSubFunctionNumber
+
+    def setCustomSubFunctionNumber(self, value: Optional[PositiveInteger]) -> DiagnosticComControl:
+        """
+        This attribute shall be used to define a custom sub-function number if none of the standardized values of category shall be used.
+
+        A None value is a no-op and does not overwrite an existing customSubFunctionNumber.
+        """
+        if value is not None:
+            self.customSubFunctionNumber = value
+        return self
 
 
 class DiagnosticCondition(ARElement, ABC):

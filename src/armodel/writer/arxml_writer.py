@@ -384,6 +384,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthTransmitCertificate,
+    DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
@@ -13750,6 +13751,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", ecu_reset.getCustomSubFunctionNumber())
         self.setChildElementOptionalRefType(child_element, "ECU-RESET-CLASS-REF", ecu_reset.getEcuResetClass())
 
+    def writeDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
+        self.logger.debug("Write DiagnosticComControl %s" % com_control.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL")
+        self.writeIdentifiable(child_element, com_control)
+        self.setChildElementOptionalRefType(child_element, "COM-CONTROL-CLASS-REF", com_control.getComControlClass())
+        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", com_control.getCustomSubFunctionNumber())
+
     def writeDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
         self.logger.debug("Write DiagnosticEcuResetClass %s" % ecu_reset_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET-CLASS")
@@ -14956,6 +14964,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthTransmitCertificate(element, ar_element)
         elif isinstance(ar_element, DiagnosticDeAuthentication):
             self.writeDiagnosticDeAuthentication(element, ar_element)
+        elif isinstance(ar_element, DiagnosticComControl):
+            self.writeDiagnosticComControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuReset):
             self.writeDiagnosticEcuReset(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuResetClass):

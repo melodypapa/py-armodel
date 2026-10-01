@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthRole,
     DiagnosticAuthTransmitCertificate,
+    DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticCustomServiceInstance,
     DiagnosticDataIdentifier,
@@ -2901,3 +2902,90 @@ class TestDiagnosticEcuReset:
 
         duplicate = package.createDiagnosticEcuReset("EcuReset1")
         assert duplicate is ecu_reset  # duplicate short name returns the existing element
+
+
+class TestDiagnosticComControl:
+    """
+    Test class for DiagnosticComControl functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.64, p.108
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Communication Control" diagnostic service.'
+
+    def _make_obj(self) -> DiagnosticComControl:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticComControl(ar_root, "TestComControl")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticComControl instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestComControl"
+        assert obj.getComControlClass() is None
+        assert obj.getCustomSubFunctionNumber() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticComControl.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticComControl.__init__.__doc__ is None
+
+    def test_get_set_com_control_class(self):
+        """
+        Round-trips the comControlClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-COM-CONTROL-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticCommunicationControls/ComControlClass")
+        result = obj.setComControlClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getComControlClass() is ref
+        assert obj.getComControlClass().getValue() == "/AUTOSAR/DiagnosticCommunicationControls/ComControlClass"
+        assert obj.getComControlClass().getDest() == "DIAGNOSTIC-COM-CONTROL-CLASS"
+
+        result = obj.setComControlClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getComControlClass() is ref  # None is a no-op
+
+    def test_get_set_custom_sub_function_number(self):
+        """
+        Round-trips customSubFunctionNumber; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("5")
+        result = obj.setCustomSubFunctionNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getCustomSubFunctionNumber() is value
+        assert obj.getCustomSubFunctionNumber().getValue() == 5
+
+        obj.setCustomSubFunctionNumber(None)
+        assert obj.getCustomSubFunctionNumber() is value  # None is a no-op
+
+    def test_create_diagnostic_com_control(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticCommunicationControls")
+        com_control = package.createDiagnosticComControl("ComControl1")
+
+        assert com_control is not None
+        assert isinstance(com_control, DiagnosticComControl)
+        assert com_control.getShortName() == "ComControl1"
+        assert package.getElement("ComControl1", DiagnosticComControl) is com_control
+
+        duplicate = package.createDiagnosticComControl("ComControl1")
+        assert duplicate is com_control  # duplicate short name returns the existing element
