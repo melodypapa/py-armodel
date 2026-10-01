@@ -762,6 +762,7 @@ class BswInterruptEntity(BswModuleEntity):
 
     # BswInterruptEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.8, p.75
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInterruptCategory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

@@ -116,7 +116,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12041 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: concrete, Table 5.28 p.91, Base most-derived = `Identifiable` (already correct), VP-capable mixin kept (Rule 0020 — VARIATION-POINT in BSW-INTERNAL-TRIGGERING-POINT group L10773), sole attr swImplPolicy (SwImplPolicyEnum, 0..1, attr) typed `Optional[SwImplPolicyEnum]` with get/set + None no-op, reader/writer cover SW-IMPL-POLICY + VARIATION-POINT (XSD order), checklist 3/3 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `BswInterruptEntity` — BswModuleEntity — source TBC (locate table at Step 1)
+- [x] `BswInterruptEntity` — BswModuleEntity — R23-11 markdown · Table 5.8 (CP_TPS_BSWModuleDescriptionTemplate), p.75 — **finished, stamped `# Spec verified: R23-11`** (sync commit pending)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.8, p.75 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Concrete Class; Base most-derived = `BswModuleEntity` (already correct in src). Two attrs,
@@ -135,7 +135,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12043 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12043 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: concrete, Table 5.8 p.75, Base most-derived = `BswModuleEntity` (already correct), no own VARIATION-POINT (capability inherited, Rule 0020), two 0..1 attrs — interruptCategory (BswInterruptCategory, tokens CAT-1/CAT-2) + interruptSource (String) — typed get/set with None no-op, reader/writer now spec-typed (generic ARLiteral read + unmatched setBswInterruptEntity writer fixed at Step 6), checklist 5/5 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `BswModeSwitchAckRequest` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
