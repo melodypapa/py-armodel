@@ -539,6 +539,17 @@ No deviations — the single Table 4.27 attribute (`customServiceClass` Diagnost
 
 No deviations — the single Table 4.28 attribute (`customServiceId` PositiveInteger 0..1 attr) modeled as `customServiceId: Optional[PositiveInteger]` + get/set pair (None no-op, chaining), field/accessor types all `Optional[PositiveInteger]`; Base most-derived = `DiagnosticServiceClass` (stub base already correct, kept); class Note verbatim in the docstring with constr_1330 appended; not VP-capable (XSD group l.33976 carries no VARIATION-POINT); XSD DIAGNOSTIC-SERVICE-CLASS base group carries only an `atp.Status="removed"` ACCESS-PERMISSION-REF — deprecated, not modeled (no readDiagnosticServiceClass helper needed); ARPackage element dispatch per the 5-place pattern (createDiagnosticCustomServiceClass factory + DIAGNOSTIC-CUSTOM-SERVICE-CLASS readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests); wire: plain CUSTOM-SERVICE-ID text via getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger. This sync also resolves the DiagnosticCustomServiceInstance report-only note (1) — the ref target is now fully synced.
 
+## `DiagnosticEnvSwcModeElement`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 89  | **table:** Table 4.45
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `modeIRef` | `Optional[RefType]` | `mode` | `ModeDeclaration` (InstanceRef implemented by `PModeInSystemInstanceRef`) | iref | class not yet implemented (`PModeInSystemInstanceRef`; XSD complexType l.87429, group l.87359) — placeholder `RefType` per Rule 0001.10; `MODE-IREF` reader/writer deferred until the child class syncs (Referrable identity SHORT-NAME/AR-OBJECT attrs read/written now) |
+
+The single Table 4.45 attribute otherwise modeled verbatim: class Note in the docstring with constr_1805 appended; Base most-derived = `DiagnosticEnvModeElement` (stamped abstract; XSD complexType sequence AR-OBJECT + REFERRABLE + DIAGNOSTIC-ENV-MODE-ELEMENT + own group); concrete class (no instantiation guard). NOT VP-capable (the XSD group carries no VARIATION-POINT element, Rule 0020). MODE-ELEMENTS choice dispatch WIRED on the DiagnosticEnvironmentalCondition aggregator (this resolves the stamped class's "Pending 16.4" MODE-ELEMENTS reader/writer gap — its getModeElements/addModeElement checklist rows now carry reader/writer coverage): DIAGNOSTIC-ENV-SWC-MODE-ELEMENT branch in readDiagnosticEnvironmentalCondition (construct-with-short-name + readReferrable + addModeElement) + writeDiagnosticEnvSwcModeElement helper in the writeDiagnosticEnvironmentalCondition MODE-ELEMENTS loop (wrapper emitted only when non-empty) + reader/writer dispatch tests. The sibling alternative DIAGNOSTIC-ENV-BSW-MODE-ELEMENT still warns notImplemented until its own sync.
+
 ## `DiagnosticEnvModeCondition`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 89  | **table:** Table 4.43
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`

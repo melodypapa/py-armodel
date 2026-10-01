@@ -224,8 +224,8 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getModeElements   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  (XSD MODE-ELEMENTS choice alternatives are the concrete subclasses — not in src, Pending 16.4)
-    # [x] addModeElement    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  (ditto)
+    # [x] getModeElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (MODE-ELEMENTS choice dispatch; DIAGNOSTIC-ENV-BSW-MODE-ELEMENT alternative pending its own sync)
+    # [x] addModeElement    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (ditto)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -454,7 +454,40 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
 
 
 class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
-    pass
+    """
+    This meta-class represents the ability to refer to a ModeDeclaration in a concrete System context.
+
+    [constr_1805] Existence of DiagnosticEnvSwcModeElement.mode: For each DiagnosticEnvSwcModeElement, that attribute mode shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnvSwcModeElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.45, p.89
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (deferred: PModeInSystemInstanceRef not yet implemented — Rule 0001.10 placeholder RefType)
+    # [x] setModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (ditto)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef
+        self.modeIRef: Optional[RefType] = None
+
+    def getModeIRef(self) -> Optional[RefType]:
+        """
+        This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef
+        """
+        return self.modeIRef
+
+    def setModeIRef(self, value: Optional[RefType]):
+        """
+        This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing modeIRef.
+        """
+        if value is not None:
+            self.modeIRef = value
+        return self
 
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification  # noqa: E402

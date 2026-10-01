@@ -389,6 +389,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvDataElementCondition,
     DiagnosticEnvConditionFormula,
     DiagnosticEnvModeCondition,
+    DiagnosticEnvSwcModeElement,
     DiagnosticEnvironmentalCondition,
     DiagnosticLogicalOperatorEnum,
 )
@@ -10633,6 +10634,21 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticEnvironmentalCondition <%s>" % condition.getShortName())
         self.readIdentifiable(element, condition)
         condition.setFormula(self.getDiagnosticEnvConditionFormula(element, "FORMULA"))
+        mode_elements_element = self.find(element, "MODE-ELEMENTS")
+        if mode_elements_element is not None:
+            for child_element in mode_elements_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT":
+                    short_name_element = self.find(child_element, "SHORT-NAME")
+                    short_name = short_name_element.text if short_name_element is not None else "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT"
+                    mode_element = DiagnosticEnvSwcModeElement(condition, short_name)
+                    self.readDiagnosticEnvSwcModeElement(child_element, mode_element)
+                    condition.addModeElement(mode_element)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvironmentalCondition modeElement <%s>" % tag_name)
+
+    def readDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
+        self.readReferrable(element, mode_element)
 
     def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Read DiagnosticAccessPermission <%s>" % permission.getShortName())

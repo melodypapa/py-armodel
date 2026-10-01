@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvironmentalCondition,
     DiagnosticEnvModeCondition,
     DiagnosticEnvModeElement,
+    DiagnosticEnvSwcModeElement,
     DiagnosticLogicalOperatorEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -585,3 +586,61 @@ class Test_DiagnosticEnvModeCondition:
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
         assert inspect.cleandoc(DiagnosticEnvModeCondition.getModeElementRef.__doc__) == self.MODE_ELEMENT_NOTE
         assert inspect.cleandoc(DiagnosticEnvModeCondition.setModeElementRef.__doc__) == (self.MODE_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing modeElementRef.")
+
+
+class Test_DiagnosticEnvSwcModeElement:
+    """Test cases for DiagnosticEnvSwcModeElement (Table 4.45, p.89)."""
+
+    CLASS_DOCSTRING = (
+        "This meta-class represents the ability to refer to a ModeDeclaration in a concrete System context.\n"
+        "\n"
+        "[constr_1805] Existence of DiagnosticEnvSwcModeElement.mode: For each DiagnosticEnvSwcModeElement, that attribute mode shall exist at the time when the DEXT is complete."
+    )
+    MODE_NOTE = "This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef"
+
+    def _create(self):
+        document = AUTOSAR.getInstance()
+        package = document.createARPackage("EnvConds")
+        return package.createDiagnosticEnvironmentalCondition("Env1")
+
+    def test_is_concrete(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        assert mode_element is not None
+
+    def test_is_diagnostic_env_mode_element_subclass(self):
+        assert issubclass(DiagnosticEnvSwcModeElement, DiagnosticEnvModeElement)
+        assert issubclass(DiagnosticEnvSwcModeElement, Referrable)
+        assert issubclass(DiagnosticEnvSwcModeElement, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvSwcModeElement.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvSwcModeElement.__init__.__doc__ is None
+
+    def test_short_name_and_parent(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        assert mode_element.getShortName() == "SwcMode1"
+        assert mode_element.getParent() is env_condition
+
+    def test_defaults(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        assert mode_element.getModeIRef() is None
+
+    def test_get_set_mode_iref(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        ref = RefType()
+        ref.setDest("MODE-DECLARATION")
+        ref.setValue("/AUTOSAR/ModeDcls/MDG1/Normal")
+        assert mode_element.setModeIRef(ref) is mode_element
+        assert mode_element.getModeIRef() is ref
+        mode_element.setModeIRef(None)
+        assert mode_element.getModeIRef() is ref
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvSwcModeElement.getModeIRef.__doc__) == self.MODE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvSwcModeElement.setModeIRef.__doc__) == (self.MODE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing modeIRef.")

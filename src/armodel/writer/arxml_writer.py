@@ -282,6 +282,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvDataCondition,
     DiagnosticEnvDataElementCondition,
     DiagnosticEnvModeCondition,
+    DiagnosticEnvSwcModeElement,
     DiagnosticEnvironmentalCondition,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -13811,6 +13812,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         if condition.getFormula() is not None:
             formula_element = ET.SubElement(child_element, "FORMULA")
             self.writeDiagnosticEnvConditionFormula(formula_element, condition.getFormula())
+        if len(condition.getModeElements()) > 0:
+            mode_elements_tag = ET.SubElement(child_element, "MODE-ELEMENTS")
+            for mode_element in condition.getModeElements():
+                if isinstance(mode_element, DiagnosticEnvSwcModeElement):
+                    self.writeDiagnosticEnvSwcModeElement(mode_elements_tag, mode_element)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvironmentalCondition modeElement <%s>" % type(mode_element).__name__)
+
+    def writeDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
+        self.logger.debug("Write DiagnosticEnvSwcModeElement")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT")
+        self.writeReferrable(child_element, mode_element)
 
     def writeDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Write DiagnosticAccessPermission %s" % permission.getShortName())
