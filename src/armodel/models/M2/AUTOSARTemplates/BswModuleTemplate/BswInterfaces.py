@@ -516,6 +516,7 @@ class BswEntryRelationshipEnum(AREnum):
 
     # BswEntryRelationshipEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.20, p.52
+    # Spec verified: R23-11
     # (no methods)
 
     # Describes that the BswModuleEntry referenced as "to" needs to have the same signature as the "abstract" BswModuleEntry referenced as "from". Tags: atp.EnumerationLiteralIndex=0
