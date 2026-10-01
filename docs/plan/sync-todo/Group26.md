@@ -105,7 +105,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (67 passed / 0 failed test_ARPackage.py, test_diagnostic_mapping.py parser+writer); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (67 passed / 0 failed test_ARPackage.py, test_diagnostic_mapping.py parser+writer); 9b deferred to batch confirmation (user instruction); sync commit `fd3e54825`
   - note (Step 1): abstract Class; Base most-derived = `ARElement` (kept `ABC`); 2 attrs `providerSoftwareCluster`/`requesterSoftwareCluster` (CpSoftwareCluster `0..1` ref → `Optional[RefType]`, Ref suffix); XSD group DIAGNOSTIC-MAPPING l.39242
   - note (Step 6): reusable `readDiagnosticMapping`/`writeDiagnosticMapping` helpers added (abstract XML-bearing base, Rule 0001.7); per-subclass ARPackage dispatch + readXxx/writeXxx branches deferred to each subclass row
 
