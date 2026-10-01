@@ -178,6 +178,7 @@ __all__ = [
     "DiagnosticEventToOperationCycleMapping",
     "DiagnosticEventToEnableConditionGroupMapping",
     "DiagnosticEventToDebounceAlgorithmMapping",
+    "DiagnosticEnableConditionPortMapping",
     "DiagnosticEventPortMapping",
     "DiagnosticSwMapping",
     "DiagnosticEvent",
@@ -2141,6 +2142,78 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(service_data_mapping)
         return self.getElement(short_name, DiagnosticServiceDataMapping)
 
+    def createDiagnosticStorageConditionPortMapping(self, short_name: str) -> DiagnosticStorageConditionPortMapping:
+        """
+        Creates a new DiagnosticStorageConditionPortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticStorageConditionPortMapping: Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorageCondition is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticStorageConditionPortMapping
+
+        Returns:
+            The newly created or existing DiagnosticStorageConditionPortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticStorageConditionPortMapping):
+            element = DiagnosticStorageConditionPortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticStorageConditionPortMapping)
+
+    def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
+        """
+        Creates a new DiagnosticEnableConditionPortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEnableConditionPortMapping: Defines to which SWC service ports the DiagnosticEnableCondition is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticEnableConditionPortMapping
+
+        Returns:
+            The newly created or existing DiagnosticEnableConditionPortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEnableConditionPortMapping):
+            element = DiagnosticEnableConditionPortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEnableConditionPortMapping)
+
+    def createDiagnosticOperationCyclePortMapping(self, short_name: str) -> DiagnosticOperationCyclePortMapping:
+        """
+        Creates a new DiagnosticOperationCyclePortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticOperationCyclePortMapping: Defines to which SWC service ports the DiagnosticOperationCycle is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticOperationCyclePortMapping
+
+        Returns:
+            The newly created or existing DiagnosticOperationCyclePortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticOperationCyclePortMapping):
+            element = DiagnosticOperationCyclePortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticOperationCyclePortMapping)
+
+    def createDiagnosticEventPortMapping(self, short_name: str) -> DiagnosticEventPortMapping:
+        """
+        Creates a new DiagnosticEventPortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventPortMapping: Defines to which SWC service ports the DiagnosticEvent is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventPortMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventPortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventPortMapping):
+            element = DiagnosticEventPortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventPortMapping)
+
     def createDiagnosticEventToTroubleCodeUdsMapping(self, short_name: str) -> DiagnosticEventToTroubleCodeUdsMapping:
         """
         Creates a new DiagnosticEventToTroubleCodeUdsMapping with the given short name,
@@ -3696,8 +3769,168 @@ class DiagnosticSwMapping(DiagnosticMapping, ABC):
         super().__init__(parent, short_name)
 
 
+class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
+    """Defines to which SWC service ports the DiagnosticEnableCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEnableConditionPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.26, p.252
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnableConditionRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableConditionRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the EnableCondition which is mapped to a SWC service port.
+        self.enableConditionRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can be used in early stages of the development in order to identify the SwcServiceDependency without a full System Context.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getEnableConditionRef(self) -> Optional[RefType]:
+        """
+        Reference to the EnableCondition which is mapped to a SWC service port.
+        """
+        return self.enableConditionRef
+
+    def setEnableConditionRef(self, value: Optional[RefType]) -> DiagnosticEnableConditionPortMapping:
+        """
+        Reference to the EnableCondition which is mapped to a SWC service port.
+        A None value is a no-op and does not overwrite an existing enableConditionRef.
+        """
+        if value is not None:
+            self.enableConditionRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can be used in early stages of the development in order to identify the SwcServiceDependency without a full System Context.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticEnableConditionPortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can be used in early stages of the development in order to identify the SwcServiceDependency without a full System Context.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticEnableConditionPortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
+
+
 class DiagnosticEventPortMapping(DiagnosticSwMapping):
-    pass
+    """Defines to which SWC service ports the DiagnosticEvent is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.24, p.249
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswServiceDependencyRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswServiceDependencyRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a BswServiceDependency that links ServiceNeeds to BswModuleEntries.
+        self.bswServiceDependencyRef: Optional[RefType] = None
+
+        # Reference to the DiagnosticEvent that is assigned to SWC service ports.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getBswServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a BswServiceDependency that links ServiceNeeds to BswModuleEntries.
+        """
+        return self.bswServiceDependencyRef
+
+    def setBswServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Reference to a BswServiceDependency that links ServiceNeeds to BswModuleEntries.
+        A None value is a no-op and does not overwrite an existing bswServiceDependencyRef.
+        """
+        if value is not None:
+            self.bswServiceDependencyRef = value
+        return self
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to the DiagnosticEvent that is assigned to SWC service ports.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Reference to the DiagnosticEvent that is assigned to SWC service ports.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
@@ -4229,7 +4462,75 @@ class DiagnosticOperationCycle(ARElement):
 
 
 class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
-    pass
+    """Defines to which SWC service ports the DiagnosticOperationCycle is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticOperationCyclePortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.25, p.250
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationCycleRef                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationCycleRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the DiagnosticOperationCycle that is assigned to SWC service ports.
+        self.operationCycleRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getOperationCycleRef(self) -> Optional[RefType]:
+        """
+        Reference to the DiagnosticOperationCycle that is assigned to SWC service ports.
+        """
+        return self.operationCycleRef
+
+    def setOperationCycleRef(self, value: Optional[RefType]) -> DiagnosticOperationCyclePortMapping:
+        """
+        Reference to the DiagnosticOperationCycle that is assigned to SWC service ports.
+        A None value is a no-op and does not overwrite an existing operationCycleRef.
+        """
+        if value is not None:
+            self.operationCycleRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticOperationCyclePortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticOperationCyclePortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticParameterIdentifier(ARElement):
@@ -4751,7 +5052,75 @@ class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
 
 
 class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
-    pass
+    """Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorageCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticStorageConditionPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.27, p.253
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticStorageConditionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticStorageConditionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageConditionNeeds.
+        self.diagnosticStorageConditionRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getDiagnosticStorageConditionRef(self) -> Optional[RefType]:
+        """
+        Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageConditionNeeds.
+        """
+        return self.diagnosticStorageConditionRef
+
+    def setDiagnosticStorageConditionRef(self, value: Optional[RefType]) -> DiagnosticStorageConditionPortMapping:
+        """
+        Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageConditionNeeds.
+        A None value is a no-op and does not overwrite an existing diagnosticStorageConditionRef.
+        """
+        if value is not None:
+            self.diagnosticStorageConditionRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticStorageConditionPortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticStorageConditionPortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticTestResult(ARElement):

@@ -27,6 +27,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticEnableConditionPortMapping,
+    DiagnosticEventPortMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -37,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
     DiagnosticMapping,
+    DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
@@ -44,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticServiceDataMapping,
     DiagnosticServiceMappingDiagTarget,
     DiagnosticSessionControl,
+    DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
     DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
@@ -4031,4 +4035,304 @@ class TestDiagnosticEventToTroubleCodeUdsMapping:
         assert package.getElement("M1", DiagnosticEventToTroubleCodeUdsMapping) is element
 
         duplicate = package.createDiagnosticEventToTroubleCodeUdsMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticEventPortMapping:
+    """
+    Test class for DiagnosticEventPortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.24, p.249
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports the DiagnosticEvent is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventPortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventPortMapping(ar_root, "TestEventPortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventPortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventPortMapping"
+        assert obj.getBswServiceDependencyRef() is None
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventPortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventPortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setBswServiceDependencyRef(RefType().setValue("/AUTOSAR/BswServiceDependency1"))
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getBswServiceDependencyRef() is not None
+        assert obj.getDiagnosticEventRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setBswServiceDependencyRef(None)
+        obj.setDiagnosticEventRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getBswServiceDependencyRef().getValue() == "/AUTOSAR/BswServiceDependency1"  # None is a no-op
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticEventPortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventPortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventPortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventPortMapping) is element
+
+        duplicate = package.createDiagnosticEventPortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticOperationCyclePortMapping:
+    """
+    Test class for DiagnosticOperationCyclePortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.25, p.250
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports the DiagnosticOperationCycle is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticOperationCyclePortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticOperationCyclePortMapping(ar_root, "TestOperationCyclePortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticOperationCyclePortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestOperationCyclePortMapping"
+        assert obj.getOperationCycleRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticOperationCyclePortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticOperationCyclePortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setOperationCycleRef(RefType().setValue("/AUTOSAR/OperationCycle1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getOperationCycleRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setOperationCycleRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getOperationCycleRef().getValue() == "/AUTOSAR/OperationCycle1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticOperationCyclePortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticOperationCyclePortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticOperationCyclePortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticOperationCyclePortMapping) is element
+
+        duplicate = package.createDiagnosticOperationCyclePortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEnableConditionPortMapping:
+    """
+    Test class for DiagnosticEnableConditionPortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.26, p.252
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports the DiagnosticEnableCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEnableConditionPortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEnableConditionPortMapping(ar_root, "TestEnableConditionPortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEnableConditionPortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEnableConditionPortMapping"
+        assert obj.getEnableConditionRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEnableConditionPortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEnableConditionPortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setEnableConditionRef(RefType().setValue("/AUTOSAR/EnableCondition1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getEnableConditionRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setEnableConditionRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getEnableConditionRef().getValue() == "/AUTOSAR/EnableCondition1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticEnableConditionPortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEnableConditionPortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEnableConditionPortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEnableConditionPortMapping) is element
+
+        duplicate = package.createDiagnosticEnableConditionPortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticStorageConditionPortMapping:
+    """
+    Test class for DiagnosticStorageConditionPortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.27, p.253
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorageCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticStorageConditionPortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticStorageConditionPortMapping(ar_root, "TestStorageConditionPortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticStorageConditionPortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestStorageConditionPortMapping"
+        assert obj.getDiagnosticStorageConditionRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticStorageConditionPortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStorageConditionPortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticStorageConditionRef(RefType().setValue("/AUTOSAR/DiagnosticStorageCondition1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getDiagnosticStorageConditionRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setDiagnosticStorageConditionRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getDiagnosticStorageConditionRef().getValue() == "/AUTOSAR/DiagnosticStorageCondition1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticStorageConditionPortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticStorageConditionPortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticStorageConditionPortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticStorageConditionPortMapping) is element
+
+        duplicate = package.createDiagnosticStorageConditionPortMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element

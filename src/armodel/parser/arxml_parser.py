@@ -540,6 +540,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
+    DiagnosticEventPortMapping,
+    DiagnosticOperationCyclePortMapping,
+    DiagnosticEnableConditionPortMapping,
+    DiagnosticStorageConditionPortMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -10523,6 +10527,31 @@ class ARXMLParser(AbstractARXMLParser):
             service_data_mapping.setParameterElementAccess(pea)
         service_data_mapping.setDiagnosticParameterRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-PARAMETER-REF"))
 
+    def readDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setBswServiceDependencyRef(self.getChildElementOptionalRefType(element, "BSW-SERVICE-DEPENDENCY-REF"))
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setSwcFlatServiceDependencyRef(self.getChildElementOptionalRefType(element, "SWC-FLAT-SERVICE-DEPENDENCY-REF"))
+        mapping.setSwcServiceDependencyInSystemIRef(self.getChildElementOptionalRefType(element, "SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF"))
+
+    def readDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setOperationCycleRef(self.getChildElementOptionalRefType(element, "OPERATION-CYCLE-REF"))
+        mapping.setSwcFlatServiceDependencyRef(self.getChildElementOptionalRefType(element, "SWC-FLAT-SERVICE-DEPENDENCY-REF"))
+        mapping.setSwcServiceDependencyInSystemIRef(self.getChildElementOptionalRefType(element, "SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF"))
+
+    def readDiagnosticEnableConditionPortMapping(self, element: ET.Element, mapping: DiagnosticEnableConditionPortMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setEnableConditionRef(self.getChildElementOptionalRefType(element, "ENABLE-CONDITION-REF"))
+        mapping.setSwcFlatServiceDependencyRef(self.getChildElementOptionalRefType(element, "SWC-FLAT-SERVICE-DEPENDENCY-REF"))
+        mapping.setSwcServiceDependencyInSystemIRef(self.getChildElementOptionalRefType(element, "SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF"))
+
+    def readDiagnosticStorageConditionPortMapping(self, element: ET.Element, mapping: DiagnosticStorageConditionPortMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticStorageConditionRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-STORAGE-CONDITION-REF"))
+        mapping.setSwcFlatServiceDependencyRef(self.getChildElementOptionalRefType(element, "SWC-FLAT-SERVICE-DEPENDENCY-REF"))
+        mapping.setSwcServiceDependencyInSystemIRef(self.getChildElementOptionalRefType(element, "SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF"))
+
     def readDiagnosticEventToDebounceAlgorithmMapping(self, element: ET.Element, mapping: DiagnosticEventToDebounceAlgorithmMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setDebounceAlgorithmRef(self.getChildElementOptionalRefType(element, "DEBOUNCE-ALGORITHM-REF"))
@@ -15565,6 +15594,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
                 service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
                 self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
+                mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))
+                self.readDiagnosticEventPortMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
+                mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))
+                self.readDiagnosticOperationCyclePortMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
+                mapping = parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element))
+                self.readDiagnosticEnableConditionPortMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
+                mapping = parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element))
+                self.readDiagnosticStorageConditionPortMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
                 mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
                 self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)
