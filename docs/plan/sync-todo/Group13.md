@@ -17,7 +17,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `BswApiOptions` — ARObject — source TBC (locate table at Step 1)
+- [x] `BswApiOptions` — ARObject — XSD-only (Step 1: no own table in either corpus; group BSW-API-OPTIONS AUTOSAR_00052.xsd L9379, R4.3.1 00044.xsd L7279) — **finished, stamped `# XSD verified: AUTOSAR_00052.xsd`** (sync commit pending)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): XSD-only class — no table in either corpus (R23-11/R4.3.1 markdown
@@ -37,7 +37,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25 (11997 passed / 0 failed, npm run lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25 (11997 passed / 0 failed, npm run lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01 (XSD-only): group BSW-API-OPTIONS AUTOSAR_00052.xsd L9379 (R4.3.1 00044.xsd L7279 identical), sole attr enableTakeAddress (BOOLEAN, 0..1, `Optional[Boolean]`) with typed get/set, setter None no-op + chaining, abstract guard ARObject+ABC intact (8 concrete subclasses), reader/writer via read/writeBswApiOptions (ENABLE-TAKE-ADDRESS), checklist 3/3 in source order, no deviations remain; `# XSD verified: AUTOSAR_00052.xsd` written after the `# Spec:` line
 
 - [ ] `BswModuleCallPoint` — Referrable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py

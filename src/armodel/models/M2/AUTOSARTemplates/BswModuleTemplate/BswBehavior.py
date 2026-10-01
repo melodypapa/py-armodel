@@ -1558,6 +1558,7 @@ class BswApiOptions(ARObject, ABC):
 
     # BswApiOptions method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswApiOptions, AUTOSAR_00052.xsd line 9379 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEnableTakeAddress         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
