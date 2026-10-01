@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByIdentifier,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRoutine,
+    DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -3764,3 +3765,106 @@ class TestDiagnosticRoutine:
 
         duplicate = package.createDiagnosticRoutine("Routine1")
         assert duplicate is routine  # duplicate short name returns the existing element
+
+
+class TestDiagnosticRoutineControl:
+    """
+    Test class for DiagnosticRoutineControl functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.89, p.125
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Routine Control" diagnostic service.'
+    ROUTINE_NOTE = "This refers to the applicable DiagnosticRoutine."
+    ROUTINE_CONTROL_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticRoutineControl in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticRoutineControl:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRoutineControl(ar_root, "RoutineControl1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRoutineControl instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "RoutineControl1"
+        assert isinstance(obj, ARElement)
+        assert obj.getRoutine() is None
+        assert obj.getRoutineControlClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRoutineControl.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRoutineControl.__init__.__doc__ is None
+
+    def test_get_set_routine(self):
+        """
+        Round-trips the routine reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-ROUTINE")
+        value.setValue("/AUTOSAR/DiagnosticRoutines/Routine1")
+        result = obj.setRoutine(value)
+        assert result is obj  # method chaining
+        assert obj.getRoutine() is value
+        assert obj.getRoutine().getValue() == "/AUTOSAR/DiagnosticRoutines/Routine1"
+
+        obj.setRoutine(None)
+        assert obj.getRoutine() is value  # None is a no-op
+
+    def test_get_set_routine_control_class(self):
+        """
+        Round-trips the routineControlClass reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-ROUTINE-CONTROL-CLASS")
+        value.setValue("/AUTOSAR/DiagnosticRoutineControls/ControlClass1")
+        result = obj.setRoutineControlClass(value)
+        assert result is obj  # method chaining
+        assert obj.getRoutineControlClass() is value
+        assert obj.getRoutineControlClass().getValue() == "/AUTOSAR/DiagnosticRoutineControls/ControlClass1"
+
+        obj.setRoutineControlClass(None)
+        assert obj.getRoutineControlClass() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRoutineControl.getRoutine.__doc__) == self.ROUTINE_NOTE
+        assert inspect.cleandoc(DiagnosticRoutineControl.setRoutine.__doc__) == (self.ROUTINE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing routine.")
+        assert inspect.cleandoc(DiagnosticRoutineControl.getRoutineControlClass.__doc__) == self.ROUTINE_CONTROL_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticRoutineControl.setRoutineControlClass.__doc__) == (
+            self.ROUTINE_CONTROL_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing routineControlClass."
+        )
+
+    def test_create_diagnostic_routine_control(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticRoutineControls")
+        routine_control = package.createDiagnosticRoutineControl("RoutineControl1")
+
+        assert routine_control is not None
+        assert isinstance(routine_control, DiagnosticRoutineControl)
+        assert routine_control.getShortName() == "RoutineControl1"
+        assert package.getElement("RoutineControl1", DiagnosticRoutineControl) is routine_control
+
+        duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
+        assert duplicate is routine_control  # duplicate short name returns the existing element

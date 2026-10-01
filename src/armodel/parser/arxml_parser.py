@@ -545,6 +545,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByIdentifier,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRoutine,
+    DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -10572,6 +10573,12 @@ class ARXMLParser(AbstractARXMLParser):
             stop = routine.createStop(self.getShortName(stop_element))
             self.readDiagnosticStopRoutine(stop_element, stop)
 
+    def readDiagnosticRoutineControl(self, element: ET.Element, routine_control: DiagnosticRoutineControl):
+        self.logger.debug("Read DiagnosticRoutineControl <%s>" % routine_control.getShortName())
+        self.readIdentifiable(element, routine_control)
+        routine_control.setRoutineControlClass(self.getChildElementOptionalRefType(element, "ROUTINE-CONTROL-CLASS-REF"))
+        routine_control.setRoutine(self.getChildElementOptionalRefType(element, "ROUTINE-REF"))
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -15716,6 +15723,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ROUTINE":
                 routine = parent.createDiagnosticRoutine(self.getShortName(child_element))
                 self.readDiagnosticRoutine(child_element, routine)
+            elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL":
+                routine_control = parent.createDiagnosticRoutineControl(self.getShortName(child_element))
+                self.readDiagnosticRoutineControl(child_element, routine_control)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)

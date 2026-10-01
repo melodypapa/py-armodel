@@ -1982,6 +1982,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(routine)
         return self.getElement(short_name, DiagnosticRoutine)
 
+    def createDiagnosticRoutineControl(self, short_name: str) -> DiagnosticRoutineControl:
+        """
+        Creates a new DiagnosticRoutineControl with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRoutineControl represents an instance of the "Routine Control"
+        diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRoutineControl
+
+        Returns:
+            The newly created or existing DiagnosticRoutineControl instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticRoutineControl):
+            routine_control = DiagnosticRoutineControl(self, short_name)
+            self.addElement(routine_control)
+        return self.getElement(short_name, DiagnosticRoutineControl)
+
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
         Creates a new Diagnostic Service Table with the given short name,
@@ -4426,7 +4445,57 @@ class DiagnosticRoutine(ARElement):
 
 
 class DiagnosticRoutineControl(ARElement):
-    pass
+    """This represents an instance of the "Routine Control" diagnostic service."""
+
+    # DiagnosticRoutineControl method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.89, p.125
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRoutine              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutine              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutineControlClass  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutineControlClass  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This refers to the applicable DiagnosticRoutine.
+        self.routine: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRoutineControl in the given context.
+        self.routineControlClass: Optional[RefType] = None
+
+    def getRoutine(self) -> Optional[RefType]:
+        """
+        This refers to the applicable DiagnosticRoutine.
+        """
+        return self.routine
+
+    def setRoutine(self, value: Optional[RefType]) -> DiagnosticRoutineControl:
+        """
+        This refers to the applicable DiagnosticRoutine.
+
+        A None value is a no-op and does not overwrite an existing routine.
+        """
+        if value is not None:
+            self.routine = value
+        return self
+
+    def getRoutineControlClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRoutineControl in the given context.
+        """
+        return self.routineControlClass
+
+    def setRoutineControlClass(self, value: Optional[RefType]) -> DiagnosticRoutineControl:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRoutineControl in the given context.
+
+        A None value is a no-op and does not overwrite an existing routineControlClass.
+        """
+        if value is not None:
+            self.routineControlClass = value
+        return self
 
 
 class DiagnosticSecurityAccess(ARElement):

@@ -605,14 +605,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRoutineControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.89, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.89 body matched by Class row (l.3712, caption above); attrs routine (0..1 ref → Optional[RefType]) and routineControlClass (0..1 ref → Optional[RefType], heal cell-wrap "routineControl Class"/"DiagnosticRoutine ControlClass"); XSD group DIAGNOSTIC-ROUTINE-CONTROL (AUTOSAR_00052.xsd l.42913) XML order ROUTINE-CONTROL-CLASS-REF, ROUTINE-REF — differs from the markdown displayed order (routine first) per Rule 0001.11 (member order = markdown, XML order = XSD); constr_10100 (routine existence at DEXT complete) is a completeness constraint, not a field; Aggregated by ARPackage.element — full 5-place with createDiagnosticRoutineControl factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticRoutineControl` factory (alphabetical after createDiagnosticRoutine) + readARPackageElements DIAGNOSTIC-ROUTINE-CONTROL branch + writeARPackageElement isinstance branch; both refs read via setRoutine/setRoutineControlClass and written via getRoutine/getRoutineControlClass in XSD order.
+  - note (Step 8): no open deviations; routineControlClass references DiagnosticRoutineControlClass (Table 4.90) — synced in this same batch immediately after, per the queued class order.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticRoutineControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.90, p.126
