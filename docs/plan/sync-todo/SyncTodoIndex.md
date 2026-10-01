@@ -629,13 +629,13 @@ Status: **15/15** completed
 
 ## Group13
 
-Status: **0/23** completed
+Status: **3/23** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
-| `BswApiOptions`                         | [ ] Pending* | N/A        |
-| `BswModuleCallPoint`                    | [ ] Pending* | N/A        |
-| `BswDirectCallPoint`                    | [ ] Pending* | N/A        |
+| `BswApiOptions`                         | [x] Done     | 816c64f3d0 |
+| `BswModuleCallPoint`                    | [x] Done     | 879aacf8c4 |
+| `BswDirectCallPoint`                    | [x] Done     | 518ebf6a09 |
 | `BswSynchronousServerCallPoint`         | [ ] Pending* | N/A        |
 | `BswInternalTriggeringPoint`            | [ ] Pending* | N/A        |
 | `BswInterruptEntity`                    | [ ] Pending* | N/A        |

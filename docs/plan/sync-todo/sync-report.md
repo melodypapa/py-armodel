@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 617 | 32.4% |
+| [x] Done | 620 | 32.6% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 228 | 12.0% |
+| [ ] Deferred | 225 | 11.8% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -153,7 +153,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BlueprintPolicy`                                       | [x] Done    | f5f5084e36                               | Group1           |
 | `BooleanValueVariationPoint`                            | [x] Done    | d5c96fd954                               | Group8           |
 | `Br`                                                    | [x] Done    | c2a85e6f8f                               | Group3           |
-| `BswApiOptions`                                         | [ ] Deferred| N/A                                      | Group13          |
+| `BswApiOptions`                                         | [x] Done    | 816c64f3d0                               | Group13          |
 | `BswAsynchronousServerCallPoint`                        | [x] Done    | 80c7276bff                               | Group22          |
 | `BswAsynchronousServerCallResultPoint`                  | [x] Done    | e1150436c3                               | Group22          |
 | `BswAsynchronousServerCallReturnsEvent`                 | [ ] Deferred| N/A                                      | Group13          |
@@ -165,7 +165,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswDataReceivedEvent`                                  | [ ] Deferred| N/A                                      | Group13          |
 | `BswDataReceptionPolicy`                                | [ ] Deferred| 7e3a2541a3                               | Group13          |
 | `BswDataSendPolicy`                                     | [x] Done    | ccacff4a64                               | Group4           |
-| `BswDirectCallPoint`                                    | [ ] Deferred| N/A                                      | Group13          |
+| `BswDirectCallPoint`                                    | [x] Done    | 518ebf6a09                               | Group13          |
 | `BswDistinguishedPartition`                             | [x] Done    | 80d341994f                               | Group22          |
 | `BswEntryKindEnum`                                      | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswEntryRelationship`                                  | [ ] Deferred| 75c6517342                               | Group13          |
@@ -190,7 +190,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswModeSwitchAckRequest`                               | [ ] Deferred| N/A                                      | Group13          |
 | `BswModeSwitchEvent`                                    | [x] Done    | af5498712f                               | Group22          |
 | `BswModeSwitchedAckEvent`                               | [ ] Deferred| 160eae8f23                               | Group13          |
-| `BswModuleCallPoint`                                    | [ ] Deferred| N/A                                      | Group13          |
+| `BswModuleCallPoint`                                    | [x] Done    | 879aacf8c4                               | Group13          |
 | `BswModuleClientServerEntry`                            | [ ] Deferred| e69bc46baa                               | Group13          |
 | `BswModuleDependency`                                   | [ ] Deferred| 1ca038b144                               | Group13          |
 | `BswModuleDescription`                                  | [x] Done    | 1a5b05b196                               | Group22          |
