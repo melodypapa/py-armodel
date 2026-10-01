@@ -416,14 +416,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDataByIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.73, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): abstract class ("DiagnosticDataByIdentifier (abstract)"); the table body sits ABOVE its caption in the markdown (page-break artifact — matched by the Class row). Base chain: ARElement, ARObject, CollectableElement, DiagnosticCommonElement, DiagnosticServiceInstance, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived ARElement. Attribute (displayed order): dataIdentifier (DiagnosticAbstractDataIdentifier, 0..1, ref, Note "This represents the linked DiagnosticDataIdentifier."). XSD group DIAGNOSTIC-DATA-BY-IDENTIFIER (AUTOSAR_00052.xsd l.34064): DATA-IDENTIFIER-REF (DEST DIAGNOSTIC-ABSTRACT-DATA-IDENTIFIER--SUBTYPES-ENUM); abstract ⇒ no own XML element — reusable readDiagnosticDataByIdentifier / writeDiagnosticDataByIdentifier helpers for the concrete subclasses (Rule 0001.7 adaptation). Dependencies ARElement and DiagnosticAbstractDataIdentifier (Table 4.4) already synced — no pull-in.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - note (Step 6): reader helper `readDiagnosticDataByIdentifier` / writer helper `writeDiagnosticDataByIdentifier` added (arxml_parser.py after readDiagnosticAbstractDataIdentifier; arxml_writer.py after writeDiagnosticAbstractDataIdentifier) — abstract class, no ARPackage dispatch entry; concrete subclasses call the helpers. Tests exercise them through the stub-subclass DiagnosticReadDataByIdentifier.
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.74, p.114

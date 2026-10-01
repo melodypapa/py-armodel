@@ -3349,7 +3349,39 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
 
 
 class DiagnosticDataByIdentifier(ARElement, ABC):
-    pass
+    """This represents an abstract base class for all diagnostic services that access data by identifier."""
+
+    # DiagnosticDataByIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.73, p.113
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataIdentifier      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdentifier      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticDataByIdentifier:
+            raise TypeError("DiagnosticDataByIdentifier is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This represents the linked DiagnosticDataIdentifier.
+        self.dataIdentifier: Optional[RefType] = None
+
+    def getDataIdentifier(self) -> Optional[RefType]:
+        """
+        This represents the linked DiagnosticDataIdentifier.
+        """
+        return self.dataIdentifier
+
+    def setDataIdentifier(self, value: Optional[RefType]) -> DiagnosticDataByIdentifier:
+        """
+        This represents the linked DiagnosticDataIdentifier.
+
+        A None value is a no-op and does not overwrite an existing dataIdentifier.
+        """
+        if value is not None:
+            self.dataIdentifier = value
+        return self
 
 
 class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):

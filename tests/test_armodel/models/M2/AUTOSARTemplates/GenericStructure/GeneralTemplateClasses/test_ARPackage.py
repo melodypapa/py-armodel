@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticCustomServiceInstance,
+    DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -31,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMapping,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
+    DiagnosticReadDataByIdentifier,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -3073,3 +3075,76 @@ class TestDiagnosticControlDTCSetting:
 
         duplicate = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
         assert duplicate is control_dtc_setting
+
+
+class TestDiagnosticDataByIdentifier:
+    """
+    Test class for DiagnosticDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.73, p.113
+    (abstract base; exercised through the concrete subclass DiagnosticReadDataByIdentifier)
+    """
+
+    CLASS_NOTE = "This represents an abstract base class for all diagnostic services that access data by identifier."
+    DATA_IDENTIFIER_NOTE = "This represents the linked DiagnosticDataIdentifier."
+
+    def _make_obj(self) -> DiagnosticReadDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDataByIdentifier(ar_root, "TestReadDataByIdentifier")
+
+    def test_initialization(self):
+        """
+        Test that the abstract DiagnosticDataByIdentifier is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticDataByIdentifier cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticDataByIdentifier(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_data_identifier(self):
+        """
+        Round-trips the dataIdentifier ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID")
+        result = obj.setDataIdentifier(ref)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifier() is ref
+        assert obj.getDataIdentifier().getValue() == "/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID"
+        assert obj.getDataIdentifier().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER"
+
+        result = obj.setDataIdentifier(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataIdentifier() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticDataByIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticDataByIdentifier.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")

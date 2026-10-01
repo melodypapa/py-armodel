@@ -529,6 +529,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
+    DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -10471,6 +10472,9 @@ class ARXMLParser(AbstractARXMLParser):
             id_value = PositiveInteger()
             id_value.setValue(id_avp_element.text.strip())
             did.setId(id_value)
+
+    def readDiagnosticDataByIdentifier(self, element: ET.Element, data_by_identifier: DiagnosticDataByIdentifier):
+        data_by_identifier.setDataIdentifier(self.getChildElementOptionalRefType(element, "DATA-IDENTIFIER-REF"))
 
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)

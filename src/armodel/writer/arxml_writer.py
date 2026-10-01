@@ -406,6 +406,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
+    DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -13825,6 +13826,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 avp_element.text = id_value._text
             elif id_value._value is not None:
                 avp_element.text = str(id_value._value)
+
+    def writeDiagnosticDataByIdentifier(self, element: ET.Element, data_by_identifier: DiagnosticDataByIdentifier):
+        self.setChildElementOptionalRefType(element, "DATA-IDENTIFIER-REF", data_by_identifier.getDataIdentifier())
 
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
