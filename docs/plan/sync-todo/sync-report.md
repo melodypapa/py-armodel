@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 614 | 32.3% |
+| [x] Done | 615 | 32.3% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 231 | 12.1% |
+| [ ] Deferred | 230 | 12.1% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -1352,7 +1352,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `OperationCycleTypeEnum`                                | [ ] Implemented| N/A                                      | Group29          |
 | `OperationInAtomicSwcInstanceRef`                       | [x] Done    | 5d9a9f9600                               | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe68                               | Group5           |
-| `OperationInvokedEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
+| `OperationInvokedEvent`                                 | [x] Done    | e607622c82                               | Group12          |
 | `OrderedMaster`                                         | [x] Done    | 5d62450236                               | Group6           |
 | `OrientEnum`                                            | [x] Done    | 9223f504b5                               | Group3           |
 | `OsTaskExecutionEvent`                                  | [ ] Created | N/A                                      | Group28          |

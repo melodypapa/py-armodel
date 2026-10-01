@@ -607,7 +607,7 @@ Status: **24/24** completed
 
 ## Group12
 
-Status: **12/15** completed
+Status: **13/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -623,7 +623,7 @@ Status: **12/15** completed
 | `DataSendCompletedEvent`             | [x] Done     | 57e1abeea2 |
 | `DataWriteCompletedEvent`            | [x] Done     | df2a6b3a70 |
 | `InternalTriggerOccurredEvent`       | [x] Done     | ac0bbe5799 |
-| `OperationInvokedEvent`              | [ ] Pending* | N/A        |
+| `OperationInvokedEvent`              | [x] Done     | e607622c82 |
 | `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A        |
 | `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A        |
 
