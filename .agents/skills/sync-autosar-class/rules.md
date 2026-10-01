@@ -1822,3 +1822,57 @@ family: 4 migrated in PR #785, 21 queued in `docs/plan/sync-todo/` Group8×17 / 
 `SingleLanguageLongName` / `MixedContentForLongName` family) interleave text segments
 *in order* with child elements and need a segmented/ordered content model — do **not**
 migrate them onto `AtpMixedString`; that is a separate project (Phase 2).
+
+---
+
+## Rule 0022 — Member quota annotation gate (`__init__`/`clear` self-assignments) *(added after the member-quota survey + cleanup, issue #881 / PR #882, 2026-10-01)*
+
+Every `self.<member>` assignment that **creates** a member — in `__init__` and in
+`clear()`-style reset methods that (re)create the member set — must be a **PEP 526
+annotated assignment** carrying the member's quota shape, per Rule 0003: plain `T`
+(required, multiplicity 1), `Optional[T]` (0..1), `List[T]` (0..*). The annotation type
+must equal the getter return type. This is the mechanical, repo-wide form of Rule 0003's
+"`__init__` fields annotated" bullet; it exists because the 2026-10-01 AST survey found
+20 untyped member assignments (4 classes) hiding behind getter/setter-only coverage.
+
+**Mechanical gate (Step 9a — stop on failure):**
+`tests/test_armodel/models/test_member_annotations.py` enforces three invariants over
+`src/armodel/models/**`:
+
+1. `test_all_init_and_clear_self_assignments_annotated` — no bare `self.x = ...`
+   assignment in any `__init__`/`clear`.
+2. `test_no_quoted_annotations_in_pep563_models` — no quoted identifier annotation
+   (top-level or nested) in any module that has `from __future__ import annotations`.
+3. `test_no_nested_quoted_refs_in_optional_or_list` — no `Optional["X"]`/`List["X"]`
+   anywhere in models, PEP 563 module or not (extends Rule 0003's bare-name ban to
+   modules the policy test `test_pep563_annotations.py` does not reach).
+
+**Exemptions (not violations — the scan hits are false positives):**
+
+- **Property/setter bodies.** Assignments inside `@value.setter` properties and setter
+  methods re-write an already-annotated member (e.g. the `ARType.value` property writing
+  `self._value`, annotated in `ARType.__init__`). Annotate the creation site, not the
+  re-assignment.
+- **Mixin class-level-default pattern (Rules 0020/0021).** `VariationPointCapable`,
+  `AtpMixedString`, `SdgElementWithGid`, `AbstractValueRestriction`,
+  `AbstractVariationRestriction` carry annotated class attributes
+  (`mixedString: Optional[str] = None`) as the ONLY initialization — a mixin
+  `__init__` may never run under combined inheritance (`Referrable.__init__` bypasses
+  `super()`). Do **not** convert these to `__init__` assignments.
+- **`clear()`-initialized members.** Where the annotation lives in `clear()`
+  (e.g. `AbstractAUTOSAR.adminData: Optional[AdminData]`), setter re-assignments stay
+  untyped.
+
+**Sync-time obligations:**
+
+- **Step 1/3:** when a spec attribute is modeled, its `__init__` assignment lands as an
+  annotated assignment in the same edit — a bare assignment is a Step 3 defect, fixed
+  before Step 4.
+- **Step 9a:** run the gate test (`uv run pytest
+  tests/test_armodel/models/test_member_annotations.py`) alongside pytest/lint.
+- **Step 9b:** the gate test verifies **form only**; the quota shape itself
+  (0..1 vs 0..* vs required) is confirmed against the spec table's multiplicity column —
+  automation is blind to that. Also: if the sync adds `from __future__ import
+  annotations` to a module that did not have it, **all** of that module's quoted
+  signatures must be unquoted in the same change (`test_pep563_annotations.py` bans
+  top-level quotes in PEP 563 modules).

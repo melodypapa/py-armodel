@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # This module contains AUTOSAR System Template Ethernet Communication classes for Fibex4Ethernet
 # (M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication).
 # Source: AUTOSAR_TPS_SystemTemplate (R4.3.1), Tables 6.118 (SocketConnectionBundle), 6.120
@@ -76,10 +78,10 @@ class SocketConnectionIpduIdentifier(ARObject):
         self.pduCollectionPduTimeout: Optional[TimeValue] = None
 
         # Specifies if the referenced PduTriggering shall be collected using a queued (i.e. all PDU instances) or last-is-best (i.e. only the last PDU instance) semantics. If this attribute is not present the behavior of "queued" is assumed.
-        self.pduCollectionSemantics: Optional["PduCollectionSemanticsEnum"] = None
+        self.pduCollectionSemantics: Optional[PduCollectionSemanticsEnum] = None
 
         # Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is enabled for this socket.
-        self.pduCollectionTrigger: Optional["PduCollectionTriggerEnum"] = None
+        self.pduCollectionTrigger: Optional[PduCollectionTriggerEnum] = None
 
         # Reference to a Pdu that is mapped to a socket connection.
         self.pduTriggeringRef: Optional[RefType] = None
@@ -93,7 +95,7 @@ class SocketConnectionIpduIdentifier(ARObject):
         """
         return self.headerId
 
-    def setHeaderId(self, value: Optional[PositiveInteger]) -> "SocketConnectionIpduIdentifier":
+    def setHeaderId(self, value: Optional[PositiveInteger]) -> SocketConnectionIpduIdentifier:
         """
         If multiple Pdus are transmitted over the same connection this headerId can be used to distinguish between the different Pdus.
         A None value is a no-op and does not overwrite an existing headerId.
@@ -108,7 +110,7 @@ class SocketConnectionIpduIdentifier(ARObject):
         """
         return self.pduCollectionPduTimeout
 
-    def setPduCollectionPduTimeout(self, value: Optional[TimeValue]) -> "SocketConnectionIpduIdentifier":
+    def setPduCollectionPduTimeout(self, value: Optional[TimeValue]) -> SocketConnectionIpduIdentifier:
         """
         Defines the timeout in seconds the PDU collection shall be transmitted at the latest after this PDU has been put into the buffer.
         A None value is a no-op and does not overwrite an existing pduCollectionPduTimeout.
@@ -117,13 +119,13 @@ class SocketConnectionIpduIdentifier(ARObject):
             self.pduCollectionPduTimeout = value
         return self
 
-    def getPduCollectionSemantics(self) -> Optional["PduCollectionSemanticsEnum"]:
+    def getPduCollectionSemantics(self) -> Optional[PduCollectionSemanticsEnum]:
         """
         Specifies if the referenced PduTriggering shall be collected using a queued (i.e. all PDU instances) or last-is-best (i.e. only the last PDU instance) semantics. If this attribute is not present the behavior of "queued" is assumed.
         """
         return self.pduCollectionSemantics
 
-    def setPduCollectionSemantics(self, value: Optional["PduCollectionSemanticsEnum"]) -> "SocketConnectionIpduIdentifier":
+    def setPduCollectionSemantics(self, value: Optional[PduCollectionSemanticsEnum]) -> SocketConnectionIpduIdentifier:
         """
         Specifies if the referenced PduTriggering shall be collected using a queued (i.e. all PDU instances) or last-is-best (i.e. only the last PDU instance) semantics. If this attribute is not present the behavior of "queued" is assumed.
         A None value is a no-op and does not overwrite an existing pduCollectionSemantics.
@@ -132,13 +134,13 @@ class SocketConnectionIpduIdentifier(ARObject):
             self.pduCollectionSemantics = value
         return self
 
-    def getPduCollectionTrigger(self) -> Optional["PduCollectionTriggerEnum"]:
+    def getPduCollectionTrigger(self) -> Optional[PduCollectionTriggerEnum]:
         """
         Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is enabled for this socket.
         """
         return self.pduCollectionTrigger
 
-    def setPduCollectionTrigger(self, value: Optional["PduCollectionTriggerEnum"]) -> "SocketConnectionIpduIdentifier":
+    def setPduCollectionTrigger(self, value: Optional[PduCollectionTriggerEnum]) -> SocketConnectionIpduIdentifier:
         """
         Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is enabled for this socket.
         A None value is a no-op and does not overwrite an existing pduCollectionTrigger.
@@ -153,7 +155,7 @@ class SocketConnectionIpduIdentifier(ARObject):
         """
         return self.pduTriggeringRef
 
-    def setPduTriggeringRef(self, value: Optional[RefType]) -> "SocketConnectionIpduIdentifier":
+    def setPduTriggeringRef(self, value: Optional[RefType]) -> SocketConnectionIpduIdentifier:
         """
         Reference to a Pdu that is mapped to a socket connection.
         A None value is a no-op and does not overwrite an existing pduTriggeringRef.
@@ -168,7 +170,7 @@ class SocketConnectionIpduIdentifier(ARObject):
         """
         return self.routingGroupRefs
 
-    def setRoutingGroupRefs(self, value: Optional[List[RefType]]) -> "SocketConnectionIpduIdentifier":
+    def setRoutingGroupRefs(self, value: Optional[List[RefType]]) -> SocketConnectionIpduIdentifier:
         """
         Reference to RoutingGroups that can be enabled or disabled.
         A None value is a no-op and leaves the existing routingGroupRefs unchanged.
@@ -206,7 +208,7 @@ class SocketConnectionBundle(Referrable):
         super().__init__(parent, short_name)
 
         # Collection of SocketConnections in the connectionGroup.
-        self.bundledConnections: List["SocketConnection"] = []
+        self.bundledConnections: List[SocketConnection] = []
 
         # The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified.
         self.differentiatedServiceField: Optional[PositiveInteger] = None
@@ -224,15 +226,15 @@ class SocketConnectionBundle(Referrable):
         self.serverPortRef: Optional[RefType] = None
 
         # Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksumDisabled) on the related socket connection.
-        self.udpChecksumHandling: Optional["UdpChecksumCalculationEnum"] = None
+        self.udpChecksumHandling: Optional[UdpChecksumCalculationEnum] = None
 
-    def getBundledConnections(self) -> List["SocketConnection"]:
+    def getBundledConnections(self) -> List[SocketConnection]:
         """
         Collection of SocketConnections in the connectionGroup.
         """
         return self.bundledConnections
 
-    def addBundledConnection(self, value: Optional["SocketConnection"]) -> "SocketConnectionBundle":
+    def addBundledConnection(self, value: Optional[SocketConnection]) -> SocketConnectionBundle:
         """
         Collection of SocketConnections in the connectionGroup.
         A None value is a no-op and is not appended to bundledConnections.
@@ -247,7 +249,7 @@ class SocketConnectionBundle(Referrable):
         """
         return self.differentiatedServiceField
 
-    def setDifferentiatedServiceField(self, value: Optional[PositiveInteger]) -> "SocketConnectionBundle":
+    def setDifferentiatedServiceField(self, value: Optional[PositiveInteger]) -> SocketConnectionBundle:
         """
         The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified.
         A None value is a no-op and does not overwrite an existing differentiatedServiceField.
@@ -262,7 +264,7 @@ class SocketConnectionBundle(Referrable):
         """
         return self.flowLabel
 
-    def setFlowLabel(self, value: Optional[PositiveInteger]) -> "SocketConnectionBundle":
+    def setFlowLabel(self, value: Optional[PositiveInteger]) -> SocketConnectionBundle:
         """
         The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled.
         A None value is a no-op and does not overwrite an existing flowLabel.
@@ -277,7 +279,7 @@ class SocketConnectionBundle(Referrable):
         """
         return self.pathMtuDiscoveryEnabled
 
-    def setPathMtuDiscoveryEnabled(self, value: Optional[Boolean]) -> "SocketConnectionBundle":
+    def setPathMtuDiscoveryEnabled(self, value: Optional[Boolean]) -> SocketConnectionBundle:
         """
         Defines whether the Path MTU Discovery shall be performed for the related socket.
         A None value is a no-op and does not overwrite an existing pathMtuDiscoveryEnabled.
@@ -292,7 +294,7 @@ class SocketConnectionBundle(Referrable):
         """
         return self.pdus
 
-    def addPdu(self, value: Optional[SocketConnectionIpduIdentifier]) -> "SocketConnectionBundle":
+    def addPdu(self, value: Optional[SocketConnectionIpduIdentifier]) -> SocketConnectionBundle:
         """
         With this aggregation SocketConnectionIpduIdentifier elements are assigned to all SocketConnections that are available in this SocketConnetionBundle.
         A None value is a no-op and is not appended to pdus.
@@ -307,7 +309,7 @@ class SocketConnectionBundle(Referrable):
         """
         return self.serverPortRef
 
-    def setServerPortRef(self, value: Optional[RefType]) -> "SocketConnectionBundle":
+    def setServerPortRef(self, value: Optional[RefType]) -> SocketConnectionBundle:
         """
         Server Port for TCP/UDP connection in an abstract communication sense. The server is the major provider of the communication. Please note that the server may also consume data.
         A None value is a no-op and does not overwrite an existing serverPortRef.
@@ -316,13 +318,13 @@ class SocketConnectionBundle(Referrable):
             self.serverPortRef = value
         return self
 
-    def getUdpChecksumHandling(self) -> Optional["UdpChecksumCalculationEnum"]:
+    def getUdpChecksumHandling(self) -> Optional[UdpChecksumCalculationEnum]:
         """
         Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksumDisabled) on the related socket connection.
         """
         return self.udpChecksumHandling
 
-    def setUdpChecksumHandling(self, value: Optional["UdpChecksumCalculationEnum"]) -> "SocketConnectionBundle":
+    def setUdpChecksumHandling(self, value: Optional[UdpChecksumCalculationEnum]) -> SocketConnectionBundle:
         """
         Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksumDisabled) on the related socket connection.
         A None value is a no-op and does not overwrite an existing udpChecksumHandling.

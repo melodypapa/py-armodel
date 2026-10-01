@@ -564,11 +564,11 @@ class ARPackage(CollectableElement, VariationPointCapable):
         super().__init__(parent, short_name)
 
         # This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
-        self.arPackages: List["ARPackage"] = []
+        self.arPackages: List[ARPackage] = []
         # This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
         self.referenceBases: List[ReferenceBase] = []
 
-    def getARPackages(self) -> List["ARPackage"]:
+    def getARPackages(self) -> List[ARPackage]:
         """
         This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
 
@@ -2152,7 +2152,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements), key=lambda a: a.short_name))
 
-    def getCollections(self) -> List["Collection"]:
+    def getCollections(self) -> List[Collection]:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 
         return list(sorted(filter(lambda a: isinstance(a, Collection), self.elements), key=lambda a: a.short_name))

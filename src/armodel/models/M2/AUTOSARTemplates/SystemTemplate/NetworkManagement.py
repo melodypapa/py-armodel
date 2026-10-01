@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # This module contains AUTOSAR System Template classes for network management
 # It defines CAN, FlexRay, J1939, and UDP network management configurations
 
@@ -56,7 +58,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
         # Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
         self.nmImmediateRestartEnabled: Optional[Boolean] = None
 
-    def addCoupledClusterRef(self, ref: RefType) -> "CanNmClusterCoupling":
+    def addCoupledClusterRef(self, ref: RefType) -> CanNmClusterCoupling:
         """
         Reference to coupled CAN Clusters.
         """
@@ -75,7 +77,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
         """
         return self.nmBusloadReductionEnabled
 
-    def setNmBusloadReductionEnabled(self, value: Optional[Boolean]) -> "CanNmClusterCoupling":
+    def setNmBusloadReductionEnabled(self, value: Optional[Boolean]) -> CanNmClusterCoupling:
         """
         Enables busload reduction support
         A None value is a no-op and does not overwrite an existing nmBusloadReductionEnabled.
@@ -90,7 +92,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
         """
         return self.nmImmediateRestartEnabled
 
-    def setNmImmediateRestartEnabled(self, value: Optional[Boolean]) -> "CanNmClusterCoupling":
+    def setNmImmediateRestartEnabled(self, value: Optional[Boolean]) -> CanNmClusterCoupling:
         """
         Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
         A None value is a no-op and does not overwrite an existing nmImmediateRestartEnabled.
@@ -121,9 +123,9 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         self.coupledClusterRefs: List[RefType] = []
 
         # FrNm schedule variant according to FrNm SWS.
-        self.nmScheduleVariant: Optional["FlexrayNmScheduleVariant"] = None
+        self.nmScheduleVariant: Optional[FlexrayNmScheduleVariant] = None
 
-    def addCoupledClusterRef(self, ref: RefType) -> "FlexrayNmClusterCoupling":
+    def addCoupledClusterRef(self, ref: RefType) -> FlexrayNmClusterCoupling:
         """
         Reference to coupled FlexRay Clusters.
         """
@@ -136,13 +138,13 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         """
         return self.coupledClusterRefs
 
-    def getNmScheduleVariant(self) -> Optional["FlexrayNmScheduleVariant"]:
+    def getNmScheduleVariant(self) -> Optional[FlexrayNmScheduleVariant]:
         """
         FrNm schedule variant according to FrNm SWS.
         """
         return self.nmScheduleVariant
 
-    def setNmScheduleVariant(self, value: Optional["FlexrayNmScheduleVariant"]) -> "FlexrayNmClusterCoupling":
+    def setNmScheduleVariant(self, value: Optional[FlexrayNmScheduleVariant]) -> FlexrayNmClusterCoupling:
         """
         FrNm schedule variant according to FrNm SWS.
         A None value is a no-op and does not overwrite an existing nmScheduleVariant.
@@ -284,7 +286,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.controllerRef
 
-    def setControllerRef(self, value: Optional[RefType]) -> "NmNode":
+    def setControllerRef(self, value: Optional[RefType]) -> NmNode:
         """
         Association to an CommunicationController in the topology description.
         A None value is a no-op and does not overwrite an existing controllerRef.
@@ -299,7 +301,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmCoordCluster
 
-    def setNmCoordCluster(self, value: Optional[PositiveInteger]) -> "NmNode":
+    def setNmCoordCluster(self, value: Optional[PositiveInteger]) -> NmNode:
         """
         NmCoordinationCluster identification number.
         A None value is a no-op and does not overwrite an existing nmCoordCluster.
@@ -314,7 +316,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmCoordinatorRole
 
-    def setNmCoordinatorRole(self, value: Optional[NmCoordinatorRoleEnum]) -> "NmNode":
+    def setNmCoordinatorRole(self, value: Optional[NmCoordinatorRoleEnum]) -> NmNode:
         """
         This attribute indicates the role the NM Coordinator will have on this channel.
         A None value is a no-op and does not overwrite an existing nmCoordinatorRole.
@@ -329,7 +331,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmIfEcuRef
 
-    def setNmIfEcuRef(self, value: Optional[RefType]) -> "NmNode":
+    def setNmIfEcuRef(self, value: Optional[RefType]) -> NmNode:
         """
         Reference to the NmEcu that contains this NmNode. (CommunicationController that is referenced by the Nm Node shall be contained in the EcuInstance that is referenced by the NmEcu).
         A None value is a no-op and does not overwrite an existing nmIfEcuRef.
@@ -344,7 +346,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmNodeId
 
-    def setNmNodeId(self, value: Optional[Integer]) -> "NmNode":
+    def setNmNodeId(self, value: Optional[Integer]) -> NmNode:
         """
         Node identifier of local NmNode. Shall be unique in the NmCluster.
         A None value is a no-op and does not overwrite an existing nmNodeId.
@@ -359,7 +361,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmPassiveModeEnabled
 
-    def setNmPassiveModeEnabled(self, value: Optional[Boolean]) -> "NmNode":
+    def setNmPassiveModeEnabled(self, value: Optional[Boolean]) -> NmNode:
         """
         Enables support of the Passive Mode. The passive mode is configurable per channel.
         A None value is a no-op and does not overwrite an existing nmPassiveModeEnabled.
@@ -368,7 +370,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
             self.nmPassiveModeEnabled = value
         return self
 
-    def addRxNmPduRef(self, ref: RefType) -> "NmNode":
+    def addRxNmPduRef(self, ref: RefType) -> NmNode:
         """
         receive NM Pdu.
         """
@@ -381,7 +383,7 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
         """
         return self.rxNmPduRefs
 
-    def addTxNmPduRef(self, ref: RefType) -> "NmNode":
+    def addTxNmPduRef(self, ref: RefType) -> NmNode:
         """
         transmit NM Pdu
         """
@@ -439,7 +441,7 @@ class CanNmNode(NmNode):
         """
         return self.allNmMessagesKeepAwake
 
-    def setAllNmMessagesKeepAwake(self, value: Optional[Boolean]) -> "CanNmNode":
+    def setAllNmMessagesKeepAwake(self, value: Optional[Boolean]) -> CanNmNode:
         """
         Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
 
@@ -455,7 +457,7 @@ class CanNmNode(NmNode):
         """
         return self.nmCarWakeUpFilterEnabled
 
-    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> "CanNmNode":
+    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> CanNmNode:
         """
         If this attribute is set to true the CareWakeUp filtering is supported.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterEnabled.
@@ -470,7 +472,7 @@ class CanNmNode(NmNode):
         """
         return self.nmCarWakeUpRxEnabled
 
-    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> "CanNmNode":
+    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> CanNmNode:
         """
         If set to true this attribute enables the support of CarWake Up bit evaluation in received NmPdus.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpRxEnabled.
@@ -485,7 +487,7 @@ class CanNmNode(NmNode):
         """
         return self.nmMsgCycleOffset
 
-    def setNmMsgCycleOffset(self, value: Optional[TimeValue]) -> "CanNmNode":
+    def setNmMsgCycleOffset(self, value: Optional[TimeValue]) -> CanNmNode:
         """
         Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
         A None value is a no-op and does not overwrite an existing nmMsgCycleOffset.
@@ -500,7 +502,7 @@ class CanNmNode(NmNode):
         """
         return self.nmMsgReducedTime
 
-    def setNmMsgReducedTime(self, value: Optional[TimeValue]) -> "CanNmNode":
+    def setNmMsgReducedTime(self, value: Optional[TimeValue]) -> CanNmNode:
         """
         Node specific bus cycle time in the periodic transmission mode with bus load reduction. Specified in seconds.
         A None value is a no-op and does not overwrite an existing nmMsgReducedTime.
@@ -627,7 +629,7 @@ class J1939NodeName(ARObject):
         """
         return self.arbitraryAddressCapable
 
-    def setArbitraryAddressCapable(self, value: Optional[Boolean]) -> "J1939NodeName":
+    def setArbitraryAddressCapable(self, value: Optional[Boolean]) -> J1939NodeName:
         """
         Arbitrary Address Capable field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing arbitraryAddressCapable.
@@ -642,7 +644,7 @@ class J1939NodeName(ARObject):
         """
         return self.ecuInstance
 
-    def setEcuInstance(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setEcuInstance(self, value: Optional[Integer]) -> J1939NodeName:
         """
         ECU Instance field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing ecuInstance.
@@ -657,7 +659,7 @@ class J1939NodeName(ARObject):
         """
         return self.function
 
-    def setFunction(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setFunction(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Function field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing function.
@@ -672,7 +674,7 @@ class J1939NodeName(ARObject):
         """
         return self.functionInstance
 
-    def setFunctionInstance(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setFunctionInstance(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Function Instance field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing functionInstance.
@@ -687,7 +689,7 @@ class J1939NodeName(ARObject):
         """
         return self.identitiyNumber
 
-    def setIdentitiyNumber(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setIdentitiyNumber(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Identity Number field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing identitiyNumber.
@@ -702,7 +704,7 @@ class J1939NodeName(ARObject):
         """
         return self.industryGroup
 
-    def setIndustryGroup(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setIndustryGroup(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Industry Group field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing industryGroup.
@@ -717,7 +719,7 @@ class J1939NodeName(ARObject):
         """
         return self.manufacturerCode
 
-    def setManufacturerCode(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setManufacturerCode(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Manufacturer Code field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing manufacturerCode.
@@ -732,7 +734,7 @@ class J1939NodeName(ARObject):
         """
         return self.vehicleSystem
 
-    def setVehicleSystem(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setVehicleSystem(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Vehicle System field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing vehicleSystem.
@@ -747,7 +749,7 @@ class J1939NodeName(ARObject):
         """
         return self.vehicleSystemInstance
 
-    def setVehicleSystemInstance(self, value: Optional[Integer]) -> "J1939NodeName":
+    def setVehicleSystemInstance(self, value: Optional[Integer]) -> J1939NodeName:
         """
         Vehicle System Instance field of the NAME of this node.
         A None value is a no-op and does not overwrite an existing vehicleSystemInstance.
@@ -787,7 +789,7 @@ class J1939NmNode(NmNode):
         """
         return self.addressConfigurationCapability
 
-    def setAddressConfigurationCapability(self, value: Optional[J1939NmAddressConfigurationCapabilityEnum]) -> "J1939NmNode":
+    def setAddressConfigurationCapability(self, value: Optional[J1939NmAddressConfigurationCapabilityEnum]) -> J1939NmNode:
         """
         Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA).
         A None value is a no-op and does not overwrite an existing addressConfigurationCapability.
@@ -802,7 +804,7 @@ class J1939NmNode(NmNode):
         """
         return self.nodeName
 
-    def setNodeName(self, value: Optional[J1939NodeName]) -> "J1939NmNode":
+    def setNodeName(self, value: Optional[J1939NodeName]) -> J1939NmNode:
         """
         NodeName configuration.
         A None value is a no-op and does not overwrite an existing nodeName.
@@ -845,7 +847,7 @@ class UdpNmNode(NmNode):
         """
         return self.allNmMessagesKeepAwake
 
-    def setAllNmMessagesKeepAwake(self, value: Optional[Boolean]) -> "UdpNmNode":
+    def setAllNmMessagesKeepAwake(self, value: Optional[Boolean]) -> UdpNmNode:
         """
         Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
 
@@ -861,7 +863,7 @@ class UdpNmNode(NmNode):
         """
         return self.nmMsgCycleOffset
 
-    def setNmMsgCycleOffset(self, value: Optional[TimeValue]) -> "UdpNmNode":
+    def setNmMsgCycleOffset(self, value: Optional[TimeValue]) -> UdpNmNode:
         """
         Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
         A None value is a no-op and does not overwrite an existing nmMsgCycleOffset.
@@ -934,7 +936,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
         """
         return self.nmHwVoteEnabled
 
-    def setNmHwVoteEnabled(self, value: Optional[Boolean]) -> "FlexrayNmEcu":
+    def setNmHwVoteEnabled(self, value: Optional[Boolean]) -> FlexrayNmEcu:
         """
         Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
         A None value is a no-op and does not overwrite an existing nmHwVoteEnabled.
@@ -949,7 +951,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
         """
         return self.nmMainFunctionAcrossFrCycle
 
-    def setNmMainFunctionAcrossFrCycle(self, value: Optional[Boolean]) -> "FlexrayNmEcu":
+    def setNmMainFunctionAcrossFrCycle(self, value: Optional[Boolean]) -> FlexrayNmEcu:
         """
         Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
         A None value is a no-op and does not overwrite an existing nmMainFunctionAcrossFrCycle.
@@ -1001,7 +1003,7 @@ class UdpNmEcu(BusspecificNmEcu):
         """
         return self.nmSynchronizationPointEnabled
 
-    def setNmSynchronizationPointEnabled(self, value: Optional[Boolean]) -> "UdpNmEcu":
+    def setNmSynchronizationPointEnabled(self, value: Optional[Boolean]) -> UdpNmEcu:
         """
         Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
         A None value is a no-op and does not overwrite an existing nmSynchronizationPointEnabled.
@@ -1074,7 +1076,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         # Switch for enabling user data support.
         self.nmUserDataEnabled: Optional[Boolean] = None
 
-    def addBusDependentNmEcu(self, value: Optional[BusspecificNmEcu]) -> "NmEcu":
+    def addBusDependentNmEcu(self, value: Optional[BusspecificNmEcu]) -> NmEcu:
         """
         Cluster specific NmEcu attributes
         A None value is a no-op and does not extend the busDependentNmEcus list.
@@ -1095,7 +1097,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.ecuInstanceRef
 
-    def setEcuInstanceRef(self, value: Optional[RefType]) -> "NmEcu":
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> NmEcu:
         """
         Association to an ECUInstance in the topology description.
         A None value is a no-op and does not overwrite an existing ecuInstanceRef.
@@ -1110,7 +1112,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmBusSynchronizationEnabled
 
-    def setNmBusSynchronizationEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+    def setNmBusSynchronizationEnabled(self, value: Optional[Boolean]) -> NmEcu:
         """
         Enables bus synchronization support.
         A None value is a no-op and does not overwrite an existing nmBusSynchronizationEnabled.
@@ -1125,7 +1127,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmComControlEnabled
 
-    def setNmComControlEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+    def setNmComControlEnabled(self, value: Optional[Boolean]) -> NmEcu:
         """
         Enables the Communication Control support.
         A None value is a no-op and does not overwrite an existing nmComControlEnabled.
@@ -1140,7 +1142,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmCoordinator
 
-    def setNmCoordinator(self, value: Optional[ARObject]) -> "NmEcu":
+    def setNmCoordinator(self, value: Optional[ARObject]) -> NmEcu:
         """
         Nm ECU may coordinate different clusters.
         A None value is a no-op and does not overwrite an existing nmCoordinator.
@@ -1155,7 +1157,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmCycletimeMainFunction
 
-    def setNmCycletimeMainFunction(self, value: Optional[TimeValue]) -> "NmEcu":
+    def setNmCycletimeMainFunction(self, value: Optional[TimeValue]) -> NmEcu:
         """
         The period between successive calls to the Main Function of the NM Interface in seconds.
         A None value is a no-op and does not overwrite an existing nmCycletimeMainFunction.
@@ -1170,7 +1172,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmPduRxIndicationEnabled
 
-    def setNmPduRxIndicationEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+    def setNmPduRxIndicationEnabled(self, value: Optional[Boolean]) -> NmEcu:
         """
         Switch for enabling the PDU Rx Indication.
         A None value is a no-op and does not overwrite an existing nmPduRxIndicationEnabled.
@@ -1185,7 +1187,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmRemoteSleepIndEnabled
 
-    def setNmRemoteSleepIndEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+    def setNmRemoteSleepIndEnabled(self, value: Optional[Boolean]) -> NmEcu:
         """
         Switch for enabling remote sleep indication support.
         A None value is a no-op and does not overwrite an existing nmRemoteSleepIndEnabled.
@@ -1200,7 +1202,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmStateChangeIndEnabled
 
-    def setNmStateChangeIndEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+    def setNmStateChangeIndEnabled(self, value: Optional[Boolean]) -> NmEcu:
         """
         Enables the CAN Network Management state change notification.
         A None value is a no-op and does not overwrite an existing nmStateChangeIndEnabled.
@@ -1215,7 +1217,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         """
         return self.nmUserDataEnabled
 
-    def setNmUserDataEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+    def setNmUserDataEnabled(self, value: Optional[Boolean]) -> NmEcu:
         """
         Switch for enabling user data support.
         A None value is a no-op and does not overwrite an existing nmUserDataEnabled.
@@ -1259,44 +1261,44 @@ class NmConfig(FibexElement):
         # Collection of NM ECUs atpVariation: Derived, because EcuInstance can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmIfEcu.shortName, nmIfEcu.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.nmIfEcus: List[NmEcu] = []
 
-    def getNmClusters(self) -> List["NmCluster"]:
+    def getNmClusters(self) -> List[NmCluster]:
         """
         Collection of NM Clusters atpVariation: Derived, because cluster can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmCluster.shortName, nmCluster.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         return self.nmClusters
 
-    def createCanNmCluster(self, short_name: str) -> "CanNmCluster":
+    def createCanNmCluster(self, short_name: str) -> CanNmCluster:
         if not self.IsElementExists(short_name, CanNmCluster):
             cluster = CanNmCluster(self, short_name)
             self.addElement(cluster)
             self.nmClusters.append(cluster)
         return self.getElement(short_name, CanNmCluster)
 
-    def createUdpNmCluster(self, short_name: str) -> "UdpNmCluster":
+    def createUdpNmCluster(self, short_name: str) -> UdpNmCluster:
         if not self.IsElementExists(short_name, UdpNmCluster):
             cluster = UdpNmCluster(self, short_name)
             self.addElement(cluster)
             self.nmClusters.append(cluster)
         return self.getElement(short_name, UdpNmCluster)
 
-    def createFlexrayNmCluster(self, short_name: str) -> "FlexrayNmCluster":
+    def createFlexrayNmCluster(self, short_name: str) -> FlexrayNmCluster:
         if not self.IsElementExists(short_name, FlexrayNmCluster):
             cluster = FlexrayNmCluster(self, short_name)
             self.addElement(cluster)
             self.nmClusters.append(cluster)
         return self.getElement(short_name, FlexrayNmCluster)
 
-    def createJ1939NmCluster(self, short_name: str) -> "J1939NmCluster":
+    def createJ1939NmCluster(self, short_name: str) -> J1939NmCluster:
         if not self.IsElementExists(short_name, J1939NmCluster):
             cluster = J1939NmCluster(self, short_name)
             self.addElement(cluster)
             self.nmClusters.append(cluster)
         return self.getElement(short_name, J1939NmCluster)
 
-    def getCanNmClusters(self) -> List["CanNmCluster"]:
+    def getCanNmClusters(self) -> List[CanNmCluster]:
         return [cluster for cluster in self.nmClusters if isinstance(cluster, CanNmCluster)]
 
-    def getUdpNmClusters(self) -> List["UdpNmCluster"]:
+    def getUdpNmClusters(self) -> List[UdpNmCluster]:
         return [cluster for cluster in self.nmClusters if isinstance(cluster, UdpNmCluster)]
 
     def getNmClusterCouplings(self) -> List[NmClusterCoupling]:
@@ -1305,7 +1307,7 @@ class NmConfig(FibexElement):
         """
         return self.nmClusterCouplings
 
-    def addNmClusterCouplings(self, value: Optional[NmClusterCoupling]) -> "NmConfig":
+    def addNmClusterCouplings(self, value: Optional[NmClusterCoupling]) -> NmConfig:
         """
         Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not extend the nmClusterCoupling list.
@@ -1405,7 +1407,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.communicationClusterRef
 
-    def setCommunicationClusterRef(self, value: Optional[RefType]) -> "NmCluster":
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> NmCluster:
         """
         Association to a CommunicationCluster in the topology description.
         A None value is a no-op and does not overwrite an existing communicationClusterRef.
@@ -1420,7 +1422,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmChannelSleepMaster
 
-    def setNmChannelSleepMaster(self, value: Optional[Boolean]) -> "NmCluster":
+    def setNmChannelSleepMaster(self, value: Optional[Boolean]) -> NmCluster:
         """
         This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
         A None value is a no-op and does not overwrite an existing nmChannelSleepMaster.
@@ -1443,7 +1445,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
             self.nmNodes.append(node)
         return self.getElement(short_name, UdpNmNode)
 
-    def createFlexrayNmNode(self, short_name: str) -> "FlexrayNmNode":
+    def createFlexrayNmNode(self, short_name: str) -> FlexrayNmNode:
         if not self.IsElementExists(short_name, FlexrayNmNode):
             node = FlexrayNmNode(self, short_name)
             self.addElement(node)
@@ -1475,7 +1477,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmNodeDetectionEnabled
 
-    def setNmNodeDetectionEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+    def setNmNodeDetectionEnabled(self, value: Optional[Boolean]) -> NmCluster:
         """
         Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
         A None value is a no-op and does not overwrite an existing nmNodeDetectionEnabled.
@@ -1490,7 +1492,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmNodeIdEnabled
 
-    def setNmNodeIdEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+    def setNmNodeIdEnabled(self, value: Optional[Boolean]) -> NmCluster:
         """
         Enables the source node identifier.
         A None value is a no-op and does not overwrite an existing nmNodeIdEnabled.
@@ -1505,7 +1507,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmPncParticipation
 
-    def setNmPncParticipation(self, value: Optional[Boolean]) -> "NmCluster":
+    def setNmPncParticipation(self, value: Optional[Boolean]) -> NmCluster:
         """
         Defines whether this NmCluster contributes to the partial network mechanism.
         A None value is a no-op and does not overwrite an existing nmPncParticipation.
@@ -1520,7 +1522,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmRepeatMsgIndEnabled
 
-    def setNmRepeatMsgIndEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+    def setNmRepeatMsgIndEnabled(self, value: Optional[Boolean]) -> NmCluster:
         """
         Switch for enabling the Repeat Message Bit Indication.
         A None value is a no-op and does not overwrite an existing nmRepeatMsgIndEnabled.
@@ -1535,7 +1537,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmSynchronizingNetwork
 
-    def setNmSynchronizingNetwork(self, value: Optional[Boolean]) -> "NmCluster":
+    def setNmSynchronizingNetwork(self, value: Optional[Boolean]) -> NmCluster:
         """
         If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
         A None value is a no-op and does not overwrite an existing nmSynchronizingNetwork.
@@ -1550,7 +1552,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.pncClusterVectorLength
 
-    def setPncClusterVectorLength(self, value: Optional[PositiveInteger]) -> "NmCluster":
+    def setPncClusterVectorLength(self, value: Optional[PositiveInteger]) -> NmCluster:
         """
         Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
         A None value is a no-op and does not overwrite an existing pncClusterVectorLength.
@@ -1565,7 +1567,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         """
         return self.nmChannelId
 
-    def setNmChannelId(self, value: Optional[Integer]) -> "NmCluster":
+    def setNmChannelId(self, value: Optional[Integer]) -> NmCluster:
         """
         This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
         A None value is a no-op and does not overwrite an existing nmChannelId.
@@ -1681,7 +1683,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmBusloadReductionActive
 
-    def setNmBusloadReductionActive(self, value: Optional[Boolean]) -> "CanNmCluster":
+    def setNmBusloadReductionActive(self, value: Optional[Boolean]) -> CanNmCluster:
         """
         It determines if bus load reduction for the respective Can Nm channel is active or not.
         A None value is a no-op and does not overwrite an existing nmBusloadReductionActive.
@@ -1696,7 +1698,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmCarWakeUpBitPosition
 
-    def setNmCarWakeUpBitPosition(self, value: Optional[PositiveInteger]) -> "CanNmCluster":
+    def setNmCarWakeUpBitPosition(self, value: Optional[PositiveInteger]) -> CanNmCluster:
         """
         Specifies the bit position of the CarWakeUp within the Nm Pdu.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpBitPosition.
@@ -1711,7 +1713,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmCarWakeUpFilterNodeId
 
-    def setNmCarWakeUpFilterNodeId(self, value: Optional[PositiveInteger]) -> "CanNmCluster":
+    def setNmCarWakeUpFilterNodeId(self, value: Optional[PositiveInteger]) -> CanNmCluster:
         """
         Source node identifier for CarWakeUp filtering.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterNodeId.
@@ -1726,7 +1728,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmCbvPosition
 
-    def setNmCbvPosition(self, value: Optional[Integer]) -> "CanNmCluster":
+    def setNmCbvPosition(self, value: Optional[Integer]) -> CanNmCluster:
         """
         Defines the position of the control bit vector within the Nm Pdu (Byte position). If this attribute is not configured, the Control Bit Vector is not used.
         A None value is a no-op and does not overwrite an existing nmCbvPosition.
@@ -1741,7 +1743,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmImmediateNmCycleTime
 
-    def setNmImmediateNmCycleTime(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmImmediateNmCycleTime(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Defines the immediate NmPdu cycle time in seconds which is used for nmImmediateNmTransmissions NmPdu transmissions. This parameter is only valid if CanNm ImmediateNmTransmissions is greater one.
         A None value is a no-op and does not overwrite an existing nmImmediateNmCycleTime.
@@ -1756,7 +1758,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmImmediateNmTransmissions
 
-    def setNmImmediateNmTransmissions(self, value: Optional[PositiveInteger]) -> "CanNmCluster":
+    def setNmImmediateNmTransmissions(self, value: Optional[PositiveInteger]) -> CanNmCluster:
         """
         Defines the number of immediate NmPdus which shall be transmitted. If the value is zero no immediate NmPdus are transmitted. The cycle time of immediate NmPdus is defined by nmImmediateNmCycleTime.
         A None value is a no-op and does not overwrite an existing nmImmediateNmTransmissions.
@@ -1771,7 +1773,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmMessageTimeoutTime
 
-    def setNmMessageTimeoutTime(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmMessageTimeoutTime(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Timeout of an NmPdu in seconds. It determines how long the NM shall wait with notification of transmission failure while communication errors occur on the bus.
         A None value is a no-op and does not overwrite an existing nmMessageTimeoutTime.
@@ -1786,7 +1788,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmMsgCycleTime
 
-    def setNmMsgCycleTime(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmMsgCycleTime(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Period of a NmPdu in seconds. It determines the periodic rate in the periodic transmission mode with bus load reduction and is the basis for transmit scheduling in the periodic transmission mode without bus load reduction.
         A None value is a no-op and does not overwrite an existing nmMsgCycleTime.
@@ -1801,7 +1803,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmNetworkTimeout
 
-    def setNmNetworkTimeout(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmNetworkTimeout(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Network Timeout for NmPdus in seconds It denotes the time how long the CanNm shall stay in the Network Mode before transition into Prepare Bus-Sleep Mode shall take place.
         A None value is a no-op and does not overwrite an existing nmNetworkTimeout.
@@ -1816,7 +1818,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmNidPosition
 
-    def setNmNidPosition(self, value: Optional[Integer]) -> "CanNmCluster":
+    def setNmNidPosition(self, value: Optional[Integer]) -> CanNmCluster:
         """
         Defines the byte position of the source node identifier within the NmPdu. If this attribute is not configured, the Node Identification is not used.
         A None value is a no-op and does not overwrite an existing nmNidPosition.
@@ -1831,7 +1833,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmRemoteSleepIndicationTime
 
-    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
         A None value is a no-op and does not overwrite an existing nmRemoteSleepIndicationTime.
@@ -1846,7 +1848,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmRepeatMessageTime
 
-    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
         A None value is a no-op and does not overwrite an existing nmRepeatMessageTime.
@@ -1861,7 +1863,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nmWaitBusSleepTime
 
-    def setNmWaitBusSleepTime(self, value: Optional[TimeValue]) -> "CanNmCluster":
+    def setNmWaitBusSleepTime(self, value: Optional[TimeValue]) -> CanNmCluster:
         """
         Timeout for bus calm down phase in seconds. It denotes the time how long the CanNm shall stay in the Prepare Bus-Sleep Mode before transition into Bus-Sleep Mode shall take place.
         A None value is a no-op and does not overwrite an existing nmWaitBusSleepTime.
@@ -1941,7 +1943,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmCarWakeUpBitPosition
 
-    def setNmCarWakeUpBitPosition(self, value: Optional[PositiveInteger]) -> "FlexrayNmCluster":
+    def setNmCarWakeUpBitPosition(self, value: Optional[PositiveInteger]) -> FlexrayNmCluster:
         """
         Specifies the bit position of the CarWakeUp within the NmPdu.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpBitPosition.
@@ -1956,7 +1958,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmCarWakeUpFilterEnabled
 
-    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> "FlexrayNmCluster":
+    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> FlexrayNmCluster:
         """
         If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterEnabled.
@@ -1971,7 +1973,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmCarWakeUpFilterNodeId
 
-    def setNmCarWakeUpFilterNodeId(self, value: Optional[PositiveInteger]) -> "FlexrayNmCluster":
+    def setNmCarWakeUpFilterNodeId(self, value: Optional[PositiveInteger]) -> FlexrayNmCluster:
         """
         Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterNodeId.
@@ -1986,7 +1988,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmCarWakeUpRxEnabled
 
-    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> "FlexrayNmCluster":
+    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> FlexrayNmCluster:
         """
         If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
         A None value is a no-op and does not overwrite an existing nmCarWakeUpRxEnabled.
@@ -2001,7 +2003,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmDataCycle
 
-    def setNmDataCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+    def setNmDataCycle(self, value: Optional[Integer]) -> FlexrayNmCluster:
         """
         Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
         A None value is a no-op and does not overwrite an existing nmDataCycle.
@@ -2016,7 +2018,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmMainFunctionPeriod
 
-    def setNmMainFunctionPeriod(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+    def setNmMainFunctionPeriod(self, value: Optional[TimeValue]) -> FlexrayNmCluster:
         """
         Defines the processing cycle of the main function of FrNm module.
         A None value is a no-op and does not overwrite an existing nmMainFunctionPeriod.
@@ -2031,7 +2033,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmRemoteSleepIndicationTime
 
-    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> FlexrayNmCluster:
         """
         Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
         A None value is a no-op and does not overwrite an existing nmRemoteSleepIndicationTime.
@@ -2046,7 +2048,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmRepeatMessageTime
 
-    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> FlexrayNmCluster:
         """
         Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
         A None value is a no-op and does not overwrite an existing nmRepeatMessageTime.
@@ -2061,7 +2063,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmRepetitionCycle
 
-    def setNmRepetitionCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+    def setNmRepetitionCycle(self, value: Optional[Integer]) -> FlexrayNmCluster:
         """
         Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
         A None value is a no-op and does not overwrite an existing nmRepetitionCycle.
@@ -2076,7 +2078,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nmVotingCycle
 
-    def setNmVotingCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+    def setNmVotingCycle(self, value: Optional[Integer]) -> FlexrayNmCluster:
         """
         Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
         A None value is a no-op and does not overwrite an existing nmVotingCycle.
@@ -2116,7 +2118,7 @@ class J1939NmCluster(NmCluster):
         """
         return self.addressClaimEnabled
 
-    def setAddressClaimEnabled(self, value: Optional[Boolean]) -> "J1939NmCluster":
+    def setAddressClaimEnabled(self, value: Optional[Boolean]) -> J1939NmCluster:
         """
         This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
         A None value is a no-op and does not overwrite an existing addressClaimEnabled.
@@ -2131,7 +2133,7 @@ class J1939NmCluster(NmCluster):
         """
         return self.usesDynamicAddressing
 
-    def setUsesDynamicAddressing(self, value: Optional[Boolean]) -> "J1939NmCluster":
+    def setUsesDynamicAddressing(self, value: Optional[Boolean]) -> J1939NmCluster:
         """
         Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
         A None value is a no-op and does not overwrite an existing usesDynamicAddressing.
@@ -2164,7 +2166,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
         # Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
         self.nmImmediateRestartEnabled: Optional[Boolean] = None
 
-    def addCoupledClusterRef(self, ref: RefType) -> "UdpNmClusterCoupling":
+    def addCoupledClusterRef(self, ref: RefType) -> UdpNmClusterCoupling:
         """
         Reference to coupled UdpNm Clusters.
         """
@@ -2183,7 +2185,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
         """
         return self.nmImmediateRestartEnabled
 
-    def setNmImmediateRestartEnabled(self, value: Optional[Boolean]) -> "UdpNmClusterCoupling":
+    def setNmImmediateRestartEnabled(self, value: Optional[Boolean]) -> UdpNmClusterCoupling:
         """
         Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
         A None value is a no-op and does not overwrite an existing nmImmediateRestartEnabled.
@@ -2275,7 +2277,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmCbvPosition
 
-    def setNmCbvPosition(self, value: Optional[Integer]) -> "UdpNmCluster":
+    def setNmCbvPosition(self, value: Optional[Integer]) -> UdpNmCluster:
         """
         Defines the position of the control bit vector within the Nm Pdu (Byte position). If this attribute is not configured, the Control Bit Vector is not used.
         A None value is a no-op and does not overwrite an existing nmCbvPosition.
@@ -2290,7 +2292,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmImmediateNmCycleTime
 
-    def setNmImmediateNmCycleTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmImmediateNmCycleTime(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Defines the immediate NmPdu cycle time in seconds which is used for nmImmediateNmTransmissions NmPdu transmissions. This attribute is only valid if nmImmediate NmTransmissions is greater one.
         A None value is a no-op and does not overwrite an existing nmImmediateNmCycleTime.
@@ -2305,7 +2307,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmImmediateNmTransmissions
 
-    def setNmImmediateNmTransmissions(self, value: Optional[PositiveInteger]) -> "UdpNmCluster":
+    def setNmImmediateNmTransmissions(self, value: Optional[PositiveInteger]) -> UdpNmCluster:
         """
         Defines the number of immediate NmPdus which shall be transmitted. If the value is zero no immediate NmPdus are transmitted. The cycle time of immediate NmPdus is defined by nmImmediateNmCycleTime.
         A None value is a no-op and does not overwrite an existing nmImmediateNmTransmissions.
@@ -2320,7 +2322,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmMessageTimeoutTime
 
-    def setNmMessageTimeoutTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmMessageTimeoutTime(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Timeout of a NmPdu in seconds. It determines how long the NM shall wait with notification of transmission failure while communication errors occur on the bus.
         A None value is a no-op and does not overwrite an existing nmMessageTimeoutTime.
@@ -2335,7 +2337,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmMsgCycleTime
 
-    def setNmMsgCycleTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmMsgCycleTime(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Period of a NmPdu in seconds. It determines the periodic rate in the periodic transmission mode with bus load reduction and is the basis for transmit scheduling in the periodic transmission mode without bus load reduction.
         A None value is a no-op and does not overwrite an existing nmMsgCycleTime.
@@ -2350,7 +2352,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmNetworkTimeout
 
-    def setNmNetworkTimeout(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmNetworkTimeout(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Network Timeout for NmPdus in seconds. It denotes the time how long the UdpNm shall stay in the Network Mode before transition into Prepare Bus-Sleep Mode shall take place.
         A None value is a no-op and does not overwrite an existing nmNetworkTimeout.
@@ -2365,7 +2367,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmNidPosition
 
-    def setNmNidPosition(self, value: Optional[Integer]) -> "UdpNmCluster":
+    def setNmNidPosition(self, value: Optional[Integer]) -> UdpNmCluster:
         """
         Defines the byte position of the source node identifier within the NmPdu. If this attribute is not configured, the Node Identification is not used.
         A None value is a no-op and does not overwrite an existing nmNidPosition.
@@ -2380,7 +2382,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmRemoteSleepIndicationTime
 
-    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
         A None value is a no-op and does not overwrite an existing nmRemoteSleepIndicationTime.
@@ -2395,7 +2397,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmRepeatMessageTime
 
-    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
         A None value is a no-op and does not overwrite an existing nmRepeatMessageTime.
@@ -2410,7 +2412,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nmWaitBusSleepTime
 
-    def setNmWaitBusSleepTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+    def setNmWaitBusSleepTime(self, value: Optional[TimeValue]) -> UdpNmCluster:
         """
         Timeout for bus calm down phase in seconds. It denotes the time how long the CanNm shall stay in the Prepare Bus-Sleep Mode before transition into Bus-Sleep Mode shall take place.
         A None value is a no-op and does not overwrite an existing nmWaitBusSleepTime.
@@ -2425,7 +2427,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.vlanRef
 
-    def setVlanRef(self, value: Optional[RefType]) -> "UdpNmCluster":
+    def setVlanRef(self, value: Optional[RefType]) -> UdpNmCluster:
         """
         Reference to the vlan (represented by the Ethernet PhysicalChannel) this UdpNmCluster shall apply to.
         A None value is a no-op and does not overwrite an existing vlanRef.

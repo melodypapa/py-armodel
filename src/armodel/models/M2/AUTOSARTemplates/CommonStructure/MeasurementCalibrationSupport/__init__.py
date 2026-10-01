@@ -1216,7 +1216,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         self.subElements.append(sub_element)
         return sub_element
 
-    def getSubElements(self) -> List["McDataInstance"]:
+    def getSubElements(self) -> List[McDataInstance]:
         """
         Gets the sub elements aggregated by this data instance.
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -29,18 +30,18 @@ class SwVariableRefProxy(ARObject):
         super().__init__()
 
         # This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type
-        self.autosarVariable: Optional["AutosarVariableRef"] = None
+        self.autosarVariable: Optional[AutosarVariableRef] = None
 
         # This reference is used in the McSupport file to express the final instance of input values etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a VariableDataPrototype.
         self.mcDataInstanceVarRef: Optional[RefType] = None
 
-    def getAutosarVariable(self) -> Optional["AutosarVariableRef"]:
+    def getAutosarVariable(self) -> Optional[AutosarVariableRef]:
         """
         This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type.
         """
         return self.autosarVariable
 
-    def setAutosarVariable(self, value: Optional["AutosarVariableRef"]) -> "SwVariableRefProxy":
+    def setAutosarVariable(self, value: Optional[AutosarVariableRef]) -> SwVariableRefProxy:
         """
         This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type. A None value is a no-op and does not overwrite an existing autosarVariable.
         """
@@ -54,7 +55,7 @@ class SwVariableRefProxy(ARObject):
         """
         return self.mcDataInstanceVarRef
 
-    def setMcDataInstanceVarRef(self, value: Optional[RefType]) -> "SwVariableRefProxy":
+    def setMcDataInstanceVarRef(self, value: Optional[RefType]) -> SwVariableRefProxy:
         """
         This reference is used in the McSupport file to express the final instance of input values etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a VariableDataPrototype. A None value is a no-op and does not overwrite an existing mcDataInstanceVarRef.
         """
@@ -82,18 +83,18 @@ class SwCalprmRefProxy(ARObject):
         super().__init__()
 
         # This represents a Parameter within AUTOSAR. Note that the Datatype of the referenced ParameterDataPrototype shall be an ApplicationDataType of category VALUE.
-        self.arParameter: Optional["AutosarParameterRef"] = None
+        self.arParameter: Optional[AutosarParameterRef] = None
 
         # This reference is used in the McSupport file to express the final instance of group axis etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a ParameterDataPrototype.
         self.mcDataInstanceRef: Optional[RefType] = None
 
-    def getArParameter(self) -> Optional["AutosarParameterRef"]:
+    def getArParameter(self) -> Optional[AutosarParameterRef]:
         """
         This represents a Parameter within AUTOSAR. Note that the Datatype of the referenced ParameterDataPrototype shall be an ApplicationDataType of category VALUE.
         """
         return self.arParameter
 
-    def setArParameter(self, value: Optional["AutosarParameterRef"]) -> "SwCalprmRefProxy":
+    def setArParameter(self, value: Optional[AutosarParameterRef]) -> SwCalprmRefProxy:
         """
         This represents a Parameter within AUTOSAR. Note that the Datatype of the referenced ParameterDataPrototype shall be an ApplicationDataType of category VALUE. A None value is a no-op and does not overwrite an existing arParameter.
         """
@@ -107,7 +108,7 @@ class SwCalprmRefProxy(ARObject):
         """
         return self.mcDataInstanceRef
 
-    def setMcDataInstanceRef(self, value: Optional[RefType]) -> "SwCalprmRefProxy":
+    def setMcDataInstanceRef(self, value: Optional[RefType]) -> SwCalprmRefProxy:
         """
         This reference is used in the McSupport file to express the final instance of group axis etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a ParameterDataPrototype. A None value is a no-op and does not overwrite an existing mcDataInstanceRef.
         """

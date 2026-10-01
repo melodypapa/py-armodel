@@ -715,8 +715,8 @@ class TestClientServerOperationMapping:
         assert mapping.getSecondOperationRef() is test_value
 
     def test_argument_mapping_annotations_are_bare(self):
-        assert ClientServerOperationMapping.addArgumentMapping.__annotations__["value"] == Optional[DataPrototypeMapping]
-        assert ClientServerOperationMapping.getArgumentMappings.__annotations__["return"] == List[DataPrototypeMapping]
+        assert ClientServerOperationMapping.addArgumentMapping.__annotations__["value"] == "Optional[DataPrototypeMapping]"
+        assert ClientServerOperationMapping.getArgumentMappings.__annotations__["return"] == "List[DataPrototypeMapping]"
         init_source = inspect.getsource(ClientServerOperationMapping.__init__)
         assert "self.argumentMappings: List[DataPrototypeMapping] = []" in init_source
 

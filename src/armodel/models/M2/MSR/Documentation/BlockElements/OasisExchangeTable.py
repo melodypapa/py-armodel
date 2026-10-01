@@ -400,7 +400,7 @@ class Entry(ARObject):
         self.colsep: Optional[TableSeparatorString] = None
 
         # This is the content of the TableEntry Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
-        self.entryContents: Optional["DocumentationBlock"] = None
+        self.entryContents: Optional[DocumentationBlock] = None
 
         # Number of additional rows. Default is "0" Tags: xml.attribute=true
         self.morerows: Optional[String] = None
@@ -479,13 +479,13 @@ class Entry(ARObject):
             self.colsep = value
         return self
 
-    def getEntryContents(self) -> Optional["DocumentationBlock"]:
+    def getEntryContents(self) -> Optional[DocumentationBlock]:
         """
         This is the content of the TableEntry Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.entryContents
 
-    def setEntryContents(self, value: Optional["DocumentationBlock"]) -> Entry:
+    def setEntryContents(self, value: Optional[DocumentationBlock]) -> Entry:
         """
         This is the content of the TableEntry Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing entryContents.
         """

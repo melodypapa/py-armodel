@@ -5,6 +5,9 @@ interfaces such as sender/receiver, client/server, mode switch, and
 parameter interfaces, as well as mapping classes for interface mappings.
 """
 
+from __future__ import annotations
+
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, TYPE_CHECKING
@@ -58,7 +61,7 @@ class PortInterface(AtpType, ABC):
         self.isService: Optional[Boolean] = None
 
         # This attribute provides further details about the nature of the applied service.
-        self.serviceKind: Optional["ServiceProviderEnum"] = None
+        self.serviceKind: Optional[ServiceProviderEnum] = None
 
     def getIsService(self) -> Optional[Boolean]:
         """
@@ -74,7 +77,7 @@ class PortInterface(AtpType, ABC):
         """
         return self.isService
 
-    def setIsService(self, value: Optional[Boolean]) -> "PortInterface":
+    def setIsService(self, value: Optional[Boolean]) -> PortInterface:
         """
         Sets the isService flag of this PortInterface.
 
@@ -94,7 +97,7 @@ class PortInterface(AtpType, ABC):
             self.isService = value
         return self
 
-    def getServiceKind(self) -> Optional["ServiceProviderEnum"]:
+    def getServiceKind(self) -> Optional[ServiceProviderEnum]:
         """
         Gets the serviceKind of this PortInterface.
 
@@ -105,7 +108,7 @@ class PortInterface(AtpType, ABC):
         """
         return self.serviceKind
 
-    def setServiceKind(self, value: Optional["ServiceProviderEnum"]) -> "PortInterface":
+    def setServiceKind(self, value: Optional[ServiceProviderEnum]) -> PortInterface:
         """
         Sets the serviceKind of this PortInterface.
 
@@ -224,7 +227,7 @@ class InvalidationPolicy(ARObject):
         self.dataElementRef: Optional[RefType] = None
 
         # This attribute controls how invalidation is applied to the dataElement.
-        self.handleInvalid: Optional["HandleInvalidEnum"] = None
+        self.handleInvalid: Optional[HandleInvalidEnum] = None
 
     def getDataElementRef(self) -> Optional[RefType]:
         """
@@ -232,7 +235,7 @@ class InvalidationPolicy(ARObject):
         """
         return self.dataElementRef
 
-    def setDataElementRef(self, value: Optional[RefType]) -> "InvalidationPolicy":
+    def setDataElementRef(self, value: Optional[RefType]) -> InvalidationPolicy:
         """
         Reference to the dataElement for which the InvalidationPolicy applies. A None value is a no-op and is not set.
         """
@@ -240,13 +243,13 @@ class InvalidationPolicy(ARObject):
             self.dataElementRef = value
         return self
 
-    def getHandleInvalid(self) -> Optional["HandleInvalidEnum"]:
+    def getHandleInvalid(self) -> Optional[HandleInvalidEnum]:
         """
         This attribute controls how invalidation is applied to the dataElement.
         """
         return self.handleInvalid
 
-    def setHandleInvalid(self, value: Optional["HandleInvalidEnum"]) -> "InvalidationPolicy":
+    def setHandleInvalid(self, value: Optional[HandleInvalidEnum]) -> InvalidationPolicy:
         """
         This attribute controls how invalidation is applied to the dataElement. A None value is a no-op and is not set.
         """
@@ -285,7 +288,7 @@ class MetaDataItem(ARObject):
         """
         return self.length
 
-    def setLength(self, value: Optional[PositiveInteger]) -> "MetaDataItem":
+    def setLength(self, value: Optional[PositiveInteger]) -> MetaDataItem:
         """
         This attribute determines the length of the MetaDataItem at run-time. A None value is a no-op and does not overwrite an existing length.
         """
@@ -299,7 +302,7 @@ class MetaDataItem(ARObject):
         """
         return self.metaDataItemType
 
-    def setMetaDataItemType(self, value: Optional[TextValueSpecification]) -> "MetaDataItem":
+    def setMetaDataItemType(self, value: Optional[TextValueSpecification]) -> MetaDataItem:
         """
         This aggregation contributes the specification of the concrete meta-data item type. A None value is a no-op and does not overwrite an existing metaDataItemType.
         """
@@ -410,7 +413,7 @@ class SenderReceiverInterface(DataInterface):
         """
         return self.getElement(short_name, VariableDataPrototype)
 
-    def addInvalidationPolicy(self, value: InvalidationPolicy) -> "SenderReceiverInterface":
+    def addInvalidationPolicy(self, value: InvalidationPolicy) -> SenderReceiverInterface:
         """
         InvalidationPolicy for a particular dataElement
         """
@@ -432,7 +435,7 @@ class SenderReceiverInterface(DataInterface):
         """
         return self.invalidationPolicies
 
-    def addMetaDataItemSet(self, value: MetaDataItemSet) -> "SenderReceiverInterface":
+    def addMetaDataItemSet(self, value: MetaDataItemSet) -> SenderReceiverInterface:
         """
         This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
         """
@@ -520,7 +523,7 @@ class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
         """
         return self.direction
 
-    def setDirection(self, value: Optional[ArgumentDirectionEnum]) -> "ArgumentDataPrototype":
+    def setDirection(self, value: Optional[ArgumentDirectionEnum]) -> ArgumentDataPrototype:
         """
         Sets the direction of the argument prototype.
         This attribute specifies the direction of the argument prototype.
@@ -553,7 +556,7 @@ class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
         """
         return self.serverArgumentImplPolicy
 
-    def setServerArgumentImplPolicy(self, value: Optional[ServerArgumentImplPolicyEnum]) -> "ArgumentDataPrototype":
+    def setServerArgumentImplPolicy(self, value: Optional[ServerArgumentImplPolicyEnum]) -> ArgumentDataPrototype:
         """
         Sets the server argument implementation policy.
         This defines how the argument type of the servers RunnableEntity is implemented.
@@ -604,7 +607,7 @@ class ApplicationError(Identifiable):
         """
         return self.errorCode
 
-    def setErrorCode(self, value: Optional[Integer]) -> "ApplicationError":
+    def setErrorCode(self, value: Optional[Integer]) -> ApplicationError:
         """
         Sets the error code that the RTE generator is forced to assign to the corresponding error symbol.
         Note that for error codes certain ranges are predefined (see RTE specification).
@@ -706,7 +709,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
         """
         return self.diagArgIntegrity
 
-    def setDiagArgIntegrity(self, value: Optional[Boolean]) -> "ClientServerOperation":
+    def setDiagArgIntegrity(self, value: Optional[Boolean]) -> ClientServerOperation:
         """
         Sets the diagArgIntegrity flag of this ClientServerOperation.
 
@@ -727,7 +730,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
             self.diagArgIntegrity = value
         return self
 
-    def addPossibleErrorRef(self, value: Optional[RefType]) -> "ClientServerOperation":
+    def addPossibleErrorRef(self, value: Optional[RefType]) -> ClientServerOperation:
         """
         Adds a possible error to this ClientServerOperation.
 
@@ -965,7 +968,7 @@ class ClientServerApplicationErrorMapping(ARObject):
         """
         return self.firstApplicationErrorRef
 
-    def setFirstApplicationErrorRef(self, value: Optional[RefType]) -> "ClientServerApplicationErrorMapping":
+    def setFirstApplicationErrorRef(self, value: Optional[RefType]) -> ClientServerApplicationErrorMapping:
         """
         This represents the first ApplicationError in the context of the ClientServerApplicationErrorMapping.
         A None value is a no-op and does not overwrite an existing firstApplicationErrorRef.
@@ -989,7 +992,7 @@ class ClientServerApplicationErrorMapping(ARObject):
         """
         return self.secondApplicationErrorRef
 
-    def setSecondApplicationErrorRef(self, value: Optional[RefType]) -> "ClientServerApplicationErrorMapping":
+    def setSecondApplicationErrorRef(self, value: Optional[RefType]) -> ClientServerApplicationErrorMapping:
         """
         This represents the second ApplicationError in the context of the ClientServerApplicationErrorMapping.
         A None value is a no-op and does not overwrite an existing secondApplicationErrorRef.
@@ -1048,7 +1051,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
         """
         return self.applicationCompositeElementIRef
 
-    def setApplicationCompositeElementIRef(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> "ApplicationCompositeDataTypeSubElementRef":
+    def setApplicationCompositeElementIRef(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> ApplicationCompositeDataTypeSubElementRef:
         """
         This represents the referenced ApplicationCompositeDataPrototype. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
         A None value is a no-op and does not overwrite an existing applicationCompositeElementIRef.
@@ -1112,7 +1115,7 @@ class TextTableValuePair(ARObject):
         """
         return self.firstValue
 
-    def setFirstValue(self, value: Optional[Numerical]) -> "TextTableValuePair":
+    def setFirstValue(self, value: Optional[Numerical]) -> TextTableValuePair:
         """
         Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
         A None value is a no-op and does not overwrite an existing firstValue.
@@ -1127,7 +1130,7 @@ class TextTableValuePair(ARObject):
         """
         return self.secondValue
 
-    def setSecondValue(self, value: Optional[Numerical]) -> "TextTableValuePair":
+    def setSecondValue(self, value: Optional[Numerical]) -> TextTableValuePair:
         """
         Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
         A None value is a no-op and does not overwrite an existing secondValue.
@@ -1182,7 +1185,7 @@ class TextTableMapping(ARObject):
         """
         return self.bitfieldTextTableMaskFirst
 
-    def setBitfieldTextTableMaskFirst(self, value: Optional[PositiveInteger]) -> "TextTableMapping":
+    def setBitfieldTextTableMaskFirst(self, value: Optional[PositiveInteger]) -> TextTableMapping:
         """
         This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
         A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskFirst.
@@ -1197,7 +1200,7 @@ class TextTableMapping(ARObject):
         """
         return self.bitfieldTextTableMaskSecond
 
-    def setBitfieldTextTableMaskSecond(self, value: Optional[PositiveInteger]) -> "TextTableMapping":
+    def setBitfieldTextTableMaskSecond(self, value: Optional[PositiveInteger]) -> TextTableMapping:
         """
         This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
         A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskSecond.
@@ -1212,7 +1215,7 @@ class TextTableMapping(ARObject):
         """
         return self.identicalMapping
 
-    def setIdenticalMapping(self, value: Optional[Boolean]) -> "TextTableMapping":
+    def setIdenticalMapping(self, value: Optional[Boolean]) -> TextTableMapping:
         """
         If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
         A None value is a no-op and does not overwrite an existing identicalMapping.
@@ -1227,7 +1230,7 @@ class TextTableMapping(ARObject):
         """
         return self.mappingDirection
 
-    def setMappingDirection(self, value: Optional[MappingDirectionEnum]) -> "TextTableMapping":
+    def setMappingDirection(self, value: Optional[MappingDirectionEnum]) -> TextTableMapping:
         """
         Specifies the conversion direction for which the TextTableMapping is applicable.
         A None value is a no-op and does not overwrite an existing mappingDirection.
@@ -1236,7 +1239,7 @@ class TextTableMapping(ARObject):
             self.mappingDirection = value
         return self
 
-    def addValuePair(self, value: Optional[TextTableValuePair]) -> "TextTableMapping":
+    def addValuePair(self, value: Optional[TextTableValuePair]) -> TextTableMapping:
         """
         Defines a pair of values which are translated into each other.
         A None value is a no-op and does not append anything.
@@ -1288,7 +1291,7 @@ class SubElementMapping(ARObject):
         """
         return self.firstElement
 
-    def setFirstElement(self, value: Optional[SubElementRef]) -> "SubElementMapping":
+    def setFirstElement(self, value: Optional[SubElementRef]) -> SubElementMapping:
         """
         This represents the first element referenced in the scope of the mapping.
         A None value is a no-op and does not overwrite an existing firstElement.
@@ -1303,7 +1306,7 @@ class SubElementMapping(ARObject):
         """
         return self.secondElement
 
-    def setSecondElement(self, value: Optional[SubElementRef]) -> "SubElementMapping":
+    def setSecondElement(self, value: Optional[SubElementRef]) -> SubElementMapping:
         """
         This represents the second element referenced in the scope of the mapping.
         A None value is a no-op and does not overwrite an existing secondElement.
@@ -1312,7 +1315,7 @@ class SubElementMapping(ARObject):
             self.secondElement = value
         return self
 
-    def addTextTableMapping(self, value: Optional[TextTableMapping]) -> "SubElementMapping":
+    def addTextTableMapping(self, value: Optional[TextTableMapping]) -> SubElementMapping:
         """
         This allows for the text-table translation of individual elements of a composite data type.
         A None value is a no-op and does not append anything.
@@ -1378,7 +1381,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.firstDataPrototypeRef
 
-    def setFirstDataPrototypeRef(self, value: Optional[RefType]) -> "DataPrototypeMapping":
+    def setFirstDataPrototypeRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
         First to be mapped DataPrototype in context of a Sender ReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         A None value is a no-op and does not overwrite an existing firstDataPrototypeRef.
@@ -1393,7 +1396,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.firstToSecondDataTransformationRef
 
-    def setFirstToSecondDataTransformationRef(self, value: Optional[RefType]) -> "DataPrototypeMapping":
+    def setFirstToSecondDataTransformationRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
         This reference defines the need to execute the Data Transformation <Mip>_<transformerId> functions of the transformation chain when communicating from the Data PrototypeMapping.firstDataPrototype to the Data PrototypeMapping.secondDataPrototype. This reference also specifies the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototype Mapping.secondDataPrototype to the DataPrototype Mapping.firstDataPrototype) if the referenced Data Transformation is symmetric, i.e. attribute Data Transformation.dataTransformationKind is set to symmetric.
         A None value is a no-op and does not overwrite an existing firstToSecondDataTransformationRef.
@@ -1408,7 +1411,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.secondDataPrototypeRef
 
-    def setSecondDataPrototypeRef(self, value: Optional[RefType]) -> "DataPrototypeMapping":
+    def setSecondDataPrototypeRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
         Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, Parameter Interface or Operation.
         A None value is a no-op and does not overwrite an existing secondDataPrototypeRef.
@@ -1423,7 +1426,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.secondToFirstDataTransformationRef
 
-    def setSecondToFirstDataTransformationRef(self, value: Optional[RefType]) -> "DataPrototypeMapping":
+    def setSecondToFirstDataTransformationRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
         This defines the need to execute the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the Data PrototypeMapping.firstDataPrototype.
         A None value is a no-op and does not overwrite an existing secondToFirstDataTransformationRef.
@@ -1432,7 +1435,7 @@ class DataPrototypeMapping(ARObject):
             self.secondToFirstDataTransformationRef = value
         return self
 
-    def addSubElementMapping(self, value: Optional[SubElementMapping]) -> "DataPrototypeMapping":
+    def addSubElementMapping(self, value: Optional[SubElementMapping]) -> DataPrototypeMapping:
         """
         This represents the owned SubelementMapping.
         A None value is a no-op and does not append anything.
@@ -1447,7 +1450,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.subElementMappings
 
-    def addTextTableMapping(self, value: Optional[TextTableMapping]) -> "DataPrototypeMapping":
+    def addTextTableMapping(self, value: Optional[TextTableMapping]) -> DataPrototypeMapping:
         """
         Applied TextTableMapping(s)
         A None value is a no-op and does not append anything.
@@ -1511,7 +1514,7 @@ class ClientServerOperationMapping(ARObject):
         # Second to-be-mapped ClientServerOperation of a ClientServerInterface.
         self.secondOperationRef: Optional[RefType] = None
 
-    def addArgumentMapping(self, value: Optional[DataPrototypeMapping]) -> "ClientServerOperationMapping":
+    def addArgumentMapping(self, value: Optional[DataPrototypeMapping]) -> ClientServerOperationMapping:
         """
         Defines the mapping of two particular ArgumentDataPrototypes with unequal names or unequal semantic (resolution or range) in context of Operations.
         A None value is a no-op and does not append anything.
@@ -1532,7 +1535,7 @@ class ClientServerOperationMapping(ARObject):
         """
         return self.firstOperationRef
 
-    def setFirstOperationRef(self, value: Optional[RefType]) -> "ClientServerOperationMapping":
+    def setFirstOperationRef(self, value: Optional[RefType]) -> ClientServerOperationMapping:
         """
         First to-be-mapped ClientServerOperation of a ClientServerInterface.
         A None value is a no-op and does not overwrite an existing firstOperationRef.
@@ -1547,7 +1550,7 @@ class ClientServerOperationMapping(ARObject):
         """
         return self.firstToSecondDataTransformationRef
 
-    def setFirstToSecondDataTransformationRef(self, value: Optional[RefType]) -> "ClientServerOperationMapping":
+    def setFirstToSecondDataTransformationRef(self, value: Optional[RefType]) -> ClientServerOperationMapping:
         """
         This reference indicates that a DataTransformation is intended in the context of the ClientServerOperationMapping.
         A None value is a no-op and does not overwrite an existing firstToSecondDataTransformationRef.
@@ -1562,7 +1565,7 @@ class ClientServerOperationMapping(ARObject):
         """
         return self.secondOperationRef
 
-    def setSecondOperationRef(self, value: Optional[RefType]) -> "ClientServerOperationMapping":
+    def setSecondOperationRef(self, value: Optional[RefType]) -> ClientServerOperationMapping:
         """
         Second to-be-mapped ClientServerOperation of a ClientServerInterface.
         A None value is a no-op and does not overwrite an existing secondOperationRef.
@@ -1602,7 +1605,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
         """
         return self.errorMappings
 
-    def addErrorMapping(self, value: Optional[ClientServerApplicationErrorMapping]) -> "ClientServerInterfaceMapping":
+    def addErrorMapping(self, value: Optional[ClientServerApplicationErrorMapping]) -> ClientServerInterfaceMapping:
         """
         Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces. A None value is a no-op and does not append anything.
         """
@@ -1616,7 +1619,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
         """
         return self.operationMappings
 
-    def addOperationMapping(self, value: Optional[ClientServerOperationMapping]) -> "ClientServerInterfaceMapping":
+    def addOperationMapping(self, value: Optional[ClientServerOperationMapping]) -> ClientServerInterfaceMapping:
         """
         Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping. A None value is a no-op and does not append anything.
         """
@@ -1650,7 +1653,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
         """
         return self.dataMappings
 
-    def addDataMapping(self, value: Optional[DataPrototypeMapping]) -> "VariableAndParameterInterfaceMapping":
+    def addDataMapping(self, value: Optional[DataPrototypeMapping]) -> VariableAndParameterInterfaceMapping:
         """
         Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping. A None value is a no-op and does not append anything.
         """
@@ -1684,7 +1687,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
         """
         return self.modeMapping
 
-    def setModeMapping(self, value: Optional[ModeDeclarationGroupPrototypeMapping]) -> "ModeInterfaceMapping":
+    def setModeMapping(self, value: Optional[ModeDeclarationGroupPrototypeMapping]) -> ModeInterfaceMapping:
         """
         Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces. A None value is a no-op and does not overwrite an existing modeMapping.
         """
@@ -1718,7 +1721,7 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
         """
         return self.triggerMappings
 
-    def addTriggerMapping(self, value: Optional[TriggerMapping]) -> "TriggerInterfaceMapping":
+    def addTriggerMapping(self, value: Optional[TriggerMapping]) -> TriggerInterfaceMapping:
         """
         Mapping of two Trigger in two different TriggerInterface
         A None value is a no-op and does not append anything.
@@ -1758,7 +1761,7 @@ class ModeDeclarationMapping(AtpStructureElement):
         """
         return self.firstModeRefs
 
-    def addFirstModeRef(self, value: Optional[RefType]) -> "ModeDeclarationMapping":
+    def addFirstModeRef(self, value: Optional[RefType]) -> ModeDeclarationMapping:
         """
         This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         A None value is a no-op and does not append anything.
@@ -1773,7 +1776,7 @@ class ModeDeclarationMapping(AtpStructureElement):
         """
         return self.secondModeRef
 
-    def setSecondModeRef(self, value: Optional[RefType]) -> "ModeDeclarationMapping":
+    def setSecondModeRef(self, value: Optional[RefType]) -> ModeDeclarationMapping:
         """
         This represents the second ModeDeclaration of the Mode DeclarationMapping.
         A None value is a no-op and does not overwrite an existing secondModeRef.

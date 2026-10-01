@@ -81,7 +81,7 @@ class ExternalTriggeringPoint(ARObject, VariationPointCapable):
         self.ident: ExternalTriggeringPointIdent = None
 
         # The trigger taken for the ExternalTriggeringPoint.
-        self.trigger: Optional["PTriggerInAtomicSwcTypeInstanceRef"] = None
+        self.trigger: Optional[PTriggerInAtomicSwcTypeInstanceRef] = None
 
     def createIdent(self, short_name: str) -> ExternalTriggeringPointIdent:
         """
@@ -103,7 +103,7 @@ class ExternalTriggeringPoint(ARObject, VariationPointCapable):
         """
         return self.ident
 
-    def getTrigger(self) -> Optional["PTriggerInAtomicSwcTypeInstanceRef"]:
+    def getTrigger(self) -> Optional[PTriggerInAtomicSwcTypeInstanceRef]:
         """
         Gets the trigger taken for the ExternalTriggeringPoint. The trigger is
         represented as a PTriggerInAtomicSwcTypeInstanceRef.
@@ -113,7 +113,7 @@ class ExternalTriggeringPoint(ARObject, VariationPointCapable):
         """
         return self.trigger
 
-    def setTrigger(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> ExternalTriggeringPoint:
+    def setTrigger(self, value: Optional[PTriggerInAtomicSwcTypeInstanceRef]) -> ExternalTriggeringPoint:
         """
         Sets the trigger taken for the ExternalTriggeringPoint. The trigger is
         represented as a PTriggerInAtomicSwcTypeInstanceRef. A None value is a

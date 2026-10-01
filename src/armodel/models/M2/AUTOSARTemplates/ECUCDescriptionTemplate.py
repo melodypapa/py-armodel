@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional
@@ -51,7 +52,7 @@ class EcucValueCollection(ARElement):
         # Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description.
         self.ecuExtractRef: Optional[RefType] = None
 
-    def addEcucValueRef(self, value: Optional[RefType]) -> "EcucValueCollection":
+    def addEcucValueRef(self, value: Optional[RefType]) -> EcucValueCollection:
         """References to the configuration of individual software modules that are present on this ECU. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecucValue.ecucModuleConfigurationValues, ecucValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append to the existing references."""
         if value is not None:
             self.ecucValueRefs.append(value)
@@ -65,7 +66,7 @@ class EcucValueCollection(ARElement):
         """Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description."""
         return self.ecuExtractRef
 
-    def setEcuExtractRef(self, value: Optional[RefType]) -> "EcucValueCollection":
+    def setEcuExtractRef(self, value: Optional[RefType]) -> EcucValueCollection:
         """Represents the extract of the System Configuration that is relevant for the ECU configured with that ECU Configuration Description. A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.ecuExtractRef = value
@@ -100,7 +101,7 @@ class EcucIndexableValue(ARObject, ABC):
         """
         return self.index
 
-    def setIndex(self, value: Optional[PositiveInteger]) -> "EcucIndexableValue":
+    def setIndex(self, value: Optional[PositiveInteger]) -> EcucIndexableValue:
         """
         Used to support the specification of ordering of parameter values.
 
@@ -143,7 +144,7 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         # If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20
         self.isAutoValue: Optional[Boolean] = None
 
-    def addAnnotation(self, value: Optional[Annotation]) -> "EcucParameterValue":
+    def addAnnotation(self, value: Optional[Annotation]) -> EcucParameterValue:
         """Possibility to provide additional notes while defining the ECU Configuration Parameter Values. These are not intended as documentation but are mere design notes. Tags: xml.sequenceOffset=10 A None value is a no-op and does not append to the existing annotations."""
         if value is not None:
             self.annotations.append(value)
@@ -157,7 +158,7 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: Optional[RefType]) -> "EcucParameterValue":
+    def setDefinitionRef(self, value: Optional[RefType]) -> EcucParameterValue:
         """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -167,7 +168,7 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20"""
         return self.isAutoValue
 
-    def setIsAutoValue(self, value: Optional[Boolean]) -> "EcucParameterValue":
+    def setIsAutoValue(self, value: Optional[Boolean]) -> EcucParameterValue:
         """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing flag."""
         if value is not None:
             self.isAutoValue = value
@@ -197,7 +198,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
         """Holds the content of the formated text."""
         return self.value
 
-    def setValue(self, value: Optional[DocumentationBlock]) -> "EcucAddInfoParamValue":
+    def setValue(self, value: Optional[DocumentationBlock]) -> EcucAddInfoParamValue:
         """Holds the content of the formated text. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -227,7 +228,7 @@ class EcucTextualParamValue(EcucParameterValue):
         """Value of the parameter, not subject to variant handling."""
         return self.value
 
-    def setValue(self, value: Optional[VerbatimString]) -> "EcucTextualParamValue":
+    def setValue(self, value: Optional[VerbatimString]) -> EcucTextualParamValue:
         """Value of the parameter, not subject to variant handling. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -257,7 +258,7 @@ class EcucNumericalParamValue(EcucParameterValue):
         """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"""
         return self.value
 
-    def setValue(self, value: Optional[Numerical]) -> "EcucNumericalParamValue":
+    def setValue(self, value: Optional[Numerical]) -> EcucNumericalParamValue:
         """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -296,7 +297,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC)
         # If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false".
         self.isAutoValue: Optional[Boolean] = None
 
-    def addAnnotation(self, value: Optional[Annotation]) -> "EcucAbstractReferenceValue":
+    def addAnnotation(self, value: Optional[Annotation]) -> EcucAbstractReferenceValue:
         """Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes. A None value is a no-op and does not append to the existing annotations."""
         if value is not None:
             self.annotations.append(value)
@@ -310,7 +311,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC)
         """Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: Optional[RefType]) -> "EcucAbstractReferenceValue":
+    def setDefinitionRef(self, value: Optional[RefType]) -> EcucAbstractReferenceValue:
         """Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -320,7 +321,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC)
         """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false"."""
         return self.isAutoValue
 
-    def setIsAutoValue(self, value: Optional[Boolean]) -> "EcucAbstractReferenceValue":
+    def setIsAutoValue(self, value: Optional[Boolean]) -> EcucAbstractReferenceValue:
         """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". A None value is a no-op and does not overwrite an existing flag."""
         if value is not None:
             self.isAutoValue = value
@@ -350,7 +351,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
         """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef"""
         return self.valueIRef
 
-    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> "EcucInstanceReferenceValue":
+    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> EcucInstanceReferenceValue:
         """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.valueIRef = value
@@ -380,7 +381,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         """Specifies the destination of the reference."""
         return self.valueRef
 
-    def setValueRef(self, value: Optional[RefType]) -> "EcucReferenceValue":
+    def setValueRef(self, value: Optional[RefType]) -> EcucReferenceValue:
         """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.valueRef = value
@@ -420,13 +421,13 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
         self.referenceValues: List[EcucAbstractReferenceValue] = []
 
         # Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        self.subContainers: List["EcucContainerValue"] = []
+        self.subContainers: List[EcucContainerValue] = []
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType) -> "EcucContainerValue":
+    def setDefinitionRef(self, value: RefType) -> EcucContainerValue:
         """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -436,7 +437,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
         """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
         return self.parameterValues
 
-    def addParameterValue(self, value: EcucParameterValue) -> "EcucContainerValue":
+    def addParameterValue(self, value: EcucParameterValue) -> EcucContainerValue:
         """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
         self.parameterValues.append(value)
         return self
@@ -445,16 +446,16 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
         """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
         return self.referenceValues
 
-    def addReferenceValue(self, value: EcucAbstractReferenceValue) -> "EcucContainerValue":
+    def addReferenceValue(self, value: EcucAbstractReferenceValue) -> EcucContainerValue:
         """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
         self.referenceValues.append(value)
         return self
 
-    def getSubContainers(self) -> List["EcucContainerValue"]:
+    def getSubContainers(self) -> List[EcucContainerValue]:
         """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.subContainers
 
-    def createSubContainer(self, short_name: str) -> "EcucContainerValue":
+    def createSubContainer(self, short_name: str) -> EcucContainerValue:
         """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsElementExists(short_name, EcucContainerValue):
             container_value = EcucContainerValue(self, short_name)
@@ -523,7 +524,7 @@ class EcucModuleConfigurationValues(ARElement):
         """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType) -> "EcucModuleConfigurationValues":
+    def setDefinitionRef(self, value: RefType) -> EcucModuleConfigurationValues:
         """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -533,7 +534,7 @@ class EcucModuleConfigurationValues(ARElement):
         """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor."""
         return self.ecucDefEdition
 
-    def setEcucDefEdition(self, value: RevisionLabelString) -> "EcucModuleConfigurationValues":
+    def setEcucDefEdition(self, value: RevisionLabelString) -> EcucModuleConfigurationValues:
         """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor. A None value is a no-op and does not overwrite an existing version info."""
         if value is not None:
             self.ecucDefEdition = value
@@ -543,7 +544,7 @@ class EcucModuleConfigurationValues(ARElement):
         """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild."""
         return self.implementationConfigVariant
 
-    def setImplementationConfigVariant(self, value: EcucConfigurationVariantEnum) -> "EcucModuleConfigurationValues":
+    def setImplementationConfigVariant(self, value: EcucConfigurationVariantEnum) -> EcucModuleConfigurationValues:
         """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild. A None value is a no-op and does not overwrite an existing configuration variant."""
         if value is not None:
             self.implementationConfigVariant = value
@@ -553,7 +554,7 @@ class EcucModuleConfigurationValues(ARElement):
         """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information."""
         return self.moduleDescriptionRef
 
-    def setModuleDescriptionRef(self, value: RefType) -> "EcucModuleConfigurationValues":
+    def setModuleDescriptionRef(self, value: RefType) -> EcucModuleConfigurationValues:
         """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information. A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.moduleDescriptionRef = value
@@ -563,7 +564,7 @@ class EcucModuleConfigurationValues(ARElement):
         """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed."""
         return self.postBuildVariantUsed
 
-    def setPostBuildVariantUsed(self, value: Boolean) -> "EcucModuleConfigurationValues":
+    def setPostBuildVariantUsed(self, value: Boolean) -> EcucModuleConfigurationValues:
         """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed. A None value is a no-op and does not overwrite an existing flag."""
         if value is not None:
             self.postBuildVariantUsed = value
@@ -608,7 +609,7 @@ class ParameterValue(ARObject, ABC):
         """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: Optional[RefType]) -> "ParameterValue":
+    def setDefinitionRef(self, value: Optional[RefType]) -> ParameterValue:
         """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -640,7 +641,7 @@ class IntegerValue(ParameterValue):
         """Stores the value of the Integer parameter."""
         return self.value
 
-    def setValue(self, value: Optional[UnlimitedInteger]) -> "IntegerValue":
+    def setValue(self, value: Optional[UnlimitedInteger]) -> IntegerValue:
         """Stores the value of the Integer parameter. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -672,7 +673,7 @@ class BooleanValue(ParameterValue):
         """Stores the value of the Boolean parameter."""
         return self.value
 
-    def setValue(self, value: Optional[Boolean]) -> "BooleanValue":
+    def setValue(self, value: Optional[Boolean]) -> BooleanValue:
         """Stores the value of the Boolean parameter. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -704,7 +705,7 @@ class FloatValue(ParameterValue):
         """Stores the value of the Float parameter."""
         return self.value
 
-    def setValue(self, value: Optional[Float]) -> "FloatValue":
+    def setValue(self, value: Optional[Float]) -> FloatValue:
         """Stores the value of the Float parameter. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -736,7 +737,7 @@ class StringValue(ParameterValue):
         """Stores the value of the String parameter."""
         return self.value
 
-    def setValue(self, value: Optional[String]) -> "StringValue":
+    def setValue(self, value: Optional[String]) -> StringValue:
         """Stores the value of the String parameter. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -801,7 +802,7 @@ class EnumerationValue(ParameterValue):
         """Stores the chosen literal."""
         return self.value
 
-    def setValue(self, value: Optional[String]) -> "EnumerationValue":
+    def setValue(self, value: Optional[String]) -> EnumerationValue:
         """Stores the chosen literal. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
@@ -849,7 +850,7 @@ class ConfigReferenceValue(ARObject, ABC):
         """Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: Optional[RefType]) -> "ConfigReferenceValue":
+    def setDefinitionRef(self, value: Optional[RefType]) -> ConfigReferenceValue:
         """Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -886,7 +887,7 @@ class ReferenceValue(ConfigReferenceValue):
         """Specifies the destination of the reference."""
         return self.valueRef
 
-    def setValueRef(self, value: Optional[RefType]) -> "ReferenceValue":
+    def setValueRef(self, value: Optional[RefType]) -> ReferenceValue:
         """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.valueRef = value
@@ -922,7 +923,7 @@ class InstanceReferenceValue(ConfigReferenceValue):
         """InstanceReference representation in the ECU Configuration."""
         return self.valueIRef
 
-    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> "InstanceReferenceValue":
+    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> InstanceReferenceValue:
         """InstanceReference representation in the ECU Configuration. A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.valueIRef = value
@@ -972,13 +973,13 @@ class Container(Identifiable):
         self.referenceValues: List[ConfigReferenceValue] = []
 
         # Aggregates all sub-containers within this container.
-        self.subContainers: List["Container"] = []
+        self.subContainers: List[Container] = []
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: Optional[RefType]) -> "Container":
+    def setDefinitionRef(self, value: Optional[RefType]) -> Container:
         """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -988,7 +989,7 @@ class Container(Identifiable):
         """Aggregates all ECU Configuration Values within this Container."""
         return self.parameterValues
 
-    def addParameterValue(self, value: ParameterValue) -> "Container":
+    def addParameterValue(self, value: ParameterValue) -> Container:
         """Aggregates all ECU Configuration Values within this Container."""
         self.parameterValues.append(value)
         return self
@@ -997,16 +998,16 @@ class Container(Identifiable):
         """Aggregates all References with this container."""
         return self.referenceValues
 
-    def addReferenceValue(self, value: ConfigReferenceValue) -> "Container":
+    def addReferenceValue(self, value: ConfigReferenceValue) -> Container:
         """Aggregates all References with this container."""
         self.referenceValues.append(value)
         return self
 
-    def getSubContainers(self) -> List["Container"]:
+    def getSubContainers(self) -> List[Container]:
         """Aggregates all sub-containers within this container."""
         return self.subContainers
 
-    def createSubContainer(self, short_name: str) -> "Container":
+    def createSubContainer(self, short_name: str) -> Container:
         """Aggregates all sub-containers within this container."""
         if not self.IsElementExists(short_name, Container):
             sub_container = Container(self, short_name)
@@ -1094,7 +1095,7 @@ class ModuleConfiguration(ARElement):
         """Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: Optional[RefType]) -> "ModuleConfiguration":
+    def setDefinitionRef(self, value: Optional[RefType]) -> ModuleConfiguration:
         """Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
@@ -1104,7 +1105,7 @@ class ModuleConfiguration(ARElement):
         """Specifies the ConfigurationVariant used for this ModuleConfiguration."""
         return self.implementationConfigVariant
 
-    def setImplementationConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> "ModuleConfiguration":
+    def setImplementationConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> ModuleConfiguration:
         """Specifies the ConfigurationVariant used for this ModuleConfiguration. A None value is a no-op and does not overwrite an existing configuration variant."""
         if value is not None:
             self.implementationConfigVariant = value
@@ -1114,7 +1115,7 @@ class ModuleConfiguration(ARElement):
         """Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs."""
         return self.moduleDescriptionRef
 
-    def setModuleDescriptionRef(self, value: Optional[RefType]) -> "ModuleConfiguration":
+    def setModuleDescriptionRef(self, value: Optional[RefType]) -> ModuleConfiguration:
         """Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.moduleDescriptionRef = value

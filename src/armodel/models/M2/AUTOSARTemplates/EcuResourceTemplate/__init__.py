@@ -6,6 +6,9 @@ Hardware elements define the physical components of ECUs including pins, pin gro
 and connections between hardware elements.
 """
 
+from __future__ import annotations
+
+
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -41,7 +44,7 @@ class HwDescriptionEntity(Referrable, ABC):
         super().__init__(parent, short_name)
 
         # This aggregation represents a particular hardware attribute value.
-        self.hwAttributeValues: List["HwAttributeValue"] = []
+        self.hwAttributeValues: List[HwAttributeValue] = []
 
         # One of the associations representing one particular category of the hardware entity.
         self.hwCategoryRefs: List[RefType] = []
@@ -49,7 +52,7 @@ class HwDescriptionEntity(Referrable, ABC):
         # This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
         self.hwTypeRef: Optional[RefType] = None
 
-    def addHwAttributeValue(self, value: "HwAttributeValue"):
+    def addHwAttributeValue(self, value: HwAttributeValue):
         """
         This aggregation represents a particular hardware attribute value.
 
@@ -62,7 +65,7 @@ class HwDescriptionEntity(Referrable, ABC):
             self.hwAttributeValues.append(value)
         return self
 
-    def getHwAttributeValues(self) -> List["HwAttributeValue"]:
+    def getHwAttributeValues(self) -> List[HwAttributeValue]:
         """
         This aggregation represents a particular hardware attribute value.
 
@@ -153,7 +156,7 @@ class HwPin(Identifiable, HwDescriptionEntity, VariationPointCapable):
             self.functionNames.append(value)
         return value
 
-    def addFunctionName(self, value: String) -> "HwPin":
+    def addFunctionName(self, value: String) -> HwPin:
         """This attribute describes the function of the pin (e.g. CLK for Clock)."""
         if value not in self.functionNames:
             self.functionNames.append(value)
@@ -216,7 +219,7 @@ class HwPinGroupContent(ARObject):
         super().__init__()
 
         self.hwPin: Optional[HwPin] = None
-        self.hwPinGroup: Optional["HwPinGroup"] = None
+        self.hwPinGroup: Optional[HwPinGroup] = None
 
     def getHwPin(self) -> Optional[HwPin]:
         """
@@ -241,7 +244,7 @@ class HwPinGroupContent(ARObject):
         self.hwPin = pin
         return pin
 
-    def getHwPinGroup(self) -> Optional["HwPinGroup"]:
+    def getHwPinGroup(self) -> Optional[HwPinGroup]:
         """
         Gets the hardware pin group in this pin group content.
 
@@ -250,7 +253,7 @@ class HwPinGroupContent(ARObject):
         """
         return self.hwPinGroup
 
-    def setHwPinGroup(self, value: "HwPinGroup"):
+    def setHwPinGroup(self, value: HwPinGroup):
         """
         Sets the hardware pin group in this pin group content.
         Only sets the value if it is not None.
