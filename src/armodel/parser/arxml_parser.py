@@ -540,6 +540,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
+    DiagnosticEventToDebounceAlgorithmMapping,
+    DiagnosticEventToEnableConditionGroupMapping,
+    DiagnosticEventToOperationCycleMapping,
+    DiagnosticEventToStorageConditionGroupMapping,
+    DiagnosticEventToTroubleCodeUdsMapping,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
 )
@@ -10518,6 +10523,31 @@ class ARXMLParser(AbstractARXMLParser):
             service_data_mapping.setParameterElementAccess(pea)
         service_data_mapping.setDiagnosticParameterRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-PARAMETER-REF"))
 
+    def readDiagnosticEventToDebounceAlgorithmMapping(self, element: ET.Element, mapping: DiagnosticEventToDebounceAlgorithmMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDebounceAlgorithmRef(self.getChildElementOptionalRefType(element, "DEBOUNCE-ALGORITHM-REF"))
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+
+    def readDiagnosticEventToEnableConditionGroupMapping(self, element: ET.Element, mapping: DiagnosticEventToEnableConditionGroupMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setEnableConditionGroupRef(self.getChildElementOptionalRefType(element, "ENABLE-CONDITION-GROUP-REF"))
+
+    def readDiagnosticEventToOperationCycleMapping(self, element: ET.Element, mapping: DiagnosticEventToOperationCycleMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setOperationCycleRef(self.getChildElementOptionalRefType(element, "OPERATION-CYCLE-REF"))
+
+    def readDiagnosticEventToStorageConditionGroupMapping(self, element: ET.Element, mapping: DiagnosticEventToStorageConditionGroupMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setStorageConditionGroupRef(self.getChildElementOptionalRefType(element, "STORAGE-CONDITION-GROUP-REF"))
+
+    def readDiagnosticEventToTroubleCodeUdsMapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeUdsMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setTroubleCodeUdsRef(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-UDS-REF"))
+
     def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
         self.readIdentifiable(element, did)
         id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
@@ -15535,6 +15565,21 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
                 service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
                 self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
+                mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
+                self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-ENABLE-CONDITION-GROUP-MAPPING":
+                mapping = parent.createDiagnosticEventToEnableConditionGroupMapping(self.getShortName(child_element))
+                self.readDiagnosticEventToEnableConditionGroupMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-OPERATION-CYCLE-MAPPING":
+                mapping = parent.createDiagnosticEventToOperationCycleMapping(self.getShortName(child_element))
+                self.readDiagnosticEventToOperationCycleMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-STORAGE-CONDITION-GROUP-MAPPING":
+                mapping = parent.createDiagnosticEventToStorageConditionGroupMapping(self.getShortName(child_element))
+                self.readDiagnosticEventToStorageConditionGroupMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-UDS-MAPPING":
+                mapping = parent.createDiagnosticEventToTroubleCodeUdsMapping(self.getShortName(child_element))
+                self.readDiagnosticEventToTroubleCodeUdsMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)

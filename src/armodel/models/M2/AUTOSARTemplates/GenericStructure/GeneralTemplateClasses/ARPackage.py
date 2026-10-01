@@ -384,7 +384,7 @@ __all__ = [
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
@@ -392,7 +392,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     ReferrableSubtypesEnum,
-)  # noqa: E402
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
 
@@ -2141,6 +2141,96 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(service_data_mapping)
         return self.getElement(short_name, DiagnosticServiceDataMapping)
 
+    def createDiagnosticEventToTroubleCodeUdsMapping(self, short_name: str) -> DiagnosticEventToTroubleCodeUdsMapping:
+        """
+        Creates a new DiagnosticEventToTroubleCodeUdsMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToTroubleCodeUdsMapping: Defines which UDS Diagnostic Trouble Code is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToTroubleCodeUdsMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToTroubleCodeUdsMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToTroubleCodeUdsMapping):
+            element = DiagnosticEventToTroubleCodeUdsMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToTroubleCodeUdsMapping)
+
+    def createDiagnosticEventToStorageConditionGroupMapping(self, short_name: str) -> DiagnosticEventToStorageConditionGroupMapping:
+        """
+        Creates a new DiagnosticEventToStorageConditionGroupMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToStorageConditionGroupMapping: Defines which StorageConditionGroup is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToStorageConditionGroupMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToStorageConditionGroupMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToStorageConditionGroupMapping):
+            element = DiagnosticEventToStorageConditionGroupMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToStorageConditionGroupMapping)
+
+    def createDiagnosticEventToOperationCycleMapping(self, short_name: str) -> DiagnosticEventToOperationCycleMapping:
+        """
+        Creates a new DiagnosticEventToOperationCycleMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToOperationCycleMapping: Defines which OperationCycle is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToOperationCycleMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToOperationCycleMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToOperationCycleMapping):
+            element = DiagnosticEventToOperationCycleMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToOperationCycleMapping)
+
+    def createDiagnosticEventToEnableConditionGroupMapping(self, short_name: str) -> DiagnosticEventToEnableConditionGroupMapping:
+        """
+        Creates a new DiagnosticEventToEnableConditionGroupMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToEnableConditionGroupMapping: Defines which EnableConditionGroup is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToEnableConditionGroupMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToEnableConditionGroupMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToEnableConditionGroupMapping):
+            element = DiagnosticEventToEnableConditionGroupMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToEnableConditionGroupMapping)
+
+    def createDiagnosticEventToDebounceAlgorithmMapping(self, short_name: str) -> DiagnosticEventToDebounceAlgorithmMapping:
+        """
+        Creates a new DiagnosticEventToDebounceAlgorithmMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToDebounceAlgorithmMapping: Defines which Debounce Algorithm is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToDebounceAlgorithmMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToDebounceAlgorithmMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToDebounceAlgorithmMapping):
+            element = DiagnosticEventToDebounceAlgorithmMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToDebounceAlgorithmMapping)
+
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
         Creates a new DiagnosticAccessPermission with the given short name,
@@ -3611,15 +3701,159 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
 
 
 class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
-    pass
+    """Defines which Debounce Algorithm is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToDebounceAlgorithmMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.21, p.246
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDebounceAlgorithmRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDebounceAlgorithmRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DebounceAlgorithm assigned to a DiagnosticEvent.
+        self.debounceAlgorithmRef: Optional[RefType] = None
+
+        # Reference to a DiagnosticEvent to which a DebounceAlgorithm is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+    def getDebounceAlgorithmRef(self) -> Optional[RefType]:
+        """
+        Reference to a DebounceAlgorithm assigned to a DiagnosticEvent.
+        """
+        return self.debounceAlgorithmRef
+
+    def setDebounceAlgorithmRef(self, value: Optional[RefType]) -> DiagnosticEventToDebounceAlgorithmMapping:
+        """
+        Reference to a DebounceAlgorithm assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing debounceAlgorithmRef.
+        """
+        if value is not None:
+            self.debounceAlgorithmRef = value
+        return self
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a DebounceAlgorithm is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToDebounceAlgorithmMapping:
+        """
+        Reference to a DiagnosticEvent to which a DebounceAlgorithm is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
 
 
 class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
-    pass
+    """Defines which EnableConditionGroup is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToEnableConditionGroupMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.22, p.247
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnableConditionGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableConditionGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which an EnableConditionGroup is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to an EnableConditionGroup assigned to a DiagnosticEvent.
+        self.enableConditionGroupRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which an EnableConditionGroup is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToEnableConditionGroupMapping:
+        """
+        Reference to a DiagnosticEvent to which an EnableConditionGroup is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getEnableConditionGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to an EnableConditionGroup assigned to a DiagnosticEvent.
+        """
+        return self.enableConditionGroupRef
+
+    def setEnableConditionGroupRef(self, value: Optional[RefType]) -> DiagnosticEventToEnableConditionGroupMapping:
+        """
+        Reference to an EnableConditionGroup assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing enableConditionGroupRef.
+        """
+        if value is not None:
+            self.enableConditionGroupRef = value
+        return self
 
 
 class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
-    pass
+    """Defines which OperationCycle is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToOperationCycleMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.20, p.245
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationCycleRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationCycleRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which an OperationCycle is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to an OperationCycle assigned to a DiagnosticEvent.
+        self.operationCycleRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which an OperationCycle is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToOperationCycleMapping:
+        """
+        Reference to a DiagnosticEvent to which an OperationCycle is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getOperationCycleRef(self) -> Optional[RefType]:
+        """
+        Reference to an OperationCycle assigned to a DiagnosticEvent.
+        """
+        return self.operationCycleRef
+
+    def setOperationCycleRef(self, value: Optional[RefType]) -> DiagnosticEventToOperationCycleMapping:
+        """
+        Reference to an OperationCycle assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing operationCycleRef.
+        """
+        if value is not None:
+            self.operationCycleRef = value
+        return self
 
 
 class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
@@ -3627,7 +3861,55 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
 
 
 class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
-    pass
+    """Defines which StorageConditionGroup is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToStorageConditionGroupMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.23, p.248
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStorageConditionGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStorageConditionGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which a StorageConditionGroup is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to a StorageConditionGroup assigned to a DiagnosticEvent.
+        self.storageConditionGroupRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a StorageConditionGroup is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToStorageConditionGroupMapping:
+        """
+        Reference to a DiagnosticEvent to which a StorageConditionGroup is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getStorageConditionGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to a StorageConditionGroup assigned to a DiagnosticEvent.
+        """
+        return self.storageConditionGroupRef
+
+    def setStorageConditionGroupRef(self, value: Optional[RefType]) -> DiagnosticEventToStorageConditionGroupMapping:
+        """
+        Reference to a StorageConditionGroup assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing storageConditionGroupRef.
+        """
+        if value is not None:
+            self.storageConditionGroupRef = value
+        return self
 
 
 class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
@@ -3635,7 +3917,55 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
 
 
 class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
-    pass
+    """Defines which UDS Diagnostic Trouble Code is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToTroubleCodeUdsMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.19, p.245
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTroubleCodeUdsRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeUdsRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which a UDS Diagnostic Trouble Code is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to an UDS Diagnostic Trouble Code assigned to a DiagnosticEvent.
+        self.troubleCodeUdsRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a UDS Diagnostic Trouble Code is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeUdsMapping:
+        """
+        Reference to a DiagnosticEvent to which a UDS Diagnostic Trouble Code is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getTroubleCodeUdsRef(self) -> Optional[RefType]:
+        """
+        Reference to an UDS Diagnostic Trouble Code assigned to a DiagnosticEvent.
+        """
+        return self.troubleCodeUdsRef
+
+    def setTroubleCodeUdsRef(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeUdsMapping:
+        """
+        Reference to an UDS Diagnostic Trouble Code assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing troubleCodeUdsRef.
+        """
+        if value is not None:
+            self.troubleCodeUdsRef = value
+        return self
 
 
 class DiagnosticExtendedDataRecord(ARElement):

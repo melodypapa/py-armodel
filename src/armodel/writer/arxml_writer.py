@@ -417,6 +417,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
+    DiagnosticEventToDebounceAlgorithmMapping,
+    DiagnosticEventToEnableConditionGroupMapping,
+    DiagnosticEventToOperationCycleMapping,
+    DiagnosticEventToStorageConditionGroupMapping,
+    DiagnosticEventToTroubleCodeUdsMapping,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
@@ -13837,6 +13842,41 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticParameterElementAccess(pea_element, parameter_element_access)
         self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-PARAMETER-REF", service_data_mapping.getDiagnosticParameterRef())
 
+    def writeDiagnosticEventToDebounceAlgorithmMapping(self, element: ET.Element, mapping: DiagnosticEventToDebounceAlgorithmMapping):
+        self.logger.debug("Write DiagnosticEventToDebounceAlgorithmMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DEBOUNCE-ALGORITHM-REF", mapping.getDebounceAlgorithmRef())
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+
+    def writeDiagnosticEventToEnableConditionGroupMapping(self, element: ET.Element, mapping: DiagnosticEventToEnableConditionGroupMapping):
+        self.logger.debug("Write DiagnosticEventToEnableConditionGroupMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-ENABLE-CONDITION-GROUP-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "ENABLE-CONDITION-GROUP-REF", mapping.getEnableConditionGroupRef())
+
+    def writeDiagnosticEventToOperationCycleMapping(self, element: ET.Element, mapping: DiagnosticEventToOperationCycleMapping):
+        self.logger.debug("Write DiagnosticEventToOperationCycleMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-OPERATION-CYCLE-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "OPERATION-CYCLE-REF", mapping.getOperationCycleRef())
+
+    def writeDiagnosticEventToStorageConditionGroupMapping(self, element: ET.Element, mapping: DiagnosticEventToStorageConditionGroupMapping):
+        self.logger.debug("Write DiagnosticEventToStorageConditionGroupMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-STORAGE-CONDITION-GROUP-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "STORAGE-CONDITION-GROUP-REF", mapping.getStorageConditionGroupRef())
+
+    def writeDiagnosticEventToTroubleCodeUdsMapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeUdsMapping):
+        self.logger.debug("Write DiagnosticEventToTroubleCodeUdsMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-UDS-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "TROUBLE-CODE-UDS-REF", mapping.getTroubleCodeUdsRef())
+
     def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
         self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
@@ -15174,6 +15214,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceDataMapping):
             self.writeDiagnosticServiceDataMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToDebounceAlgorithmMapping):
+            self.writeDiagnosticEventToDebounceAlgorithmMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToEnableConditionGroupMapping):
+            self.writeDiagnosticEventToEnableConditionGroupMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToOperationCycleMapping):
+            self.writeDiagnosticEventToOperationCycleMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToStorageConditionGroupMapping):
+            self.writeDiagnosticEventToStorageConditionGroupMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToTroubleCodeUdsMapping):
+            self.writeDiagnosticEventToTroubleCodeUdsMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
         elif isinstance(ar_element, DiagnosticCustomServiceClass):
