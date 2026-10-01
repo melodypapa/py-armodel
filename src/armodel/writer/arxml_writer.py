@@ -277,6 +277,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
+    DiagnosticEnvBswModeElement,
     DiagnosticEnvCompareCondition,
     DiagnosticEnvConditionFormula,
     DiagnosticEnvDataCondition,
@@ -13817,12 +13818,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mode_element in condition.getModeElements():
                 if isinstance(mode_element, DiagnosticEnvSwcModeElement):
                     self.writeDiagnosticEnvSwcModeElement(mode_elements_tag, mode_element)
+                elif isinstance(mode_element, DiagnosticEnvBswModeElement):
+                    self.writeDiagnosticEnvBswModeElement(mode_elements_tag, mode_element)
                 else:
                     self.notImplemented("Unsupported DiagnosticEnvironmentalCondition modeElement <%s>" % type(mode_element).__name__)
 
     def writeDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
         self.logger.debug("Write DiagnosticEnvSwcModeElement")
         child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT")
+        self.writeReferrable(child_element, mode_element)
+
+    def writeDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
+        self.logger.debug("Write DiagnosticEnvBswModeElement")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
         self.writeReferrable(child_element, mode_element)
 
     def writeDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):

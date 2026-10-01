@@ -384,6 +384,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticA
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
     DiagnosticCompareTypeEnum,
+    DiagnosticEnvBswModeElement,
     DiagnosticEnvCompareCondition,
     DiagnosticEnvDataCondition,
     DiagnosticEnvDataElementCondition,
@@ -10644,10 +10645,19 @@ class ARXMLParser(AbstractARXMLParser):
                     mode_element = DiagnosticEnvSwcModeElement(condition, short_name)
                     self.readDiagnosticEnvSwcModeElement(child_element, mode_element)
                     condition.addModeElement(mode_element)
+                elif tag_name == "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT":
+                    short_name_element = self.find(child_element, "SHORT-NAME")
+                    short_name = short_name_element.text if short_name_element is not None else "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT"
+                    mode_element = DiagnosticEnvBswModeElement(condition, short_name)
+                    self.readDiagnosticEnvBswModeElement(child_element, mode_element)
+                    condition.addModeElement(mode_element)
                 else:
                     self.notImplemented("Unsupported DiagnosticEnvironmentalCondition modeElement <%s>" % tag_name)
 
     def readDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
+        self.readReferrable(element, mode_element)
+
+    def readDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
         self.readReferrable(element, mode_element)
 
     def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):

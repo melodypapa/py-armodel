@@ -270,7 +270,40 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
 
 
 class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
-    pass
+    """
+    This meta-class represents the ability to refer to a specific ModeDeclaration in the scope of a BswModuleDescription.
+
+    [constr_1806] Existence of DiagnosticEnvBswModeElement.mode: For each DiagnosticEnvBswModeElement, that attribute mode shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnvBswModeElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.46, p.90
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (deferred: ModeInBswModuleDescriptionInstanceRef not yet implemented — Rule 0001.10 placeholder RefType)
+    # [x] setModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (ditto)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: ModeInBswModuleDescriptionInstanceRef
+        self.modeIRef: Optional[RefType] = None
+
+    def getModeIRef(self) -> Optional[RefType]:
+        """
+        This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: ModeInBswModuleDescriptionInstanceRef
+        """
+        return self.modeIRef
+
+    def setModeIRef(self, value: Optional[RefType]):
+        """
+        This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: ModeInBswModuleDescriptionInstanceRef
+
+        A None value is a no-op and does not overwrite an existing modeIRef.
+        """
+        if value is not None:
+            self.modeIRef = value
+        return self
 
 
 class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
