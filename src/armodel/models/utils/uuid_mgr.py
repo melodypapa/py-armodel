@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
@@ -14,7 +16,7 @@ class UUIDMgr:
     # [ ] getDuplicateUUIDs            [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
-        self.uuid_object_mappings = {}  # type: Dict[str, List[Identifiable]]
+        self.uuid_object_mappings: Dict[str, List[Identifiable]] = {}
 
     def addObject(self, obj: Identifiable):
         # The uuid attribute (Table 4.4) is owned by Identifiable. Only objects

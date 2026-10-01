@@ -148,7 +148,7 @@ class AbstractAUTOSAR(ARObject):
         # is reimplemented below because the root no longer derives from CollectableElement.
         super().__init__()
 
-        self.release_xsd_mappings = {
+        self.release_xsd_mappings: Dict[str, str] = {
             "3.2.3": "autosar.xsd",
             "4.0.3": "AUTOSAR_4-0-3.xsd",
             "4.1.0": "AUTOSAR_4-1-0.xsd",
@@ -223,22 +223,22 @@ class AbstractAUTOSAR(ARObject):
 
     def clear(self):
         # The root has no parent and no short name (it is the singleton top-level element).
-        self.parent = None
-        self.short_name = ""
+        self.parent: Optional[ARObject] = None
+        self.short_name: str = ""
 
-        self.schema_location = None
-        self._appl_impl_type_maps = {}
-        self._impl_appl_type_maps = {}
+        self.schema_location: Optional[str] = None
+        self._appl_impl_type_maps: Dict[str, str] = {}
+        self._impl_appl_type_maps: Dict[str, str] = {}
 
-        self._behavior_impl_maps = {}
-        self._impl_behavior_maps = {}
+        self._behavior_impl_maps: Dict[str, str] = {}
+        self._impl_behavior_maps: Dict[str, str] = {}
 
-        self.uuid_mgr = UUIDMgr()
+        self.uuid_mgr: UUIDMgr = UUIDMgr()
 
-        self.systems = {}
-        self.compositionSwComponentTypes = {}
+        self.systems: Dict[str, System] = {}
+        self.compositionSwComponentTypes: Dict[str, CompositionSwComponentType] = {}
 
-        self.rootSwCompositionPrototype = None
+        self.rootSwCompositionPrototype: Optional[RootSwCompositionPrototype] = None
 
         # This represents the administrative data of an Autosar file.
         self.adminData: Optional[AdminData] = None
@@ -257,8 +257,8 @@ class AbstractAUTOSAR(ARObject):
 
         # Reimplemented hierarchical element-collection registry (was provided by
         # CollectableElement before the restructure to ARObject).
-        self.elements = []
-        self.element_mappings = {}
+        self.elements: List[Referrable] = []
+        self.element_mappings: Dict[str, List[Referrable]] = {}
 
     def getElement(self, short_name: str, type=None) -> Referrable:
         if (type is ARPackage or type is None) and short_name in self._ar_package_index:

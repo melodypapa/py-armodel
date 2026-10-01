@@ -39,8 +39,8 @@ class Referrable(ARObject, ABC):
 
         ARObject.__init__(self)
 
-        self.parent = parent
-        self.short_name = short_name
+        self.parent: ARObject = parent
+        self.short_name: str = short_name
 
         # This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90
         self.shortNameFragments: List["ShortNameFragment"] = []
