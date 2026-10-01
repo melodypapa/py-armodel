@@ -35,6 +35,7 @@ COMMIT_ABBREV_LENGTH = 10
 
 HASH_RE = re.compile(r"[0-9a-fA-F]{7,40}")
 STAMP_COMMIT_RE = re.compile(r"stamp commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
+SYNC_COMMIT_RE = re.compile(r"sync commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
 COMMIT_RE = re.compile(r"commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
 ROW_RE = re.compile(r"^\s*- \[([ x])\] `([A-Za-z0-9_]+)`")
 STEP_RE = re.compile(r"^\s*- \[([ x])\] \*{0,2}Step (\d+)")
@@ -208,6 +209,10 @@ def resolve_row(g, name, checked, header_line, block, stamped, stubs, defined, c
     m = STAMP_COMMIT_RE.search(row_text)
     if m and is_hash(m.group(1)) and revparse_ok(m.group(1)):
         sc = m.group(1)
+    if not sc:
+        m = SYNC_COMMIT_RE.search(row_text)
+        if m and is_hash(m.group(1)) and revparse_ok(m.group(1)):
+            sc = m.group(1)
     hc = None
     for m in COMMIT_RE.finditer(header_line):
         if is_hash(m.group(1)) and revparse_ok(m.group(1)):

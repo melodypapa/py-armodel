@@ -496,23 +496,23 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagEventDebounceAlgorithm`                            | [x] Done    | 4f246ae62d                               | Group4           |
 | `DiagEventDebounceCounterBased`                         | [ ] Deferred| d064592a44                               | Group14          |
 | `DiagEventDebounceMonitorInternal`                      | [x] Done    | 103cfd4316                               | Group4           |
-| `DiagEventDebounceTimeBased`                            | [ ] Deferred| N/A                                      | Group23          |
+| `DiagEventDebounceTimeBased`                            | [ ] Deferred| eb9e198676                               | Group23          |
 | `DiagPduType`                                           | [ ] Created | N/A                                      | Group31          |
 | `DiagRequirementIdString`                               | [ ] Implemented| N/A                                      | Group21          |
 | `DiagnosticAbstractAliasEvent`                          | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticAbstractDataIdentifier`                      | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticAbstractParameter`                           | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticAbstractDataIdentifier`                      | [ ] Deferred| d32c585340                               | Group23          |
+| `DiagnosticAbstractParameter`                           | [ ] Deferred| 6665fb7d71                               | Group23          |
 | `DiagnosticAccessPermission`                            | [x] Done    | 9cbb4e26e7                               | Group7           |
 | `DiagnosticAging`                                       | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticAudienceEnum`                                | [ ] Deferred| 5685ad743e                               | Group14          |
-| `DiagnosticAuthRole`                                    | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticAuthRole`                                    | [ ] Deferred| 16e3c0c30d                               | Group23          |
 | `DiagnosticAuthRoleProxy`                               | [x] Done    | 4579b43f0d                               | Group7           |
-| `DiagnosticAuthTransmitCertificate`                     | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticAuthTransmitCertificateEvaluation`           | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticAuthTransmitCertificate`                     | [ ] Deferred| 94a9c9715c                               | Group24          |
+| `DiagnosticAuthTransmitCertificateEvaluation`           | [ ] Deferred| 4a21071b3d                               | Group24          |
 | `DiagnosticAuthTransmitCertificateMapping`              | [ ] Created | N/A                                      | Group26          |
-| `DiagnosticAuthentication`                              | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticAuthenticationClass`                         | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticAuthenticationConfiguration`                 | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticAuthentication`                              | [ ] Deferred| 13ac1a6b3d                               | Group24          |
+| `DiagnosticAuthenticationClass`                         | [ ] Deferred| 50e51bce63                               | Group24          |
+| `DiagnosticAuthenticationConfiguration`                 | [ ] Deferred| 3d83a383d7                               | Group24          |
 | `DiagnosticCapabilityElement`                           | [ ] Deferred| f5ffd3abf2                               | Group14          |
 | `DiagnosticClearDiagnosticInformation`                  | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticClearDiagnosticInformationClass`             | [ ] Created | N/A                                      | Group24          |
@@ -521,63 +521,63 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticClearEventAllowedBehaviorEnum`               | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticClearResetEmissionRelatedInfo`               | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticClearResetEmissionRelatedInfoClass`          | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticComControl`                                  | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticComControl`                                  | [ ] Deferred| ed6ddee3af                               | Group24          |
 | `DiagnosticComControlClass`                             | [ ] Created | N/A                                      | Group24          |
-| `DiagnosticComControlSpecificChannel`                   | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticComControlSpecificChannel`                   | [ ] Deferred| c4bee1d353                               | Group24          |
 | `DiagnosticComControlSubNodeChannel`                    | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticCommonElement`                               | [x] Done    | e0d022b1aa                               | Group7           |
-| `DiagnosticCommonProps`                                 | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticCommonProps`                                 | [ ] Deferred| 0b2c7c2fa7                               | Group23          |
 | `DiagnosticCommunicationManagerNeeds`                   | [ ] Deferred| 79c639e42a                               | Group14          |
-| `DiagnosticCompareTypeEnum`                             | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticCompareTypeEnum`                             | [ ] Deferred| cc55d1d351                               | Group23          |
 | `DiagnosticComponentNeeds`                              | [x] Done    | 5c4c0963af                               | Group4           |
 | `DiagnosticCondition`                                   | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticConditionGroup`                              | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticConnectedIndicator`                          | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticConnectedIndicatorBehaviorEnum`              | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticConnection`                                  | [x] Done    | e96086c12f                               | Group5           |
-| `DiagnosticContributionSet`                             | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticContributionSet`                             | [ ] Deferred| 4c70e34d09                               | Group23          |
 | `DiagnosticControlDTCSetting`                           | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticControlDTCSettingClass`                      | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticControlEnableMaskBit`                        | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticControlNeeds`                                | [x] Done    | d0a1134e3b                               | Group4           |
-| `DiagnosticCustomServiceClass`                          | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticCustomServiceInstance`                       | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticCustomServiceClass`                          | [ ] Deferred| 259d8d82a3                               | Group23          |
+| `DiagnosticCustomServiceInstance`                       | [ ] Deferred| 6beeb07b01                               | Group23          |
 | `DiagnosticDataByIdentifier`                            | [ ] Created | N/A                                      | Group24          |
-| `DiagnosticDataElement`                                 | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticDataIdentifier`                              | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticDataElement`                                 | [ ] Deferred| 04e40cda05                               | Group23          |
+| `DiagnosticDataIdentifier`                              | [ ] Deferred| 18cb600978                               | Group23          |
 | `DiagnosticDataIdentifierSet`                           | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticDataTransfer`                                | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticDataTransferClass`                           | [ ] Created | N/A                                      | Group24          |
-| `DiagnosticDeAuthentication`                            | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticDeAuthentication`                            | [ ] Deferred| 66e8ab9738                               | Group24          |
 | `DiagnosticDebounceAlgorithmProps`                      | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticDebounceBehaviorEnum`                        | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticDemProvidedDataMapping`                      | [ ] Created | N/A                                      | Group26          |
 | `DiagnosticDenominatorConditionEnum`                    | [ ] Implemented| N/A                                      | Group29          |
-| `DiagnosticDynamicDataIdentifier`                       | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticDynamicDataIdentifier`                       | [ ] Deferred| 6127bd9f00                               | Group23          |
 | `DiagnosticDynamicallyDefineDataIdentifier`             | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticDynamicallyDefineDataIdentifierClass`        | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticEcuInstanceProps`                            | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticEcuReset`                                    | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticEcuResetClass`                               | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticEcuReset`                                    | [ ] Deferred| 4a568086da                               | Group24          |
+| `DiagnosticEcuResetClass`                               | [ ] Deferred| 092a0c7cf2                               | Group24          |
 | `DiagnosticEnableCondition`                             | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticEnableConditionGroup`                        | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticEnableConditionNeeds`                        | [ ] Implemented| N/A                                      | Group29          |
 | `DiagnosticEnableConditionPortMapping`                  | [ ] Created | N/A                                      | Group26          |
-| `DiagnosticEnvBswModeElement`                           | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticEnvBswModeElement`                           | [ ] Deferred| 9b90205857                               | Group23          |
 | `DiagnosticEnvCompareCondition`                         | [ ] Deferred| af255af373                               | Group14          |
 | `DiagnosticEnvConditionFormula`                         | [ ] Deferred| af255af373                               | Group14          |
 | `DiagnosticEnvConditionFormulaPart`                     | [x] Deferred| af255af373                               | Group14          |
-| `DiagnosticEnvDataCondition`                            | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticEnvDataElementCondition`                     | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticEnvModeCondition`                            | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticEnvDataCondition`                            | [ ] Deferred| 19d7cb9cd6                               | Group23          |
+| `DiagnosticEnvDataElementCondition`                     | [ ] Deferred| 519aca8534                               | Group23          |
+| `DiagnosticEnvModeCondition`                            | [ ] Deferred| 4e6f0e3039                               | Group23          |
 | `DiagnosticEnvModeElement`                              | [ ] Deferred| af255af373                               | Group14          |
-| `DiagnosticEnvSwcModeElement`                           | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticEnvSwcModeElement`                           | [ ] Deferred| 4e64e33afe                               | Group23          |
 | `DiagnosticEnvironmentalCondition`                      | [x] Done    | 5bbca5f217                               | Group7           |
 | `DiagnosticEvent`                                       | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticEventClearAllowedEnum`                       | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticEventCombinationBehaviorEnum`                | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticEventCombinationReportingBehaviorEnum`       | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticEventCombinationBehaviorEnum`                | [ ] Deferred| c5c9c65c4b                               | Group23          |
+| `DiagnosticEventCombinationReportingBehaviorEnum`       | [ ] Deferred| d36baa82d6                               | Group23          |
 | `DiagnosticEventDisplacementStrategyEnum`               | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticEventInfoNeeds`                              | [ ] Deferred| 79c639e42a                               | Group14          |
 | `DiagnosticEventKindEnum`                               | [ ] Created | N/A                                      | Group25          |
@@ -627,7 +627,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticJ1939SwMapping`                              | [ ] Created | N/A                                      | Group26          |
 | `DiagnosticJumpToBootLoaderEnum`                        | [ ] Deferred| N/A                                      | Group14          |
 | `DiagnosticLogicalOperatorEnum`                         | [ ] Deferred| N/A                                      | Group14          |
-| `DiagnosticMapping`                                     | [ ] Deferred| N/A                                      | Group26          |
+| `DiagnosticMapping`                                     | [ ] Deferred| fd3e548259                               | Group26          |
 | `DiagnosticMasterToSlaveEventMapping`                   | [ ] Created | N/A                                      | Group26          |
 | `DiagnosticMeasurementIdentifier`                       | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticMemoryAddressableRangeAccess`                | [ ] Created | N/A                                      | Group24          |
@@ -639,23 +639,23 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticMemoryIdentifier`                            | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticMonitorUpdateKindEnum`                       | [ ] Implemented| N/A                                      | Group29          |
 | `DiagnosticObdSupportEnum`                              | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticOccurrenceCounterProcessingEnum`             | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticOccurrenceCounterProcessingEnum`             | [ ] Deferred| 5d402fe9da                               | Group23          |
 | `DiagnosticOperationCycle`                              | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticOperationCycleNeeds`                         | [ ] Implemented| N/A                                      | Group29          |
 | `DiagnosticOperationCyclePortMapping`                   | [ ] Created | N/A                                      | Group26          |
 | `DiagnosticOperationCycleTypeEnum`                      | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticParameter`                                   | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticParameterElement`                            | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticParameter`                                   | [ ] Deferred| d1dafe3f06                               | Group23          |
+| `DiagnosticParameterElement`                            | [ ] Deferred| e626d82fd2                               | Group23          |
 | `DiagnosticParameterElementAccess`                      | [ ] Created | N/A                                      | Group26          |
-| `DiagnosticParameterIdent`                              | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticParameterIdent`                              | [ ] Deferred| d666ff9ed7                               | Group23          |
 | `DiagnosticParameterIdentifier`                         | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticParameterSupportInfo`                        | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticPeriodicRate`                                | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticPeriodicRateCategoryEnum`                    | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticPowertrainFreezeFrame`                       | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticProcessingStyleEnum`                         | [ ] Deferred| 28746ce3cc                               | Group14          |
-| `DiagnosticProofOfOwnership`                            | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticProtocol`                                    | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticProofOfOwnership`                            | [ ] Deferred| 3ef2fb8c98                               | Group24          |
+| `DiagnosticProtocol`                                    | [ ] Deferred| 7324a51f2a                               | Group23          |
 | `DiagnosticReadDTCInformation`                          | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticReadDTCInformationClass`                     | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticReadDataByIdentifier`                        | [ ] Created | N/A                                      | Group24          |
@@ -692,15 +692,15 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticResponseOnEvent`                             | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticResponseOnEventActionEnum`                   | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticResponseOnEventClass`                        | [ ] Created | N/A                                      | Group24          |
-| `DiagnosticResponseToEcuResetEnum`                      | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticResponseToEcuResetEnum`                      | [ ] Deferred| 4c37389432                               | Group24          |
 | `DiagnosticRoutine`                                     | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticRoutineControl`                              | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticRoutineControlClass`                         | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticRoutineNeeds`                                | [ ] Deferred| 79c639e42a                               | Group14          |
 | `DiagnosticRoutineSubfunction`                          | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticRoutineTypeEnum`                             | [ ] Deferred| 28746ce3cc                               | Group14          |
-| `DiagnosticSecurityAccess`                              | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticSecurityAccessClass`                         | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticSecurityAccess`                              | [ ] Deferred| 4b106b2461                               | Group24          |
+| `DiagnosticSecurityAccessClass`                         | [ ] Deferred| 17ef969f39                               | Group24          |
 | `DiagnosticSecurityEventReportingModeMapping`           | [ ] Created | N/A                                      | Group26          |
 | `DiagnosticSecurityLevel`                               | [x] Done    | f2da1338fc                               | Group7           |
 | `DiagnosticServiceClass`                                | [x] Deferred| 6b514727f9                               | Group14          |
@@ -711,8 +711,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticServiceSwMapping`                            | [ ] Created | N/A                                      | Group26          |
 | `DiagnosticServiceTable`                                | [x] Done    | 9bd6fadae5                               | Group7           |
 | `DiagnosticSession`                                     | [x] Done    | 06d4e49a26                               | Group7           |
-| `DiagnosticSessionControl`                              | [ ] Deferred| N/A                                      | Group23          |
-| `DiagnosticSessionControlClass`                         | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticSessionControl`                              | [ ] Deferred| a68f0804fd                               | Group23          |
+| `DiagnosticSessionControlClass`                         | [ ] Deferred| 8145a0178a                               | Group24          |
 | `DiagnosticSignificanceEnum`                            | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticStartRoutine`                                | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum` | [ ] Created | N/A                                      | Group25          |
@@ -737,14 +737,14 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticTroubleCodeProps`                            | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticTroubleCodeUds`                              | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticTroubleCodeUdsToTroubleCodeObdMapping`       | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticTypeOfDtcSupportedEnum`                      | [ ] Deferred| N/A                                      | Group23          |
+| `DiagnosticTypeOfDtcSupportedEnum`                      | [ ] Deferred| 210840b945                               | Group23          |
 | `DiagnosticTypeOfFreezeFrameRecordNumerationEnum`       | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticUdsSeverityEnum`                             | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticUploadDownloadNeeds`                         | [x] Done    | fe8a0a1a6d                               | Group4           |
 | `DiagnosticValueAccessEnum`                             | [ ] Deferred| 28746ce3cc                               | Group14          |
 | `DiagnosticValueNeeds`                                  | [ ] Deferred| 79c639e42a                               | Group14          |
-| `DiagnosticVerifyCertificateBidirectional`              | [ ] Deferred| N/A                                      | Group24          |
-| `DiagnosticVerifyCertificateUnidirectional`             | [ ] Deferred| N/A                                      | Group24          |
+| `DiagnosticVerifyCertificateBidirectional`              | [ ] Deferred| 5f62e6dbb3                               | Group24          |
+| `DiagnosticVerifyCertificateUnidirectional`             | [ ] Deferred| 682e50a2dd                               | Group24          |
 | `DiagnosticWriteDataByIdentifier`                       | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticWriteDataByIdentifierClass`                  | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticWriteMemoryByAddress`                        | [ ] Created | N/A                                      | Group24          |
