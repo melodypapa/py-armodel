@@ -384,6 +384,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
+    DiagnosticDynamicallyDefineDataIdentifierClass,
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
@@ -585,8 +586,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     CIdentifier,
     DateTime,
+    DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticResponseToEcuResetEnum,
     Identifier,
@@ -10736,6 +10739,23 @@ class ARXMLParser(AbstractARXMLParser):
         dddi.setDynamicallyDefineDataIdentifierClass(self.getChildElementOptionalRefType(element, "DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF"))
         dddi.setMaxSourceElement(self.getChildElementOptionalPositiveInteger(element, "MAX-SOURCE-ELEMENT"))
 
+    def readDiagnosticDynamicallyDefineDataIdentifierClass(self, element: ET.Element, dddi_class: DiagnosticDynamicallyDefineDataIdentifierClass):
+        self.logger.debug("Read DiagnosticDynamicallyDefineDataIdentifierClass <%s>" % dddi_class.getShortName())
+        self.readIdentifiable(element, dddi_class)
+        dddi_class.setCheckPerSourceId(self.getChildElementOptionalBooleanValue(element, "CHECK-PER-SOURCE-ID"))
+        dddi_class.setConfigurationHandling(self._readEnumToken(element, "CONFIGURATION-HANDLING", DiagnosticHandleDDDIConfigurationEnum, DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP))
+        for subfunction_element in self.findall(element, "SUBFUNCTIONS/SUBFUNCTION"):
+            token = subfunction_element.text
+            camel = None
+            for camel_value, map_token in DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP.items():
+                if map_token == token:
+                    camel = camel_value
+                    break
+            if camel is not None:
+                dddi_class.addSubfunction(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SUBFUNCTION <%s>" % token)
+
     def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())
         self.readIdentifiable(element, ecu_reset)
@@ -15664,6 +15684,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER":
                 dddi = parent.createDiagnosticDynamicallyDefineDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDynamicallyDefineDataIdentifier(child_element, dddi)
+            elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS":
+                dddi_class = parent.createDiagnosticDynamicallyDefineDataIdentifierClass(self.getShortName(child_element))
+                self.readDiagnosticDynamicallyDefineDataIdentifierClass(child_element, dddi_class)
             elif tag_name == "DIAGNOSTIC-PROTOCOL":
                 protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
                 self.readDiagnosticProtocol(child_element, protocol)

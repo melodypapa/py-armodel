@@ -650,14 +650,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.94, p.128
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): Table 4.94 body matched by Class row (l.3803, leading caption); concrete
+      DiagnosticServiceClass; attrs in displayed order checkPerSourceId (Boolean 0..1 attr),
+      configurationHandling (DiagnosticHandleDDDIConfigurationEnum 0..1 attr), subfunction
+      (DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum `*` attr); XSD group
+      DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS (AUTOSAR_00052.xsd l.35199) — CHECK-PER-SOURCE-ID,
+      CONFIGURATION-HANDLING, SUBFUNCTIONS wrapper (choice unbounded SUBFUNCTION enum tokens); XSD order
+      matches the markdown displayed order.
+    - note (Step 4): markdown cell-wraps healed ("checkPer SourceId" → "checkPerSourceId",
+      "configuration Handling" → "configurationHandling", "0x F200" → "0xF200" — XSD documentation
+      agrees); spec typo "If set to FALSE." (period instead of comma) kept verbatim; Tags suffix dropped
+      (sibling convention).
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicallyDefineDataIdentifierClass`
+      factory (alphabetical after createDiagnosticDynamicallyDefineDataIdentifier) + readARPackageElements
+      DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS branch + writeARPackageElement isinstance branch;
+      subfunction list read/written via the SUBFUNCTIONS/SUBFUNCTION wrapper (DiagnosticCapabilityElement
+      AUDIENCES/AUDIENCE enum-list precedent); both enum token maps pre-registered by the enum passes
+      (3cde2dacd, aa69f0bd9).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticHandleDDDIConfigurationEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.95, p.128

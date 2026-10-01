@@ -2214,6 +2214,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(dddi)
         return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
 
+    def createDiagnosticDynamicallyDefineDataIdentifierClass(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifierClass:
+        """
+        Creates a new DiagnosticDynamicallyDefineDataIdentifierClass with the given
+        short name, or returns an existing one if it already exists in this package.
+
+        DiagnosticDynamicallyDefineDataIdentifierClass contains attributes shared by all
+        instances of the "Dynamically Define Data Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDynamicallyDefineDataIdentifierClass
+
+        Returns:
+            The newly created or existing DiagnosticDynamicallyDefineDataIdentifierClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifierClass):
+            dddi_class = DiagnosticDynamicallyDefineDataIdentifierClass(self, short_name)
+            self.addElement(dddi_class)
+        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass)
+
     def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
         """
         Creates a new DiagnosticEcuReset with the given short name,
@@ -2928,6 +2947,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402

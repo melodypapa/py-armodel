@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
+    DiagnosticDynamicallyDefineDataIdentifierClass,
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
@@ -34,6 +35,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
+    DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticResponseToEcuResetEnum,
     PositiveInteger,
     RefType,
@@ -770,4 +773,85 @@ class Test_DiagnosticRoutineControlClass:
         assert package.getElement("Rcc1", DiagnosticRoutineControlClass) is service_class
 
         duplicate = package.createDiagnosticRoutineControlClass("Rcc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticDynamicallyDefineDataIdentifierClass:
+    """Test cases for DiagnosticDynamicallyDefineDataIdentifierClass class (Table 4.94, p.128)."""
+
+    DDDIC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Dynamically Define Data Identifier" diagnostic service.'
+    CHECK_PER_SOURCE_ID_NOTE = (
+        "If set to TRUE, the Dcm module shall check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF."
+        " If set to FALSE. the Dcm module shall not check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF."
+    )
+    CONFIGURATION_HANDLING_NOTE = "This configuration switch defines whether DDDID definition is handled as non-volatile information or not."
+    SUBFUNCTION_NOTE = "This attribute contains a list of applicable subfunctions for all DiagnosticDynamicallyDefineDataIdentifier that reference the DiagnosticDynamicallyDefineDataIdentifier Class."
+
+    def test_is_concrete(self):
+        service_class = DiagnosticDynamicallyDefineDataIdentifierClass(_pkg(), "MyDddic")
+        assert service_class.getShortName() == "MyDddic"
+        assert service_class.getCheckPerSourceId() is None
+        assert service_class.getConfigurationHandling() is None
+        assert service_class.getSubfunctions() == []
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticDynamicallyDefineDataIdentifierClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticDynamicallyDefineDataIdentifierClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticDynamicallyDefineDataIdentifierClass, ARObject)
+        assert issubclass(DiagnosticDynamicallyDefineDataIdentifierClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.__doc__) == self.DDDIC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticDynamicallyDefineDataIdentifierClass.__init__.__doc__ is None
+
+    def test_get_set_check_per_source_id(self):
+        service_class = DiagnosticDynamicallyDefineDataIdentifierClass(_pkg(), "MyDddic")
+        value = Boolean().setValue(True)
+        assert service_class.setCheckPerSourceId(value) is service_class
+        assert service_class.getCheckPerSourceId() is value
+        assert service_class.getCheckPerSourceId().getValue() is True
+        service_class.setCheckPerSourceId(None)
+        assert service_class.getCheckPerSourceId() is value  # None is a no-op
+
+    def test_get_set_configuration_handling(self):
+        service_class = DiagnosticDynamicallyDefineDataIdentifierClass(_pkg(), "MyDddic")
+        value = DiagnosticHandleDDDIConfigurationEnum().setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
+        assert service_class.setConfigurationHandling(value) is service_class
+        assert service_class.getConfigurationHandling() is value
+        assert service_class.getConfigurationHandling().getValue() == "nonVolatile"
+        service_class.setConfigurationHandling(None)
+        assert service_class.getConfigurationHandling() is value  # None is a no-op
+
+    def test_add_get_subfunction(self):
+        service_class = DiagnosticDynamicallyDefineDataIdentifierClass(_pkg(), "MyDddic")
+        value = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum().setValue(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER)
+        assert service_class.addSubfunction(value) is service_class
+        assert service_class.getSubfunctions() == [value]
+        assert service_class.getSubfunctions()[0].getValue() == "defineByIdentifier"
+        service_class.addSubfunction(None)
+        assert service_class.getSubfunctions() == [value]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.getCheckPerSourceId.__doc__) == self.CHECK_PER_SOURCE_ID_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.setCheckPerSourceId.__doc__) == (
+            self.CHECK_PER_SOURCE_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing checkPerSourceId."
+        )
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.getConfigurationHandling.__doc__) == self.CONFIGURATION_HANDLING_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.setConfigurationHandling.__doc__) == (
+            self.CONFIGURATION_HANDLING_NOTE + "\n\nA None value is a no-op and does not overwrite an existing configurationHandling."
+        )
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.getSubfunctions.__doc__) == self.SUBFUNCTION_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifierClass.addSubfunction.__doc__) == (self.SUBFUNCTION_NOTE + "\n\nA None value is a no-op and does not append a subfunction.")
+
+    def test_create_diagnostic_dynamically_define_data_identifier_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticDynamicallyDefineDataIdentifierClass("Dddic1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticDynamicallyDefineDataIdentifierClass)
+        assert service_class.getShortName() == "Dddic1"
+        assert package.getElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass) is service_class
+
+        duplicate = package.createDiagnosticDynamicallyDefineDataIdentifierClass("Dddic1")
         assert duplicate is service_class

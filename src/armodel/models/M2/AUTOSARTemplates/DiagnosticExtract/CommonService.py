@@ -3,7 +3,15 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticComControlSpecificChannel, DiagnosticComControlSubNodeChannel
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DiagnosticResponseToEcuResetEnum, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
+    DiagnosticHandleDDDIConfigurationEnum,
+    DiagnosticResponseToEcuResetEnum,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
 
 
 class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
@@ -268,7 +276,78 @@ class DiagnosticDataTransferClass(DiagnosticServiceClass):
 
 
 class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Dynamically Define Data Identifier" diagnostic service."""
+
+    # DiagnosticDynamicallyDefineDataIdentifierClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.94, p.128
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCheckPerSourceId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCheckPerSourceId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfigurationHandling    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigurationHandling    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSubfunction              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubfunctions             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # If set to TRUE, the Dcm module shall check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF. If set to FALSE. the Dcm module shall not check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF.
+        self.checkPerSourceId: Optional[Boolean] = None
+
+        # This configuration switch defines whether DDDID definition is handled as non-volatile information or not.
+        self.configurationHandling: Optional[DiagnosticHandleDDDIConfigurationEnum] = None
+
+        # This attribute contains a list of applicable subfunctions for all DiagnosticDynamicallyDefineDataIdentifier that reference the DiagnosticDynamicallyDefineDataIdentifier Class.
+        self.subfunction: List[DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum] = []
+
+    def getCheckPerSourceId(self) -> Optional[Boolean]:
+        """
+        If set to TRUE, the Dcm module shall check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF. If set to FALSE. the Dcm module shall not check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF.
+        """
+        return self.checkPerSourceId
+
+    def setCheckPerSourceId(self, value: Optional[Boolean]) -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+        """
+        If set to TRUE, the Dcm module shall check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF. If set to FALSE. the Dcm module shall not check the session, security and mode dependencies per source DIDs with a ReadDataByIdentifier (0x22) with DID in the range 0xF200 to 0xF3FF.
+
+        A None value is a no-op and does not overwrite an existing checkPerSourceId.
+        """
+        if value is not None:
+            self.checkPerSourceId = value
+        return self
+
+    def getConfigurationHandling(self) -> Optional[DiagnosticHandleDDDIConfigurationEnum]:
+        """
+        This configuration switch defines whether DDDID definition is handled as non-volatile information or not.
+        """
+        return self.configurationHandling
+
+    def setConfigurationHandling(self, value: Optional[DiagnosticHandleDDDIConfigurationEnum]) -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+        """
+        This configuration switch defines whether DDDID definition is handled as non-volatile information or not.
+
+        A None value is a no-op and does not overwrite an existing configurationHandling.
+        """
+        if value is not None:
+            self.configurationHandling = value
+        return self
+
+    def addSubfunction(self, value: Optional[DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum]) -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+        """
+        This attribute contains a list of applicable subfunctions for all DiagnosticDynamicallyDefineDataIdentifier that reference the DiagnosticDynamicallyDefineDataIdentifier Class.
+
+        A None value is a no-op and does not append a subfunction.
+        """
+        if value is not None:
+            self.subfunction.append(value)
+        return self
+
+    def getSubfunctions(self) -> List[DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum]:
+        """
+        This attribute contains a list of applicable subfunctions for all DiagnosticDynamicallyDefineDataIdentifier that reference the DiagnosticDynamicallyDefineDataIdentifier Class.
+        """
+        return self.subfunction
 
 
 class DiagnosticEcuResetClass(DiagnosticServiceClass):

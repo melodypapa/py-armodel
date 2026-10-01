@@ -278,6 +278,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
+    DiagnosticDynamicallyDefineDataIdentifierClass,
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
@@ -14044,6 +14045,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF", dddi.getDynamicallyDefineDataIdentifierClass())
         self.setChildElementOptionalPositiveInteger(child_element, "MAX-SOURCE-ELEMENT", dddi.getMaxSourceElement())
 
+    def writeDiagnosticDynamicallyDefineDataIdentifierClass(self, element: ET.Element, dddi_class: DiagnosticDynamicallyDefineDataIdentifierClass):
+        self.logger.debug("Write DiagnosticDynamicallyDefineDataIdentifierClass %s" % dddi_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, dddi_class)
+        self.setChildElementOptionalBooleanValue(child_element, "CHECK-PER-SOURCE-ID", dddi_class.getCheckPerSourceId())
+        self._writeEnumToken(child_element, "CONFIGURATION-HANDLING", dddi_class.getConfigurationHandling(), DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP)
+        subfunctions = dddi_class.getSubfunctions()
+        if len(subfunctions) > 0:
+            subfunctions_tag = ET.SubElement(child_element, "SUBFUNCTIONS")
+            for subfunction in subfunctions:
+                token = DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP.get(subfunction.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported SUBFUNCTION <%s>" % subfunction.getValue())
+                else:
+                    subfunction_element = ET.SubElement(subfunctions_tag, "SUBFUNCTION")
+                    subfunction_element.text = token
+
     def writeDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Write DiagnosticEcuReset %s" % ecu_reset.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET")
@@ -15338,6 +15356,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifier):
             self.writeDiagnosticDynamicallyDefineDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifierClass):
+            self.writeDiagnosticDynamicallyDefineDataIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSessionControl):
