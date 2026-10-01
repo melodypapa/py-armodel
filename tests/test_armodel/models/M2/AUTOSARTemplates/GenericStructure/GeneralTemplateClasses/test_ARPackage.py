@@ -37,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
+    DiagnosticWriteDataByIdentifier,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
@@ -3232,3 +3233,87 @@ class TestDiagnosticReadDataByIdentifier:
 
         duplicate = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
         assert duplicate is read_did  # duplicate short name returns the existing element
+
+
+class TestDiagnosticWriteDataByIdentifier:
+    """
+    Test class for DiagnosticWriteDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.71, p.113
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Write Data by Identifier" diagnostic service.'
+    WRITE_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticWriteDataByIdentifier in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticWriteDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticWriteDataByIdentifier(ar_root, "TestWriteDataByIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticWriteDataByIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestWriteDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getWriteClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticWriteDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticWriteDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_write_class(self):
+        """
+        Round-trips the writeClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticWriteDataByIdentifierClasses/WriteClass")
+        result = obj.setWriteClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getWriteClass() is ref
+        assert obj.getWriteClass().getValue() == "/AUTOSAR/DiagnosticWriteDataByIdentifierClasses/WriteClass"
+        assert obj.getWriteClass().getDest() == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS"
+
+        result = obj.setWriteClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getWriteClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticWriteDataByIdentifier.getWriteClass.__doc__) == self.WRITE_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticWriteDataByIdentifier.setWriteClass.__doc__) == (self.WRITE_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing writeClass.")
+
+    def test_create_diagnostic_write_data_by_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticWriteDataByIdentifiers")
+        write_did = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
+
+        assert write_did is not None
+        assert isinstance(write_did, DiagnosticWriteDataByIdentifier)
+        assert write_did.getShortName() == "WriteDataByIdentifier1"
+        assert package.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier) is write_did
+
+        duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
+        assert duplicate is write_did  # duplicate short name returns the existing element

@@ -542,6 +542,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
+    DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -10484,6 +10485,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticDataByIdentifier(element, read_data_by_identifier)
         read_data_by_identifier.setReadClass(self.getChildElementOptionalRefType(element, "READ-CLASS-REF"))
 
+    def readDiagnosticWriteDataByIdentifier(self, element: ET.Element, write_data_by_identifier: DiagnosticWriteDataByIdentifier):
+        self.logger.debug("Read DiagnosticWriteDataByIdentifier <%s>" % write_data_by_identifier.getShortName())
+        self.readIdentifiable(element, write_data_by_identifier)
+        self.readDiagnosticDataByIdentifier(element, write_data_by_identifier)
+        write_data_by_identifier.setWriteClass(self.getChildElementOptionalRefType(element, "WRITE-CLASS-REF"))
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -15575,6 +15582,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS":
                 read_data_by_identifier_class = parent.createDiagnosticReadDataByIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticReadDataByIdentifierClass(child_element, read_data_by_identifier_class)
+            elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
+                write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
+                self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)

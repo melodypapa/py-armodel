@@ -1858,6 +1858,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(read_data_by_identifier)
         return self.getElement(short_name, DiagnosticReadDataByIdentifier)
 
+    def createDiagnosticWriteDataByIdentifier(self, short_name: str) -> DiagnosticWriteDataByIdentifier:
+        """
+        Creates a new DiagnosticWriteDataByIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteDataByIdentifier represents an instance of the "Write Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteDataByIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticWriteDataByIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifier):
+            write_data_by_identifier = DiagnosticWriteDataByIdentifier(self, short_name)
+            self.addElement(write_data_by_identifier)
+        return self.getElement(short_name, DiagnosticWriteDataByIdentifier)
+
     def createDiagnosticReadDataByIdentifierClass(self, short_name: str) -> DiagnosticReadDataByIdentifierClass:
         """
         Creates a new DiagnosticReadDataByIdentifierClass with the given short name,
@@ -4226,7 +4244,36 @@ class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
 
 
 class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
-    pass
+    """This represents an instance of the "Write Data by Identifier" diagnostic service."""
+
+    # DiagnosticWriteDataByIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.71, p.113
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWriteClass      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWriteClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWriteDataByIdentifier in the given context.
+        self.writeClass: Optional[RefType] = None
+
+    def getWriteClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWriteDataByIdentifier in the given context.
+        """
+        return self.writeClass
+
+    def setWriteClass(self, value: Optional[RefType]) -> DiagnosticWriteDataByIdentifier:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWriteDataByIdentifier in the given context.
+
+        A None value is a no-op and does not overwrite an existing writeClass.
+        """
+        if value is not None:
+            self.writeClass = value
+        return self
 
 
 class FMFeature(ARElement):
