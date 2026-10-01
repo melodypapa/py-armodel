@@ -385,6 +385,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
+    DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
@@ -10719,6 +10720,10 @@ class ARXMLParser(AbstractARXMLParser):
         io_control.setResetToDefault(self.getChildElementOptionalBooleanValue(element, "RESET-TO-DEFAULT"))
         io_control.setShortTermAdjustment(self.getChildElementOptionalBooleanValue(element, "SHORT-TERM-ADJUSTMENT"))
 
+    def readDiagnosticIoControlClass(self, element: ET.Element, io_control_class: DiagnosticIoControlClass):
+        self.logger.debug("Read DiagnosticIoControlClass <%s>" % io_control_class.getShortName())
+        self.readIdentifiable(element, io_control_class)
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -15618,6 +15623,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-IO-CONTROL":
                 io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
                 self.readDiagnosticIOControl(child_element, io_control)
+            elif tag_name == "DIAGNOSTIC-IO-CONTROL-CLASS":
+                io_control_class = parent.createDiagnosticIoControlClass(self.getShortName(child_element))
+                self.readDiagnosticIoControlClass(child_element, io_control_class)
             elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
                 read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)

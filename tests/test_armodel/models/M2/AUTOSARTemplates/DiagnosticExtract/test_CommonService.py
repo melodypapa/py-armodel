@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
+    DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
@@ -692,4 +693,42 @@ class Test_DiagnosticReadScalingDataByIdentifierClass:
         assert package.getElement("Rsdibc1", DiagnosticReadScalingDataByIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifierClass("Rsdibc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticIoControlClass:
+    """Test cases for DiagnosticIoControlClass class (Table 4.81, p.118)."""
+
+    DICC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "IO Control" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticIoControlClass(_pkg(), "MyIcc")
+        assert service_class.getShortName() == "MyIcc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticIoControlClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticIoControlClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticIoControlClass, ARObject)
+        assert issubclass(DiagnosticIoControlClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticIoControlClass.__doc__) == self.DICC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticIoControlClass.__init__.__doc__ is None
+
+    def test_has_no_own_attributes(self):
+        """Table 4.81 defines no attribute rows beyond the inherited ones."""
+        service_class = DiagnosticIoControlClass(_pkg(), "MyIcc")
+        assert not any(attr.startswith("set") or attr.startswith("get") for attr in vars(service_class))
+
+    def test_create_diagnostic_io_control_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticIoControlClass("Icc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticIoControlClass)
+        assert service_class.getShortName() == "Icc1"
+        assert package.getElement("Icc1", DiagnosticIoControlClass) is service_class
+
+        duplicate = package.createDiagnosticIoControlClass("Icc1")
         assert duplicate is service_class

@@ -279,6 +279,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
+    DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
@@ -14042,6 +14043,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "RESET-TO-DEFAULT", io_control.getResetToDefault())
         self.setChildElementOptionalBooleanValue(child_element, "SHORT-TERM-ADJUSTMENT", io_control.getShortTermAdjustment())
 
+    def writeDiagnosticIoControlClass(self, element: ET.Element, io_control_class: DiagnosticIoControlClass):
+        self.logger.debug("Write DiagnosticIoControlClass %s" % io_control_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IO-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, io_control_class)
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -15256,6 +15262,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuResetClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIoControlClass):
+            self.writeDiagnosticIoControlClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
