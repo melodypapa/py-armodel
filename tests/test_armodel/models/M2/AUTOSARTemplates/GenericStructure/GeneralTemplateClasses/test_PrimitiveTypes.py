@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagnosticOccurrenceCounterProcessingEnum,
     DiagRequirementIdString,
     DisplayFormatString,
     Float,
@@ -1577,4 +1578,35 @@ class TestAclScopeEnum:
         assert enum.validateEnumValue("dependant") is True
         assert enum.validateEnumValue("descendant") is True
         assert enum.validateEnumValue("explicit") is True
+        assert enum.validateEnumValue("invalid") is False
+
+
+class TestDiagnosticOccurrenceCounterProcessingEnum:
+    """
+    Test class for DiagnosticOccurrenceCounterProcessingEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.20, p.66
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticOccurrenceCounterProcessingEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticOccurrenceCounterProcessingEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["confirmedDtcBit", "testFailedBit"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticOccurrenceCounterProcessingEnum member values.
+        """
+        enum = DiagnosticOccurrenceCounterProcessingEnum()
+
+        assert DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT == "confirmedDtcBit"
+        assert DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT == "testFailedBit"
+
+        assert enum.validateEnumValue("confirmedDtcBit") is True
+        assert enum.validateEnumValue("testFailedBit") is True
         assert enum.validateEnumValue("invalid") is False

@@ -1363,6 +1363,13 @@ DTC_KIND_XML_MAP = {
     "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
 }
 
+#: Mapping between DiagnosticOccurrenceCounterProcessingEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-OCCURRENCE-COUNTER-PROCESSING-ENUM--SIMPLE).
+DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP = {
+    "confirmedDtcBit": "CONFIRMED-DTC-BIT",
+    "testFailedBit": "TEST-FAILED-BIT",
+}
+
 
 class ARXMLParser(AbstractARXMLParser):
     """

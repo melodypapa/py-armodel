@@ -497,6 +497,13 @@ Base most-derived = `ARElement` (Table 4.14 Base chain — FIXED from the queued
 
 No deviations — all five Table 4.15 attributes modeled: `diagnosticConnection` (DiagnosticConnection `*` ref → `diagnosticConnectionRefs: List[RefType]` + addDiagnosticConnectionRef/getDiagnosticConnectionRefs), `priority` (PositiveInteger 0..1 attr), `protocolKind` (NameToken 0..1 attr), `sendRespPendOnTransToBoot` (Boolean 0..1 attr), `serviceTable` (DiagnosticServiceTable 0..1 ref → `serviceTableRef: Optional[RefType]`); Base most-derived = `ARElement`; attr rows carry atpVariation → attribute-value variation only (PRIORITY/POSITIVE-INTEGER-VALUE-VARIATION-POINT, SEND-RESP-PEND-ON-TRANS-TO-BOOT/BOOLEAN-VALUE-VARIATION-POINT wrappers absorbed by the reader/writer, model keeps the PDF types — DiagnosticAbstractDataIdentifier precedent), ref rows' atpVariation lands on the REF-CONDITIONAL wrappers (Rule 0020 NOT-indicator); XSD group order DIAGNOSTIC-CONNECTIONS, PRIORITY, PROTOCOL-KIND, SEND-RESP-PEND-ON-TRANS-TO-BOOT, SERVICE-TABLES (AUTOSAR_00052.xsd l.41010); ARPackage element dispatch (createDiagnosticProtocol + readARPackageElements/writeARPackageElement branches).
 
+## `DiagnosticOccurrenceCounterProcessingEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 66  | **table:** Table 4.20
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — both Table 4.20 literals modeled in displayed order (`CONFIRMED_DTC_BIT = "confirmedDtcBit"` atp.EnumerationLiteralIndex=0, `TEST_FAILED_BIT = "testFailedBit"` atp.EnumerationLiteralIndex=1); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP` (confirmedDtcBit→CONFIRMED-DTC-BIT, testFailedBit→TEST-FAILED-BIT, AR:DIAGNOSTIC-OCCURRENCE-COUNTER-PROCESSING-ENUM--SIMPLE) is registered in the parser and writer map blocks for the consuming class DiagnosticCommonProps.occurrenceCounterProcessing.
+
 ## `DiagnosticAbstractDataIdentifier`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.4
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`

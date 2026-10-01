@@ -1726,7 +1726,29 @@ class DiagnosticObdSupportEnum(AREnum):
 
 
 class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
-    pass
+    """
+    The occurrence counter triggering types.
+    """
+
+    # DiagnosticOccurrenceCounterProcessingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.20, p.66
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 if the fault confirmation was successful (ConfirmedDTC bit is already set). Tags: atp.EnumerationLiteralIndex=0
+    CONFIRMED_DTC_BIT = "confirmedDtcBit"
+
+    # The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 (and the fault confirmation is not considered). Tags: atp.EnumerationLiteralIndex=1
+    TEST_FAILED_BIT = "testFailedBit"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT,
+                DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT,
+            ]
+        )
 
 
 class DiagnosticOperationCycleTypeEnum(AREnum):
