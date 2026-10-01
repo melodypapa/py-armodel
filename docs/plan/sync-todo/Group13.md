@@ -39,7 +39,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25 (11997 passed / 0 failed, npm run lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01 (XSD-only): group BSW-API-OPTIONS AUTOSAR_00052.xsd L9379 (R4.3.1 00044.xsd L7279 identical), sole attr enableTakeAddress (BOOLEAN, 0..1, `Optional[Boolean]`) with typed get/set, setter None no-op + chaining, abstract guard ARObject+ABC intact (8 concrete subclasses), reader/writer via read/writeBswApiOptions (ENABLE-TAKE-ADDRESS), checklist 3/3 in source order, no deviations remain; `# XSD verified: AUTOSAR_00052.xsd` written after the `# Spec:` line
 
-- [ ] `BswModuleCallPoint` — Referrable — source TBC (locate table at Step 1)
+- [x] `BswModuleCallPoint` — Referrable — R23-11 markdown · Table 5.10 (CP_TPS_BSWModuleDescriptionTemplate), p.77 — **finished, stamped `# Spec verified: R23-11`** (sync commit pending)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.10, p.77 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Abstract Class; Base most-derived = `Referrable`; VP-capable (VARIATION-POINT in
@@ -57,7 +57,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12014 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12014 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: abstract, Table 5.10 p.77, Base most-derived = `Referrable` (already correct), VP-capable mixin kept (Rule 0020 — VARIATION-POINT in BSW-MODULE-CALL-POINT group L11283), sole attr contextLimitation → `contextLimitationRefs` `List[RefType]` (XSD CONTEXT-LIMITATION-REFS wrapper / REF items) with add/get (None no-op on add, no set — Rule 0001.6 List shape), reader/writer round-trip incl. wrapper + VARIATION-POINT, checklist 3/3 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `BswDirectCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
