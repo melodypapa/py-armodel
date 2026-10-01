@@ -32,10 +32,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
     DiagnosticMapping,
+    DiagnosticParameterElementAccess,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
+    DiagnosticServiceDataMapping,
+    DiagnosticServiceMappingDiagTarget,
     DiagnosticSessionControl,
+    DiagnosticSwMapping,
     DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
@@ -3445,3 +3449,237 @@ class TestDiagnosticTroubleCodeJ1939:
 
         duplicate = package.createDiagnosticTroubleCodeJ1939("Dtc1")
         assert duplicate is trouble_code  # duplicate short name returns the existing element
+
+
+class TestDiagnosticSwMapping:
+    """
+    Test class for DiagnosticSwMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.14, p.238
+    """
+
+    CLASS_NOTE = "This represents the ability to define a mapping between a diagnostic information (at this point there is no way to become more specific about the semantics) to a software-component."
+
+    def test_is_abstract(self):
+        """
+        Test that DiagnosticSwMapping is abstract and cannot be instantiated.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticSwMapping(AUTOSAR.getInstance(), "SwMapping")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticSwMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticSwMapping.__init__.__doc__ is None
+
+    def test_concrete_subclass_instantiates(self):
+        """
+        Test that a concrete subclass inherits the DiagnosticMapping base accessors.
+        """
+
+        class DummySwMapping(DiagnosticSwMapping):
+            pass
+
+        package = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = DummySwMapping(package, "Dummy")
+
+        assert obj.getShortName() == "Dummy"
+        assert obj.getProviderSoftwareClusterRef() is None
+        assert obj.getRequesterSoftwareClusterRef() is None
+
+
+class TestDiagnosticParameterElementAccess:
+    """
+    Test class for DiagnosticParameterElementAccess functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.5, p.229
+    """
+
+    CLASS_NOTE = "This meta-class acts as a single point for defining structured references to a specific DiagnosticParameterElement."
+
+    def _make_obj(self) -> DiagnosticParameterElementAccess:
+        return DiagnosticParameterElementAccess()
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticParameterElementAccess instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj is not None
+        assert obj.getContextElementRefs() == []
+        assert obj.getTargetElementRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticParameterElementAccess.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticParameterElementAccess.__init__.__doc__ is None
+
+    def test_add_get_context_element_refs(self):
+        """
+        Round-trips the contextElement multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-PARAMETER-ELEMENT")
+        ref1.setValue("/AUTOSAR/ParamElements/Ctx1")
+        result = obj.addContextElementRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-PARAMETER-ELEMENT")
+        ref2.setValue("/AUTOSAR/ParamElements/Ctx2")
+        obj.addContextElementRef(ref2)
+
+        refs = obj.getContextElementRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/ParamElements/Ctx2"
+
+        result = obj.addContextElementRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getContextElementRefs()) == 2  # None is a no-op
+
+    def test_get_set_target_element_ref(self):
+        """
+        Round-trips the targetElement reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-PARAMETER-ELEMENT")
+        ref.setValue("/AUTOSAR/ParamElements/Target")
+        result = obj.setTargetElementRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getTargetElementRef() is ref
+
+        result = obj.setTargetElementRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTargetElementRef() is ref  # None is a no-op
+
+
+class TestDiagnosticServiceDataMapping:
+    """
+    Test class for DiagnosticServiceDataMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.4, p.228
+    """
+
+    CLASS_NOTE = "This represents the ability to define a mapping of a diagnostic service to a software-component. This kind of service mapping is applicable for the usage of SenderReceiverInterfaces or event/notifier semantics in ServiceInterfaces on the adaptive platform. Tags: atp.recommendedPackage=DiagnosticServiceMappings"
+
+    def _make_obj(self) -> DiagnosticServiceDataMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticServiceDataMapping(ar_root, "TestServiceDataMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticServiceDataMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestServiceDataMapping"
+        assert obj.getDiagnosticDataElementRef() is None
+        assert obj.getDiagnosticParameterRef() is None
+        assert obj.getMappedDataElementIRef() is None
+        assert obj.getParameterElementAccess() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticServiceDataMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticServiceDataMapping.__init__.__doc__ is None
+
+    def test_get_set_refs_and_aggregation(self):
+        """
+        Round-trips the references and the parameterElementAccess aggregation; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        data_ref = RefType().setValue("/AUTOSAR/DataElements/Did1").setDest("DIAGNOSTIC-DATA-ELEMENT")
+        param_ref = RefType().setValue("/AUTOSAR/ParamIdents/Ident1").setDest("DIAGNOSTIC-PARAMETER-IDENT")
+        iref = RefType().setValue("/AUTOSAR/SwDataDefs/Proto1")
+        pea = DiagnosticParameterElementAccess()
+        obj.setDiagnosticDataElementRef(data_ref)
+        obj.setDiagnosticParameterRef(param_ref)
+        obj.setMappedDataElementIRef(iref)
+        obj.setParameterElementAccess(pea)
+
+        assert obj.getDiagnosticDataElementRef() is data_ref
+        assert obj.getDiagnosticParameterRef() is param_ref
+        assert obj.getMappedDataElementIRef() is iref
+        assert obj.getParameterElementAccess() is pea
+
+        obj.setDiagnosticDataElementRef(None)
+        obj.setDiagnosticParameterRef(None)
+        obj.setMappedDataElementIRef(None)
+        obj.setParameterElementAccess(None)
+        assert obj.getDiagnosticDataElementRef() is data_ref  # None is a no-op
+        assert obj.getDiagnosticParameterRef() is param_ref  # None is a no-op
+        assert obj.getMappedDataElementIRef() is iref  # None is a no-op
+        assert obj.getParameterElementAccess() is pea  # None is a no-op
+
+    def test_create_diagnostic_service_data_mapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticServiceMappings")
+        service_data_mapping = package.createDiagnosticServiceDataMapping("Mapping1")
+
+        assert service_data_mapping is not None
+        assert isinstance(service_data_mapping, DiagnosticServiceDataMapping)
+        assert service_data_mapping.getShortName() == "Mapping1"
+        assert package.getElement("Mapping1", DiagnosticServiceDataMapping) is service_data_mapping
+
+        duplicate = package.createDiagnosticServiceDataMapping("Mapping1")
+        assert duplicate is service_data_mapping  # duplicate short name returns the existing element
+
+
+class TestDiagnosticServiceMappingDiagTarget:
+    """
+    Test class for DiagnosticServiceMappingDiagTarget functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.12, p.234
+    """
+
+    CLASS_NOTE = "This meta-class serves as a base class for diagnostics-related targets of subclasses of DiagnosticSwMapping."
+
+    def test_is_abstract(self):
+        """
+        Test that DiagnosticServiceMappingDiagTarget is abstract and cannot be instantiated.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticServiceMappingDiagTarget()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticServiceMappingDiagTarget.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticServiceMappingDiagTarget.__init__.__doc__ is None

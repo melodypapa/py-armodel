@@ -415,6 +415,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticSecurityAccess,
     DiagnosticTroubleCodeJ1939,
+    DiagnosticParameterElementAccess,
+    DiagnosticServiceDataMapping,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
@@ -13814,6 +13816,27 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "NODE-REF", trouble_code.getNodeRef())
         self.setChildElementOptionalRefType(child_element, "SPN-REF", trouble_code.getSpnRef())
 
+    def writeDiagnosticParameterElementAccess(self, element: ET.Element, parameter_element_access: DiagnosticParameterElementAccess):
+        self.logger.debug("Write DiagnosticParameterElementAccess")
+        context_element_refs = parameter_element_access.getContextElementRefs()
+        if len(context_element_refs) > 0:
+            refs_tag = ET.SubElement(element, "CONTEXT-ELEMENT-REFS")
+            for ref in context_element_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTEXT-ELEMENT-REF", ref)
+        self.setChildElementOptionalRefType(element, "TARGET-ELEMENT-REF", parameter_element_access.getTargetElementRef())
+
+    def writeDiagnosticServiceDataMapping(self, element: ET.Element, service_data_mapping: DiagnosticServiceDataMapping):
+        self.logger.debug("Write DiagnosticServiceDataMapping %s" % service_data_mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SERVICE-DATA-MAPPING")
+        self.writeDiagnosticMapping(child_element, service_data_mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-DATA-ELEMENT-REF", service_data_mapping.getDiagnosticDataElementRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-DATA-ELEMENT-IREF", service_data_mapping.getMappedDataElementIRef())
+        parameter_element_access = service_data_mapping.getParameterElementAccess()
+        if parameter_element_access is not None:
+            pea_element = ET.SubElement(child_element, "PARAMETER-ELEMENT-ACCESS")
+            self.writeDiagnosticParameterElementAccess(pea_element, parameter_element_access)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-PARAMETER-REF", service_data_mapping.getDiagnosticParameterRef())
+
     def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
         self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
@@ -15149,6 +15172,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticJ1939Spn(element, ar_element)
         elif isinstance(ar_element, DiagnosticTroubleCodeJ1939):
             self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
+        elif isinstance(ar_element, DiagnosticServiceDataMapping):
+            self.writeDiagnosticServiceDataMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
         elif isinstance(ar_element, DiagnosticCustomServiceClass):

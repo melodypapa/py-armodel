@@ -538,6 +538,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticTroubleCodeJ1939,
+    DiagnosticParameterElementAccess,
+    DiagnosticServiceDataMapping,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
 )
@@ -10500,6 +10502,22 @@ class ARXMLParser(AbstractARXMLParser):
         trouble_code.setNodeRef(self.getChildElementOptionalRefType(element, "NODE-REF"))
         trouble_code.setSpnRef(self.getChildElementOptionalRefType(element, "SPN-REF"))
 
+    def readDiagnosticParameterElementAccess(self, element: ET.Element, parameter_element_access: DiagnosticParameterElementAccess):
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-ELEMENT-REFS/CONTEXT-ELEMENT-REF"):
+            parameter_element_access.addContextElementRef(ref)
+        parameter_element_access.setTargetElementRef(self.getChildElementOptionalRefType(element, "TARGET-ELEMENT-REF"))
+
+    def readDiagnosticServiceDataMapping(self, element: ET.Element, service_data_mapping: DiagnosticServiceDataMapping):
+        self.readDiagnosticMapping(element, service_data_mapping)
+        service_data_mapping.setDiagnosticDataElementRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-DATA-ELEMENT-REF"))
+        service_data_mapping.setMappedDataElementIRef(self.getChildElementOptionalRefType(element, "MAPPED-DATA-ELEMENT-IREF"))
+        pea_element = self.find(element, "PARAMETER-ELEMENT-ACCESS")
+        if pea_element is not None:
+            pea = DiagnosticParameterElementAccess()
+            self.readDiagnosticParameterElementAccess(pea_element, pea)
+            service_data_mapping.setParameterElementAccess(pea)
+        service_data_mapping.setDiagnosticParameterRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-PARAMETER-REF"))
+
     def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
         self.readIdentifiable(element, did)
         id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
@@ -15514,6 +15532,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-TROUBLE-CODE-J-1939":
                 trouble_code = parent.createDiagnosticTroubleCodeJ1939(self.getShortName(child_element))
                 self.readDiagnosticTroubleCodeJ1939(child_element, trouble_code)
+            elif tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
+                service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
+                self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)

@@ -119,6 +119,8 @@ __all__ = [
     "DiagnosticStorageCondition",
     "DiagnosticSessionControl",
     "DiagnosticServiceDataMapping",
+    "DiagnosticServiceMappingDiagTarget",
+    "DiagnosticParameterElementAccess",
     "DiagnosticSecurityEventReportingModeMapping",
     "DiagnosticSecurityAccess",
     "DiagnosticRoutineControl",
@@ -382,7 +384,15 @@ __all__ = [
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DiagnosticTroubleCodeJ1939DtcKindEnum, Identifier, NameToken, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    DiagnosticTroubleCodeJ1939DtcKindEnum,
+    Identifier,
+    NameToken,
+    PositiveInteger,
+    RefType,
+    ReferrableSubtypesEnum,
+)  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
 
@@ -2112,6 +2122,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(trouble_code)
         return self.getElement(short_name, DiagnosticTroubleCodeJ1939)
 
+    def createDiagnosticServiceDataMapping(self, short_name: str) -> DiagnosticServiceDataMapping:
+        """
+        Creates a new DiagnosticServiceDataMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticServiceDataMapping represents the ability to define a mapping
+        of a diagnostic service to a software-component.
+
+        Args:
+            short_name: The short name for the new DiagnosticServiceDataMapping
+
+        Returns:
+            The newly created or existing DiagnosticServiceDataMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticServiceDataMapping):
+            service_data_mapping = DiagnosticServiceDataMapping(self, short_name)
+            self.addElement(service_data_mapping)
+        return self.getElement(short_name, DiagnosticServiceDataMapping)
+
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
         Creates a new DiagnosticAccessPermission with the given short name,
@@ -3563,7 +3592,18 @@ class DiagnosticEvent(ARElement):
 
 
 class DiagnosticSwMapping(DiagnosticMapping, ABC):
-    pass
+    """This represents the ability to define a mapping between a diagnostic information (at this point there is no way to become more specific about the semantics) to a software-component."""
+
+    # DiagnosticSwMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.14, p.238
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticSwMapping:
+            raise TypeError("DiagnosticSwMapping is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DiagnosticEventPortMapping(DiagnosticSwMapping):
@@ -4159,8 +4199,163 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
     pass
 
 
+class DiagnosticParameterElementAccess(ARObject):
+    """This meta-class acts as a single point for defining structured references to a specific DiagnosticParameterElement."""
+
+    # DiagnosticParameterElementAccess method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.5, p.229
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContextElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTargetElementRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=10
+        self.contextElementRefs: List[RefType] = []
+
+        # This represents the target reference of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        self.targetElementRef: Optional[RefType] = None
+
+    def addContextElementRef(self, value: Optional[RefType]) -> DiagnosticParameterElementAccess:
+        """
+        This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not append a contextElementRef.
+        """
+        if value is not None:
+            self.contextElementRefs.append(value)
+        return self
+
+    def getContextElementRefs(self) -> List[RefType]:
+        """
+        This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=10
+        """
+        return self.contextElementRefs
+
+    def getTargetElementRef(self) -> Optional[RefType]:
+        """
+        This represents the target reference of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        """
+        return self.targetElementRef
+
+    def setTargetElementRef(self, value: Optional[RefType]) -> DiagnosticParameterElementAccess:
+        """
+        This represents the target reference of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing targetElementRef.
+        """
+        if value is not None:
+            self.targetElementRef = value
+        return self
+
+
 class DiagnosticServiceDataMapping(DiagnosticSwMapping):
-    pass
+    """This represents the ability to define a mapping of a diagnostic service to a software-component. This kind of service mapping is applicable for the usage of SenderReceiverInterfaces or event/notifier semantics in ServiceInterfaces on the adaptive platform. Tags: atp.recommendedPackage=DiagnosticServiceMappings"""
+
+    # DiagnosticServiceDataMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.4, p.228
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticDataElementRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticDataElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticParameterRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticParameterRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedDataElementIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedDataElementIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterElementAccess       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterElementAccess       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement or (in case of a usage on the adaptive platform) mappedApDataElement.
+        self.diagnosticDataElementRef: Optional[RefType] = None
+
+        # This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        self.diagnosticParameterRef: Optional[RefType] = None
+
+        # This represents the dataElement in the application software that is accessed for diagnostic purpose. This role is applicable on the classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        self.mappedDataElementIRef: Optional[RefType] = None
+
+        # This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        self.parameterElementAccess: Optional[DiagnosticParameterElementAccess] = None
+
+    def getDiagnosticDataElementRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement or (in case of a usage on the adaptive platform) mappedApDataElement.
+        """
+        return self.diagnosticDataElementRef
+
+    def setDiagnosticDataElementRef(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement or (in case of a usage on the adaptive platform) mappedApDataElement.
+        A None value is a no-op and does not overwrite an existing diagnosticDataElementRef.
+        """
+        if value is not None:
+            self.diagnosticDataElementRef = value
+        return self
+
+    def getDiagnosticParameterRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        """
+        return self.diagnosticParameterRef
+
+    def setDiagnosticParameterRef(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing diagnosticParameterRef.
+        """
+        if value is not None:
+            self.diagnosticParameterRef = value
+        return self
+
+    def getMappedDataElementIRef(self) -> Optional[RefType]:
+        """
+        This represents the dataElement in the application software that is accessed for diagnostic purpose. This role is applicable on the classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        """
+        return self.mappedDataElementIRef
+
+    def setMappedDataElementIRef(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
+        """
+        This represents the dataElement in the application software that is accessed for diagnostic purpose. This role is applicable on the classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing mappedDataElementIRef.
+        """
+        if value is not None:
+            self.mappedDataElementIRef = value
+        return self
+
+    def getParameterElementAccess(self) -> Optional[DiagnosticParameterElementAccess]:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        """
+        return self.parameterElementAccess
+
+    def setParameterElementAccess(self, value: Optional[DiagnosticParameterElementAccess]) -> DiagnosticServiceDataMapping:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        A None value is a no-op and does not overwrite an existing parameterElementAccess.
+        """
+        if value is not None:
+            self.parameterElementAccess = value
+        return self
+
+
+class DiagnosticServiceMappingDiagTarget(ARObject):
+    """This meta-class serves as a base class for diagnostics-related targets of subclasses of DiagnosticSwMapping."""
+
+    # DiagnosticServiceMappingDiagTarget method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.12, p.234
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is DiagnosticServiceMappingDiagTarget:
+            raise TypeError("DiagnosticServiceMappingDiagTarget is an abstract class.")
+
+        super().__init__()
 
 
 class DiagnosticSessionControl(ARElement):
