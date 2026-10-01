@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CseCodeType,
     DateTime,
     DiagnosticEventCombinationBehaviorEnum,
+    DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -1707,3 +1708,41 @@ class TestDiagnosticEventCombinationBehaviorEnum:
         enum.setValue(DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL)
 
         assert enum.getValue() == "eventCombinationOnRetrieval"
+
+
+class TestDiagnosticEventCombinationReportingBehaviorEnum:
+    """
+    Test class for DiagnosticEventCombinationReportingBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.24, p.67
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventCombinationReportingBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventCombinationReportingBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["reportingInChronlogicalOrderOldestFirst"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventCombinationReportingBehaviorEnum member values.
+        """
+        enum = DiagnosticEventCombinationReportingBehaviorEnum()
+
+        assert DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST == "reportingInChronlogicalOrderOldestFirst"
+
+        assert enum.validateEnumValue("reportingInChronlogicalOrderOldestFirst") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventCombinationReportingBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventCombinationReportingBehaviorEnum()
+        enum.setValue(DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST)
+
+        assert enum.getValue() == "reportingInChronlogicalOrderOldestFirst"

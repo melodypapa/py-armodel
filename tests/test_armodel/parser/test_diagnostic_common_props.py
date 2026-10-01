@@ -22,6 +22,7 @@ _CONDITIONAL_INNER = (
     "<DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS><SHORT-NAME>Deb2</SHORT-NAME></DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS>"
     "</DEBOUNCE-ALGORITHM-PROPSS>"
     "<DEFAULT-ENDIANNESS>OPAQUE</DEFAULT-ENDIANNESS>"
+    "<EVENT-COMBINATION-REPORTING-BEHAVIOR>REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST</EVENT-COMBINATION-REPORTING-BEHAVIOR>"
     "<MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING>10</MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING>"
     "<OCCURRENCE-COUNTER-PROCESSING>CONFIRMED-DTC-BIT</OCCURRENCE-COUNTER-PROCESSING>"
     "<RESET-CONFIRMED-BIT-ON-OVERFLOW>true</RESET-CONFIRMED-BIT-ON-OVERFLOW>"
@@ -54,6 +55,8 @@ class TestReadDiagnosticCommonProps:
         assert [item.getShortName() for item in debounce_props] == ["Deb1", "Deb2"]
         assert common_props.getDefaultEndianness() is not None
         assert common_props.getDefaultEndianness().getValue() == "opaque"
+        assert common_props.getEventCombinationReportingBehavior() is not None
+        assert common_props.getEventCombinationReportingBehavior().getValue() == "reportingInChronlogicalOrderOldestFirst"
         assert common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is not None
         assert common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending().getValue() == 10
         assert common_props.getOccurrenceCounterProcessing() is not None

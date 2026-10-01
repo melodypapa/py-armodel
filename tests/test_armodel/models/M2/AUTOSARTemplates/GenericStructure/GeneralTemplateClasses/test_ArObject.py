@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     DateTime,
     DiagnosticEventCombinationBehaviorEnum,
+    DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
     String,
@@ -253,9 +254,6 @@ class TestDiagnosticCommonProps:
     Test class for DiagnosticCommonProps functionality.
 
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.19, p.65
-    (DiagnosticEventCombinationReportingBehaviorEnum is still an un-synced stub
-    queued for a later batch row — the eventCombinationReportingBehavior setter
-    gets typed-value coverage with its sync; here only the defaults are asserted.)
     """
 
     def _create_props(self) -> DiagnosticCommonProps:
@@ -408,16 +406,21 @@ class TestDiagnosticCommonProps:
         assert result is obj  # method chaining with None
         assert obj.getResponseOnAllRequestSids() is value  # None is a no-op
 
-    def test_setter_none_no_ops_for_pending_enums(self):
+    def test_get_set_event_combination_reporting_behavior(self):
         """
-        Test that the eventCombinationReportingBehavior setter chains and treats None as a
-        no-op (typed-value coverage lands with the DiagnosticEventCombinationReportingBehaviorEnum sync).
+        Test getEventCombinationReportingBehavior and setEventCombinationReportingBehavior round-trip and None no-op.
         """
         obj = self._create_props()
 
+        behavior = DiagnosticEventCombinationReportingBehaviorEnum().setValue(DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST)
+        result = obj.setEventCombinationReportingBehavior(behavior)
+        assert result is obj  # method chaining
+        assert obj.getEventCombinationReportingBehavior() is behavior
+        assert obj.getEventCombinationReportingBehavior().getValue() == "reportingInChronlogicalOrderOldestFirst"
+
         result = obj.setEventCombinationReportingBehavior(None)
         assert result is obj  # method chaining with None
-        assert obj.getEventCombinationReportingBehavior() is None
+        assert obj.getEventCombinationReportingBehavior() is behavior  # None is a no-op
 
     def test_get_set_type_of_event_combination_supported(self):
         """

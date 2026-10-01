@@ -1712,7 +1712,25 @@ class DiagnosticEventCombinationBehaviorEnum(AREnum):
 
 
 class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
-    pass
+    """
+    Select reporting format of events. Applicable only for Event Combination on Retrieval.
+    """
+
+    # DiagnosticEventCombinationReportingBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.24, p.67
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The reporting order for event combination on retrieval is the chronological storage order of the events Tags: atp.EnumerationLiteralIndex=0
+    REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST = "reportingInChronlogicalOrderOldestFirst"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST,
+            ]
+        )
 
 
 class DiagnosticEventDisplacementStrategyEnum(AREnum):

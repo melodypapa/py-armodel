@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DiagnosticEventCombinationBehaviorEnum,
+    DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
     TimeValue,
@@ -52,6 +53,9 @@ class TestWriteDiagnosticCommonProps:
         common_props.setAuthenticationTimeout(timeout)
         common_props.createDebounceAlgorithmProps("Deb1")
         common_props.setDefaultEndianness(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
+        common_props.setEventCombinationReportingBehavior(
+            DiagnosticEventCombinationReportingBehaviorEnum().setValue(DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST)
+        )
         max_number = PositiveInteger()
         max_number.setValue("10")
         common_props.setMaxNumberOfRequestCorrectlyReceivedResponsePending(max_number)
@@ -81,6 +85,7 @@ class TestWriteDiagnosticCommonProps:
         debounce_items = conditional.findall("DEBOUNCE-ALGORITHM-PROPSS/DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS")
         assert [item.find("SHORT-NAME").text for item in debounce_items] == ["Deb1"]
         assert conditional.find("DEFAULT-ENDIANNESS").text == "OPAQUE"
+        assert conditional.find("EVENT-COMBINATION-REPORTING-BEHAVIOR").text == "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST"
         assert conditional.find("MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING").text == "10"
         assert conditional.find("OCCURRENCE-COUNTER-PROCESSING").text == "CONFIRMED-DTC-BIT"
         assert conditional.find("RESET-CONFIRMED-BIT-ON-OVERFLOW").text == "true"
@@ -93,6 +98,7 @@ class TestWriteDiagnosticCommonProps:
             "AUTHENTICATION-TIMEOUT",
             "DEBOUNCE-ALGORITHM-PROPSS",
             "DEFAULT-ENDIANNESS",
+            "EVENT-COMBINATION-REPORTING-BEHAVIOR",
             "MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING",
             "OCCURRENCE-COUNTER-PROCESSING",
             "RESET-CONFIRMED-BIT-ON-OVERFLOW",
@@ -125,6 +131,9 @@ class TestWriteDiagnosticCommonProps:
         timeout.setValue(0.5)
         common_props.setAuthenticationTimeout(timeout)
         common_props.setDefaultEndianness(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST))
+        common_props.setEventCombinationReportingBehavior(
+            DiagnosticEventCombinationReportingBehaviorEnum().setValue(DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST)
+        )
         max_number = PositiveInteger()
         max_number.setValue("10")
         common_props.setMaxNumberOfRequestCorrectlyReceivedResponsePending(max_number)
@@ -150,6 +159,8 @@ class TestWriteDiagnosticCommonProps:
             assert common_props_2.getAuthenticationTimeout().getValue() == 0.5
             assert common_props_2.getDefaultEndianness() is not None
             assert common_props_2.getDefaultEndianness().getValue() == "mostSignificantByteFirst"
+            assert common_props_2.getEventCombinationReportingBehavior() is not None
+            assert common_props_2.getEventCombinationReportingBehavior().getValue() == "reportingInChronlogicalOrderOldestFirst"
             assert common_props_2.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is not None
             assert common_props_2.getMaxNumberOfRequestCorrectlyReceivedResponsePending().getValue() == 10
             assert common_props_2.getOccurrenceCounterProcessing() is not None
