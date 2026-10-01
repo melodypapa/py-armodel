@@ -3599,6 +3599,7 @@ class TestSwcInternalBehaviorEvents:
             "INTERNAL-TRIGGER-OCCURRED-EVENT",
             "INIT-EVENT",
             "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+            "OPERATION-INVOKED-EVENT",
             "MODE-SWITCHED-ACK-EVENT",
             "BACKGROUND-EVENT",
             "DATA-RECEIVED-EVENT",
