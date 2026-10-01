@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 617 | 32.4% |
+| [x] Done | 640 | 33.6% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 228 | 12.0% |
+| [ ] Deferred | 205 | 10.8% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -153,46 +153,46 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BlueprintPolicy`                                       | [x] Done    | f5f5084e36                               | Group1           |
 | `BooleanValueVariationPoint`                            | [x] Done    | d5c96fd954                               | Group8           |
 | `Br`                                                    | [x] Done    | c2a85e6f8f                               | Group3           |
-| `BswApiOptions`                                         | [ ] Deferred| N/A                                      | Group13          |
+| `BswApiOptions`                                         | [x] Done    | 816c64f3d0                               | Group13          |
 | `BswAsynchronousServerCallPoint`                        | [x] Done    | 80c7276bff                               | Group22          |
 | `BswAsynchronousServerCallResultPoint`                  | [x] Done    | e1150436c3                               | Group22          |
-| `BswAsynchronousServerCallReturnsEvent`                 | [ ] Deferred| N/A                                      | Group13          |
+| `BswAsynchronousServerCallReturnsEvent`                 | [x] Done    | f2df52d4b5                               | Group13          |
 | `BswBackgroundEvent`                                    | [x] Done    | 584344d2e4                               | Group22          |
 | `BswCallType`                                           | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswCalledEntity`                                       | [x] Done    | bd96645681                               | Group22          |
 | `BswClientPolicy`                                       | [x] Done    | 3141824107                               | Group4           |
 | `BswCompositionTiming`                                  | [ ] Created | N/A                                      | Group35          |
-| `BswDataReceivedEvent`                                  | [ ] Deferred| N/A                                      | Group13          |
-| `BswDataReceptionPolicy`                                | [ ] Deferred| 7e3a2541a3                               | Group13          |
+| `BswDataReceivedEvent`                                  | [x] Done    | e316f1e6ea                               | Group13          |
+| `BswDataReceptionPolicy`                                | [x] Done    | 893f5df32e                               | Group13          |
 | `BswDataSendPolicy`                                     | [x] Done    | ccacff4a64                               | Group4           |
-| `BswDirectCallPoint`                                    | [ ] Deferred| N/A                                      | Group13          |
+| `BswDirectCallPoint`                                    | [x] Done    | 518ebf6a09                               | Group13          |
 | `BswDistinguishedPartition`                             | [x] Done    | 80d341994f                               | Group22          |
 | `BswEntryKindEnum`                                      | [x] Done    | 1a5b05b196                               | Group22          |
-| `BswEntryRelationship`                                  | [ ] Deferred| 75c6517342                               | Group13          |
-| `BswEntryRelationshipEnum`                              | [ ] Deferred| 994c3903cb                               | Group13          |
-| `BswEntryRelationshipSet`                               | [ ] Deferred| a4d57abd3a                               | Group13          |
+| `BswEntryRelationship`                                  | [x] Done    | 1872edcae1                               | Group13          |
+| `BswEntryRelationshipEnum`                              | [x] Done    | ff1903b513                               | Group13          |
+| `BswEntryRelationshipSet`                               | [x] Done    | cdbfc4ebf0                               | Group13          |
 | `BswEvent`                                              | [x] Done    | af5498712f                               | Group22          |
 | `BswExclusiveAreaPolicy`                                | [ ] Deferred| eb307c9898                               | Group22          |
 | `BswExecutionContext`                                   | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswExternalTriggerOccurredEvent`                       | [ ] Deferred| a52b41da2c                               | Group22          |
 | `BswImplementation`                                     | [x] Done    | 46ce237162                               | Group22          |
 | `BswInternalBehavior`                                   | [x] Done    | 89a7231799                               | Group4           |
-| `BswInternalTriggerOccurredEvent`                       | [ ] Deferred| N/A                                      | Group13          |
-| `BswInternalTriggeringPoint`                            | [ ] Deferred| N/A                                      | Group13          |
+| `BswInternalTriggerOccurredEvent`                       | [x] Done    | caffd21921                               | Group13          |
+| `BswInternalTriggeringPoint`                            | [x] Done    | f67e3865ef                               | Group13          |
 | `BswInternalTriggeringPointPolicy`                      | [x] Done    | 2bb8413910                               | Group4           |
 | `BswInterruptCategory`                                  | [ ] Deferred| 87a572d24b                               | Group22          |
-| `BswInterruptEntity`                                    | [ ] Deferred| N/A                                      | Group13          |
+| `BswInterruptEntity`                                    | [x] Done    | f19be09d07                               | Group13          |
 | `BswInterruptEvent`                                     | [x] Done    | acf1e772ac                               | Group22          |
 | `BswMgrNeeds`                                           | [x] Done    | 628464ed64                               | Group4           |
-| `BswModeManagerErrorEvent`                              | [ ] Deferred| N/A                                      | Group13          |
+| `BswModeManagerErrorEvent`                              | [x] Done    | 91083c1916                               | Group13          |
 | `BswModeReceiverPolicy`                                 | [ ] Deferred| 2b15f92b16                               | Group22          |
 | `BswModeSenderPolicy`                                   | [ ] Deferred| af6d69bbfa                               | Group22          |
-| `BswModeSwitchAckRequest`                               | [ ] Deferred| N/A                                      | Group13          |
+| `BswModeSwitchAckRequest`                               | [x] Done    | 8d9cad6b3c                               | Group13          |
 | `BswModeSwitchEvent`                                    | [x] Done    | af5498712f                               | Group22          |
-| `BswModeSwitchedAckEvent`                               | [ ] Deferred| 160eae8f23                               | Group13          |
-| `BswModuleCallPoint`                                    | [ ] Deferred| N/A                                      | Group13          |
-| `BswModuleClientServerEntry`                            | [ ] Deferred| e69bc46baa                               | Group13          |
-| `BswModuleDependency`                                   | [ ] Deferred| 1ca038b144                               | Group13          |
+| `BswModeSwitchedAckEvent`                               | [x] Done    | a250dbe4b5                               | Group13          |
+| `BswModuleCallPoint`                                    | [x] Done    | 879aacf8c4                               | Group13          |
+| `BswModuleClientServerEntry`                            | [x] Done    | f57417a6a2                               | Group13          |
+| `BswModuleDependency`                                   | [x] Done    | 7686874a67                               | Group13          |
 | `BswModuleDescription`                                  | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswModuleEntity`                                       | [x] Done    | 88b336bfe9                               | Group22          |
 | `BswModuleEntry`                                        | [x] Done    | 1a5b05b196                               | Group22          |
@@ -201,15 +201,15 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswOsTaskExecutionEvent`                               | [x] Done    | 2b4b89810a                               | Group22          |
 | `BswParameterPolicy`                                    | [x] Done    | eceaef9296                               | Group4           |
 | `BswPerInstanceMemoryPolicy`                            | [x] Done    | b89ad783a3                               | Group4           |
-| `BswQueuedDataReceptionPolicy`                          | [ ] Deferred| N/A                                      | Group13          |
+| `BswQueuedDataReceptionPolicy`                          | [x] Done    | 254de705ea                               | Group13          |
 | `BswReleasedTriggerPolicy`                              | [x] Done    | 04498e5b27                               | Group4           |
 | `BswSchedulableEntity`                                  | [x] Done    | d2e2d7903d                               | Group22          |
 | `BswScheduleEvent`                                      | [x] Done    | 46ce237162                               | Group22          |
 | `BswSchedulerNamePrefix`                                | [x] Done    | 2a4f60c8c4                               | Group22          |
 | `BswServiceDependency`                                  | [ ] Implemented| N/A                                      | Group23          |
 | `BswServiceDependencyIdent`                             | [ ] Implemented| N/A                                      | Group26          |
-| `BswSynchronousServerCallPoint`                         | [ ] Deferred| N/A                                      | Group13          |
-| `BswTimingEvent`                                        | [ ] Deferred| 1a0a0619b2                               | Group13          |
+| `BswSynchronousServerCallPoint`                         | [x] Done    | f23ec00417                               | Group13          |
+| `BswTimingEvent`                                        | [x] Done    | 361ab10d5e                               | Group13          |
 | `BswTriggerDirectImplementation`                        | [ ] Deferred| 0626aec9ca                               | Group22          |
 | `BswVariableAccess`                                     | [ ] Deferred| d4d386b5c4                               | Group22          |
 | `BufferProperties`                                      | [ ] Implemented| N/A                                      | Group28          |
@@ -1693,9 +1693,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwValues`                                              | [ ] Implemented| N/A                                      | Group28          |
 | `SwVariableRefProxy`                                    | [ ] Implemented| N/A                                      | Group28          |
 | `SwcBswMapping`                                         | [x] Done    | 58b2c68a57                               | Group1           |
-| `SwcBswRunnableMapping`                                 | [ ] Deferred| c52cece662                               | Group13          |
-| `SwcBswSynchronizedModeGroupPrototype`                  | [ ] Deferred| 659c2bf174                               | Group13          |
-| `SwcBswSynchronizedTrigger`                             | [ ] Deferred| 6b4b9d6d10                               | Group13          |
+| `SwcBswRunnableMapping`                                 | [x] Done    | 4f1681d55f                               | Group13          |
+| `SwcBswSynchronizedModeGroupPrototype`                  | [x] Done    | d024ea8472                               | Group13          |
+| `SwcBswSynchronizedTrigger`                             | [x] Done    | c7756e2bea                               | Group13          |
 | `SwcExclusiveAreaPolicy`                                | [ ] Implemented| N/A                                      | Group29          |
 | `SwcImplementation`                                     | [x] Done    | 6eae95f556                               | Group10          |
 | `SwcInternalBehavior`                                   | [x] Done    | 4043dc013a                               | Group2           |

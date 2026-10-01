@@ -127,7 +127,7 @@ confirmation.
 |---|---|---|---|---|---|
 | `encapsulatedEntryRef` | `Optional[RefType]` | `encapsulatedEntry` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
 | `isReentrant` | `Optional[Boolean]` | `isReentrant` | `Boolean` | Attr | ok |
-| `isSynchronous` | `Optional[Boolean]` | `isSynchronous` | `Boolean` | Attr | legacy (R4.3.1 Table 5.22, p.56) — absent from the R23-11 Table 4.21 attribute rows but retained by the R23-11 XSD itself (IS-SYNCHRONOUS, group BSW-MODULE-CLIENT-SERVER-ENTRY, AUTOSAR_00052.xsd L11320); docstring verbatim from the R4.3.1 Note; removed in R23-11 table |
+| `isSynchronous` | `Optional[Boolean]` | `isSynchronous` | `Boolean` | Attr | ok — IS an R23-11 Table 4.21 attribute (cross-page row, markdown L1400; original extraction missed the page-split continuation past the caption L1394). Confirmed by user at 9b 2026-10-01; release column unified to R23-11, docstring re-synced to the R23-11 Note casing (R4.3.1 used "• True:"/"• False:") |
 
 2026-09-26 sync (Table 4.21, p.54): fabricated class docstring, `__init__` docstring and paraphrased
 docstrings wiped, rewritten verbatim from the R23-11 Notes (the legacy row from the R4.3.1 Note);

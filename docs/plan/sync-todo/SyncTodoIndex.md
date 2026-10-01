@@ -629,33 +629,33 @@ Status: **15/15** completed
 
 ## Group13
 
-Status: **0/23** completed
+Status: **23/23** completed
 
-| Class Name                              | Status       | Commit ID  |
-| --------------------------------------- | ------------ | ---------- |
-| `BswApiOptions`                         | [ ] Pending* | N/A        |
-| `BswModuleCallPoint`                    | [ ] Pending* | N/A        |
-| `BswDirectCallPoint`                    | [ ] Pending* | N/A        |
-| `BswSynchronousServerCallPoint`         | [ ] Pending* | N/A        |
-| `BswInternalTriggeringPoint`            | [ ] Pending* | N/A        |
-| `BswInterruptEntity`                    | [ ] Pending* | N/A        |
-| `BswModeSwitchAckRequest`               | [ ] Pending* | N/A        |
-| `BswDataReceptionPolicy`                | [ ] Pending* | 7e3a2541a3 |
-| `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A        |
-| `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
-| `BswDataReceivedEvent`                  | [ ] Pending* | N/A        |
-| `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
-| `BswModeManagerErrorEvent`              | [ ] Pending* | N/A        |
-| `BswModeSwitchedAckEvent`               | [ ] Pending* | 160eae8f23 |
-| `BswTimingEvent`                        | [ ] Pending* | 1a0a0619b2 |
-| `BswEntryRelationshipEnum`              | [ ] Pending* | 994c3903cb |
-| `BswEntryRelationship`                  | [ ] Pending* | 75c6517342 |
-| `BswEntryRelationshipSet`               | [ ] Pending* | a4d57abd3a |
-| `BswModuleClientServerEntry`            | [ ] Pending* | e69bc46baa |
-| `BswModuleDependency`                   | [ ] Pending* | 1ca038b144 |
-| `SwcBswRunnableMapping`                 | [ ] Pending* | c52cece662 |
-| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending* | 659c2bf174 |
-| `SwcBswSynchronizedTrigger`             | [ ] Pending* | 6b4b9d6d10 |
+| Class Name                              | Status   | Commit ID  |
+| --------------------------------------- | -------- | ---------- |
+| `BswApiOptions`                         | [x] Done | 816c64f3d0 |
+| `BswModuleCallPoint`                    | [x] Done | 879aacf8c4 |
+| `BswDirectCallPoint`                    | [x] Done | 518ebf6a09 |
+| `BswSynchronousServerCallPoint`         | [x] Done | f23ec00417 |
+| `BswInternalTriggeringPoint`            | [x] Done | f67e3865ef |
+| `BswInterruptEntity`                    | [x] Done | f19be09d07 |
+| `BswModeSwitchAckRequest`               | [x] Done | 8d9cad6b3c |
+| `BswDataReceptionPolicy`                | [x] Done | 893f5df32e |
+| `BswQueuedDataReceptionPolicy`          | [x] Done | 254de705ea |
+| `BswAsynchronousServerCallReturnsEvent` | [x] Done | f2df52d4b5 |
+| `BswDataReceivedEvent`                  | [x] Done | e316f1e6ea |
+| `BswInternalTriggerOccurredEvent`       | [x] Done | caffd21921 |
+| `BswModeManagerErrorEvent`              | [x] Done | 91083c1916 |
+| `BswModeSwitchedAckEvent`               | [x] Done | a250dbe4b5 |
+| `BswTimingEvent`                        | [x] Done | 361ab10d5e |
+| `BswEntryRelationshipEnum`              | [x] Done | ff1903b513 |
+| `BswEntryRelationship`                  | [x] Done | 1872edcae1 |
+| `BswEntryRelationshipSet`               | [x] Done | cdbfc4ebf0 |
+| `BswModuleClientServerEntry`            | [x] Done | f57417a6a2 |
+| `BswModuleDependency`                   | [x] Done | 7686874a67 |
+| `SwcBswRunnableMapping`                 | [x] Done | 4f1681d55f |
+| `SwcBswSynchronizedModeGroupPrototype`  | [x] Done | d024ea8472 |
+| `SwcBswSynchronizedTrigger`             | [x] Done | c7756e2bea |
 
 ## Group14
 
