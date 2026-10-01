@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
     DiagnosticProtocol,
+    DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
@@ -39,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     ReferrableSubtypesEnum,
     RefType,
+    TimeValue,
     UriString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
@@ -2098,3 +2100,155 @@ class TestDiagnosticSessionControl:
 
         duplicate = package.createDiagnosticSessionControl("SessionCtrl1")
         assert duplicate is session_control  # duplicate short name returns the existing element
+
+
+class TestDiagnosticSecurityAccess:
+    """
+    Test class for DiagnosticSecurityAccess functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.49, p.96
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Security Access" diagnostic service.'
+    REQUEST_SEED_ID_NOTE = "This would be 0x01, 0x03, 0x05, ... The sendKey id can be computed by adding 1 to the requestSeedId"
+    SECURITY_ACCESS_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. "
+        "Thereby, the reference represents the ability to access shared attributes among all DiagnosticSecurityAccess in the given context."
+    )
+    SECURITY_DELAY_TIME_ON_BOOT_NOTE = "Start delay timer on power on in seconds. This delay indicates the time after ECU boot power-on where no security access request is accepted."
+    SECURITY_LEVEL_NOTE = "This reference identifies the applicable security level for the security access. Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel"
+
+    def _create_security_access(self) -> DiagnosticSecurityAccess:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticSecurityAccess(ar_root, "TestSecurityAccess")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticSecurityAccess is initialized with the spec defaults.
+        """
+        obj = self._create_security_access()
+
+        assert obj.getShortName() == "TestSecurityAccess"
+        assert isinstance(obj, ARElement)
+        assert obj.getRequestSeedId() is None
+        assert obj.getSecurityAccessClass() is None
+        assert obj.getSecurityDelayTimeOnBoot() is None
+        assert obj.getSecurityLevel() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (Tags tail dropped).
+        """
+        assert DiagnosticSecurityAccess.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticSecurityAccess.__init__.__doc__ is None
+
+    def test_get_set_request_seed_id(self):
+        """
+        Test getRequestSeedId and setRequestSeedId round-trip and None no-op.
+        """
+        obj = self._create_security_access()
+
+        request_seed_id = PositiveInteger()
+        request_seed_id.setValue("259")
+        result = obj.setRequestSeedId(request_seed_id)
+        assert result is obj  # method chaining
+        assert obj.getRequestSeedId() is request_seed_id
+        assert obj.getRequestSeedId().getValue() == 259
+
+        result = obj.setRequestSeedId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestSeedId() is request_seed_id  # None is a no-op
+
+    def test_get_set_security_access_class(self):
+        """
+        Test getSecurityAccessClass and setSecurityAccessClass round-trip and None no-op.
+        """
+        obj = self._create_security_access()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-SECURITY-ACCESS-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticSecurityAccessClasses/SecAccessClass")
+        result = obj.setSecurityAccessClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getSecurityAccessClass() is ref
+        assert obj.getSecurityAccessClass().getValue() == "/AUTOSAR/DiagnosticSecurityAccessClasses/SecAccessClass"
+        assert obj.getSecurityAccessClass().getDest() == "DIAGNOSTIC-SECURITY-ACCESS-CLASS"
+
+        result = obj.setSecurityAccessClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSecurityAccessClass() is ref  # None is a no-op
+
+    def test_get_set_security_delay_time_on_boot(self):
+        """
+        Test getSecurityDelayTimeOnBoot and setSecurityDelayTimeOnBoot round-trip and None no-op.
+        """
+        obj = self._create_security_access()
+
+        delay = TimeValue()
+        delay.setValue("3.0")
+        result = obj.setSecurityDelayTimeOnBoot(delay)
+        assert result is obj  # method chaining
+        assert obj.getSecurityDelayTimeOnBoot() is delay
+        assert obj.getSecurityDelayTimeOnBoot().getValue() == 3.0
+
+        result = obj.setSecurityDelayTimeOnBoot(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSecurityDelayTimeOnBoot() is delay  # None is a no-op
+
+    def test_get_set_security_level(self):
+        """
+        Test getSecurityLevel and setSecurityLevel round-trip and None no-op.
+        """
+        obj = self._create_security_access()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-SECURITY-LEVEL")
+        ref.setValue("/AUTOSAR/DiagnosticSecurityLevels/Level1")
+        result = obj.setSecurityLevel(ref)
+        assert result is obj  # method chaining
+        assert obj.getSecurityLevel() is ref
+        assert obj.getSecurityLevel().getValue() == "/AUTOSAR/DiagnosticSecurityLevels/Level1"
+        assert obj.getSecurityLevel().getDest() == "DIAGNOSTIC-SECURITY-LEVEL"
+
+        result = obj.setSecurityLevel(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSecurityLevel() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that the accessor docstrings are the spec Notes verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticSecurityAccess.getRequestSeedId.__doc__) == self.REQUEST_SEED_ID_NOTE
+        assert inspect.cleandoc(DiagnosticSecurityAccess.setRequestSeedId.__doc__) == (self.REQUEST_SEED_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestSeedId.")
+        assert inspect.cleandoc(DiagnosticSecurityAccess.getSecurityAccessClass.__doc__) == self.SECURITY_ACCESS_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticSecurityAccess.setSecurityAccessClass.__doc__) == (
+            self.SECURITY_ACCESS_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing securityAccessClass."
+        )
+        assert inspect.cleandoc(DiagnosticSecurityAccess.getSecurityDelayTimeOnBoot.__doc__) == self.SECURITY_DELAY_TIME_ON_BOOT_NOTE
+        assert inspect.cleandoc(DiagnosticSecurityAccess.setSecurityDelayTimeOnBoot.__doc__) == (
+            self.SECURITY_DELAY_TIME_ON_BOOT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing securityDelayTimeOnBoot."
+        )
+        assert inspect.cleandoc(DiagnosticSecurityAccess.getSecurityLevel.__doc__) == self.SECURITY_LEVEL_NOTE
+        assert inspect.cleandoc(DiagnosticSecurityAccess.setSecurityLevel.__doc__) == (self.SECURITY_LEVEL_NOTE + "\n\nA None value is a no-op and does not overwrite an existing securityLevel.")
+
+    def test_create_diagnostic_security_access(self):
+        """
+        Test createDiagnosticSecurityAccess creates, appends and returns the existing one for a duplicate short name.
+        """
+        package = AUTOSAR.getInstance().createARPackage("SecurityAccesses")
+
+        security_access = package.createDiagnosticSecurityAccess("SecAccess1")
+        assert security_access is not None
+        assert isinstance(security_access, DiagnosticSecurityAccess)
+        assert security_access.getShortName() == "SecAccess1"
+        assert security_access.getParent() is package
+        assert package.getElement("SecAccess1", DiagnosticSecurityAccess) is security_access
+
+        duplicate = package.createDiagnosticSecurityAccess("SecAccess1")
+        assert duplicate is security_access  # duplicate short name returns the existing element

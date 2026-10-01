@@ -380,6 +380,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
 
 class ReferenceBase(ARObject):
@@ -1697,6 +1698,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             session_control_class = DiagnosticSessionControlClass(self, short_name)
             self.addElement(session_control_class)
         return self.getElement(short_name, DiagnosticSessionControlClass)
+
+    def createDiagnosticSecurityAccess(self, short_name: str) -> DiagnosticSecurityAccess:
+        """
+        Creates a new DiagnosticSecurityAccess with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSecurityAccess represents an instance of the "Security
+        Access" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticSecurityAccess
+
+        Returns:
+            The newly created or existing DiagnosticSecurityAccess instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSecurityAccess):
+            security_access = DiagnosticSecurityAccess(self, short_name)
+            self.addElement(security_access)
+        return self.getElement(short_name, DiagnosticSecurityAccess)
 
     def createDiagnosticSecurityLevel(self, short_name: str) -> DiagnosticSecurityLevel:
         """
@@ -3380,7 +3400,99 @@ class DiagnosticRoutineControl(ARElement):
 
 
 class DiagnosticSecurityAccess(ARElement):
-    pass
+    """This represents an instance of the "Security Access" diagnostic service."""
+
+    # DiagnosticSecurityAccess method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.49, p.96
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestSeedId              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestSeedId              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityAccessClass        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityAccessClass        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityDelayTimeOnBoot    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityDelayTimeOnBoot    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityLevel              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityLevel              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This would be 0x01, 0x03, 0x05, ... The sendKey id can be computed by adding 1 to the requestSeedId
+        self.requestSeedId: Optional[PositiveInteger] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSecurityAccess in the given context.
+        self.securityAccessClass: Optional[RefType] = None
+
+        # Start delay timer on power on in seconds. This delay indicates the time after ECU boot power-on where no security access request is accepted.
+        self.securityDelayTimeOnBoot: Optional[TimeValue] = None
+
+        # This reference identifies the applicable security level for the security access. Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel
+        self.securityLevel: Optional[RefType] = None
+
+    def getRequestSeedId(self) -> Optional[PositiveInteger]:
+        """
+        This would be 0x01, 0x03, 0x05, ... The sendKey id can be computed by adding 1 to the requestSeedId
+        """
+        return self.requestSeedId
+
+    def setRequestSeedId(self, value: Optional[PositiveInteger]):
+        """
+        This would be 0x01, 0x03, 0x05, ... The sendKey id can be computed by adding 1 to the requestSeedId
+
+        A None value is a no-op and does not overwrite an existing requestSeedId.
+        """
+        if value is not None:
+            self.requestSeedId = value
+        return self
+
+    def getSecurityAccessClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSecurityAccess in the given context.
+        """
+        return self.securityAccessClass
+
+    def setSecurityAccessClass(self, value: Optional[RefType]):
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSecurityAccess in the given context.
+
+        A None value is a no-op and does not overwrite an existing securityAccessClass.
+        """
+        if value is not None:
+            self.securityAccessClass = value
+        return self
+
+    def getSecurityDelayTimeOnBoot(self) -> Optional[TimeValue]:
+        """
+        Start delay timer on power on in seconds. This delay indicates the time after ECU boot power-on where no security access request is accepted.
+        """
+        return self.securityDelayTimeOnBoot
+
+    def setSecurityDelayTimeOnBoot(self, value: Optional[TimeValue]):
+        """
+        Start delay timer on power on in seconds. This delay indicates the time after ECU boot power-on where no security access request is accepted.
+
+        A None value is a no-op and does not overwrite an existing securityDelayTimeOnBoot.
+        """
+        if value is not None:
+            self.securityDelayTimeOnBoot = value
+        return self
+
+    def getSecurityLevel(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable security level for the security access. Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel
+        """
+        return self.securityLevel
+
+    def setSecurityLevel(self, value: Optional[RefType]):
+        """
+        This reference identifies the applicable security level for the security access. Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel
+
+        A None value is a no-op and does not overwrite an existing securityLevel.
+        """
+        if value is not None:
+            self.securityLevel = value
+        return self
 
 
 class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):

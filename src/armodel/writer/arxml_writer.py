@@ -378,6 +378,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
+    DiagnosticSecurityAccess,
     DiagnosticSessionControl,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticCommonProps, DiagnosticParameter
@@ -13766,6 +13767,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, service_class)
         self.setChildElementOptionalTimeValue(child_element, "S-3-SERVER-TIMEOUT", service_class.getS3ServerTimeout())
 
+    def writeDiagnosticSecurityAccess(self, element: ET.Element, security_access: DiagnosticSecurityAccess):
+        self.logger.debug("Write DiagnosticSecurityAccess %s" % security_access.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-ACCESS")
+        self.writeIdentifiable(child_element, security_access)
+        self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-SEED-ID", security_access.getRequestSeedId())
+        self.setChildElementOptionalRefType(child_element, "SECURITY-ACCESS-CLASS-REF", security_access.getSecurityAccessClass())
+        self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME-ON-BOOT", security_access.getSecurityDelayTimeOnBoot())
+        self.setChildElementOptionalRefType(child_element, "SECURITY-LEVEL-REF", security_access.getSecurityLevel())
+
     def writeDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
         self.logger.debug("Write DiagnosticSecurityLevel %s" % security_level.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-LEVEL")
@@ -14829,6 +14839,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticSessionControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticSessionControlClass):
             self.writeDiagnosticSessionControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityAccess):
+            self.writeDiagnosticSecurityAccess(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):
             self.writeDiagnosticSecurityLevel(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
