@@ -2196,6 +2196,114 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, DiagnosticFimAliasEventGroupMapping)
 
+    def createDiagnosticFimFunctionMapping(self, short_name: str) -> DiagnosticFimFunctionMapping:
+        """
+        Creates a new DiagnosticFimFunctionMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimFunctionMapping: This meta-class represents the ability to define a mapping between a function identifier (FID) and the corresponding SwcServiceDependency in the application software resp. basic software..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimFunctionMapping
+
+        Returns:
+            The newly created or existing DiagnosticFimFunctionMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimFunctionMapping):
+            element = DiagnosticFimFunctionMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimFunctionMapping)
+
+    def createDiagnosticJ1939SwMapping(self, short_name: str) -> DiagnosticJ1939SwMapping:
+        """
+        Creates a new DiagnosticJ1939SwMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939SwMapping: This meta-class represents the ability to map a piece of application software to a J1939DiagnosticNode. By this means the diagnostic configuration can be associated with the application software..
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939SwMapping
+
+        Returns:
+            The newly created or existing DiagnosticJ1939SwMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939SwMapping):
+            element = DiagnosticJ1939SwMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticJ1939SwMapping)
+
+    def createDiagnosticJ1939Node(self, short_name: str) -> DiagnosticJ1939Node:
+        """
+        Creates a new DiagnosticJ1939Node with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939Node: This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a "virtual Ecu" on the J1939 communication bus..
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939Node
+
+        Returns:
+            The newly created or existing DiagnosticJ1939Node instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939Node):
+            element = DiagnosticJ1939Node(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticJ1939Node)
+
+    def createDiagnosticJ1939SpnMapping(self, short_name: str) -> DiagnosticJ1939SpnMapping:
+        """
+        Creates a new DiagnosticJ1939SpnMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939SpnMapping: This meta-class represents the ability to define a mapping between an SPN and a SystemSignal. The existence of a mapping means that neither the SPN nor the SystemSignal need to be updated if the relation between the two changes..
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939SpnMapping
+
+        Returns:
+            The newly created or existing DiagnosticJ1939SpnMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939SpnMapping):
+            element = DiagnosticJ1939SpnMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticJ1939SpnMapping)
+
+    def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
+        """
+        Creates a new DiagnosticIumprToFunctionIdentifierMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumprToFunctionIdentifierMapping: This meta-class represents the ability to associate a DiagnosticFunctionIdentifier with a DiagnosticIumpr..
+
+        Args:
+            short_name: The short name for the new DiagnosticIumprToFunctionIdentifierMapping
+
+        Returns:
+            The newly created or existing DiagnosticIumprToFunctionIdentifierMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticIumprToFunctionIdentifierMapping):
+            element = DiagnosticIumprToFunctionIdentifierMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticIumprToFunctionIdentifierMapping)
+
+    def createDiagnosticEventToTroubleCodeJ1939Mapping(self, short_name: str) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        """
+        Creates a new DiagnosticEventToTroubleCodeJ1939Mapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToTroubleCodeJ1939Mapping: By means of this meta-class it is possible to associate a DiagnosticEvent to a DiagnosticTroubleCodeJ1939..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToTroubleCodeJ1939Mapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToTroubleCodeJ1939Mapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToTroubleCodeJ1939Mapping):
+            element = DiagnosticEventToTroubleCodeJ1939Mapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToTroubleCodeJ1939Mapping)
+
     def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
         """
         Creates a new DiagnosticFimAliasEventGroup with the given short name,
@@ -4452,7 +4560,55 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
 
 
 class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
-    pass
+    """By means of this meta-class it is possible to associate a DiagnosticEvent to a DiagnosticTroubleCodeJ1939. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToTroubleCodeJ1939Mapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.43, p.269
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTroubleCodeJ1939Ref                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeJ1939Ref                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which a J1939 Diagnostic Trouble Code is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned.
+        self.troubleCodeJ1939Ref: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a J1939 Diagnostic Trouble Code is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        """
+        Reference to a DiagnosticEvent to which a J1939 Diagnostic Trouble Code is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getTroubleCodeJ1939Ref(self) -> Optional[RefType]:
+        """
+        Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned.
+        """
+        return self.troubleCodeJ1939Ref
+
+    def setTroubleCodeJ1939Ref(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        """
+        Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned.
+        A None value is a no-op and does not overwrite an existing troubleCodeJ1939Ref.
+        """
+        if value is not None:
+            self.troubleCodeJ1939Ref = value
+        return self
 
 
 class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
@@ -4788,7 +4944,55 @@ class DiagnosticIumprGroup(ARElement):
 
 
 class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a DiagnosticFunctionIdentifier with a DiagnosticIumpr. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticIumprToFunctionIdentifierMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.39, p.265
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIumprRef                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIumprRef                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the applicable DiagnosticFunctionIdentifier.
+        self.functionIdentifierRef: Optional[RefType] = None
+
+        # This reference identifies the applicable DiagnosticIumpr.
+        self.iumprRef: Optional[RefType] = None
+
+    def getFunctionIdentifierRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable DiagnosticFunctionIdentifier.
+        """
+        return self.functionIdentifierRef
+
+    def setFunctionIdentifierRef(self, value: Optional[RefType]) -> DiagnosticIumprToFunctionIdentifierMapping:
+        """
+        This reference identifies the applicable DiagnosticFunctionIdentifier.
+        A None value is a no-op and does not overwrite an existing functionIdentifierRef.
+        """
+        if value is not None:
+            self.functionIdentifierRef = value
+        return self
+
+    def getIumprRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable DiagnosticIumpr.
+        """
+        return self.iumprRef
+
+    def setIumprRef(self, value: Optional[RefType]) -> DiagnosticIumprToFunctionIdentifierMapping:
+        """
+        This reference identifies the applicable DiagnosticIumpr.
+        A None value is a no-op and does not overwrite an existing iumprRef.
+        """
+        if value is not None:
+            self.iumprRef = value
+        return self
 
 
 class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
@@ -4895,8 +5099,128 @@ class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
         return self
 
 
-class DiagnosticJ1939Node(ARElement):
-    pass
+class DiagnosticJ1939Node(DiagnosticCommonElement):
+    """This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a "virtual Ecu" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes"""
+
+    # DiagnosticJ1939Node method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.41, p.267
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmNodeRef                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the "virtual Ecu" to which the enclosing DiagnosticJ1939Node is associated.
+        self.nmNodeRef: Optional[RefType] = None
+
+    def getNmNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the "virtual Ecu" to which the enclosing DiagnosticJ1939Node is associated.
+        """
+        return self.nmNodeRef
+
+    def setNmNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939Node:
+        """
+        This represents the reference to the "virtual Ecu" to which the enclosing DiagnosticJ1939Node is associated.
+        A None value is a no-op and does not overwrite an existing nmNodeRef.
+        """
+        if value is not None:
+            self.nmNodeRef = value
+        return self
+
+
+class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
+    """This meta-class represents the ability to define a mapping between a function identifier (FID) and the corresponding SwcServiceDependency in the application software resp. basic software. Tags: atp.recommendedPackage=DiagnosticFimFunctionMappings"""
+
+    # DiagnosticFimFunctionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.37, p.265
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedFunctionRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedFunctionRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedSwcServiceDependencyRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedSwcServiceDependencyRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        self.mappedBswServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        self.mappedFlatSwcServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the mapped FID.
+        self.mappedFunctionRef: Optional[RefType] = None
+
+        # This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition). InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.mappedSwcServiceDependencyRef: Optional[RefType] = None
+
+    def getMappedBswServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        """
+        return self.mappedBswServiceDependencyRef
+
+    def setMappedBswServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        A None value is a no-op and does not overwrite an existing mappedBswServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedBswServiceDependencyRef = value
+        return self
+
+    def getMappedFlatSwcServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        """
+        return self.mappedFlatSwcServiceDependencyRef
+
+    def setMappedFlatSwcServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        A None value is a no-op and does not overwrite an existing mappedFlatSwcServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedFlatSwcServiceDependencyRef = value
+        return self
+
+    def getMappedFunctionRef(self) -> Optional[RefType]:
+        """
+        This represents the mapped FID.
+        """
+        return self.mappedFunctionRef
+
+    def setMappedFunctionRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This represents the mapped FID.
+        A None value is a no-op and does not overwrite an existing mappedFunctionRef.
+        """
+        if value is not None:
+            self.mappedFunctionRef = value
+        return self
+
+    def getMappedSwcServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition). InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.mappedSwcServiceDependencyRef
+
+    def setMappedSwcServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition). InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing mappedSwcServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedSwcServiceDependencyRef = value
+        return self
 
 
 class DiagnosticJ1939Spn(DiagnosticCommonElement):
@@ -4932,11 +5256,127 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
 
 
 class DiagnosticJ1939SpnMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to define a mapping between an SPN and a SystemSignal. The existence of a mapping means that neither the SPN nor the SystemSignal need to be updated if the relation between the two changes. Tags: atp.recommendedPackage=DiagnosticJ1939SpnMappings"""
+
+    # DiagnosticJ1939SpnMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.40, p.267
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSendingNodeRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendingNodeRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSpnRef                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpnRef                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This additional reference has a supporting role in that it identifies all sending nodes of a given SPN. It is positively possible that a given SPN is sent by more than one node. Even tough the reference targets the DiagnosticJ1939Node the semantics of the reference is bound to the J1939NmNode that is in turn referenced by the DiagnosticJ1939Node.
+        self.sendingNodeRefs: List[RefType] = []
+
+        # This reference goes to the SPN that shall be associated with a SystemSignal.
+        self.spnRef: Optional[RefType] = None
+
+        # This reference goes to the SystemSignal that shall be associated with an SPN.
+        self.systemSignalRef: Optional[RefType] = None
+
+    def addSendingNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939SpnMapping:
+        """
+        This additional reference has a supporting role in that it identifies all sending nodes of a given SPN. It is positively possible that a given SPN is sent by more than one node. Even tough the reference targets the DiagnosticJ1939Node the semantics of the reference is bound to the J1939NmNode that is in turn referenced by the DiagnosticJ1939Node.
+        A None value is a no-op and does not append a sendingNodeRef.
+        """
+        if value is not None:
+            self.sendingNodeRefs.append(value)
+        return self
+
+    def getSendingNodeRefs(self) -> List[RefType]:
+        """
+        This additional reference has a supporting role in that it identifies all sending nodes of a given SPN. It is positively possible that a given SPN is sent by more than one node. Even tough the reference targets the DiagnosticJ1939Node the semantics of the reference is bound to the J1939NmNode that is in turn referenced by the DiagnosticJ1939Node.
+        """
+        return self.sendingNodeRefs
+
+    def getSpnRef(self) -> Optional[RefType]:
+        """
+        This reference goes to the SPN that shall be associated with a SystemSignal.
+        """
+        return self.spnRef
+
+    def setSpnRef(self, value: Optional[RefType]) -> DiagnosticJ1939SpnMapping:
+        """
+        This reference goes to the SPN that shall be associated with a SystemSignal.
+        A None value is a no-op and does not overwrite an existing spnRef.
+        """
+        if value is not None:
+            self.spnRef = value
+        return self
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        This reference goes to the SystemSignal that shall be associated with an SPN.
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> DiagnosticJ1939SpnMapping:
+        """
+        This reference goes to the SystemSignal that shall be associated with an SPN.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self
 
 
 class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
-    pass
+    """This meta-class represents the ability to map a piece of application software to a J1939DiagnosticNode. By this means the diagnostic configuration can be associated with the application software. Tags: atp.recommendedPackage=DiagnosticJ1939SwMappings"""
+
+    # DiagnosticJ1939SwMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.42, p.268
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNodeRef                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComponentPrototypeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentPrototypeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the mapped DiagnosticJ1939Node.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the mapped SwComponentPrototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        self.swComponentPrototypeRef: Optional[RefType] = None
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the mapped DiagnosticJ1939Node.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939SwMapping:
+        """
+        This represents the mapped DiagnosticJ1939Node.
+        A None value is a no-op and does not overwrite an existing nodeRef.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
+
+    def getSwComponentPrototypeRef(self) -> Optional[RefType]:
+        """
+        This represents the mapped SwComponentPrototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        """
+        return self.swComponentPrototypeRef
+
+    def setSwComponentPrototypeRef(self, value: Optional[RefType]) -> DiagnosticJ1939SwMapping:
+        """
+        This represents the mapped SwComponentPrototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        A None value is a no-op and does not overwrite an existing swComponentPrototypeRef.
+        """
+        if value is not None:
+            self.swComponentPrototypeRef = value
+        return self
 
 
 class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):

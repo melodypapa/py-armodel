@@ -430,6 +430,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventMapping,
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
+    DiagnosticEventToTroubleCodeJ1939Mapping,
+    DiagnosticIumprToFunctionIdentifierMapping,
+    DiagnosticJ1939SpnMapping,
+    DiagnosticJ1939Node,
+    DiagnosticJ1939SwMapping,
+    DiagnosticFimFunctionMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -13918,6 +13924,54 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ACTUAL-EVENT-REF", mapping.getActualEventRef())
         self.setChildElementOptionalRefType(child_element, "ALIAS-EVENT-REF", mapping.getAliasEventRef())
 
+    def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
+        self.logger.debug("Write DiagnosticEventToTroubleCodeJ1939Mapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "TROUBLE-CODE-J-1939-REF", mapping.getTroubleCodeJ1939Ref())
+
+    def writeDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
+        self.logger.debug("Write DiagnosticIumprToFunctionIdentifierMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "FUNCTION-IDENTIFIER-REF", mapping.getFunctionIdentifierRef())
+        self.setChildElementOptionalRefType(child_element, "IUMPR-REF", mapping.getIumprRef())
+
+    def writeDiagnosticJ1939SpnMapping(self, element: ET.Element, mapping: DiagnosticJ1939SpnMapping):
+        self.logger.debug("Write DiagnosticJ1939SpnMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-J-1939-SPN-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        sendingNode_refs = mapping.getSendingNodeRefs()
+        if len(sendingNode_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SENDING-NODE-REFS")
+            for ref in sendingNode_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SENDING-NODE-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "SPN-REF", mapping.getSpnRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeDiagnosticJ1939Node(self, element: ET.Element, mapping: DiagnosticJ1939Node):
+        self.logger.debug("Write DiagnosticJ1939Node %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-J-1939-NODE")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "NM-NODE-REF", mapping.getNmNodeRef())
+
+    def writeDiagnosticJ1939SwMapping(self, element: ET.Element, mapping: DiagnosticJ1939SwMapping):
+        self.logger.debug("Write DiagnosticJ1939SwMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-J-1939-SW-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "NODE-REF", mapping.getNodeRef())
+        self.setChildElementOptionalRefType(child_element, "SW-COMPONENT-PROTOTYPE-IREF", mapping.getSwComponentPrototypeRef())
+
+    def writeDiagnosticFimFunctionMapping(self, element: ET.Element, mapping: DiagnosticFimFunctionMapping):
+        self.logger.debug("Write DiagnosticFimFunctionMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-FUNCTION-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "MAPPED-BSW-SERVICE-DEPENDENCY-REF", mapping.getMappedBswServiceDependencyRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-FLAT-SWC-SERVICE-DEPENDENCY-REF", mapping.getMappedFlatSwcServiceDependencyRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-FUNCTION-REF", mapping.getMappedFunctionRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-SWC-SERVICE-DEPENDENCY-IREF", mapping.getMappedSwcServiceDependencyRef())
+
     def writeDiagnosticFimAliasEventGroup(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroup):
         self.logger.debug("Write DiagnosticFimAliasEventGroup %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP")
@@ -15357,6 +15411,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticFimAliasEventGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticFimAliasEventGroupMapping):
             self.writeDiagnosticFimAliasEventGroupMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEventToTroubleCodeJ1939Mapping):
+            self.writeDiagnosticEventToTroubleCodeJ1939Mapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIumprToFunctionIdentifierMapping):
+            self.writeDiagnosticIumprToFunctionIdentifierMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticJ1939SpnMapping):
+            self.writeDiagnosticJ1939SpnMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticJ1939Node):
+            self.writeDiagnosticJ1939Node(element, ar_element)
+        elif isinstance(ar_element, DiagnosticJ1939SwMapping):
+            self.writeDiagnosticJ1939SwMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFimFunctionMapping):
+            self.writeDiagnosticFimFunctionMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToDebounceAlgorithmMapping):
             self.writeDiagnosticEventToDebounceAlgorithmMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToEnableConditionGroupMapping):

@@ -553,6 +553,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventMapping,
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
+    DiagnosticEventToTroubleCodeJ1939Mapping,
+    DiagnosticIumprToFunctionIdentifierMapping,
+    DiagnosticJ1939SpnMapping,
+    DiagnosticJ1939Node,
+    DiagnosticJ1939SwMapping,
+    DiagnosticFimFunctionMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -10580,6 +10586,39 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setActualEventRef(self.getChildElementOptionalRefType(element, "ACTUAL-EVENT-REF"))
         mapping.setAliasEventRef(self.getChildElementOptionalRefType(element, "ALIAS-EVENT-REF"))
 
+    def readDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setTroubleCodeJ1939Ref(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-J-1939-REF"))
+
+    def readDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setFunctionIdentifierRef(self.getChildElementOptionalRefType(element, "FUNCTION-IDENTIFIER-REF"))
+        mapping.setIumprRef(self.getChildElementOptionalRefType(element, "IUMPR-REF"))
+
+    def readDiagnosticJ1939SpnMapping(self, element: ET.Element, mapping: DiagnosticJ1939SpnMapping):
+        self.readDiagnosticMapping(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "SENDING-NODE-REFS/SENDING-NODE-REF"):
+            mapping.addSendingNodeRef(ref)
+        mapping.setSpnRef(self.getChildElementOptionalRefType(element, "SPN-REF"))
+        mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+
+    def readDiagnosticJ1939Node(self, element: ET.Element, mapping: DiagnosticJ1939Node):
+        self.readIdentifiable(element, mapping)
+        mapping.setNmNodeRef(self.getChildElementOptionalRefType(element, "NM-NODE-REF"))
+
+    def readDiagnosticJ1939SwMapping(self, element: ET.Element, mapping: DiagnosticJ1939SwMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setNodeRef(self.getChildElementOptionalRefType(element, "NODE-REF"))
+        mapping.setSwComponentPrototypeRef(self.getChildElementOptionalRefType(element, "SW-COMPONENT-PROTOTYPE-IREF"))
+
+    def readDiagnosticFimFunctionMapping(self, element: ET.Element, mapping: DiagnosticFimFunctionMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setMappedBswServiceDependencyRef(self.getChildElementOptionalRefType(element, "MAPPED-BSW-SERVICE-DEPENDENCY-REF"))
+        mapping.setMappedFlatSwcServiceDependencyRef(self.getChildElementOptionalRefType(element, "MAPPED-FLAT-SWC-SERVICE-DEPENDENCY-REF"))
+        mapping.setMappedFunctionRef(self.getChildElementOptionalRefType(element, "MAPPED-FUNCTION-REF"))
+        mapping.setMappedSwcServiceDependencyRef(self.getChildElementOptionalRefType(element, "MAPPED-SWC-SERVICE-DEPENDENCY-IREF"))
+
     def readDiagnosticFimAliasEventGroup(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroup):
         self.readIdentifiable(element, mapping)
         for ref in self.getChildElementRefTypeList(element, "GROUPED-ALIAS-EVENT-REFS/GROUPED-ALIAS-EVENT-REF"):
@@ -15689,6 +15728,24 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING":
                 mapping = parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element))
                 self.readDiagnosticFimAliasEventGroupMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
+                mapping = parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element))
+                self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING":
+                mapping = parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element))
+                self.readDiagnosticIumprToFunctionIdentifierMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-J-1939-SPN-MAPPING":
+                mapping = parent.createDiagnosticJ1939SpnMapping(self.getShortName(child_element))
+                self.readDiagnosticJ1939SpnMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-J-1939-NODE":
+                mapping = parent.createDiagnosticJ1939Node(self.getShortName(child_element))
+                self.readDiagnosticJ1939Node(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-J-1939-SW-MAPPING":
+                mapping = parent.createDiagnosticJ1939SwMapping(self.getShortName(child_element))
+                self.readDiagnosticJ1939SwMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-FIM-FUNCTION-MAPPING":
+                mapping = parent.createDiagnosticFimFunctionMapping(self.getShortName(child_element))
+                self.readDiagnosticFimFunctionMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
                 mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
                 self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)
