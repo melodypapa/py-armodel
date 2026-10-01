@@ -4,6 +4,8 @@ in the CommonStructure module. SWC-BSW mapping defines relationships between
 software component entities and basic software module entities for integration purposes.
 """
 
+from __future__ import annotations
+
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -43,7 +45,7 @@ class SwcBswRunnableMapping(ARObject, VariationPointCapable):
         """
         return self.bswEntityRef
 
-    def setBswEntityRef(self, value: Optional[RefType]) -> "SwcBswRunnableMapping":
+    def setBswEntityRef(self, value: Optional[RefType]) -> SwcBswRunnableMapping:
         """
         The mapped BswModuleEntity
         A None value is a no-op and does not overwrite an existing bswEntityRef.
@@ -58,7 +60,7 @@ class SwcBswRunnableMapping(ARObject, VariationPointCapable):
         """
         return self.swcRunnableRef
 
-    def setSwcRunnableRef(self, value: Optional[RefType]) -> "SwcBswRunnableMapping":
+    def setSwcRunnableRef(self, value: Optional[RefType]) -> SwcBswRunnableMapping:
         """
         The mapped SWC runnable.
         A None value is a no-op and does not overwrite an existing swcRunnableRef.
@@ -184,7 +186,7 @@ class SwcBswMapping(ARElement):
             self.synchronizedModeGroups = value
         return self
 
-    def addSynchronizedModeGroup(self, value) -> "SwcBswMapping":
+    def addSynchronizedModeGroup(self, value) -> SwcBswMapping:
         """
         Adds a synchronized mode group to this mapping.
         Only sets the value if it is not None.
@@ -218,7 +220,7 @@ class SwcBswMapping(ARElement):
             self.synchronizedTriggers = value
         return self
 
-    def addSynchronizedTrigger(self, value) -> "SwcBswMapping":
+    def addSynchronizedTrigger(self, value) -> SwcBswMapping:
         """
         Adds a synchronized trigger to this mapping.
         Only sets the value if it is not None.
@@ -255,7 +257,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject, VariationPointCapable):
         self.bswModeGroupRef: Optional[RefType] = None
 
         # The SWC mode group prototype provided by a particular port. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef. For each SwcBswSynchronizedModeGroupPrototype, the instanceRef in the role swcModeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10337).
-        self.swcModeGroupIRef: Optional["PModeGroupInAtomicSwcInstanceRef"] = None
+        self.swcModeGroupIRef: Optional[PModeGroupInAtomicSwcInstanceRef] = None
 
     def getBswModeGroupRef(self) -> Optional[RefType]:
         """
@@ -263,7 +265,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject, VariationPointCapable):
         """
         return self.bswModeGroupRef
 
-    def setBswModeGroupRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
+    def setBswModeGroupRef(self, value: Optional[RefType]) -> SwcBswSynchronizedModeGroupPrototype:
         """
         The BSW mode group prototype.
         A None value is a no-op and does not overwrite an existing bswModeGroupRef.
@@ -272,13 +274,13 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject, VariationPointCapable):
             self.bswModeGroupRef = value
         return self
 
-    def getSwcModeGroupIRef(self) -> Optional["PModeGroupInAtomicSwcInstanceRef"]:
+    def getSwcModeGroupIRef(self) -> Optional[PModeGroupInAtomicSwcInstanceRef]:
         """
         The SWC mode group prototype provided by a particular port.
         """
         return self.swcModeGroupIRef
 
-    def setSwcModeGroupIRef(self, value: Optional["PModeGroupInAtomicSwcInstanceRef"]) -> "SwcBswSynchronizedModeGroupPrototype":
+    def setSwcModeGroupIRef(self, value: Optional[PModeGroupInAtomicSwcInstanceRef]) -> SwcBswSynchronizedModeGroupPrototype:
         """
         The SWC mode group prototype provided by a particular port.
         A None value is a no-op and does not overwrite an existing swcModeGroupIRef.
@@ -309,7 +311,7 @@ class SwcBswSynchronizedTrigger(ARObject, VariationPointCapable):
         self.bswTriggerRef: Optional[RefType] = None
 
         # The SWC Trigger provided by a particular port. InstanceRef implemented by: PTriggerInAtomicSwcTypeInstanceRef. For each SwcBswSynchronizedTrigger, the instanceRef in the role swcTrigger shall exist at the time when the configuration of the BSW module is finished (constr_10301).
-        self.swcTriggerIRef: Optional["PTriggerInAtomicSwcTypeInstanceRef"] = None
+        self.swcTriggerIRef: Optional[PTriggerInAtomicSwcTypeInstanceRef] = None
 
     def getBswTriggerRef(self) -> Optional[RefType]:
         """
@@ -317,7 +319,7 @@ class SwcBswSynchronizedTrigger(ARObject, VariationPointCapable):
         """
         return self.bswTriggerRef
 
-    def setBswTriggerRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
+    def setBswTriggerRef(self, value: Optional[RefType]) -> SwcBswSynchronizedTrigger:
         """
         The BSW Trigger.
         A None value is a no-op and does not overwrite an existing bswTriggerRef.
@@ -326,13 +328,13 @@ class SwcBswSynchronizedTrigger(ARObject, VariationPointCapable):
             self.bswTriggerRef = value
         return self
 
-    def getSwcTriggerIRef(self) -> Optional["PTriggerInAtomicSwcTypeInstanceRef"]:
+    def getSwcTriggerIRef(self) -> Optional[PTriggerInAtomicSwcTypeInstanceRef]:
         """
         The SWC Trigger provided by a particular port.
         """
         return self.swcTriggerIRef
 
-    def setSwcTriggerIRef(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> "SwcBswSynchronizedTrigger":
+    def setSwcTriggerIRef(self, value: Optional[PTriggerInAtomicSwcTypeInstanceRef]) -> SwcBswSynchronizedTrigger:
         """
         The SWC Trigger provided by a particular port.
         A None value is a no-op and does not overwrite an existing swcTriggerIRef.
