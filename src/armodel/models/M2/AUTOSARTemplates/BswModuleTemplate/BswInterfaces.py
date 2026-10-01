@@ -537,6 +537,7 @@ class BswEntryRelationship(ARObject):
 
     # BswEntryRelationship method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.19, p.51
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBswEntryRelationshipType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
