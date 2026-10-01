@@ -1177,6 +1177,7 @@ class BswTimingEvent(BswScheduleEvent):
 
     # BswTimingEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.25, p.89
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPeriod   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
