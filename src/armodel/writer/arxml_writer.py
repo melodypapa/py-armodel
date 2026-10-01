@@ -429,6 +429,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
+    DiagnosticControlEnableMaskBit,
     DiagnosticParameter,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -14013,6 +14014,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticReadScalingDataByIdentifierClass %s" % read_scaling_data_by_identifier_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
         self.writeIdentifiable(child_element, read_scaling_data_by_identifier_class)
+
+    def writeDiagnosticControlEnableMaskBit(self, element: ET.Element, mask_bit: DiagnosticControlEnableMaskBit):
+        self.logger.debug("Write DiagnosticControlEnableMaskBit")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT")
+        self.writeARObject(child_element, mask_bit)
+        self.setChildElementOptionalPositiveInteger(child_element, "BIT-NUMBER", mask_bit.getBitNumber())
+        controlled_data_elements = mask_bit.getControlledDataElements()
+        if len(controlled_data_elements) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROLLED-DATA-ELEMENT-REFS")
+            for ref in controlled_data_elements:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROLLED-DATA-ELEMENT-REF", ref)
 
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())

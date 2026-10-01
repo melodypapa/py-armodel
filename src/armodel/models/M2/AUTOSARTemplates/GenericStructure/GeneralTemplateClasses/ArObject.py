@@ -629,7 +629,57 @@ class DiagnosticConnectedIndicator(ARObject):
 
 
 class DiagnosticControlEnableMaskBit(ARObject):
-    pass
+    """This meta-class has the ability to represent one bit in the control enable mask record."""
+
+    # DiagnosticControlEnableMaskBit method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.83, p.119
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitNumber               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitNumber               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addControlledDataElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlledDataElements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the bit number of the bit in the control mask record. Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation.
+        self.bitNumber: Optional[PositiveInteger] = None
+
+        # This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record.
+        self.controlledDataElement: List[RefType] = []
+
+    def getBitNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the bit number of the bit in the control mask record. Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation.
+        """
+        return self.bitNumber
+
+    def setBitNumber(self, value: Optional[PositiveInteger]) -> DiagnosticControlEnableMaskBit:
+        """
+        This attribute represents the bit number of the bit in the control mask record. Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation.
+
+        A None value is a no-op and does not overwrite an existing bitNumber.
+        """
+        if value is not None:
+            self.bitNumber = value
+        return self
+
+    def addControlledDataElement(self, value: Optional[RefType]) -> DiagnosticControlEnableMaskBit:
+        """
+        This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record.
+
+        A None value is a no-op and does not append a controlledDataElement.
+        """
+        if value is not None:
+            self.controlledDataElement.append(value)
+        return self
+
+    def getControlledDataElements(self) -> List[RefType]:
+        """
+        This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record.
+        """
+        return self.controlledDataElement
 
 
 class DiagnosticEnableConditionPortMapping(ARObject):

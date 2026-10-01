@@ -2,6 +2,7 @@
 Tests for the ARObject class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 6.1).
 """
 
+import inspect
 import typing
 
 import pytest
@@ -13,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
     DiagnosticCommonProps,
+    DiagnosticControlEnableMaskBit,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
 )
@@ -651,3 +653,94 @@ class TestDiagnosticComControlSubNodeChannel:
         setter_hints = typing.get_type_hints(DiagnosticComControlSubNodeChannel.setSubNodeNumber)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is DiagnosticComControlSubNodeChannel
+
+
+class TestDiagnosticControlEnableMaskBit:
+    """
+    Test class for DiagnosticControlEnableMaskBit functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.83, p.119
+    """
+
+    CLASS_NOTE = "This meta-class has the ability to represent one bit in the control enable mask record."
+    BIT_NUMBER_NOTE = (
+        "This attribute represents the bit number of the bit in the control mask record." " Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation."
+    )
+    CONTROLLED_DATA_ELEMENT_NOTE = "This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record."
+
+    def _create_mask_bit(self) -> DiagnosticControlEnableMaskBit:
+        return DiagnosticControlEnableMaskBit()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticControlEnableMaskBit initializes all attributes to their defaults.
+        """
+        obj = self._create_mask_bit()
+
+        assert obj.getBitNumber() is None
+        assert obj.getControlledDataElements() == []
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticControlEnableMaskBit derives from ARObject (Table 4.83 Base).
+        """
+        assert issubclass(DiagnosticControlEnableMaskBit, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticControlEnableMaskBit.__init__.__doc__ is None
+
+    def test_get_set_bit_number(self):
+        """
+        Test getBitNumber and setBitNumber round-trip and None no-op.
+        """
+        obj = self._create_mask_bit()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setBitNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getBitNumber() is value
+        assert obj.getBitNumber().getValue() == 7
+
+        result = obj.setBitNumber(None)
+        assert result is obj  # method chaining with None
+        assert obj.getBitNumber() is value  # None is a no-op
+
+    def test_add_controlled_data_element(self):
+        """
+        Test addControlledDataElement append and None no-op.
+        """
+        obj = self._create_mask_bit()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifiers/DID1/DataElement1")
+        result = obj.addControlledDataElement(ref)
+        assert result is obj  # method chaining
+        assert obj.getControlledDataElements() == [ref]
+        assert obj.getControlledDataElements()[0].getValue() == "/AUTOSAR/DiagnosticDataIdentifiers/DID1/DataElement1"
+        assert obj.getControlledDataElements()[0].getDest() == "DIAGNOSTIC-DATA-ELEMENT"
+
+        result = obj.addControlledDataElement(None)
+        assert result is obj  # method chaining with None
+        assert obj.getControlledDataElements() == [ref]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.getBitNumber.__doc__) == self.BIT_NUMBER_NOTE
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.setBitNumber.__doc__) == (self.BIT_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing bitNumber.")
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.getControlledDataElements.__doc__) == self.CONTROLLED_DATA_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.addControlledDataElement.__doc__) == (
+            self.CONTROLLED_DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not append a controlledDataElement."
+        )

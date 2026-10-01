@@ -496,6 +496,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
+    DiagnosticControlEnableMaskBit,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticSupportInfoByte,
@@ -10696,6 +10697,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticReadScalingDataByIdentifierClass(self, element: ET.Element, read_scaling_data_by_identifier_class: DiagnosticReadScalingDataByIdentifierClass):
         self.logger.debug("Read DiagnosticReadScalingDataByIdentifierClass <%s>" % read_scaling_data_by_identifier_class.getShortName())
         self.readIdentifiable(element, read_scaling_data_by_identifier_class)
+
+    def readDiagnosticControlEnableMaskBit(self, element: ET.Element, mask_bit: DiagnosticControlEnableMaskBit):
+        self.logger.debug("Read DiagnosticControlEnableMaskBit")
+        self.readARObject(element, mask_bit)
+        mask_bit.setBitNumber(self.getChildElementOptionalPositiveInteger(element, "BIT-NUMBER"))
+        for ref in self.getChildElementRefTypeList(element, "CONTROLLED-DATA-ELEMENT-REFS/CONTROLLED-DATA-ELEMENT-REF"):
+            mask_bit.addControlledDataElement(ref)
 
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())

@@ -485,6 +485,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticIOControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.80, p.118
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+  - note (Step 1): member-type dependency `DiagnosticControlEnableMaskBit` (controlEnableMaskBit, `*` aggr) is queued unsynced below — pulled in FIRST as its own pass per the dependency-first rule.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -509,14 +510,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticControlEnableMaskBit` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.83, p.119
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): synced FIRST (pulled in before dependent DiagnosticIOControl); Table 4.83 body matched by Class row (leading caption), XSD group DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT (AUTOSAR_00052.xsd l.33900): BIT-NUMBER, CONTROLLED-DATA-ELEMENT-REFS/CONTROLLED-DATA-ELEMENT-REF.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): reusable read/writeDiagnosticControlEnableMaskBit helper (ARObject pattern — readARObject/writeARObject + own fields); no dispatch of its own — the nested member is aggregated by DiagnosticIOControl and is wired there when that class syncs.
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticRoutineSubfunction` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.84, p.121
