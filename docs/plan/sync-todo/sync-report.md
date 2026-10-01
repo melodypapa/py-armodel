@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 633 | 33.3% |
+| [x] Done | 636 | 33.4% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 212 | 11.1% |
+| [ ] Deferred | 209 | 11.0% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -168,9 +168,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswDirectCallPoint`                                    | [x] Done    | 518ebf6a09                               | Group13          |
 | `BswDistinguishedPartition`                             | [x] Done    | 80d341994f                               | Group22          |
 | `BswEntryKindEnum`                                      | [x] Done    | 1a5b05b196                               | Group22          |
-| `BswEntryRelationship`                                  | [ ] Deferred| 75c6517342                               | Group13          |
+| `BswEntryRelationship`                                  | [x] Done    | 1872edcae1                               | Group13          |
 | `BswEntryRelationshipEnum`                              | [x] Done    | ff1903b513                               | Group13          |
-| `BswEntryRelationshipSet`                               | [ ] Deferred| a4d57abd3a                               | Group13          |
+| `BswEntryRelationshipSet`                               | [x] Done    | cdbfc4ebf0                               | Group13          |
 | `BswEvent`                                              | [x] Done    | af5498712f                               | Group22          |
 | `BswExclusiveAreaPolicy`                                | [ ] Deferred| eb307c9898                               | Group22          |
 | `BswExecutionContext`                                   | [x] Done    | 1a5b05b196                               | Group22          |
@@ -191,7 +191,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswModeSwitchEvent`                                    | [x] Done    | af5498712f                               | Group22          |
 | `BswModeSwitchedAckEvent`                               | [x] Done    | a250dbe4b5                               | Group13          |
 | `BswModuleCallPoint`                                    | [x] Done    | 879aacf8c4                               | Group13          |
-| `BswModuleClientServerEntry`                            | [ ] Deferred| e69bc46baa                               | Group13          |
+| `BswModuleClientServerEntry`                            | [x] Done    | f57417a6a2                               | Group13          |
 | `BswModuleDependency`                                   | [ ] Deferred| 1ca038b144                               | Group13          |
 | `BswModuleDescription`                                  | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswModuleEntity`                                       | [x] Done    | 88b336bfe9                               | Group22          |
