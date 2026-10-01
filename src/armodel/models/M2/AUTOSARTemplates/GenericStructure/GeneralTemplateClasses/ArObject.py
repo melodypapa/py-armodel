@@ -628,10 +628,6 @@ class DiagnosticConnectedIndicator(ARObject):
     pass
 
 
-class DiagnosticControlDTCSetting(ARObject):
-    pass
-
-
 class DiagnosticControlEnableMaskBit(ARObject):
     pass
 

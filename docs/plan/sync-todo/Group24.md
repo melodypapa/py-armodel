@@ -328,14 +328,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticControlDTCSetting` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.68, p.111
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled-in dependency DiagnosticControlDTCSettingClass (Table 4.69) synced
+      first (commit 88c545f30). Spec anomaly: Table 4.68 is a minimal 2-row table (Class +
+      dtcSettingClass only — no Package/Note/Base/Aggregated-by rows in the R23-11 markdown
+      or PDF). attr dtcSettingClass (ref → DTC-SETTING-CLASS-REF, DEST
+      DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS--SUBTYPES-ENUM, 0..1); XSD group l.33804 /
+      complexType l.33835.
+    - note (base decision): final base/module differ from the row hint — the class moved
+      from the ArObject.py ARObject stub to ARPackage.py as ARElement. Evidence: R4.3.1
+      Table 5.62 Base chain (ARElement, …, DiagnosticServiceInstance, …) + R23-11 XSD
+      complexType group chain (… AR-ELEMENT, DIAGNOSTIC-COMMON-ELEMENT,
+      DIAGNOSTIC-SERVICE-INSTANCE …); the concrete sibling instance classes with the same
+      chain (DiagnosticComControl Table 4.64, DiagnosticEcuReset) model ARElement.
+      Most-derived per chain would be DiagnosticServiceInstance — sibling-consistent
+      ARElement chosen (its atpSplitable ACCESS-PERMISSION-REF is not modeled on siblings
+      either); stub-registry test updated in the same commit (5ab9e814c pattern).
+    - note (class docstring): Note row absent from the R23-11 table — taken from R4.3.1
+      Table 5.62 ('This represents an instance of the "Control DTC Setting" diagnostic
+      service.', Tags suffix dropped); R23-11 XSD documentation agrees.
+    - note (Step 8): R23-11 XSD marks dtcSettingParameter atp.Status="removed" (absent from
+      the R23-11 table and fixtures carry no DTC-SETTING-PARAMETER) — not modeled, no open
+      deviation.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticControlDTCSettingClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.69, p.111

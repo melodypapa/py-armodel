@@ -405,6 +405,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificate,
     DiagnosticComControl,
     DiagnosticContributionSet,
+    DiagnosticControlDTCSetting,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -13934,6 +13935,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for channel in sub_node_channels:
                 self.writeDiagnosticComControlSubNodeChannel(channels_tag, channel)
 
+    def writeDiagnosticControlDTCSetting(self, element: ET.Element, control_dtc_setting: DiagnosticControlDTCSetting):
+        self.logger.debug("Write DiagnosticControlDTCSetting %s" % control_dtc_setting.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-DTC-SETTING")
+        self.writeIdentifiable(child_element, control_dtc_setting)
+        self.setChildElementOptionalRefType(child_element, "DTC-SETTING-CLASS-REF", control_dtc_setting.getDtcSettingClass())
+
     def writeDiagnosticControlDTCSettingClass(self, element: ET.Element, control_dtc_setting_class: DiagnosticControlDTCSettingClass):
         self.logger.debug("Write DiagnosticControlDTCSettingClass %s" % control_dtc_setting_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS")
@@ -15164,6 +15171,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticComControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticComControlClass):
             self.writeDiagnosticComControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticControlDTCSetting):
+            self.writeDiagnosticControlDTCSetting(element, ar_element)
         elif isinstance(ar_element, DiagnosticControlDTCSettingClass):
             self.writeDiagnosticControlDTCSettingClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuReset):

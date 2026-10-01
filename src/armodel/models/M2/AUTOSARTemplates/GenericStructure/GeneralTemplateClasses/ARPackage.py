@@ -191,6 +191,7 @@ __all__ = [
     "DiagnosticDataIdentifier",
     "DiagnosticDataByIdentifier",
     "DiagnosticCustomServiceInstance",
+    "DiagnosticControlDTCSetting",
     "DiagnosticConditionGroup",
     "DiagnosticContributionSet",
     "DiagnosticCondition",
@@ -1764,6 +1765,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(contribution_set)
         return self.getElement(short_name, DiagnosticContributionSet)
 
+    def createDiagnosticControlDTCSetting(self, short_name: str) -> DiagnosticControlDTCSetting:
+        """
+        Creates a new DiagnosticControlDTCSetting with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticControlDTCSetting represents an instance of the "Control DTC Setting" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticControlDTCSetting
+
+        Returns:
+            The newly created or existing DiagnosticControlDTCSetting instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticControlDTCSetting):
+            control_dtc_setting = DiagnosticControlDTCSetting(self, short_name)
+            self.addElement(control_dtc_setting)
+        return self.getElement(short_name, DiagnosticControlDTCSetting)
+
     def createDiagnosticCustomServiceClass(self, short_name: str) -> DiagnosticCustomServiceClass:
         """
         Creates a new DiagnosticCustomServiceClass with the given short name,
@@ -3178,6 +3197,46 @@ class DiagnosticCondition(ARElement, ABC):
 
 class DiagnosticConditionGroup(ARElement, ABC):
     pass
+
+
+class DiagnosticControlDTCSetting(ARElement):
+    """This represents an instance of the "Control DTC Setting" diagnostic service."""
+
+    # DiagnosticControlDTCSetting method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.68, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcSettingClass     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDtcSettingClass     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Table 4.68 is a minimal 2-row table (Class + dtcSettingClass only) — the Note
+    # comes from R4.3.1 Table 5.62 (R23-11 XSD documentation agrees); the Base chain
+    # (R4.3.1 Table 5.62 / R23-11 XSD group chain) names DiagnosticServiceInstance,
+    # but the concrete sibling instance classes (DiagnosticComControl Table 4.64,
+    # DiagnosticEcuReset) model ARElement — same choice here. R23-11 marks
+    # dtcSettingParameter atp.Status="removed" (absent from the R23-11 table) — not modeled.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticControlDTCSetting in the given context.
+        self.dtcSettingClass: Optional[RefType] = None
+
+    def getDtcSettingClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticControlDTCSetting in the given context.
+        """
+        return self.dtcSettingClass
+
+    def setDtcSettingClass(self, value: Optional[RefType]) -> DiagnosticControlDTCSetting:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticControlDTCSetting in the given context.
+
+        A None value is a no-op and does not overwrite an existing dtcSettingClass.
+        """
+        if value is not None:
+            self.dtcSettingClass = value
+        return self
 
 
 class DiagnosticContributionSet(ARElement):

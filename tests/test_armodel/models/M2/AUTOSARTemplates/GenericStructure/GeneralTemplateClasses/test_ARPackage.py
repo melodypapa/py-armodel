@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificate,
     DiagnosticComControl,
     DiagnosticContributionSet,
+    DiagnosticControlDTCSetting,
     DiagnosticCustomServiceInstance,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
@@ -2989,3 +2990,86 @@ class TestDiagnosticComControl:
 
         duplicate = package.createDiagnosticComControl("ComControl1")
         assert duplicate is com_control  # duplicate short name returns the existing element
+
+
+class TestDiagnosticControlDTCSetting:
+    """
+    Test class for DiagnosticControlDTCSetting functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.68, p.111
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Control DTC Setting" diagnostic service.'
+    DTC_SETTING_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. "
+        "Thereby, the reference represents the ability to access shared attributes among all DiagnosticControlDTCSetting in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticControlDTCSetting:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticControlDTCSetting(ar_root, "TestControlDTCSetting")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticControlDTCSetting instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestControlDTCSetting"
+        assert obj.getDtcSettingClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticControlDTCSetting.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticControlDTCSetting.__init__.__doc__ is None
+
+    def test_get_set_dtc_setting_class(self):
+        """
+        Round-trips the dtcSettingClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticControlDtcSettings/ControlDTCSettingClass")
+        result = obj.setDtcSettingClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getDtcSettingClass() is ref
+        assert obj.getDtcSettingClass().getValue() == "/AUTOSAR/DiagnosticControlDtcSettings/ControlDTCSettingClass"
+        assert obj.getDtcSettingClass().getDest() == "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS"
+
+        result = obj.setDtcSettingClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcSettingClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticControlDTCSetting.getDtcSettingClass.__doc__) == self.DTC_SETTING_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticControlDTCSetting.setDtcSettingClass.__doc__) == (
+            self.DTC_SETTING_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcSettingClass."
+        )
+
+    def test_create_diagnostic_control_dtc_setting(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticControlDtcSettings")
+        control_dtc_setting = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
+
+        assert control_dtc_setting is not None
+        assert isinstance(control_dtc_setting, DiagnosticControlDTCSetting)
+        assert control_dtc_setting.getShortName() == "ControlDTCSetting1"
+        assert package.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting) is control_dtc_setting
+
+        duplicate = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
+        assert duplicate is control_dtc_setting

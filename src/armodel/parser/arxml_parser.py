@@ -528,6 +528,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificate,
     DiagnosticComControl,
     DiagnosticContributionSet,
+    DiagnosticControlDTCSetting,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -10628,6 +10629,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticComControlSubNodeChannel(child_element, channel)
             com_control_class.addSubNodeChannel(channel)
 
+    def readDiagnosticControlDTCSetting(self, element: ET.Element, control_dtc_setting: DiagnosticControlDTCSetting):
+        self.logger.debug("Read DiagnosticControlDTCSetting <%s>" % control_dtc_setting.getShortName())
+        self.readIdentifiable(element, control_dtc_setting)
+        control_dtc_setting.setDtcSettingClass(self.getChildElementOptionalRefType(element, "DTC-SETTING-CLASS-REF"))
+
     def readDiagnosticControlDTCSettingClass(self, element: ET.Element, control_dtc_setting_class: DiagnosticControlDTCSettingClass):
         self.logger.debug("Read DiagnosticControlDTCSettingClass <%s>" % control_dtc_setting_class.getShortName())
         self.readIdentifiable(element, control_dtc_setting_class)
@@ -15534,6 +15540,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
                 com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
                 self.readDiagnosticComControlClass(child_element, com_control_class)
+            elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING":
+                control_dtc_setting = parent.createDiagnosticControlDTCSetting(self.getShortName(child_element))
+                self.readDiagnosticControlDTCSetting(child_element, control_dtc_setting)
             elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS":
                 control_dtc_setting_class = parent.createDiagnosticControlDTCSettingClass(self.getShortName(child_element))
                 self.readDiagnosticControlDTCSettingClass(child_element, control_dtc_setting_class)
