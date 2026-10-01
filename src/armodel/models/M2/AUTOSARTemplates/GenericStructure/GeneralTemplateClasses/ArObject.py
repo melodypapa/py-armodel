@@ -303,7 +303,80 @@ class DiagnosticComControlSpecificChannel(ARObject):
 
 
 class DiagnosticComControlSubNodeChannel(ARObject):
-    pass
+    """
+    This represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service "communication control".
+    """
+
+    # DiagnosticComControlSubNodeChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.67, p.110
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSubNodeChannel             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubNodeChannel             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubNodeNumber              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubNodeNumber              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubNodePhysicalChannel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubNodePhysicalChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the affected CommunicationCluster in the role subNodeChannel
+        self.subNodeChannel: Optional[RefType] = None
+
+        # This represents the applicable subNode number. The value corresponds to the request message parameter nodeIdentificationNumber of diagnostic service CommunicationControl (0x28).
+        self.subNodeNumber: Optional[PositiveInteger] = None
+
+        # This represents the affected sub-node EthernetPhysicalChannel.
+        self.subNodePhysicalChannel: Optional[RefType] = None
+
+    def getSubNodeChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected CommunicationCluster in the role subNodeChannel
+        """
+        return self.subNodeChannel
+
+    def setSubNodeChannel(self, value: Optional[RefType]) -> DiagnosticComControlSubNodeChannel:
+        """
+        This represents the affected CommunicationCluster in the role subNodeChannel
+
+        A None value is a no-op and does not overwrite an existing subNodeChannel.
+        """
+        if value is not None:
+            self.subNodeChannel = value
+        return self
+
+    def getSubNodeNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the applicable subNode number. The value corresponds to the request message parameter nodeIdentificationNumber of diagnostic service CommunicationControl (0x28).
+        """
+        return self.subNodeNumber
+
+    def setSubNodeNumber(self, value: Optional[PositiveInteger]) -> DiagnosticComControlSubNodeChannel:
+        """
+        This represents the applicable subNode number. The value corresponds to the request message parameter nodeIdentificationNumber of diagnostic service CommunicationControl (0x28).
+
+        A None value is a no-op and does not overwrite an existing subNodeNumber.
+        """
+        if value is not None:
+            self.subNodeNumber = value
+        return self
+
+    def getSubNodePhysicalChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected sub-node EthernetPhysicalChannel.
+        """
+        return self.subNodePhysicalChannel
+
+    def setSubNodePhysicalChannel(self, value: Optional[RefType]) -> DiagnosticComControlSubNodeChannel:
+        """
+        This represents the affected sub-node EthernetPhysicalChannel.
+
+        A None value is a no-op and does not overwrite an existing subNodePhysicalChannel.
+        """
+        if value is not None:
+            self.subNodePhysicalChannel = value
+        return self
 
 
 class DiagnosticCommonProps(ARObject):

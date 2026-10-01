@@ -293,14 +293,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticComControlSubNodeChannel` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.67, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled in ahead of DiagnosticComControlClass (its Table 4.66 subNodeChannel
+      member type) — dependency-first per sync convention. Concrete ARObject (no-arg ctor);
+      attrs subNodeChannel (ref, 0..1) + subNodeNumber (PositiveInteger 0..1) +
+      subNodePhysicalChannel (ref, 0..1); XSD group l.32759 — ref, number, physical-channel order.
+    - note (Step 4): attribute Note "EthernetPhysical Channel" line-break healed to
+      "EthernetPhysicalChannel" (markdown cell-wrap artifact; XSD documentation agrees).
+    - note (Step 6): reusable read/writeDiagnosticComControlSubNodeChannel helpers verified
+      directly (aggregator not synced yet); dispatch wiring rides the DiagnosticComControlClass pass.
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticControlDTCSetting` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.68, p.111

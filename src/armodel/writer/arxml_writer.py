@@ -418,6 +418,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
+    DiagnosticComControlSubNodeChannel,
     DiagnosticParameter,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13912,6 +13913,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "SPECIFIC-CHANNEL-REF", channel.getSpecificChannel())
         self.setChildElementOptionalRefType(child_element, "SPECIFIC-PHYSICAL-CHANNEL-REF", channel.getSpecificPhysicalChannel())
         self.setChildElementOptionalPositiveInteger(child_element, "SUBNET-NUMBER", channel.getSubnetNumber())
+
+    def writeDiagnosticComControlSubNodeChannel(self, element: ET.Element, channel: DiagnosticComControlSubNodeChannel):
+        self.logger.debug("Write DiagnosticComControlSubNodeChannel")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-SUB-NODE-CHANNEL")
+        self.setChildElementOptionalRefType(child_element, "SUB-NODE-CHANNEL-REF", channel.getSubNodeChannel())
+        self.setChildElementOptionalPositiveInteger(child_element, "SUB-NODE-NUMBER", channel.getSubNodeNumber())
+        self.setChildElementOptionalRefType(child_element, "SUB-NODE-PHYSICAL-CHANNEL-REF", channel.getSubNodePhysicalChannel())
 
     def writeDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
         self.logger.debug("Write DiagnosticEcuResetClass %s" % ecu_reset_class.getShortName())

@@ -490,6 +490,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
+    DiagnosticComControlSubNodeChannel,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticSupportInfoByte,
@@ -10614,6 +10615,12 @@ class ARXMLParser(AbstractARXMLParser):
         channel.setSpecificChannel(self.getChildElementOptionalRefType(element, "SPECIFIC-CHANNEL-REF"))
         channel.setSpecificPhysicalChannel(self.getChildElementOptionalRefType(element, "SPECIFIC-PHYSICAL-CHANNEL-REF"))
         channel.setSubnetNumber(self.getChildElementOptionalPositiveInteger(element, "SUBNET-NUMBER"))
+
+    def readDiagnosticComControlSubNodeChannel(self, element: ET.Element, channel: DiagnosticComControlSubNodeChannel):
+        self.logger.debug("Read DiagnosticComControlSubNodeChannel")
+        channel.setSubNodeChannel(self.getChildElementOptionalRefType(element, "SUB-NODE-CHANNEL-REF"))
+        channel.setSubNodeNumber(self.getChildElementOptionalPositiveInteger(element, "SUB-NODE-NUMBER"))
+        channel.setSubNodePhysicalChannel(self.getChildElementOptionalRefType(element, "SUB-NODE-PHYSICAL-CHANNEL-REF"))
 
     def readDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
         self.logger.debug("Read DiagnosticEcuResetClass <%s>" % ecu_reset_class.getShortName())
