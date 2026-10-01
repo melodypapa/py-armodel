@@ -82,7 +82,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12018 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: concrete, Table 5.11 p.78, Base most-derived = `BswModuleCallPoint` (already correct), VP capability inherited (no own VARIATION-POINT, group L9901/base group ref L9950 — Rule 0020), two 0..1 refs (calledEntryRef → BswModuleEntry, calledFromWithinExclusiveAreaRef → ExclusiveAreaNestingOrder) both `Optional[RefType]` with typed get/set + None no-op, reader/writer + parser dispatch + `createBswDirectCallPoint` factory added at Step 6 (XSD order CALLED-ENTRY-REF → CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF), checklist 5/5 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `BswSynchronousServerCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1)
+- [x] `BswSynchronousServerCallPoint` — BswModuleCallPoint — R23-11 markdown · Table 5.12 (CP_TPS_BSWModuleDescriptionTemplate), p.79 — **finished, stamped `# Spec verified: R23-11`** (sync commit pending)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - after `BswModuleCallPoint`
   - [x] Step 1 — Sync members & description from spec
@@ -93,7 +93,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12027 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12027 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: concrete, Table 5.12 p.79, Base most-derived = `BswModuleCallPoint` (already correct), VP capability inherited (no own VARIATION-POINT — Rule 0020), two 0..1 refs (calledEntryRef → BswModuleEntry, calledFromWithinExclusiveAreaRef → ExclusiveAreaNestingOrder) both `Optional[RefType]` with typed get/set + None no-op, reader/writer round-trip covered, checklist 5/5 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `BswInternalTriggeringPoint` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
