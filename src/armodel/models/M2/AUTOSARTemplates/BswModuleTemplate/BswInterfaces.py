@@ -440,16 +440,16 @@ class BswModuleClientServerEntry(Referrable, VariationPointCapable):
     """
 
     # BswModuleClientServerEntry method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.21, p.54 (R23-11)
-    # Spec: R4.3.1/AUTOSAR_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.56 (R4.3.1)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.21, p.54
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIsReentrant           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIsReentrant           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIsSynchronous         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setIsSynchronous         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getIsSynchronous         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsSynchronous         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -460,7 +460,7 @@ class BswModuleClientServerEntry(Referrable, VariationPointCapable):
         # Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished. Tags: xml.sequenceOffset=10
         self.isReentrant: Optional[Boolean] = None
 
-        # Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=15
+        # Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=15
         self.isSynchronous: Optional[Boolean] = None
 
     def getEncapsulatedEntryRef(self) -> Optional[RefType]:
@@ -495,13 +495,13 @@ class BswModuleClientServerEntry(Referrable, VariationPointCapable):
 
     def getIsSynchronous(self) -> Optional[Boolean]:
         """
-        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns.
+        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns.
         """
         return self.isSynchronous
 
     def setIsSynchronous(self, value: Optional[Boolean]) -> "BswModuleClientServerEntry":
         """
-        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns.
+        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • true: This calls a synchronous service, i.e. the service is completed when the call returns. • false: The service (on semantical level) may not be complete when the call returns.
         A None value is a no-op and does not overwrite an existing isSynchronous.
         """
         if value is not None:

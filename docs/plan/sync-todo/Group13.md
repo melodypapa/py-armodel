@@ -491,7 +491,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     AtpBlueprint/AtpBlueprintable collapse noted for 9b review.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12319 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on the touched model file; 9b user-confirmed 2026-10-01: concrete, Table 4.18 p.51, RE-BASED src `Identifiable` → `ARElement` per the spec Base chain (ARObject..Identifiable..CollectableElement..PackageableElement..ARElement; AtpBlueprint/AtpBlueprintable collapsed as attribute-less empty groups — established precedent), one aggr attr bswEntryRelationship (BswEntryRelationship, 0..* → typed-list field `bswEntryRelationships`), XSD BSW-ENTRY-RELATIONSHIPS wrapper + unbounded items, `createBswEntryRelationshipSet` factory + `getBswEntryRelationshipSets` getter on ARPackage + read/write helpers + both-direction dispatch ADDED at Step 6 (value-asserting + full-document round-trip tests), checklist 3/3 in source order, tracker `missing` row resolved (stale leaf-file audit), no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `BswModuleClientServerEntry` — Referrable — R23-11 markdown · Table 4.21 (CP_TPS_BSWModuleDescriptionTemplate), p.54
+- [x] `BswModuleClientServerEntry` — Referrable — R23-11 markdown · Table 4.21 (CP_TPS_BSWModuleDescriptionTemplate), p.54 — **finished, stamped `# Spec verified: R23-11`** (sync commit pending)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - note (Step 1): R23-11 markdown Table 4.21, p.54. Concrete Class; Base most-derived =
     `Referrable` (already correct in src); VP-capable — VARIATION-POINT is in the OWN XSD
@@ -504,6 +504,13 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     `__init__` docstring, bare-typed fields (`RefType = None`, `Boolean = None`),
     untyped accessors, paraphrased docstrings, old 4-col checklist; reader/writer lacked
     VARIATION-POINT.
+  - note (Step 1 correction, 9b arbitration 2026-10-01): isSynchronous IS an R23-11
+    Table 4.21 attribute — the table crosses a page (caption at markdown L1394, repeated
+    Class header L1397, isSynchronous row L1400) and the original extraction captured only
+    the pre-break rows (encapsulatedEntry L1377, isReentrant L1378); NOT an R4.3.1 legacy
+    member — release columns unified to R23-11, the dual R4.3.1 # Spec: line removed, and
+    the accessor docstrings re-synced to the R23-11 Note casing ("• true:"/"• false:" —
+    R4.3.1 used "• True:"/"• False:"); see Steps 8/9.
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -516,10 +523,13 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     value-asserting document round-trips (attrs + VP short label) pass.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - note (Step 8): ONE accepted legacy deviation (isSynchronous — Rule 0019 combine case,
-    dual # Spec: lines, mixed release columns) — subject to 9b batch confirmation;
-    encapsulatedEntryRef/isReentrant rows ok.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 8): no open deviations after the 9b arbitration (2026-10-01) — the former
+    "Rule 0019 legacy combine" (isSynchronous, dual # Spec: lines, release column
+    R4.3.1, "subject to 9b batch confirmation") is RESOLVED: the user confirmed
+    isSynchronous is an R23-11 Table 4.21 attribute (cross-page row, corpus L1400) —
+    release columns unified to R23-11, R4.3.1 # Spec: line removed, docstrings re-synced
+    to the R23-11 Note casing; encapsulatedEntryRef/isReentrant rows ok.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on the touched model file; 9b user-confirmed 2026-10-01 with the cross-page arbitration: concrete, Table 4.21 p.54, Base most-derived = `Referrable`, VP-capable via OWN group BSW-MODULE-CLIENT-SERVER-ENTRY (AUTOSAR_00052.xsd L11320), three attrs in XSD order — encapsulatedEntry (→ `encapsulatedEntryRef`, seq 5), isReentrant (→ `isReentrant`, seq 10), isSynchronous (→ `isSynchronous`, seq 15, cross-page row markdown L1400 confirmed against the R23-11 corpus: `Boolean` 0..1 attr with Note verbatim) — all typed `Optional[...]` with get/set + None no-op; former R4.3.1-only classification overturned by user arbitration + corpus (release columns unified to R23-11, dual # Spec: line removed, docstrings re-synced to the R23-11 Note casing — see the Step 1 correction note); reader/writer cover all three attrs + VARIATION-POINT (added Steps 5/6); checklist 7/7 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `BswModuleDependency` — Identifiable — R23-11 markdown · Table 4.17 (CP_TPS_BSWModuleDescriptionTemplate), p.48
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
