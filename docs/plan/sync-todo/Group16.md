@@ -148,16 +148,17 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `CouplingPortAsynchronousTrafficShaper` — CouplingPortAbstractShaper — NEW row (discovered 2026-09-30 as missing CouplingPortAbstractShaper concrete child / CouplingPortFifo.shaper choice member, Rule 0001.10/0016.4) — XSD-only · xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER (00052.xsd L23458, atp.Status="candidate")
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - note: no Class/Enumeration table in any corpus (candidate-status CP class). XSD members: committedBurstSize (PositiveInteger 0..1), committedInformationRate (PositiveInteger 0..1), trafficShaperGroup (ref 0..1). Must register itself in CouplingPortAbstractShaper._shaper_registry ("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER") at import time; consumer dispatch = readCouplingPortFifo/writeCouplingPortFifo SHAPER choice.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: no Class/Enumeration table in any corpus (candidate-status CP class). XSD members: committedBurstSize (PositiveInteger 0..1), committedInformationRate (PositiveInteger 0..1), trafficShaperGroupRef (ref 0..1, kind-suffix Ref per Rule 0001.5 — XSD element TRAFFIC-SHAPER-GROUP-REF). Registered in CouplingPortAbstractShaper._shaper_registry ("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER") at import time; consumer dispatch = readCouplingPortFifoShaper/writeCouplingPortFifoShaper + per-class read/write helpers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): registry-based polymorphic SHAPER choice = accepted deviation recorded on the parent (2026-09-30 user arbitration); no new deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CouplingPortCreditBasedShaper` — CouplingPortAbstractShaper — NEW row (discovered 2026-09-30 as missing CouplingPortAbstractShaper concrete child / CouplingPortFifo.shaper choice member, Rule 0001.10/0016.4) — XSD-only · xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER (00052.xsd L23597, atp.Status="candidate")
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

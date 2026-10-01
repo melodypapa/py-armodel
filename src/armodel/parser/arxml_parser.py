@@ -937,6 +937,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
+    CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
@@ -13100,9 +13101,18 @@ class ARXMLParser(AbstractARXMLParser):
                 if shaper_cls is not None:
                     shaper = shaper_cls(fifo, self.getShortName(child))
                     self.readIdentifiable(child, shaper)
+                    if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
+                        self.readCouplingPortAsynchronousTrafficShaper(child, shaper)
                     fifo.setShaper(shaper)
                 else:
                     self.notImplemented("Unsupported CouplingPort shaper <%s>" % tag)
+
+    def readCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
+        shaper.setCommittedBurstSize(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE"))
+        shaper.setCommittedInformationRate(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE"))
+        refs = self.getChildElementRefTypeList(element, "TRAFFIC-SHAPER-GROUP-REF")
+        if len(refs) > 0:
+            shaper.setTrafficShaperGroupRef(refs[0])
 
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)

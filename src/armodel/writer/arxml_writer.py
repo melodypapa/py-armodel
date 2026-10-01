@@ -834,6 +834,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
+    CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
@@ -11348,6 +11349,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 return
             child = ET.SubElement(shaper_element, tag)
             self.writeIdentifiable(child, shaper)
+            if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
+                self.writeCouplingPortAsynchronousTrafficShaper(child, shaper)
+
+    def writeCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
+        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", shaper.getCommittedBurstSize())
+        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", shaper.getCommittedInformationRate())
+        self.setChildElementOptionalRefType(element, "TRAFFIC-SHAPER-GROUP-REF", shaper.getTrafficShaperGroupRef())
 
     def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         if scheduler is not None:
