@@ -1788,7 +1788,41 @@ class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
 
 
 class DiagnosticTypeOfDtcSupportedEnum(AREnum):
-    pass
+    """
+    Supported Dtc Types
+    """
+
+    # DiagnosticTypeOfDtcSupportedEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.21, p.66
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # ISO11992-4 DTC format Tags: atp.EnumerationLiteralIndex=0 xml.name=ISO-11992-4
+    ISO11992_4 = "iso11992_4"
+
+    # ISO14229-1 DTC format (3 byte format) Tags: atp.EnumerationLiteralIndex=1 xml.name=ISO-14229-1
+    ISO14229_1 = "iso14229_1"
+
+    # ISO15031-6 DTC format (2 byte format) Tags: atp.EnumerationLiteralIndex=2 xml.name=ISO-15031-6
+    ISO15031_6 = "iso15031_6"
+
+    # SAEJ1939-73 DTC format Tags: atp.EnumerationLiteralIndex=3 xml.name=SAE-J-1939-73
+    SAEJ1939_73 = "saeJ1939_73"
+
+    # SAE_J2012-DA_DTCFormat_00 (3 byte format) Tags: atp.EnumerationLiteralIndex=4 xml.name=SAE-J-2012-DA
+    SAEJ2012_DA = "saeJ2012_da"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTypeOfDtcSupportedEnum.ISO11992_4,
+                DiagnosticTypeOfDtcSupportedEnum.ISO14229_1,
+                DiagnosticTypeOfDtcSupportedEnum.ISO15031_6,
+                DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73,
+                DiagnosticTypeOfDtcSupportedEnum.SAEJ2012_DA,
+            ]
+        )
 
 
 class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):

@@ -854,15 +854,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTypeOfDtcSupportedEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.21, p.66
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: literals (displayed order) iso11992_4 (idx 0) → ISO-11992--4,
+    iso14229_1 (idx 1) → ISO-14229--1, iso15031_6 (idx 2) → ISO-15031--6,
+    saeJ1939_73 (idx 3) → SAE-J-1939--73, saeJ2012_da (idx 4) → SAE-J-2012--DA.
+    No token map registered yet — consumer not modeled
+    (DiagnosticMemoryDestinationPrimary queued stub; DiagnosticCommonProps.typeOfDtcSupported
+    atp.Status="removed", Rule 0015). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no modeled consumer, no XML carrier)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map deferred to the consuming class's sync)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (129 passed / 0 failed test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticEventCombinationBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.23, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

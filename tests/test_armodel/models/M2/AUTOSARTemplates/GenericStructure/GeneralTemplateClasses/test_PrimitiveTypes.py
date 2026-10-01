@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CseCodeType,
     DateTime,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
     DisplayFormatString,
     Float,
@@ -1610,3 +1611,55 @@ class TestDiagnosticOccurrenceCounterProcessingEnum:
         assert enum.validateEnumValue("confirmedDtcBit") is True
         assert enum.validateEnumValue("testFailedBit") is True
         assert enum.validateEnumValue("invalid") is False
+
+
+class TestDiagnosticTypeOfDtcSupportedEnum:
+    """
+    Test class for DiagnosticTypeOfDtcSupportedEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.21, p.66
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticTypeOfDtcSupportedEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticTypeOfDtcSupportedEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "iso11992_4",
+            "iso14229_1",
+            "iso15031_6",
+            "saeJ1939_73",
+            "saeJ2012_da",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticTypeOfDtcSupportedEnum member values.
+        """
+        enum = DiagnosticTypeOfDtcSupportedEnum()
+
+        assert DiagnosticTypeOfDtcSupportedEnum.ISO11992_4 == "iso11992_4"
+        assert DiagnosticTypeOfDtcSupportedEnum.ISO14229_1 == "iso14229_1"
+        assert DiagnosticTypeOfDtcSupportedEnum.ISO15031_6 == "iso15031_6"
+        assert DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73 == "saeJ1939_73"
+        assert DiagnosticTypeOfDtcSupportedEnum.SAEJ2012_DA == "saeJ2012_da"
+
+        assert enum.validateEnumValue("iso11992_4") is True
+        assert enum.validateEnumValue("iso14229_1") is True
+        assert enum.validateEnumValue("iso15031_6") is True
+        assert enum.validateEnumValue("saeJ1939_73") is True
+        assert enum.validateEnumValue("saeJ2012_da") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticTypeOfDtcSupportedEnum instantiability and getValue.
+        """
+        enum = DiagnosticTypeOfDtcSupportedEnum()
+        enum.setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1)
+
+        assert enum.getValue() == "iso14229_1"
