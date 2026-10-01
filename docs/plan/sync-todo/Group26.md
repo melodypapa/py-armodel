@@ -497,76 +497,76 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note (Step 1): Base most-derived = DiagnosticMapping; attrs displayed order: diagnosticEventRef, troubleCodeJ1939Ref; XSD own group l.37015 order DIAGNOSTIC-EVENT-REF → TROUBLE-CODE-J-1939-REF
 - [ ] `CpSoftwareClusterResource` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.44, p.271; also CP_TPS_SystemTemplate Table 11.6, p.901
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (453 passed test_Identifiable.py + test_ARPackage.py + 24 Cp-cluster parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `9c0046237`
+  - note (Step 1): Base = Identifiable (concrete — no (abstract) marker; stub's ABC dropped); placement Identifiable.py kept; attrs displayed order: dependentResources (aggr * → List[RoleBasedResourceDependency] + addDependentResource None-guard), globalResourceId (PositiveInteger), isMandatory (Boolean); XSD own group l.24427 order DEPENDENT-RESOURCES/ROLE-BASED-RESOURCE-DEPENDENCY → GLOBAL-RESOURCE-ID → IS-MANDATORY; reusable readCpSoftwareClusterResource/writeCpSoftwareClusterResource helpers (owned by CpSoftwareClusterResourcePool — wiring lands with its row)
 - [ ] `RoleBasedResourceDependency` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.45, p.272; also CP_TPS_SystemTemplate Table 11.7, p.902
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (453 passed test_Identifiable.py + test_ARPackage.py + 24 Cp-cluster parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `9c0046237`
+  - note (Step 1): Base ARObject; placement ArObject.py kept; attrs displayed order: resourceRef (RESOURCE-REF), role (Identifier attr, ROLE); XSD own group l.99145 order RESOURCE-REF → ROLE; reusable read/write helpers; consumed by readCpSoftwareClusterResource; note retains spec grammar 'This is attributes characterizes' verbatim
 - [ ] `CpSwClusterToDiagEventMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.46, p.272
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (453 passed test_Identifiable.py + test_ARPackage.py + 24 Cp-cluster parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `9c0046237`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs: cpSoftwareClusterResourceRef, diagnosticEventRef; XSD own group l.24979 order CP-SOFTWARE-CLUSTER-RESOURCE-REF → DIAGNOSTIC-EVENT-REF; atp.Status=draft attrs kept (still displayed)
 - [ ] `CpSwClusterResourceToDiagDataElemMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.47, p.273
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (453 passed test_Identifiable.py + test_ARPackage.py + 24 Cp-cluster parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `9c0046237`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs: cpSoftwareClusterResourceRef, diagnosticDataElementRef; XSD own group l.24863 order CP-SOFTWARE-CLUSTER-RESOURCE-REF → DIAGNOSTIC-DATA-ELEMENT-REF; word-splits joined (DiagnosticDataElement)
 - [ ] `CpSwClusterToDiagRoutineSubfunctionMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.48, p.274
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (453 passed test_Identifiable.py + test_ARPackage.py + 24 Cp-cluster parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `9c0046237`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs: cpSoftwareClusterResourceRef, routineSubfunctionRef; XSD own group l.25037 order CP-SOFTWARE-CLUSTER-RESOURCE-REF → ROUTINE-SUBFUNCTION-REF
 - [ ] `CpSwClusterResourceToDiagFunctionIdMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.49, p.275
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (453 passed test_Identifiable.py + test_ARPackage.py + 24 Cp-cluster parser/writer tests; member-annotation gate 3 passed; ruff clean over src/tests/scripts); 9b deferred to batch confirmation (user instruction); sync commit `9c0046237`
+  - note (Step 1): Base most-derived = DiagnosticMapping; attrs: cpSoftwareClusterResourceRef, functionIdentifierRef; XSD own group order CP-SOFTWARE-CLUSTER-RESOURCE-REF → FUNCTION-IDENTIFIER-REF; word-splits joined (DiagnosticFunctionIdentifier)
 - [ ] `EcucDefinitionCollection` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.1, p.25
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - [ ] Step 1 — Sync members & description from spec
