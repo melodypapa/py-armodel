@@ -162,7 +162,7 @@
     "Block contains a '# XSD verified:' line with an explicit .xsd filename (AUTOSAR_00052.xsd), not a bare prefix",
     "Block's '# Spec:' line cites the XSD file AND a line number (e.g. AUTOSAR_00052.xsd line 16295), not p.NN or p.n/a",
     "Block's '# Spec:' line names the upstream document (AUTOSAR_AP_TPS_SystemDesign) and states XSD-only / no own table in repo corpus",
-    "Method rows use the 5-column format with [x] (impl/docstring/test/reader/writer)",
+    "Method rows use the 6-column format with [x] (impl/docstring/test/reader/writer/release)",
     "Output does not use '# Spec verified: R<YY>-<MM>' for an XSD-only class"
    ]
   },

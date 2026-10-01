@@ -1876,3 +1876,62 @@ must equal the getter return type. This is the mechanical, repo-wide form of Rul
   annotations` to a module that did not have it, **all** of that module's quoted
   signatures must be unquoted in the same change (`test_pep563_annotations.py` bans
   top-level quotes in PEP 563 modules).
+
+---
+
+## Rule 0023 — Legacy checklist format (rows ending at `test`) forces a full re-sync *(added after the skill-format review, 2026-10-01)*
+
+A checklist whose method rows **end at the `test` column** — `# [x] __init__  [x] impl
+[x] docstring  [x] test` — with **no `reader`/`writer` columns and no per-row release
+token** is **legacy format** (it predates the 6-column format of Rule 0002; the header
+usually also lacks the `(RELEASE)` suffix on the `# Spec:` line). Found in the wild:
+`MeasuredHeapUsage` (`BSWModuleDescriptionTemplate`, Table 8.15) and dozens of sibling
+blocks across `src/armodel/models/**`.
+
+**The stamp does not exempt it.** `# Spec verified:` on a legacy block certifies the
+**old** pass only — that pass predates the reader/writer ownership columns (Rules 0006 /
+0001.7) and the per-row release provenance. Against the current bar the class is **not**
+synced.
+
+**The stale marker goes first.** A legacy block's `# Spec verified: <RELEASE>` or
+`# XSD verified: <xsd-file>` marker is **removed at session start** (before Step 1), not
+at 9b — removal drops the class onto the *No marker* path (sync from the beginning), and
+the marker is re-written only by a fresh 9b confirmation. Never leave a legacy block
+stamped between sessions: the marker claims a review the class has not passed under the
+current bar.
+
+**Mandate:** when a sync is invoked for (or touches) a class carrying a legacy-format
+checklist, run the **full 9-step workflow from Step 1** — including both Red→Green pairs
+(2→3 and 5→6) — and at **Step 7** write the checklist in the current 6-column format
+(`impl / docstring / test / reader / writer / release`, `[—]` where a column owns no XML
+element). Rule 0017 applies unchanged: one class per session, 9b confirmation before the
+stamp is refreshed. Do **not** merely re-format the block — the missing columns are
+exactly the reader/writer coverage the re-run must prove; reformatting without the
+re-sync is a Step 9b finding.
+
+**Mechanical inventory (non-blocking):** `scripts/eval_skill_static_checks.py` scans
+`src/armodel/models/**` and lists every legacy-format block (file → class → stale
+`Spec verified`/`XSD verified` marker) under
+*Legacy-format checklists (Rule 0023 re-sync inventory)*. Drain it through per-class
+sync sessions, one at a time; the inventory never fails the checker by itself.
+
+## Rule 0024 — Todo-list hygiene: collapse finished rows *(added 2026-10-01)*
+
+The sync todo file is a **queue, not a journal**. A finished class leaves no 9-step
+record behind — the file must read like a fresh queue with only pending work:
+
+1. During the class's session its row carries the 9-step sub-checklist (Rule 0016.6) —
+   that record exists only so step progress survives session death.
+2. At finish (Rule 0017.2 — after the row flip + commit hash are recorded and the
+   regenerated reports are committed), the finished row is **collapsed to a single
+   `[x]` line** (role · source · table · commit hash): its 9-step sub-checklist and
+   every step write-up / note attached to the row are removed in the same commit. The
+   durable record is the stamp in src, the per-class commit, and the regenerated
+   reports — not the queue file.
+3. A group file whose every row is collapsed is **deleted**.
+4. Tooling contract: `regen_sync_todo.py` must treat a `[x]` row with no `Step N` lines
+   as steps-complete (Done) — the collapse must never regress a finished class's status
+   in the reports.
+5. The same collapse governs a Rule 0023 re-sync: the legacy class's old sub-checklist
+   history is removed when the re-run starts; a row never accumulates two generations
+   of 9-step history.

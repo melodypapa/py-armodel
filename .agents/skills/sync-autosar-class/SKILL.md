@@ -1,6 +1,6 @@
 ---
 name: sync-autosar-class
-description: "Use when syncing, aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'sync <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', 'continue/resume the class sync', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project. Phase 0 builds the class closure and resolves missing classes interactively before the per-class 9-step TDD loop."
+description: Sync or extend an AUTOSAR model class in py-armodel against its PDF spec table. Use when the user says sync a class, implement a class to spec, add reader or writer coverage, update the class checklist, sync docstrings to the PDF, or continue or resume the class sync, or works on any class under src/armodel/models/M2/AUTOSARTemplates. Phase 0 confirms the class closure before the 9-step TDD loop. Do not use for non-AUTOSAR code or refactors with no spec change.
 author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0021*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0024*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -152,7 +152,9 @@ session** (Rule 0017).
   `python3 scripts/regen_sync_todo.py --write` so `SyncTodoIndex.md` +
   `sync-report.md` pick up the flip (then `--check` must pass) and commit the
   regenerated reports with the row flip — never hand-edit them (Rule 0017.2),
-  (4) report and stop.
+  (4) collapse the finished row to a single `[x]` line — strip its 9-step sub-checklist
+  and write-ups, and delete the group file if every row in it is collapsed (Rule 0024) —
+  in a follow-up commit, (5) report and stop.
 - **Termination:** after marking a row `[x]`, if **every** queue row is `[x]`, the
   sync is **finished** — report the summary (classes, commits, deviations). No
   further session needed. Any `[ ]` left → next session picks it up.
@@ -170,7 +172,11 @@ round-trip) certifies a class as reviewed.
 
 - **Has the marker** → the class has been synced. Treat its fields, checklist,
   docstrings, and reader/writer coverage as authoritative. Re-run the workflow only when
-  the spec changes (Rule 0012.3 drift) or when extending the class.
+  the spec changes (Rule 0012.3 drift) or when extending the class. A **legacy 4-column
+  checklist** (method rows ending at the `test` column — no reader/writer/release
+  columns) forces a full re-run too: the stamp certifies the old bar only (*Rule 0023*).
+  Its stale `# Spec verified:` / `# XSD verified:` marker is **removed at session start**
+  and re-written only by the fresh 9b confirmation.
 - **No marker** → the class has **not** been reviewed. Sync it **from the beginning**:
   run the full 9-step workflow starting at Step 1, with the failing model test first
   (Step 2). Do **not** trust pre-existing fields/checklist/docstrings — they may be
@@ -233,9 +239,15 @@ as each step finishes (*Rule 0018*).
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**. All types form matched name pairs across layers — model `setX`/`getX`, structure `readX`/`writeX`, element `getX`/`setX`, leaf `getChildElementOptional<T>`/`setChildElementOptional<T>` (*Rule 0013.2*); a cross pair (`setX1` ↔ `getX2`) is incorrect.
 - **7** — One row per method, source order, all `[x]`, 6-column format below (the last column is the per-row `release`). Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the member-annotation gate test (`uv run pytest tests/test_armodel/models/test_member_annotations.py`, *0022*) + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** — class member/accessor/checklist order matches the markdown/PDF
-displayed row order, and reader/writer XML element order matches XSD `sequenceOffset`,
-checked independently (*0001.11*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), **blank line between every `__init__` attribute block** (*0008* — Black/ruff don't enforce a minimum, so glued-together fields pass every 9a check; verify by eye or AST audit), **quota shape vs spec multiplicity** — every member's `Optional`/`List`/plain annotation matches the table's multiplicity column (0..1 → `Optional[T]`, 0..* → `List[T]`, 1 → plain `T`), checked by eye since the *0022* gate test verifies form only (*0022*), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
+- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the member-annotation gate test (`uv run pytest tests/test_armodel/models/test_member_annotations.py`, *0022*) + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.**
+  **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to:
+  - element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*)
+  - **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*)
+  - **member order** — class member/accessor/checklist order matches the markdown/PDF displayed row order, and reader/writer XML element order matches XSD `sequenceOffset`, checked independently (*0001.11*)
+  - docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence)
+  - **blank line between every `__init__` attribute block** (*0008* — Black/ruff don't enforce a minimum, so glued-together fields pass every 9a check; verify by eye or AST audit)
+  - **quota shape vs spec multiplicity** — every member's `Optional`/`List`/plain annotation matches the table's multiplicity column (0..1 → `Optional[T]`, 0..* → `List[T]`, 1 → plain `T`), checked by eye since the *0022* gate test verifies form only (*0022*)
+  - deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, collapse the row's 9-step history (*0024*), and stop the session (or, if all rows are `[x]`, report the sync complete).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -489,7 +501,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0021*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0024*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.
