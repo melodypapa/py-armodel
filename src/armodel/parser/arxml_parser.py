@@ -560,6 +560,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRoutineSubfunction,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -10502,6 +10503,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, read_scaling_data_by_identifier)
         self.readDiagnosticDataByIdentifier(element, read_scaling_data_by_identifier)
         read_scaling_data_by_identifier.setReadScalingDataClass(self.getChildElementOptionalRefType(element, "READ-SCALING-DATA-CLASS-REF"))
+
+    def readDiagnosticRoutineSubfunction(self, element: ET.Element, routine_subfunction: DiagnosticRoutineSubfunction):
+        routine_subfunction.setAccessPermission(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
 
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)

@@ -6,7 +6,7 @@ in the GenericStructure module.
 from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
@@ -918,7 +918,39 @@ class DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable):
 
 
 class DiagnosticRoutineSubfunction(Identifiable, ABC):
-    pass
+    """This meta-class acts as an abstract base class to routine subfunctions."""
+
+    # DiagnosticRoutineSubfunction method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.84, p.121
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessPermission  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessPermission  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticRoutineSubfunction:
+            raise TypeError("DiagnosticRoutineSubfunction is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This reference represents the access permission of the owning routine subfunction.
+        self.accessPermission: Optional[RefType] = None
+
+    def getAccessPermission(self) -> Optional[RefType]:
+        """
+        This reference represents the access permission of the owning routine subfunction.
+        """
+        return self.accessPermission
+
+    def setAccessPermission(self, value: Optional[RefType]) -> DiagnosticRoutineSubfunction:
+        """
+        This reference represents the access permission of the owning routine subfunction.
+
+        A None value is a no-op and does not overwrite an existing accessPermission.
+        """
+        if value is not None:
+            self.accessPermission = value
+        return self
 
 
 class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
@@ -983,16 +1015,6 @@ class ReferenceTailoring(AttributeTailoring):
 
 class RptContainer(Identifiable):
     pass
-
-
-
-
-
-
-
-
-
-
 
 
 class SdgTailoring(DataFormatElementScope):

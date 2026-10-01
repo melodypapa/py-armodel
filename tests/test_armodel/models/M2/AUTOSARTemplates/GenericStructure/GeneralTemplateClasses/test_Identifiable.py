@@ -5,6 +5,8 @@ in the AUTOSAR GenericStructure module.
 
 import typing
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
@@ -13,6 +15,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRoutineSubfunction,
+    DiagnosticStartRoutine,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1123,3 +1127,77 @@ class TestDiagnosticAuthTransmitCertificateEvaluation:
         duplicate = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
         assert duplicate is evaluation  # duplicate short name returns the existing element
         assert len(certificate.getCertificateEvaluations()) == 1
+
+
+class TestDiagnosticRoutineSubfunction:
+    """
+    Test class for DiagnosticRoutineSubfunction functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.84, p.121
+    """
+
+    CLASS_NOTE = "This meta-class acts as an abstract base class to routine subfunctions."
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that instantiating the abstract DiagnosticRoutineSubfunction raises TypeError.
+        """
+        with pytest.raises(TypeError, match="DiagnosticRoutineSubfunction is an abstract class."):
+            DiagnosticRoutineSubfunction(AUTOSAR.getInstance(), "Subfunction1")
+
+    def test_subclass_chain(self):
+        """
+        Test that the concrete subfunctions derive from DiagnosticRoutineSubfunction (Identifiable).
+        """
+        assert issubclass(DiagnosticRoutineSubfunction, Identifiable)
+        assert issubclass(DiagnosticStartRoutine, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults_via_subclass(self):
+        """
+        Test that a concrete subclass is initialized with the spec defaults.
+        """
+        obj = DiagnosticStartRoutine(AUTOSAR.getInstance(), "StartRoutine1")
+
+        assert obj.getShortName() == "StartRoutine1"
+        assert obj.getAccessPermission() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRoutineSubfunction.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRoutineSubfunction.__init__.__doc__ is None
+
+    def test_get_set_access_permission(self):
+        """
+        Round-trips accessPermission; None is a no-op.
+        """
+        obj = DiagnosticStartRoutine(AUTOSAR.getInstance(), "StartRoutine1")
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-ACCESS-PERMISSION")
+        value.setValue("/AUTOSAR/DiagnosticAccessPermissions/Level1")
+        result = obj.setAccessPermission(value)
+        assert result is obj  # method chaining
+        assert obj.getAccessPermission() is value
+        assert obj.getAccessPermission().getValue() == "/AUTOSAR/DiagnosticAccessPermissions/Level1"
+        assert obj.getAccessPermission().getDest() == "DIAGNOSTIC-ACCESS-PERMISSION"
+
+        obj.setAccessPermission(None)
+        assert obj.getAccessPermission() is value  # None is a no-op
+
+    def test_get_set_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticRoutineSubfunction.getAccessPermission)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(DiagnosticRoutineSubfunction.setAccessPermission)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DiagnosticRoutineSubfunction

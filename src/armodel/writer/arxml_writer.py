@@ -443,6 +443,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRoutineSubfunction,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -13859,6 +13860,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, read_scaling_data_by_identifier)
         self.writeDiagnosticDataByIdentifier(child_element, read_scaling_data_by_identifier)
         self.setChildElementOptionalRefType(child_element, "READ-SCALING-DATA-CLASS-REF", read_scaling_data_by_identifier.getReadScalingDataClass())
+
+    def writeDiagnosticRoutineSubfunction(self, element: ET.Element, routine_subfunction: DiagnosticRoutineSubfunction):
+        self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", routine_subfunction.getAccessPermission())
 
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())

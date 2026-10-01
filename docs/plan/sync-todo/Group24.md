@@ -530,14 +530,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRoutineSubfunction` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.84, p.121
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.84 body matched by Class row (leading caption); abstract (Identifiable base, DiagnosticDataByIdentifier guard pattern); single ref accessPermission (DiagnosticAccessPermission 0..1) — XSD group DIAGNOSTIC-ROUTINE-SUBFUNCTION (AUTOSAR_00052.xsd l.43145) = ACCESS-PERMISSION-REF only; NOT ARPackage-aggregated (concrete subfunctions nest only inside DIAGNOSTIC-ROUTINE) — no factory/dispatch, reusable read/write helper for concrete subclasses.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): reusable read/writeDiagnosticRoutineSubfunction helper (DiagnosticDataByIdentifier precedent — helper reads/writes own group only, ACCESS-PERMISSION-REF); no dispatch of its own — concrete subclasses (Start/Stop/RequestResults) call readIdentifiable/writeIdentifiable + the helper when they sync.
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticRoutine` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.85, p.124
