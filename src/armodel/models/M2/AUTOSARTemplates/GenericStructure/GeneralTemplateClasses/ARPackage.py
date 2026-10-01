@@ -159,6 +159,7 @@ __all__ = [
     "DiagnosticIumprGroup",
     "DiagnosticIumprDenominatorGroup",
     "DiagnosticIumpr",
+    "DiagnosticInhibitSourceEventMapping",
     "DiagnosticInfoType",
     "DiagnosticIndicator",
     "DiagnosticIOControl",
