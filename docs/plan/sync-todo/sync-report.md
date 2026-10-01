@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 626 | 32.9% |
+| [x] Done | 627 | 32.9% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 219 | 11.5% |
+| [ ] Deferred | 218 | 11.5% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -156,7 +156,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswApiOptions`                                         | [x] Done    | 816c64f3d0                               | Group13          |
 | `BswAsynchronousServerCallPoint`                        | [x] Done    | 80c7276bff                               | Group22          |
 | `BswAsynchronousServerCallResultPoint`                  | [x] Done    | e1150436c3                               | Group22          |
-| `BswAsynchronousServerCallReturnsEvent`                 | [ ] Deferred| N/A                                      | Group13          |
+| `BswAsynchronousServerCallReturnsEvent`                 | [x] Done    | f2df52d4b5                               | Group13          |
 | `BswBackgroundEvent`                                    | [x] Done    | 584344d2e4                               | Group22          |
 | `BswCallType`                                           | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswCalledEntity`                                       | [x] Done    | bd96645681                               | Group22          |
