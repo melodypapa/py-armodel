@@ -872,15 +872,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEventCombinationBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.23, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: literals (displayed order) eventCombinationOnRetrieval (idx 1) →
+    EVENT-COMBINATION-ON-RETRIEVAL, eventCombinationOnStorage (idx 0) →
+    EVENT-COMBINATION-ON-STORAGE (displayed order differs from index order —
+    markdown row order wins). Token map DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP
+    was pre-registered by the DiagnosticCommonProps sync (0b2c7c2fa); this pass
+    landed the deferred typed-value coverage (model setter test + parser/writer
+    TYPE-OF-EVENT-COMBINATION-SUPPORTED field-value and round-trip assertions).
+    No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — deferred DiagnosticCommonProps value coverage landed instead; reader branch pre-wired)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map + reader/writer branches pre-wired by 0b2c7c2fa, verified by the new assertions)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (165 passed / 0 failed test_PrimitiveTypes.py + test_ArObject.py + test_diagnostic_common_props.py + test_writer_diagnostic_common_props.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticEventCombinationReportingBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.24, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

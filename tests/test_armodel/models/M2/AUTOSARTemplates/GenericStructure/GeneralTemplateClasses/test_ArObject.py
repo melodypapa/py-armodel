@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DateTime,
+    DiagnosticEventCombinationBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
     String,
@@ -252,11 +253,9 @@ class TestDiagnosticCommonProps:
     Test class for DiagnosticCommonProps functionality.
 
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.19, p.65
-    (DiagnosticEventCombinationReportingBehaviorEnum and
-    DiagnosticEventCombinationBehaviorEnum are un-synced stubs queued for later
-    batch rows — the eventCombinationReportingBehavior and
-    typeOfEventCombinationSupported setters get typed-value coverage with their
-    syncs; here only the defaults are asserted.)
+    (DiagnosticEventCombinationReportingBehaviorEnum is still an un-synced stub
+    queued for a later batch row — the eventCombinationReportingBehavior setter
+    gets typed-value coverage with its sync; here only the defaults are asserted.)
     """
 
     def _create_props(self) -> DiagnosticCommonProps:
@@ -411,9 +410,8 @@ class TestDiagnosticCommonProps:
 
     def test_setter_none_no_ops_for_pending_enums(self):
         """
-        Test that the eventCombinationReportingBehavior and typeOfEventCombinationSupported
-        setters chain and treat None as a no-op (typed-value coverage lands with the
-        DiagnosticEventCombinationReportingBehaviorEnum / DiagnosticEventCombinationBehaviorEnum syncs).
+        Test that the eventCombinationReportingBehavior setter chains and treats None as a
+        no-op (typed-value coverage lands with the DiagnosticEventCombinationReportingBehaviorEnum sync).
         """
         obj = self._create_props()
 
@@ -421,9 +419,21 @@ class TestDiagnosticCommonProps:
         assert result is obj  # method chaining with None
         assert obj.getEventCombinationReportingBehavior() is None
 
+    def test_get_set_type_of_event_combination_supported(self):
+        """
+        Test getTypeOfEventCombinationSupported and setTypeOfEventCombinationSupported round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        behavior = DiagnosticEventCombinationBehaviorEnum().setValue(DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE)
+        result = obj.setTypeOfEventCombinationSupported(behavior)
+        assert result is obj  # method chaining
+        assert obj.getTypeOfEventCombinationSupported() is behavior
+        assert obj.getTypeOfEventCombinationSupported().getValue() == "eventCombinationOnStorage"
+
         result = obj.setTypeOfEventCombinationSupported(None)
         assert result is obj  # method chaining with None
-        assert obj.getTypeOfEventCombinationSupported() is None
+        assert obj.getTypeOfEventCombinationSupported() is behavior  # None is a no-op
 
     def test_get_set_response_on_second_declined_request(self):
         """

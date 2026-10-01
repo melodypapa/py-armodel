@@ -28,6 +28,7 @@ _CONDITIONAL_INNER = (
     "<RESET-PENDING-BIT-ON-OVERFLOW>false</RESET-PENDING-BIT-ON-OVERFLOW>"
     "<RESPONSE-ON-ALL-REQUEST-SIDS>false</RESPONSE-ON-ALL-REQUEST-SIDS>"
     "<RESPONSE-ON-SECOND-DECLINED-REQUEST>true</RESPONSE-ON-SECOND-DECLINED-REQUEST>"
+    "<TYPE-OF-EVENT-COMBINATION-SUPPORTED>EVENT-COMBINATION-ON-STORAGE</TYPE-OF-EVENT-COMBINATION-SUPPORTED>"
 )
 
 _CONDITIONAL_WRAPPED = "<DIAGNOSTIC-COMMON-PROPS-VARIANTS><DIAGNOSTIC-COMMON-PROPS-CONDITIONAL>%s</DIAGNOSTIC-COMMON-PROPS-CONDITIONAL></DIAGNOSTIC-COMMON-PROPS-VARIANTS>" % _CONDITIONAL_INNER
@@ -65,6 +66,8 @@ class TestReadDiagnosticCommonProps:
         assert common_props.getResponseOnAllRequestSids().getValue() is False
         assert common_props.getResponseOnSecondDeclinedRequest() is not None
         assert common_props.getResponseOnSecondDeclinedRequest().getValue() is True
+        assert common_props.getTypeOfEventCombinationSupported() is not None
+        assert common_props.getTypeOfEventCombinationSupported().getValue() == "eventCombinationOnStorage"
 
     def test_without_conditional_wrapper(self, parser):
         """Test that a COMMON-PROPERTIES element without the CONDITIONAL wrapper leaves all fields empty."""

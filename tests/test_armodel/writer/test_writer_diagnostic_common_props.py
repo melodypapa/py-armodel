@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     ByteOrderEnum,
+    DiagnosticEventCombinationBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
     TimeValue,
@@ -67,6 +68,7 @@ class TestWriteDiagnosticCommonProps:
         second_declined = Boolean()
         second_declined.setValue(True)
         common_props.setResponseOnSecondDeclinedRequest(second_declined)
+        common_props.setTypeOfEventCombinationSupported(DiagnosticEventCombinationBehaviorEnum().setValue(DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE))
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeDiagnosticCommonProps(parent, common_props)
@@ -85,6 +87,7 @@ class TestWriteDiagnosticCommonProps:
         assert conditional.find("RESET-PENDING-BIT-ON-OVERFLOW").text == "false"
         assert conditional.find("RESPONSE-ON-ALL-REQUEST-SIDS").text == "false"
         assert conditional.find("RESPONSE-ON-SECOND-DECLINED-REQUEST").text == "true"
+        assert conditional.find("TYPE-OF-EVENT-COMBINATION-SUPPORTED").text == "EVENT-COMBINATION-ON-STORAGE"
         tags = [c.tag for c in conditional]
         assert tags == [
             "AUTHENTICATION-TIMEOUT",
@@ -96,6 +99,7 @@ class TestWriteDiagnosticCommonProps:
             "RESET-PENDING-BIT-ON-OVERFLOW",
             "RESPONSE-ON-ALL-REQUEST-SIDS",
             "RESPONSE-ON-SECOND-DECLINED-REQUEST",
+            "TYPE-OF-EVENT-COMBINATION-SUPPORTED",
         ]
 
     def test_write_unset_fields_emits_empty_conditional(self):
@@ -125,6 +129,7 @@ class TestWriteDiagnosticCommonProps:
         max_number.setValue("10")
         common_props.setMaxNumberOfRequestCorrectlyReceivedResponsePending(max_number)
         common_props.setOccurrenceCounterProcessing(DiagnosticOccurrenceCounterProcessingEnum().setValue(DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT))
+        common_props.setTypeOfEventCombinationSupported(DiagnosticEventCombinationBehaviorEnum().setValue(DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL))
         confirmed = Boolean()
         confirmed.setValue(True)
         common_props.setResetConfirmedBitOnOverflow(confirmed)
@@ -149,6 +154,8 @@ class TestWriteDiagnosticCommonProps:
             assert common_props_2.getMaxNumberOfRequestCorrectlyReceivedResponsePending().getValue() == 10
             assert common_props_2.getOccurrenceCounterProcessing() is not None
             assert common_props_2.getOccurrenceCounterProcessing().getValue() == "testFailedBit"
+            assert common_props_2.getTypeOfEventCombinationSupported() is not None
+            assert common_props_2.getTypeOfEventCombinationSupported().getValue() == "eventCombinationOnRetrieval"
             assert common_props_2.getResetConfirmedBitOnOverflow() is not None
             assert common_props_2.getResetConfirmedBitOnOverflow().getValue() is True
         finally:

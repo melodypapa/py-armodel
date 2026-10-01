@@ -511,6 +511,13 @@ No deviations — both Table 4.20 literals modeled in displayed order (`CONFIRME
 
 No deviations — all five Table 4.21 literals modeled in displayed order (`ISO11992_4 = "iso11992_4"` atp.EnumerationLiteralIndex=0, `ISO14229_1 = "iso14229_1"` =1, `ISO15031_6 = "iso15031_6"` =2, `SAEJ1939_73 = "saeJ1939_73"` =3, `SAEJ2012_DA = "saeJ2012_da"` =4); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); no XML token map registered yet: the Table 4.21 consuming attribute DiagnosticMemoryDestinationPrimary.typeOfDtcSupported is not modeled (DiagnosticMemoryDestinationPrimary still a queued stub; the DiagnosticCommonProps.typeOfDtcSupported XSD twin carries atp.Status="removed" — Rule 0015, per the DiagnosticCommonProps deviation row) — the map (iso11992_4→ISO-11992--4, iso14229_1→ISO-14229--1, iso15031_6→ISO-15031--6, saeJ1939_73→SAE-J-1939--73, saeJ2012_da→SAE-J-2012--DA, AR:DIAGNOSTIC-TYPE-OF-DTC-SUPPORTED-ENUM--SIMPLE) lands with the consuming class's sync.
 
+## `DiagnosticEventCombinationBehaviorEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 67  | **table:** Table 4.23
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — both Table 4.23 literals modeled in displayed order (`EVENT_COMBINATION_ON_RETRIEVAL = "eventCombinationOnRetrieval"` atp.EnumerationLiteralIndex=1, `EVENT_COMBINATION_ON_STORAGE = "eventCombinationOnStorage"` atp.EnumerationLiteralIndex=0 — displayed order differs from the index order, the markdown row order wins, Rule 0001.11); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP` (eventCombinationOnRetrieval→EVENT-COMBINATION-ON-RETRIEVAL, eventCombinationOnStorage→EVENT-COMBINATION-ON-STORAGE, AR:DIAGNOSTIC-EVENT-COMBINATION-BEHAVIOR-ENUM--SIMPLE) was pre-registered in the parser and writer map blocks by the DiagnosticCommonProps sync (0b2c7c2fa); this pass landed the deferred typed-value coverage — DiagnosticCommonProps.setTypeOfEventCombinationSupported model test plus TYPE-OF-EVENT-COMBINATION-SUPPORTED field-value and round-trip assertions in the DiagnosticCommonProps parser/writer tests.
+
 ## `DiagnosticCommonProps`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 65  | **table:** Table 4.19
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`

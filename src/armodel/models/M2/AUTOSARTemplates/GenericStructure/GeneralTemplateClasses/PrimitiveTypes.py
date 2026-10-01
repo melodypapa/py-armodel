@@ -1686,7 +1686,29 @@ class DiagnosticEventClearAllowedEnum(AREnum):
 
 
 class DiagnosticEventCombinationBehaviorEnum(AREnum):
-    pass
+    """
+    Select type of Event Combination support
+    """
+
+    # DiagnosticEventCombinationBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.23, p.67
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Event combination on retrieval is used to combine events. For each event an individual event memory entry is created, while reporting the data via UDS, the data is combined. Tags: atp.EnumerationLiteralIndex=1
+    EVENT_COMBINATION_ON_RETRIEVAL = "eventCombinationOnRetrieval"
+
+    # Event combination on storage is used to combine events. Only one memory entry exists for each DTC which is also reported via UDS. Tags: atp.EnumerationLiteralIndex=0
+    EVENT_COMBINATION_ON_STORAGE = "eventCombinationOnStorage"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL,
+                DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE,
+            ]
+        )
 
 
 class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):

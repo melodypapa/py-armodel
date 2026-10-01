@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagnosticEventCombinationBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -1663,3 +1664,46 @@ class TestDiagnosticTypeOfDtcSupportedEnum:
         enum.setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1)
 
         assert enum.getValue() == "iso14229_1"
+
+
+class TestDiagnosticEventCombinationBehaviorEnum:
+    """
+    Test class for DiagnosticEventCombinationBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.23, p.67
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventCombinationBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventCombinationBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "eventCombinationOnRetrieval",
+            "eventCombinationOnStorage",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventCombinationBehaviorEnum member values.
+        """
+        enum = DiagnosticEventCombinationBehaviorEnum()
+
+        assert DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL == "eventCombinationOnRetrieval"
+        assert DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE == "eventCombinationOnStorage"
+
+        assert enum.validateEnumValue("eventCombinationOnRetrieval") is True
+        assert enum.validateEnumValue("eventCombinationOnStorage") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventCombinationBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventCombinationBehaviorEnum()
+        enum.setValue(DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL)
+
+        assert enum.getValue() == "eventCombinationOnRetrieval"
