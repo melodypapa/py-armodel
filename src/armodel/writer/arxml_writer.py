@@ -414,6 +414,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticSecurityAccess,
+    DiagnosticTroubleCodeJ1939,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
@@ -1261,6 +1262,13 @@ DTC_KIND_XML_MAP = {
 DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP = {
     "respondAfterReset": "RESPOND-AFTER-RESET",
     "respondBeforeReset": "RESPOND-BEFORE-RESET",
+}
+
+#: Mapping between DiagnosticTroubleCodeJ1939DtcKindEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-TROUBLE-CODE-J-1939-DTC-KIND-ENUM--SIMPLE).
+DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP = {
+    "serviceOnly": "SERVICE-ONLY",
+    "standard": "STANDARD",
 }
 
 #: Mapping between DiagnosticOccurrenceCounterProcessingEnum literal values and their XML element text
@@ -13796,6 +13804,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in spn_refs:
                 self.setChildElementOptionalRefType(refs_tag, "SPN-REF", ref)
 
+    def writeDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
+        self.logger.debug("Write DiagnosticTroubleCodeJ1939 %s" % trouble_code.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE-J-1939")
+        self.writeIdentifiable(child_element, trouble_code)
+        self.setChildElementOptionalRefType(child_element, "DTC-PROPS-REF", trouble_code.getDtcPropsRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "FMI", trouble_code.getFmi())
+        self._writeEnumToken(child_element, "KIND", trouble_code.getKind(), DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP)
+        self.setChildElementOptionalRefType(child_element, "NODE-REF", trouble_code.getNodeRef())
+        self.setChildElementOptionalRefType(child_element, "SPN-REF", trouble_code.getSpnRef())
+
     def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
         self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
@@ -15129,6 +15147,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticJ1939FreezeFrame(element, ar_element)
         elif isinstance(ar_element, DiagnosticJ1939Spn):
             self.writeDiagnosticJ1939Spn(element, ar_element)
+        elif isinstance(ar_element, DiagnosticTroubleCodeJ1939):
+            self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
         elif isinstance(ar_element, DiagnosticCustomServiceClass):

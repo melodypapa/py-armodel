@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
     LifeCycleStateDefinitionGroup,
@@ -48,6 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
+    DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -3330,3 +3332,116 @@ class TestDiagnosticJ1939ExpandedFreezeFrame:
 
         duplicate = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
         assert duplicate is expanded_freeze_frame  # duplicate short name returns the existing element
+
+
+class TestDiagnosticTroubleCodeJ1939:
+    """
+    Test class for DiagnosticTroubleCodeJ1939 functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.223, p.222
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model specific trouble-code related properties for J1939. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"
+
+    def _make_obj(self) -> DiagnosticTroubleCodeJ1939:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTroubleCodeJ1939(ar_root, "TestDtc")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticTroubleCodeJ1939 instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestDtc"
+        assert obj.getDtcPropsRef() is None
+        assert obj.getFmi() is None
+        assert obj.getKind() is None
+        assert obj.getNodeRef() is None
+        assert obj.getSpnRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticTroubleCodeJ1939.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeJ1939.__init__.__doc__ is None
+
+    def test_get_set_fmi(self):
+        """
+        Round-trips the fmi attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("9")
+        result = obj.setFmi(value)
+        assert result is obj  # method chaining
+        assert obj.getFmi() is value
+        assert obj.getFmi().getValue() == 9
+
+        result = obj.setFmi(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFmi() is value  # None is a no-op
+
+    def test_get_set_kind(self):
+        """
+        Round-trips the kind enum attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        kind = DiagnosticTroubleCodeJ1939DtcKindEnum()
+        kind.setValue(DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY)
+        result = obj.setKind(kind)
+        assert result is obj  # method chaining
+        assert obj.getKind() is kind
+        assert obj.getKind().getValue() == "serviceOnly"
+
+        result = obj.setKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getKind() is kind  # None is a no-op
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the dtcProps/node/spn references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        dtc_props_ref = RefType().setValue("/AUTOSAR/DtcProps/Props1").setDest("DIAGNOSTIC-TROUBLE-CODE-PROPS")
+        node_ref = RefType().setValue("/AUTOSAR/J1939Nodes/Node1").setDest("DIAGNOSTIC-J-1939-NODE")
+        spn_ref = RefType().setValue("/AUTOSAR/Spns/Spn1").setDest("DIAGNOSTIC-J-1939-SPN")
+        obj.setDtcPropsRef(dtc_props_ref)
+        obj.setNodeRef(node_ref)
+        obj.setSpnRef(spn_ref)
+
+        assert obj.getDtcPropsRef() is dtc_props_ref
+        assert obj.getNodeRef() is node_ref
+        assert obj.getSpnRef() is spn_ref
+
+        obj.setDtcPropsRef(None)
+        obj.setNodeRef(None)
+        obj.setSpnRef(None)
+        assert obj.getDtcPropsRef() is dtc_props_ref  # None is a no-op
+        assert obj.getNodeRef() is node_ref  # None is a no-op
+        assert obj.getSpnRef() is spn_ref  # None is a no-op
+
+    def test_create_diagnostic_trouble_code_j1939(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticTroubleCodes")
+        trouble_code = package.createDiagnosticTroubleCodeJ1939("Dtc1")
+
+        assert trouble_code is not None
+        assert isinstance(trouble_code, DiagnosticTroubleCodeJ1939)
+        assert trouble_code.getShortName() == "Dtc1"
+        assert package.getElement("Dtc1", DiagnosticTroubleCodeJ1939) is trouble_code
+
+        duplicate = package.createDiagnosticTroubleCodeJ1939("Dtc1")
+        assert duplicate is trouble_code  # duplicate short name returns the existing element

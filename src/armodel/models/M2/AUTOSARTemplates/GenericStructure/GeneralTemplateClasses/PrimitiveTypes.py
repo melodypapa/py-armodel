@@ -1870,7 +1870,29 @@ class DiagnosticTestResultUpdateEnum(AREnum):
     pass
 
 class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to further specify a J1939 DTC in terms of its semantics.
+    """
+
+    # DiagnosticTroubleCodeJ1939DtcKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.222, p.221
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # this represents a DTC that is only relevant for service in a garage, reported by e.g. DM53. Tags: atp.EnumerationLiteralIndex=0
+    SERVICE_ONLY = "serviceOnly"
+
+    # This represents a non-specific DTC reported by e.g. DM1. Tags: atp.EnumerationLiteralIndex=1
+    STANDARD = "standard"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY,
+                DiagnosticTroubleCodeJ1939DtcKindEnum.STANDARD,
+            ]
+        )
 
 class DiagnosticTypeOfDtcSupportedEnum(AREnum):
     """

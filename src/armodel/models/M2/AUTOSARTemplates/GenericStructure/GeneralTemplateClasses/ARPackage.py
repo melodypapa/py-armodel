@@ -109,6 +109,7 @@ __all__ = [
     "DiagnosticVerifyCertificateBidirectional",
     "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
     "DiagnosticTroubleCodeGroup",
+    "DiagnosticTroubleCodeJ1939",
     "DiagnosticTroubleCode",
     "DiagnosticTransferExit",
     "DiagnosticTestRoutineIdentifier",
@@ -381,7 +382,7 @@ __all__ = [
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DiagnosticTroubleCodeJ1939DtcKindEnum, Identifier, NameToken, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
 
@@ -2091,6 +2092,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             freeze_frame = DiagnosticJ1939FreezeFrame(self, short_name)
             self.addElement(freeze_frame)
         return self.getElement(short_name, DiagnosticJ1939FreezeFrame)
+
+    def createDiagnosticTroubleCodeJ1939(self, short_name: str) -> DiagnosticTroubleCodeJ1939:
+        """
+        Creates a new DiagnosticTroubleCodeJ1939 with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCodeJ1939 represents the ability to model specific
+        trouble-code related properties for J1939.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCodeJ1939
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCodeJ1939 instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticTroubleCodeJ1939):
+            trouble_code = DiagnosticTroubleCodeJ1939(self, short_name)
+            self.addElement(trouble_code)
+        return self.getElement(short_name, DiagnosticTroubleCodeJ1939)
 
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
@@ -4227,6 +4247,118 @@ class DiagnosticTroubleCode(ARElement, ABC):
 
 class DiagnosticTroubleCodeGroup(ARElement):
     pass
+
+
+class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
+    """This meta-class represents the ability to model specific trouble-code related properties for J1939. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"""
+
+    # DiagnosticTroubleCodeJ1939 method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.223, p.222
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcPropsRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDtcPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFmi            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmi            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNodeRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpnRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpnRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defined properties associated with the J1939 DTC.
+        self.dtcPropsRef: Optional[RefType] = None
+
+        # This attribute represents the behavior of the Failure Mode Indicator.
+        self.fmi: Optional[PositiveInteger] = None
+
+        # This attribute further specifies the DTC in terms of its semantics.
+        self.kind: Optional[DiagnosticTroubleCodeJ1939DtcKindEnum] = None
+
+        # This represents the related DiagnosticJ1939Node.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the releated SPN.
+        self.spnRef: Optional[RefType] = None
+
+    def getDtcPropsRef(self) -> Optional[RefType]:
+        """
+        Defined properties associated with the J1939 DTC.
+        """
+        return self.dtcPropsRef
+
+    def setDtcPropsRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeJ1939:
+        """
+        Defined properties associated with the J1939 DTC.
+        A None value is a no-op and does not overwrite an existing dtcProps reference.
+        """
+        if value is not None:
+            self.dtcPropsRef = value
+        return self
+
+    def getFmi(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the behavior of the Failure Mode Indicator.
+        """
+        return self.fmi
+
+    def setFmi(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This attribute represents the behavior of the Failure Mode Indicator.
+        A None value is a no-op and does not overwrite an existing fmi.
+        """
+        if value is not None:
+            self.fmi = value
+        return self
+
+    def getKind(self) -> Optional[DiagnosticTroubleCodeJ1939DtcKindEnum]:
+        """
+        This attribute further specifies the DTC in terms of its semantics.
+        """
+        return self.kind
+
+    def setKind(self, value: Optional[DiagnosticTroubleCodeJ1939DtcKindEnum]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This attribute further specifies the DTC in terms of its semantics.
+        A None value is a no-op and does not overwrite an existing kind.
+        """
+        if value is not None:
+            self.kind = value
+        return self
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the related DiagnosticJ1939Node.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This represents the related DiagnosticJ1939Node.
+        A None value is a no-op and does not overwrite an existing node reference.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
+
+    def getSpnRef(self) -> Optional[RefType]:
+        """
+        This represents the releated SPN.
+        """
+        return self.spnRef
+
+    def setSpnRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This represents the releated SPN.
+        A None value is a no-op and does not overwrite an existing spn reference.
+        """
+        if value is not None:
+            self.spnRef = value
+        return self
 
 
 class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):

@@ -537,6 +537,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
 )
@@ -571,6 +572,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticResponseToEcuResetEnum,
+    DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -1387,6 +1389,11 @@ DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP = {
 DIAGNOSTIC_ROUTINE_TYPE_XML_MAP = {
     "asynchronous": "ASYNCHRONOUS",
     "synchronous": "SYNCHRONOUS",
+}
+
+DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP = {
+    "serviceOnly": "SERVICE-ONLY",
+    "standard": "STANDARD",
 }
 
 DIAGNOSTIC_VALUE_ACCESS_XML_MAP = {
@@ -10485,6 +10492,14 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SPN-REFS/SPN-REF"):
             expanded_freeze_frame.addSpnRef(ref)
 
+    def readDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
+        self.readIdentifiable(element, trouble_code)
+        trouble_code.setDtcPropsRef(self.getChildElementOptionalRefType(element, "DTC-PROPS-REF"))
+        trouble_code.setFmi(self.getChildElementOptionalPositiveInteger(element, "FMI"))
+        trouble_code.setKind(self._readEnumToken(element, "KIND", DiagnosticTroubleCodeJ1939DtcKindEnum, DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP))
+        trouble_code.setNodeRef(self.getChildElementOptionalRefType(element, "NODE-REF"))
+        trouble_code.setSpnRef(self.getChildElementOptionalRefType(element, "SPN-REF"))
+
     def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
         self.readIdentifiable(element, did)
         id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
@@ -15496,6 +15511,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-J-1939-SPN":
                 j1939_spn = parent.createDiagnosticJ1939Spn(self.getShortName(child_element))
                 self.readDiagnosticJ1939Spn(child_element, j1939_spn)
+            elif tag_name == "DIAGNOSTIC-TROUBLE-CODE-J-1939":
+                trouble_code = parent.createDiagnosticTroubleCodeJ1939(self.getShortName(child_element))
+                self.readDiagnosticTroubleCodeJ1939(child_element, trouble_code)
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)
