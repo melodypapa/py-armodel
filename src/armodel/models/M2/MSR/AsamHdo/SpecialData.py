@@ -1,3 +1,4 @@
+from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, Numerical, RefType, VerbatimStringPlain
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
@@ -42,7 +43,7 @@ class Sd(ARObject):
         """
         return self.gid
 
-    def setGID(self, value: Optional[NameToken]) -> "Sd":
+    def setGID(self, value: Optional[NameToken]) -> Sd:
         """
         This attributes specifies an identifier. Gid comes from the SGML/XML-Term "Generic Identifier" which is the element name in XML. The role of this attribute is the same as the name of an XML - element. A None value is a no-op and does not overwrite an existing gid.
         """
@@ -56,7 +57,7 @@ class Sd(ARObject):
         """
         return self.value
 
-    def setValue(self, value: Optional[VerbatimStringPlain]) -> "Sd":
+    def setValue(self, value: Optional[VerbatimStringPlain]) -> Sd:
         """
         This is the value of the special data. A None value is a no-op and does not overwrite an existing value.
         """
@@ -70,7 +71,7 @@ class Sd(ARObject):
         """
         return self.xmlSpace
 
-    def setXmlSpace(self, value: Optional[XmlSpaceEnum]) -> "Sd":
+    def setXmlSpace(self, value: Optional[XmlSpaceEnum]) -> Sd:
         """
         This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C. A None value is a no-op and does not overwrite an existing xmlSpace.
         """
@@ -104,7 +105,7 @@ class SdgCaption(MultilanguageReferrable):
         """
         return self.desc
 
-    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "SdgCaption":
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> SdgCaption:
         """
         This represents a general but brief (one paragraph) description what the special data in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the special data in question. A None value is a no-op and does not overwrite an existing desc.
         """
@@ -143,7 +144,7 @@ class Sdf(ARObject):
         """
         return self.gid
 
-    def setGID(self, value: Optional[NameToken]) -> "Sdf":
+    def setGID(self, value: Optional[NameToken]) -> Sdf:
         """
         This attributes specifies an identifier. Gid comes from the SGML/XML-Term "Generic Identifier" which is the element name in XML. The role of this attribute is the same as the name of an XML - element. A None value is a no-op and does not overwrite an existing gid.
         """
@@ -157,7 +158,7 @@ class Sdf(ARObject):
         """
         return self.value
 
-    def setValue(self, value: Optional[Numerical]) -> "Sdf":
+    def setValue(self, value: Optional[Numerical]) -> Sdf:
         """
         This is the value of the special data. A None value is a no-op and does not overwrite an existing value.
         """
@@ -197,7 +198,7 @@ class SdgContents(ARObject):
         self.sdf: List[Sdf] = []
 
         # This aggregation allows to express nested special data groups. By this, any structure can be represented in SpeicalData.
-        self.sdg: List["Sdg"] = []
+        self.sdg: List[Sdg] = []
 
         # Reference to any identifiable element. This allows to use Sdg even to establish arbitrary relationships.
         self.sdxRefs: List[RefType] = []
@@ -205,7 +206,7 @@ class SdgContents(ARObject):
         # Additional reference with variant support.
         self.sdxfRefs: List[RefType] = []
 
-    def addSd(self, sd: Optional[Sd]) -> "SdgContents":
+    def addSd(self, sd: Optional[Sd]) -> SdgContents:
         """
         This is one particular special data element. A None value is a no-op and is not appended.
         """
@@ -219,7 +220,7 @@ class SdgContents(ARObject):
         """
         return self.sd
 
-    def addSdf(self, sdf: Optional[Sdf]) -> "SdgContents":
+    def addSdf(self, sdf: Optional[Sdf]) -> SdgContents:
         """
         This is one particular special data element. A None value is a no-op and is not appended.
         """
@@ -233,7 +234,7 @@ class SdgContents(ARObject):
         """
         return self.sdf
 
-    def addSdg(self, sdg: Optional["Sdg"]) -> "SdgContents":
+    def addSdg(self, sdg: Optional[Sdg]) -> SdgContents:
         """
         This aggregation allows to express nested special data groups. By this, any structure can be represented in SpeicalData. A None value is a no-op and is not appended.
         """
@@ -241,13 +242,13 @@ class SdgContents(ARObject):
             self.sdg.append(sdg)
         return self
 
-    def getSdgs(self) -> List["Sdg"]:
+    def getSdgs(self) -> List[Sdg]:
         """
         This aggregation allows to express nested special data groups. By this, any structure can be represented in SpeicalData.
         """
         return self.sdg
 
-    def addSdxRef(self, value: Optional[RefType]) -> "SdgContents":
+    def addSdxRef(self, value: Optional[RefType]) -> SdgContents:
         """
         Reference to any identifiable element. This allows to use Sdg even to establish arbitrary relationships. A None value is a no-op and is not appended.
         """
@@ -261,7 +262,7 @@ class SdgContents(ARObject):
         """
         return self.sdxRefs
 
-    def addSdxfRef(self, value: Optional[RefType]) -> "SdgContents":
+    def addSdxfRef(self, value: Optional[RefType]) -> SdgContents:
         """
         Additional reference with variant support. A None value is a no-op and is not appended.
         """
@@ -311,7 +312,7 @@ class Sdg(ARObject, VariationPointCapable):
         """
         return self.gid
 
-    def setGID(self, value: Optional[NameToken]) -> "Sdg":
+    def setGID(self, value: Optional[NameToken]) -> Sdg:
         """
         This attributes specifies an identifier. Gid comes from the SGML/XML-Term "Generic Identifier" which is the element name in XML. The role of this attribute is the same as the name of an XML - element. A None value is a no-op and does not overwrite an existing gid.
         """
@@ -339,7 +340,7 @@ class Sdg(ARObject, VariationPointCapable):
         """
         return self.sdgContentsType
 
-    def setSdgContentsType(self, value: Optional[SdgContents]) -> "Sdg":
+    def setSdgContentsType(self, value: Optional[SdgContents]) -> Sdg:
         """
         This is the content of the Sdg. A None value is a no-op and does not overwrite an existing sdgContentsType.
         """

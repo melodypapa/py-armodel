@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -42,7 +43,7 @@ class PrivacyLevel(ARObject):
         """
         return self.compuMethodRef
 
-    def setCompuMethodRef(self, value: Optional[RefType]) -> "PrivacyLevel":
+    def setCompuMethodRef(self, value: Optional[RefType]) -> PrivacyLevel:
         """
         Reference to CompuMethod of category TEXTTABLE that defines the supported user-defined privacy levels.
 
@@ -58,7 +59,7 @@ class PrivacyLevel(ARObject):
         """
         return self.privacyLevel
 
-    def setPrivacyLevel(self, value: Optional[PositiveInteger]) -> "PrivacyLevel":
+    def setPrivacyLevel(self, value: Optional[PositiveInteger]) -> PrivacyLevel:
         """
         The value that represents the privacy level and is transported in the Extension Header.
 
@@ -127,7 +128,7 @@ class DltArgument(Identifiable):
         # This attribute defines whether the length of the Dlt Argument is variable (determined at runtime) or not.
         self.variableLength: Optional[Boolean] = None
 
-    def createDltArgumentEntry(self, short_name: str) -> "DltArgument":
+    def createDltArgumentEntry(self, short_name: str) -> DltArgument:
         """
         This aggregation is used to describe subElements of a Dlt Argument that defines a Structure.
         """
@@ -137,7 +138,7 @@ class DltArgument(Identifiable):
             self.dltArgumentEntries.append(entry)
         return self.getElement(short_name, DltArgument)
 
-    def getDltArgumentEntries(self) -> List["DltArgument"]:
+    def getDltArgumentEntries(self) -> List[DltArgument]:
         """
         This aggregation is used to describe subElements of a Dlt Argument that defines a Structure.
         """
@@ -149,7 +150,7 @@ class DltArgument(Identifiable):
         """
         return self.length
 
-    def setLength(self, value: Optional[PositiveInteger]) -> "DltArgument":
+    def setLength(self, value: Optional[PositiveInteger]) -> DltArgument:
         """
         Describes the DltArgument length in case of Arrays and Strings in number of BaseTypes.
 
@@ -165,7 +166,7 @@ class DltArgument(Identifiable):
         """
         return self.networkRepresentation
 
-    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> "DltArgument":
+    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> DltArgument:
         """
         Definition of the networkRepresentation of the Dlt Argument.
 
@@ -181,7 +182,7 @@ class DltArgument(Identifiable):
         """
         return self.optional
 
-    def setOptional(self, value: Optional[Boolean]) -> "DltArgument":
+    def setOptional(self, value: Optional[Boolean]) -> DltArgument:
         """
         This attribute defines whether the argument is optional or not. If set to true, the argument can be omitted from the payload of a DLT message.
 
@@ -197,7 +198,7 @@ class DltArgument(Identifiable):
         """
         return self.predefinedText
 
-    def setPredefinedText(self, value: Optional[Boolean]) -> "DltArgument":
+    def setPredefinedText(self, value: Optional[Boolean]) -> DltArgument:
         """
         This attribute defines whether the DltArgument is a predefinedText (Static Data).
 
@@ -213,7 +214,7 @@ class DltArgument(Identifiable):
         """
         return self.variableLength
 
-    def setVariableLength(self, value: Optional[Boolean]) -> "DltArgument":
+    def setVariableLength(self, value: Optional[Boolean]) -> DltArgument:
         """
         This attribute defines whether the length of the Dlt Argument is variable (determined at runtime) or not.
 
@@ -270,7 +271,7 @@ class DltMessage(Identifiable, VariationPointCapable):
         # The Privacy Level helps to identify the Log and Trace content towards the degree of privacy to it.
         self.privacyLevel: Optional[PrivacyLevel] = None
 
-    def createDltArgument(self, short_name: str) -> "DltArgument":
+    def createDltArgument(self, short_name: str) -> DltArgument:
         """
         Ordered collection of DltArguments in the DltMessage.
         """
@@ -280,7 +281,7 @@ class DltMessage(Identifiable, VariationPointCapable):
             self.dltArguments.append(argument)
         return self.getElement(short_name, DltArgument)
 
-    def getDltArguments(self) -> List["DltArgument"]:
+    def getDltArguments(self) -> List[DltArgument]:
         """
         Ordered collection of DltArguments in the DltMessage.
         """
@@ -292,7 +293,7 @@ class DltMessage(Identifiable, VariationPointCapable):
         """
         return self.messageId
 
-    def setMessageId(self, value: Optional[PositiveInteger]) -> "DltMessage":
+    def setMessageId(self, value: Optional[PositiveInteger]) -> DltMessage:
         """
         This attribute defines the unique Id for the DltMessage.
 
@@ -308,7 +309,7 @@ class DltMessage(Identifiable, VariationPointCapable):
         """
         return self.messageLineNumber
 
-    def setMessageLineNumber(self, value: Optional[PositiveInteger]) -> "DltMessage":
+    def setMessageLineNumber(self, value: Optional[PositiveInteger]) -> DltMessage:
         """
         This attribute describes the position in the source file in which this log message was called.
 
@@ -324,7 +325,7 @@ class DltMessage(Identifiable, VariationPointCapable):
         """
         return self.messageSourceFile
 
-    def setMessageSourceFile(self, value: Optional[String]) -> "DltMessage":
+    def setMessageSourceFile(self, value: Optional[String]) -> DltMessage:
         """
         This attribute describes the source file in which this log message was called.
 
@@ -340,7 +341,7 @@ class DltMessage(Identifiable, VariationPointCapable):
         """
         return self.messageTypeInfo
 
-    def setMessageTypeInfo(self, value: Optional[String]) -> "DltMessage":
+    def setMessageTypeInfo(self, value: Optional[String]) -> DltMessage:
         """
         This attribute describes the message Type
 
@@ -356,7 +357,7 @@ class DltMessage(Identifiable, VariationPointCapable):
         """
         return self.privacyLevel
 
-    def setPrivacyLevel(self, value: Optional[PrivacyLevel]) -> "DltMessage":
+    def setPrivacyLevel(self, value: Optional[PrivacyLevel]) -> DltMessage:
         """
         The Privacy Level helps to identify the Log and Trace content towards the degree of privacy to it.
 
@@ -408,7 +409,7 @@ class DltContext(ARElement):
         """
         return self.contextDescription
 
-    def setContextDescription(self, value: Optional[String]) -> "DltContext":
+    def setContextDescription(self, value: Optional[String]) -> DltContext:
         """
         This attribute can be used to describe the contextId that is used in the log and trace message in more detail.
 
@@ -424,7 +425,7 @@ class DltContext(ARElement):
         """
         return self.contextId
 
-    def setContextId(self, value: Optional[String]) -> "DltContext":
+    def setContextId(self, value: Optional[String]) -> DltContext:
         """
         This attribute is used to group log and trace messages produced by an application to distinguish functionality.
 
@@ -434,7 +435,7 @@ class DltContext(ARElement):
             self.contextId = value
         return self
 
-    def addDltMessageRef(self, value: Optional[RefType]) -> "DltContext":
+    def addDltMessageRef(self, value: Optional[RefType]) -> DltContext:
         """
         Group of Log and Trace Messages assigned to the Dlt Context
 
@@ -492,7 +493,7 @@ class DltApplication(Identifiable, VariationPointCapable):
         """
         return self.applicationDescription
 
-    def setApplicationDescription(self, value: Optional[String]) -> "DltApplication":
+    def setApplicationDescription(self, value: Optional[String]) -> DltApplication:
         """
         This attribute can be used to describe the applicationId that is used in the log and trace message in more detail.
 
@@ -508,7 +509,7 @@ class DltApplication(Identifiable, VariationPointCapable):
         """
         return self.applicationId
 
-    def setApplicationId(self, value: Optional[String]) -> "DltApplication":
+    def setApplicationId(self, value: Optional[String]) -> DltApplication:
         """
         This attribute identifies the SW-C/BSW module in the log and trace message.
 
@@ -518,7 +519,7 @@ class DltApplication(Identifiable, VariationPointCapable):
             self.applicationId = value
         return self
 
-    def addContextRef(self, value: Optional[RefType]) -> "DltApplication":
+    def addContextRef(self, value: Optional[RefType]) -> DltApplication:
         """
         Definition of ContextIds for the Application.
 
@@ -583,7 +584,7 @@ class DltEcu(ARElement):
         """
         return self.ecuId
 
-    def setEcuId(self, value: Optional[String]) -> "DltEcu":
+    def setEcuId(self, value: Optional[String]) -> DltEcu:
         """
         This attribute defines the name of the ECU for use within the Dlt protocol.
 

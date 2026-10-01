@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # This module contains AUTOSAR System Template classes for DoIP (Diagnostics over IP)
 # It defines logic address properties and configurations for DoIP communication
 
@@ -64,7 +66,7 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
         # Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
         self.doIpTesterRoutingActivationRefs: List[RefType] = []
 
-    def addDoIpTesterRoutingActivationRef(self, value: Optional[RefType]) -> "DoIpLogicTesterAddressProps":
+    def addDoIpTesterRoutingActivationRef(self, value: Optional[RefType]) -> DoIpLogicTesterAddressProps:
         """
         Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
         A None value is a no-op and does not extend the doIpTesterRoutingActivationRefs list.
@@ -99,7 +101,7 @@ class DoIpRoutingActivation(Identifiable):
         # Reference to DoIPTargetAddress which is activated on this DoIpRoutingActivation.
         self.doIpTargetAddressRefs: List[RefType] = []
 
-    def addDoIpTargetAddressRef(self, value: Optional[RefType]) -> "DoIpRoutingActivation":
+    def addDoIpTargetAddressRef(self, value: Optional[RefType]) -> DoIpRoutingActivation:
         """
         Reference to DoIPTargetAddress which is activated on this DoIpRoutingActivation.
         A None value is a no-op and does not add to doIpTargetAddressRefs.
@@ -205,7 +207,7 @@ class DoIpInterface(Identifiable):
         """
         return self.aliveCheckResponseTimeout
 
-    def setAliveCheckResponseTimeout(self, value: Optional[TimeValue]) -> "DoIpInterface":
+    def setAliveCheckResponseTimeout(self, value: Optional[TimeValue]) -> DoIpInterface:
         """
         This attribute defines the timeout in seconds for waiting for response to an Alive Check request before the connection is considered to be disconnected. Represents parameter T_TCP_AliveCheck of ISO 13400-2:2012.
         A None value is a no-op and does not overwrite an existing aliveCheckResponseTimeout.
@@ -220,7 +222,7 @@ class DoIpInterface(Identifiable):
         """
         return self.doipChannelCollectionRef
 
-    def setDoipChannelCollectionRef(self, value: Optional[RefType]) -> "DoIpInterface":
+    def setDoipChannelCollectionRef(self, value: Optional[RefType]) -> DoIpInterface:
         """
         Configuration of DoIPChannels available in an DoIpInterface. Each DoIPChannel describes a connection between a doIpSourceAddress and a doIpTargetAddress and the exchange of DcmIPdus between the PduR and DoIP. A DoIP channel is constituted by the set of all DoIpTpConnection elements via which the configured EcuInstance sends or receives SDUs that are sharing the same local diagnosis address and tester address.
         A None value is a no-op and does not overwrite an existing doipChannelCollectionRef.
@@ -229,7 +231,7 @@ class DoIpInterface(Identifiable):
             self.doipChannelCollectionRef = value
         return self
 
-    def addDoipConnectionRef(self, value: Optional[RefType]) -> "DoIpInterface":
+    def addDoipConnectionRef(self, value: Optional[RefType]) -> DoIpInterface:
         """
         DoIP Connections in the DoIpInterface that define the DoIP Pdus that are sent and received via SoAd over TCP or UDP.
         A None value is a no-op and does not add to doipConnectionRefs.
@@ -266,7 +268,7 @@ class DoIpInterface(Identifiable):
         """
         return self.generalInactivityTime
 
-    def setGeneralInactivityTime(self, value: Optional[TimeValue]) -> "DoIpInterface":
+    def setGeneralInactivityTime(self, value: Optional[TimeValue]) -> DoIpInterface:
         """
         This attribute defines the timeout in seconds for maximum inactivity of a TCP socket connection before the DoIP module will close the according socket connection. Represents parameter T_TCP_General_Inactivity of ISO 13400-2:2012
         A None value is a no-op and does not overwrite an existing generalInactivityTime.
@@ -281,7 +283,7 @@ class DoIpInterface(Identifiable):
         """
         return self.initialInactivityTime
 
-    def setInitialInactivityTime(self, value: Optional[TimeValue]) -> "DoIpInterface":
+    def setInitialInactivityTime(self, value: Optional[TimeValue]) -> DoIpInterface:
         """
         This attribute defines the timeout in seconds used for initial inactivity of a connected TCP socket connection directly after socket connection. Represents parameter T_TCP_Initial_Inactivity of ISO 13400-2:2012
         A None value is a no-op and does not overwrite an existing initialInactivityTime.
@@ -296,7 +298,7 @@ class DoIpInterface(Identifiable):
         """
         return self.initialVehicleAnnouncementTime
 
-    def setInitialVehicleAnnouncementTime(self, value: Optional[TimeValue]) -> "DoIpInterface":
+    def setInitialVehicleAnnouncementTime(self, value: Optional[TimeValue]) -> DoIpInterface:
         """
         This attribute defines the waiting time in seconds for sending first vehicle announcement message after IP address assignment. Represents parameter A_DoIP_Announce_Wait of ISO 13400-2:2012
         A None value is a no-op and does not overwrite an existing initialVehicleAnnouncementTime.
@@ -311,7 +313,7 @@ class DoIpInterface(Identifiable):
         """
         return self.isActivationLineDependent
 
-    def setIsActivationLineDependent(self, value: Optional[Boolean]) -> "DoIpInterface":
+    def setIsActivationLineDependent(self, value: Optional[Boolean]) -> DoIpInterface:
         """
         This attribute defines whether the network interface • is started "on-demand" when an activation line is sensed or • is always available.
         A None value is a no-op and does not overwrite an existing isActivationLineDependent.
@@ -326,7 +328,7 @@ class DoIpInterface(Identifiable):
         """
         return self.maxTesterConnections
 
-    def setMaxTesterConnections(self, value: Optional[PositiveInteger]) -> "DoIpInterface":
+    def setMaxTesterConnections(self, value: Optional[PositiveInteger]) -> DoIpInterface:
         """
         Maximum amount of tester connections that shall be maintained at one time before alive check is performed.
         A None value is a no-op and does not overwrite an existing maxTesterConnections.
@@ -335,7 +337,7 @@ class DoIpInterface(Identifiable):
             self.maxTesterConnections = value
         return self
 
-    def addSocketConnectionRef(self, value: Optional[RefType]) -> "DoIpInterface":
+    def addSocketConnectionRef(self, value: Optional[RefType]) -> DoIpInterface:
         """
         DoIP Connections in the DoIpInterface that define the DoIP Pdus that are sent and received via SoAd over TCP or UDP.
         A None value is a no-op and does not add to socketConnectionRefs.
@@ -356,7 +358,7 @@ class DoIpInterface(Identifiable):
         """
         return self.useMacAddressForIdentification
 
-    def setUseMacAddressForIdentification(self, value: Optional[Boolean]) -> "DoIpInterface":
+    def setUseMacAddressForIdentification(self, value: Optional[Boolean]) -> DoIpInterface:
         """
         This attribute defines whether a configured EID at vehicle identification response/vehicle announcement is used or the MAC address. TRUE: Use MAC Address instead of EID for Vehicle identification/announcement. FALSE: Use configured EID for vehicle identification/announcement.
         A None value is a no-op and does not overwrite an existing useMacAddressForIdentification.
@@ -371,7 +373,7 @@ class DoIpInterface(Identifiable):
         """
         return self.useVehicleIdentificationSyncStatus
 
-    def setUseVehicleIdentificationSyncStatus(self, value: Optional[Boolean]) -> "DoIpInterface":
+    def setUseVehicleIdentificationSyncStatus(self, value: Optional[Boolean]) -> DoIpInterface:
         """
         This attribute defines if the optional VIN/GID synchronization status is used additionally in the vehicle identification/announcement.
         A None value is a no-op and does not overwrite an existing useVehicleIdentificationSyncStatus.
@@ -386,7 +388,7 @@ class DoIpInterface(Identifiable):
         """
         return self.vehicleAnnouncementCount
 
-    def setVehicleAnnouncementCount(self, value: Optional[PositiveInteger]) -> "DoIpInterface":
+    def setVehicleAnnouncementCount(self, value: Optional[PositiveInteger]) -> DoIpInterface:
         """
         This attribute defines the number of vehicle announcement messages on IP address assignment. Represents parameter A_DoIP_Announce_Num of ISO 13400-2:2012.
         A None value is a no-op and does not overwrite an existing vehicleAnnouncementCount.
@@ -401,7 +403,7 @@ class DoIpInterface(Identifiable):
         """
         return self.vehicleAnnouncementInterval
 
-    def setVehicleAnnouncementInterval(self, value: Optional[TimeValue]) -> "DoIpInterface":
+    def setVehicleAnnouncementInterval(self, value: Optional[TimeValue]) -> DoIpInterface:
         """
         This attribute defines the waiting time in seconds for sending subsequent vehicle announcement messages. Represents parameter A_DoIP_Announce_Interval of ISO 13400-2:2012
         A None value is a no-op and does not overwrite an existing vehicleAnnouncementInterval.
@@ -434,7 +436,7 @@ class DoIpConfig(ARObject):
         self.doipInterfaces: List[DoIpInterface] = []
 
         # Describes the logical address of the DoIP entity, i.e. the Local Address that will route diagnostic requests to the Dcm of the DoIP entity.
-        self.logicAddress: Optional["DoIpLogicAddress"] = None
+        self.logicAddress: Optional[DoIpLogicAddress] = None
 
     def createDoIpInterface(self, short_name: str) -> DoIpInterface:
         """
@@ -453,7 +455,7 @@ class DoIpConfig(ARObject):
         """
         return self.doipInterfaces
 
-    def createLogicAddress(self, short_name: str) -> "DoIpLogicAddress":
+    def createLogicAddress(self, short_name: str) -> DoIpLogicAddress:
         """
         Describes the logical address of the DoIP entity, i.e. the Local Address that will route diagnostic requests to the Dcm of the DoIP entity.
         """
@@ -463,7 +465,7 @@ class DoIpConfig(ARObject):
             self.logicAddress = DoIpLogicAddress(self, short_name)
         return self.logicAddress
 
-    def getLogicAddress(self) -> Optional["DoIpLogicAddress"]:
+    def getLogicAddress(self) -> Optional[DoIpLogicAddress]:
         """
         Describes the logical address of the DoIP entity, i.e. the Local Address that will route diagnostic requests to the Dcm of the DoIP entity.
         """

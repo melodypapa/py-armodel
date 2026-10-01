@@ -4,6 +4,9 @@ in the CommonStructure module. Mode declarations define different operational st
 that software components or BSW modules can be in, along with transitions between states.
 """
 
+from __future__ import annotations
+
+
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -83,7 +86,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         return self.firstModeGroupRef
 
-    def setFirstModeGroupRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
+    def setFirstModeGroupRef(self, value: Optional[RefType]) -> ModeDeclarationGroupPrototypeMapping:
         """
         ModeDeclarationGroupPrototype to be mapped.
         A None value is a no-op and does not overwrite an existing firstModeGroupRef.
@@ -107,7 +110,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         return self.modeDeclarationMappingSetRef
 
-    def setModeDeclarationMappingSetRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
+    def setModeDeclarationMappingSetRef(self, value: Optional[RefType]) -> ModeDeclarationGroupPrototypeMapping:
         """
         This represents the available mappings of Mode Declarations in the context ot this ModeDeclarationGroup Prototype.
         A None value is a no-op and does not overwrite an existing modeDeclarationMappingSetRef.
@@ -131,7 +134,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         return self.secondModeGroupRef
 
-    def setSecondModeGroupRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
+    def setSecondModeGroupRef(self, value: Optional[RefType]) -> ModeDeclarationGroupPrototypeMapping:
         """
         ModeDeclarationGroupPrototype to be mapped.
         A None value is a no-op and does not overwrite an existing secondModeGroupRef.
@@ -175,7 +178,7 @@ class ModeDeclaration(AtpStructureElement, AtpBlueprintable, VariationPointCapab
         """
         return self.value
 
-    def setValue(self, value: Optional[PositiveInteger]) -> "ModeDeclaration":
+    def setValue(self, value: Optional[PositiveInteger]) -> ModeDeclaration:
         """
         The RTE shall take the value of this attribute for generating the source code representation of this Mode Declaration.
         A None value is a no-op and does not overwrite an existing value.
@@ -229,7 +232,7 @@ class ModeRequestTypeMap(ARObject):
         """
         return self.implementationDataTypeRef
 
-    def setImplementationDataTypeRef(self, value: Optional[RefType]) -> "ModeRequestTypeMap":
+    def setImplementationDataTypeRef(self, value: Optional[RefType]) -> ModeRequestTypeMap:
         """
         This is the corresponding AbstractImplementationDataType. It shall be modeled along the idea of an "unsigned integer-like" data type.
 
@@ -245,7 +248,7 @@ class ModeRequestTypeMap(ARObject):
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: Optional[RefType]) -> "ModeRequestTypeMap":
+    def setModeGroupRef(self, value: Optional[RefType]) -> ModeRequestTypeMap:
         """
         This is the corresponding ModeDeclarationGroup.
 
@@ -324,7 +327,7 @@ class ModeDeclarationGroup(AtpType):
         """
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name))
 
-    def setInitialModeRef(self, ref: Optional[RefType]) -> "ModeDeclarationGroup":
+    def setInitialModeRef(self, ref: Optional[RefType]) -> ModeDeclarationGroup:
         """
         The initial mode of the ModeDeclarationGroup. This mode is active before any mode switches occurred.
         A None value is a no-op and does not overwrite an existing value.
@@ -348,7 +351,7 @@ class ModeDeclarationGroup(AtpType):
         """
         return self.initialModeRef
 
-    def setOnTransitionValue(self, value: Optional[PositiveInteger]) -> "ModeDeclarationGroup":
+    def setOnTransitionValue(self, value: Optional[PositiveInteger]) -> ModeDeclarationGroup:
         """
         The value of this attribute shall be taken into account by the RTE generator for programmatically representing a value used for the transition between two statuses.
         A None value is a no-op and does not overwrite an existing value.
@@ -372,7 +375,7 @@ class ModeDeclarationGroup(AtpType):
         """
         return self.onTransitionValue
 
-    def createModeTransition(self, short_name: str) -> "ModeTransition":
+    def createModeTransition(self, short_name: str) -> ModeTransition:
         """
         Creates and adds a ModeTransition to this mode declaration group.
 
@@ -388,7 +391,7 @@ class ModeDeclarationGroup(AtpType):
             self.modeTransitions.append(spec)
         return self.getElement(short_name, ModeTransition)
 
-    def getModeTransitions(self) -> List["ModeTransition"]:
+    def getModeTransitions(self) -> List[ModeTransition]:
         """
         This represents the avaliable ModeTransitions of the ModeDeclarationGroup
 
@@ -397,7 +400,7 @@ class ModeDeclarationGroup(AtpType):
         """
         return self.modeTransitions
 
-    def getModeManagerErrorBehavior(self) -> Optional["ModeErrorBehavior"]:
+    def getModeManagerErrorBehavior(self) -> Optional[ModeErrorBehavior]:
         """
         This represents the ability to define the error behavior expected by the mode manager in case of errors on the mode user side (e.g. terminated mode user).
 
@@ -406,7 +409,7 @@ class ModeDeclarationGroup(AtpType):
         """
         return self.modeManagerErrorBehavior
 
-    def setModeManagerErrorBehavior(self, value: Optional["ModeErrorBehavior"]) -> "ModeDeclarationGroup":
+    def setModeManagerErrorBehavior(self, value: Optional[ModeErrorBehavior]) -> ModeDeclarationGroup:
         """
         This represents the ability to define the error behavior expected by the mode manager in case of errors on the mode user side (e.g. terminated mode user).
         A None value is a no-op and does not overwrite an existing value.
@@ -421,7 +424,7 @@ class ModeDeclarationGroup(AtpType):
             self.modeManagerErrorBehavior = value
         return self
 
-    def getModeUserErrorBehavior(self) -> Optional["ModeErrorBehavior"]:
+    def getModeUserErrorBehavior(self) -> Optional[ModeErrorBehavior]:
         """
         This represents the definition of the error behavior expected by the mode user in case of errors on the mode manager side (e.g. terminated mode manager).
 
@@ -430,7 +433,7 @@ class ModeDeclarationGroup(AtpType):
         """
         return self.modeUserErrorBehavior
 
-    def setModeUserErrorBehavior(self, value: Optional["ModeErrorBehavior"]) -> "ModeDeclarationGroup":
+    def setModeUserErrorBehavior(self, value: Optional[ModeErrorBehavior]) -> ModeDeclarationGroup:
         """
         This represents the definition of the error behavior expected by the mode user in case of errors on the mode manager side (e.g. terminated mode manager).
         A None value is a no-op and does not overwrite an existing value.
@@ -486,7 +489,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype, VariationPointCapable):
         """
         return self.swCalibrationAccess
 
-    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> "ModeDeclarationGroupPrototype":
+    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> ModeDeclarationGroupPrototype:
         """
         This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time. A None value is a no-op and does not overwrite an existing calibration access.
 
@@ -509,7 +512,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype, VariationPointCapable):
         """
         return self.typeTRef
 
-    def setTypeTRef(self, value: Optional[TRefType]) -> "ModeDeclarationGroupPrototype":
+    def setTypeTRef(self, value: Optional[TRefType]) -> ModeDeclarationGroupPrototype:
         """
         The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component. A None value is a no-op and does not overwrite an existing typeTRef.
 
@@ -557,7 +560,7 @@ class ModeTransition(AtpStructureElement):
         """
         return self.enteredModeRef
 
-    def setEnteredModeRef(self, value: Optional[RefType]) -> "ModeTransition":
+    def setEnteredModeRef(self, value: Optional[RefType]) -> ModeTransition:
         """
         This represents the entered model of the ModeTransition.
         A None value is a no-op and does not overwrite an existing value.
@@ -581,7 +584,7 @@ class ModeTransition(AtpStructureElement):
         """
         return self.exitedModeRef
 
-    def setExitedModeRef(self, value: Optional[RefType]) -> "ModeTransition":
+    def setExitedModeRef(self, value: Optional[RefType]) -> ModeTransition:
         """
         This represents the exited mode of the ModeTransition
         A None value is a no-op and does not overwrite an existing value.
@@ -619,7 +622,7 @@ class ModeErrorBehavior(ARObject):
         self.defaultModeRef: Optional[RefType] = None
 
         # This represents the ability to define the policy in terms of which default model shall apply in case an error occurs.
-        self.errorReactionPolicy: Optional["ModeErrorReactionPolicyEnum"] = None
+        self.errorReactionPolicy: Optional[ModeErrorReactionPolicyEnum] = None
 
     def getDefaultModeRef(self) -> Optional[RefType]:
         """
@@ -630,7 +633,7 @@ class ModeErrorBehavior(ARObject):
         """
         return self.defaultModeRef
 
-    def setDefaultModeRef(self, value: Optional[RefType]) -> "ModeErrorBehavior":
+    def setDefaultModeRef(self, value: Optional[RefType]) -> ModeErrorBehavior:
         """
         This represents the ModeDeclaration that is considered the error mode in the context of the enclosing ModeDeclarationGroup.
         A None value is a no-op and does not overwrite an existing value.
@@ -645,7 +648,7 @@ class ModeErrorBehavior(ARObject):
             self.defaultModeRef = value
         return self
 
-    def getErrorReactionPolicy(self) -> Optional["ModeErrorReactionPolicyEnum"]:
+    def getErrorReactionPolicy(self) -> Optional[ModeErrorReactionPolicyEnum]:
         """
         This represents the ability to define the policy in terms of which default model shall apply in case an error occurs.
 
@@ -654,7 +657,7 @@ class ModeErrorBehavior(ARObject):
         """
         return self.errorReactionPolicy
 
-    def setErrorReactionPolicy(self, value: Optional["ModeErrorReactionPolicyEnum"]) -> "ModeErrorBehavior":
+    def setErrorReactionPolicy(self, value: Optional[ModeErrorReactionPolicyEnum]) -> ModeErrorBehavior:
         """
         This represents the ability to define the policy in terms of which default model shall apply in case an error occurs.
         A None value is a no-op and does not overwrite an existing value.

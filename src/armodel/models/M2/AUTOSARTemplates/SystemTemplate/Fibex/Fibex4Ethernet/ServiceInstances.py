@@ -93,11 +93,11 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
             self.majorVersion = value
         return self
 
-    def getMethodActivationRoutingGroup(self) -> Optional["PduActivationRoutingGroup"]:
+    def getMethodActivationRoutingGroup(self) -> Optional[PduActivationRoutingGroup]:
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods)."""
         return self.methodActivationRoutingGroup
 
-    def setMethodActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> AbstractServiceInstance:
+    def setMethodActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> AbstractServiceInstance:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
         A None value is a no-op and does not overwrite an existing methodActivationRoutingGroup.
@@ -229,7 +229,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration."""
         return self.eventMulticastAddressRefs
 
-    def addPduActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> ConsumedEventGroup:
+    def addPduActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> ConsumedEventGroup:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
         A None value is a no-op and does not append to pduActivationRoutingGroups.
@@ -238,7 +238,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
             self.pduActivationRoutingGroups.append(value)
         return self
 
-    def getPduActivationRoutingGroups(self) -> List["PduActivationRoutingGroup"]:
+    def getPduActivationRoutingGroups(self) -> List[PduActivationRoutingGroup]:
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."""
         return self.pduActivationRoutingGroups
 
@@ -714,7 +714,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.autoRequire = value
         return self
 
-    def addBlocklistedVersion(self, value: Optional["SomeipServiceVersion"]) -> ConsumedServiceInstance:
+    def addBlocklistedVersion(self, value: Optional[SomeipServiceVersion]) -> ConsumedServiceInstance:
         """
         Collection of blocklisted versions
         A None value is a no-op and does not append to blocklistedVersions.
@@ -723,7 +723,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.blocklistedVersions.append(value)
         return self
 
-    def getBlocklistedVersions(self) -> List["SomeipServiceVersion"]:
+    def getBlocklistedVersions(self) -> List[SomeipServiceVersion]:
         """Collection of blocklisted versions"""
         return self.blocklistedVersions
 

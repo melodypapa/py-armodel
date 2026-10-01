@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC
 from typing import TYPE_CHECKING, Optional
 
@@ -6,12 +7,12 @@ if TYPE_CHECKING:
 
 
 class VariationPointCapable(ABC):
-    variationPoint: Optional["VariationPoint"] = None
+    variationPoint: Optional[VariationPoint] = None
 
-    def getVariationPoint(self) -> Optional["VariationPoint"]:
+    def getVariationPoint(self) -> Optional[VariationPoint]:
         return self.variationPoint
 
-    def setVariationPoint(self, value: Optional["VariationPoint"]) -> "VariationPointCapable":
+    def setVariationPoint(self, value: Optional[VariationPoint]) -> VariationPointCapable:
         if value is not None:
             self.variationPoint = value
         return self
@@ -44,7 +45,7 @@ class AtpMixedString(ABC):
         """The unqualified text content mixed into the element (<<atpMixedString>>)."""
         return self.mixedString
 
-    def setMixedString(self, value: Optional[str]) -> "AtpMixedString":
+    def setMixedString(self, value: Optional[str]) -> AtpMixedString:
         """
         The unqualified text content mixed into the element (<<atpMixedString>>).
         A None value is a no-op and does not clear previously set text.
