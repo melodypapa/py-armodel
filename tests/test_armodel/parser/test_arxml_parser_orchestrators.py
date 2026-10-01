@@ -3604,6 +3604,7 @@ class TestSwcInternalBehaviorEvents:
             "DATA-RECEIVED-EVENT",
             "DATA-RECEIVE-ERROR-EVENT",
             "DATA-SEND-COMPLETED-EVENT",
+            "DATA-WRITE-COMPLETED-EVENT",
             "SWC-MODE-SWITCH-EVENT",
         ],
     )
