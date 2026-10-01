@@ -92,15 +92,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticAuthenticationConfiguration` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.53, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.53 attribute row is "-" (no own attributes; inherits 0..1 authenticationClass
+      → DiagnosticAuthenticationClass from abstract Table 4.51 base); no "(abstract)" marker and XSD
+      complexType abstract="false" → concrete subclass, full ARPackage element dispatch
+      (createDiagnosticAuthenticationConfiguration factory + DIAGNOSTIC-AUTHENTICATION-CONFIGURATION
+      read/write branches; XSD group DIAGNOSTIC-AUTHENTICATION-CONFIGURATION is an empty <xsd:sequence/>).
+      Reader/writer delegate the inherited ref to the Rule 0001.7 read/writeDiagnosticAuthentication helpers.
+      Note text synced verbatim minus the Tags suffix (sibling precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (128 passed / 0 failed test_ARPackage.py, test_diagnostic_authentication_configuration.py, test_writer_diagnostic_authentication_configuration.py incl. neighbors); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticVerifyCertificateBidirectional` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.54, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

@@ -1557,6 +1557,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(authentication_class)
         return self.getElement(short_name, DiagnosticAuthenticationClass)
 
+    def createDiagnosticAuthenticationConfiguration(self, short_name: str) -> DiagnosticAuthenticationConfiguration:
+        """
+        Creates a new DiagnosticAuthenticationConfiguration with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAuthenticationConfiguration represents the subfunction to
+        configure the authentication.
+
+        Args:
+            short_name: The short name for the new DiagnosticAuthenticationConfiguration
+
+        Returns:
+            The newly created or existing DiagnosticAuthenticationConfiguration instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthenticationConfiguration):
+            configuration = DiagnosticAuthenticationConfiguration(self, short_name)
+            self.addElement(configuration)
+        return self.getElement(short_name, DiagnosticAuthenticationConfiguration)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -2848,7 +2867,15 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
 
 
 class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
-    pass
+    """This meta-class represents the subfunction to configure the authentication."""
+
+    # DiagnosticAuthenticationConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.53, p.99
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticClearDiagnosticInformation(ARElement):

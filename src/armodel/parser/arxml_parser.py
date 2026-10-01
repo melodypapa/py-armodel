@@ -501,6 +501,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthRole,
     DiagnosticAuthentication,
+    DiagnosticAuthenticationConfiguration,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
@@ -10713,6 +10714,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticAuthenticationClass <%s>" % service_class.getShortName())
         self.readIdentifiable(element, service_class)
 
+    def readDiagnosticAuthenticationConfiguration(self, element: ET.Element, configuration: DiagnosticAuthenticationConfiguration):
+        self.logger.debug("Read DiagnosticAuthenticationConfiguration <%s>" % configuration.getShortName())
+        self.readIdentifiable(element, configuration)
+        self.readDiagnosticAuthentication(element, configuration)
+
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
         self.readIdentifiable(element, auth_role)
@@ -15259,6 +15265,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
                 authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
                 self.readDiagnosticAuthenticationClass(child_element, authentication_class)
+            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
+                configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
+                self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)

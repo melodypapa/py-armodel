@@ -381,6 +381,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthRole,
     DiagnosticAuthentication,
+    DiagnosticAuthenticationConfiguration,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
@@ -13896,6 +13897,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTHENTICATION-CLASS")
         self.writeIdentifiable(child_element, service_class)
 
+    def writeDiagnosticAuthenticationConfiguration(self, element: ET.Element, configuration: DiagnosticAuthenticationConfiguration):
+        self.logger.debug("Write DiagnosticAuthenticationConfiguration %s" % configuration.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION")
+        self.writeIdentifiable(child_element, configuration)
+        self.writeDiagnosticAuthentication(child_element, configuration)
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -14873,6 +14880,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthRole(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthenticationClass):
             self.writeDiagnosticAuthenticationClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthenticationConfiguration):
+            self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):

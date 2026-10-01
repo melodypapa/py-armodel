@@ -2330,3 +2330,81 @@ class TestDiagnosticAuthentication:
         assert inspect.cleandoc(DiagnosticAuthentication.setAuthenticationClass.__doc__) == (
             self.AUTHENTICATION_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing authenticationClass."
         )
+
+
+class TestDiagnosticAuthenticationConfiguration:
+    """
+    Test class for DiagnosticAuthenticationConfiguration functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.53, p.99
+    """
+
+    CLASS_NOTE = "This meta-class represents the subfunction to configure the authentication."
+
+    def _create_configuration(self) -> DiagnosticAuthenticationConfiguration:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticAuthenticationConfiguration(ar_root, "TestConfiguration")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticAuthenticationConfiguration instantiates with the spec defaults.
+        """
+        obj = self._create_configuration()
+
+        assert obj.getShortName() == "TestConfiguration"
+        assert isinstance(obj, DiagnosticAuthentication)
+        assert obj.getAuthenticationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAuthenticationConfiguration.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthenticationConfiguration.__init__.__doc__ is None
+
+    def test_defines_no_new_public_members(self):
+        """
+        Test that the class defines no own public members (Table 4.53 attribute row is "-").
+        """
+        own_public = {name for name, member in vars(DiagnosticAuthenticationConfiguration).items() if not name.startswith("_")}
+        assert own_public == set()
+
+    def test_inherited_authentication_class_accessors(self):
+        """
+        Test the inherited getAuthenticationClass/setAuthenticationClass round-trip and None no-op.
+        """
+        obj = self._create_configuration()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTHENTICATION-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass")
+        result = obj.setAuthenticationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthenticationClass() is ref
+        assert obj.getAuthenticationClass().getValue() == "/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass"
+        assert obj.getAuthenticationClass().getDest() == "DIAGNOSTIC-AUTHENTICATION-CLASS"
+
+        result = obj.setAuthenticationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthenticationClass() is ref  # None is a no-op
+
+    def test_create_diagnostic_authentication_configuration(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("AuthenticationConfigurations")
+        configuration = package.createDiagnosticAuthenticationConfiguration("AuthCfg1")
+
+        assert configuration is not None
+        assert isinstance(configuration, DiagnosticAuthenticationConfiguration)
+        assert configuration.getShortName() == "AuthCfg1"
+        assert package.getElement("AuthCfg1", DiagnosticAuthenticationConfiguration) is configuration
+
+        duplicate = package.createDiagnosticAuthenticationConfiguration("AuthCfg1")
+        assert duplicate is configuration  # duplicate short name returns the existing element
