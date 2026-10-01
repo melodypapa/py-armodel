@@ -1876,3 +1876,41 @@ must equal the getter return type. This is the mechanical, repo-wide form of Rul
   annotations` to a module that did not have it, **all** of that module's quoted
   signatures must be unquoted in the same change (`test_pep563_annotations.py` bans
   top-level quotes in PEP 563 modules).
+
+---
+
+## Rule 0023 — Legacy checklist format (rows ending at `test`) forces a full re-sync *(added after the skill-format review, 2026-10-01)*
+
+A checklist whose method rows **end at the `test` column** — `# [x] __init__  [x] impl
+[x] docstring  [x] test` — with **no `reader`/`writer` columns and no per-row release
+token** is **legacy format** (it predates the 6-column format of Rule 0002; the header
+usually also lacks the `(RELEASE)` suffix on the `# Spec:` line). Found in the wild:
+`MeasuredHeapUsage` (`BSWModuleDescriptionTemplate`, Table 8.15) and dozens of sibling
+blocks across `src/armodel/models/**`.
+
+**The stamp does not exempt it.** `# Spec verified:` on a legacy block certifies the
+**old** pass only — that pass predates the reader/writer ownership columns (Rules 0006 /
+0001.7) and the per-row release provenance. Against the current bar the class is **not**
+synced.
+
+**The stale marker goes first.** A legacy block's `# Spec verified: <RELEASE>` or
+`# XSD verified: <xsd-file>` marker is **removed at session start** (before Step 1), not
+at 9b — removal drops the class onto the *No marker* path (sync from the beginning), and
+the marker is re-written only by a fresh 9b confirmation. Never leave a legacy block
+stamped between sessions: the marker claims a review the class has not passed under the
+current bar.
+
+**Mandate:** when a sync is invoked for (or touches) a class carrying a legacy-format
+checklist, run the **full 9-step workflow from Step 1** — including both Red→Green pairs
+(2→3 and 5→6) — and at **Step 7** write the checklist in the current 6-column format
+(`impl / docstring / test / reader / writer / release`, `[—]` where a column owns no XML
+element). Rule 0017 applies unchanged: one class per session, 9b confirmation before the
+stamp is refreshed. Do **not** merely re-format the block — the missing columns are
+exactly the reader/writer coverage the re-run must prove; reformatting without the
+re-sync is a Step 9b finding.
+
+**Mechanical inventory (non-blocking):** `scripts/eval_skill_static_checks.py` scans
+`src/armodel/models/**` and lists every legacy-format block (file → class → stale
+`Spec verified`/`XSD verified` marker) under
+*Legacy-format checklists (Rule 0023 re-sync inventory)*. Drain it through per-class
+sync sessions, one at a time; the inventory never fails the checker by itself.

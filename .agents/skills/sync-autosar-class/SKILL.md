@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0022*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0023*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -170,7 +170,11 @@ round-trip) certifies a class as reviewed.
 
 - **Has the marker** → the class has been synced. Treat its fields, checklist,
   docstrings, and reader/writer coverage as authoritative. Re-run the workflow only when
-  the spec changes (Rule 0012.3 drift) or when extending the class.
+  the spec changes (Rule 0012.3 drift) or when extending the class. A **legacy 4-column
+  checklist** (method rows ending at the `test` column — no reader/writer/release
+  columns) forces a full re-run too: the stamp certifies the old bar only (*Rule 0023*).
+  Its stale `# Spec verified:` / `# XSD verified:` marker is **removed at session start**
+  and re-written only by the fresh 9b confirmation.
 - **No marker** → the class has **not** been reviewed. Sync it **from the beginning**:
   run the full 9-step workflow starting at Step 1, with the failing model test first
   (Step 2). Do **not** trust pre-existing fields/checklist/docstrings — they may be
@@ -495,7 +499,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0022*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0023*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.
