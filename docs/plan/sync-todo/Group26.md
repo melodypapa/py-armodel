@@ -284,51 +284,55 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEventPortMapping` — DiagnosticSwMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.24, p.249
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (257 passed test_ARPackage.py + 16 port-mapping parser/writer tests; member-annotation gate 3 passed; ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `266d4f7aa`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping; attrs displayed order: bswServiceDependencyRef, diagnosticEventRef, swcFlatServiceDependencyRef, swcServiceDependencyInSystemIRef; XSD own group l.36577 order BSW-SERVICE-DEPENDENCY-REF → DIAGNOSTIC-EVENT-REF → SWC-FLAT-SERVICE-DEPENDENCY-REF → SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF (XSD-only extras process/rPortPrototypeInExecutable/swcServiceDependency not in markdown table — not modeled per Rule 0015); reader/writer reuse readDiagnosticMapping/writeDiagnosticMapping
 
 - [ ] `DiagnosticOperationCyclePortMapping` — DiagnosticSwMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.25, p.250
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (257 passed test_ARPackage.py + 16 port-mapping parser/writer tests; member-annotation gate 3 passed; ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `266d4f7aa`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping; attrs displayed order: operationCycleRef, swcFlatServiceDependencyRef, swcServiceDependencyInSystemIRef; XSD own group l.40438 order OPERATION-CYCLE-REF → SWC-FLAT-SERVICE-DEPENDENCY-REF → SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF (XSD-only extras process/rPortPrototypeInExecutable/swcServiceDependency not in markdown table — not modeled per Rule 0015); reader/writer reuse readDiagnosticMapping/writeDiagnosticMapping
 
 - [ ] `DiagnosticEnableConditionPortMapping` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.26, p.252
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (257 passed test_ARPackage.py + 16 port-mapping parser/writer tests; member-annotation gate 3 passed; ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `266d4f7aa`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping; attrs displayed order: enableConditionRef, swcFlatServiceDependencyRef, swcServiceDependencyInSystemIRef; XSD own group l.35627 order ENABLE-CONDITION-REF → SWC-FLAT-SERVICE-DEPENDENCY-REF → SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF (XSD-only extras process/rPortPrototypeInExecutable/swcServiceDependency not in markdown table — not modeled per Rule 0015); reader/writer reuse readDiagnosticMapping/writeDiagnosticMapping
 
 - [ ] `DiagnosticStorageConditionPortMapping` — DiagnosticSwMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.27, p.253
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (257 passed test_ARPackage.py + 16 port-mapping parser/writer tests; member-annotation gate 3 passed; ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `266d4f7aa`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping; attrs displayed order: diagnosticStorageConditionRef, swcFlatServiceDependencyRef, swcServiceDependencyInSystemIRef; XSD own group l.45750 order DIAGNOSTIC-STORAGE-CONDITION-REF → SWC-FLAT-SERVICE-DEPENDENCY-REF → SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF (XSD-only extras process/rPortPrototypeInExecutable/swcServiceDependency not in markdown table — not modeled per Rule 0015); reader/writer reuse readDiagnosticMapping/writeDiagnosticMapping
 
 - [ ] `DiagnosticDemProvidedDataMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.28, p.255
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
