@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvDataCondition,
     DiagnosticEnvDataElementCondition,
     DiagnosticEnvironmentalCondition,
+    DiagnosticEnvModeCondition,
     DiagnosticEnvModeElement,
     DiagnosticLogicalOperatorEnum,
 )
@@ -529,3 +530,58 @@ class Test_DiagnosticEnvDataElementCondition:
         assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setSwDataDefProps.__doc__) == (
             self.SW_DATA_DEF_PROPS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing swDataDefProps."
         )
+
+
+class Test_DiagnosticEnvModeCondition:
+    """Test cases for DiagnosticEnvModeCondition (Table 4.43, p.89)."""
+
+    CLASS_DOCSTRING = (
+        "DiagnosticEnvModeCondition are atomic condition based on the comparison of the active Mode Declaration in a ModeDeclarationGroupProtoype with the constant "
+        "value of a ModeDeclaration. The formulation of this condition uses only one DiagnosticEnvElement, which contains enough information to deduce the variable "
+        "part (i.e. the part that changes at runtime) as well as the constant part of the comparison. Only DiagnosticCompareTypeEnum.isEqual or "
+        "DiagnosticCompareTypeEnum.isNotEqual are eligible values for DiagnosticAtomicCondition.compareType.\n"
+        "\n"
+        "[constr_1804] Existence of DiagnosticEnvModeCondition.modeElement: For each DiagnosticEnvModeCondition, that attribute modeElement shall exist at the time "
+        "when the DEXT is complete."
+    )
+    MODE_ELEMENT_NOTE = "This reference represents both the ModeDeclarationGroupPrototype and the ModeDeclaration relevant for the mode comparison."
+
+    def test_is_concrete(self):
+        condition = DiagnosticEnvModeCondition()
+        assert condition is not None
+
+    def test_is_diagnostic_env_compare_condition_subclass(self):
+        assert issubclass(DiagnosticEnvModeCondition, DiagnosticEnvCompareCondition)
+        assert issubclass(DiagnosticEnvModeCondition, DiagnosticEnvConditionFormulaPart)
+        assert issubclass(DiagnosticEnvModeCondition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvModeCondition.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvModeCondition.__init__.__doc__ is None
+
+    def test_defaults(self):
+        condition = DiagnosticEnvModeCondition()
+        assert condition.getModeElementRef() is None
+        assert condition.getCompareType() is None
+
+    def test_get_set_mode_element_ref(self):
+        condition = DiagnosticEnvModeCondition()
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagEnvConditions/Env1/ModeElements/BswMode1")
+        assert condition.setModeElementRef(ref) is condition
+        assert condition.getModeElementRef() is ref
+        condition.setModeElementRef(None)
+        assert condition.getModeElementRef() is ref
+
+    def test_inherited_compare_type(self):
+        condition = DiagnosticEnvModeCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_EQUAL)
+        condition.setCompareType(compare_type)
+        assert condition.getCompareType() is compare_type
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvModeCondition.getModeElementRef.__doc__) == self.MODE_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticEnvModeCondition.setModeElementRef.__doc__) == (self.MODE_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing modeElementRef.")

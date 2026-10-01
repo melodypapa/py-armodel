@@ -1030,15 +1030,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEnvModeCondition` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.43, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.43 (md header rows L2507-2514, caption L2519, attr row L2523, trailing-caption
+    trap); concrete Class; Base CORRECTED — queue row said `ARObject` but the Base cell reads
+    `ARObject , DiagnosticEnvCompareCondition , DiagnosticEnvConditionFormulaPart` → most-derived =
+    `DiagnosticEnvCompareCondition` (Rule 0001.2); placement follows the base into EnvironmentalCondition.py
+    (Rule 0007), not ArObject.py; attr `modeElement` (DiagnosticEnvModeElement 0..1 ref → `modeElementRef:
+    Optional[RefType]`, MODE-ELEMENT-REF DEST DIAGNOSTIC-ENV-MODE-ELEMENT--SUBTYPES-ENUM); constr_1804 appended;
+    not VP-capable (no VARIATION-POINT in XSD group l.36015, Rule 0020); prose constraints constr_1466/1467 sit
+    outside the table block — recorded in the tracker, not appended. XSD formula PARTS dispatch WIRED:
+    DIAGNOSTIC-ENV-MODE-CONDITION branch in readDiagnosticEnvConditionFormula +
+    writeDiagnosticEnvConditionFormula PARTS loop.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (87 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py, tests/test_armodel/parser/test_diagnostic_env_mode_condition.py, tests/test_armodel/writer/test_writer_diagnostic_env_mode_condition.py + 7 passed/0 failed neighbor env-condition round-trip tests); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticEnvSwcModeElement` — DiagnosticEnvModeElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.45, p.89
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py

@@ -416,6 +416,43 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         return self
 
 
+class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
+    """
+    DiagnosticEnvModeCondition are atomic condition based on the comparison of the active Mode Declaration in a ModeDeclarationGroupProtoype with the constant value of a ModeDeclaration. The formulation of this condition uses only one DiagnosticEnvElement, which contains enough information to deduce the variable part (i.e. the part that changes at runtime) as well as the constant part of the comparison. Only DiagnosticCompareTypeEnum.isEqual or DiagnosticCompareTypeEnum.isNotEqual are eligible values for DiagnosticAtomicCondition.compareType.
+
+    [constr_1804] Existence of DiagnosticEnvModeCondition.modeElement: For each DiagnosticEnvModeCondition, that attribute modeElement shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnvModeCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.43, p.89
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeElementRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This reference represents both the ModeDeclarationGroupPrototype and the ModeDeclaration relevant for the mode comparison.
+        self.modeElementRef: Optional[RefType] = None
+
+    def getModeElementRef(self) -> Optional[RefType]:
+        """
+        This reference represents both the ModeDeclarationGroupPrototype and the ModeDeclaration relevant for the mode comparison.
+        """
+        return self.modeElementRef
+
+    def setModeElementRef(self, value: Optional[RefType]):
+        """
+        This reference represents both the ModeDeclarationGroupPrototype and the ModeDeclaration relevant for the mode comparison.
+
+        A None value is a no-op and does not overwrite an existing modeElementRef.
+        """
+        if value is not None:
+            self.modeElementRef = value
+        return self
+
+
 class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     pass
 
