@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticResponseToEcuResetEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
     DisplayFormatString,
@@ -1746,3 +1747,43 @@ class TestDiagnosticEventCombinationReportingBehaviorEnum:
         enum.setValue(DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST)
 
         assert enum.getValue() == "reportingInChronlogicalOrderOldestFirst"
+
+
+class TestDiagnosticResponseToEcuResetEnum:
+    """
+    Test class for DiagnosticResponseToEcuResetEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.62, p.102
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticResponseToEcuResetEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticResponseToEcuResetEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["respondAfterReset", "respondBeforeReset"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticResponseToEcuResetEnum member values.
+        """
+        enum = DiagnosticResponseToEcuResetEnum()
+
+        assert DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET == "respondAfterReset"
+        assert DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET == "respondBeforeReset"
+
+        assert enum.validateEnumValue("respondAfterReset") is True
+        assert enum.validateEnumValue("respondBeforeReset") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticResponseToEcuResetEnum instantiability and getValue.
+        """
+        enum = DiagnosticResponseToEcuResetEnum()
+        enum.setValue(DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET)
+
+        assert enum.getValue() == "respondBeforeReset"

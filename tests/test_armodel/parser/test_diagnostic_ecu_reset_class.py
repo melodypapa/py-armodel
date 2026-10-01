@@ -7,9 +7,9 @@ defines one 0..1 attribute: respondToReset (DiagnosticResponseToEcuResetEnum,
 RESPOND-TO-RESET) — AUTOSAR_00052.xsd group DIAGNOSTIC-ECU-RESET-CLASS
 l.35423 / complexType l.35442. The element text is one of the
 AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE tokens (RESPOND-AFTER-RESET,
-RESPOND-BEFORE-RESET) and is mapped via DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP.
-The RESPOND-TO-RESET field-value read tests land with the
-DiagnosticResponseToEcuResetEnum sync (enum literals), which extends this file.
+RESPOND-BEFORE-RESET) and is mapped via DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP
+(pre-registered by the DiagnosticEcuResetClass sync; the literal-value read
+tests below were added by the DiagnosticResponseToEcuResetEnum sync).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_ecu_reset_class.py
 """
@@ -40,3 +40,23 @@ class TestReadDiagnosticEcuResetClass:
         ecu_reset_class = self._read(parser, "")
         assert ecu_reset_class.getShortName() == "EcuResetClass"
         assert ecu_reset_class.getRespondToReset() is None
+
+    def test_read_respond_to_reset_after(self, parser):
+        """Test that RESPOND-AFTER-RESET is read as the respondAfterReset literal."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticResponseToEcuResetEnum
+
+        ecu_reset_class = self._read(parser, "<RESPOND-TO-RESET>RESPOND-AFTER-RESET</RESPOND-TO-RESET>")
+        respond_to_reset = ecu_reset_class.getRespondToReset()
+        assert respond_to_reset is not None
+        assert isinstance(respond_to_reset, DiagnosticResponseToEcuResetEnum)
+        assert respond_to_reset.getValue() == "respondAfterReset"
+
+    def test_read_respond_to_reset_before(self, parser):
+        """Test that RESPOND-BEFORE-RESET is read as the respondBeforeReset literal."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticResponseToEcuResetEnum
+
+        ecu_reset_class = self._read(parser, "<RESPOND-TO-RESET>RESPOND-BEFORE-RESET</RESPOND-TO-RESET>")
+        respond_to_reset = ecu_reset_class.getRespondToReset()
+        assert respond_to_reset is not None
+        assert isinstance(respond_to_reset, DiagnosticResponseToEcuResetEnum)
+        assert respond_to_reset.getValue() == "respondBeforeReset"

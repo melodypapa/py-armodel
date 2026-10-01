@@ -1808,7 +1808,29 @@ class DiagnosticResponseOnEventActionEnum(AREnum):
 
 
 class DiagnosticResponseToEcuResetEnum(AREnum):
-    pass
+    """
+    This enumeration controls the point in time in which a response to the reception of an EcuReset service shall be generated.
+    """
+
+    # DiagnosticResponseToEcuResetEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.62, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Answer to EcuReset service should come after the reset. Tags: atp.EnumerationLiteralIndex=0
+    RESPOND_AFTER_RESET = "respondAfterReset"
+
+    # Answer to EcuReset service should come before the reset. Tags: atp.EnumerationLiteralIndex=1
+    RESPOND_BEFORE_RESET = "respondBeforeReset"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET,
+                DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET,
+            ]
+        )
 
 
 class DiagnosticSignificanceEnum(AREnum):

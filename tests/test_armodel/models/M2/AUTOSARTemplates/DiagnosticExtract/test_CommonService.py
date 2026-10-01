@@ -59,7 +59,7 @@ def _pkg():
 
 def _respond_to_reset(value):
     """Build a DiagnosticResponseToEcuResetEnum holding the given literal value."""
-    return DiagnosticResponseToEcuResetEnum(["respondAfterReset", "respondBeforeReset"]).setValue(value)
+    return DiagnosticResponseToEcuResetEnum().setValue(value)
 
 
 class _ConcreteServiceInstance(DiagnosticServiceInstance):

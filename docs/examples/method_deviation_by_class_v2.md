@@ -2233,3 +2233,11 @@ Remediated 2026-08-30 (see `docs/plan/2026-08-30-rule-0007-package-location-reme
 |---|---|---|---|---|---|
 | XSD `AUTHENTICATION-TIMEOUT` | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group DIAGNOSTIC-AUTHENTICATION, `atp.Status="removed"`), absent from R23-11 Table 4.51; PDF is authoritative (Rule 0015) |
 | — | — | ARPackage.element dispatch | — | — | none — abstract class (Table 4.51 marks it abstract): no create factory, no AR-PACKAGE element dispatch; Rule 0001.7 reusable helpers readDiagnosticAuthentication/writeDiagnosticAuthentication provided for the subclass readers/writers queued in later batches |
+
+
+## `DiagnosticResponseToEcuResetEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 102  | **table:** Table 4.62
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — both Table 4.62 literals modeled in displayed order (`RESPOND_AFTER_RESET = "respondAfterReset"` atp.EnumerationLiteralIndex=0, `RESPOND_BEFORE_RESET = "respondBeforeReset"` atp.EnumerationLiteralIndex=1); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP` (respondAfterReset→RESPOND-AFTER-RESET, respondBeforeReset→RESPOND-BEFORE-RESET, AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE) was already pre-registered in the parser and writer map blocks by the consuming class DiagnosticEcuResetClass.respondToReset (092a0c7cf) — verified, not duplicated; this sync extended the consumer's tests (RESPOND-TO-RESET field-value reads, token emission, full round-trip) instead.

@@ -37,7 +37,7 @@ def reset_autosar():
 
 def _respond_to_reset(value):
     """Build a DiagnosticResponseToEcuResetEnum holding the given literal value."""
-    return DiagnosticResponseToEcuResetEnum(["respondAfterReset", "respondBeforeReset"]).setValue(value)
+    return DiagnosticResponseToEcuResetEnum().setValue(value)
 
 
 class TestWriteDiagnosticEcuResetClass:
@@ -100,6 +100,30 @@ class TestWriteDiagnosticEcuResetClass:
             assert ecu_reset_class_2 is not None
             assert ecu_reset_class_2.getShortName() == "EcuResetClass1"
             assert ecu_reset_class_2.getRespondToReset() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_with_respond_to_reset(self):
+        """Test the full cycle including RESPOND-TO-RESET (literal ↔ XSD token via DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP)."""
+        document = AUTOSAR.getInstance()
+        package = document.createARPackage("DiagnosticEcuResetClasses")
+        ecu_reset_class = package.createDiagnosticEcuResetClass("EcuResetClass1")
+        ecu_reset_class.setRespondToReset(_respond_to_reset("respondAfterReset"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            package_2 = document_2.getARPackages()[0]
+            ecu_reset_class_2 = package_2.getElement("EcuResetClass1", DiagnosticEcuResetClass)
+            assert ecu_reset_class_2 is not None
+            respond_to_reset = ecu_reset_class_2.getRespondToReset()
+            assert respond_to_reset is not None
+            assert isinstance(respond_to_reset, DiagnosticResponseToEcuResetEnum)
+            assert respond_to_reset.getValue() == "respondAfterReset"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
