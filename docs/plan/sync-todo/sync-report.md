@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 613 | 32.2% |
+| [x] Done | 614 | 32.3% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 232 | 12.2% |
+| [ ] Deferred | 231 | 12.1% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -1115,7 +1115,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IntegerValueVariationPoint`                            | [x] Done    | d5c96fd954                               | Group8           |
 | `InternalBehavior`                                      | [x] Done    | 68e390b39e                               | Group22          |
 | `InternalConstrs`                                       | [ ] Implemented| N/A                                      | Group28          |
-| `InternalTriggerOccurredEvent`                          | [ ] Deferred| N/A                                      | Group12          |
+| `InternalTriggerOccurredEvent`                          | [x] Done    | ac0bbe5799                               | Group12          |
 | `InternalTriggeringPoint`                               | [x] Done    | 96033eb3fe                               | Group12          |
 | `InterpolationRoutine`                                  | [x] Done    | 992a894be3                               | Group5           |
 | `InterpolationRoutineMapping`                           | [x] Done    | d00d57b42d                               | Group5           |
