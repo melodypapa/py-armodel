@@ -355,6 +355,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucParameterDerivationFormula,
     EcucQuery,
     EcucReferenceDef,
+    EcucUriReferenceDef,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
     EcucValidationCondition,
@@ -10911,6 +10912,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucAbstractInternalReferenceDef(child_element, reference)
             self.setChildElementOptionalRefType(child_element, "DESTINATION-REF", reference.getDestinationRef())
 
+    def writeEcucUriReferenceDef(self, element: ET.Element, reference: EcucUriReferenceDef):
+        if reference is not None:
+            child_element = ET.SubElement(element, "ECUC-URI-REFERENCE-DEF")
+            self.writeEcucAbstractInternalReferenceDef(child_element, reference)
+            self.setChildElementOptionalRefType(child_element, "DESTINATION-URI-REF", reference.getDestinationUriRef())
+
     def writeEcucChoiceReferenceDef(self, element: ET.Element, reference: EcucChoiceReferenceDef):
         if reference is not None:
             child_element = ET.SubElement(element, "ECUC-CHOICE-REFERENCE-DEF")
@@ -10943,6 +10950,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucSymbolicNameReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucReferenceDef):
                     self.writeEcucReferenceDef(child_element, reference)
+                elif isinstance(reference, EcucUriReferenceDef):
+                    self.writeEcucUriReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucChoiceReferenceDef):
                     self.writeEcucChoiceReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
@@ -11098,6 +11107,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucSymbolicNameReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucReferenceDef):
                     self.writeEcucReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucUriReferenceDef):
+                    self.writeEcucUriReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucChoiceReferenceDef):
                     self.writeEcucChoiceReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):

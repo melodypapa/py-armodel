@@ -465,6 +465,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucQuery,
     EcucQueryExpression,
     EcucReferenceDef,
+    EcucUriReferenceDef,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
     EcucValidationCondition,
@@ -12386,6 +12387,10 @@ class ARXMLParser(AbstractARXMLParser):
                 ref_def = EcucReferenceDef(policy, self.getShortName(child_element))
                 self.readEcucReferenceDef(child_element, ref_def)
                 policy.addReference(ref_def)
+            elif tag_name == "ECUC-URI-REFERENCE-DEF":
+                ref_def = EcucUriReferenceDef(policy, self.getShortName(child_element))
+                self.readEcucUriReferenceDef(child_element, ref_def)
+                policy.addReference(ref_def)
             elif tag_name == "ECUC-CHOICE-REFERENCE-DEF":
                 ref_def = EcucChoiceReferenceDef(policy, self.getShortName(child_element))
                 self.readEcucChoiceReferenceDef(child_element, ref_def)
@@ -12631,6 +12636,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucAbstractInternalReferenceDef(element, ref_def)
         ref_def.setDestinationRef(self.getChildElementOptionalRefType(element, "DESTINATION-REF"))
 
+    def readEcucUriReferenceDef(self, element: ET.Element, ref_def: EcucUriReferenceDef):
+        self.readEcucAbstractInternalReferenceDef(element, ref_def)
+        ref_def.setDestinationUriRef(self.getChildElementOptionalRefType(element, "DESTINATION-URI-REF"))
+
     def readEcucChoiceReferenceDef(self, element: ET.Element, ref_def: EcucChoiceReferenceDef):
         self.readEcucAbstractInternalReferenceDef(element, ref_def)
         for ref in self.getChildElementRefTypeList(element, "DESTINATION-REFS/DESTINATION-REF"):
@@ -12654,6 +12663,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-REFERENCE-DEF":
                 ref_def = container_def.createEcucReferenceDef(self.getShortName(child_element))
                 self.readEcucReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-URI-REFERENCE-DEF":
+                ref_def = container_def.createEcucUriReferenceDef(self.getShortName(child_element))
+                self.readEcucUriReferenceDef(child_element, ref_def)
             elif tag_name == "ECUC-CHOICE-REFERENCE-DEF":
                 ref_def = container_def.createEcucChoiceReferenceDef(self.getShortName(child_element))
                 self.readEcucChoiceReferenceDef(child_element, ref_def)

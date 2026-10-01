@@ -1183,6 +1183,10 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDestinationUriRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Aggregated by dispatch: reader readEcucContainerDefReferences +
+    # readEcucDestinationUriPolicyReferences ECUC-URI-REFERENCE-DEF branches +
+    # writer isinstance branches both present; createEcucUriReferenceDef
+    # factory added on EcucParamConfContainerDef.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1871,6 +1875,22 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name, EcucReferenceDef)
+
+    def createEcucUriReferenceDef(self, short_name: str) -> EcucUriReferenceDef:
+        """
+        Creates a new ECUC URI reference definition and adds it to the container.
+
+        Args:
+            short_name (str): The short name identifier for the new reference definition.
+
+        Returns:
+            EcucUriReferenceDef: The newly created ECUC URI reference definition.
+        """
+        if not self.IsElementExists(short_name, EcucUriReferenceDef):
+            ref = EcucUriReferenceDef(self, short_name)
+            self.addElement(ref)
+            self.references.append(ref)
+        return self.getElement(short_name, EcucUriReferenceDef)
 
     def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
         """

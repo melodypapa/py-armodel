@@ -1006,43 +1006,45 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       failed incl. integration round-trips; npm run lint clean; black clean on all
       touched files); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `EcucReferenceDef` — EcucAbstractInternalReferenceDef — source TBC (locate table at Step 1)
+- [ ] `EcucReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 markdown · Table 2.29 (CP_TPS_ECUConfiguration), p.73
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (2026-10-02): synced in 0d4506747 (model + tests); rw coverage verified — readEcucReferenceDef/writeEcucReferenceDef + container REFERENCES dispatch branches both present
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
-- [ ] `EcucSymbolicNameReferenceDef` — EcucAbstractInternalReferenceDef — source TBC (locate table at Step 1)
+- [ ] `EcucSymbolicNameReferenceDef` — EcucAbstractInternalReferenceDef — R4.3.1 markdown · Table 2.34 (AUTOSAR_TPS_ECUConfiguration), p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (2026-10-02): synced in 0d4506747 (R4.3.1 corpus, model + tests); rw coverage verified — readEcucSymbolicNameReferenceDef/writeEcucSymbolicNameReferenceDef + both REFERENCES dispatch branches present
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
-- [ ] `EcucUriReferenceDef` — EcucAbstractInternalReferenceDef — source TBC (locate table at Step 1)
+- [ ] `EcucUriReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 markdown · Table 2.33 (CP_TPS_ECUConfiguration), p.81
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - after `EcucDestinationUriDefRefType`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (2026-10-02): model+tests were synced in 0d4506747 but the checklist's reader/writer [x] claims were FALSE (no ECUC-URI-REFERENCE-DEF handling anywhere). This batch completed Steps 5/6: readEcucUriReferenceDef/writeEcucUriReferenceDef helpers + branches in both REFERENCES dispatches (container + EcucDestinationUriPolicy) + createEcucUriReferenceDef factory on EcucParamConfContainerDef.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): prior checklist falsely claimed reader/writer coverage — repaired by adding the coverage (not by unchecking); no other deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EcucConditionFormula` — pure-text formula class — locate spec table at Step 1 — already verified (short-circuit 2026-09-30)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
