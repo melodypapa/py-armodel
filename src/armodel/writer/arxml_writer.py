@@ -426,6 +426,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDemProvidedDataMapping,
     DiagnosticMasterToSlaveEventMapping,
     DiagnosticEventToSecurityEventMapping,
+    DiagnosticInhibitSourceEventMapping,
+    DiagnosticFimAliasEventMapping,
+    DiagnosticFimAliasEventGroup,
+    DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -13899,6 +13903,38 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
         self.setChildElementOptionalRefType(child_element, "SECURITY-EVENT-PROPS-REF", mapping.getSecurityEventPropsRef())
 
+    def writeDiagnosticInhibitSourceEventMapping(self, element: ET.Element, mapping: DiagnosticInhibitSourceEventMapping):
+        self.logger.debug("Write DiagnosticInhibitSourceEventMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
+        self.setChildElementOptionalRefType(child_element, "EVENT-GROUP-REF", mapping.getEventGroupRef())
+        self.setChildElementOptionalRefType(child_element, "INHIBITION-SOURCE-REF", mapping.getInhibitionSourceRef())
+
+    def writeDiagnosticFimAliasEventMapping(self, element: ET.Element, mapping: DiagnosticFimAliasEventMapping):
+        self.logger.debug("Write DiagnosticFimAliasEventMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "ACTUAL-EVENT-REF", mapping.getActualEventRef())
+        self.setChildElementOptionalRefType(child_element, "ALIAS-EVENT-REF", mapping.getAliasEventRef())
+
+    def writeDiagnosticFimAliasEventGroup(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroup):
+        self.logger.debug("Write DiagnosticFimAliasEventGroup %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP")
+        self.writeIdentifiable(child_element, mapping)
+        groupedAliasEvent_refs = mapping.getGroupedAliasEventRefs()
+        if len(groupedAliasEvent_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "GROUPED-ALIAS-EVENT-REFS")
+            for ref in groupedAliasEvent_refs:
+                self.setChildElementOptionalRefType(refs_tag, "GROUPED-ALIAS-EVENT-REF", ref)
+
+    def writeDiagnosticFimAliasEventGroupMapping(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroupMapping):
+        self.logger.debug("Write DiagnosticFimAliasEventGroupMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "ACTUAL-EVENT-REF", mapping.getActualEventRef())
+        self.setChildElementOptionalRefType(child_element, "ALIAS-EVENT-REF", mapping.getAliasEventRef())
+
     def writeDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.logger.debug("Write DiagnosticOperationCyclePortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING")
@@ -15313,6 +15349,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticMasterToSlaveEventMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToSecurityEventMapping):
             self.writeDiagnosticEventToSecurityEventMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticInhibitSourceEventMapping):
+            self.writeDiagnosticInhibitSourceEventMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFimAliasEventMapping):
+            self.writeDiagnosticFimAliasEventMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFimAliasEventGroup):
+            self.writeDiagnosticFimAliasEventGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFimAliasEventGroupMapping):
+            self.writeDiagnosticFimAliasEventGroupMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToDebounceAlgorithmMapping):
             self.writeDiagnosticEventToDebounceAlgorithmMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventToEnableConditionGroupMapping):

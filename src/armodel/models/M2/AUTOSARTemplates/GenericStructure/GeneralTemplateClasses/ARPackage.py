@@ -2178,6 +2178,78 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, DiagnosticEventToSecurityEventMapping)
 
+    def createDiagnosticFimAliasEventGroupMapping(self, short_name: str) -> DiagnosticFimAliasEventGroupMapping:
+        """
+        Creates a new DiagnosticFimAliasEventGroupMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEventGroupMapping: This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the "preliminary" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEventGroupMapping
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEventGroupMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimAliasEventGroupMapping):
+            element = DiagnosticFimAliasEventGroupMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimAliasEventGroupMapping)
+
+    def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
+        """
+        Creates a new DiagnosticFimAliasEventGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEventGroup: This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEventGroup
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEventGroup instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimAliasEventGroup):
+            element = DiagnosticFimAliasEventGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimAliasEventGroup)
+
+    def createDiagnosticFimAliasEventMapping(self, short_name: str) -> DiagnosticFimAliasEventMapping:
+        """
+        Creates a new DiagnosticFimAliasEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEventMapping: This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the "preliminary" modeling by way of a DiagnosticAliasEvent is further substantiated..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimAliasEventMapping):
+            element = DiagnosticFimAliasEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimAliasEventMapping)
+
+    def createDiagnosticInhibitSourceEventMapping(self, short_name: str) -> DiagnosticInhibitSourceEventMapping:
+        """
+        Creates a new DiagnosticInhibitSourceEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticInhibitSourceEventMapping: This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created..
+
+        Args:
+            short_name: The short name for the new DiagnosticInhibitSourceEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticInhibitSourceEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticInhibitSourceEventMapping):
+            element = DiagnosticInhibitSourceEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticInhibitSourceEventMapping)
+
     def createDiagnosticMasterToSlaveEventMapping(self, short_name: str) -> DiagnosticMasterToSlaveEventMapping:
         """
         Creates a new DiagnosticMasterToSlaveEventMapping with the given short name,
@@ -4444,15 +4516,211 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
 
 
 class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
-    pass
+    """This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroups"""
+
+    # DiagnosticFimAliasEventGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.35, p.263
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addGroupedAliasEventRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGroupedAliasEventRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # By means of this reference the grouping of DiagnosticAliasEvents within the DiagnosticFimSummaryEvent can be specified.
+        self.groupedAliasEventRefs: List[RefType] = []
+
+    def addGroupedAliasEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventGroup:
+        """
+        By means of this reference the grouping of DiagnosticAliasEvents within the DiagnosticFimSummaryEvent can be specified.
+        A None value is a no-op and does not append a groupedAliasEventRef.
+        """
+        if value is not None:
+            self.groupedAliasEventRefs.append(value)
+        return self
+
+    def getGroupedAliasEventRefs(self) -> List[RefType]:
+        """
+        By means of this reference the grouping of DiagnosticAliasEvents within the DiagnosticFimSummaryEvent can be specified.
+        """
+        return self.groupedAliasEventRefs
+
+
+class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
+    """This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created. Tags: atp.recommendedPackage=DiagnosticInhibitSourceEventMappings"""
+
+    # DiagnosticInhibitSourceEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.33, p.261
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventGroupRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventGroupRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInhibitionSourceRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInhibitionSourceRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the diagnostic event.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # This represents the reference to the event group
+        self.eventGroupRef: Optional[RefType] = None
+
+        # This represents the reference to the inhibition source.
+        self.inhibitionSourceRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the diagnostic event.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticInhibitSourceEventMapping:
+        """
+        This represents the reference to the diagnostic event.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getEventGroupRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the event group
+        """
+        return self.eventGroupRef
+
+    def setEventGroupRef(self, value: Optional[RefType]) -> DiagnosticInhibitSourceEventMapping:
+        """
+        This represents the reference to the event group
+        A None value is a no-op and does not overwrite an existing eventGroupRef.
+        """
+        if value is not None:
+            self.eventGroupRef = value
+        return self
+
+    def getInhibitionSourceRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the inhibition source.
+        """
+        return self.inhibitionSourceRef
+
+    def setInhibitionSourceRef(self, value: Optional[RefType]) -> DiagnosticInhibitSourceEventMapping:
+        """
+        This represents the reference to the inhibition source.
+        A None value is a no-op and does not overwrite an existing inhibitionSourceRef.
+        """
+        if value is not None:
+            self.inhibitionSourceRef = value
+        return self
 
 
 class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the "preliminary" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings"""
+
+    # DiagnosticFimAliasEventGroupMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.36, p.263
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActualEventRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActualEventRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAliasEventRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAliasEventRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the actual summary event.
+        self.actualEventRef: Optional[RefType] = None
+
+        # This represents the reference to the alias summary event.
+        self.aliasEventRef: Optional[RefType] = None
+
+    def getActualEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the actual summary event.
+        """
+        return self.actualEventRef
+
+    def setActualEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventGroupMapping:
+        """
+        This represents the reference to the actual summary event.
+        A None value is a no-op and does not overwrite an existing actualEventRef.
+        """
+        if value is not None:
+            self.actualEventRef = value
+        return self
+
+    def getAliasEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the alias summary event.
+        """
+        return self.aliasEventRef
+
+    def setAliasEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventGroupMapping:
+        """
+        This represents the reference to the alias summary event.
+        A None value is a no-op and does not overwrite an existing aliasEventRef.
+        """
+        if value is not None:
+            self.aliasEventRef = value
+        return self
 
 
 class DiagnosticFimAliasEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the "preliminary" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings"""
+
+    # DiagnosticFimAliasEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.34, p.262
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActualEventRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActualEventRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAliasEventRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAliasEventRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the actual diagnostic event.
+        self.actualEventRef: Optional[RefType] = None
+
+        # This represents the reference to the alias event.
+        self.aliasEventRef: Optional[RefType] = None
+
+    def getActualEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the actual diagnostic event.
+        """
+        return self.actualEventRef
+
+    def setActualEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventMapping:
+        """
+        This represents the reference to the actual diagnostic event.
+        A None value is a no-op and does not overwrite an existing actualEventRef.
+        """
+        if value is not None:
+            self.actualEventRef = value
+        return self
+
+    def getAliasEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the alias event.
+        """
+        return self.aliasEventRef
+
+    def setAliasEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventMapping:
+        """
+        This represents the reference to the alias event.
+        A None value is a no-op and does not overwrite an existing aliasEventRef.
+        """
+        if value is not None:
+            self.aliasEventRef = value
+        return self
 
 
 class DiagnosticFimEventGroup(DiagnosticCommonElement):

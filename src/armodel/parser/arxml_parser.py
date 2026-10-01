@@ -549,6 +549,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDemProvidedDataMapping,
     DiagnosticMasterToSlaveEventMapping,
     DiagnosticEventToSecurityEventMapping,
+    DiagnosticInhibitSourceEventMapping,
+    DiagnosticFimAliasEventMapping,
+    DiagnosticFimAliasEventGroup,
+    DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
     DiagnosticEventToOperationCycleMapping,
@@ -10565,6 +10569,27 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
         mapping.setSecurityEventPropsRef(self.getChildElementOptionalRefType(element, "SECURITY-EVENT-PROPS-REF"))
 
+    def readDiagnosticInhibitSourceEventMapping(self, element: ET.Element, mapping: DiagnosticInhibitSourceEventMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
+        mapping.setEventGroupRef(self.getChildElementOptionalRefType(element, "EVENT-GROUP-REF"))
+        mapping.setInhibitionSourceRef(self.getChildElementOptionalRefType(element, "INHIBITION-SOURCE-REF"))
+
+    def readDiagnosticFimAliasEventMapping(self, element: ET.Element, mapping: DiagnosticFimAliasEventMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setActualEventRef(self.getChildElementOptionalRefType(element, "ACTUAL-EVENT-REF"))
+        mapping.setAliasEventRef(self.getChildElementOptionalRefType(element, "ALIAS-EVENT-REF"))
+
+    def readDiagnosticFimAliasEventGroup(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroup):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "GROUPED-ALIAS-EVENT-REFS/GROUPED-ALIAS-EVENT-REF"):
+            mapping.addGroupedAliasEventRef(ref)
+
+    def readDiagnosticFimAliasEventGroupMapping(self, element: ET.Element, mapping: DiagnosticFimAliasEventGroupMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setActualEventRef(self.getChildElementOptionalRefType(element, "ACTUAL-EVENT-REF"))
+        mapping.setAliasEventRef(self.getChildElementOptionalRefType(element, "ALIAS-EVENT-REF"))
+
     def readDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setOperationCycleRef(self.getChildElementOptionalRefType(element, "OPERATION-CYCLE-REF"))
@@ -15652,6 +15677,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING":
                 mapping = parent.createDiagnosticEventToSecurityEventMapping(self.getShortName(child_element))
                 self.readDiagnosticEventToSecurityEventMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING":
+                mapping = parent.createDiagnosticInhibitSourceEventMapping(self.getShortName(child_element))
+                self.readDiagnosticInhibitSourceEventMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING":
+                mapping = parent.createDiagnosticFimAliasEventMapping(self.getShortName(child_element))
+                self.readDiagnosticFimAliasEventMapping(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP":
+                mapping = parent.createDiagnosticFimAliasEventGroup(self.getShortName(child_element))
+                self.readDiagnosticFimAliasEventGroup(child_element, mapping)
+            elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING":
+                mapping = parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element))
+                self.readDiagnosticFimAliasEventGroupMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
                 mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
                 self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)

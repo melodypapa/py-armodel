@@ -37,7 +37,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventToSecurityEventMapping,
     DiagnosticEventToStorageConditionGroupMapping,
     DiagnosticEventToTroubleCodeUdsMapping,
+    DiagnosticFimAliasEventGroup,
+    DiagnosticFimAliasEventGroupMapping,
+    DiagnosticFimAliasEventMapping,
     DiagnosticFimEventGroup,
+    DiagnosticInhibitSourceEventMapping,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
@@ -4684,4 +4688,279 @@ class TestDiagnosticEventToSecurityEventMapping:
         assert package.getElement("M1", DiagnosticEventToSecurityEventMapping) is element
 
         duplicate = package.createDiagnosticEventToSecurityEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticInhibitSourceEventMapping:
+    """
+    Test class for DiagnosticInhibitSourceEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.33, p.261
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created. Tags: atp.recommendedPackage=DiagnosticInhibitSourceEventMappings"
+
+    def _make_obj(self) -> DiagnosticInhibitSourceEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticInhibitSourceEventMapping(ar_root, "TestInhibitSourceEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticInhibitSourceEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestInhibitSourceEventMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getEventGroupRef() is None
+        assert obj.getInhibitionSourceRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticInhibitSourceEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticInhibitSourceEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+        obj.setEventGroupRef(RefType().setValue("/AUTOSAR/EventGroup1"))
+        obj.setInhibitionSourceRef(RefType().setValue("/AUTOSAR/InhibitionSource1"))
+
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"
+        assert obj.getEventGroupRef().getValue() == "/AUTOSAR/EventGroup1"
+        assert obj.getInhibitionSourceRef().getValue() == "/AUTOSAR/InhibitionSource1"
+
+        obj.setDiagnosticEventRef(None)
+        obj.setEventGroupRef(None)
+        obj.setInhibitionSourceRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getEventGroupRef().getValue() == "/AUTOSAR/EventGroup1"  # None is a no-op
+        assert obj.getInhibitionSourceRef().getValue() == "/AUTOSAR/InhibitionSource1"  # None is a no-op
+
+    def test_create_diagnosticInhibitSourceEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticInhibitSourceEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticInhibitSourceEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticInhibitSourceEventMapping) is element
+
+        duplicate = package.createDiagnosticInhibitSourceEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimAliasEventMapping:
+    """
+    Test class for DiagnosticFimAliasEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.34, p.262
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the \"preliminary\" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings"
+
+    def _make_obj(self) -> DiagnosticFimAliasEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventMapping(ar_root, "TestFimAliasEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimAliasEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEventMapping"
+        assert obj.getActualEventRef() is None
+        assert obj.getAliasEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setActualEventRef(RefType().setValue("/AUTOSAR/ActualEvent1"))
+        obj.setAliasEventRef(RefType().setValue("/AUTOSAR/AliasEvent1"))
+
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"
+
+        obj.setActualEventRef(None)
+        obj.setAliasEventRef(None)
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"  # None is a no-op
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"  # None is a no-op
+
+    def test_create_diagnosticFimAliasEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimAliasEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimAliasEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimAliasEventMapping) is element
+
+        duplicate = package.createDiagnosticFimAliasEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimAliasEventGroup:
+    """
+    Test class for DiagnosticFimAliasEventGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.35, p.263
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroups"
+
+    def _make_obj(self) -> DiagnosticFimAliasEventGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventGroup(ar_root, "TestFimAliasEventGroup")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimAliasEventGroup instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEventGroup"
+        assert obj.getGroupedAliasEventRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEventGroup.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEventGroup.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.addGroupedAliasEventRef(RefType().setValue("/AUTOSAR/GroupedAliasEvent1"))
+
+        assert obj.getGroupedAliasEventRefs()[0].getValue() == "/AUTOSAR/GroupedAliasEvent1"
+
+        obj.addGroupedAliasEventRef(None)
+        assert len(obj.getGroupedAliasEventRefs()) == 1  # None is a no-op
+
+    def test_create_diagnosticFimAliasEventGroup(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimAliasEventGroup("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimAliasEventGroup)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimAliasEventGroup) is element
+
+        duplicate = package.createDiagnosticFimAliasEventGroup("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimAliasEventGroupMapping:
+    """
+    Test class for DiagnosticFimAliasEventGroupMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.36, p.263
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the \"preliminary\" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings"
+
+    def _make_obj(self) -> DiagnosticFimAliasEventGroupMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventGroupMapping(ar_root, "TestFimAliasEventGroupMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimAliasEventGroupMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEventGroupMapping"
+        assert obj.getActualEventRef() is None
+        assert obj.getAliasEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEventGroupMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEventGroupMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setActualEventRef(RefType().setValue("/AUTOSAR/ActualEvent1"))
+        obj.setAliasEventRef(RefType().setValue("/AUTOSAR/AliasEvent1"))
+
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"
+
+        obj.setActualEventRef(None)
+        obj.setAliasEventRef(None)
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"  # None is a no-op
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"  # None is a no-op
+
+    def test_create_diagnosticFimAliasEventGroupMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimAliasEventGroupMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimAliasEventGroupMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimAliasEventGroupMapping) is element
+
+        duplicate = package.createDiagnosticFimAliasEventGroupMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element

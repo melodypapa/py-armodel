@@ -583,9 +583,6 @@ class DiagnosticFunctionIdentifierInhibit(ARObject):
     pass
 
 
-class DiagnosticInhibitSourceEventMapping(ARObject):
-    pass
-
 
 class DiagnosticIumprGroupIdentifier(ARObject):
     pass
