@@ -386,6 +386,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -10692,6 +10693,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticWriteDataByIdentifierClass <%s>" % write_data_by_identifier_class.getShortName())
         self.readIdentifiable(element, write_data_by_identifier_class)
 
+    def readDiagnosticReadScalingDataByIdentifierClass(self, element: ET.Element, read_scaling_data_by_identifier_class: DiagnosticReadScalingDataByIdentifierClass):
+        self.logger.debug("Read DiagnosticReadScalingDataByIdentifierClass <%s>" % read_scaling_data_by_identifier_class.getShortName())
+        self.readIdentifiable(element, read_scaling_data_by_identifier_class)
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -15603,6 +15608,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS":
                 write_data_by_identifier_class = parent.createDiagnosticWriteDataByIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifierClass(child_element, write_data_by_identifier_class)
+            elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS":
+                read_scaling_data_by_identifier_class = parent.createDiagnosticReadScalingDataByIdentifierClass(self.getShortName(child_element))
+                self.readDiagnosticReadScalingDataByIdentifierClass(child_element, read_scaling_data_by_identifier_class)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)

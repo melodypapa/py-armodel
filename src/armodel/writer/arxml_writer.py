@@ -280,6 +280,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -14008,6 +14009,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
         self.writeIdentifiable(child_element, write_data_by_identifier_class)
 
+    def writeDiagnosticReadScalingDataByIdentifierClass(self, element: ET.Element, read_scaling_data_by_identifier_class: DiagnosticReadScalingDataByIdentifierClass):
+        self.logger.debug("Write DiagnosticReadScalingDataByIdentifierClass %s" % read_scaling_data_by_identifier_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, read_scaling_data_by_identifier_class)
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -15224,6 +15230,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
             self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifierClass):
+            self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):

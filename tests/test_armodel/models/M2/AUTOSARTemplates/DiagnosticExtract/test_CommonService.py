@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
@@ -658,4 +659,37 @@ class Test_DiagnosticWriteDataByIdentifierClass:
         assert package.getElement("Wdibc1", DiagnosticWriteDataByIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticWriteDataByIdentifierClass("Wdibc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticReadScalingDataByIdentifierClass:
+    """Test cases for DiagnosticReadScalingDataByIdentifierClass class (Table 4.79, p.116)."""
+
+    DRSDIBC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Read Scaling Data by Identifier" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticReadScalingDataByIdentifierClass(_pkg(), "MyRsdibc")
+        assert service_class.getShortName() == "MyRsdibc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticReadScalingDataByIdentifierClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticReadScalingDataByIdentifierClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticReadScalingDataByIdentifierClass, ARObject)
+        assert issubclass(DiagnosticReadScalingDataByIdentifierClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadScalingDataByIdentifierClass.__doc__) == self.DRSDIBC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticReadScalingDataByIdentifierClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_read_scaling_data_by_identifier_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticReadScalingDataByIdentifierClass("Rsdibc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticReadScalingDataByIdentifierClass)
+        assert service_class.getShortName() == "Rsdibc1"
+        assert package.getElement("Rsdibc1", DiagnosticReadScalingDataByIdentifierClass) is service_class
+
+        duplicate = package.createDiagnosticReadScalingDataByIdentifierClass("Rsdibc1")
         assert duplicate is service_class
