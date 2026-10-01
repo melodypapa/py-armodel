@@ -379,7 +379,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -10570,6 +10570,11 @@ class ARXMLParser(AbstractARXMLParser):
         session_control.setDiagnosticSessionRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-SESSION-REF"))
         session_control.setSessionControlClassRef(self.getChildElementOptionalRefType(element, "SESSION-CONTROL-CLASS-REF"))
 
+    def readDiagnosticSessionControlClass(self, element: ET.Element, service_class: DiagnosticSessionControlClass):
+        self.logger.debug("Read DiagnosticSessionControlClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+        service_class.setS3ServerTimeout(self.getChildElementOptionalTimeValue(element, "S-3-SERVER-TIMEOUT"))
+
     def readDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
         self.logger.debug("Read DiagnosticSecurityLevel <%s>" % security_level.getShortName())
         self.readIdentifiable(element, security_level)
@@ -15203,6 +15208,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SESSION-CONTROL":
                 session_control = parent.createDiagnosticSessionControl(self.getShortName(child_element))
                 self.readDiagnosticSessionControl(child_element, session_control)
+            elif tag_name == "DIAGNOSTIC-SESSION-CONTROL-CLASS":
+                session_control_class = parent.createDiagnosticSessionControlClass(self.getShortName(child_element))
+                self.readDiagnosticSessionControlClass(child_element, session_control_class)
             elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
                 security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
                 self.readDiagnosticSecurityLevel(child_element, security_level)

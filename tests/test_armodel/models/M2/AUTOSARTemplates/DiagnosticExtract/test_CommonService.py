@@ -10,10 +10,10 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceClass, DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
 
 DSI_NOTE = "This represents a concrete instance of a diagnostic service."
 DSC_NOTE = "This meta-class provides the ability to define common properties that are shared among all instances of sub-classes of DiagnosticServiceInstance."
@@ -188,4 +188,64 @@ class Test_DiagnosticCustomServiceClass:
         assert package.getElement("Svc1", DiagnosticCustomServiceClass) is service_class
 
         duplicate = package.createDiagnosticCustomServiceClass("Svc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticSessionControlClass:
+    """Test cases for DiagnosticSessionControlClass class (Table 4.48, p.93)."""
+
+    DSCL_CLASS_DOCSTRING = (
+        'This meta-class contains attributes shared by all instances of the "Session Control" diagnostic service.\n'
+        "\n"
+        "[constr_10440] Restriction for the minimum value of attribute DiagnosticSessionControlClass.s3ServerTimeout: "
+        "The value of attribute DiagnosticSessionControlClass.s3ServerTimeout shall be greater than or equal to 5.0 "
+        "at the time when the DEXT is complete."
+    )
+    S3_SERVER_TIMEOUT_NOTE = "Time for the server to keep a diagnostic session other than the default session active while not receiving any diagnostic request message."
+
+    def test_is_concrete(self):
+        service_class = DiagnosticSessionControlClass(_pkg(), "MyDscl")
+        assert service_class.getShortName() == "MyDscl"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticSessionControlClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticSessionControlClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticSessionControlClass, ARObject)
+        assert issubclass(DiagnosticSessionControlClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticSessionControlClass.__doc__) == self.DSCL_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticSessionControlClass.__init__.__doc__ is None
+
+    def test_defaults(self):
+        service_class = DiagnosticSessionControlClass(_pkg(), "MyDscl")
+        assert service_class.getS3ServerTimeout() is None
+
+    def test_get_set_s3_server_timeout(self):
+        service_class = DiagnosticSessionControlClass(_pkg(), "MyDscl")
+        value = TimeValue()
+        value.setValue("10.0")
+        assert service_class.setS3ServerTimeout(value) is service_class
+        assert service_class.getS3ServerTimeout() is value
+        assert service_class.getS3ServerTimeout().getValue() == 10.0
+        service_class.setS3ServerTimeout(None)
+        assert service_class.getS3ServerTimeout() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticSessionControlClass.getS3ServerTimeout.__doc__) == self.S3_SERVER_TIMEOUT_NOTE
+        assert inspect.cleandoc(DiagnosticSessionControlClass.setS3ServerTimeout.__doc__) == (
+            self.S3_SERVER_TIMEOUT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing s3ServerTimeout."
+        )
+
+    def test_create_diagnostic_session_control_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticSessionControlClass("Sscl1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticSessionControlClass)
+        assert service_class.getShortName() == "Sscl1"
+        assert package.getElement("Sscl1", DiagnosticSessionControlClass) is service_class
+
+        duplicate = package.createDiagnosticSessionControlClass("Sscl1")
         assert duplicate is service_class

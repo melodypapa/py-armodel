@@ -273,7 +273,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -13760,6 +13760,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-SESSION-REF", session_control.getDiagnosticSessionRef())
         self.setChildElementOptionalRefType(child_element, "SESSION-CONTROL-CLASS-REF", session_control.getSessionControlClassRef())
 
+    def writeDiagnosticSessionControlClass(self, element: ET.Element, service_class: DiagnosticSessionControlClass):
+        self.logger.debug("Write DiagnosticSessionControlClass %s" % service_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SESSION-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, service_class)
+        self.setChildElementOptionalTimeValue(child_element, "S-3-SERVER-TIMEOUT", service_class.getS3ServerTimeout())
+
     def writeDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
         self.logger.debug("Write DiagnosticSecurityLevel %s" % security_level.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-LEVEL")
@@ -14821,6 +14827,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSessionControl):
             self.writeDiagnosticSessionControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSessionControlClass):
+            self.writeDiagnosticSessionControlClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):
             self.writeDiagnosticSecurityLevel(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnvironmentalCondition):

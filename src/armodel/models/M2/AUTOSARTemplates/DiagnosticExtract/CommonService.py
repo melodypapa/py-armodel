@@ -3,7 +3,7 @@ from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
 
 
 class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
@@ -215,7 +215,40 @@ class DiagnosticSecurityAccessClass(DiagnosticServiceClass):
 
 
 class DiagnosticSessionControlClass(DiagnosticServiceClass):
-    pass
+    """
+    This meta-class contains attributes shared by all instances of the "Session Control" diagnostic service.
+
+    [constr_10440] Restriction for the minimum value of attribute DiagnosticSessionControlClass.s3ServerTimeout: The value of attribute DiagnosticSessionControlClass.s3ServerTimeout shall be greater than or equal to 5.0 at the time when the DEXT is complete.
+    """
+
+    # DiagnosticSessionControlClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.48, p.93
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getS3ServerTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setS3ServerTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Time for the server to keep a diagnostic session other than the default session active while not receiving any diagnostic request message.
+        self.s3ServerTimeout: Optional[TimeValue] = None
+
+    def getS3ServerTimeout(self) -> Optional[TimeValue]:
+        """
+        Time for the server to keep a diagnostic session other than the default session active while not receiving any diagnostic request message.
+        """
+        return self.s3ServerTimeout
+
+    def setS3ServerTimeout(self, value: Optional[TimeValue]):
+        """
+        Time for the server to keep a diagnostic session other than the default session active while not receiving any diagnostic request message.
+
+        A None value is a no-op and does not overwrite an existing s3ServerTimeout.
+        """
+        if value is not None:
+            self.s3ServerTimeout = value
+        return self
 
 
 class DiagnosticTransferExitClass(DiagnosticServiceClass):
