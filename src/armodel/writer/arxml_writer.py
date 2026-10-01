@@ -384,6 +384,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
+    DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
@@ -13905,6 +13906,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, configuration)
         self.writeDiagnosticAuthentication(child_element, configuration)
 
+    def writeDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
+        self.logger.debug("Write DiagnosticDeAuthentication %s" % de_authentication.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DE-AUTHENTICATION")
+        self.writeIdentifiable(child_element, de_authentication)
+        self.writeDiagnosticAuthentication(child_element, de_authentication)
+
     def writeDiagnosticVerifyCertificateBidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateBidirectional):
         self.logger.debug("Write DiagnosticVerifyCertificateBidirectional %s" % verification.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL")
@@ -14896,6 +14903,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthenticationClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthenticationConfiguration):
             self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDeAuthentication):
+            self.writeDiagnosticDeAuthentication(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
             self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):

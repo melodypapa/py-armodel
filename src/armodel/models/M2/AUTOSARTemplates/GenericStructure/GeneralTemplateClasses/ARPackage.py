@@ -1576,6 +1576,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(configuration)
         return self.getElement(short_name, DiagnosticAuthenticationConfiguration)
 
+    def createDiagnosticDeAuthentication(self, short_name: str) -> DiagnosticDeAuthentication:
+        """
+        Creates a new DiagnosticDeAuthentication with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDeAuthentication represents the subfunction to remove the authentication.
+
+        Args:
+            short_name: The short name for the new DiagnosticDeAuthentication
+
+        Returns:
+            The newly created or existing DiagnosticDeAuthentication instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDeAuthentication):
+            de_authentication = DiagnosticDeAuthentication(self, short_name)
+            self.addElement(de_authentication)
+        return self.getElement(short_name, DiagnosticDeAuthentication)
+
     def createDiagnosticVerifyCertificateBidirectional(self, short_name: str) -> DiagnosticVerifyCertificateBidirectional:
         """
         Creates a new DiagnosticVerifyCertificateBidirectional with the given short name,
@@ -3152,7 +3170,15 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
 
 
 class DiagnosticDeAuthentication(DiagnosticAuthentication):
-    pass
+    """This meta-class represents the subfunction to remove the authentication"""
+
+    # DiagnosticDeAuthentication method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.56, p.100
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticDemProvidedDataMapping(DiagnosticMapping):

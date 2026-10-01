@@ -504,6 +504,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
+    DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
@@ -10721,6 +10722,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, configuration)
         self.readDiagnosticAuthentication(element, configuration)
 
+    def readDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
+        self.logger.debug("Read DiagnosticDeAuthentication <%s>" % de_authentication.getShortName())
+        self.readIdentifiable(element, de_authentication)
+        self.readDiagnosticAuthentication(element, de_authentication)
+
     def readDiagnosticVerifyCertificateBidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateBidirectional):
         self.logger.debug("Read DiagnosticVerifyCertificateBidirectional <%s>" % verification.getShortName())
         self.readIdentifiable(element, verification)
@@ -15280,6 +15286,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
                 configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
                 self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
+            elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
+                de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
+                self.readDiagnosticDeAuthentication(child_element, de_authentication)
             elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
                 verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
                 self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
