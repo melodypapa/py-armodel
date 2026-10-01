@@ -539,6 +539,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticProtocol,
@@ -10713,6 +10714,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
 
+    def readDiagnosticDynamicallyDefineDataIdentifier(self, element: ET.Element, dddi: DiagnosticDynamicallyDefineDataIdentifier):
+        self.logger.debug("Read DiagnosticDynamicallyDefineDataIdentifier <%s>" % dddi.getShortName())
+        self.readIdentifiable(element, dddi)
+        dddi.setDataIdentifier(self.getChildElementOptionalRefType(element, "DATA-IDENTIFIER-REF"))
+        dddi.setDynamicallyDefineDataIdentifierClass(self.getChildElementOptionalRefType(element, "DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF"))
+        dddi.setMaxSourceElement(self.getChildElementOptionalPositiveInteger(element, "MAX-SOURCE-ELEMENT"))
+
     def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())
         self.readIdentifiable(element, ecu_reset)
@@ -15638,6 +15646,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDynamicDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER":
+                dddi = parent.createDiagnosticDynamicallyDefineDataIdentifier(self.getShortName(child_element))
+                self.readDiagnosticDynamicallyDefineDataIdentifier(child_element, dddi)
             elif tag_name == "DIAGNOSTIC-PROTOCOL":
                 protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
                 self.readDiagnosticProtocol(child_element, protocol)

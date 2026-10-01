@@ -415,6 +415,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticProtocol,
@@ -14020,6 +14021,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER")
         self.writeDiagnosticAbstractDataIdentifier(child_element, did)
 
+    def writeDiagnosticDynamicallyDefineDataIdentifier(self, element: ET.Element, dddi: DiagnosticDynamicallyDefineDataIdentifier):
+        self.logger.debug("Write DiagnosticDynamicallyDefineDataIdentifier %s" % dddi.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER")
+        self.writeIdentifiable(child_element, dddi)
+        self.setChildElementOptionalRefType(child_element, "DATA-IDENTIFIER-REF", dddi.getDataIdentifier())
+        self.setChildElementOptionalRefType(child_element, "DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF", dddi.getDynamicallyDefineDataIdentifierClass())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SOURCE-ELEMENT", dddi.getMaxSourceElement())
+
     def writeDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Write DiagnosticEcuReset %s" % ecu_reset.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET")
@@ -15312,6 +15321,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticDynamicDataIdentifier):
             self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifier):
+            self.writeDiagnosticDynamicallyDefineDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSessionControl):

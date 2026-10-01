@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
+    DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticIOControl,
@@ -3868,3 +3869,130 @@ class TestDiagnosticRoutineControl:
 
         duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
         assert duplicate is routine_control  # duplicate short name returns the existing element
+
+
+class TestDiagnosticDynamicallyDefineDataIdentifier:
+    """
+    Test class for DiagnosticDynamicallyDefineDataIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.93, p.127
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Dynamically Define Data Identifier" diagnostic service.'
+    DATA_IDENTIFIER_NOTE = "This represents the applicable DiagnosticDynamicData Identfier."
+    DYNAMICALLY_DEFINE_DATA_IDENTIFIER_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticDynamicallyDefineDataIdentifier in the given context."
+    )
+    MAX_SOURCE_ELEMENT_NOTE = "This represents the maximum number of source elements of the dynamically created DID."
+
+    def _make_obj(self) -> DiagnosticDynamicallyDefineDataIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDynamicallyDefineDataIdentifier(ar_root, "Dddi1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticDynamicallyDefineDataIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Dddi1"
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getDynamicallyDefineDataIdentifierClass() is None
+        assert obj.getMaxSourceElement() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticDynamicallyDefineDataIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDynamicallyDefineDataIdentifier.__init__.__doc__ is None
+
+    def test_get_set_data_identifier(self):
+        """
+        Round-trips the dataIdentifier reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER")
+        value.setValue("/AUTOSAR/DiagnosticDynamicDataIdentifiers/Did1")
+        result = obj.setDataIdentifier(value)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifier() is value
+        assert obj.getDataIdentifier().getValue() == "/AUTOSAR/DiagnosticDynamicDataIdentifiers/Did1"
+
+        obj.setDataIdentifier(None)
+        assert obj.getDataIdentifier() is value  # None is a no-op
+
+    def test_get_set_dynamically_define_data_identifier_class(self):
+        """
+        Round-trips the dynamicallyDefineDataIdentifierClass reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS")
+        value.setValue("/AUTOSAR/DiagnosticDynamicallyDefineDataIdentifiers/Class1")
+        result = obj.setDynamicallyDefineDataIdentifierClass(value)
+        assert result is obj  # method chaining
+        assert obj.getDynamicallyDefineDataIdentifierClass() is value
+        assert obj.getDynamicallyDefineDataIdentifierClass().getValue() == "/AUTOSAR/DiagnosticDynamicallyDefineDataIdentifiers/Class1"
+
+        obj.setDynamicallyDefineDataIdentifierClass(None)
+        assert obj.getDynamicallyDefineDataIdentifierClass() is value  # None is a no-op
+
+    def test_get_set_max_source_element(self):
+        """
+        Round-trips the maxSourceElement; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("9")
+        result = obj.setMaxSourceElement(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxSourceElement() is value
+        assert obj.getMaxSourceElement().getValue() == 9
+
+        obj.setMaxSourceElement(None)
+        assert obj.getMaxSourceElement() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.setDataIdentifier.__doc__) == (
+            self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier."
+        )
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.getDynamicallyDefineDataIdentifierClass.__doc__) == self.DYNAMICALLY_DEFINE_DATA_IDENTIFIER_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.setDynamicallyDefineDataIdentifierClass.__doc__) == (
+            self.DYNAMICALLY_DEFINE_DATA_IDENTIFIER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dynamicallyDefineDataIdentifierClass."
+        )
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.getMaxSourceElement.__doc__) == self.MAX_SOURCE_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.setMaxSourceElement.__doc__) == (
+            self.MAX_SOURCE_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxSourceElement."
+        )
+
+    def test_create_diagnostic_dynamically_define_data_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticDynamicallyDefineDataIdentifiers")
+        dddi = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
+
+        assert dddi is not None
+        assert isinstance(dddi, DiagnosticDynamicallyDefineDataIdentifier)
+        assert dddi.getShortName() == "Dddi1"
+        assert package.getElement("Dddi1", DiagnosticDynamicallyDefineDataIdentifier) is dddi
+
+        duplicate = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
+        assert duplicate is dddi  # duplicate short name returns the existing element

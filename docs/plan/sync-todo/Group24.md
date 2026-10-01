@@ -635,14 +635,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.93, p.127
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.93 body matched by Class row (l.3788, caption above); attrs dataIdentifier (0..1 ref → Optional[RefType], heal cell-wrap "DiagnosticDynamicData Identifier"), dynamicallyDefineDataIdentifierClass (0..1 ref → Optional[RefType], heal cell-wrap "dynamically DefineData IdentifierClass") and maxSourceElement (PositiveInteger 0..1 attr); spec Note typo "DiagnosticDynamicData Identfier." kept verbatim in docstrings; XSD group DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER (AUTOSAR_00052.xsd l.35133) XML order DATA-IDENTIFIER-REF, DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF, MAX-SOURCE-ELEMENT — matches the markdown displayed order; constr_1808 (dataIdentifier existence at DEXT complete) is a completeness constraint, not a field; NO enum pull-in — Table 4.93 references no enum; DiagnosticHandleDDDIConfigurationEnum (Table 4.95) / DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum (Table 4.96) belong to Table 4.94 DiagnosticDynamicallyDefineDataIdentifierClass, a separate queue row; Aggregated by ARPackage.element — full 5-place with createDiagnosticDynamicallyDefineDataIdentifier factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicallyDefineDataIdentifier` factory (alphabetical after createDiagnosticDynamicDataIdentifier) + readARPackageElements DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch; refs via set/getDataIdentifier + set/getDynamicallyDefineDataIdentifierClass, maxSourceElement via set/getMaxSourceElement, all in XSD order.
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.94, p.128

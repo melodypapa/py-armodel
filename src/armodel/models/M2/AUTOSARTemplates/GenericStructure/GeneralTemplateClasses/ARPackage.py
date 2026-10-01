@@ -2195,6 +2195,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(did)
         return self.getElement(short_name, DiagnosticDynamicDataIdentifier)
 
+    def createDiagnosticDynamicallyDefineDataIdentifier(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifier:
+        """
+        Creates a new DiagnosticDynamicallyDefineDataIdentifier with the given
+        short name, or returns an existing one if it already exists in this package.
+
+        DiagnosticDynamicallyDefineDataIdentifier represents an instance of the
+        "Dynamically Define Data Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDynamicallyDefineDataIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticDynamicallyDefineDataIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifier):
+            dddi = DiagnosticDynamicallyDefineDataIdentifier(self, short_name)
+            self.addElement(dddi)
+        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
+
     def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
         """
         Creates a new DiagnosticEcuReset with the given short name,
@@ -3745,7 +3764,78 @@ class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
 
 
 class DiagnosticDynamicallyDefineDataIdentifier(ARElement):
-    pass
+    """This represents an instance of the "Dynamically Define Data Identifier" diagnostic service."""
+
+    # DiagnosticDynamicallyDefineDataIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.93, p.127
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataIdentifier                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdentifier                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicallyDefineDataIdentifierClass  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicallyDefineDataIdentifierClass  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSourceElement                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSourceElement                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable DiagnosticDynamicData Identfier.
+        self.dataIdentifier: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDynamicallyDefineDataIdentifier in the given context.
+        self.dynamicallyDefineDataIdentifierClass: Optional[RefType] = None
+
+        # This represents the maximum number of source elements of the dynamically created DID.
+        self.maxSourceElement: Optional[PositiveInteger] = None
+
+    def getDataIdentifier(self) -> Optional[RefType]:
+        """
+        This represents the applicable DiagnosticDynamicData Identfier.
+        """
+        return self.dataIdentifier
+
+    def setDataIdentifier(self, value: Optional[RefType]) -> DiagnosticDynamicallyDefineDataIdentifier:
+        """
+        This represents the applicable DiagnosticDynamicData Identfier.
+
+        A None value is a no-op and does not overwrite an existing dataIdentifier.
+        """
+        if value is not None:
+            self.dataIdentifier = value
+        return self
+
+    def getDynamicallyDefineDataIdentifierClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDynamicallyDefineDataIdentifier in the given context.
+        """
+        return self.dynamicallyDefineDataIdentifierClass
+
+    def setDynamicallyDefineDataIdentifierClass(self, value: Optional[RefType]) -> DiagnosticDynamicallyDefineDataIdentifier:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDynamicallyDefineDataIdentifier in the given context.
+
+        A None value is a no-op and does not overwrite an existing dynamicallyDefineDataIdentifierClass.
+        """
+        if value is not None:
+            self.dynamicallyDefineDataIdentifierClass = value
+        return self
+
+    def getMaxSourceElement(self) -> Optional[PositiveInteger]:
+        """
+        This represents the maximum number of source elements of the dynamically created DID.
+        """
+        return self.maxSourceElement
+
+    def setMaxSourceElement(self, value: Optional[PositiveInteger]) -> DiagnosticDynamicallyDefineDataIdentifier:
+        """
+        This represents the maximum number of source elements of the dynamically created DID.
+
+        A None value is a no-op and does not overwrite an existing maxSourceElement.
+        """
+        if value is not None:
+            self.maxSourceElement = value
+        return self
 
 
 class DiagnosticEcuInstanceProps(ARElement):
