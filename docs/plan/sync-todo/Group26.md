@@ -79,27 +79,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTroubleCodeJ1939DtcKindEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.222, p.221
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum, no own XML element (Rules 0010–0011)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (368 passed test_ARPackage.py + test_PrimitiveTypes.py + DTC parser/writer; ruff clean; PrimitiveTypes.py black pre-existing drift (main also fails), not in added block); 9b deferred to batch confirmation (user instruction); sync commit `e51e632f0`
+  - note (Step 1): literals in XSD declaration order = markdown display order (serviceOnly, standard; atp.EnumerationLiteralIndex 0,1); XML tokens SERVICE-ONLY/STANDARD — token map + KIND wiring lands with consuming class DiagnosticTroubleCodeJ1939 (same sync commit)
 
 - [ ] `DiagnosticTroubleCodeJ1939` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.223, p.222
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (368 passed, same battery as the enum); 9b deferred to batch confirmation (user instruction); sync commit `e51e632f0`
+  - note (Step 1): trailing-caption layout — real table sits BEFORE the caption (dtcProps, fmi) with page-split continuation after (kind, node, spn); row's `ARObject` base claim is a generation artifact — spec Base most-derived = DiagnosticTroubleCode (T4.161 abstract, zero own attrs, pure marker); base class itself is an unsynced Group25 stub (own row lands with the group 23-25 automation) — subclass models own T4.223 attrs only; attrs displayed order: dtcPropsRef, fmi, kind, nodeRef, spnRef; XSD group l.46261 order DTC-PROPS-REF → FMI → KIND → NODE-REF → SPN-REF (J-1939-DTC-VALUE atp.Status="removed" not modeled); spec "releated SPN" typo verbatim
 
 - [ ] `DiagnosticMapping` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.1, p.223
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
