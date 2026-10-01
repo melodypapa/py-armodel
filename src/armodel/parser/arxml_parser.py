@@ -507,6 +507,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
+    DiagnosticProofOfOwnership,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -10727,6 +10728,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, de_authentication)
         self.readDiagnosticAuthentication(element, de_authentication)
 
+    def readDiagnosticProofOfOwnership(self, element: ET.Element, proof_of_ownership: DiagnosticProofOfOwnership):
+        self.logger.debug("Read DiagnosticProofOfOwnership <%s>" % proof_of_ownership.getShortName())
+        self.readIdentifiable(element, proof_of_ownership)
+        self.readDiagnosticAuthentication(element, proof_of_ownership)
+
     def readDiagnosticVerifyCertificateBidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateBidirectional):
         self.logger.debug("Read DiagnosticVerifyCertificateBidirectional <%s>" % verification.getShortName())
         self.readIdentifiable(element, verification)
@@ -15289,6 +15295,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
                 de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
                 self.readDiagnosticDeAuthentication(child_element, de_authentication)
+            elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
+                proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
+                self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
             elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
                 verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
                 self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)

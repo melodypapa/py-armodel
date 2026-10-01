@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
+    DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
@@ -2645,3 +2646,81 @@ class TestDiagnosticDeAuthentication:
 
         duplicate = package.createDiagnosticDeAuthentication("DeAuth1")
         assert duplicate is de_authentication  # duplicate short name returns the existing element
+
+
+class TestDiagnosticProofOfOwnership:
+    """
+    Test class for DiagnosticProofOfOwnership functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.57, p.100
+    """
+
+    CLASS_NOTE = "This meta-class represents the subfunction to provide proof of ownership."
+
+    def _create_proof_of_ownership(self) -> DiagnosticProofOfOwnership:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticProofOfOwnership(ar_root, "TestProofOfOwnership")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticProofOfOwnership instantiates with the spec defaults.
+        """
+        obj = self._create_proof_of_ownership()
+
+        assert obj.getShortName() == "TestProofOfOwnership"
+        assert isinstance(obj, DiagnosticAuthentication)
+        assert obj.getAuthenticationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticProofOfOwnership.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticProofOfOwnership.__init__.__doc__ is None
+
+    def test_defines_no_new_public_members(self):
+        """
+        Test that the class defines no own public members (Table 4.57 attribute row is "-").
+        """
+        own_public = {name for name, member in vars(DiagnosticProofOfOwnership).items() if not name.startswith("_")}
+        assert own_public == set()
+
+    def test_inherited_authentication_class_accessors(self):
+        """
+        Test the inherited getAuthenticationClass/setAuthenticationClass round-trip and None no-op.
+        """
+        obj = self._create_proof_of_ownership()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTHENTICATION-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass")
+        result = obj.setAuthenticationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthenticationClass() is ref
+        assert obj.getAuthenticationClass().getValue() == "/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass"
+        assert obj.getAuthenticationClass().getDest() == "DIAGNOSTIC-AUTHENTICATION-CLASS"
+
+        result = obj.setAuthenticationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthenticationClass() is ref  # None is a no-op
+
+    def test_create_diagnostic_proof_of_ownership(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("ProofOfOwnerships")
+        proof_of_ownership = package.createDiagnosticProofOfOwnership("Proof1")
+
+        assert proof_of_ownership is not None
+        assert isinstance(proof_of_ownership, DiagnosticProofOfOwnership)
+        assert proof_of_ownership.getShortName() == "Proof1"
+        assert package.getElement("Proof1", DiagnosticProofOfOwnership) is proof_of_ownership
+
+        duplicate = package.createDiagnosticProofOfOwnership("Proof1")
+        assert duplicate is proof_of_ownership  # duplicate short name returns the existing element

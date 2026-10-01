@@ -1594,6 +1594,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(de_authentication)
         return self.getElement(short_name, DiagnosticDeAuthentication)
 
+    def createDiagnosticProofOfOwnership(self, short_name: str) -> DiagnosticProofOfOwnership:
+        """
+        Creates a new DiagnosticProofOfOwnership with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticProofOfOwnership represents the subfunction to provide proof of ownership.
+
+        Args:
+            short_name: The short name for the new DiagnosticProofOfOwnership
+
+        Returns:
+            The newly created or existing DiagnosticProofOfOwnership instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticProofOfOwnership):
+            proof_of_ownership = DiagnosticProofOfOwnership(self, short_name)
+            self.addElement(proof_of_ownership)
+        return self.getElement(short_name, DiagnosticProofOfOwnership)
+
     def createDiagnosticVerifyCertificateBidirectional(self, short_name: str) -> DiagnosticVerifyCertificateBidirectional:
         """
         Creates a new DiagnosticVerifyCertificateBidirectional with the given short name,
@@ -3381,7 +3399,15 @@ class DiagnosticPowertrainFreezeFrame(ARElement):
 
 
 class DiagnosticProofOfOwnership(DiagnosticAuthentication):
-    pass
+    """This meta-class represents the subfunction to provide proof of ownership."""
+
+    # DiagnosticProofOfOwnership method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.57, p.100
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticProtocol(ARElement):
