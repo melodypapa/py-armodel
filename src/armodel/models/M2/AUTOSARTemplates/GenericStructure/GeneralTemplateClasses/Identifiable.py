@@ -1010,7 +1010,55 @@ class DiagnosticStartRoutine(DiagnosticRoutineSubfunction):
 
 
 class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
-    pass
+    """This represents the ability to stop a diagnostic routine."""
+
+    # DiagnosticStopRoutine method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.87, p.125
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addResponse   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponse   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the request parameters.
+        self.request: List[DiagnosticParameter] = []
+
+        # This represents the response parameters.
+        self.response: List[DiagnosticParameter] = []
+
+    def addRequest(self, value: Optional[DiagnosticParameter]) -> DiagnosticStopRoutine:
+        """
+        This represents the request parameters.
+        A None value is a no-op and does not append a request.
+        """
+        if value is not None:
+            self.request.append(value)
+        return self
+
+    def getRequest(self) -> List[DiagnosticParameter]:
+        """
+        This represents the request parameters.
+        """
+        return self.request
+
+    def addResponse(self, value: Optional[DiagnosticParameter]) -> DiagnosticStopRoutine:
+        """
+        This represents the response parameters.
+        A None value is a no-op and does not append a response.
+        """
+        if value is not None:
+            self.response.append(value)
+        return self
+
+    def getResponse(self) -> List[DiagnosticParameter]:
+        """
+        This represents the response parameters.
+        """
+        return self.response
 
 
 class SpecElementScope(SpecElementReference, ABC):

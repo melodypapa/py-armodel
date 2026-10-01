@@ -445,6 +445,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterElement,
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -13876,6 +13877,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             for request in requests:
                 self.writeDiagnosticParameter(requests_tag, request)
         responses = start_routine.getResponse()
+        if len(responses) > 0:
+            responses_tag = ET.SubElement(child_element, "RESPONSES")
+            for response in responses:
+                self.writeDiagnosticParameter(responses_tag, response)
+
+    def writeDiagnosticStopRoutine(self, element: ET.Element, stop_routine: DiagnosticStopRoutine):
+        self.logger.debug("Write DiagnosticStopRoutine %s" % stop_routine.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-STOP-ROUTINE")
+        self.writeIdentifiable(child_element, stop_routine)
+        self.writeDiagnosticRoutineSubfunction(child_element, stop_routine)
+        requests = stop_routine.getRequest()
+        if len(requests) > 0:
+            requests_tag = ET.SubElement(child_element, "REQUESTS")
+            for request in requests:
+                self.writeDiagnosticParameter(requests_tag, request)
+        responses = stop_routine.getResponse()
         if len(responses) > 0:
             responses_tag = ET.SubElement(child_element, "RESPONSES")
             for response in responses:
