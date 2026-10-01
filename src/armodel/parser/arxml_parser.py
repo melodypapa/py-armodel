@@ -561,6 +561,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataElement,
     DiagnosticParameterElement,
     DiagnosticRoutineSubfunction,
+    DiagnosticStartRoutine,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -10506,6 +10507,19 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticRoutineSubfunction(self, element: ET.Element, routine_subfunction: DiagnosticRoutineSubfunction):
         routine_subfunction.setAccessPermission(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
+
+    def readDiagnosticStartRoutine(self, element: ET.Element, start_routine: DiagnosticStartRoutine):
+        self.logger.debug("Read DiagnosticStartRoutine <%s>" % start_routine.getShortName())
+        self.readIdentifiable(element, start_routine)
+        self.readDiagnosticRoutineSubfunction(element, start_routine)
+        for child_element in self.findall(element, "REQUESTS/DIAGNOSTIC-PARAMETER"):
+            request = DiagnosticParameter()
+            self.readDiagnosticParameter(child_element, request)
+            start_routine.addRequest(request)
+        for child_element in self.findall(element, "RESPONSES/DIAGNOSTIC-PARAMETER"):
+            response = DiagnosticParameter()
+            self.readDiagnosticParameter(child_element, response)
+            start_routine.addResponse(response)
 
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)

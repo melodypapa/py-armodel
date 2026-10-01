@@ -10,6 +10,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -1201,3 +1202,92 @@ class TestDiagnosticRoutineSubfunction:
         setter_hints = typing.get_type_hints(DiagnosticRoutineSubfunction.setAccessPermission)
         assert setter_hints.get("value") == typing.Optional[RefType]
         assert setter_hints.get("return") is DiagnosticRoutineSubfunction
+
+
+class TestDiagnosticStartRoutine:
+    """
+    Test class for DiagnosticStartRoutine functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.86, p.124
+    """
+
+    CLASS_NOTE = "This represents the ability to start a diagnostic routine."
+
+    def _make_obj(self) -> DiagnosticStartRoutine:
+        return DiagnosticStartRoutine(AUTOSAR.getInstance(), "StartRoutine1")
+
+    def test_subclass_chain(self):
+        """
+        Test that DiagnosticStartRoutine derives from DiagnosticRoutineSubfunction.
+        """
+        assert issubclass(DiagnosticStartRoutine, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticStartRoutine is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "StartRoutine1"
+        assert obj.getRequest() == []
+        assert obj.getResponse() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticStartRoutine.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStartRoutine.__init__.__doc__ is None
+
+    def test_add_get_request(self):
+        """
+        Appends request parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        first = DiagnosticParameter()
+        result = obj.addRequest(first)
+        assert result is obj  # method chaining
+        second = DiagnosticParameter()
+        obj.addRequest(second)
+        assert obj.getRequest() == [first, second]
+
+        obj.addRequest(None)
+        assert obj.getRequest() == [first, second]  # None is a no-op
+
+    def test_add_get_response(self):
+        """
+        Appends response parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticParameter()
+        result = obj.addResponse(value)
+        assert result is obj  # method chaining
+        assert obj.getResponse() == [value]
+
+        obj.addResponse(None)
+        assert obj.getResponse() == [value]  # None is a no-op
+
+    def test_get_add_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticStartRoutine.getRequest)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticStartRoutine.addRequest)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticStartRoutine
+
+        getter_hints = typing.get_type_hints(DiagnosticStartRoutine.getResponse)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticStartRoutine.addResponse)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticStartRoutine

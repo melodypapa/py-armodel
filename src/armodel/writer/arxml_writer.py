@@ -444,6 +444,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataElement,
     DiagnosticParameterElement,
     DiagnosticRoutineSubfunction,
+    DiagnosticStartRoutine,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -13863,6 +13864,22 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticRoutineSubfunction(self, element: ET.Element, routine_subfunction: DiagnosticRoutineSubfunction):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", routine_subfunction.getAccessPermission())
+
+    def writeDiagnosticStartRoutine(self, element: ET.Element, start_routine: DiagnosticStartRoutine):
+        self.logger.debug("Write DiagnosticStartRoutine %s" % start_routine.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-START-ROUTINE")
+        self.writeIdentifiable(child_element, start_routine)
+        self.writeDiagnosticRoutineSubfunction(child_element, start_routine)
+        requests = start_routine.getRequest()
+        if len(requests) > 0:
+            requests_tag = ET.SubElement(child_element, "REQUESTS")
+            for request in requests:
+                self.writeDiagnosticParameter(requests_tag, request)
+        responses = start_routine.getResponse()
+        if len(responses) > 0:
+            responses_tag = ET.SubElement(child_element, "RESPONSES")
+            for response in responses:
+                self.writeDiagnosticParameter(responses_tag, response)
 
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())

@@ -557,14 +557,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticStartRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.86, p.124
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.86 body matched by Class row (leading caption); concrete (base DiagnosticRoutineSubfunction synced first); own attrs request/response (DiagnosticParameter `*` aggr) — XSD group DIAGNOSTIC-START-ROUTINE (AUTOSAR_00052.xsd l.45520) = REQUESTS/RESPONSES wrappers of DIAGNOSTIC-PARAMETER; Aggregated by DiagnosticRoutine.start (NOT ARPackage) — no factory/dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): synced BEFORE its consumer DiagnosticRoutine (Rule 0016.5 pull-in — Routine's start/stop/requestResult aggrs reference it); read/writeDiagnosticStartRoutine = readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists (findall REQUESTS/DIAGNOSTIC-PARAMETER, DiagnosticParameter() created then readDiagnosticParameter); no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.start).
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticStopRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.87, p.125
