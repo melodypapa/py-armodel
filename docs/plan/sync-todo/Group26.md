@@ -119,51 +119,55 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticServiceDataMapping` — DiagnosticSwMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.4, p.228
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (213 passed test_ARPackage.py + ServiceDataMapping parser/writer; member-annotation gate 3 passed; ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `80105a783`
+  - note (Step 1): Base most-derived = DiagnosticSwMapping (synced first this commit — file order T5.4 precedes T5.14 but Rule 0016.5 dependency-first); attrs displayed order: diagnosticDataElementRef, diagnosticParameterRef, mappedDataElementIRef (iref → IRef suffix, RefType), parameterElementAccess (0..1 aggr, Optional[DiagnosticParameterElementAccess]); XSD own group l.43661 order DIAGNOSTIC-DATA-ELEMENT-REF → MAPPED-DATA-ELEMENT-IREF → PARAMETER-ELEMENT-ACCESS → DIAGNOSTIC-PARAMETER-REF (offset 20); reader/writer reuse readDiagnosticMapping/writeDiagnosticMapping (base group order: provider/requester refs before own group); word-splits ("diagnosticData Element" etc.) corrected to XSD/mmt form
 
 - [ ] `DiagnosticParameterElementAccess` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.5, p.229
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (same battery as DiagnosticServiceDataMapping; round-tripped nested in PARAMETER-ELEMENT-ACCESS); 9b deferred to batch confirmation (user instruction); sync commit `80105a783`
+  - note (Step 1): Base ARObject, concrete; placement ARPackage.py next to its aggregators (module hint ArObject.py was nearest-ancestor guess); attrs displayed order: contextElement (ordered, * ref → contextElementRefs + addContextElementRef None-guard), targetElement (0..1 ref → targetElementRef); XSD own group l.40680 order CONTEXT-ELEMENT-REFS/CONTEXT-ELEMENT-REF (offset 10) → TARGET-ELEMENT-REF (offset 20); reusable readDiagnosticParameterElementAccess/writeDiagnosticParameterElementAccess helpers (XML-bearing, owned by ServiceData/SwMapping subclasses — Rule 0001.7); SwMapping-side wiring lands with each subclass row
 
 - [ ] `DiagnosticServiceMappingDiagTarget` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.12, p.234
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract marker, no attributes, no own XML content
+  - [x] Step 6 — Update parser & writer (Green) — N/A: abstract marker
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (same battery as DiagnosticServiceDataMapping); 9b deferred to batch confirmation (user instruction); sync commit `80105a783`
+  - note (Step 1): abstract Class (Subclasses row: DiagnosticDataElement, DiagnosticParameterElement, DiagnosticParameterIdent), zero own attributes (`-` row) → pure abstract marker with type-guard; Placement ARPackage.py (module hint ArObject.py was nearest-ancestor guess)
 
 - [ ] `DiagnosticSwMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.14, p.238
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract, zero own attributes (pure abstract node — concrete subclasses own their XML)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: abstract, zero own attributes
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (213 passed test_ARPackage.py incl. abstract-guard + concrete-subclass tests); 9b deferred to batch confirmation (user instruction); sync commit `80105a783`
+  - note (Step 1): abstract Class (Subclasses row: 8 mappings incl. DiagnosticFimFunctionMapping — queue rows' base claims for those subclasses are generation artifacts, spec tables win); Base most-derived = DiagnosticMapping (synced, fd3e54825); zero own attributes (`-` row); XSD group DIAGNOSTIC-SW-MAPPING is an empty sequence; synced BEFORE its dependents (Rule 0016.5) though the file lists T5.4/T5.12 first
 
 - [ ] `DiagnosticServiceSwMapping` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 5.15, p.239
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
