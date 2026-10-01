@@ -529,6 +529,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticFimEventGroup,
+    DiagnosticJ1939Spn,
     DiagnosticEcuReset,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
@@ -10466,6 +10467,10 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "EVENT-REFS/EVENT-REF"):
             fim_event_group.addEventRef(ref)
 
+    def readDiagnosticJ1939Spn(self, element: ET.Element, j1939_spn: DiagnosticJ1939Spn):
+        self.readIdentifiable(element, j1939_spn)
+        j1939_spn.setSpn(self.getChildElementOptionalPositiveInteger(element, "SPN"))
+
     def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
         self.readIdentifiable(element, did)
         id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
@@ -15468,6 +15473,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-FIM-EVENT-GROUP":
                 fim_event_group = parent.createDiagnosticFimEventGroup(self.getShortName(child_element))
                 self.readDiagnosticFimEventGroup(child_element, fim_event_group)
+            elif tag_name == "DIAGNOSTIC-J-1939-SPN":
+                j1939_spn = parent.createDiagnosticJ1939Spn(self.getShortName(child_element))
+                self.readDiagnosticJ1939Spn(child_element, j1939_spn)
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)

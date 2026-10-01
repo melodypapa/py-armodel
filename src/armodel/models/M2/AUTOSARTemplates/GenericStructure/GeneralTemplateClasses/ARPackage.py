@@ -162,6 +162,7 @@ __all__ = [
     "DiagnosticFunctionIdentifier",
     "DiagnosticFreezeFrame",
     "DiagnosticFimEventGroup",
+    "DiagnosticJ1939Spn",
     "DiagnosticFimAliasEventMapping",
     "DiagnosticFimAliasEventGroupMapping",
     "DiagnosticFimAliasEventGroup",
@@ -2035,6 +2036,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(fim_event_group)
         return self.getElement(short_name, DiagnosticFimEventGroup)
 
+    def createDiagnosticJ1939Spn(self, short_name: str) -> DiagnosticJ1939Spn:
+        """
+        Creates a new DiagnosticJ1939Spn with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939Spn represents the ability to model a J1939 Suspect
+        Parameter Number (SPN).
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939Spn
+
+        Returns:
+            The newly created or existing DiagnosticJ1939Spn instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939Spn):
+            j1939_spn = DiagnosticJ1939Spn(self, short_name)
+            self.addElement(j1939_spn)
+        return self.getElement(short_name, DiagnosticJ1939Spn)
+
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
         Creates a new DiagnosticAccessPermission with the given short name,
@@ -3621,8 +3641,36 @@ class DiagnosticJ1939Node(ARElement):
     pass
 
 
-class DiagnosticJ1939Spn(ARElement):
-    pass
+class DiagnosticJ1939Spn(DiagnosticCommonElement):
+    """This meta-class represents the ability to model a J1939 Suspect Parameter Number (SPN). Tags: atp.recommendedPackage=DiagnosticJ1939Spns"""
+
+    # DiagnosticJ1939Spn method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.219, p.219
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSpn       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpn       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the concrete numerical identification for the enclosing SPN.
+        self.spn: Optional[PositiveInteger] = None
+
+    def getSpn(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the concrete numerical identification for the enclosing SPN.
+        """
+        return self.spn
+
+    def setSpn(self, value: Optional[PositiveInteger]) -> DiagnosticJ1939Spn:
+        """
+        This attribute represents the concrete numerical identification for the enclosing SPN.
+        A None value is a no-op and does not overwrite an existing spn.
+        """
+        if value is not None:
+            self.spn = value
+        return self
 
 
 class DiagnosticJ1939SpnMapping(DiagnosticMapping):

@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticFimEventGroup,
+    DiagnosticJ1939Spn,
     DiagnosticMapping,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
@@ -3068,3 +3069,71 @@ class TestDiagnosticFimEventGroup:
 
         duplicate = package.createDiagnosticFimEventGroup("FimGroup1")
         assert duplicate is fim_event_group  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939Spn:
+    """
+    Test class for DiagnosticJ1939Spn functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.219, p.219
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a J1939 Suspect Parameter Number (SPN). Tags: atp.recommendedPackage=DiagnosticJ1939Spns"
+
+    def _make_obj(self) -> DiagnosticJ1939Spn:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939Spn(ar_root, "TestSpn")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939Spn instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestSpn"
+        assert obj.getSpn() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939Spn.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939Spn.__init__.__doc__ is None
+
+    def test_get_set_spn(self):
+        """
+        Round-trips the spn attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("19000")
+        result = obj.setSpn(value)
+        assert result is obj  # method chaining
+        assert obj.getSpn() is value
+        assert obj.getSpn().getValue() == 19000
+
+        result = obj.setSpn(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSpn() is value  # None is a no-op
+
+    def test_create_diagnostic_j1939_spn(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticJ1939Spns")
+        spn = package.createDiagnosticJ1939Spn("Spn1")
+
+        assert spn is not None
+        assert isinstance(spn, DiagnosticJ1939Spn)
+        assert spn.getShortName() == "Spn1"
+        assert package.getElement("Spn1", DiagnosticJ1939Spn) is spn
+
+        duplicate = package.createDiagnosticJ1939Spn("Spn1")
+        assert duplicate is spn  # duplicate short name returns the existing element
