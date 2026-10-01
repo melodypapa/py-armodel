@@ -406,6 +406,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticFimEventGroup,
     DiagnosticEcuReset,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
@@ -13754,6 +13755,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(conditional_tag, "RESPONSE-ON-SECOND-DECLINED-REQUEST", common_props.getResponseOnSecondDeclinedRequest())
         self._writeEnumToken(conditional_tag, "TYPE-OF-EVENT-COMBINATION-SUPPORTED", common_props.getTypeOfEventCombinationSupported(), DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP)
 
+    def writeDiagnosticFimEventGroup(self, element: ET.Element, fim_event_group: DiagnosticFimEventGroup):
+        self.logger.debug("Write DiagnosticFimEventGroup %s" % fim_event_group.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FIM-EVENT-GROUP")
+        self.writeIdentifiable(child_element, fim_event_group)
+        event_refs = fim_event_group.getEventRefs()
+        if len(event_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "EVENT-REFS")
+            for ref in event_refs:
+                self.setChildElementOptionalRefType(refs_tag, "EVENT-REF", ref)
+
     def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
         self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
@@ -15079,6 +15090,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePdurIPduGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticConnection):
             self.writeDiagnosticConnection(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFimEventGroup):
+            self.writeDiagnosticFimEventGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
         elif isinstance(ar_element, DiagnosticCustomServiceClass):

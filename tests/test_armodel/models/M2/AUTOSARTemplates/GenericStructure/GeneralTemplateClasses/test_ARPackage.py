@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticFimEventGroup,
     DiagnosticMapping,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
@@ -2989,3 +2990,81 @@ class TestDiagnosticComControl:
 
         duplicate = package.createDiagnosticComControl("ComControl1")
         assert duplicate is com_control  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimEventGroup:
+    """
+    Test class for DiagnosticFimEventGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.218, p.217
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a Fim event group, also known as a summary event in Fim terminology. This represents a group of single diagnostic events. Tags: atp.recommendedPackage=DiagnosticFimEventGroups"
+
+    def _make_obj(self) -> DiagnosticFimEventGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimEventGroup(ar_root, "TestFimEventGroup")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimEventGroup instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimEventGroup"
+        assert obj.getEventRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimEventGroup.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimEventGroup.__init__.__doc__ is None
+
+    def test_add_get_event_refs(self):
+        """
+        Round-trips the event multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-EVENT")
+        ref1.setValue("/AUTOSAR/DiagEvents/Evt1")
+        result = obj.addEventRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-EVENT")
+        ref2.setValue("/AUTOSAR/DiagEvents/Evt2")
+        obj.addEventRef(ref2)
+
+        refs = obj.getEventRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/DiagEvents/Evt2"
+        assert refs[1].getDest() == "DIAGNOSTIC-EVENT"
+
+        result = obj.addEventRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getEventRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_fim_event_group(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticFimEventGroups")
+        fim_event_group = package.createDiagnosticFimEventGroup("FimGroup1")
+
+        assert fim_event_group is not None
+        assert isinstance(fim_event_group, DiagnosticFimEventGroup)
+        assert fim_event_group.getShortName() == "FimGroup1"
+        assert package.getElement("FimGroup1", DiagnosticFimEventGroup) is fim_event_group
+
+        duplicate = package.createDiagnosticFimEventGroup("FimGroup1")
+        assert duplicate is fim_event_group  # duplicate short name returns the existing element

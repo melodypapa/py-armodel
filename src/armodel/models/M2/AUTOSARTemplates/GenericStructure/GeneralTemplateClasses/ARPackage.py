@@ -210,6 +210,7 @@ __all__ = [
     "CpSwClusterResourceToDiagFunctionIdMapping",
     "CpSwClusterResourceToDiagDataElemMapping",
     "DiagnosticMapping",
+    "DiagnosticFimEventGroup",
     "CalibrationParameterValueSet",
     "AclRole",
     "AclPermission",
@@ -2015,6 +2016,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(condition)
         return self.getElement(short_name, DiagnosticEnvironmentalCondition)
 
+    def createDiagnosticFimEventGroup(self, short_name: str) -> DiagnosticFimEventGroup:
+        """
+        Creates a new DiagnosticFimEventGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimEventGroup represents the ability to model a Fim event
+        group, also known as a summary event in Fim terminology.
+
+        Args:
+            short_name: The short name for the new DiagnosticFimEventGroup
+
+        Returns:
+            The newly created or existing DiagnosticFimEventGroup instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimEventGroup):
+            fim_event_group = DiagnosticFimEventGroup(self, short_name)
+            self.addElement(fim_event_group)
+        return self.getElement(short_name, DiagnosticFimEventGroup)
+
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
         Creates a new DiagnosticAccessPermission with the given short name,
@@ -2634,6 +2654,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticSecurityAccessClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (  # noqa: E402
     EcucModuleConfigurationValues,
@@ -3520,8 +3541,36 @@ class DiagnosticFimAliasEventMapping(DiagnosticMapping):
     pass
 
 
-class DiagnosticFimEventGroup(ARElement):
-    pass
+class DiagnosticFimEventGroup(DiagnosticCommonElement):
+    """This meta-class represents the ability to model a Fim event group, also known as a summary event in Fim terminology. This represents a group of single diagnostic events. Tags: atp.recommendedPackage=DiagnosticFimEventGroups"""
+
+    # DiagnosticFimEventGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.218, p.217
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEventRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference represents the way of grouping diagnostic events into a summary event in the context of the Fim.
+        self.eventRefs: List[RefType] = []
+
+    def addEventRef(self, value: Optional[RefType]) -> DiagnosticFimEventGroup:
+        """
+        This reference represents the way of grouping diagnostic events into a summary event in the context of the Fim.
+        A None value is a no-op and does not append an eventRef.
+        """
+        if value is not None:
+            self.eventRefs.append(value)
+        return self
+
+    def getEventRefs(self) -> List[RefType]:
+        """
+        This reference represents the way of grouping diagnostic events into a summary event in the context of the Fim.
+        """
+        return self.eventRefs
 
 
 class DiagnosticFreezeFrame(ARElement):

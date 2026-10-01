@@ -26,15 +26,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticFimEventGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.218, p.217
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (168 passed test_ARPackage.py + 4 parser/writer round-trip + full ARPackage-dispatch file round-trip smoke + member-annotation gate; ruff/flake8 clean, black diff 0 hits in added code); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): Base row incl. DiagnosticCommonElement (empty XSD sequence, pure ABC mixin) → most-derived base DiagnosticCommonElement (sibling-session precedent: Dcm classes); concrete (abstract="false")
+  - note (Step 1): `event` is `*` **ref** (markdown Kind column + XSD EVENT-REFS/EVENT-REF DEST DIAGNOSTIC-EVENT--SUBTYPES-ENUM) → `eventRefs: List[RefType]` + addEventRef/getEventRefs; DiagnosticEvent itself is a Group25 row (sibling queue) — referenced as member type only, full child sync lands with its own row
 
 - [ ] `DiagnosticJ1939Spn` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.219, p.219
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

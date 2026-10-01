@@ -528,6 +528,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticFimEventGroup,
     DiagnosticEcuReset,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
@@ -10460,6 +10461,11 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setProviderSoftwareClusterRef(self.getChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF"))
         mapping.setRequesterSoftwareClusterRef(self.getChildElementOptionalRefType(element, "REQUESTER-SOFTWARE-CLUSTER-REF"))
 
+    def readDiagnosticFimEventGroup(self, element: ET.Element, fim_event_group: DiagnosticFimEventGroup):
+        self.readIdentifiable(element, fim_event_group)
+        for ref in self.getChildElementRefTypeList(element, "EVENT-REFS/EVENT-REF"):
+            fim_event_group.addEventRef(ref)
+
     def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
         self.readIdentifiable(element, did)
         id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
@@ -15459,6 +15465,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
+            elif tag_name == "DIAGNOSTIC-FIM-EVENT-GROUP":
+                fim_event_group = parent.createDiagnosticFimEventGroup(self.getShortName(child_element))
+                self.readDiagnosticFimEventGroup(child_element, fim_event_group)
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)
