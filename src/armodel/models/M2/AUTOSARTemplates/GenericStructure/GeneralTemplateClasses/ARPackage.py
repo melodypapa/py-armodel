@@ -1538,6 +1538,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(auth_role)
         return self.getElement(short_name, DiagnosticAuthRole)
 
+    def createDiagnosticAuthenticationClass(self, short_name: str) -> DiagnosticAuthenticationClass:
+        """
+        Creates a new DiagnosticAuthenticationClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAuthenticationClass contains configuration shared by all
+        instances of the Authentication diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticAuthenticationClass
+
+        Returns:
+            The newly created or existing DiagnosticAuthenticationClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthenticationClass):
+            authentication_class = DiagnosticAuthenticationClass(self, short_name)
+            self.addElement(authentication_class)
+        return self.getElement(short_name, DiagnosticAuthenticationClass)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -2431,6 +2450,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticSecurityAccessClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable  # noqa: E402

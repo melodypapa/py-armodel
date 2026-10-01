@@ -11,6 +11,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
+    DiagnosticAuthenticationClass,
     DiagnosticCustomServiceClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceClass,
@@ -291,4 +292,41 @@ class Test_DiagnosticSecurityAccessClass:
         assert package.getElement("Ssac1", DiagnosticSecurityAccessClass) is service_class
 
         duplicate = package.createDiagnosticSecurityAccessClass("Ssac1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticAuthenticationClass:
+    """Test cases for DiagnosticAuthenticationClass class (Table 4.52, p.99)."""
+
+    DAC_CLASS_DOCSTRING = "This meta-class contains configuration shared by all instances of the Authentication diagnostic service."
+
+    def test_is_concrete(self):
+        service_class = DiagnosticAuthenticationClass(_pkg(), "MyDac")
+        assert service_class.getShortName() == "MyDac"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticAuthenticationClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticAuthenticationClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticAuthenticationClass, ARObject)
+        assert issubclass(DiagnosticAuthenticationClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticAuthenticationClass.__doc__) == self.DAC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticAuthenticationClass.__init__.__doc__ is None
+
+    def test_defines_no_new_public_members(self):
+        own_public = {name for name, member in vars(DiagnosticAuthenticationClass).items() if not name.startswith("_")}
+        assert own_public == set()  # Table 4.52 defines no attributes
+
+    def test_create_diagnostic_authentication_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticAuthenticationClass("Dac1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticAuthenticationClass)
+        assert service_class.getShortName() == "Dac1"
+        assert package.getElement("Dac1", DiagnosticAuthenticationClass) is service_class
+
+        duplicate = package.createDiagnosticAuthenticationClass("Dac1")
         assert duplicate is service_class

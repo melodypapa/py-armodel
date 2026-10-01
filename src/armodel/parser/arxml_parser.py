@@ -379,7 +379,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticSecurityAccessClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
+    DiagnosticAuthenticationClass,
+    DiagnosticCustomServiceClass,
+    DiagnosticSecurityAccessClass,
+    DiagnosticServiceInstance,
+    DiagnosticSessionControlClass,
+)
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -10703,6 +10709,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
         authentication.setAuthenticationClass(self.getChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF"))
 
+    def readDiagnosticAuthenticationClass(self, element: ET.Element, service_class: DiagnosticAuthenticationClass):
+        self.logger.debug("Read DiagnosticAuthenticationClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
         self.readIdentifiable(element, auth_role)
@@ -15246,6 +15256,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
                 auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
                 self.readDiagnosticAuthRole(child_element, auth_role)
+            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
+                authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
+                self.readDiagnosticAuthenticationClass(child_element, authentication_class)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)

@@ -273,7 +273,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticSecurityAccessClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
+    DiagnosticAuthenticationClass,
+    DiagnosticCustomServiceClass,
+    DiagnosticSecurityAccessClass,
+    DiagnosticServiceInstance,
+    DiagnosticSessionControlClass,
+)
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -13885,6 +13891,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF", authentication.getAuthenticationClass())
 
+    def writeDiagnosticAuthenticationClass(self, element: ET.Element, service_class: DiagnosticAuthenticationClass):
+        self.logger.debug("Write DiagnosticAuthenticationClass %s" % service_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTHENTICATION-CLASS")
+        self.writeIdentifiable(child_element, service_class)
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -14860,6 +14871,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAccessPermission(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthRole):
             self.writeDiagnosticAuthRole(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthenticationClass):
+            self.writeDiagnosticAuthenticationClass(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):
