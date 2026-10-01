@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 609 | 32.0% |
+| [x] Done | 617 | 32.4% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 236 | 12.4% |
+| [ ] Deferred | 228 | 12.0% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -429,9 +429,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataPrototypeMapping`                                  | [ ] Implemented| N/A                                      | Group27          |
 | `DataPrototypeReference`                                | [ ] Implemented| N/A                                      | Group34          |
 | `DataPrototypeTransformationProps`                      | [x] Done    | ba255a82cc                               | Group6           |
-| `DataReceiveErrorEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
-| `DataReceivedEvent`                                     | [ ] Deferred| N/A                                      | Group12          |
-| `DataSendCompletedEvent`                                | [ ] Deferred| N/A                                      | Group12          |
+| `DataReceiveErrorEvent`                                 | [x] Done    | b5ead83e20                               | Group12          |
+| `DataReceivedEvent`                                     | [x] Done    | 5d23170856                               | Group12          |
+| `DataSendCompletedEvent`                                | [x] Done    | 57e1abeea2                               | Group12          |
 | `DataTransformation`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `DataTransformationErrorHandlingEnum`                   | [x] Done    | 7fc79e4b73                               | Group2           |
 | `DataTransformationKindEnum`                            | [ ] Implemented| N/A                                      | Group27          |
@@ -440,7 +440,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataTypeMap`                                           | [x] Done    | 0731ff4f68                               | Group10          |
 | `DataTypeMappingSet`                                    | [x] Done    | 21ab486b53                               | Group2           |
 | `DataTypePolicyEnum`                                    | [ ] Implemented| N/A                                      | Group31          |
-| `DataWriteCompletedEvent`                               | [ ] Deferred| N/A                                      | Group12          |
+| `DataWriteCompletedEvent`                               | [x] Done    | df2a6b3a70                               | Group12          |
 | `DateTime`                                              | [ ] Deferred| N/A                                      | Group21          |
 | `DcmIPdu`                                               | [ ] Implemented| N/A                                      | Group31          |
 | `DdsCpConfig`                                           | [ ] Created | N/A                                      | Group32          |
@@ -1115,7 +1115,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IntegerValueVariationPoint`                            | [x] Done    | d5c96fd954                               | Group8           |
 | `InternalBehavior`                                      | [x] Done    | 68e390b39e                               | Group22          |
 | `InternalConstrs`                                       | [ ] Implemented| N/A                                      | Group28          |
-| `InternalTriggerOccurredEvent`                          | [ ] Deferred| N/A                                      | Group12          |
+| `InternalTriggerOccurredEvent`                          | [x] Done    | ac0bbe5799                               | Group12          |
 | `InternalTriggeringPoint`                               | [x] Done    | 96033eb3fe                               | Group12          |
 | `InterpolationRoutine`                                  | [x] Done    | 992a894be3                               | Group5           |
 | `InterpolationRoutineMapping`                           | [x] Done    | d00d57b42d                               | Group5           |
@@ -1352,7 +1352,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `OperationCycleTypeEnum`                                | [ ] Implemented| N/A                                      | Group29          |
 | `OperationInAtomicSwcInstanceRef`                       | [x] Done    | 5d9a9f9600                               | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe68                               | Group5           |
-| `OperationInvokedEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
+| `OperationInvokedEvent`                                 | [x] Done    | e607622c82                               | Group12          |
 | `OrderedMaster`                                         | [x] Done    | 5d62450236                               | Group6           |
 | `OrientEnum`                                            | [x] Done    | 9223f504b5                               | Group3           |
 | `OsTaskExecutionEvent`                                  | [ ] Created | N/A                                      | Group28          |
@@ -1499,7 +1499,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RteApiReturnValueProvisionEnum`                        | [ ] Implemented| N/A                                      | Group29          |
 | `RteEventInCompositionSeparation`                       | [ ] Created | N/A                                      | Group31          |
 | `RteEventInCompositionToOsTaskProxyMapping`             | [ ] Created | N/A                                      | Group31          |
-| `RteEventInEcuInstanceRef`                              | [ ] Deferred| N/A                                      | Group12          |
+| `RteEventInEcuInstanceRef`                              | [x] Done    | dd76ebd8bf                               | Group12          |
 | `RteEventInSystemSeparation`                            | [ ] Created | N/A                                      | Group31          |
 | `RteEventInSystemToOsTaskProxyMapping`                  | [ ] Created | N/A                                      | Group31          |
 | `RtePluginProps`                                        | [x] Done    | ec7fa0b5df                               | Group6           |
@@ -1894,7 +1894,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ValueRestrictionWithSeverity`                          | [ ] Created | N/A                                      | Group36          |
 | `ValueSpecification`                                    | [ ] Implemented| N/A                                      | Group28          |
 | `VariableAccess`                                        | [x] Done    | 12e743cc9b                               | Group12          |
-| `VariableAccessInEcuInstanceRef`                        | [ ] Deferred| N/A                                      | Group12          |
+| `VariableAccessInEcuInstanceRef`                        | [x] Done    | b52183a6b4                               | Group12          |
 | `VariableAccessScopeEnum`                               | [x] Done    | 12e743cc9b                               | Group12          |
 | `VariableAndParameterInterfaceMapping`                  | [x] Done    | 0e87cc4bb9                               | Group11          |
 | `VariableDataPrototype`                                 | [x] Done    | d3b5d680e2                               | Group2           |

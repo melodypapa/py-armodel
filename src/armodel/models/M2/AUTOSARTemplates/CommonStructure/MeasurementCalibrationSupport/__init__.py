@@ -25,6 +25,7 @@ class RteEventInEcuInstanceRef(AtpInstanceRef):
 
     # RteEventInEcuInstanceRef method parity checklist:
     # Spec: XSD-only, AUTOSAR_00052.xsd line 100605 (no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextRootCompositionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -93,6 +94,7 @@ class VariableAccessInEcuInstanceRef(AtpInstanceRef):
 
     # VariableAccessInEcuInstanceRef method parity checklist:
     # Spec: XSD-only, AUTOSAR_00052.xsd line 129566 (no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextRootCompositionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

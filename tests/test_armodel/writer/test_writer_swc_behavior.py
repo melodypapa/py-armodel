@@ -436,6 +436,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         behavior.createDataSendCompletedEvent("dsc")
         behavior.createAsynchronousServerCallReturnsEvent("ascr")
         behavior.createInternalTriggerOccurredEvent("ito")
+        behavior.createDataWriteCompletedEvent("dwc")
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
         events_tag = parent.find("EVENTS")
@@ -448,6 +449,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         assert "DATA-SEND-COMPLETED-EVENT" in tags
         assert "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT" in tags
         assert "INTERNAL-TRIGGER-OCCURRED-EVENT" in tags
+        assert "DATA-WRITE-COMPLETED-EVENT" in tags
 
     def test_dispatches_operation_and_data_events(self, writer):
         behavior = _make_behavior()
@@ -2981,6 +2983,80 @@ class TestDataSendCompletedEventRoundTrip:
             app_2 = next(e for e in package.elements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dsc1")
+            assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDataWriteCompletedEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a DataWriteCompletedEvent with eventSourceRef."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataWriteCompletedEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createDataWriteCompletedEvent("dwc1")
+        event.setEventSourceRef(_ref("/Pkg/App/Va1", "VARIABLE-ACCESS"))
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dwc1")
+            assert isinstance(event_2, DataWriteCompletedEvent)
+            ref = event_2.getEventSourceRef()
+            assert ref is not None
+            assert ref.getValue() == "/Pkg/App/Va1"
+            assert ref.getDest() == "VARIABLE-ACCESS"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a DataWriteCompletedEvent without eventSourceRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createDataWriteCompletedEvent("dwc1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("DATA-WRITE-COMPLETED-EVENT"))
+            assert all(not c.tag.endswith("EVENT-SOURCE-REF") for c in evt)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dwc1")
             assert event_2.getEventSourceRef() is None
         finally:
             if os.path.exists(file_path):

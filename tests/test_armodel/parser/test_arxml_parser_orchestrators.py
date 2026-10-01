@@ -3599,11 +3599,13 @@ class TestSwcInternalBehaviorEvents:
             "INTERNAL-TRIGGER-OCCURRED-EVENT",
             "INIT-EVENT",
             "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+            "OPERATION-INVOKED-EVENT",
             "MODE-SWITCHED-ACK-EVENT",
             "BACKGROUND-EVENT",
             "DATA-RECEIVED-EVENT",
             "DATA-RECEIVE-ERROR-EVENT",
             "DATA-SEND-COMPLETED-EVENT",
+            "DATA-WRITE-COMPLETED-EVENT",
             "SWC-MODE-SWITCH-EVENT",
         ],
     )
