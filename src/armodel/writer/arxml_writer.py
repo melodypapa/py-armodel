@@ -282,6 +282,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -13944,6 +13945,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ROUTINE-CONTROL-CLASS-REF", routine_control.getRoutineControlClass())
         self.setChildElementOptionalRefType(child_element, "ROUTINE-REF", routine_control.getRoutine())
 
+    def writeDiagnosticRoutineControlClass(self, element: ET.Element, routine_control_class: DiagnosticRoutineControlClass):
+        self.logger.debug("Write DiagnosticRoutineControlClass %s" % routine_control_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, routine_control_class)
+
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-IDENTIFIER")
@@ -15358,6 +15364,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRoutine(element, ar_element)
         elif isinstance(ar_element, DiagnosticRoutineControl):
             self.writeDiagnosticRoutineControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRoutineControlClass):
+            self.writeDiagnosticRoutineControlClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):

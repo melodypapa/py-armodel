@@ -388,6 +388,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -10579,6 +10580,10 @@ class ARXMLParser(AbstractARXMLParser):
         routine_control.setRoutineControlClass(self.getChildElementOptionalRefType(element, "ROUTINE-CONTROL-CLASS-REF"))
         routine_control.setRoutine(self.getChildElementOptionalRefType(element, "ROUTINE-REF"))
 
+    def readDiagnosticRoutineControlClass(self, element: ET.Element, routine_control_class: DiagnosticRoutineControlClass):
+        self.logger.debug("Read DiagnosticRoutineControlClass <%s>" % routine_control_class.getShortName())
+        self.readIdentifiable(element, routine_control_class)
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -15726,6 +15731,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL":
                 routine_control = parent.createDiagnosticRoutineControl(self.getShortName(child_element))
                 self.readDiagnosticRoutineControl(child_element, routine_control)
+            elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL-CLASS":
+                routine_control_class = parent.createDiagnosticRoutineControlClass(self.getShortName(child_element))
+                self.readDiagnosticRoutineControlClass(child_element, routine_control_class)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
