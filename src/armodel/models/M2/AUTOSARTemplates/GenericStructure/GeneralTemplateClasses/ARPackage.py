@@ -1718,6 +1718,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(security_access)
         return self.getElement(short_name, DiagnosticSecurityAccess)
 
+    def createDiagnosticSecurityAccessClass(self, short_name: str) -> DiagnosticSecurityAccessClass:
+        """
+        Creates a new DiagnosticSecurityAccessClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSecurityAccessClass contains attributes shared by all
+        instances of the "Security Access" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticSecurityAccessClass
+
+        Returns:
+            The newly created or existing DiagnosticSecurityAccessClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSecurityAccessClass):
+            security_access_class = DiagnosticSecurityAccessClass(self, short_name)
+            self.addElement(security_access_class)
+        return self.getElement(short_name, DiagnosticSecurityAccessClass)
+
     def createDiagnosticSecurityLevel(self, short_name: str) -> DiagnosticSecurityLevel:
         """
         Creates a new DiagnosticSecurityLevel with the given short name,
@@ -2413,6 +2432,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticSecurityAccessClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (  # noqa: E402
     EcucModuleConfigurationValues,

@@ -2212,3 +2212,13 @@ Remediated 2026-08-30 (see `docs/plan/2026-08-30-rule-0007-package-location-reme
 |---|---|---|---|---|---|
 | `nmCoordinator` | `Optional[ARObject]` | `nmCoordinator` | `NmCoordinator` | aggr | placeholder — aggregated child class `NmCoordinator` (Table 6.302) not yet implemented; reader/writer coverage deferred (Rule 0001.10 / 0001.7) |
 | XSD `BUS-SPECIFIC-NM-ECU` group | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group NM-ECU), absent from R23-11 Table 6.300; PDF is authoritative (Rule 0015) |
+
+
+## `DiagnosticSecurityAccessClass`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 96
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SecurityAccess`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| XSD `SHARED-TIMER` | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group DIAGNOSTIC-SECURITY-ACCESS-CLASS, `mmt.RestrictToStandards="AP"`), absent from R23-11 Table 4.50 (attribute row is "-"); PDF is authoritative (Rule 0015) |

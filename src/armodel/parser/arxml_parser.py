@@ -379,7 +379,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticSecurityAccessClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -10576,6 +10576,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, service_class)
         service_class.setS3ServerTimeout(self.getChildElementOptionalTimeValue(element, "S-3-SERVER-TIMEOUT"))
 
+    def readDiagnosticSecurityAccessClass(self, element: ET.Element, service_class: DiagnosticSecurityAccessClass):
+        self.logger.debug("Read DiagnosticSecurityAccessClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+
     def readDiagnosticSecurityAccess(self, element: ET.Element, security_access: DiagnosticSecurityAccess):
         self.logger.debug("Read DiagnosticSecurityAccess <%s>" % security_access.getShortName())
         self.readIdentifiable(element, security_access)
@@ -15223,6 +15227,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
                 security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
                 self.readDiagnosticSecurityAccess(child_element, security_access)
+            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS-CLASS":
+                security_access_class = parent.createDiagnosticSecurityAccessClass(self.getShortName(child_element))
+                self.readDiagnosticSecurityAccessClass(child_element, security_access_class)
             elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
                 security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
                 self.readDiagnosticSecurityLevel(child_element, security_level)

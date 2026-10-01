@@ -10,7 +10,13 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
+    DiagnosticCustomServiceClass,
+    DiagnosticSecurityAccessClass,
+    DiagnosticServiceClass,
+    DiagnosticServiceInstance,
+    DiagnosticSessionControlClass,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
@@ -248,4 +254,41 @@ class Test_DiagnosticSessionControlClass:
         assert package.getElement("Sscl1", DiagnosticSessionControlClass) is service_class
 
         duplicate = package.createDiagnosticSessionControlClass("Sscl1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticSecurityAccessClass:
+    """Test cases for DiagnosticSecurityAccessClass class (Table 4.50, p.96)."""
+
+    DSAC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Security Access" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticSecurityAccessClass(_pkg(), "MyDsac")
+        assert service_class.getShortName() == "MyDsac"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticSecurityAccessClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticSecurityAccessClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticSecurityAccessClass, ARObject)
+        assert issubclass(DiagnosticSecurityAccessClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticSecurityAccessClass.__doc__) == self.DSAC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticSecurityAccessClass.__init__.__doc__ is None
+
+    def test_defines_no_new_public_members(self):
+        own_public = {name for name, member in vars(DiagnosticSecurityAccessClass).items() if not name.startswith("_")}
+        assert own_public == set()  # Table 4.50 defines no attributes
+
+    def test_create_diagnostic_security_access_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticSecurityAccessClass("Ssac1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticSecurityAccessClass)
+        assert service_class.getShortName() == "Ssac1"
+        assert package.getElement("Ssac1", DiagnosticSecurityAccessClass) is service_class
+
+        duplicate = package.createDiagnosticSecurityAccessClass("Ssac1")
         assert duplicate is service_class

@@ -273,7 +273,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticSecurityAccessClass, DiagnosticServiceInstance, DiagnosticSessionControlClass
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -13767,6 +13767,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, service_class)
         self.setChildElementOptionalTimeValue(child_element, "S-3-SERVER-TIMEOUT", service_class.getS3ServerTimeout())
 
+    def writeDiagnosticSecurityAccessClass(self, element: ET.Element, service_class: DiagnosticSecurityAccessClass):
+        self.logger.debug("Write DiagnosticSecurityAccessClass %s" % service_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-ACCESS-CLASS")
+        self.writeIdentifiable(child_element, service_class)
+
     def writeDiagnosticSecurityAccess(self, element: ET.Element, security_access: DiagnosticSecurityAccess):
         self.logger.debug("Write DiagnosticSecurityAccess %s" % security_access.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-ACCESS")
@@ -14839,6 +14844,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticSessionControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticSessionControlClass):
             self.writeDiagnosticSessionControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityAccessClass):
+            self.writeDiagnosticSecurityAccessClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityAccess):
             self.writeDiagnosticSecurityAccess(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):
