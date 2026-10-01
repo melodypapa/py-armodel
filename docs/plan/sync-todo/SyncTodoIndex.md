@@ -607,7 +607,7 @@ Status: **24/24** completed
 
 ## Group12
 
-Status: **7/15** completed
+Status: **8/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -618,7 +618,7 @@ Status: **7/15** completed
 | `ModeAccessPoint`                    | [x] Done     | 543d9df4e7 |
 | `ModeSwitchPoint`                    | [x] Done     | 1037222ee7 |
 | `AsynchronousServerCallReturnsEvent` | [x] Done     | a706fd368b |
-| `DataReceiveErrorEvent`              | [ ] Pending* | N/A        |
+| `DataReceiveErrorEvent`              | [x] Done     | b5ead83e20 |
 | `DataReceivedEvent`                  | [ ] Pending* | N/A        |
 | `DataSendCompletedEvent`             | [ ] Pending* | N/A        |
 | `DataWriteCompletedEvent`            | [ ] Pending* | N/A        |
