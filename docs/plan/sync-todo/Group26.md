@@ -53,27 +53,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticJ1939FreezeFrame` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.220, p.220
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (197 passed test_ARPackage.py + 20 freeze-frame parser/writer + member-annotation gate 3 passed; ruff clean, new files black-clean); 9b deferred to batch confirmation (user instruction); sync commit `0314338bf`
+  - note (Step 1): Base most-derived = DiagnosticCommonElement; attrs displayed order: node (0..1 ref → nodeRef Optional[RefType]), spn (ordered, * ref → spnRefs List[RefType] + addSpnRef None-guard); XSD group DIAGNOSTIC-J-1939-FREEZE-FRAME l.38959 order NODE-REF → SPN-REFS/SPN-REF
 
 - [ ] `DiagnosticJ1939ExpandedFreezeFrame` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.221, p.221
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (same battery as DiagnosticJ1939FreezeFrame); 9b deferred to batch confirmation (user instruction); sync commit `0314338bf`
+  - note (Step 1): Base most-derived = DiagnosticCommonElement; same shape as T4.220 (nodeRef + spnRefs); XSD group DIAGNOSTIC-J-1939-EXPANDED-FREEZE-FRAME l.38896 order NODE-REF → SPN-REFS/SPN-REF
 
 - [ ] `DiagnosticTroubleCodeJ1939DtcKindEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.222, p.221
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
