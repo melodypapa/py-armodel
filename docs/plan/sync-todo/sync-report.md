@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 611 | 32.1% |
+| [x] Done | 612 | 32.2% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 234 | 12.3% |
+| [ ] Deferred | 233 | 12.2% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -431,7 +431,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataPrototypeTransformationProps`                      | [x] Done    | ba255a82cc                               | Group6           |
 | `DataReceiveErrorEvent`                                 | [x] Done    | b5ead83e20                               | Group12          |
 | `DataReceivedEvent`                                     | [x] Done    | 5d23170856                               | Group12          |
-| `DataSendCompletedEvent`                                | [ ] Deferred| N/A                                      | Group12          |
+| `DataSendCompletedEvent`                                | [x] Done    | 57e1abeea2                               | Group12          |
 | `DataTransformation`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `DataTransformationErrorHandlingEnum`                   | [x] Done    | 7fc79e4b73                               | Group2           |
 | `DataTransformationKindEnum`                            | [ ] Implemented| N/A                                      | Group27          |

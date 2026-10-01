@@ -607,7 +607,7 @@ Status: **24/24** completed
 
 ## Group12
 
-Status: **9/15** completed
+Status: **10/15** completed
 
 | Class Name                           | Status       | Commit ID  |
 | ------------------------------------ | ------------ | ---------- |
@@ -620,7 +620,7 @@ Status: **9/15** completed
 | `AsynchronousServerCallReturnsEvent` | [x] Done     | a706fd368b |
 | `DataReceiveErrorEvent`              | [x] Done     | b5ead83e20 |
 | `DataReceivedEvent`                  | [x] Done     | 5d23170856 |
-| `DataSendCompletedEvent`             | [ ] Pending* | N/A        |
+| `DataSendCompletedEvent`             | [x] Done     | 57e1abeea2 |
 | `DataWriteCompletedEvent`            | [ ] Pending* | N/A        |
 | `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
 | `OperationInvokedEvent`              | [ ] Pending* | N/A        |
