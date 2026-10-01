@@ -7,6 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
@@ -14,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterToDiagEventMapping,
     DiagnosticAbstractDataIdentifier,
     DiagnosticContributionSet,
+    DiagnosticCustomServiceInstance,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
@@ -1811,3 +1813,82 @@ class TestDiagnosticProtocol:
         result = obj.setServiceTableRef(None)
         assert result is obj  # method chaining with None
         assert obj.getServiceTableRef() is ref  # None is a no-op
+
+
+class TestDiagnosticCustomServiceInstance:
+    """
+    Test class for DiagnosticCustomServiceInstance functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.27, p.70
+    """
+
+    def _create_instance(self) -> DiagnosticCustomServiceInstance:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticCustomServiceInstance(ar_root, "TestCustomServiceInstance")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticCustomServiceInstance is initialized with the spec defaults.
+        """
+        obj = self._create_instance()
+
+        assert obj.getShortName() == "TestCustomServiceInstance"
+        assert isinstance(obj, ARElement)
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getCustomServiceClassRef() is None
+        assert obj.getAccessPermissionRef() is None
+        assert obj.getServiceClassRef() is None
+
+    def test_get_set_custom_service_class_ref(self):
+        """
+        Test getCustomServiceClassRef and setCustomServiceClassRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-CUSTOM-SERVICE-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticCustomInstances/CustomServiceClass")
+        result = obj.setCustomServiceClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getCustomServiceClassRef() is ref
+
+        result = obj.setCustomServiceClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getCustomServiceClassRef() is ref  # None is a no-op
+
+    def test_inherited_instance_accessors(self):
+        """
+        Test the accessPermissionRef and serviceClassRef accessors inherited from DiagnosticServiceInstance.
+        """
+        obj = self._create_instance()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-ACCESS-PERMISSION")
+        ref.setValue("/AUTOSAR/Dcm/AccessPermission")
+        result = obj.setAccessPermissionRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAccessPermissionRef() is ref
+
+        class_ref = RefType()
+        class_ref.setDest("DIAGNOSTIC-CUSTOM-SERVICE-CLASS")
+        class_ref.setValue("/AUTOSAR/DiagnosticCustomInstances/CustomServiceClass")
+        result = obj.setServiceClassRef(class_ref)
+        assert result is obj  # method chaining
+        assert obj.getServiceClassRef() is class_ref
+
+    def test_create_diagnostic_custom_service_instance(self):
+        """
+        Test createDiagnosticCustomServiceInstance creates, appends and returns the existing one for a duplicate short name.
+        """
+        package = AUTOSAR.getInstance().createARPackage("CustomInstances")
+
+        instance = package.createDiagnosticCustomServiceInstance("Svc1")
+        assert instance is not None
+        assert isinstance(instance, DiagnosticCustomServiceInstance)
+        assert instance.getShortName() == "Svc1"
+        assert instance.getParent() is package
+        assert package.getElement("Svc1", DiagnosticCustomServiceInstance) is instance
+
+        duplicate = package.createDiagnosticCustomServiceInstance("Svc1")
+        assert duplicate is instance  # duplicate short name returns the existing element

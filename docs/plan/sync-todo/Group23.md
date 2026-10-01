@@ -912,15 +912,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticCustomServiceInstance` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.27, p.70
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base most-derived = `DiagnosticServiceInstance` — FIXED from the
+    queued stub's `ARElement` (Rule 0001.2); own attr `customServiceClass`
+    (DiagnosticCustomServiceClass 0..1 ref) → `customServiceClassRef:
+    Optional[RefType]`; wire order identifiable → ACCESS-PERMISSION-REF
+    (inherited via shared base helpers) → CUSTOM-SERVICE-CLASS-REF (XSD group
+    l.34019); full 5-place ARPackage dispatch (factory + parser + writer
+    branches + dispatch tests). Ref target DiagnosticCustomServiceClass exists
+    as a stub (Table 4.28 queued — not a placeholder). Report-only: XSD marks
+    base `serviceClass` atpDerived/skipped while the stamped Table 4.26 base
+    still reads/writes SERVICE-CLASS-REF (out of scope). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (99 passed / 0 failed test_ARPackage.py + test_diagnostic_custom_service_instance.py + test_writer_diagnostic_custom_service_instance.py + test_writer_diagnostic_contribution_set.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticCustomServiceClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.28, p.71
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py

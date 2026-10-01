@@ -1544,6 +1544,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(contribution_set)
         return self.getElement(short_name, DiagnosticContributionSet)
 
+    def createDiagnosticCustomServiceInstance(self, short_name: str) -> DiagnosticCustomServiceInstance:
+        """
+        Creates a new DiagnosticCustomServiceInstance with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticCustomServiceInstance represents an instance of a custom
+        diagnostic service referring its corresponding DiagnosticCustomServiceClass.
+
+        Args:
+            short_name: The short name for the new DiagnosticCustomServiceInstance
+
+        Returns:
+            The newly created or existing DiagnosticCustomServiceInstance instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticCustomServiceInstance):
+            custom_service_instance = DiagnosticCustomServiceInstance(self, short_name)
+            self.addElement(custom_service_instance)
+        return self.getElement(short_name, DiagnosticCustomServiceInstance)
+
     def createDiagnosticProtocol(self, short_name: str) -> DiagnosticProtocol:
         """
         Creates a new DiagnosticProtocol with the given short name,
@@ -2297,6 +2316,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (  # noqa: E402
     EcucModuleConfigurationValues,
@@ -2704,8 +2724,39 @@ class DiagnosticContributionSet(ARElement):
         return self.serviceTableRefs
 
 
-class DiagnosticCustomServiceInstance(ARElement):
-    pass
+class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
+    """
+    This meta-class has the ability to define an instance of a custom diagnostic service.
+    """
+
+    # DiagnosticCustomServiceInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.27, p.70
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setCustomServiceClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCustomServiceClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the corresponding DiagnosticCustomServiceClass.
+        self.customServiceClassRef: Optional[RefType] = None
+
+    def getCustomServiceClassRef(self) -> Optional[RefType]:
+        """
+        Reference to the corresponding DiagnosticCustomServiceClass.
+        """
+        return self.customServiceClassRef
+
+    def setCustomServiceClassRef(self, value: Optional[RefType]):
+        """
+        Reference to the corresponding DiagnosticCustomServiceClass.
+
+        A None value is a no-op and does not overwrite an existing customServiceClassRef.
+        """
+        if value is not None:
+            self.customServiceClassRef = value
+        return self
 
 
 class DiagnosticDataByIdentifier(ARElement, ABC):

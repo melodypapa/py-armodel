@@ -361,7 +361,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
     DiagnosticContributionSet,
@@ -13712,6 +13712,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
 
+    def writeDiagnosticCustomServiceInstance(self, element: ET.Element, instance: DiagnosticCustomServiceInstance):
+        self.logger.debug("Write DiagnosticCustomServiceInstance %s" % instance.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE")
+        self.writeIdentifiable(child_element, instance)
+        self.writeDiagnosticServiceInstance(child_element, instance)
+        self.setChildElementOptionalRefType(child_element, "CUSTOM-SERVICE-CLASS-REF", instance.getCustomServiceClassRef())
+
     def writeDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
         self.writeARObject(element, proxy)
         refs = proxy.getAuthenticationRoleRefs()
@@ -14722,6 +14729,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
+        elif isinstance(ar_element, DiagnosticCustomServiceInstance):
+            self.writeDiagnosticCustomServiceInstance(element, ar_element)
         elif isinstance(ar_element, DiagnosticProtocol):
             self.writeDiagnosticProtocol(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):

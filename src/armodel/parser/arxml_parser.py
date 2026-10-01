@@ -485,7 +485,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
     DiagnosticContributionSet,
@@ -10387,6 +10387,12 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
         instance.setServiceClassRef(self.getChildElementOptionalRefType(element, "SERVICE-CLASS-REF"))
 
+    def readDiagnosticCustomServiceInstance(self, element: ET.Element, instance: DiagnosticCustomServiceInstance):
+        self.logger.debug("Read DiagnosticCustomServiceInstance <%s>" % instance.getShortName())
+        self.readIdentifiable(element, instance)
+        self.readDiagnosticServiceInstance(element, instance)
+        instance.setCustomServiceClassRef(self.getChildElementOptionalRefType(element, "CUSTOM-SERVICE-CLASS-REF"))
+
     def readDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
         self.readARObject(element, proxy)
         for ref in self.getChildElementRefTypeList(element, "AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF"):
@@ -15099,6 +15105,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-CONTRIBUTION-SET":
                 contribution_set = parent.createDiagnosticContributionSet(self.getShortName(child_element))
                 self.readDiagnosticContributionSet(child_element, contribution_set)
+            elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE":
+                custom_service_instance = parent.createDiagnosticCustomServiceInstance(self.getShortName(child_element))
+                self.readDiagnosticCustomServiceInstance(child_element, custom_service_instance)
             elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDataIdentifier(child_element, did)
