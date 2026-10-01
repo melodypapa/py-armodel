@@ -966,15 +966,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticCompareTypeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.40, p.83
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: synced FROM SCRATCH per Rule 0001.3/0012.2.3 (unstamped content) — drift FOUND and repaired: pre-existing
+    member/`__init__` tuple order was operator-logical (IS_EQUAL, IS_NOT_EQUAL, IS_LESS_THAN, IS_LESS_OR_EQUAL,
+    IS_GREATER_THAN, IS_GREATER_OR_EQUAL); markdown displayed order is alphabetical (isEqual idx0, isGreaterOrEqual
+    idx5, isGreaterThan idx4, isLessOrEqual idx3, isLessThan idx2, isNotEqual idx1) → reordered (Rule 0001.11,
+    EventCombinationBehaviorEnum precedent). Literal set (6), member values (spec camelCase verbatim), class Note,
+    literal descriptions verified correct; all docstrings/comments wiped and rewritten fresh. Wire tokens via
+    pre-registered DIAGNOSTIC_COMPARE_TYPE_XML_MAP (parser l.1318 / writer l.1152) verified against the XSD SIMPLE
+    enum (l.134030); reader/writer branches on compareType pre-wired (_readEnumToken/_writeEnumToken). Not
+    VP-capable (enum). Steps 5/6 N/A (standalone enum).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — round-trip via the consuming DiagnosticEnvCompareCondition; reader branch pre-wired and consumer tests green)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map + reader/writer branches pre-wired, verified by the new assertions)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (46 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py + 6 passed/0 failed parser/writer consumer tests); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticEnvDataCondition` — DiagnosticEnvCompareCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.41, p.84
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py

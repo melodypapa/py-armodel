@@ -34,41 +34,41 @@ class DiagnosticLogicalOperatorEnum(AREnum):
 
 
 class DiagnosticCompareTypeEnum(AREnum):
-    """
-    Enumeration for the type of a comparison of values usually expressed by the following operators: ==, !=, <, <=, >, >=
-    """
+    """Enumeration for the type of a comparison of values usually expressed by the following operators: ==, !=, <, <=, >, >="""
 
     # DiagnosticCompareTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.40, p.83
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DiagnosticEnvCompareCondition.compareType
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # equal Tags: atp.EnumerationLiteralIndex=0
     IS_EQUAL = "isEqual"
 
-    # not equal Tags: atp.EnumerationLiteralIndex=1
-    IS_NOT_EQUAL = "isNotEqual"
-
-    # less than Tags: atp.EnumerationLiteralIndex=2
-    IS_LESS_THAN = "isLessThan"
-
-    # less than or equal Tags: atp.EnumerationLiteralIndex=3
-    IS_LESS_OR_EQUAL = "isLessOrEqual"
+    # greater than or equal Tags: atp.EnumerationLiteralIndex=5
+    IS_GREATER_OR_EQUAL = "isGreaterOrEqual"
 
     # greater than Tags: atp.EnumerationLiteralIndex=4
     IS_GREATER_THAN = "isGreaterThan"
 
-    # greater than or equal Tags: atp.EnumerationLiteralIndex=5
-    IS_GREATER_OR_EQUAL = "isGreaterOrEqual"
+    # less than or equal Tags: atp.EnumerationLiteralIndex=3
+    IS_LESS_OR_EQUAL = "isLessOrEqual"
+
+    # less than Tags: atp.EnumerationLiteralIndex=2
+    IS_LESS_THAN = "isLessThan"
+
+    # not equal Tags: atp.EnumerationLiteralIndex=1
+    IS_NOT_EQUAL = "isNotEqual"
 
     def __init__(self):
         super().__init__(
             (
                 DiagnosticCompareTypeEnum.IS_EQUAL,
-                DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
-                DiagnosticCompareTypeEnum.IS_LESS_THAN,
-                DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
-                DiagnosticCompareTypeEnum.IS_GREATER_THAN,
                 DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL,
+                DiagnosticCompareTypeEnum.IS_GREATER_THAN,
+                DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
+                DiagnosticCompareTypeEnum.IS_LESS_THAN,
+                DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
             )
         )
 

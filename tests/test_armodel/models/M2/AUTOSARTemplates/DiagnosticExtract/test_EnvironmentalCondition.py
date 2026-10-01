@@ -44,6 +44,7 @@ MODE_ELEMENT_NOTE = (
     "that an InstanceRef only needs to be defined once and can be used multiple times in the different DiagnosticEnvModeConditions."
 )
 LOGICAL_OPERATOR_ENUM_NOTE = "Logical AND and OR operation (&&, ||)"
+COMPARE_TYPE_ENUM_NOTE = "Enumeration for the type of a comparison of values usually expressed by the following operators: ==, !=, <, <=, >, >="
 FORMULA_ATTR_NOTE = "This attribute represents the formula part of the DiagnosticEnvironmentalCondition."
 MODE_ELEMENT_ATTR_NOTE = "This aggregation contains a representation of ModeDeclarations in the context of a DiagnosticEnvironmentalCondition."
 NRC_VALUE_NOTE = "This attribute represents the concrete NRC value that shall be returned if the condition fails."
@@ -277,17 +278,37 @@ class Test_DiagnosticLogicalOperatorEnum:
 class Test_DiagnosticCompareTypeEnum:
     """Test cases for DiagnosticCompareTypeEnum (Table 4.40, p.83)."""
 
-    def test_instantiation_and_values(self):
+    def test_instantiation_and_displayed_order(self):
         enum = DiagnosticCompareTypeEnum()
         assert enum.getEnumValues() == (
-            DiagnosticCompareTypeEnum.IS_EQUAL,
-            DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
-            DiagnosticCompareTypeEnum.IS_LESS_THAN,
-            DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
-            DiagnosticCompareTypeEnum.IS_GREATER_THAN,
-            DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL,
+            "isEqual",
+            "isGreaterOrEqual",
+            "isGreaterThan",
+            "isLessOrEqual",
+            "isLessThan",
+            "isNotEqual",
         )
+
+    def test_literal_members(self):
         assert DiagnosticCompareTypeEnum.IS_EQUAL == "isEqual"
+        assert DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL == "isGreaterOrEqual"
+        assert DiagnosticCompareTypeEnum.IS_GREATER_THAN == "isGreaterThan"
+        assert DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL == "isLessOrEqual"
+        assert DiagnosticCompareTypeEnum.IS_LESS_THAN == "isLessThan"
+        assert DiagnosticCompareTypeEnum.IS_NOT_EQUAL == "isNotEqual"
+
+    def test_validate_enum_value(self):
+        enum = DiagnosticCompareTypeEnum()
+        assert enum.validateEnumValue("isEqual") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_instantiable_and_value_round_trip(self):
+        enum = DiagnosticCompareTypeEnum()
+        enum.setValue(DiagnosticCompareTypeEnum.IS_GREATER_THAN)
+        assert enum.getValue() == "isGreaterThan"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert DiagnosticCompareTypeEnum.__doc__ == COMPARE_TYPE_ENUM_NOTE
 
 
 class Test_DiagnosticEnvCompareCondition:
