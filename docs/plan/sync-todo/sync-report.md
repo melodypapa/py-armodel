@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 631 | 33.2% |
+| [x] Done | 633 | 33.3% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 214 | 11.2% |
+| [ ] Deferred | 212 | 11.1% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -169,7 +169,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswDistinguishedPartition`                             | [x] Done    | 80d341994f                               | Group22          |
 | `BswEntryKindEnum`                                      | [x] Done    | 1a5b05b196                               | Group22          |
 | `BswEntryRelationship`                                  | [ ] Deferred| 75c6517342                               | Group13          |
-| `BswEntryRelationshipEnum`                              | [ ] Deferred| 994c3903cb                               | Group13          |
+| `BswEntryRelationshipEnum`                              | [x] Done    | ff1903b513                               | Group13          |
 | `BswEntryRelationshipSet`                               | [ ] Deferred| a4d57abd3a                               | Group13          |
 | `BswEvent`                                              | [x] Done    | af5498712f                               | Group22          |
 | `BswExclusiveAreaPolicy`                                | [ ] Deferred| eb307c9898                               | Group22          |
@@ -209,7 +209,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswServiceDependency`                                  | [ ] Implemented| N/A                                      | Group23          |
 | `BswServiceDependencyIdent`                             | [ ] Implemented| N/A                                      | Group26          |
 | `BswSynchronousServerCallPoint`                         | [x] Done    | f23ec00417                               | Group13          |
-| `BswTimingEvent`                                        | [ ] Deferred| 1a0a0619b2                               | Group13          |
+| `BswTimingEvent`                                        | [x] Done    | 361ab10d5e                               | Group13          |
 | `BswTriggerDirectImplementation`                        | [ ] Deferred| 0626aec9ca                               | Group22          |
 | `BswVariableAccess`                                     | [ ] Deferred| d4d386b5c4                               | Group22          |
 | `BufferProperties`                                      | [ ] Implemented| N/A                                      | Group28          |
