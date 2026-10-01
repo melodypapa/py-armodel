@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class DiagnosticLogicalOperatorEnum(AREnum):
@@ -333,7 +334,86 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
 
 
 class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
-    pass
+    """
+    This meta-class represents the ability to formulate a diagnostic environment condition based on the value of a data element owned by the application software.
+
+    [constr_10115] Existence of attributes of DiagnosticEnvDataElementCondition if the reference in the role dataPrototype exists: If the reference in the role DiagnosticEnvDataElementCondition.dataPrototype exists, then the aggregation in the role compareValue shall exist and the aggregation in the role swDataDefProps shall not exist at the time when the DEXT is complete.
+
+    [constr_10116] Existence of attributes of DiagnosticEnvDataElementCondition if the reference in the role dataPrototype does not exist: If the reference in the role DiagnosticEnvDataElementCondition.dataPrototype does not exist, then the aggregations in the role compareValue and swDataDefProps shall exist at the time when the DEXT is complete.
+
+    [constr_10117] Existence of attributes of DiagnosticEnvDataElementCondition.swDataDefProps: baseType 1, compuMethod 0..1, dataConstr 0..1. This rule shall be imposed at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnvDataElementCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.42, p.85
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompareValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompareValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPrototypeIRef  [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (deferred: DataPrototypeInSystemInstanceRef not yet implemented — Rule 0001.10 placeholder RefType)
+    # [x] setDataPrototypeIRef  [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (ditto)
+    # [x] getSwDataDefProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This aggregation represents the definition of the compare value against which the value taken from the application software shall be compared.
+        self.compareValue: Optional[ValueSpecification] = None
+
+        # This instanceRef represent the ability to access a data element owned by the application software on the AUTOSAR classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        self.dataPrototypeIRef: Optional[RefType] = None
+
+        # Via this aggregation it is possible to describe the properties of the data that is obtained from the application for the environmental condition.
+        self.swDataDefProps: Optional[SwDataDefProps] = None
+
+    def getCompareValue(self) -> Optional[ValueSpecification]:
+        """
+        This aggregation represents the definition of the compare value against which the value taken from the application software shall be compared.
+        """
+        return self.compareValue
+
+    def setCompareValue(self, value: Optional[ValueSpecification]):
+        """
+        This aggregation represents the definition of the compare value against which the value taken from the application software shall be compared.
+
+        A None value is a no-op and does not overwrite an existing compareValue.
+        """
+        if value is not None:
+            self.compareValue = value
+        return self
+
+    def getDataPrototypeIRef(self) -> Optional[RefType]:
+        """
+        This instanceRef represent the ability to access a data element owned by the application software on the AUTOSAR classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        """
+        return self.dataPrototypeIRef
+
+    def setDataPrototypeIRef(self, value: Optional[RefType]):
+        """
+        This instanceRef represent the ability to access a data element owned by the application software on the AUTOSAR classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing dataPrototypeIRef.
+        """
+        if value is not None:
+            self.dataPrototypeIRef = value
+        return self
+
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
+        """
+        Via this aggregation it is possible to describe the properties of the data that is obtained from the application for the environmental condition.
+        """
+        return self.swDataDefProps
+
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]):
+        """
+        Via this aggregation it is possible to describe the properties of the data that is obtained from the application for the environmental condition.
+
+        A None value is a no-op and does not overwrite an existing swDataDefProps.
+        """
+        if value is not None:
+            self.swDataDefProps = value
+        return self
 
 
 class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):

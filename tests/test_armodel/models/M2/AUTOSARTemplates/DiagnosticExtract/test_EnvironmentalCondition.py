@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvConditionFormula,
     DiagnosticEnvConditionFormulaPart,
     DiagnosticEnvDataCondition,
+    DiagnosticEnvDataElementCondition,
     DiagnosticEnvironmentalCondition,
     DiagnosticEnvModeElement,
     DiagnosticLogicalOperatorEnum,
@@ -26,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, PositiveInteger, RefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 ENV_CONDITION_NOTE = (
     "The meta-class DiagnosticEnvironmentalCondition formalizes the idea of a condition which is evaluated during runtime of the ECU by looking at "
@@ -431,3 +433,99 @@ class Test_DiagnosticEnvDataCondition:
         assert inspect.cleandoc(DiagnosticEnvDataCondition.setCompareValue.__doc__) == (self.COMPARE_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing compareValue.")
         assert inspect.cleandoc(DiagnosticEnvDataCondition.getDataElementRef.__doc__) == self.DATA_ELEMENT_NOTE
         assert inspect.cleandoc(DiagnosticEnvDataCondition.setDataElementRef.__doc__) == (self.DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataElementRef.")
+
+
+class Test_DiagnosticEnvDataElementCondition:
+    """Test cases for DiagnosticEnvDataElementCondition (Table 4.42, p.85)."""
+
+    CLASS_DOCSTRING = (
+        "This meta-class represents the ability to formulate a diagnostic environment condition based on the value of a data element owned by the application software.\n"
+        "\n"
+        "[constr_10115] Existence of attributes of DiagnosticEnvDataElementCondition if the reference in the role dataPrototype exists: If the reference in the role "
+        "DiagnosticEnvDataElementCondition.dataPrototype exists, then the aggregation in the role compareValue shall exist and the aggregation in the role "
+        "swDataDefProps shall not exist at the time when the DEXT is complete.\n"
+        "\n"
+        "[constr_10116] Existence of attributes of DiagnosticEnvDataElementCondition if the reference in the role dataPrototype does not exist: If the reference in the "
+        "role DiagnosticEnvDataElementCondition.dataPrototype does not exist, then the aggregations in the role compareValue and swDataDefProps shall exist at the "
+        "time when the DEXT is complete.\n"
+        "\n"
+        "[constr_10117] Existence of attributes of DiagnosticEnvDataElementCondition.swDataDefProps: baseType 1, compuMethod 0..1, dataConstr 0..1. This rule shall be "
+        "imposed at the time when the DEXT is complete."
+    )
+    COMPARE_VALUE_NOTE = "This aggregation represents the definition of the compare value against which the value taken from the application software shall be compared."
+    DATA_PROTOTYPE_NOTE = "This instanceRef represent the ability to access a data element owned by the application software on the AUTOSAR classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef"
+    SW_DATA_DEF_PROPS_NOTE = "Via this aggregation it is possible to describe the properties of the data that is obtained from the application for the environmental condition."
+
+    def test_is_concrete(self):
+        condition = DiagnosticEnvDataElementCondition()
+        assert condition is not None
+
+    def test_is_diagnostic_env_compare_condition_subclass(self):
+        assert issubclass(DiagnosticEnvDataElementCondition, DiagnosticEnvCompareCondition)
+        assert issubclass(DiagnosticEnvDataElementCondition, DiagnosticEnvConditionFormulaPart)
+        assert issubclass(DiagnosticEnvDataElementCondition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvDataElementCondition.__init__.__doc__ is None
+
+    def test_defaults(self):
+        condition = DiagnosticEnvDataElementCondition()
+        assert condition.getCompareValue() is None
+        assert condition.getDataPrototypeIRef() is None
+        assert condition.getSwDataDefProps() is None
+        assert condition.getCompareType() is None
+
+    def test_get_set_compare_value(self):
+        condition = DiagnosticEnvDataElementCondition()
+        value_spec = TextValueSpecification()
+        literal = ARLiteral()
+        literal.setValue("42")
+        value_spec.setValue(literal)
+        assert condition.setCompareValue(value_spec) is condition
+        assert condition.getCompareValue() is value_spec
+        condition.setCompareValue(None)
+        assert condition.getCompareValue() is value_spec
+
+    def test_get_set_data_prototype_iref(self):
+        condition = DiagnosticEnvDataElementCondition()
+        ref = RefType()
+        ref.setDest("VARIABLE-DATA-PROTOTYPE")
+        ref.setValue("/AUTOSAR/RootSwComposition/Comp1/Vdp1")
+        assert condition.setDataPrototypeIRef(ref) is condition
+        assert condition.getDataPrototypeIRef() is ref
+        condition.setDataPrototypeIRef(None)
+        assert condition.getDataPrototypeIRef() is ref
+
+    def test_get_set_sw_data_def_props(self):
+        condition = DiagnosticEnvDataElementCondition()
+        props = SwDataDefProps()
+        base_type_ref = RefType()
+        base_type_ref.setDest("SW-BASE-TYPE")
+        base_type_ref.setValue("/DataTypes/BaseTypes/uint8")
+        props.setBaseTypeRef(base_type_ref)
+        assert condition.setSwDataDefProps(props) is condition
+        assert condition.getSwDataDefProps() is props
+        assert condition.getSwDataDefProps().getBaseTypeRef().getValue() == "/DataTypes/BaseTypes/uint8"
+        condition.setSwDataDefProps(None)
+        assert condition.getSwDataDefProps() is props
+
+    def test_inherited_compare_type(self):
+        condition = DiagnosticEnvDataElementCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_EQUAL)
+        condition.setCompareType(compare_type)
+        assert condition.getCompareType() is compare_type
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.getCompareValue.__doc__) == self.COMPARE_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setCompareValue.__doc__) == (self.COMPARE_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing compareValue.")
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.getDataPrototypeIRef.__doc__) == self.DATA_PROTOTYPE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setDataPrototypeIRef.__doc__) == (
+            self.DATA_PROTOTYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataPrototypeIRef."
+        )
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.getSwDataDefProps.__doc__) == self.SW_DATA_DEF_PROPS_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setSwDataDefProps.__doc__) == (
+            self.SW_DATA_DEF_PROPS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing swDataDefProps."
+        )
