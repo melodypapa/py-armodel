@@ -413,6 +413,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEcuReset,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
+    DiagnosticReadDataByIdentifier,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -13830,6 +13831,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticDataByIdentifier(self, element: ET.Element, data_by_identifier: DiagnosticDataByIdentifier):
         self.setChildElementOptionalRefType(element, "DATA-IDENTIFIER-REF", data_by_identifier.getDataIdentifier())
 
+    def writeDiagnosticReadDataByIdentifier(self, element: ET.Element, read_data_by_identifier: DiagnosticReadDataByIdentifier):
+        self.logger.debug("Write DiagnosticReadDataByIdentifier %s" % read_data_by_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER")
+        self.writeIdentifiable(child_element, read_data_by_identifier)
+        self.writeDiagnosticDataByIdentifier(child_element, read_data_by_identifier)
+        self.setChildElementOptionalRefType(child_element, "READ-CLASS-REF", read_data_by_identifier.getReadClass())
+
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-IDENTIFIER")
@@ -15185,6 +15193,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuResetClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
+            self.writeDiagnosticReadDataByIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
             self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):

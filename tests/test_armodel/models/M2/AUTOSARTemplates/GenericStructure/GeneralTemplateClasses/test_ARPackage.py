@@ -3148,3 +3148,87 @@ class TestDiagnosticDataByIdentifier:
         """
         assert inspect.cleandoc(DiagnosticDataByIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
         assert inspect.cleandoc(DiagnosticDataByIdentifier.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")
+
+
+class TestDiagnosticReadDataByIdentifier:
+    """
+    Test class for DiagnosticReadDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.70, p.112
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Data by Identifier" diagnostic service.'
+    READ_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByIdentifier in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDataByIdentifier(ar_root, "TestReadDataByIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadDataByIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getReadClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_read_class(self):
+        """
+        Round-trips the readClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticReadDataByIdentifierClasses/ReadClass")
+        result = obj.setReadClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadClass() is ref
+        assert obj.getReadClass().getValue() == "/AUTOSAR/DiagnosticReadDataByIdentifierClasses/ReadClass"
+        assert obj.getReadClass().getDest() == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS"
+
+        result = obj.setReadClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifier.getReadClass.__doc__) == self.READ_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifier.setReadClass.__doc__) == (self.READ_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readClass.")
+
+    def test_create_diagnostic_read_data_by_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDataByIdentifiers")
+        read_did = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
+
+        assert read_did is not None
+        assert isinstance(read_did, DiagnosticReadDataByIdentifier)
+        assert read_did.getShortName() == "ReadDataByIdentifier1"
+        assert package.getElement("ReadDataByIdentifier1", DiagnosticReadDataByIdentifier) is read_did
+
+        duplicate = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
+        assert duplicate is read_did  # duplicate short name returns the existing element
