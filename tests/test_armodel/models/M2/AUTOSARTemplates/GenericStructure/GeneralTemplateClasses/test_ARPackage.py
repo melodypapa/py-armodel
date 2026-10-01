@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
+    DiagnosticReadScalingDataByIdentifier,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -3317,3 +3318,89 @@ class TestDiagnosticWriteDataByIdentifier:
 
         duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
         assert duplicate is write_did  # duplicate short name returns the existing element
+
+
+class TestDiagnosticReadScalingDataByIdentifier:
+    """
+    Test class for DiagnosticReadScalingDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.78, p.116
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Scaling Data by Identifier" diagnostic service.'
+    READ_SCALING_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadScalingDataByIdentifier in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadScalingDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadScalingDataByIdentifier(ar_root, "TestReadScalingDataByIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadScalingDataByIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadScalingDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getReadScalingDataClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadScalingDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadScalingDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_read_scaling_data_class(self):
+        """
+        Round-trips the readScalingDataClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticReadScalingDataByIdentifierClasses/ReadScalingClass")
+        result = obj.setReadScalingDataClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadScalingDataClass() is ref
+        assert obj.getReadScalingDataClass().getValue() == "/AUTOSAR/DiagnosticReadScalingDataByIdentifierClasses/ReadScalingClass"
+        assert obj.getReadScalingDataClass().getDest() == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS"
+
+        result = obj.setReadScalingDataClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadScalingDataClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadScalingDataByIdentifier.getReadScalingDataClass.__doc__) == self.READ_SCALING_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadScalingDataByIdentifier.setReadScalingDataClass.__doc__) == (
+            self.READ_SCALING_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readScalingDataClass."
+        )
+
+    def test_create_diagnostic_read_scaling_data_by_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadScalingDataByIdentifiers")
+        read_scaling = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
+
+        assert read_scaling is not None
+        assert isinstance(read_scaling, DiagnosticReadScalingDataByIdentifier)
+        assert read_scaling.getShortName() == "ReadScalingDataByIdentifier1"
+        assert package.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier) is read_scaling
+
+        duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
+        assert duplicate is read_scaling  # duplicate short name returns the existing element

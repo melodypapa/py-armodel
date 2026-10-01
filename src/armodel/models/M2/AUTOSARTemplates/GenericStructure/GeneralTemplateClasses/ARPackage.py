@@ -1914,6 +1914,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(read_data_by_identifier_class)
         return self.getElement(short_name, DiagnosticReadDataByIdentifierClass)
 
+    def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
+        """
+        Creates a new DiagnosticReadScalingDataByIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadScalingDataByIdentifier represents an instance of the "Read Scaling Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadScalingDataByIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticReadScalingDataByIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifier):
+            read_scaling_data_by_identifier = DiagnosticReadScalingDataByIdentifier(self, short_name)
+            self.addElement(read_scaling_data_by_identifier)
+        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifier)
+
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
         Creates a new Diagnostic Service Table with the given short name,
@@ -3998,7 +4016,36 @@ class DiagnosticReadDataByPeriodicID(ARElement):
 
 
 class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
-    pass
+    """This represents an instance of the "Read Scaling Data by Identifier" diagnostic service."""
+
+    # DiagnosticReadScalingDataByIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.78, p.116
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReadScalingDataClass   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadScalingDataClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadScalingDataByIdentifier in the given context.
+        self.readScalingDataClass: Optional[RefType] = None
+
+    def getReadScalingDataClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadScalingDataByIdentifier in the given context.
+        """
+        return self.readScalingDataClass
+
+    def setReadScalingDataClass(self, value: Optional[RefType]) -> DiagnosticReadScalingDataByIdentifier:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadScalingDataByIdentifier in the given context.
+
+        A None value is a no-op and does not overwrite an existing readScalingDataClass.
+        """
+        if value is not None:
+            self.readScalingDataClass = value
+        return self
 
 
 class DiagnosticRequestControlOfOnBoardDevice(ARElement):

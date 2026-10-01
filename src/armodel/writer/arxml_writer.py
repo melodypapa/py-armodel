@@ -416,6 +416,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
+    DiagnosticReadScalingDataByIdentifier,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -13848,6 +13849,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticDataByIdentifier(child_element, write_data_by_identifier)
         self.setChildElementOptionalRefType(child_element, "WRITE-CLASS-REF", write_data_by_identifier.getWriteClass())
 
+    def writeDiagnosticReadScalingDataByIdentifier(self, element: ET.Element, read_scaling_data_by_identifier: DiagnosticReadScalingDataByIdentifier):
+        self.logger.debug("Write DiagnosticReadScalingDataByIdentifier %s" % read_scaling_data_by_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER")
+        self.writeIdentifiable(child_element, read_scaling_data_by_identifier)
+        self.writeDiagnosticDataByIdentifier(child_element, read_scaling_data_by_identifier)
+        self.setChildElementOptionalRefType(child_element, "READ-SCALING-DATA-CLASS-REF", read_scaling_data_by_identifier.getReadScalingDataClass())
+
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-IDENTIFIER")
@@ -15222,6 +15230,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadDataByIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifier):
             self.writeDiagnosticWriteDataByIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifier):
+            self.writeDiagnosticReadScalingDataByIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
             self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):

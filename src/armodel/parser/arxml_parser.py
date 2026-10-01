@@ -539,6 +539,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
+    DiagnosticReadScalingDataByIdentifier,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -10492,6 +10493,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticDataByIdentifier(element, write_data_by_identifier)
         write_data_by_identifier.setWriteClass(self.getChildElementOptionalRefType(element, "WRITE-CLASS-REF"))
 
+    def readDiagnosticReadScalingDataByIdentifier(self, element: ET.Element, read_scaling_data_by_identifier: DiagnosticReadScalingDataByIdentifier):
+        self.logger.debug("Read DiagnosticReadScalingDataByIdentifier <%s>" % read_scaling_data_by_identifier.getShortName())
+        self.readIdentifiable(element, read_scaling_data_by_identifier)
+        self.readDiagnosticDataByIdentifier(element, read_scaling_data_by_identifier)
+        read_scaling_data_by_identifier.setReadScalingDataClass(self.getChildElementOptionalRefType(element, "READ-SCALING-DATA-CLASS-REF"))
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -15590,6 +15597,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
                 write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
+            elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER":
+                read_scaling_data_by_identifier = parent.createDiagnosticReadScalingDataByIdentifier(self.getShortName(child_element))
+                self.readDiagnosticReadScalingDataByIdentifier(child_element, read_scaling_data_by_identifier)
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS":
                 write_data_by_identifier_class = parent.createDiagnosticWriteDataByIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifierClass(child_element, write_data_by_identifier_class)
