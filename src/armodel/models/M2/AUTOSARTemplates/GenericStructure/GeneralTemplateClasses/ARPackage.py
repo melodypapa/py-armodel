@@ -1927,6 +1927,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(read_data_by_identifier_class)
         return self.getElement(short_name, DiagnosticReadDataByIdentifierClass)
 
+    def createDiagnosticReadDataByPeriodicID(self, short_name: str) -> DiagnosticReadDataByPeriodicID:
+        """
+        Creates a new DiagnosticReadDataByPeriodicID with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDataByPeriodicID represents an instance of the
+        "Read Data by periodic Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDataByPeriodicID
+
+        Returns:
+            The newly created or existing DiagnosticReadDataByPeriodicID instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicID):
+            read_data_by_periodic_id = DiagnosticReadDataByPeriodicID(self, short_name)
+            self.addElement(read_data_by_periodic_id)
+        return self.getElement(short_name, DiagnosticReadDataByPeriodicID)
+
     def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
         """
         Creates a new DiagnosticReadScalingDataByIdentifier with the given short name,
@@ -4385,7 +4404,36 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
 
 
 class DiagnosticReadDataByPeriodicID(ARElement):
-    pass
+    """This represents an instance of the "Read Data by periodic Identifier" diagnostic service."""
+
+    # DiagnosticReadDataByPeriodicID method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.97, p.130
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReadDataClass       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadDataClass       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByPeriodicID in the given context.
+        self.readDataClass: Optional[RefType] = None
+
+    def getReadDataClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByPeriodicID in the given context.
+        """
+        return self.readDataClass
+
+    def setReadDataClass(self, value: Optional[RefType]) -> DiagnosticReadDataByPeriodicID:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByPeriodicID in the given context.
+
+        A None value is a no-op and does not overwrite an existing readDataClass.
+        """
+        if value is not None:
+            self.readDataClass = value
+        return self
 
 
 class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):

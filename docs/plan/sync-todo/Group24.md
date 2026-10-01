@@ -718,14 +718,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticReadDataByPeriodicID` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.97, p.130
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): Table 4.97 body matched by Class row — split across the page-break mini-table
+      (Class/Package/Note l.3853, renders above the caption) + main body (Base/AggregatedBy/Attribute
+      l.3866-3871, caption l.3864); concrete Class; Base most-derived = ARElement (XSD complexType
+      l.41268 group chain ends AR-ELEMENT, DIAGNOSTIC-COMMON-ELEMENT, DIAGNOSTIC-SERVICE-INSTANCE;
+      sibling-consistent ARElement per DiagnosticComControl/DiagnosticEcuReset). attr readDataClass
+      (DiagnosticReadDataByPeriodicIDClass, 0..1, ref — cell-wraps "DiagnosticReadDataBy PeriodicIDClass" /
+      "DiagnosticReadDataBy PeriodicID" healed); XSD group DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID
+      (AUTOSAR_00052.xsd l.41230): READ-DATA-CLASS-REF only.
+    - note (Step 8): the XSD group also carries DATA-IDENTIFIER-REF with atp.Status="removed" (absent
+      from the Table 4.97 attribute rows — DiagnosticEcuReset RESPOND-TO-RESET precedent) — not modeled,
+      no open deviation.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByPeriodicID` factory
+      (alphabetical after createDiagnosticReadDataByIdentifierClass) + readARPackageElements
+      DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID branch + writeARPackageElement isinstance branch; ref via
+      set/getReadDataClass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadDataByPeriodicIDClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.98, p.130

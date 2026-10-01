@@ -422,6 +422,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
+    DiagnosticReadDataByPeriodicID,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -14139,6 +14140,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, read_data_by_identifier_class)
         self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", read_data_by_identifier_class.getMaxDidToRead())
 
+    def writeDiagnosticReadDataByPeriodicID(self, element: ET.Element, read_data_by_periodic_id: DiagnosticReadDataByPeriodicID):
+        self.logger.debug("Write DiagnosticReadDataByPeriodicID %s" % read_data_by_periodic_id.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID")
+        self.writeIdentifiable(child_element, read_data_by_periodic_id)
+        self.setChildElementOptionalRefType(child_element, "READ-DATA-CLASS-REF", read_data_by_periodic_id.getReadDataClass())
+
     def writeDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
         self.logger.debug("Write DiagnosticWriteDataByIdentifierClass %s" % write_data_by_identifier_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
@@ -15416,6 +15423,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
             self.writeDiagnosticReadDataByIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByPeriodicID):
+            self.writeDiagnosticReadDataByPeriodicID(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifier):
             self.writeDiagnosticWriteDataByIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifier):

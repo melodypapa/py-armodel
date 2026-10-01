@@ -546,6 +546,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
+    DiagnosticReadDataByPeriodicID,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -10816,6 +10817,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, read_data_by_identifier_class)
         read_data_by_identifier_class.setMaxDidToRead(self.getChildElementOptionalPositiveInteger(element, "MAX-DID-TO-READ"))
 
+    def readDiagnosticReadDataByPeriodicID(self, element: ET.Element, read_data_by_periodic_id: DiagnosticReadDataByPeriodicID):
+        self.logger.debug("Read DiagnosticReadDataByPeriodicID <%s>" % read_data_by_periodic_id.getShortName())
+        self.readIdentifiable(element, read_data_by_periodic_id)
+        read_data_by_periodic_id.setReadDataClass(self.getChildElementOptionalRefType(element, "READ-DATA-CLASS-REF"))
+
     def readDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
         self.logger.debug("Read DiagnosticWriteDataByIdentifierClass <%s>" % write_data_by_identifier_class.getShortName())
         self.readIdentifiable(element, write_data_by_identifier_class)
@@ -15762,6 +15768,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS":
                 read_data_by_identifier_class = parent.createDiagnosticReadDataByIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticReadDataByIdentifierClass(child_element, read_data_by_identifier_class)
+            elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID":
+                read_data_by_periodic_id = parent.createDiagnosticReadDataByPeriodicID(self.getShortName(child_element))
+                self.readDiagnosticReadDataByPeriodicID(child_element, read_data_by_periodic_id)
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
                 write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)

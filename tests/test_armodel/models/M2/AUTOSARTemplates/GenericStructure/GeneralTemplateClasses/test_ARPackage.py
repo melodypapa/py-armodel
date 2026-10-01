@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
+    DiagnosticReadDataByPeriodicID,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -3996,3 +3997,85 @@ class TestDiagnosticDynamicallyDefineDataIdentifier:
 
         duplicate = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
         assert duplicate is dddi  # duplicate short name returns the existing element
+
+
+class TestDiagnosticReadDataByPeriodicID:
+    """
+    Test class for DiagnosticReadDataByPeriodicID functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.97, p.130
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Data by periodic Identifier" diagnostic service.'
+    READ_DATA_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByPeriodicID in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadDataByPeriodicID:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDataByPeriodicID(ar_root, "Rdbpid1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadDataByPeriodicID instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Rdbpid1"
+        assert isinstance(obj, ARElement)
+        assert obj.getReadDataClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadDataByPeriodicID.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadDataByPeriodicID.__init__.__doc__ is None
+
+    def test_get_set_read_data_class(self):
+        """
+        Round-trips the readDataClass reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS")
+        value.setValue("/AUTOSAR/DiagnosticReadDataByPeriodicIds/Class1")
+        result = obj.setReadDataClass(value)
+        assert result is obj  # method chaining
+        assert obj.getReadDataClass() is value
+        assert obj.getReadDataClass().getValue() == "/AUTOSAR/DiagnosticReadDataByPeriodicIds/Class1"
+
+        obj.setReadDataClass(None)
+        assert obj.getReadDataClass() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicID.getReadDataClass.__doc__) == self.READ_DATA_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicID.setReadDataClass.__doc__) == (
+            self.READ_DATA_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readDataClass."
+        )
+
+    def test_create_diagnostic_read_data_by_periodic_id(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDataByPeriodicIds")
+        obj = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
+
+        assert obj is not None
+        assert isinstance(obj, DiagnosticReadDataByPeriodicID)
+        assert obj.getShortName() == "Rdbpid1"
+        assert package.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID) is obj
+
+        duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
+        assert duplicate is obj  # duplicate short name returns the existing element
