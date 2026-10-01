@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 638 | 33.5% |
+| [x] Done | 640 | 33.6% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 207 | 10.9% |
+| [ ] Deferred | 205 | 10.8% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -1694,8 +1694,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwVariableRefProxy`                                    | [ ] Implemented| N/A                                      | Group28          |
 | `SwcBswMapping`                                         | [x] Done    | 58b2c68a57                               | Group1           |
 | `SwcBswRunnableMapping`                                 | [x] Done    | 4f1681d55f                               | Group13          |
-| `SwcBswSynchronizedModeGroupPrototype`                  | [ ] Deferred| 659c2bf174                               | Group13          |
-| `SwcBswSynchronizedTrigger`                             | [ ] Deferred| 6b4b9d6d10                               | Group13          |
+| `SwcBswSynchronizedModeGroupPrototype`                  | [x] Done    | d024ea8472                               | Group13          |
+| `SwcBswSynchronizedTrigger`                             | [x] Done    | c7756e2bea                               | Group13          |
 | `SwcExclusiveAreaPolicy`                                | [ ] Implemented| N/A                                      | Group29          |
 | `SwcImplementation`                                     | [x] Done    | 6eae95f556                               | Group10          |
 | `SwcInternalBehavior`                                   | [x] Done    | 4043dc013a                               | Group2           |
