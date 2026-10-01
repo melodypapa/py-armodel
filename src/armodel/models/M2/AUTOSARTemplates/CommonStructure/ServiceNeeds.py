@@ -1430,55 +1430,75 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
 
 class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     """
-    Represents a time-based diagnostic event debounce algorithm in AUTOSAR models.
-    This class defines debounce algorithms based on time thresholds to detect and handle diagnostic events.
+    This meta-class represents the ability to indicate that the time-based pre-debounce algorithm shall be used by the Dem for this diagnostic monitor. This is related to set the EcuC choice container DemDebounceAlgorithmClass to DemDebounceTimeBase.
     """
 
     # DiagEventDebounceTimeBased method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getTimeBasedFdcThresholdStorageValue [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeBasedFdcThresholdStorageValue [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeFailedThreshold       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeFailedThreshold       [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimePassedThreshold       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimePassedThreshold       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.34, p.260
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeFailedThreshold               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeFailedThreshold               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimePassedThreshold               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimePassedThreshold               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceTimeBased with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this time-based debounce algorithm
-            short_name: The unique short name of this time-based debounce algorithm
-        """
         super().__init__(parent, short_name)
 
-        # Time-based FDC (Fault Detection Counter) threshold storage value
-        self.timeBasedFdcThresholdStorageValue: TimeValue = None
-        # Time threshold for failed state detection
-        self.timeFailedThreshold: TimeValue = None
-        # Time threshold for passed state detection
-        self.timePassedThreshold: TimeValue = None
+        # Threshold to allocate an event memory entry and to capture the Freeze Frame. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.timeBasedFdcThresholdStorageValue: Optional[TimeValue] = None
 
-    def getTimeBasedFdcThresholdStorageValue(self):
+        # This value represents the event-specific delay indicating the "failed" status. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.timeFailedThreshold: Optional[TimeValue] = None
+
+        # This value represents the event-specific delay indicating the "passed" status. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.timePassedThreshold: Optional[TimeValue] = None
+
+    def getTimeBasedFdcThresholdStorageValue(self) -> Optional[TimeValue]:
+        """
+        Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        """
         return self.timeBasedFdcThresholdStorageValue
 
-    def setTimeBasedFdcThresholdStorageValue(self, value):
-        self.timeBasedFdcThresholdStorageValue = value
+    def setTimeBasedFdcThresholdStorageValue(self, value: Optional[TimeValue]) -> DiagEventDebounceTimeBased:
+        """
+        Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        A None value is a no-op and does not overwrite an existing timeBasedFdcThresholdStorageValue.
+        """
+        if value is not None:
+            self.timeBasedFdcThresholdStorageValue = value
         return self
 
-    def getTimeFailedThreshold(self):
+    def getTimeFailedThreshold(self) -> Optional[TimeValue]:
+        """
+        This value represents the event-specific delay indicating the "failed" status.
+        """
         return self.timeFailedThreshold
 
-    def setTimeFailedThreshold(self, value):
-        self.timeFailedThreshold = value
+    def setTimeFailedThreshold(self, value: Optional[TimeValue]) -> DiagEventDebounceTimeBased:
+        """
+        This value represents the event-specific delay indicating the "failed" status.
+        A None value is a no-op and does not overwrite an existing timeFailedThreshold.
+        """
+        if value is not None:
+            self.timeFailedThreshold = value
         return self
 
-    def getTimePassedThreshold(self):
+    def getTimePassedThreshold(self) -> Optional[TimeValue]:
+        """
+        This value represents the event-specific delay indicating the "passed" status.
+        """
         return self.timePassedThreshold
 
-    def setTimePassedThreshold(self, value):
-        self.timePassedThreshold = value
+    def setTimePassedThreshold(self, value: Optional[TimeValue]) -> DiagEventDebounceTimeBased:
+        """
+        This value represents the event-specific delay indicating the "passed" status.
+        A None value is a no-op and does not overwrite an existing timePassedThreshold.
+        """
+        if value is not None:
+            self.timePassedThreshold = value
         return self
 
 

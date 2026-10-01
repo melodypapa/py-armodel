@@ -5,8 +5,9 @@ in the GenericStructure module.
 
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
@@ -16,6 +17,8 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
+    from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class Referrable(ARObject, ABC):
@@ -683,11 +686,165 @@ class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
 
 
 class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
-    pass
+    """This meta-class represents the ability to configure a certificate evaluation in the context of a diagnostic authentication."""
+
+    # DiagnosticAuthTransmitCertificateEvaluation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.59, p.101
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEvaluationId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEvaluationId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunction        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunction        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attributes represents the ID of the certificate evaluation.
+        self.evaluationId: Optional[PositiveInteger] = None
+
+        # This attribute represents the description of the actual semantics of the corresponding evaluation ID.
+        self.function: Optional[String] = None
+
+    def getEvaluationId(self) -> Optional[PositiveInteger]:
+        """
+        This attributes represents the ID of the certificate evaluation.
+        """
+        return self.evaluationId
+
+    def setEvaluationId(self, value: Optional[PositiveInteger]) -> DiagnosticAuthTransmitCertificateEvaluation:
+        """
+        This attributes represents the ID of the certificate evaluation.
+
+        A None value is a no-op and does not overwrite an existing evaluationId.
+        """
+        if value is not None:
+            self.evaluationId = value
+        return self
+
+    def getFunction(self) -> Optional[String]:
+        """
+        This attribute represents the description of the actual semantics of the corresponding evaluation ID.
+        """
+        return self.function
+
+    def setFunction(self, value: Optional[String]) -> DiagnosticAuthTransmitCertificateEvaluation:
+        """
+        This attribute represents the description of the actual semantics of the corresponding evaluation ID.
+
+        A None value is a no-op and does not overwrite an existing function.
+        """
+        if value is not None:
+            self.function = value
+        return self
 
 
-class DiagnosticDataElement(Identifiable):
-    pass
+class DiagnosticDataElement(Identifiable, VariationPointCapable):
+    """
+    This meta-class represents the ability to describe a concrete piece of data to be taken into account for diagnostic purposes.
+
+    [constr_1394] Value of DiagnosticDataElement.maxNumberOfElements depending on its existence: If the attribute DiagnosticDataElement.maxNumberOfElements exists then its value shall be greater than 0 at the time when the DEXT is complete.
+    """
+
+    # DiagnosticDataElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.9, p.41
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArraySizeSemantics     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeSemantics     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfElements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfElements    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScalingInfoSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setScalingInfoSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    #
+    # VP-capable per Rule 0020: XSD group DIAGNOSTIC-DATA-ELEMENT (AUTOSAR_00052.xsd
+    # l.34124) carries VARIATION-POINT with "Applicable for:
+    # DiagnosticAbstractParameter.dataElement", sequenceOffset=10000 → last.
+    # swDataDefProps is a plain ARObject child (no Referrable) → set/get pair per
+    # Rule 0001.6, serialized through the shared SW-DATA-DEF-PROPS helpers.
+    # ArraySizeSemanticsEnum / SwDataDefProps are cross-package types imported back
+    # into this package — TYPE_CHECKING annotation names per the file-wide pattern
+    # (AdminData, Annotation, …); a bottom-of-module runtime import explodes the
+    # CommonStructure hub mid-bootstrap (Rule 0005 deviation recorded), so nothing
+    # pins those two annotations at runtime.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute controls the meaning of the value of the array size.
+        self.arraySizeSemantics: Optional[ArraySizeSemanticsEnum] = None
+
+        # The existence of this attribute turns the data instance into an array of data. The attribute determines the size of the array in terms of how many elements the array can take.
+        self.maxNumberOfElements: Optional[PositiveInteger] = None
+
+        # Size in bytes of scaling information for the DiagnosticData Element if used with DiagnosticReadScalingDataBy Identifier
+        self.scalingInfoSize: Optional[PositiveInteger] = None
+
+        # This property allows to specify data definition properties in order to support the definition of e.g. computation formulae and data constraints.
+        self.swDataDefProps: Optional[SwDataDefProps] = None
+
+    def getArraySizeSemantics(self) -> Optional[ArraySizeSemanticsEnum]:
+        """
+        This attribute controls the meaning of the value of the array size.
+        """
+        return self.arraySizeSemantics
+
+    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> DiagnosticDataElement:
+        """
+        This attribute controls the meaning of the value of the array size.
+        A None value is a no-op and does not overwrite an existing arraySizeSemantics.
+        """
+        if value is not None:
+            self.arraySizeSemantics = value
+        return self
+
+    def getMaxNumberOfElements(self) -> Optional[PositiveInteger]:
+        """
+        The existence of this attribute turns the data instance into an array of data. The attribute determines the size of the array in terms of how many elements the array can take.
+        """
+        return self.maxNumberOfElements
+
+    def setMaxNumberOfElements(self, value: Optional[PositiveInteger]) -> DiagnosticDataElement:
+        """
+        The existence of this attribute turns the data instance into an array of data. The attribute determines the size of the array in terms of how many elements the array can take.
+        A None value is a no-op and does not overwrite an existing maxNumberOfElements.
+        """
+        if value is not None:
+            self.maxNumberOfElements = value
+        return self
+
+    def getScalingInfoSize(self) -> Optional[PositiveInteger]:
+        """
+        Size in bytes of scaling information for the DiagnosticData Element if used with DiagnosticReadScalingDataBy Identifier
+        """
+        return self.scalingInfoSize
+
+    def setScalingInfoSize(self, value: Optional[PositiveInteger]) -> DiagnosticDataElement:
+        """
+        Size in bytes of scaling information for the DiagnosticData Element if used with DiagnosticReadScalingDataBy Identifier
+        A None value is a no-op and does not overwrite an existing scalingInfoSize.
+        """
+        if value is not None:
+            self.scalingInfoSize = value
+        return self
+
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
+        """
+        This property allows to specify data definition properties in order to support the definition of e.g. computation formulae and data constraints.
+        """
+        return self.swDataDefProps
+
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> DiagnosticDataElement:
+        """
+        This property allows to specify data definition properties in order to support the definition of e.g. computation formulae and data constraints.
+        A None value is a no-op and does not overwrite an existing swDataDefProps.
+        """
+        if value is not None:
+            self.swDataDefProps = value
+        return self
 
 
 class DiagnosticDebounceAlgorithmProps(Identifiable):
@@ -698,8 +855,66 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     pass
 
 
-class DiagnosticParameterElement(Identifiable):
-    pass
+class DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable):
+    """
+    This meta-class represents an element of a DiagnosticParameter if the DiagnosticParameter represents a structure.
+
+    [constr_10369] Existence of attributes of DiagnosticParameterElement depending on the value of attribute category: LEAF — arraySize No, subElement No, dataElement Yes; ARRAY — arraySize Yes, subElement Yes (if dataElement does not exist), dataElement Yes (if subElement does not exist); STRUCTURE — arraySize No, subElement Yes, dataElement No. This rule shall be imposed at the time when the DEXT is complete.
+    """
+
+    # DiagnosticParameterElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.6, p.36
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArraySize      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySize      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSubElement  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # Inherited DiagnosticAbstractParameter attributes (bitOffset, dataElement,
+    # parameterSize — Table 4.8) live on the base class queued within this batch.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        DiagnosticAbstractParameter.__init__(self)
+        Identifiable.__init__(self, parent, short_name)
+
+        # This attribute indicates that the enclosing Diagnostic ParameterElement represents an array and configures the array size in terms of the number of elements of the array.
+        self.arraySize: Optional[PositiveInteger] = None
+
+        # This collection represents the sub-elements on the next lower level.
+        self.subElements: List[DiagnosticParameterElement] = []
+
+    def getArraySize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute indicates that the enclosing Diagnostic ParameterElement represents an array and configures the array size in terms of the number of elements of the array.
+        """
+        return self.arraySize
+
+    def setArraySize(self, value: Optional[PositiveInteger]) -> DiagnosticParameterElement:
+        """
+        This attribute indicates that the enclosing Diagnostic ParameterElement represents an array and configures the array size in terms of the number of elements of the array.
+        A None value is a no-op and does not overwrite an existing arraySize.
+        """
+        if value is not None:
+            self.arraySize = value
+        return self
+
+    def createSubElement(self, short_name: str) -> DiagnosticParameterElement:
+        """
+        This collection represents the sub-elements on the next lower level.
+        The existing sub element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsElementExists(short_name, DiagnosticParameterElement):
+            sub_element = DiagnosticParameterElement(self, short_name)
+            self.addElement(sub_element)
+            self.subElements.append(sub_element)
+        return self.getElement(short_name, DiagnosticParameterElement)
+
+    def getSubElements(self) -> List[DiagnosticParameterElement]:
+        """
+        This collection represents the sub-elements on the next lower level.
+        """
+        return self.subElements
 
 
 class DiagnosticRoutineSubfunction(Identifiable, ABC):

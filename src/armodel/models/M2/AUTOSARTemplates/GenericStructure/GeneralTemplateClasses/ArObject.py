@@ -6,13 +6,17 @@ from __future__ import annotations
 
 
 from abc import ABC
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
         DateTime,
         String,
     )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps
 
 
 class ARObject(ABC):
@@ -126,7 +130,95 @@ class ClientServerOperationBlueprintMapping(ARObject):
 
 
 class DiagnosticAbstractParameter(ARObject, ABC):
-    pass
+    """
+    This meta-class represents an abstract base class for modeling a diagnostic parameter.
+
+    [constr_1790] Existence of attribute DiagnosticAbstractParameter.bitOffset: For each DiagnosticParameter, attribute bitOffset shall exist at the time when the DEXT is complete.
+    [constr_1470] Value of DiagnosticAbstractParameter.bitOffset: The value of DiagnosticAbstractParameter.bitOffset shall only be set to a multiple of 8 at the time when the DEXT is complete.
+    """
+
+    # DiagnosticAbstractParameter method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.8, p.37
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitOffset       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitOffset       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDataElement  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElement     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getParameterSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Subclasses: DiagnosticParameter (Table 4.5), DiagnosticParameterElement
+    # (Table 4.6). PDF Mult of dataElement is 0..1 — the XSD resolves the
+    # atpVariation/atpSplitable stereotypes into the DATA-ELEMENTS wrapper with an
+    # unbounded choice (single-field model stays PDF-correct, Rule 0001.4); the
+    # wrapper is absorbed by the reusable read/write helpers (Rule 0001.7).
+    # __init__ calls ARObject.__init__ directly (Referrable precedent): cooperative
+    # super() would dispatch to Identifiable.__init__(parent, short_name) under the
+    # DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable) MRO and
+    # fail on missing arguments.
+
+    def __init__(self):
+        if type(self) is DiagnosticAbstractParameter:
+            raise TypeError("DiagnosticAbstractParameter is an abstract class.")
+
+        ARObject.__init__(self)
+
+        # This represents the bitOffset of the DiagnosticParameter. The value of the bitOffset shall always be interpreted as relative to the start of the enclosing DiagnosticData Identifier, DiagnosticParameterIdentifier, or Diagnostic RoutineSubfunction.
+        self.bitOffset: Optional[PositiveInteger] = None
+
+        # This represents the related dataElement of the Diagnostic Parameter
+        self.dataElement: Optional[DiagnosticDataElement] = None
+
+        # This attribute allows for the specification of the parameter size. This information is relevant if there is a gap between one diagnostic parameter and the following diagnostic parameter (or the tail of the telegram). The unit is bit and the values shall be multiples of 8.
+        self.parameterSize: Optional[PositiveInteger] = None
+
+    def getBitOffset(self) -> Optional[PositiveInteger]:
+        """
+        This represents the bitOffset of the DiagnosticParameter. The value of the bitOffset shall always be interpreted as relative to the start of the enclosing DiagnosticData Identifier, DiagnosticParameterIdentifier, or Diagnostic RoutineSubfunction.
+        """
+        return self.bitOffset
+
+    def setBitOffset(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractParameter:
+        """
+        This represents the bitOffset of the DiagnosticParameter. The value of the bitOffset shall always be interpreted as relative to the start of the enclosing DiagnosticData Identifier, DiagnosticParameterIdentifier, or Diagnostic RoutineSubfunction.
+        A None value is a no-op and does not overwrite an existing bitOffset.
+        """
+        if value is not None:
+            self.bitOffset = value
+        return self
+
+    def createDataElement(self, short_name: str) -> DiagnosticDataElement:
+        """
+        This represents the related dataElement of the Diagnostic Parameter
+        The existing data element is returned when the short name already exists (no duplicate creation).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement
+
+        if self.dataElement is None or self.dataElement.getShortName() != short_name:
+            self.dataElement = DiagnosticDataElement(self, short_name)
+        return self.dataElement
+
+    def getDataElement(self) -> Optional[DiagnosticDataElement]:
+        """
+        This represents the related dataElement of the Diagnostic Parameter
+        """
+        return self.dataElement
+
+    def getParameterSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute allows for the specification of the parameter size. This information is relevant if there is a gap between one diagnostic parameter and the following diagnostic parameter (or the tail of the telegram). The unit is bit and the values shall be multiples of 8.
+        """
+        return self.parameterSize
+
+    def setParameterSize(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractParameter:
+        """
+        This attribute allows for the specification of the parameter size. This information is relevant if there is a gap between one diagnostic parameter and the following diagnostic parameter (or the tail of the telegram). The unit is bit and the values shall be multiples of 8.
+        A None value is a no-op and does not overwrite an existing parameterSize.
+        """
+        if value is not None:
+            self.parameterSize = value
+        return self
 
 
 class DiagnosticClearResetEmissionRelatedInfo(ARObject):
@@ -134,7 +226,80 @@ class DiagnosticClearResetEmissionRelatedInfo(ARObject):
 
 
 class DiagnosticComControlSpecificChannel(ARObject):
-    pass
+    """
+    This represents the ability to add further attributes to the definition of a specific channel that is subject to the diagnostic service "communication control".
+    """
+
+    # DiagnosticComControlSpecificChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.65, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSpecificChannel         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpecificChannel         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpecificPhysicalChannel [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpecificPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubnetNumber            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubnetNumber            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the affected CommunicationCluster in the role specificChannel
+        self.specificChannel: Optional[RefType] = None
+
+        # This represents the affected specific EthernetPhysicalChannel.
+        self.specificPhysicalChannel: Optional[RefType] = None
+
+        # This represents the applicable subnet number (which is an arbitrary number ranging from 1..14)
+        self.subnetNumber: Optional[PositiveInteger] = None
+
+    def getSpecificChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected CommunicationCluster in the role specificChannel
+        """
+        return self.specificChannel
+
+    def setSpecificChannel(self, value: Optional[RefType]) -> DiagnosticComControlSpecificChannel:
+        """
+        This represents the affected CommunicationCluster in the role specificChannel
+
+        A None value is a no-op and does not overwrite an existing specificChannel.
+        """
+        if value is not None:
+            self.specificChannel = value
+        return self
+
+    def getSpecificPhysicalChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected specific EthernetPhysicalChannel.
+        """
+        return self.specificPhysicalChannel
+
+    def setSpecificPhysicalChannel(self, value: Optional[RefType]) -> DiagnosticComControlSpecificChannel:
+        """
+        This represents the affected specific EthernetPhysicalChannel.
+
+        A None value is a no-op and does not overwrite an existing specificPhysicalChannel.
+        """
+        if value is not None:
+            self.specificPhysicalChannel = value
+        return self
+
+    def getSubnetNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the applicable subnet number (which is an arbitrary number ranging from 1..14)
+        """
+        return self.subnetNumber
+
+    def setSubnetNumber(self, value: Optional[PositiveInteger]) -> DiagnosticComControlSpecificChannel:
+        """
+        This represents the applicable subnet number (which is an arbitrary number ranging from 1..14)
+
+        A None value is a no-op and does not overwrite an existing subnetNumber.
+        """
+        if value is not None:
+            self.subnetNumber = value
+        return self
 
 
 class DiagnosticComControlSubNodeChannel(ARObject):
@@ -142,14 +307,251 @@ class DiagnosticComControlSubNodeChannel(ARObject):
 
 
 class DiagnosticCommonProps(ARObject):
-    pass
+    """
+    This meta-class aggregates a number of common properties that are shared among a diagnostic extract.
+
+    [constr_10042] Existence of attribute DiagnosticCommonProps.defaultEndianness: One of the following conditions shall be fulfilled at the time when the DEXT is complete: DiagnosticCommonProps.defaultEndianness exists. The attribute DiagnosticParameter.dataElement.swDataDefProps.baseType.baseTypeDefinition.baseTypeEncoding exist for all DiagnosticParameters defined in the context of the DiagnosticContributionSet.
+    [constr_10043] Existence of attribute DiagnosticCommonProps.resetConfirmedBitOnOverflow: Attribute DiagnosticCommonProps.resetConfirmedBitOnOverflow shall exist at the time when the DEXT is complete.
+    [constr_10044] Existence of attribute DiagnosticCommonProps.occurrenceCounterProcessing: If, in the context of a DiagnosticContributionSet, a DiagnosticDemProvidedDataMapping exists where attribute DiagnosticDemProvidedDataMapping.dataProvider is set to the value DEM_OCCCTR, then attribute DiagnosticCommonProps.occurrenceCounterProcessing shall exist at the time when the DEXT is complete.
+    [constr_10089] Existence of attribute DiagnosticCommonProps.eventCombinationReportingBehavior: Attribute DiagnosticCommonProps.eventCombinationReportingBehavior is always optional and shall be set to the value DiagnosticEventCombinationReportingBehaviorEnum.reportingInChronlogicalOrderOldestFirst only if attribute DiagnosticCommonProps.typeOfEventCombinationSupported is set to the value DiagnosticEventCombinationBehaviorEnum.eventCombinationOnRetrieval. If it is missing, then the reporting order is not specified. This rule shall be imposed at the time when the DEXT is complete.
+    [constr_10419] Existence of the attribute DiagnosticCommonProps.resetPendingBitOnOverflow: Attribute DiagnosticCommonProps.resetPendingBitOnOverflow shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticCommonProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.19, p.65
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationTimeout                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationTimeout                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDebounceAlgorithmProps                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDebounceAlgorithmProps                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefaultEndianness                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultEndianness                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventCombinationReportingBehavior                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventCombinationReportingBehavior                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfRequestCorrectlyReceivedResponsePending [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfRequestCorrectlyReceivedResponsePending [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOccurrenceCounterProcessing                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOccurrenceCounterProcessing                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResetConfirmedBitOnOverflow                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResetConfirmedBitOnOverflow                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResetPendingBitOnOverflow                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResetPendingBitOnOverflow                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnAllRequestSids                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnAllRequestSids                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnSecondDeclinedRequest                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnSecondDeclinedRequest                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeOfEventCombinationSupported                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeOfEventCombinationSupported                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the time (in seconds) that the authentication state is maintained in default-session if there is no communication from the authenticated client.
+        self.authenticationTimeout: Optional[TimeValue] = None
+
+        # Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. Usually, there is a variety of debouncing algorithms to take into account and therefore the multiplicity of this aggregation is set to 0..*.
+        self.debounceAlgorithmProps: List[DiagnosticDebounceAlgorithmProps] = []
+
+        # Defines the default endianness of the data belonging to a DID or RID which is applicable if the DiagnosticDataElement does not define the endianness via the swDataDefProps.baseType attribute.
+        self.defaultEndianness: Optional[ByteOrderEnum] = None
+
+        # In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained.
+        self.eventCombinationReportingBehavior: Optional[DiagnosticEventCombinationReportingBehaviorEnum] = None
+
+        # Maximum number of negative responses with response code 0x78 (requestCorrectlyReceived-ResponsePending) allowed per request. DCM will send a negative response with response code 0x10 (generalReject), in case the limit value gets reached. Value 0xFF means that no limit number of NRC 0x78 response apply.
+        self.maxNumberOfRequestCorrectlyReceivedResponsePending: Optional[PositiveInteger] = None
+
+        # This attribute defines the consideration of the fault confirmation process for the occurrence counter.
+        self.occurrenceCounterProcessing: Optional[DiagnosticOccurrenceCounterProcessingEnum] = None
+
+        # This attribute defines, whether the confirmed bit is reset or not while an event memory entry will be displaced.
+        self.resetConfirmedBitOnOverflow: Optional[Boolean] = None
+
+        # This attribute defines, whether the pending bit is reset or not while an event memory entry will be displaced. In order to be compliant to ISO 14229-1 [1], this parameter needs to be set to "false".
+        self.resetPendingBitOnOverflow: Optional[Boolean] = None
+
+        # If set to FALSE the DCM will not respond to diagnostic request that contains a service ID which is in the range from 0x40 to 0x7F or in the range from 0xC0 to 0xFF (Response IDs).
+        self.responseOnAllRequestSids: Optional[Boolean] = None
+
+        # Defines the reaction upon a second request (ClientB) that can not be processed (e.g. due to priority assessment). TRUE: when the second request (Client B) can not be processed, it shall be answered with NRC21 BusyRepeat Request. FALSE: when the second request (Client B) can not be processed, it shall not be responded.
+        self.responseOnSecondDeclinedRequest: Optional[Boolean] = None
+
+        # Select type of Event Combination support.
+        self.typeOfEventCombinationSupported: Optional[DiagnosticEventCombinationBehaviorEnum] = None
+
+    def getAuthenticationTimeout(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the time (in seconds) that the authentication state is maintained in default-session if there is no communication from the authenticated client.
+        """
+        return self.authenticationTimeout
+
+    def setAuthenticationTimeout(self, value: Optional[TimeValue]) -> DiagnosticCommonProps:
+        """
+        This attribute defines the time (in seconds) that the authentication state is maintained in default-session if there is no communication from the authenticated client.
+        A None value is a no-op and does not overwrite an existing authenticationTimeout.
+        """
+        if value is not None:
+            self.authenticationTimeout = value
+        return self
+
+    def createDebounceAlgorithmProps(self, short_name: str) -> DiagnosticDebounceAlgorithmProps:
+        """
+        Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. Usually, there is a variety of debouncing algorithms to take into account and therefore the multiplicity of this aggregation is set to 0..*.
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps
+
+        for props in self.debounceAlgorithmProps:
+            if props.getShortName() == short_name:
+                return props
+        props = DiagnosticDebounceAlgorithmProps(self, short_name)
+        self.debounceAlgorithmProps.append(props)
+        return props
+
+    def getDebounceAlgorithmProps(self) -> List[DiagnosticDebounceAlgorithmProps]:
+        """
+        Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. Usually, there is a variety of debouncing algorithms to take into account and therefore the multiplicity of this aggregation is set to 0..*.
+        """
+        return self.debounceAlgorithmProps
+
+    def getDefaultEndianness(self) -> Optional[ByteOrderEnum]:
+        """
+        Defines the default endianness of the data belonging to a DID or RID which is applicable if the DiagnosticDataElement does not define the endianness via the swDataDefProps.baseType attribute.
+        """
+        return self.defaultEndianness
+
+    def setDefaultEndianness(self, value: Optional[ByteOrderEnum]) -> DiagnosticCommonProps:
+        """
+        Defines the default endianness of the data belonging to a DID or RID which is applicable if the DiagnosticDataElement does not define the endianness via the swDataDefProps.baseType attribute.
+        A None value is a no-op and does not overwrite an existing defaultEndianness.
+        """
+        if value is not None:
+            self.defaultEndianness = value
+        return self
+
+    def getEventCombinationReportingBehavior(self) -> Optional[DiagnosticEventCombinationReportingBehaviorEnum]:
+        """
+        In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained.
+        """
+        return self.eventCombinationReportingBehavior
+
+    def setEventCombinationReportingBehavior(self, value: Optional[DiagnosticEventCombinationReportingBehaviorEnum]) -> DiagnosticCommonProps:
+        """
+        In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained.
+        A None value is a no-op and does not overwrite an existing eventCombinationReportingBehavior.
+        """
+        if value is not None:
+            self.eventCombinationReportingBehavior = value
+        return self
+
+    def getMaxNumberOfRequestCorrectlyReceivedResponsePending(self) -> Optional[PositiveInteger]:
+        """
+        Maximum number of negative responses with response code 0x78 (requestCorrectlyReceived-ResponsePending) allowed per request. DCM will send a negative response with response code 0x10 (generalReject), in case the limit value gets reached. Value 0xFF means that no limit number of NRC 0x78 response apply.
+        """
+        return self.maxNumberOfRequestCorrectlyReceivedResponsePending
+
+    def setMaxNumberOfRequestCorrectlyReceivedResponsePending(self, value: Optional[PositiveInteger]) -> DiagnosticCommonProps:
+        """
+        Maximum number of negative responses with response code 0x78 (requestCorrectlyReceived-ResponsePending) allowed per request. DCM will send a negative response with response code 0x10 (generalReject), in case the limit value gets reached. Value 0xFF means that no limit number of NRC 0x78 response apply.
+        A None value is a no-op and does not overwrite an existing maxNumberOfRequestCorrectlyReceivedResponsePending.
+        """
+        if value is not None:
+            self.maxNumberOfRequestCorrectlyReceivedResponsePending = value
+        return self
+
+    def getOccurrenceCounterProcessing(self) -> Optional[DiagnosticOccurrenceCounterProcessingEnum]:
+        """
+        This attribute defines the consideration of the fault confirmation process for the occurrence counter.
+        """
+        return self.occurrenceCounterProcessing
+
+    def setOccurrenceCounterProcessing(self, value: Optional[DiagnosticOccurrenceCounterProcessingEnum]) -> DiagnosticCommonProps:
+        """
+        This attribute defines the consideration of the fault confirmation process for the occurrence counter.
+        A None value is a no-op and does not overwrite an existing occurrenceCounterProcessing.
+        """
+        if value is not None:
+            self.occurrenceCounterProcessing = value
+        return self
+
+    def getResetConfirmedBitOnOverflow(self) -> Optional[Boolean]:
+        """
+        This attribute defines, whether the confirmed bit is reset or not while an event memory entry will be displaced.
+        """
+        return self.resetConfirmedBitOnOverflow
+
+    def setResetConfirmedBitOnOverflow(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        This attribute defines, whether the confirmed bit is reset or not while an event memory entry will be displaced.
+        A None value is a no-op and does not overwrite an existing resetConfirmedBitOnOverflow.
+        """
+        if value is not None:
+            self.resetConfirmedBitOnOverflow = value
+        return self
+
+    def getResetPendingBitOnOverflow(self) -> Optional[Boolean]:
+        """
+        This attribute defines, whether the pending bit is reset or not while an event memory entry will be displaced. In order to be compliant to ISO 14229-1 [1], this parameter needs to be set to "false".
+        """
+        return self.resetPendingBitOnOverflow
+
+    def setResetPendingBitOnOverflow(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        This attribute defines, whether the pending bit is reset or not while an event memory entry will be displaced. In order to be compliant to ISO 14229-1 [1], this parameter needs to be set to "false".
+        A None value is a no-op and does not overwrite an existing resetPendingBitOnOverflow.
+        """
+        if value is not None:
+            self.resetPendingBitOnOverflow = value
+        return self
+
+    def getResponseOnAllRequestSids(self) -> Optional[Boolean]:
+        """
+        If set to FALSE the DCM will not respond to diagnostic request that contains a service ID which is in the range from 0x40 to 0x7F or in the range from 0xC0 to 0xFF (Response IDs).
+        """
+        return self.responseOnAllRequestSids
+
+    def setResponseOnAllRequestSids(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        If set to FALSE the DCM will not respond to diagnostic request that contains a service ID which is in the range from 0x40 to 0x7F or in the range from 0xC0 to 0xFF (Response IDs).
+        A None value is a no-op and does not overwrite an existing responseOnAllRequestSids.
+        """
+        if value is not None:
+            self.responseOnAllRequestSids = value
+        return self
+
+    def getResponseOnSecondDeclinedRequest(self) -> Optional[Boolean]:
+        """
+        Defines the reaction upon a second request (ClientB) that can not be processed (e.g. due to priority assessment). TRUE: when the second request (Client B) can not be processed, it shall be answered with NRC21 BusyRepeat Request. FALSE: when the second request (Client B) can not be processed, it shall not be responded.
+        """
+        return self.responseOnSecondDeclinedRequest
+
+    def setResponseOnSecondDeclinedRequest(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        Defines the reaction upon a second request (ClientB) that can not be processed (e.g. due to priority assessment). TRUE: when the second request (Client B) can not be processed, it shall be answered with NRC21 BusyRepeat Request. FALSE: when the second request (Client B) can not be processed, it shall not be responded.
+        A None value is a no-op and does not overwrite an existing responseOnSecondDeclinedRequest.
+        """
+        if value is not None:
+            self.responseOnSecondDeclinedRequest = value
+        return self
+
+    def getTypeOfEventCombinationSupported(self) -> Optional[DiagnosticEventCombinationBehaviorEnum]:
+        """
+        Select type of Event Combination support.
+        """
+        return self.typeOfEventCombinationSupported
+
+    def setTypeOfEventCombinationSupported(self, value: Optional[DiagnosticEventCombinationBehaviorEnum]) -> DiagnosticCommonProps:
+        """
+        Select type of Event Combination support.
+        A None value is a no-op and does not overwrite an existing typeOfEventCombinationSupported.
+        """
+        if value is not None:
+            self.typeOfEventCombinationSupported = value
+        return self
 
 
 class DiagnosticConnectedIndicator(ARObject):
-    pass
-
-
-class DiagnosticContributionSet(ARObject):
     pass
 
 
@@ -197,8 +599,61 @@ class DiagnosticMemoryDestinationUserDefined(ARObject):
     pass
 
 
-class DiagnosticParameter(DiagnosticAbstractParameter):
-    pass
+class DiagnosticParameter(DiagnosticAbstractParameter, VariationPointCapable):
+    """
+    This meta-class represents the ability to describe information relevant for the execution of a specific diagnostic service, i.e. it can be taken to parameterize the service.
+    """
+
+    # DiagnosticParameter method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.5, p.36
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createIdent     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSupportInfo  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportInfo  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        super().__init__()
+
+        # The aggregation in the role ident provides the ability to make the DiagnosticAbstractParameter identifiable. From the semantical point of view, the AbstractDiagnostic Parameter is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let AbstractDiagnostic Parameter directly inherit from Identifiable). Stereotypes: atpIdentityContributor
+        self.ident: Optional[DiagnosticParameterIdent] = None
+
+        # This attribute represents the ability to define which bit of the support info byte is representing this part of the PID.
+        self.supportInfo: Optional[DiagnosticParameterSupportInfo] = None
+
+    def createIdent(self, short_name: str) -> DiagnosticParameterIdent:
+        """
+        The aggregation in the role ident provides the ability to make the DiagnosticAbstractParameter identifiable. From the semantical point of view, the AbstractDiagnostic Parameter is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let AbstractDiagnostic Parameter directly inherit from Identifiable).
+        The existing ident is returned when the short name already exists (no duplicate creation).
+        """
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
+
+        if self.ident is None or self.ident.getShortName() != short_name:
+            self.ident = DiagnosticParameterIdent(self, short_name)
+        return self.ident
+
+    def getIdent(self) -> Optional[DiagnosticParameterIdent]:
+        """
+        The aggregation in the role ident provides the ability to make the DiagnosticAbstractParameter identifiable. From the semantical point of view, the AbstractDiagnostic Parameter is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let AbstractDiagnostic Parameter directly inherit from Identifiable).
+        """
+        return self.ident
+
+    def getSupportInfo(self) -> Optional[DiagnosticParameterSupportInfo]:
+        """
+        This attribute represents the ability to define which bit of the support info byte is representing this part of the PID.
+        """
+        return self.supportInfo
+
+    def setSupportInfo(self, value: Optional[DiagnosticParameterSupportInfo]) -> DiagnosticParameter:
+        """
+        This attribute represents the ability to define which bit of the support info byte is representing this part of the PID.
+        A None value is a no-op and does not overwrite an existing supportInfo.
+        """
+        if value is not None:
+            self.supportInfo = value
+        return self
 
 
 class DiagnosticParameterElementAccess(ARObject):
@@ -735,3 +1190,19 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     pass
+
+
+# Cycle-breaker (Rule 0005): PrimitiveTypes imports ARObject from this module, so the
+# PositiveInteger name needed by DiagnosticAbstractParameter's annotations must be bound
+# at the bottom, after every class above is defined. Placed here so get_type_hints can
+# resolve the bitOffset/parameterSize annotations at runtime on Python 3.8.
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
+    Boolean,
+    ByteOrderEnum,
+    DiagnosticEventCombinationBehaviorEnum,
+    DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticOccurrenceCounterProcessingEnum,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)

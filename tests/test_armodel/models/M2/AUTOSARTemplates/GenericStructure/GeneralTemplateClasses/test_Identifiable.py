@@ -6,18 +6,23 @@ in the AUTOSAR GenericStructure module.
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticAuthTransmitCertificateEvaluation,
+    DiagnosticDataElement,
+    DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
@@ -810,3 +815,311 @@ class TestViewMap:
 
         obj.addSecondElementIRef(None)
         assert obj.getSecondElementIRefs() == [iref]  # None is a no-op
+
+
+class TestDiagnosticParameterElement:
+    """
+    Test class for DiagnosticParameterElement functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.6, p.36
+    (Base DiagnosticAbstractParameter is an un-synced stub queued within this
+    batch — only DiagnosticParameterElement's own Table 4.6 rows are exercised
+    here.)
+    """
+
+    def _make_obj(self) -> DiagnosticParameterElement:
+        parent = AUTOSAR.getInstance()
+        return DiagnosticParameterElement(parent, "Elem1")
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticParameterElement is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Elem1"
+        assert obj.getArraySize() is None
+        assert obj.getSubElements() == []
+
+    def test_get_set_array_size(self):
+        """
+        Round-trips arraySize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("8")
+        result = obj.setArraySize(value)
+        assert result is obj  # method chaining
+        assert obj.getArraySize() is value
+        assert obj.getArraySize().getValue() == 8
+
+        obj.setArraySize(None)
+        assert obj.getArraySize() is value  # None is a no-op
+
+    def test_get_set_array_size_type_hints(self):
+        """
+        Pin the accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticParameterElement.getArraySize)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticParameterElement.setArraySize)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticParameterElement
+
+    def test_create_sub_element(self):
+        """
+        Test createSubElement creates, appends and returns the existing one for a duplicate short name.
+        """
+        obj = self._make_obj()
+
+        sub_element = obj.createSubElement("Sub1")
+        assert sub_element is not None
+        assert sub_element.getShortName() == "Sub1"
+        assert sub_element.getParent() is obj
+        assert obj.getSubElements() == [sub_element]
+
+        duplicate = obj.createSubElement("Sub1")
+        assert duplicate is sub_element  # duplicate short name returns the existing element
+        assert len(obj.getSubElements()) == 1
+
+        second = obj.createSubElement("Sub2")
+        assert obj.getSubElements() == [sub_element, second]
+
+    def test_get_sub_elements_default(self):
+        """
+        Test that getSubElements returns an empty list by default and None add is a no-op via the factory contract.
+        """
+        obj = self._make_obj()
+
+        assert obj.getSubElements() == []
+
+    def test_get_sub_elements_type_hints(self):
+        """
+        Pin the subElement aggregation annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticParameterElement.getSubElements)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameterElement]
+
+        factory_hints = typing.get_type_hints(DiagnosticParameterElement.createSubElement)
+        assert factory_hints.get("short_name") is str
+        assert factory_hints.get("return") is DiagnosticParameterElement
+
+
+class TestDiagnosticDataElement:
+    """
+    Test class for DiagnosticDataElement functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.9, p.41
+    """
+
+    def _make_obj(self) -> DiagnosticDataElement:
+        parent = AUTOSAR.getInstance()
+        return DiagnosticDataElement(parent, "De1")
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticDataElement is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "De1"
+        assert obj.getArraySizeSemantics() is None
+        assert obj.getMaxNumberOfElements() is None
+        assert obj.getScalingInfoSize() is None
+        assert obj.getSwDataDefProps() is None
+        assert obj.getVariationPoint() is None
+
+    def test_get_set_array_size_semantics(self):
+        """
+        Round-trips arraySizeSemantics; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
+        result = obj.setArraySizeSemantics(value)
+        assert result is obj  # method chaining
+        assert obj.getArraySizeSemantics() is value
+
+        obj.setArraySizeSemantics(None)
+        assert obj.getArraySizeSemantics() is value  # None is a no-op
+
+    def test_get_set_max_number_of_elements(self):
+        """
+        Round-trips maxNumberOfElements; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("4")
+        result = obj.setMaxNumberOfElements(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfElements() is value
+        assert obj.getMaxNumberOfElements().getValue() == 4
+
+        obj.setMaxNumberOfElements(None)
+        assert obj.getMaxNumberOfElements() is value  # None is a no-op
+
+    def test_get_set_scaling_info_size(self):
+        """
+        Round-trips scalingInfoSize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("8")
+        result = obj.setScalingInfoSize(value)
+        assert result is obj  # method chaining
+        assert obj.getScalingInfoSize() is value
+
+        obj.setScalingInfoSize(None)
+        assert obj.getScalingInfoSize() is value  # None is a no-op
+
+    def test_get_set_sw_data_def_props(self):
+        """
+        Round-trips swDataDefProps; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = SwDataDefProps()
+        result = obj.setSwDataDefProps(value)
+        assert result is obj  # method chaining
+        assert obj.getSwDataDefProps() is value
+
+        obj.setSwDataDefProps(None)
+        assert obj.getSwDataDefProps() is value  # None is a no-op
+
+    def test_variation_point_mixin(self):
+        """
+        Test the VariationPointCapable mixin accessors (VP-capable per Rule 0020: XSD group DIAGNOSTIC-DATA-ELEMENT carries VARIATION-POINT, Applicable for DiagnosticAbstractParameter.dataElement).
+        """
+        obj = self._make_obj()
+
+        assert obj.getVariationPoint() is None
+
+    def test_get_set_max_number_of_elements_type_hints(self):
+        """
+        Pin the PositiveInteger accessor annotations to the spec type (Rule 0003).
+        (arraySizeSemantics / swDataDefProps are TYPE_CHECKING cross-package names —
+        nothing pins those two annotations at runtime; see the class checklist.)
+        """
+        import typing
+
+        getter_hints = typing.get_type_hints(DiagnosticDataElement.getMaxNumberOfElements)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticDataElement.setMaxNumberOfElements)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticDataElement
+
+        getter_hints = typing.get_type_hints(DiagnosticDataElement.getScalingInfoSize)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticDataElement.setScalingInfoSize)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticDataElement
+
+
+class TestDiagnosticAuthTransmitCertificateEvaluation:
+    """
+    Test class for DiagnosticAuthTransmitCertificateEvaluation functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.59, p.101
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to configure a certificate evaluation in the context of a diagnostic authentication."
+
+    def _make_obj(self) -> DiagnosticAuthTransmitCertificateEvaluation:
+        parent = AUTOSAR.getInstance()
+        return DiagnosticAuthTransmitCertificateEvaluation(parent, "Eval1")
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticAuthTransmitCertificateEvaluation is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Eval1"
+        assert obj.getEvaluationId() is None
+        assert obj.getFunction() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAuthTransmitCertificateEvaluation.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthTransmitCertificateEvaluation.__init__.__doc__ is None
+
+    def test_get_set_evaluation_id(self):
+        """
+        Round-trips evaluationId; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("2")
+        result = obj.setEvaluationId(value)
+        assert result is obj  # method chaining
+        assert obj.getEvaluationId() is value
+        assert obj.getEvaluationId().getValue() == 2
+
+        obj.setEvaluationId(None)
+        assert obj.getEvaluationId() is value  # None is a no-op
+
+    def test_get_set_function(self):
+        """
+        Round-trips function; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = String()
+        value.setValue("FUNCTION_SECURE_CODING")
+        result = obj.setFunction(value)
+        assert result is obj  # method chaining
+        assert obj.getFunction() is value
+        assert obj.getFunction().getValue() == "FUNCTION_SECURE_CODING"
+
+        obj.setFunction(None)
+        assert obj.getFunction() is value  # None is a no-op
+
+    def test_get_set_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.getEvaluationId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.setEvaluationId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticAuthTransmitCertificateEvaluation
+
+        getter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.getFunction)
+        assert getter_hints.get("return") == typing.Optional[String]
+
+        setter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.setFunction)
+        assert setter_hints.get("value") == typing.Optional[String]
+        assert setter_hints.get("return") is DiagnosticAuthTransmitCertificateEvaluation
+
+    def test_create_via_parent_certificate(self):
+        """
+        Test creation through the owning DiagnosticAuthTransmitCertificate aggregation and duplicate reuse.
+        """
+        package = AUTOSAR.getInstance().createARPackage("AuthTransmitCertificates")
+        certificate = package.createDiagnosticAuthTransmitCertificate("Certificate1")
+
+        evaluation = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
+        assert evaluation is not None
+        assert isinstance(evaluation, DiagnosticAuthTransmitCertificateEvaluation)
+        assert evaluation.getShortName() == "Eval1"
+        assert evaluation.getParent() is certificate
+        assert certificate.getCertificateEvaluations() == [evaluation]
+
+        duplicate = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
+        assert duplicate is evaluation  # duplicate short name returns the existing element
+        assert len(certificate.getCertificateEvaluations()) == 1

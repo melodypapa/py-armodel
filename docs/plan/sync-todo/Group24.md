@@ -13,185 +13,232 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticSessionControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.48, p.93
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.48 single attr s3ServerTimeout (TimeValue 0..1, wire S-3-SERVER-TIMEOUT);
+      constr_10440 (>= 5.0) appended to class docstring; DiagnosticServiceClass subclass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (32 passed / 0 failed test_CommonService.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `8145a0178`
 
 - [ ] `DiagnosticSecurityAccess` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.49, p.96
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.49 four 0..1 attrs — requestSeedId (PositiveInteger, REQUEST-SEED-ID),
+      securityAccessClass (ref → DiagnosticSecurityAccessClass, SECURITY-ACCESS-CLASS-REF),
+      securityDelayTimeOnBoot (TimeValue, SECURITY-DELAY-TIME-ON-BOOT), securityLevel (ref →
+      DiagnosticSecurityLevel, SECURITY-LEVEL-REF); XSD group DIAGNOSTIC-SECURITY-ACCESS matches table.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (116 passed / 0 failed test_ARPackage.py, test_diagnostic_security_access.py, test_writer_diagnostic_security_access.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `4b106b246`
 
 - [ ] `DiagnosticSecurityAccessClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.50, p.96
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.50 attribute row is "-" (no attributes); concrete
+      DiagnosticServiceClass subclass. XSD group DIAGNOSTIC-SECURITY-ACCESS-CLASS carries only the
+      AP-restricted SHARED-TIMER — not modeled, deviation recorded (Rule 0015).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (43 passed / 0 failed test_CommonService.py, test_diagnostic_security_access_class.py, test_writer_diagnostic_security_access_class.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `17ef969f3`
 
 - [ ] `DiagnosticAuthentication` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.51, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.51 marks the class ABSTRACT (6 subclasses listed) — ABC + type-guard kept;
+      single 0..1 ref authenticationClass (→ DiagnosticAuthenticationClass, wire AUTHENTICATION-CLASS-REF).
+      XSD group also carries the removed AUTHENTICATION-TIMEOUT (`atp.Status="removed"`) — not modeled,
+      deviation recorded (Rule 0015). No ARPackage dispatch (abstract); Rule 0001.7 reusable helpers
+      readDiagnosticAuthentication/writeDiagnosticAuthentication provided for later subclass batches.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (119 passed / 0 failed test_ARPackage.py, test_diagnostic_authentication.py, test_writer_diagnostic_authentication.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `13ac1a6b3`
 
 - [ ] `DiagnosticAuthenticationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.52, p.99
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.52 attribute row is "-" (no attributes); no "(abstract)" marker and XSD
+      complexType abstract="false" → concrete DiagnosticServiceClass subclass, so it gets the full
+      ARPackage element dispatch (createDiagnosticAuthenticationClass factory + DIAGNOSTIC-AUTHENTICATION-CLASS
+      read/write branches; XSD group DIAGNOSTIC-AUTHENTICATION-CLASS is an empty <xsd:sequence/>).
+      Note text synced verbatim minus the Tags suffix (sibling precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (49 passed / 0 failed test_CommonService.py, test_diagnostic_authentication_class.py, test_writer_diagnostic_authentication_class.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `50e51bce6`
 
 - [ ] `DiagnosticAuthenticationConfiguration` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.53, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.53 attribute row is "-" (no own attributes; inherits 0..1 authenticationClass
+      → DiagnosticAuthenticationClass from abstract Table 4.51 base); no "(abstract)" marker and XSD
+      complexType abstract="false" → concrete subclass, full ARPackage element dispatch
+      (createDiagnosticAuthenticationConfiguration factory + DIAGNOSTIC-AUTHENTICATION-CONFIGURATION
+      read/write branches; XSD group DIAGNOSTIC-AUTHENTICATION-CONFIGURATION is an empty <xsd:sequence/>).
+      Reader/writer delegate the inherited ref to the Rule 0001.7 read/writeDiagnosticAuthentication helpers.
+      Note text synced verbatim minus the Tags suffix (sibling precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (128 passed / 0 failed test_ARPackage.py, test_diagnostic_authentication_configuration.py, test_writer_diagnostic_authentication_configuration.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `3d83a383d`
 
 - [ ] `DiagnosticVerifyCertificateBidirectional` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.54, p.99
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.54 attribute row is "-" (no own attributes; inherits 0..1 authenticationClass
+      → DiagnosticAuthenticationClass from abstract Table 4.51 base); no "(abstract)" marker and XSD
+      complexType abstract="false" → concrete subclass, full ARPackage element dispatch
+      (createDiagnosticVerifyCertificateBidirectional factory + DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL
+      read/write branches; XSD group DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL is an empty
+      <xsd:sequence/>). Reader/writer delegate the inherited ref to the Rule 0001.7
+      read/writeDiagnosticAuthentication helpers. Note text synced verbatim minus the Tags suffix
+      (sibling precedent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (134 passed / 0 failed test_ARPackage.py, test_diagnostic_verify_certificate_bidirectional.py, test_writer_diagnostic_verify_certificate_bidirectional.py incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `5f62e6dbb`
 
 - [ ] `DiagnosticVerifyCertificateUnidirectional` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.55, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (no own attributes; Note verbatim; XSD complexType l.47146)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (140 passed / 0 failed test_ARPackage.py, test_diagnostic_verify_certificate_unidirectional.py, test_writer_diagnostic_verify_certificate_unidirectional.py); 9b deferred to batch confirmation (user instruction); sync commit `682e50a2d`
 
 - [ ] `DiagnosticDeAuthentication` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.56, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (no own attributes; Note verbatim; XSD complexType l.34659)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (146 passed / 0 failed test_ARPackage.py, test_diagnostic_de_authentication.py, test_writer_diagnostic_de_authentication.py); 9b deferred to batch confirmation (user instruction); sync commit `66e8ab973`
 
 - [ ] `DiagnosticProofOfOwnership` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.57, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (no own attributes; Note verbatim; XSD complexType l.40987)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (152 passed / 0 failed test_ARPackage.py, test_diagnostic_proof_of_ownership.py, test_writer_diagnostic_proof_of_ownership.py); 9b deferred to batch confirmation (user instruction); sync commit `3ef2fb8c9`
 
 - [ ] `DiagnosticAuthTransmitCertificate` — DiagnosticAuthentication — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.58, p.100
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (0..* aggr certificateEvaluation; Note verbatim; XSD group l.31760 / complexType l.31781, CERTIFICATE-EVALUATIONS wrapper)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (163 passed / 0 failed test_ARPackage.py, test_diagnostic_auth_transmit_certificate.py, test_writer_diagnostic_auth_transmit_certificate.py); 9b deferred to batch confirmation (user instruction); sync commit `94a9c9715`
 
 - [ ] `DiagnosticAuthTransmitCertificateEvaluation` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.59, p.101
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (concrete; 0..1 evaluationId + 0..1 function; Note verbatim; XSD group l.31804 / complexType l.31826)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (80 passed / 0 failed test_Identifiable.py, test_diagnostic_auth_transmit_certificate_evaluation.py, test_writer_diagnostic_auth_transmit_certificate_evaluation.py); 9b deferred to batch confirmation (user instruction); sync commit `4a21071b3`
 
 - [ ] `DiagnosticEcuReset` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.60, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (concrete; 0..1 customSubFunctionNumber + 0..1 ecuResetClass ref; Note verbatim; XSD group l.35369 / complexType l.35406; XSD RESPOND-TO-RESET is atp.Status="removed", not a Table 4.60 row)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (168 passed / 0 failed test_ARPackage.py, test_diagnostic_ecu_reset.py, test_writer_diagnostic_ecu_reset.py); 9b deferred to batch confirmation (user instruction); sync commit `4a568086d`
 
 - [ ] `DiagnosticEcuResetClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.61, p.102
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.61 single attr respondToReset (DiagnosticResponseToEcuResetEnum 0..1, wire RESPOND-TO-RESET);
+      concrete per Table and XSD (complexType abstract="false"); DiagnosticServiceClass subclass.
+    - note (Step 6): enum token map DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP (respondAfterReset→RESPOND-AFTER-RESET,
+      respondBeforeReset→RESPOND-BEFORE-RESET, AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE) pre-registered here for the
+      consuming attribute (cf. 5d402fe9d); RESPOND-TO-RESET literal value reader tests land with the
+      DiagnosticResponseToEcuResetEnum sync (next row), which extends the parser test file.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (58 passed / 0 failed test_CommonService.py + test_diagnostic_ecu_reset_class.py + test_writer_diagnostic_ecu_reset_class.py); 9b deferred to batch confirmation (user instruction); sync commit `092a0c7cf`
 
 - [ ] `DiagnosticResponseToEcuResetEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.62, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.62 literals in displayed order respondAfterReset (idx 0) / respondBeforeReset (idx 1);
+      wire tokens per XSD SIMPLE type: RESPOND-AFTER-RESET / RESPOND-BEFORE-RESET.
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP was
+      already pre-registered by the consuming class DiagnosticEcuResetClass.respondToReset (092a0c7cf) — verified, not
+      duplicated; extended its tests instead (parser RESPOND-TO-RESET field-value reads, writer token emission, full
+      round-trip) and simplified the test helper to no-arg enum construction.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (map pre-registered by 092a0c7cf; consumer tests extended)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (199 passed / 0 failed test_PrimitiveTypes.py + test_CommonService.py + test_diagnostic_ecu_reset_class.py + test_writer_diagnostic_ecu_reset_class.py); 9b deferred to batch confirmation (user instruction); sync commit `4c3738943`
 
-- [ ] `CommunicationCluster` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.63, p.107; also CP_TPS_SystemTemplate Table 3.6, p.57
+- [x] `CommunicationCluster` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.63, p.107; also CP_TPS_SystemTemplate Table 3.6, p.57 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -205,27 +252,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticComControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.64, p.108
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): concrete ARElement; attrs comControlClass (ref, COM-CONTROL-CLASS-REF) +
+      customSubFunctionNumber (PositiveInteger); XSD group l.32515 — ref before sub-function.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (174 passed / 0 failed, 3 files); 9b deferred to batch confirmation (user instruction); sync commit `ed6ddee3a`
 
 - [ ] `DiagnosticComControlSpecificChannel` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.65, p.109
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Base ARObject (no-arg ctor); attrs specificChannel/specificPhysicalChannel
+      (refs, 0..1) + subnetNumber (PositiveInteger 0..1); aggregator DiagnosticComControlClass
+      (Table 4.66) not yet synced — reusable helpers verified directly, dispatch deferred.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (42 passed / 0 failed, 3 files); 9b deferred to batch confirmation (user instruction); sync commit `c4bee1d35`
 
 - [ ] `DiagnosticComControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.66, p.109
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
