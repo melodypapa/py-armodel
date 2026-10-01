@@ -381,6 +381,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticComControlClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
@@ -10610,6 +10611,22 @@ class ARXMLParser(AbstractARXMLParser):
         com_control.setComControlClass(self.getChildElementOptionalRefType(element, "COM-CONTROL-CLASS-REF"))
         com_control.setCustomSubFunctionNumber(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SUB-FUNCTION-NUMBER"))
 
+    def readDiagnosticComControlClass(self, element: ET.Element, com_control_class: DiagnosticComControlClass):
+        self.logger.debug("Read DiagnosticComControlClass <%s>" % com_control_class.getShortName())
+        self.readIdentifiable(element, com_control_class)
+        for ref in self.getChildElementRefTypeList(element, "ALL-CHANNELS-REFS/ALL-CHANNELS-REF"):
+            com_control_class.addAllChannel(ref)
+        for ref in self.getChildElementRefTypeList(element, "ALL-PHYSICAL-CHANNELS/ALL-PHYSICAL-CHANNELS-REF"):
+            com_control_class.addAllPhysicalChannel(ref)
+        for child_element in self.findall(element, "SPECIFIC-CHANNELS/DIAGNOSTIC-COM-CONTROL-SPECIFIC-CHANNEL"):
+            channel = DiagnosticComControlSpecificChannel()
+            self.readDiagnosticComControlSpecificChannel(child_element, channel)
+            com_control_class.addSpecificChannel(channel)
+        for child_element in self.findall(element, "SUB-NODE-CHANNELS/DIAGNOSTIC-COM-CONTROL-SUB-NODE-CHANNEL"):
+            channel = DiagnosticComControlSubNodeChannel()
+            self.readDiagnosticComControlSubNodeChannel(child_element, channel)
+            com_control_class.addSubNodeChannel(channel)
+
     def readDiagnosticComControlSpecificChannel(self, element: ET.Element, channel: DiagnosticComControlSpecificChannel):
         self.logger.debug("Read DiagnosticComControlSpecificChannel")
         channel.setSpecificChannel(self.getChildElementOptionalRefType(element, "SPECIFIC-CHANNEL-REF"))
@@ -15508,6 +15525,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-COM-CONTROL":
                 com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
                 self.readDiagnosticComControl(child_element, com_control)
+            elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
+                com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
+                self.readDiagnosticComControlClass(child_element, com_control_class)
             elif tag_name == "DIAGNOSTIC-ECU-RESET":
                 ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
                 self.readDiagnosticEcuReset(child_element, ecu_reset)

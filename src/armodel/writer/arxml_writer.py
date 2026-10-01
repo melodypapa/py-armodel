@@ -275,6 +275,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticComControlClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
@@ -13907,6 +13908,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "COM-CONTROL-CLASS-REF", com_control.getComControlClass())
         self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", com_control.getCustomSubFunctionNumber())
 
+    def writeDiagnosticComControlClass(self, element: ET.Element, com_control_class: DiagnosticComControlClass):
+        self.logger.debug("Write DiagnosticComControlClass %s" % com_control_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, com_control_class)
+        all_channels = com_control_class.getAllChannels()
+        if len(all_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "ALL-CHANNELS-REFS")
+            for ref in all_channels:
+                self.setChildElementOptionalRefType(channels_tag, "ALL-CHANNELS-REF", ref)
+        all_physical_channels = com_control_class.getAllPhysicalChannels()
+        if len(all_physical_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "ALL-PHYSICAL-CHANNELS")
+            for ref in all_physical_channels:
+                self.setChildElementOptionalRefType(channels_tag, "ALL-PHYSICAL-CHANNELS-REF", ref)
+        specific_channels = com_control_class.getSpecificChannels()
+        if len(specific_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "SPECIFIC-CHANNELS")
+            for channel in specific_channels:
+                self.writeDiagnosticComControlSpecificChannel(channels_tag, channel)
+        sub_node_channels = com_control_class.getSubNodeChannels()
+        if len(sub_node_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "SUB-NODE-CHANNELS")
+            for channel in sub_node_channels:
+                self.writeDiagnosticComControlSubNodeChannel(channels_tag, channel)
+
     def writeDiagnosticComControlSpecificChannel(self, element: ET.Element, channel: DiagnosticComControlSpecificChannel):
         self.logger.debug("Write DiagnosticComControlSpecificChannel")
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-SPECIFIC-CHANNEL")
@@ -15129,6 +15155,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDeAuthentication(element, ar_element)
         elif isinstance(ar_element, DiagnosticComControl):
             self.writeDiagnosticComControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticComControlClass):
+            self.writeDiagnosticComControlClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuReset):
             self.writeDiagnosticEcuReset(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuResetClass):

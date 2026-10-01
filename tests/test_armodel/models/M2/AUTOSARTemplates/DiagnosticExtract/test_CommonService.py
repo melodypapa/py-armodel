@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticComControlClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
@@ -19,7 +20,11 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    DiagnosticComControlSpecificChannel,
+    DiagnosticComControlSubNodeChannel,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     DiagnosticResponseToEcuResetEnum,
@@ -391,4 +396,112 @@ class Test_DiagnosticEcuResetClass:
         assert package.getElement("Dersc1", DiagnosticEcuResetClass) is service_class
 
         duplicate = package.createDiagnosticEcuResetClass("Dersc1")
+        assert duplicate is service_class
+
+
+class TestDiagnosticComControlClass:
+    """Test cases for DiagnosticComControlClass class (Table 4.66, p.109)."""
+
+    DCCC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Communication Control" diagnostic service.'
+    ALL_CHANNELS_NOTE = (
+        "This reference represents the semantics that all available channels shall be affected. "
+        'It is still necessary to refer to individual CommunicatuionClusters because there could be private CommunicationClusters in the System Extract that are not subject to the service "communication control". '
+        "By referring to the applicable CommunicationClusters it can be made sure that only the affected CommunicationClusters are accessed."
+    )
+    ALL_PHYSICAL_CHANNELS_NOTE = (
+        "This reference represents the semantics that all available channels shall be affected. "
+        'It is still necessary to refer to individual EthernetPhysicalChannels because there could be private VLANs (and thus private EthernetPhysicalChannels) in the System Extract that are not subject to the service "communication control". '
+        "By referring to the applicable EthernetPhysicalChannels it can be made sure that only the affected EthernetPhysicalChannels are accessed."
+    )
+    SPECIFIC_CHANNEL_NOTE = "This represents the ability to add additional attributes to the case that only specific channels are supposed to be considered,"
+    SUB_NODE_CHANNEL_NOTE = (
+        'This attribute represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service "communication control".'
+    )
+
+    def _make_obj(self) -> DiagnosticComControlClass:
+        return DiagnosticComControlClass(_pkg(), "MyDccc")
+
+    def test_is_concrete(self):
+        service_class = self._make_obj()
+        assert service_class.getShortName() == "MyDccc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticComControlClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticComControlClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticComControlClass, ARObject)
+        assert issubclass(DiagnosticComControlClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticComControlClass.__doc__) == self.DCCC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticComControlClass.__init__.__doc__ is None
+
+    def test_defaults(self):
+        service_class = self._make_obj()
+        assert service_class.getAllChannels() == []
+        assert service_class.getAllPhysicalChannels() == []
+        assert service_class.getSpecificChannels() == []
+        assert service_class.getSubNodeChannels() == []
+
+    def test_add_get_all_channels(self):
+        service_class = self._make_obj()
+        ref = _ref("COMMUNICATION-CLUSTER", "/System/Clusters/Cluster1")
+        assert service_class.addAllChannel(ref) is service_class
+        assert service_class.getAllChannels() == [ref]
+
+        service_class.addAllChannel(None)
+        assert service_class.getAllChannels() == [ref]  # None is a no-op
+
+    def test_add_get_all_physical_channels(self):
+        service_class = self._make_obj()
+        ref = _ref("ETHERNET-PHYSICAL-CHANNEL", "/System/EthernetClusters/Cluster1/Vlan1")
+        assert service_class.addAllPhysicalChannel(ref) is service_class
+        assert service_class.getAllPhysicalChannels() == [ref]
+        assert service_class.getAllPhysicalChannels()[0].getValue() == "/System/EthernetClusters/Cluster1/Vlan1"
+
+        service_class.addAllPhysicalChannel(None)
+        assert service_class.getAllPhysicalChannels() == [ref]  # None is a no-op
+
+    def test_add_get_specific_channels(self):
+        service_class = self._make_obj()
+        channel = DiagnosticComControlSpecificChannel()
+        channel.setSubnetNumber(PositiveInteger().setValue("3"))
+        assert service_class.addSpecificChannel(channel) is service_class
+        assert service_class.getSpecificChannels() == [channel]
+        assert service_class.getSpecificChannels()[0].getSubnetNumber().getValue() == 3
+
+        service_class.addSpecificChannel(None)
+        assert service_class.getSpecificChannels() == [channel]  # None is a no-op
+
+    def test_add_get_sub_node_channels(self):
+        service_class = self._make_obj()
+        channel = DiagnosticComControlSubNodeChannel()
+        channel.setSubNodeNumber(PositiveInteger().setValue("7"))
+        assert service_class.addSubNodeChannel(channel) is service_class
+        assert service_class.getSubNodeChannels() == [channel]
+        assert service_class.getSubNodeChannels()[0].getSubNodeNumber().getValue() == 7
+
+        service_class.addSubNodeChannel(None)
+        assert service_class.getSubNodeChannels() == [channel]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticComControlClass.addAllChannel.__doc__) == (self.ALL_CHANNELS_NOTE + "\n\nA None value is a no-op and does not append an allChannel.")
+        assert inspect.cleandoc(DiagnosticComControlClass.getAllChannels.__doc__) == self.ALL_CHANNELS_NOTE
+        assert inspect.cleandoc(DiagnosticComControlClass.addAllPhysicalChannel.__doc__) == (self.ALL_PHYSICAL_CHANNELS_NOTE + "\n\nA None value is a no-op and does not append an allPhysicalChannel.")
+        assert inspect.cleandoc(DiagnosticComControlClass.getAllPhysicalChannels.__doc__) == self.ALL_PHYSICAL_CHANNELS_NOTE
+        assert inspect.cleandoc(DiagnosticComControlClass.addSpecificChannel.__doc__) == (self.SPECIFIC_CHANNEL_NOTE + "\n\nA None value is a no-op and does not append a specificChannel.")
+        assert inspect.cleandoc(DiagnosticComControlClass.getSpecificChannels.__doc__) == self.SPECIFIC_CHANNEL_NOTE
+        assert inspect.cleandoc(DiagnosticComControlClass.addSubNodeChannel.__doc__) == (self.SUB_NODE_CHANNEL_NOTE + "\n\nA None value is a no-op and does not append a subNodeChannel.")
+        assert inspect.cleandoc(DiagnosticComControlClass.getSubNodeChannels.__doc__) == self.SUB_NODE_CHANNEL_NOTE
+
+    def test_create_diagnostic_com_control_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticComControlClass("Dccc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticComControlClass)
+        assert service_class.getShortName() == "Dccc1"
+        assert package.getElement("Dccc1", DiagnosticComControlClass) is service_class
+
+        duplicate = package.createDiagnosticComControlClass("Dccc1")
         assert duplicate is service_class

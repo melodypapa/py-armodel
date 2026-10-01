@@ -1,8 +1,8 @@
 from abc import ABC
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticComControlSpecificChannel, DiagnosticComControlSubNodeChannel
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticResponseToEcuResetEnum, PositiveInteger, RefType, TimeValue
 
 
@@ -98,7 +98,99 @@ class DiagnosticClearResetEmissionRelatedInfoClass(DiagnosticServiceClass):
 
 
 class DiagnosticComControlClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Communication Control" diagnostic service."""
+
+    # DiagnosticComControlClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.66, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAllChannel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAllChannels              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAllPhysicalChannel       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAllPhysicalChannels      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSpecificChannel          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpecificChannels         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSubNodeChannel           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubNodeChannels          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to individual CommunicatuionClusters because there could be private CommunicationClusters in the System Extract that are not subject to the service "communication control". By referring to the applicable CommunicationClusters it can be made sure that only the affected CommunicationClusters are accessed.
+        self.allChannels: List[RefType] = []
+
+        # This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to individual EthernetPhysicalChannels because there could be private VLANs (and thus private EthernetPhysicalChannels) in the System Extract that are not subject to the service "communication control". By referring to the applicable EthernetPhysicalChannels it can be made sure that only the affected EthernetPhysicalChannels are accessed.
+        self.allPhysicalChannels: List[RefType] = []
+
+        # This represents the ability to add additional attributes to the case that only specific channels are supposed to be considered,
+        self.specificChannel: List[DiagnosticComControlSpecificChannel] = []
+
+        # This attribute represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service "communication control".
+        self.subNodeChannel: List[DiagnosticComControlSubNodeChannel] = []
+
+    def addAllChannel(self, value: Optional[RefType]) -> "DiagnosticComControlClass":
+        """
+        This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to individual CommunicatuionClusters because there could be private CommunicationClusters in the System Extract that are not subject to the service "communication control". By referring to the applicable CommunicationClusters it can be made sure that only the affected CommunicationClusters are accessed.
+
+        A None value is a no-op and does not append an allChannel.
+        """
+        if value is not None:
+            self.allChannels.append(value)
+        return self
+
+    def getAllChannels(self) -> List[RefType]:
+        """
+        This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to individual CommunicatuionClusters because there could be private CommunicationClusters in the System Extract that are not subject to the service "communication control". By referring to the applicable CommunicationClusters it can be made sure that only the affected CommunicationClusters are accessed.
+        """
+        return self.allChannels
+
+    def addAllPhysicalChannel(self, value: Optional[RefType]) -> "DiagnosticComControlClass":
+        """
+        This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to individual EthernetPhysicalChannels because there could be private VLANs (and thus private EthernetPhysicalChannels) in the System Extract that are not subject to the service "communication control". By referring to the applicable EthernetPhysicalChannels it can be made sure that only the affected EthernetPhysicalChannels are accessed.
+
+        A None value is a no-op and does not append an allPhysicalChannel.
+        """
+        if value is not None:
+            self.allPhysicalChannels.append(value)
+        return self
+
+    def getAllPhysicalChannels(self) -> List[RefType]:
+        """
+        This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to individual EthernetPhysicalChannels because there could be private VLANs (and thus private EthernetPhysicalChannels) in the System Extract that are not subject to the service "communication control". By referring to the applicable EthernetPhysicalChannels it can be made sure that only the affected EthernetPhysicalChannels are accessed.
+        """
+        return self.allPhysicalChannels
+
+    def addSpecificChannel(self, value: Optional[DiagnosticComControlSpecificChannel]) -> "DiagnosticComControlClass":
+        """
+        This represents the ability to add additional attributes to the case that only specific channels are supposed to be considered,
+
+        A None value is a no-op and does not append a specificChannel.
+        """
+        if value is not None:
+            self.specificChannel.append(value)
+        return self
+
+    def getSpecificChannels(self) -> List[DiagnosticComControlSpecificChannel]:
+        """
+        This represents the ability to add additional attributes to the case that only specific channels are supposed to be considered,
+        """
+        return self.specificChannel
+
+    def addSubNodeChannel(self, value: Optional[DiagnosticComControlSubNodeChannel]) -> "DiagnosticComControlClass":
+        """
+        This attribute represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service "communication control".
+
+        A None value is a no-op and does not append a subNodeChannel.
+        """
+        if value is not None:
+            self.subNodeChannel.append(value)
+        return self
+
+    def getSubNodeChannels(self) -> List[DiagnosticComControlSubNodeChannel]:
+        """
+        This attribute represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service "communication control".
+        """
+        return self.subNodeChannel
 
 
 class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):

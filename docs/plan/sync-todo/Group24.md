@@ -281,14 +281,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticComControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.66, p.109
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): concrete DiagnosticServiceClass; `*` members in displayed order —
+      allChannels (ref → ALL-CHANNELS-REFS wrapper), allPhysicalChannels (ref →
+      ALL-PHYSICAL-CHANNELS wrapper, xml.namePlural), specificChannel (aggr →
+      SPECIFIC-CHANNELS wrapper), subNodeChannel (aggr → SUB-NODE-CHANNELS wrapper);
+      XSD group l.32568 / complexType l.32642.
+    - note (Step 4): spec-typo "CommunicatuionClusters" kept verbatim (also in XSD);
+      markdown cell-wrap spaces healed ("Communication Clusters" → "CommunicationClusters",
+      "EthernetPhysical Channels" → "EthernetPhysicalChannels"); Tags suffixes dropped
+      (sibling convention from the DiagnosticComControl pass); specificChannel Note's
+      trailing comma is in the spec and kept.
+    - note (Step 6): aggregator dispatch wired — parser tag DIAGNOSTIC-COM-CONTROL-CLASS +
+      writer isinstance entry; wrapper dispatch calls the reusable Specific/SubNodeChannel
+      helpers synced earlier (commits ed6ddee3a-adjacent, c4bee1d35, f0a80d0b5).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticComControlSubNodeChannel` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.67, p.110
