@@ -191,15 +191,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEcuReset` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.60, p.102
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (concrete; 0..1 customSubFunctionNumber + 0..1 ecuResetClass ref; Note verbatim; XSD group l.35369 / complexType l.35406; XSD RESPOND-TO-RESET is atp.Status="removed", not a Table 4.60 row)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (168 passed / 0 failed test_ARPackage.py, test_diagnostic_ecu_reset.py, test_writer_diagnostic_ecu_reset.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticEcuResetClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.61, p.102
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py

@@ -1926,6 +1926,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(did)
         return self.getElement(short_name, DiagnosticDynamicDataIdentifier)
 
+    def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
+        """
+        Creates a new DiagnosticEcuReset with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEcuReset represents an instance of the "ECU Reset" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticEcuReset
+
+        Returns:
+            The newly created or existing DiagnosticEcuReset instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEcuReset):
+            ecu_reset = DiagnosticEcuReset(self, short_name)
+            self.addElement(ecu_reset)
+        return self.getElement(short_name, DiagnosticEcuReset)
+
     def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
         """
         Creates a new DiagnosticEnvironmentalCondition with the given short
@@ -3275,7 +3293,57 @@ class DiagnosticEcuInstanceProps(ARElement):
 
 
 class DiagnosticEcuReset(ARElement):
-    pass
+    """This represents an instance of the "ECU Reset" diagnostic service."""
+
+    # DiagnosticEcuReset method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.60, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomSubFunctionNumber  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomSubFunctionNumber  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuResetClass            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuResetClass            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute shall be used to define a custom sub-function number if none of the standardized values of category shall be used.
+        self.customSubFunctionNumber: Optional[PositiveInteger] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticEcuReset in the given context.
+        self.ecuResetClass: Optional[RefType] = None
+
+    def getCustomSubFunctionNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute shall be used to define a custom sub-function number if none of the standardized values of category shall be used.
+        """
+        return self.customSubFunctionNumber
+
+    def setCustomSubFunctionNumber(self, value: Optional[PositiveInteger]) -> DiagnosticEcuReset:
+        """
+        This attribute shall be used to define a custom sub-function number if none of the standardized values of category shall be used.
+
+        A None value is a no-op and does not overwrite an existing customSubFunctionNumber.
+        """
+        if value is not None:
+            self.customSubFunctionNumber = value
+        return self
+
+    def getEcuResetClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticEcuReset in the given context.
+        """
+        return self.ecuResetClass
+
+    def setEcuResetClass(self, value: Optional[RefType]) -> DiagnosticEcuReset:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticEcuReset in the given context.
+
+        A None value is a no-op and does not overwrite an existing ecuResetClass.
+        """
+        if value is not None:
+            self.ecuResetClass = value
+        return self
 
 
 class DiagnosticEnableCondition(DiagnosticCondition):

@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticEcuReset,
     DiagnosticMapping,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
@@ -2813,3 +2814,90 @@ class TestDiagnosticAuthTransmitCertificate:
 
         duplicate = package.createDiagnosticAuthTransmitCertificate("Certificate1")
         assert duplicate is certificate  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEcuReset:
+    """
+    Test class for DiagnosticEcuReset functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.60, p.102
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "ECU Reset" diagnostic service.'
+
+    def _make_obj(self) -> DiagnosticEcuReset:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEcuReset(ar_root, "TestEcuReset")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEcuReset instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEcuReset"
+        assert obj.getCustomSubFunctionNumber() is None
+        assert obj.getEcuResetClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEcuReset.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEcuReset.__init__.__doc__ is None
+
+    def test_get_set_custom_sub_function_number(self):
+        """
+        Round-trips customSubFunctionNumber; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("5")
+        result = obj.setCustomSubFunctionNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getCustomSubFunctionNumber() is value
+        assert obj.getCustomSubFunctionNumber().getValue() == 5
+
+        obj.setCustomSubFunctionNumber(None)
+        assert obj.getCustomSubFunctionNumber() is value  # None is a no-op
+
+    def test_get_set_ecu_reset_class(self):
+        """
+        Round-trips the ecuResetClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-ECU-RESET-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticEcuResetClasses/ResetClass")
+        result = obj.setEcuResetClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getEcuResetClass() is ref
+        assert obj.getEcuResetClass().getValue() == "/AUTOSAR/DiagnosticEcuResetClasses/ResetClass"
+        assert obj.getEcuResetClass().getDest() == "DIAGNOSTIC-ECU-RESET-CLASS"
+
+        result = obj.setEcuResetClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEcuResetClass() is ref  # None is a no-op
+
+    def test_create_diagnostic_ecu_reset(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticEcuResets")
+        ecu_reset = package.createDiagnosticEcuReset("EcuReset1")
+
+        assert ecu_reset is not None
+        assert isinstance(ecu_reset, DiagnosticEcuReset)
+        assert ecu_reset.getShortName() == "EcuReset1"
+        assert package.getElement("EcuReset1", DiagnosticEcuReset) is ecu_reset
+
+        duplicate = package.createDiagnosticEcuReset("EcuReset1")
+        assert duplicate is ecu_reset  # duplicate short name returns the existing element

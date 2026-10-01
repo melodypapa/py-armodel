@@ -387,6 +387,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticEcuReset,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticSecurityAccess,
@@ -13734,6 +13735,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER")
         self.writeDiagnosticAbstractDataIdentifier(child_element, did)
 
+    def writeDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
+        self.logger.debug("Write DiagnosticEcuReset %s" % ecu_reset.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET")
+        self.writeIdentifiable(child_element, ecu_reset)
+        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", ecu_reset.getCustomSubFunctionNumber())
+        self.setChildElementOptionalRefType(child_element, "ECU-RESET-CLASS-REF", ecu_reset.getEcuResetClass())
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -14934,6 +14942,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticAuthTransmitCertificate(element, ar_element)
         elif isinstance(ar_element, DiagnosticDeAuthentication):
             self.writeDiagnosticDeAuthentication(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEcuReset):
+            self.writeDiagnosticEcuReset(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):

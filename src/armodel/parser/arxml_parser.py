@@ -507,6 +507,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticEcuReset,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticSecurityAccess,
@@ -10567,6 +10568,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
 
+    def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
+        self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())
+        self.readIdentifiable(element, ecu_reset)
+        ecu_reset.setCustomSubFunctionNumber(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SUB-FUNCTION-NUMBER"))
+        ecu_reset.setEcuResetClass(self.getChildElementOptionalRefType(element, "ECU-RESET-CLASS-REF"))
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -15314,6 +15321,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
                 de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
                 self.readDiagnosticDeAuthentication(child_element, de_authentication)
+            elif tag_name == "DIAGNOSTIC-ECU-RESET":
+                ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
+                self.readDiagnosticEcuReset(child_element, ecu_reset)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
