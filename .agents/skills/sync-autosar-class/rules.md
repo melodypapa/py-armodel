@@ -1914,3 +1914,24 @@ re-sync is a Step 9b finding.
 `Spec verified`/`XSD verified` marker) under
 *Legacy-format checklists (Rule 0023 re-sync inventory)*. Drain it through per-class
 sync sessions, one at a time; the inventory never fails the checker by itself.
+
+## Rule 0024 — Todo-list hygiene: collapse finished rows *(added 2026-10-01)*
+
+The sync todo file is a **queue, not a journal**. A finished class leaves no 9-step
+record behind — the file must read like a fresh queue with only pending work:
+
+1. During the class's session its row carries the 9-step sub-checklist (Rule 0016.6) —
+   that record exists only so step progress survives session death.
+2. At finish (Rule 0017.2 — after the row flip + commit hash are recorded and the
+   regenerated reports are committed), the finished row is **collapsed to a single
+   `[x]` line** (role · source · table · commit hash): its 9-step sub-checklist and
+   every step write-up / note attached to the row are removed in the same commit. The
+   durable record is the stamp in src, the per-class commit, and the regenerated
+   reports — not the queue file.
+3. A group file whose every row is collapsed is **deleted**.
+4. Tooling contract: `regen_sync_todo.py` must treat a `[x]` row with no `Step N` lines
+   as steps-complete (Done) — the collapse must never regress a finished class's status
+   in the reports.
+5. The same collapse governs a Rule 0023 re-sync: the legacy class's old sub-checklist
+   history is removed when the re-run starts; a row never accumulates two generations
+   of 9-step history.
