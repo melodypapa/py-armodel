@@ -3,7 +3,7 @@ from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 
 
 class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
@@ -98,7 +98,40 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
 
 
 class DiagnosticCustomServiceClass(DiagnosticServiceClass):
-    pass
+    """
+    This represents the ability to define a custom diagnostic service class and assign an ID to it. Further configuration is not foreseen from the point of view of the diagnostic extract and consequently needs to be done on the level of ECUC.
+
+    [constr_1330] Custom service identifier shall not overlap with standardized service identifiers: The value of the attribute customServiceId shall not be set to any of the values reserved for standardized service identifiers as defined by the ISO 14229-1, see [17]. This rule shall be imposed at the time when the DEXT is complete.
+    """
+
+    # DiagnosticCustomServiceClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.28, p.71
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomServiceId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomServiceId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute may only be used for the definition of custom services. The values shall not overlap with existing standardized service IDs.
+        self.customServiceId: Optional[PositiveInteger] = None
+
+    def getCustomServiceId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute may only be used for the definition of custom services. The values shall not overlap with existing standardized service IDs.
+        """
+        return self.customServiceId
+
+    def setCustomServiceId(self, value: Optional[PositiveInteger]):
+        """
+        This attribute may only be used for the definition of custom services. The values shall not overlap with existing standardized service IDs.
+
+        A None value is a no-op and does not overwrite an existing customServiceId.
+        """
+        if value is not None:
+            self.customServiceId = value
+        return self
 
 
 class DiagnosticDataTransferClass(DiagnosticServiceClass):

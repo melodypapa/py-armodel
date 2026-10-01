@@ -10,14 +10,23 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceClass, DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceClass, DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 
 DSI_NOTE = "This represents a concrete instance of a diagnostic service."
 DSC_NOTE = "This meta-class provides the ability to define common properties that are shared among all instances of sub-classes of DiagnosticServiceInstance."
 ACCESS_PERMISSION_NOTE = "This represents the collection of DiagnosticAccessPermissions that allow for the execution of the referencing DiagnosticServiceInstance.."
+CUSTOM_SERVICE_ID_NOTE = "This attribute may only be used for the definition of custom services. The values shall not overlap with existing standardized service IDs."
+DCSC_CLASS_DOCSTRING = (
+    "This represents the ability to define a custom diagnostic service class and assign an ID to it. "
+    "Further configuration is not foreseen from the point of view of the diagnostic extract and consequently needs to be done on the level of ECUC.\n"
+    "\n"
+    "[constr_1330] Custom service identifier shall not overlap with standardized service identifiers: "
+    "The value of the attribute customServiceId shall not be set to any of the values reserved for standardized "
+    "service identifiers as defined by the ISO 14229-1, see [17]. This rule shall be imposed at the time when the DEXT is complete."
+)
 SERVICE_CLASS_NOTE = (
     'This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of '
     'DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference. Stereotypes: atpAbstract'
@@ -131,3 +140,52 @@ class Test_DiagnosticServiceClass:
         assert not hasattr(service_class, "getServiceClasses")
         assert not hasattr(service_class, "addServiceClass")
         assert isinstance(service_class, ARObject)
+
+
+class Test_DiagnosticCustomServiceClass:
+    """Test cases for DiagnosticCustomServiceClass class (Table 4.28, p.71)."""
+
+    def test_is_concrete(self):
+        service_class = DiagnosticCustomServiceClass(_pkg(), "MyDcsc")
+        assert service_class.getShortName() == "MyDcsc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticCustomServiceClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticCustomServiceClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticCustomServiceClass, ARObject)
+        assert issubclass(DiagnosticCustomServiceClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticCustomServiceClass.__doc__) == DCSC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticCustomServiceClass.__init__.__doc__ is None
+
+    def test_defaults(self):
+        service_class = DiagnosticCustomServiceClass(_pkg(), "MyDcsc")
+        assert service_class.getCustomServiceId() is None
+
+    def test_get_set_custom_service_id(self):
+        service_class = DiagnosticCustomServiceClass(_pkg(), "MyDcsc")
+        value = PositiveInteger()
+        value.setValue("5")
+        assert service_class.setCustomServiceId(value) is service_class
+        assert service_class.getCustomServiceId() is value
+        assert service_class.getCustomServiceId().getValue() == 5
+        service_class.setCustomServiceId(None)
+        assert service_class.getCustomServiceId() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticCustomServiceClass.getCustomServiceId.__doc__) == CUSTOM_SERVICE_ID_NOTE
+        assert inspect.cleandoc(DiagnosticCustomServiceClass.setCustomServiceId.__doc__) == (CUSTOM_SERVICE_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing customServiceId.")
+
+    def test_create_diagnostic_custom_service_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticCustomServiceClass("Svc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticCustomServiceClass)
+        assert service_class.getShortName() == "Svc1"
+        assert package.getElement("Svc1", DiagnosticCustomServiceClass) is service_class
+
+        duplicate = package.createDiagnosticCustomServiceClass("Svc1")
+        assert duplicate is service_class

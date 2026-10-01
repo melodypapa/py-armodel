@@ -273,7 +273,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvCompareCondition, DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
@@ -13712,6 +13712,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
 
+    def writeDiagnosticCustomServiceClass(self, element: ET.Element, service_class: DiagnosticCustomServiceClass):
+        self.logger.debug("Write DiagnosticCustomServiceClass %s" % service_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CUSTOM-SERVICE-CLASS")
+        self.writeIdentifiable(child_element, service_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SERVICE-ID", service_class.getCustomServiceId())
+
     def writeDiagnosticCustomServiceInstance(self, element: ET.Element, instance: DiagnosticCustomServiceInstance):
         self.logger.debug("Write DiagnosticCustomServiceInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE")
@@ -14729,6 +14735,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):
             self.writeDiagnosticContributionSet(element, ar_element)
+        elif isinstance(ar_element, DiagnosticCustomServiceClass):
+            self.writeDiagnosticCustomServiceClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticCustomServiceInstance):
             self.writeDiagnosticCustomServiceInstance(element, ar_element)
         elif isinstance(ar_element, DiagnosticProtocol):

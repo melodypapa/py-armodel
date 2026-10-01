@@ -379,7 +379,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -10387,6 +10387,11 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
         instance.setServiceClassRef(self.getChildElementOptionalRefType(element, "SERVICE-CLASS-REF"))
 
+    def readDiagnosticCustomServiceClass(self, element: ET.Element, service_class: DiagnosticCustomServiceClass):
+        self.logger.debug("Read DiagnosticCustomServiceClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+        service_class.setCustomServiceId(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SERVICE-ID"))
+
     def readDiagnosticCustomServiceInstance(self, element: ET.Element, instance: DiagnosticCustomServiceInstance):
         self.logger.debug("Read DiagnosticCustomServiceInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
@@ -15105,6 +15110,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-CONTRIBUTION-SET":
                 contribution_set = parent.createDiagnosticContributionSet(self.getShortName(child_element))
                 self.readDiagnosticContributionSet(child_element, contribution_set)
+            elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-CLASS":
+                custom_service_class = parent.createDiagnosticCustomServiceClass(self.getShortName(child_element))
+                self.readDiagnosticCustomServiceClass(child_element, custom_service_class)
             elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE":
                 custom_service_instance = parent.createDiagnosticCustomServiceInstance(self.getShortName(child_element))
                 self.readDiagnosticCustomServiceInstance(child_element, custom_service_instance)

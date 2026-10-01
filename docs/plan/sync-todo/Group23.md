@@ -934,15 +934,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticCustomServiceClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.28, p.71
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.28 (md L1950-1963); concrete Class; Base most-derived = `DiagnosticServiceClass`
+    (stub base already correct); single attr `customServiceId` (PositiveInteger 0..1 attr); constr_1330 appended to
+    class docstring; not VP-capable (XSD group L33976 has no VARIATION-POINT); XSD: single CUSTOM-SERVICE-ID element.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (31 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_CommonService.py, tests/test_armodel/parser/test_diagnostic_custom_service_class.py, tests/test_armodel/writer/test_writer_diagnostic_custom_service_class.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticAuthRole` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.34, p.77
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
