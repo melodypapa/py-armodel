@@ -434,14 +434,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticReadDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.74, p.114
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): own table = DEXT Table 4.74 (md l.3339, PDF p.114); concrete Class; Base most-derived = `DiagnosticServiceClass`. attr `maxDidToRead` (PositiveInteger, 0..1, attr — markdown cell-wrap "DiagnosticReadDataBy Identifier" healed); XSD group DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS (AUTOSAR_00052.xsd l.41186): MAX-DID-TO-READ only.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByIdentifierClass` factory + readARPackageElements DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS branch + writeARPackageElement isinstance branch; CommonService.py has no PEP 563 future import so the setter's self-referential return annotation uses the quoted form.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadScalingDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.78, p.116

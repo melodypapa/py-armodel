@@ -313,7 +313,36 @@ class DiagnosticReadDTCInformationClass(DiagnosticServiceClass):
 
 
 class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Read Data by Identifier" diagnostic service."""
+
+    # DiagnosticReadDataByIdentifierClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.74, p.114
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxDidToRead    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDidToRead    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the maximum number of allowed DIDs in a single instance of DiagnosticReadDataByIdentifier.
+        self.maxDidToRead: Optional[PositiveInteger] = None
+
+    def getMaxDidToRead(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the maximum number of allowed DIDs in a single instance of DiagnosticReadDataByIdentifier.
+        """
+        return self.maxDidToRead
+
+    def setMaxDidToRead(self, value: Optional[PositiveInteger]) -> "DiagnosticReadDataByIdentifierClass":
+        """
+        This attribute represents the maximum number of allowed DIDs in a single instance of DiagnosticReadDataByIdentifier.
+
+        A None value is a no-op and does not overwrite an existing maxDidToRead.
+        """
+        if value is not None:
+            self.maxDidToRead = value
+        return self
 
 
 class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):

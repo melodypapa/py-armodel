@@ -279,6 +279,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
+    DiagnosticReadDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -13979,6 +13980,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, ecu_reset_class)
         self._writeEnumToken(child_element, "RESPOND-TO-RESET", ecu_reset_class.getRespondToReset(), DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP)
 
+    def writeDiagnosticReadDataByIdentifierClass(self, element: ET.Element, read_data_by_identifier_class: DiagnosticReadDataByIdentifierClass):
+        self.logger.debug("Write DiagnosticReadDataByIdentifierClass %s" % read_data_by_identifier_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, read_data_by_identifier_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", read_data_by_identifier_class.getMaxDidToRead())
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -15191,6 +15198,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuReset(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuResetClass):
             self.writeDiagnosticEcuResetClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
+            self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):

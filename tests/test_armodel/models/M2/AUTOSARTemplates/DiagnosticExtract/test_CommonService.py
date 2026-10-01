@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
+    DiagnosticReadDataByIdentifierClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
@@ -564,4 +565,56 @@ class TestDiagnosticControlDTCSettingClass:
         assert package.getElement("Dcdtsc1", DiagnosticControlDTCSettingClass) is service_class
 
         duplicate = package.createDiagnosticControlDTCSettingClass("Dcdtsc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticReadDataByIdentifierClass:
+    """Test cases for DiagnosticReadDataByIdentifierClass class (Table 4.74, p.114)."""
+
+    DRDIBC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Read Data by Identifier" diagnostic service.'
+    MAX_DID_TO_READ_NOTE = "This attribute represents the maximum number of allowed DIDs in a single instance of DiagnosticReadDataByIdentifier."
+
+    def test_is_concrete(self):
+        service_class = DiagnosticReadDataByIdentifierClass(_pkg(), "MyRdibc")
+        assert service_class.getShortName() == "MyRdibc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticReadDataByIdentifierClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticReadDataByIdentifierClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticReadDataByIdentifierClass, ARObject)
+        assert issubclass(DiagnosticReadDataByIdentifierClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifierClass.__doc__) == self.DRDIBC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticReadDataByIdentifierClass.__init__.__doc__ is None
+
+    def test_defaults(self):
+        service_class = DiagnosticReadDataByIdentifierClass(_pkg(), "MyRdibc")
+        assert service_class.getMaxDidToRead() is None
+
+    def test_get_set_max_did_to_read(self):
+        service_class = DiagnosticReadDataByIdentifierClass(_pkg(), "MyRdibc")
+        value = PositiveInteger()
+        value.setValue("10")
+        assert service_class.setMaxDidToRead(value) is service_class
+        assert service_class.getMaxDidToRead() is value
+        assert service_class.getMaxDidToRead().getValue() == 10
+        service_class.setMaxDidToRead(None)
+        assert service_class.getMaxDidToRead() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifierClass.getMaxDidToRead.__doc__) == self.MAX_DID_TO_READ_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifierClass.setMaxDidToRead.__doc__) == (self.MAX_DID_TO_READ_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxDidToRead.")
+
+    def test_create_diagnostic_read_data_by_identifier_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticReadDataByIdentifierClass("Rdibc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticReadDataByIdentifierClass)
+        assert service_class.getShortName() == "Rdibc1"
+        assert package.getElement("Rdibc1", DiagnosticReadDataByIdentifierClass) is service_class
+
+        duplicate = package.createDiagnosticReadDataByIdentifierClass("Rdibc1")
         assert duplicate is service_class
