@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 615 | 32.3% |
+| [x] Done | 616 | 32.4% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 230 | 12.1% |
+| [ ] Deferred | 229 | 12.0% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -1499,7 +1499,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RteApiReturnValueProvisionEnum`                        | [ ] Implemented| N/A                                      | Group29          |
 | `RteEventInCompositionSeparation`                       | [ ] Created | N/A                                      | Group31          |
 | `RteEventInCompositionToOsTaskProxyMapping`             | [ ] Created | N/A                                      | Group31          |
-| `RteEventInEcuInstanceRef`                              | [ ] Deferred| N/A                                      | Group12          |
+| `RteEventInEcuInstanceRef`                              | [x] Done    | dd76ebd8bf                               | Group12          |
 | `RteEventInSystemSeparation`                            | [ ] Created | N/A                                      | Group31          |
 | `RteEventInSystemToOsTaskProxyMapping`                  | [ ] Created | N/A                                      | Group31          |
 | `RtePluginProps`                                        | [x] Done    | ec7fa0b5df                               | Group6           |
