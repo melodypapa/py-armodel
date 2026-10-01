@@ -681,14 +681,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.96, p.129
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled in FIRST (before dependent Table 4.94 DiagnosticDynamicallyDefineDataIdentifierClass —
+      dependency-first per sync convention). Literals in displayed order clearDynamicallyDefineDataIdentifier
+      (idx 0, CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER) / defineByIdentifier (idx 1, DEFINE-BY-IDENTIFIER) /
+      defineByMemoryAddress (idx 2, DEFINE-BY-MEMORY-ADDRESS); XSD SIMPLE type l.134243.
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map
+      DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP pre-registered in parser/writer for the
+      consuming attribute; consumer tests land with the Table 4.94 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadDataByPeriodicID` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.97, p.130

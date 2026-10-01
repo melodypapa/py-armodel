@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticHandleDDDIConfigurationEnum,
@@ -1959,3 +1960,45 @@ class TestDiagnosticHandleDDDIConfigurationEnum:
         enum.setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
 
         assert enum.getValue() == "nonVolatile"
+
+
+class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
+    """
+    Test class for DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.96, p.129
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["clearDynamicallyDefineDataIdentifier", "defineByIdentifier", "defineByMemoryAddress"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum member values.
+        """
+        enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
+
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER == "clearDynamicallyDefineDataIdentifier"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER == "defineByIdentifier"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_MEMORY_ADDRESS == "defineByMemoryAddress"
+
+        assert enum.validateEnumValue("clearDynamicallyDefineDataIdentifier") is True
+        assert enum.validateEnumValue("defineByIdentifier") is True
+        assert enum.validateEnumValue("defineByMemoryAddress") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum instantiability and getValue.
+        """
+        enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
+        enum.setValue(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER)
+
+        assert enum.getValue() == "defineByIdentifier"

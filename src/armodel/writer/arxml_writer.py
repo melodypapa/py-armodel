@@ -1316,6 +1316,14 @@ DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP = {
     "volatile": "VOLATILE",
 }
 
+#: Mapping between DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-SUBFUNCTION-ENUM--SIMPLE).
+DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP = {
+    "clearDynamicallyDefineDataIdentifier": "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER",
+    "defineByIdentifier": "DEFINE-BY-IDENTIFIER",
+    "defineByMemoryAddress": "DEFINE-BY-MEMORY-ADDRESS",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """

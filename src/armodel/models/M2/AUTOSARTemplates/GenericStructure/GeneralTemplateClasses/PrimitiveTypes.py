@@ -1693,7 +1693,33 @@ class DiagnosticDebounceBehaviorEnum(AREnum):
     pass
 
 class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
-    pass
+    """
+    This meta-class contains a list of possible subfunctions for the UDS service 0x2C.
+    """
+
+    # DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.96, p.129
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Clear the specified dynamic data identifier. Tags: atp.EnumerationLiteralIndex=0
+    CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER = "clearDynamicallyDefineDataIdentifier"
+
+    # The definition of dynamic data identifier shall be done via a reference to a diagnostic data identifier. Tags: atp.EnumerationLiteralIndex=1
+    DEFINE_BY_IDENTIFIER = "defineByIdentifier"
+
+    # The definition of dynamic data identifier shall be done via a reference to a memory address. Tags: atp.EnumerationLiteralIndex=2
+    DEFINE_BY_MEMORY_ADDRESS = "defineByMemoryAddress"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER,
+                DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER,
+                DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_MEMORY_ADDRESS,
+            ]
+        )
 
 class DiagnosticEventClearAllowedEnum(AREnum):
     pass
