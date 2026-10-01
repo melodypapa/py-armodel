@@ -15,7 +15,7 @@ if TYPE_CHECKING:
         String,
     )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps
 
 
 class ARObject(ABC):
@@ -241,7 +241,248 @@ class DiagnosticComControlSubNodeChannel(ARObject):
 
 
 class DiagnosticCommonProps(ARObject):
-    pass
+    """
+    This meta-class aggregates a number of common properties that are shared among a diagnostic extract.
+
+    [constr_10042] Existence of attribute DiagnosticCommonProps.defaultEndianness: One of the following conditions shall be fulfilled at the time when the DEXT is complete: DiagnosticCommonProps.defaultEndianness exists. The attribute DiagnosticParameter.dataElement.swDataDefProps.baseType.baseTypeDefinition.baseTypeEncoding exist for all DiagnosticParameters defined in the context of the DiagnosticContributionSet.
+    [constr_10043] Existence of attribute DiagnosticCommonProps.resetConfirmedBitOnOverflow: Attribute DiagnosticCommonProps.resetConfirmedBitOnOverflow shall exist at the time when the DEXT is complete.
+    [constr_10044] Existence of attribute DiagnosticCommonProps.occurrenceCounterProcessing: If, in the context of a DiagnosticContributionSet, a DiagnosticDemProvidedDataMapping exists where attribute DiagnosticDemProvidedDataMapping.dataProvider is set to the value DEM_OCCCTR, then attribute DiagnosticCommonProps.occurrenceCounterProcessing shall exist at the time when the DEXT is complete.
+    [constr_10089] Existence of attribute DiagnosticCommonProps.eventCombinationReportingBehavior: Attribute DiagnosticCommonProps.eventCombinationReportingBehavior is always optional and shall be set to the value DiagnosticEventCombinationReportingBehaviorEnum.reportingInChronlogicalOrderOldestFirst only if attribute DiagnosticCommonProps.typeOfEventCombinationSupported is set to the value DiagnosticEventCombinationBehaviorEnum.eventCombinationOnRetrieval. If it is missing, then the reporting order is not specified. This rule shall be imposed at the time when the DEXT is complete.
+    [constr_10419] Existence of the attribute DiagnosticCommonProps.resetPendingBitOnOverflow: Attribute DiagnosticCommonProps.resetPendingBitOnOverflow shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticCommonProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.19, p.65
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationTimeout                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationTimeout                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDebounceAlgorithmProps                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDebounceAlgorithmProps                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefaultEndianness                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultEndianness                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventCombinationReportingBehavior                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventCombinationReportingBehavior                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfRequestCorrectlyReceivedResponsePending [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfRequestCorrectlyReceivedResponsePending [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOccurrenceCounterProcessing                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOccurrenceCounterProcessing                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResetConfirmedBitOnOverflow                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResetConfirmedBitOnOverflow                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResetPendingBitOnOverflow                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResetPendingBitOnOverflow                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnAllRequestSids                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnAllRequestSids                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnSecondDeclinedRequest                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnSecondDeclinedRequest                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeOfEventCombinationSupported                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeOfEventCombinationSupported                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the time (in seconds) that the authentication state is maintained in default-session if there is no communication from the authenticated client.
+        self.authenticationTimeout: Optional[TimeValue] = None
+
+        # Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. Usually, there is a variety of debouncing algorithms to take into account and therefore the multiplicity of this aggregation is set to 0..*.
+        self.debounceAlgorithmProps: List[DiagnosticDebounceAlgorithmProps] = []
+
+        # Defines the default endianness of the data belonging to a DID or RID which is applicable if the DiagnosticDataElement does not define the endianness via the swDataDefProps.baseType attribute.
+        self.defaultEndianness: Optional[ByteOrderEnum] = None
+
+        # In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained.
+        self.eventCombinationReportingBehavior: Optional[DiagnosticEventCombinationReportingBehaviorEnum] = None
+
+        # Maximum number of negative responses with response code 0x78 (requestCorrectlyReceived-ResponsePending) allowed per request. DCM will send a negative response with response code 0x10 (generalReject), in case the limit value gets reached. Value 0xFF means that no limit number of NRC 0x78 response apply.
+        self.maxNumberOfRequestCorrectlyReceivedResponsePending: Optional[PositiveInteger] = None
+
+        # This attribute defines the consideration of the fault confirmation process for the occurrence counter.
+        self.occurrenceCounterProcessing: Optional[DiagnosticOccurrenceCounterProcessingEnum] = None
+
+        # This attribute defines, whether the confirmed bit is reset or not while an event memory entry will be displaced.
+        self.resetConfirmedBitOnOverflow: Optional[Boolean] = None
+
+        # This attribute defines, whether the pending bit is reset or not while an event memory entry will be displaced. In order to be compliant to ISO 14229-1 [1], this parameter needs to be set to "false".
+        self.resetPendingBitOnOverflow: Optional[Boolean] = None
+
+        # If set to FALSE the DCM will not respond to diagnostic request that contains a service ID which is in the range from 0x40 to 0x7F or in the range from 0xC0 to 0xFF (Response IDs).
+        self.responseOnAllRequestSids: Optional[Boolean] = None
+
+        # Defines the reaction upon a second request (ClientB) that can not be processed (e.g. due to priority assessment). TRUE: when the second request (Client B) can not be processed, it shall be answered with NRC21 BusyRepeat Request. FALSE: when the second request (Client B) can not be processed, it shall not be responded.
+        self.responseOnSecondDeclinedRequest: Optional[Boolean] = None
+
+        # Select type of Event Combination support.
+        self.typeOfEventCombinationSupported: Optional[DiagnosticEventCombinationBehaviorEnum] = None
+
+    def getAuthenticationTimeout(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the time (in seconds) that the authentication state is maintained in default-session if there is no communication from the authenticated client.
+        """
+        return self.authenticationTimeout
+
+    def setAuthenticationTimeout(self, value: Optional[TimeValue]) -> DiagnosticCommonProps:
+        """
+        This attribute defines the time (in seconds) that the authentication state is maintained in default-session if there is no communication from the authenticated client.
+        A None value is a no-op and does not overwrite an existing authenticationTimeout.
+        """
+        if value is not None:
+            self.authenticationTimeout = value
+        return self
+
+    def createDebounceAlgorithmProps(self, short_name: str) -> DiagnosticDebounceAlgorithmProps:
+        """
+        Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. Usually, there is a variety of debouncing algorithms to take into account and therefore the multiplicity of this aggregation is set to 0..*.
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps
+
+        for props in self.debounceAlgorithmProps:
+            if props.getShortName() == short_name:
+                return props
+        props = DiagnosticDebounceAlgorithmProps(self, short_name)
+        self.debounceAlgorithmProps.append(props)
+        return props
+
+    def getDebounceAlgorithmProps(self) -> List[DiagnosticDebounceAlgorithmProps]:
+        """
+        Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. Usually, there is a variety of debouncing algorithms to take into account and therefore the multiplicity of this aggregation is set to 0..*.
+        """
+        return self.debounceAlgorithmProps
+
+    def getDefaultEndianness(self) -> Optional[ByteOrderEnum]:
+        """
+        Defines the default endianness of the data belonging to a DID or RID which is applicable if the DiagnosticDataElement does not define the endianness via the swDataDefProps.baseType attribute.
+        """
+        return self.defaultEndianness
+
+    def setDefaultEndianness(self, value: Optional[ByteOrderEnum]) -> DiagnosticCommonProps:
+        """
+        Defines the default endianness of the data belonging to a DID or RID which is applicable if the DiagnosticDataElement does not define the endianness via the swDataDefProps.baseType attribute.
+        A None value is a no-op and does not overwrite an existing defaultEndianness.
+        """
+        if value is not None:
+            self.defaultEndianness = value
+        return self
+
+    def getEventCombinationReportingBehavior(self) -> Optional[DiagnosticEventCombinationReportingBehaviorEnum]:
+        """
+        In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained.
+        """
+        return self.eventCombinationReportingBehavior
+
+    def setEventCombinationReportingBehavior(self, value: Optional[DiagnosticEventCombinationReportingBehaviorEnum]) -> DiagnosticCommonProps:
+        """
+        In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained.
+        A None value is a no-op and does not overwrite an existing eventCombinationReportingBehavior.
+        """
+        if value is not None:
+            self.eventCombinationReportingBehavior = value
+        return self
+
+    def getMaxNumberOfRequestCorrectlyReceivedResponsePending(self) -> Optional[PositiveInteger]:
+        """
+        Maximum number of negative responses with response code 0x78 (requestCorrectlyReceived-ResponsePending) allowed per request. DCM will send a negative response with response code 0x10 (generalReject), in case the limit value gets reached. Value 0xFF means that no limit number of NRC 0x78 response apply.
+        """
+        return self.maxNumberOfRequestCorrectlyReceivedResponsePending
+
+    def setMaxNumberOfRequestCorrectlyReceivedResponsePending(self, value: Optional[PositiveInteger]) -> DiagnosticCommonProps:
+        """
+        Maximum number of negative responses with response code 0x78 (requestCorrectlyReceived-ResponsePending) allowed per request. DCM will send a negative response with response code 0x10 (generalReject), in case the limit value gets reached. Value 0xFF means that no limit number of NRC 0x78 response apply.
+        A None value is a no-op and does not overwrite an existing maxNumberOfRequestCorrectlyReceivedResponsePending.
+        """
+        if value is not None:
+            self.maxNumberOfRequestCorrectlyReceivedResponsePending = value
+        return self
+
+    def getOccurrenceCounterProcessing(self) -> Optional[DiagnosticOccurrenceCounterProcessingEnum]:
+        """
+        This attribute defines the consideration of the fault confirmation process for the occurrence counter.
+        """
+        return self.occurrenceCounterProcessing
+
+    def setOccurrenceCounterProcessing(self, value: Optional[DiagnosticOccurrenceCounterProcessingEnum]) -> DiagnosticCommonProps:
+        """
+        This attribute defines the consideration of the fault confirmation process for the occurrence counter.
+        A None value is a no-op and does not overwrite an existing occurrenceCounterProcessing.
+        """
+        if value is not None:
+            self.occurrenceCounterProcessing = value
+        return self
+
+    def getResetConfirmedBitOnOverflow(self) -> Optional[Boolean]:
+        """
+        This attribute defines, whether the confirmed bit is reset or not while an event memory entry will be displaced.
+        """
+        return self.resetConfirmedBitOnOverflow
+
+    def setResetConfirmedBitOnOverflow(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        This attribute defines, whether the confirmed bit is reset or not while an event memory entry will be displaced.
+        A None value is a no-op and does not overwrite an existing resetConfirmedBitOnOverflow.
+        """
+        if value is not None:
+            self.resetConfirmedBitOnOverflow = value
+        return self
+
+    def getResetPendingBitOnOverflow(self) -> Optional[Boolean]:
+        """
+        This attribute defines, whether the pending bit is reset or not while an event memory entry will be displaced. In order to be compliant to ISO 14229-1 [1], this parameter needs to be set to "false".
+        """
+        return self.resetPendingBitOnOverflow
+
+    def setResetPendingBitOnOverflow(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        This attribute defines, whether the pending bit is reset or not while an event memory entry will be displaced. In order to be compliant to ISO 14229-1 [1], this parameter needs to be set to "false".
+        A None value is a no-op and does not overwrite an existing resetPendingBitOnOverflow.
+        """
+        if value is not None:
+            self.resetPendingBitOnOverflow = value
+        return self
+
+    def getResponseOnAllRequestSids(self) -> Optional[Boolean]:
+        """
+        If set to FALSE the DCM will not respond to diagnostic request that contains a service ID which is in the range from 0x40 to 0x7F or in the range from 0xC0 to 0xFF (Response IDs).
+        """
+        return self.responseOnAllRequestSids
+
+    def setResponseOnAllRequestSids(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        If set to FALSE the DCM will not respond to diagnostic request that contains a service ID which is in the range from 0x40 to 0x7F or in the range from 0xC0 to 0xFF (Response IDs).
+        A None value is a no-op and does not overwrite an existing responseOnAllRequestSids.
+        """
+        if value is not None:
+            self.responseOnAllRequestSids = value
+        return self
+
+    def getResponseOnSecondDeclinedRequest(self) -> Optional[Boolean]:
+        """
+        Defines the reaction upon a second request (ClientB) that can not be processed (e.g. due to priority assessment). TRUE: when the second request (Client B) can not be processed, it shall be answered with NRC21 BusyRepeat Request. FALSE: when the second request (Client B) can not be processed, it shall not be responded.
+        """
+        return self.responseOnSecondDeclinedRequest
+
+    def setResponseOnSecondDeclinedRequest(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
+        """
+        Defines the reaction upon a second request (ClientB) that can not be processed (e.g. due to priority assessment). TRUE: when the second request (Client B) can not be processed, it shall be answered with NRC21 BusyRepeat Request. FALSE: when the second request (Client B) can not be processed, it shall not be responded.
+        A None value is a no-op and does not overwrite an existing responseOnSecondDeclinedRequest.
+        """
+        if value is not None:
+            self.responseOnSecondDeclinedRequest = value
+        return self
+
+    def getTypeOfEventCombinationSupported(self) -> Optional[DiagnosticEventCombinationBehaviorEnum]:
+        """
+        Select type of Event Combination support.
+        """
+        return self.typeOfEventCombinationSupported
+
+    def setTypeOfEventCombinationSupported(self, value: Optional[DiagnosticEventCombinationBehaviorEnum]) -> DiagnosticCommonProps:
+        """
+        Select type of Event Combination support.
+        A None value is a no-op and does not overwrite an existing typeOfEventCombinationSupported.
+        """
+        if value is not None:
+            self.typeOfEventCombinationSupported = value
+        return self
 
 
 class DiagnosticConnectedIndicator(ARObject):
@@ -905,4 +1146,12 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 # PositiveInteger name needed by DiagnosticAbstractParameter's annotations must be bound
 # at the bottom, after every class above is defined. Placed here so get_type_hints can
 # resolve the bitOffset/parameterSize annotations at runtime on Python 3.8.
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
+    Boolean,
+    ByteOrderEnum,
+    DiagnosticEventCombinationBehaviorEnum,
+    DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticOccurrenceCounterProcessingEnum,
+    PositiveInteger,
+    TimeValue,
+)

@@ -369,7 +369,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticParameter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticCommonProps, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -1206,6 +1206,27 @@ DTC_KIND_XML_MAP = {
 DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP = {
     "confirmedDtcBit": "CONFIRMED-DTC-BIT",
     "testFailedBit": "TEST-FAILED-BIT",
+}
+
+#: Mapping between ByteOrderEnum literal values and their XML element text
+#: (AR:BYTE-ORDER-ENUM--SIMPLE).
+BYTE_ORDER_XML_MAP = {
+    "mostSignificantByteFirst": "MOST-SIGNIFICANT-BYTE-FIRST",
+    "mostSignificantByteLast": "MOST-SIGNIFICANT-BYTE-LAST",
+    "opaque": "OPAQUE",
+}
+
+#: Mapping between DiagnosticEventCombinationBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-COMBINATION-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP = {
+    "eventCombinationOnRetrieval": "EVENT-COMBINATION-ON-RETRIEVAL",
+    "eventCombinationOnStorage": "EVENT-COMBINATION-ON-STORAGE",
+}
+
+#: Mapping between DiagnosticEventCombinationReportingBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-COMBINATION-REPORTING-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP = {
+    "reportingInChronlogicalOrderOldestFirst": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
 }
 
 
@@ -13526,12 +13547,35 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-REF", connection.getResponseOnEventRef())
 
+    def writeDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
+        self.logger.debug("Write DiagnosticCommonProps")
+        child_element = ET.SubElement(element, "COMMON-PROPERTIES")
+        self.writeARObject(child_element, common_props)
+        variants_tag = ET.SubElement(child_element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS")
+        conditional_tag = ET.SubElement(variants_tag, "DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
+        self.setChildElementOptionalTimeValue(conditional_tag, "AUTHENTICATION-TIMEOUT", common_props.getAuthenticationTimeout())
+        debounce_props = common_props.getDebounceAlgorithmProps()
+        if len(debounce_props) > 0:
+            debounce_tag = ET.SubElement(conditional_tag, "DEBOUNCE-ALGORITHM-PROPSS")
+            for item in debounce_props:
+                item_element = ET.SubElement(debounce_tag, "DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS")
+                self.writeIdentifiable(item_element, item)
+        self._writeEnumToken(conditional_tag, "DEFAULT-ENDIANNESS", common_props.getDefaultEndianness(), BYTE_ORDER_XML_MAP)
+        self._writeEnumToken(conditional_tag, "EVENT-COMBINATION-REPORTING-BEHAVIOR", common_props.getEventCombinationReportingBehavior(), DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(conditional_tag, "MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING", common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending())
+        self._writeEnumToken(conditional_tag, "OCCURRENCE-COUNTER-PROCESSING", common_props.getOccurrenceCounterProcessing(), DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP)
+        self.setChildElementOptionalBooleanValue(conditional_tag, "RESET-CONFIRMED-BIT-ON-OVERFLOW", common_props.getResetConfirmedBitOnOverflow())
+        self.setChildElementOptionalBooleanValue(conditional_tag, "RESET-PENDING-BIT-ON-OVERFLOW", common_props.getResetPendingBitOnOverflow())
+        self.setChildElementOptionalBooleanValue(conditional_tag, "RESPONSE-ON-ALL-REQUEST-SIDS", common_props.getResponseOnAllRequestSids())
+        self.setChildElementOptionalBooleanValue(conditional_tag, "RESPONSE-ON-SECOND-DECLINED-REQUEST", common_props.getResponseOnSecondDeclinedRequest())
+        self._writeEnumToken(conditional_tag, "TYPE-OF-EVENT-COMBINATION-SUPPORTED", common_props.getTypeOfEventCombinationSupported(), DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP)
+
     def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
         self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
         self.writeIdentifiable(child_element, contribution_set)
         if contribution_set.getCommonProperties() is not None:
-            ET.SubElement(child_element, "COMMON-PROPERTIES")
+            self.writeDiagnosticCommonProps(child_element, contribution_set.getCommonProperties())
         element_refs = contribution_set.getElementRefs()
         if len(element_refs) > 0:
             elements_tag = ET.SubElement(child_element, "ELEMENTS")

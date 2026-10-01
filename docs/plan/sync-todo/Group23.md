@@ -813,15 +813,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticCommonProps` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.19, p.65
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base = `ARObject`; 11 attrs in displayed order (authenticationTimeout,
+    debounceAlgorithmProps `*` aggr → create/get, defaultEndianness,
+    eventCombinationReportingBehavior, maxNumberOfRequestCorrectlyReceivedResponsePending,
+    occurrenceCounterProcessing, resetConfirmedBitOnOverflow, resetPendingBitOnOverflow,
+    responseOnAllRequestSids, responseOnSecondDeclinedRequest,
+    typeOfEventCombinationSupported); <<atpVariation>> class → attrs serialize
+    inside VARIANTS/CONDITIONAL (transparent, no Conditional model); XSD-only /
+    removed attrs not modeled (Rule 0015); enum token maps registered
+    (BYTE_ORDER, EVENT_COMBINATION(_REPORTING), OCCURRENCE_COUNTER_PROCESSING);
+    DiagnosticContributionSet COMMON-PROPERTIES placeholder replaced with the
+    real reader/writer. Synced after its member enum
+    DiagnosticOccurrenceCounterProcessingEnum (dependency-first swap).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (32 passed / 0 failed test_ArObject.py + test_diagnostic_common_props.py + test_writer_diagnostic_common_props.py; DCS round-trip files re-green); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DiagnosticOccurrenceCounterProcessingEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.20, p.66
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

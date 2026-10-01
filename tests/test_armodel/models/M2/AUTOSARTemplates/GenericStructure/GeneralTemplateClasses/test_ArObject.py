@@ -10,14 +10,19 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     DiagnosticAbstractParameter,
+    DiagnosticCommonProps,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    ByteOrderEnum,
     DateTime,
+    DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
     String,
+    TimeValue,
 )
 
 
@@ -240,3 +245,198 @@ class TestDiagnosticAbstractParameter:
         assert element.getDataElement() is None
         assert element.getParameterSize() is None
         assert element.getShortName() == "Elem1"
+
+
+class TestDiagnosticCommonProps:
+    """
+    Test class for DiagnosticCommonProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.19, p.65
+    (DiagnosticEventCombinationReportingBehaviorEnum and
+    DiagnosticEventCombinationBehaviorEnum are un-synced stubs queued for later
+    batch rows — the eventCombinationReportingBehavior and
+    typeOfEventCombinationSupported setters get typed-value coverage with their
+    syncs; here only the defaults are asserted.)
+    """
+
+    def _create_props(self) -> DiagnosticCommonProps:
+        return DiagnosticCommonProps()
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticCommonProps is initialized with the spec defaults.
+        """
+        obj = self._create_props()
+
+        assert obj.getAuthenticationTimeout() is None
+        assert obj.getDebounceAlgorithmProps() == []
+        assert obj.getDefaultEndianness() is None
+        assert obj.getEventCombinationReportingBehavior() is None
+        assert obj.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is None
+        assert obj.getOccurrenceCounterProcessing() is None
+        assert obj.getResetConfirmedBitOnOverflow() is None
+        assert obj.getResetPendingBitOnOverflow() is None
+        assert obj.getResponseOnAllRequestSids() is None
+        assert obj.getResponseOnSecondDeclinedRequest() is None
+        assert obj.getTypeOfEventCombinationSupported() is None
+
+    def test_get_set_authentication_timeout(self):
+        """
+        Test getAuthenticationTimeout and setAuthenticationTimeout round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        timeout = TimeValue()
+        timeout.setValue(0.5)
+        result = obj.setAuthenticationTimeout(timeout)
+        assert result is obj  # method chaining
+        assert obj.getAuthenticationTimeout() is timeout
+
+        result = obj.setAuthenticationTimeout(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthenticationTimeout() is timeout  # None is a no-op
+
+    def test_create_debounce_algorithm_props(self):
+        """
+        Test createDebounceAlgorithmProps creates, appends and returns the existing one for a duplicate short name.
+        """
+        obj = self._create_props()
+
+        props = obj.createDebounceAlgorithmProps("Deb1")
+        assert props is not None
+        assert isinstance(props, DiagnosticDebounceAlgorithmProps)
+        assert props.getShortName() == "Deb1"
+        assert props.getParent() is obj
+        assert obj.getDebounceAlgorithmProps() == [props]
+
+        duplicate = obj.createDebounceAlgorithmProps("Deb1")
+        assert duplicate is props  # duplicate short name returns the existing element
+
+    def test_get_set_default_endianness(self):
+        """
+        Test getDefaultEndianness and setDefaultEndianness round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        endianness = ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE)
+        result = obj.setDefaultEndianness(endianness)
+        assert result is obj  # method chaining
+        assert obj.getDefaultEndianness() is endianness
+        assert obj.getDefaultEndianness().getValue() == "opaque"
+
+        result = obj.setDefaultEndianness(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDefaultEndianness() is endianness  # None is a no-op
+
+    def test_get_set_max_number_of_request_correctly_received_response_pending(self):
+        """
+        Test getMaxNumberOfRequestCorrectlyReceivedResponsePending and its setter round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        max_number = PositiveInteger()
+        max_number.setValue("10")
+        result = obj.setMaxNumberOfRequestCorrectlyReceivedResponsePending(max_number)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is max_number
+        assert obj.getMaxNumberOfRequestCorrectlyReceivedResponsePending().getValue() == 10
+
+        result = obj.setMaxNumberOfRequestCorrectlyReceivedResponsePending(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is max_number  # None is a no-op
+
+    def test_get_set_occurrence_counter_processing(self):
+        """
+        Test getOccurrenceCounterProcessing and setOccurrenceCounterProcessing round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        processing = DiagnosticOccurrenceCounterProcessingEnum().setValue(DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT)
+        result = obj.setOccurrenceCounterProcessing(processing)
+        assert result is obj  # method chaining
+        assert obj.getOccurrenceCounterProcessing() is processing
+        assert obj.getOccurrenceCounterProcessing().getValue() == "confirmedDtcBit"
+
+        result = obj.setOccurrenceCounterProcessing(None)
+        assert result is obj  # method chaining with None
+        assert obj.getOccurrenceCounterProcessing() is processing  # None is a no-op
+
+    def test_get_set_reset_confirmed_bit_on_overflow(self):
+        """
+        Test getResetConfirmedBitOnOverflow and setResetConfirmedBitOnOverflow round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setResetConfirmedBitOnOverflow(value)
+        assert result is obj  # method chaining
+        assert obj.getResetConfirmedBitOnOverflow() is value
+
+        result = obj.setResetConfirmedBitOnOverflow(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResetConfirmedBitOnOverflow() is value  # None is a no-op
+
+    def test_get_set_reset_pending_bit_on_overflow(self):
+        """
+        Test getResetPendingBitOnOverflow and setResetPendingBitOnOverflow round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = Boolean()
+        value.setValue(False)
+        result = obj.setResetPendingBitOnOverflow(value)
+        assert result is obj  # method chaining
+        assert obj.getResetPendingBitOnOverflow() is value
+
+        result = obj.setResetPendingBitOnOverflow(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResetPendingBitOnOverflow() is value  # None is a no-op
+
+    def test_get_set_response_on_all_request_sids(self):
+        """
+        Test getResponseOnAllRequestSids and setResponseOnAllRequestSids round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = Boolean()
+        value.setValue(False)
+        result = obj.setResponseOnAllRequestSids(value)
+        assert result is obj  # method chaining
+        assert obj.getResponseOnAllRequestSids() is value
+
+        result = obj.setResponseOnAllRequestSids(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseOnAllRequestSids() is value  # None is a no-op
+
+    def test_setter_none_no_ops_for_pending_enums(self):
+        """
+        Test that the eventCombinationReportingBehavior and typeOfEventCombinationSupported
+        setters chain and treat None as a no-op (typed-value coverage lands with the
+        DiagnosticEventCombinationReportingBehaviorEnum / DiagnosticEventCombinationBehaviorEnum syncs).
+        """
+        obj = self._create_props()
+
+        result = obj.setEventCombinationReportingBehavior(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventCombinationReportingBehavior() is None
+
+        result = obj.setTypeOfEventCombinationSupported(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTypeOfEventCombinationSupported() is None
+
+    def test_get_set_response_on_second_declined_request(self):
+        """
+        Test getResponseOnSecondDeclinedRequest and setResponseOnSecondDeclinedRequest round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setResponseOnSecondDeclinedRequest(value)
+        assert result is obj  # method chaining
+        assert obj.getResponseOnSecondDeclinedRequest() is value
+
+        result = obj.setResponseOnSecondDeclinedRequest(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseOnSecondDeclinedRequest() is value  # None is a no-op
