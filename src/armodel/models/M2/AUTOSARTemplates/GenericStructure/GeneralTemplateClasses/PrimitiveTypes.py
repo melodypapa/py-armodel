@@ -1757,7 +1757,37 @@ class DiagnosticHandleDDDIConfigurationEnum(AREnum):
     pass
 
 class DiagnosticInhibitionMaskEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to define different kinds of inhibition mask behavior.
+    """
+
+    # DiagnosticInhibitionMaskEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.217, p.216
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This represents the inhibition mask behavior "last failed". Tags: atp.EnumerationLiteralIndex=0
+    LAST_FAILED = "lastFailed"
+
+    # This represents the inhibition mask behavior "not tested". Tags: atp.EnumerationLiteralIndex=1
+    NOT_TESTED = "notTested"
+
+    # This represents the inhibition mask behavior "tested". Tags: atp.EnumerationLiteralIndex=3
+    TESTED = "tested"
+
+    # This represents the inhibition mask behavior "tested and failed". Tags: atp.EnumerationLiteralIndex=2
+    TESTED_AND_FAILED = "testedAndFailed"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticInhibitionMaskEnum.LAST_FAILED,
+                DiagnosticInhibitionMaskEnum.NOT_TESTED,
+                DiagnosticInhibitionMaskEnum.TESTED,
+                DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED,
+            ]
+        )
 
 class DiagnosticIumprKindEnum(AREnum):
     pass
