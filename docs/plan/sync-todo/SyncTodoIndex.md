@@ -607,25 +607,25 @@ Status: **24/24** completed
 
 ## Group12
 
-Status: **14/15** completed
+Status: **15/15** completed
 
-| Class Name                           | Status       | Commit ID  |
-| ------------------------------------ | ------------ | ---------- |
-| `ParameterAccess`                    | [x] Done     | 3b9f111270 |
-| `VariableAccessScopeEnum`            | [x] Done     | 12e743cc9b |
-| `VariableAccess`                     | [x] Done     | 12e743cc9b |
-| `InternalTriggeringPoint`            | [x] Done     | 96033eb3fe |
-| `ModeAccessPoint`                    | [x] Done     | 543d9df4e7 |
-| `ModeSwitchPoint`                    | [x] Done     | 1037222ee7 |
-| `AsynchronousServerCallReturnsEvent` | [x] Done     | a706fd368b |
-| `DataReceiveErrorEvent`              | [x] Done     | b5ead83e20 |
-| `DataReceivedEvent`                  | [x] Done     | 5d23170856 |
-| `DataSendCompletedEvent`             | [x] Done     | 57e1abeea2 |
-| `DataWriteCompletedEvent`            | [x] Done     | df2a6b3a70 |
-| `InternalTriggerOccurredEvent`       | [x] Done     | ac0bbe5799 |
-| `OperationInvokedEvent`              | [x] Done     | e607622c82 |
-| `RteEventInEcuInstanceRef`           | [x] Done     | dd76ebd8bf |
-| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A        |
+| Class Name                           | Status   | Commit ID  |
+| ------------------------------------ | -------- | ---------- |
+| `ParameterAccess`                    | [x] Done | 3b9f111270 |
+| `VariableAccessScopeEnum`            | [x] Done | 12e743cc9b |
+| `VariableAccess`                     | [x] Done | 12e743cc9b |
+| `InternalTriggeringPoint`            | [x] Done | 96033eb3fe |
+| `ModeAccessPoint`                    | [x] Done | 543d9df4e7 |
+| `ModeSwitchPoint`                    | [x] Done | 1037222ee7 |
+| `AsynchronousServerCallReturnsEvent` | [x] Done | a706fd368b |
+| `DataReceiveErrorEvent`              | [x] Done | b5ead83e20 |
+| `DataReceivedEvent`                  | [x] Done | 5d23170856 |
+| `DataSendCompletedEvent`             | [x] Done | 57e1abeea2 |
+| `DataWriteCompletedEvent`            | [x] Done | df2a6b3a70 |
+| `InternalTriggerOccurredEvent`       | [x] Done | ac0bbe5799 |
+| `OperationInvokedEvent`              | [x] Done | e607622c82 |
+| `RteEventInEcuInstanceRef`           | [x] Done | dd76ebd8bf |
+| `VariableAccessInEcuInstanceRef`     | [x] Done | b52183a6b4 |
 
 ## Group13
 

@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 616 | 32.4% |
+| [x] Done | 617 | 32.4% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 229 | 12.0% |
+| [ ] Deferred | 228 | 12.0% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -1894,7 +1894,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ValueRestrictionWithSeverity`                          | [ ] Created | N/A                                      | Group36          |
 | `ValueSpecification`                                    | [ ] Implemented| N/A                                      | Group28          |
 | `VariableAccess`                                        | [x] Done    | 12e743cc9b                               | Group12          |
-| `VariableAccessInEcuInstanceRef`                        | [ ] Deferred| N/A                                      | Group12          |
+| `VariableAccessInEcuInstanceRef`                        | [x] Done    | b52183a6b4                               | Group12          |
 | `VariableAccessScopeEnum`                               | [x] Done    | 12e743cc9b                               | Group12          |
 | `VariableAndParameterInterfaceMapping`                  | [x] Done    | 0e87cc4bb9                               | Group11          |
 | `VariableDataPrototype`                                 | [x] Done    | d3b5d680e2                               | Group2           |
