@@ -1080,13 +1080,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticSessionControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.47, p.93
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): own table = DEXT Table 4.47 (md body L2676-2684, trailing caption L2674); Base
+      most-derived = `ARElement` (chain's DiagnosticServiceInstance contributes no modeled members —
+      ARElement-only sibling precedent DiagnosticProtocol); attrs `diagnosticSession` (ref →
+      `diagnosticSessionRef`), `sessionControlClass` (ref → `sessionControlClassRef`), both 0..1 RefType.
+    - note (Step 6): ARPackage element dispatch per the 5-place pattern (createDiagnosticSessionControl
+      factory + readARPackageElements DIAGNOSTIC-SESSION-CONTROL branch + writeARPackageElement isinstance
+      branch); wire order per XSD group L44381 — DIAGNOSTIC-SESSION-REF then SESSION-CONTROL-CLASS-REF;
+      base groups DIAGNOSTIC-COMMON-ELEMENT / DIAGNOSTIC-SERVICE-INSTANCE serialize nothing (the
+      <<atpDerived>> serviceClass association is skipped by the XSD group).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (14 passed / 0 failed test_ARPackage.py::TestDiagnosticSessionControl, tests/test_armodel/parser/test_diagnostic_session_control.py, tests/test_armodel/writer/test_writer_diagnostic_session_control.py); 9b deferred to batch confirmation (user instruction)
 

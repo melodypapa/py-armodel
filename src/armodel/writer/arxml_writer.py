@@ -378,6 +378,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
+    DiagnosticSessionControl,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticAbstractParameter, DiagnosticCommonProps, DiagnosticParameter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13752,6 +13753,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "P-2-SERVER-MAX", session.getP2ServerMax())
         self.setChildElementOptionalTimeValue(child_element, "P-2-STAR-SERVER-MAX", session.getP2StarServerMax())
 
+    def writeDiagnosticSessionControl(self, element: ET.Element, session_control: DiagnosticSessionControl):
+        self.logger.debug("Write DiagnosticSessionControl %s" % session_control.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SESSION-CONTROL")
+        self.writeIdentifiable(child_element, session_control)
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-SESSION-REF", session_control.getDiagnosticSessionRef())
+        self.setChildElementOptionalRefType(child_element, "SESSION-CONTROL-CLASS-REF", session_control.getSessionControlClassRef())
+
     def writeDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
         self.logger.debug("Write DiagnosticSecurityLevel %s" % security_level.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-LEVEL")
@@ -14811,6 +14819,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSessionControl):
+            self.writeDiagnosticSessionControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):
             self.writeDiagnosticSecurityLevel(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnvironmentalCondition):

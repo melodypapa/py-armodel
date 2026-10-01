@@ -498,6 +498,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticProtocol,
+    DiagnosticSessionControl,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -10563,6 +10564,12 @@ class ARXMLParser(AbstractARXMLParser):
         session.setP2ServerMax(self.getChildElementOptionalTimeValue(element, "P-2-SERVER-MAX"))
         session.setP2StarServerMax(self.getChildElementOptionalTimeValue(element, "P-2-STAR-SERVER-MAX"))
 
+    def readDiagnosticSessionControl(self, element: ET.Element, session_control: DiagnosticSessionControl):
+        self.logger.debug("Read DiagnosticSessionControl <%s>" % session_control.getShortName())
+        self.readIdentifiable(element, session_control)
+        session_control.setDiagnosticSessionRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-SESSION-REF"))
+        session_control.setSessionControlClassRef(self.getChildElementOptionalRefType(element, "SESSION-CONTROL-CLASS-REF"))
+
     def readDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
         self.logger.debug("Read DiagnosticSecurityLevel <%s>" % security_level.getShortName())
         self.readIdentifiable(element, security_level)
@@ -15193,6 +15200,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)
+            elif tag_name == "DIAGNOSTIC-SESSION-CONTROL":
+                session_control = parent.createDiagnosticSessionControl(self.getShortName(child_element))
+                self.readDiagnosticSessionControl(child_element, session_control)
             elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
                 security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
                 self.readDiagnosticSecurityLevel(child_element, security_level)

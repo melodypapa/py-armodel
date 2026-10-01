@@ -1660,6 +1660,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(session)
         return self.getElement(short_name, DiagnosticSession)
 
+    def createDiagnosticSessionControl(self, short_name: str) -> DiagnosticSessionControl:
+        """
+        Creates a new DiagnosticSessionControl with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSessionControl represents an instance of the "Session
+        Control" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticSessionControl
+
+        Returns:
+            The newly created or existing DiagnosticSessionControl instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSessionControl):
+            session_control = DiagnosticSessionControl(self, short_name)
+            self.addElement(session_control)
+        return self.getElement(short_name, DiagnosticSessionControl)
+
     def createDiagnosticSecurityLevel(self, short_name: str) -> DiagnosticSecurityLevel:
         """
         Creates a new DiagnosticSecurityLevel with the given short name,
@@ -3354,7 +3373,57 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
 
 
 class DiagnosticSessionControl(ARElement):
-    pass
+    """This represents an instance of the "Session Control" diagnostic service."""
+
+    # DiagnosticSessionControl method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.47, p.93
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticSessionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticSessionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSessionControlClassRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSessionControlClassRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable DiagnosticSessions
+        self.diagnosticSessionRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSessionControl in the given context.
+        self.sessionControlClassRef: Optional[RefType] = None
+
+    def getDiagnosticSessionRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable DiagnosticSessions
+        """
+        return self.diagnosticSessionRef
+
+    def setDiagnosticSessionRef(self, value: Optional[RefType]):
+        """
+        This represents the applicable DiagnosticSessions
+
+        A None value is a no-op and does not overwrite an existing diagnosticSessionRef.
+        """
+        if value is not None:
+            self.diagnosticSessionRef = value
+        return self
+
+    def getSessionControlClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSessionControl in the given context.
+        """
+        return self.sessionControlClassRef
+
+    def setSessionControlClassRef(self, value: Optional[RefType]):
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSessionControl in the given context.
+
+        A None value is a no-op and does not overwrite an existing sessionControlClassRef.
+        """
+        if value is not None:
+            self.sessionControlClassRef = value
+        return self
 
 
 class DiagnosticStorageCondition(DiagnosticCondition):

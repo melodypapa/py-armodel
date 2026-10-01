@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticMapping,
     DiagnosticProtocol,
+    DiagnosticSessionControl,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
@@ -1994,3 +1995,106 @@ class TestDiagnosticAuthRole:
 
         duplicate = package.createDiagnosticAuthRole("Role1")
         assert duplicate is auth_role  # duplicate short name returns the existing element
+
+
+class TestDiagnosticSessionControl:
+    """
+    Test class for DiagnosticSessionControl functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.47, p.93
+    """
+
+    SESSION_CONTROL_NOTE = 'This represents an instance of the "Session Control" diagnostic service.'
+    DIAGNOSTIC_SESSION_NOTE = "This represents the applicable DiagnosticSessions"
+    SESSION_CONTROL_CLASS_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticSessionControl in the given context."
+
+    def _create_session_control(self) -> DiagnosticSessionControl:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticSessionControl(ar_root, "TestSessionControl")
+
+    def test_initialization(self):
+        """
+        Test that DiagnosticSessionControl is initialized with the spec defaults.
+        """
+        obj = self._create_session_control()
+
+        assert obj.getShortName() == "TestSessionControl"
+        assert isinstance(obj, ARElement)
+        assert obj.getDiagnosticSessionRef() is None
+        assert obj.getSessionControlClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (Tags tail dropped).
+        """
+        assert DiagnosticSessionControl.__doc__ == self.SESSION_CONTROL_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticSessionControl.__init__.__doc__ is None
+
+    def test_get_set_diagnostic_session_ref(self):
+        """
+        Test that get/set diagnosticSessionRef chain and treat None as a no-op.
+        """
+        obj = self._create_session_control()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-SESSION")
+        ref.setValue("/AUTOSAR/DiagnosticSessions/DefaultSession")
+        result = obj.setDiagnosticSessionRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDiagnosticSessionRef() is ref
+
+        result = obj.setDiagnosticSessionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDiagnosticSessionRef() is ref  # None is a no-op
+
+    def test_get_set_session_control_class_ref(self):
+        """
+        Test that get/set sessionControlClassRef chain and treat None as a no-op.
+        """
+        obj = self._create_session_control()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-SESSION-CONTROL-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticSessionControls/SessionControlClass")
+        result = obj.setSessionControlClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getSessionControlClassRef() is ref
+
+        result = obj.setSessionControlClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSessionControlClassRef() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that the accessor docstrings are the spec Notes verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticSessionControl.getDiagnosticSessionRef.__doc__) == self.DIAGNOSTIC_SESSION_NOTE
+        assert inspect.cleandoc(DiagnosticSessionControl.setDiagnosticSessionRef.__doc__) == (
+            self.DIAGNOSTIC_SESSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing diagnosticSessionRef."
+        )
+        assert inspect.cleandoc(DiagnosticSessionControl.getSessionControlClassRef.__doc__) == self.SESSION_CONTROL_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticSessionControl.setSessionControlClassRef.__doc__) == (
+            self.SESSION_CONTROL_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing sessionControlClassRef."
+        )
+
+    def test_create_diagnostic_session_control(self):
+        """
+        Test createDiagnosticSessionControl creates, appends and returns the existing one for a duplicate short name.
+        """
+        package = AUTOSAR.getInstance().createARPackage("SessionControls")
+
+        session_control = package.createDiagnosticSessionControl("SessionCtrl1")
+        assert session_control is not None
+        assert isinstance(session_control, DiagnosticSessionControl)
+        assert session_control.getShortName() == "SessionCtrl1"
+        assert session_control.getParent() is package
+        assert package.getElement("SessionCtrl1", DiagnosticSessionControl) is session_control
+
+        duplicate = package.createDiagnosticSessionControl("SessionCtrl1")
+        assert duplicate is session_control  # duplicate short name returns the existing element
