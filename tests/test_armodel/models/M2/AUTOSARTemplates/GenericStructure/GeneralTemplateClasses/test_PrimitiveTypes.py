@@ -24,13 +24,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
-    DiagRequirementIdString,
-    DisplayFormatString,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTypeOfDtcSupportedEnum,
+    DiagRequirementIdString,
+    DisplayFormatString,
     Float,
     Identifier,
     Integer,
@@ -1714,7 +1714,6 @@ class TestRegularExpression:
     def test_set_value(self):
         obj = RegularExpression().setValue("[0-9]+")
         assert obj.getValue() == "[0-9]+"
-
 
 
 class TestDiagnosticOccurrenceCounterProcessingEnum:
