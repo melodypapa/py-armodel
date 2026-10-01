@@ -2222,3 +2222,14 @@ Remediated 2026-08-30 (see `docs/plan/2026-08-30-rule-0007-package-location-reme
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | XSD `SHARED-TIMER` | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group DIAGNOSTIC-SECURITY-ACCESS-CLASS, `mmt.RestrictToStandards="AP"`), absent from R23-11 Table 4.50 (attribute row is "-"); PDF is authoritative (Rule 0015) |
+
+
+## `DiagnosticAuthentication`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 99
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| XSD `AUTHENTICATION-TIMEOUT` | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group DIAGNOSTIC-AUTHENTICATION, `atp.Status="removed"`), absent from R23-11 Table 4.51; PDF is authoritative (Rule 0015) |
+| — | — | ARPackage.element dispatch | — | — | none — abstract class (Table 4.51 marks it abstract): no create factory, no AR-PACKAGE element dispatch; Rule 0001.7 reusable helpers readDiagnosticAuthentication/writeDiagnosticAuthentication provided for the subclass readers/writers queued in later batches |

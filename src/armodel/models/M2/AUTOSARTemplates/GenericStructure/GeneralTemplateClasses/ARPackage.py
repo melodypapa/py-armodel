@@ -2785,7 +2785,38 @@ class DiagnosticAuthRole(ARElement):
 
 
 class DiagnosticAuthentication(ARElement, ABC):
-    pass
+    """This meta-class represents the ability to configure the usage of the UDS service Authentication in the Diagnostic extract."""
+
+    # DiagnosticAuthentication method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.51, p.99
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationClass     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationClass     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticAuthentication:
+            raise TypeError("DiagnosticAuthentication is an abstract class.")
+        super().__init__(parent, short_name)
+
+        # This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.
+        self.authenticationClass: Optional[RefType] = None
+
+    def getAuthenticationClass(self) -> Optional[RefType]:
+        """
+        This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.
+        """
+        return self.authenticationClass
+
+    def setAuthenticationClass(self, value: Optional[RefType]):
+        """
+        This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.
+
+        A None value is a no-op and does not overwrite an existing authenticationClass.
+        """
+        if value is not None:
+            self.authenticationClass = value
+        return self
 
 
 class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):

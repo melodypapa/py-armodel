@@ -374,6 +374,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthRole,
+    DiagnosticAuthentication,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
@@ -13880,6 +13881,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(child_element, "SECURITY-LEVEL-REFS")
             for ref in level_refs:
                 self.setChildElementOptionalRefType(refs_tag, "SECURITY-LEVEL-REF", ref)
+
+    def writeDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
+        self.setChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF", authentication.getAuthenticationClass())
 
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())

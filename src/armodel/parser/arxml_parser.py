@@ -494,6 +494,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthRole,
+    DiagnosticAuthentication,
     DiagnosticContributionSet,
     DiagnosticDataIdentifier,
     DiagnosticDynamicDataIdentifier,
@@ -10698,6 +10699,9 @@ class ARXMLParser(AbstractARXMLParser):
         permission.setEnvironmentalConditionRef(self.getChildElementOptionalRefType(element, "ENVIRONMENTAL-CONDITION-REF"))
         for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
             permission.addSecurityLevelRef(ref)
+
+    def readDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
+        authentication.setAuthenticationClass(self.getChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF"))
 
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())

@@ -16,6 +16,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARPackage,
     CpSwClusterToDiagEventMapping,
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAuthentication,
+    DiagnosticAuthenticationConfiguration,
     DiagnosticAuthRole,
     DiagnosticContributionSet,
     DiagnosticCustomServiceInstance,
@@ -2252,3 +2254,79 @@ class TestDiagnosticSecurityAccess:
 
         duplicate = package.createDiagnosticSecurityAccess("SecAccess1")
         assert duplicate is security_access  # duplicate short name returns the existing element
+
+
+class TestDiagnosticAuthentication:
+    """
+    Test class for DiagnosticAuthentication functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.51, p.99
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to configure the usage of the UDS service Authentication in the Diagnostic extract."
+    AUTHENTICATION_CLASS_NOTE = (
+        'This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of '
+        'DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.'
+    )
+
+    def _create_authentication(self) -> DiagnosticAuthenticationConfiguration:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticAuthenticationConfiguration(ar_root, "TestAuthentication")
+
+    def test_is_abstract(self):
+        """
+        Test that DiagnosticAuthentication cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticAuthentication(AUTOSAR.getInstance(), "Auth1")
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Test that a concrete subclass instantiates with the spec defaults.
+        """
+        obj = self._create_authentication()
+
+        assert obj.getShortName() == "TestAuthentication"
+        assert isinstance(obj, ARElement)
+        assert obj.getAuthenticationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAuthentication.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthentication.__init__.__doc__ is None
+
+    def test_get_set_authentication_class(self):
+        """
+        Test getAuthenticationClass and setAuthenticationClass round-trip and None no-op.
+        """
+        obj = self._create_authentication()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTHENTICATION-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass")
+        result = obj.setAuthenticationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthenticationClass() is ref
+        assert obj.getAuthenticationClass().getValue() == "/AUTOSAR/DiagnosticAuthenticationClasses/AuthClass"
+        assert obj.getAuthenticationClass().getDest() == "DIAGNOSTIC-AUTHENTICATION-CLASS"
+
+        result = obj.setAuthenticationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthenticationClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that the accessor docstrings are the spec Notes verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticAuthentication.getAuthenticationClass.__doc__) == self.AUTHENTICATION_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticAuthentication.setAuthenticationClass.__doc__) == (
+            self.AUTHENTICATION_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing authenticationClass."
+        )
