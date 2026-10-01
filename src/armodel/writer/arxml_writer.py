@@ -276,6 +276,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticCustomServiceClass,
+    DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -1226,6 +1227,13 @@ DTC_FORMAT_TYPE_XML_MAP = {
 DTC_KIND_XML_MAP = {
     "emissionRelatedDtc": "EMISSION-RELATED-DTC",
     "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
+}
+
+#: Mapping between DiagnosticResponseToEcuResetEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE).
+DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP = {
+    "respondAfterReset": "RESPOND-AFTER-RESET",
+    "respondBeforeReset": "RESPOND-BEFORE-RESET",
 }
 
 #: Mapping between DiagnosticOccurrenceCounterProcessingEnum literal values and their XML element text
@@ -13742,6 +13750,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", ecu_reset.getCustomSubFunctionNumber())
         self.setChildElementOptionalRefType(child_element, "ECU-RESET-CLASS-REF", ecu_reset.getEcuResetClass())
 
+    def writeDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
+        self.logger.debug("Write DiagnosticEcuResetClass %s" % ecu_reset_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET-CLASS")
+        self.writeIdentifiable(child_element, ecu_reset_class)
+        self._writeEnumToken(child_element, "RESPOND-TO-RESET", ecu_reset_class.getRespondToReset(), DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP)
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -14944,6 +14958,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDeAuthentication(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuReset):
             self.writeDiagnosticEcuReset(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEcuResetClass):
+            self.writeDiagnosticEcuResetClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):

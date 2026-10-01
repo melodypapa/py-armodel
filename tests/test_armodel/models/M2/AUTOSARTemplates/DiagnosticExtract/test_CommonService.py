@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticCustomServiceClass,
+    DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
@@ -20,7 +21,12 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DiagnosticResponseToEcuResetEnum,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
 
 DSI_NOTE = "This represents a concrete instance of a diagnostic service."
 DSC_NOTE = "This meta-class provides the ability to define common properties that are shared among all instances of sub-classes of DiagnosticServiceInstance."
@@ -49,6 +55,11 @@ def _ref(dest, value):
 
 def _pkg():
     return AUTOSAR.getInstance().createARPackage("DiagPkg")
+
+
+def _respond_to_reset(value):
+    """Build a DiagnosticResponseToEcuResetEnum holding the given literal value."""
+    return DiagnosticResponseToEcuResetEnum(["respondAfterReset", "respondBeforeReset"]).setValue(value)
 
 
 class _ConcreteServiceInstance(DiagnosticServiceInstance):
@@ -329,4 +340,55 @@ class Test_DiagnosticAuthenticationClass:
         assert package.getElement("Dac1", DiagnosticAuthenticationClass) is service_class
 
         duplicate = package.createDiagnosticAuthenticationClass("Dac1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticEcuResetClass:
+    """Test cases for DiagnosticEcuResetClass class (Table 4.61, p.102)."""
+
+    DERSC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Ecu Reset" diagnostic service.'
+    RESPOND_TO_RESET_NOTE = "This attribute defines whether the response to the EcuReset service shall be transmitted before or after the actual reset."
+
+    def test_is_concrete(self):
+        service_class = DiagnosticEcuResetClass(_pkg(), "MyDersc")
+        assert service_class.getShortName() == "MyDersc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticEcuResetClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticEcuResetClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticEcuResetClass, ARObject)
+        assert issubclass(DiagnosticEcuResetClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEcuResetClass.__doc__) == self.DERSC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEcuResetClass.__init__.__doc__ is None
+
+    def test_defaults(self):
+        service_class = DiagnosticEcuResetClass(_pkg(), "MyDersc")
+        assert service_class.getRespondToReset() is None
+
+    def test_get_set_respond_to_reset(self):
+        service_class = DiagnosticEcuResetClass(_pkg(), "MyDersc")
+        value = _respond_to_reset("respondAfterReset")
+        assert service_class.setRespondToReset(value) is service_class
+        assert service_class.getRespondToReset() is value
+        assert service_class.getRespondToReset().getValue() == "respondAfterReset"
+        service_class.setRespondToReset(None)
+        assert service_class.getRespondToReset() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEcuResetClass.getRespondToReset.__doc__) == self.RESPOND_TO_RESET_NOTE
+        assert inspect.cleandoc(DiagnosticEcuResetClass.setRespondToReset.__doc__) == (self.RESPOND_TO_RESET_NOTE + "\n\nA None value is a no-op and does not overwrite an existing respondToReset.")
+
+    def test_create_diagnostic_ecu_reset_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticEcuResetClass("Dersc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticEcuResetClass)
+        assert service_class.getShortName() == "Dersc1"
+        assert package.getElement("Dersc1", DiagnosticEcuResetClass) is service_class
+
+        duplicate = package.createDiagnosticEcuResetClass("Dersc1")
         assert duplicate is service_class

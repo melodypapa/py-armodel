@@ -382,6 +382,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticCustomServiceClass,
+    DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
@@ -545,6 +546,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticResponseToEcuResetEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -1388,6 +1390,13 @@ DTC_FORMAT_TYPE_XML_MAP = {
 DTC_KIND_XML_MAP = {
     "emissionRelatedDtc": "EMISSION-RELATED-DTC",
     "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
+}
+
+#: Mapping between DiagnosticResponseToEcuResetEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE).
+DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP = {
+    "respondAfterReset": "RESPOND-AFTER-RESET",
+    "respondBeforeReset": "RESPOND-BEFORE-RESET",
 }
 
 #: Mapping between DiagnosticOccurrenceCounterProcessingEnum literal values and their XML element text
@@ -10574,6 +10583,11 @@ class ARXMLParser(AbstractARXMLParser):
         ecu_reset.setCustomSubFunctionNumber(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SUB-FUNCTION-NUMBER"))
         ecu_reset.setEcuResetClass(self.getChildElementOptionalRefType(element, "ECU-RESET-CLASS-REF"))
 
+    def readDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
+        self.logger.debug("Read DiagnosticEcuResetClass <%s>" % ecu_reset_class.getShortName())
+        self.readIdentifiable(element, ecu_reset_class)
+        ecu_reset_class.setRespondToReset(self._readEnumToken(element, "RESPOND-TO-RESET", DiagnosticResponseToEcuResetEnum, DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP))
+
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
         self.readIdentifiable(element, session)
@@ -15324,6 +15338,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ECU-RESET":
                 ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
                 self.readDiagnosticEcuReset(child_element, ecu_reset)
+            elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
+                ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
+                self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)

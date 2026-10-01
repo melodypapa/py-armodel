@@ -3,7 +3,7 @@ from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticResponseToEcuResetEnum, PositiveInteger, RefType, TimeValue
 
 
 class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
@@ -151,7 +151,36 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
 
 
 class DiagnosticEcuResetClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Ecu Reset" diagnostic service."""
+
+    # DiagnosticEcuResetClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.61, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRespondToReset    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRespondToReset    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute defines whether the response to the EcuReset service shall be transmitted before or after the actual reset.
+        self.respondToReset: Optional[DiagnosticResponseToEcuResetEnum] = None
+
+    def getRespondToReset(self) -> Optional[DiagnosticResponseToEcuResetEnum]:
+        """
+        This attribute defines whether the response to the EcuReset service shall be transmitted before or after the actual reset.
+        """
+        return self.respondToReset
+
+    def setRespondToReset(self, value: Optional[DiagnosticResponseToEcuResetEnum]):
+        """
+        This attribute defines whether the response to the EcuReset service shall be transmitted before or after the actual reset.
+
+        A None value is a no-op and does not overwrite an existing respondToReset.
+        """
+        if value is not None:
+            self.respondToReset = value
+        return self
 
 
 class DiagnosticIoControlClass(DiagnosticServiceClass):

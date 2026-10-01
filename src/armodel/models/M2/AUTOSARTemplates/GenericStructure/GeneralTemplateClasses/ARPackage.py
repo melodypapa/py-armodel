@@ -1944,6 +1944,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(ecu_reset)
         return self.getElement(short_name, DiagnosticEcuReset)
 
+    def createDiagnosticEcuResetClass(self, short_name: str) -> DiagnosticEcuResetClass:
+        """
+        Creates a new DiagnosticEcuResetClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEcuResetClass contains attributes shared by all
+        instances of the "Ecu Reset" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticEcuResetClass
+
+        Returns:
+            The newly created or existing DiagnosticEcuResetClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEcuResetClass):
+            ecu_reset_class = DiagnosticEcuResetClass(self, short_name)
+            self.addElement(ecu_reset_class)
+        return self.getElement(short_name, DiagnosticEcuResetClass)
+
     def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
         """
         Creates a new DiagnosticEnvironmentalCondition with the given short
@@ -2581,6 +2600,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticSecurityAccessClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (  # noqa: E402
