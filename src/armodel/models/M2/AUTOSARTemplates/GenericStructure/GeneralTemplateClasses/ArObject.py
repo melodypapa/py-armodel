@@ -233,7 +233,80 @@ class DiagnosticClearResetEmissionRelatedInfo(ARObject):
 
 
 class DiagnosticComControlSpecificChannel(ARObject):
-    pass
+    """
+    This represents the ability to add further attributes to the definition of a specific channel that is subject to the diagnostic service "communication control".
+    """
+
+    # DiagnosticComControlSpecificChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.65, p.109
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSpecificChannel         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpecificChannel         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpecificPhysicalChannel [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpecificPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubnetNumber            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubnetNumber            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the affected CommunicationCluster in the role specificChannel
+        self.specificChannel: Optional[RefType] = None
+
+        # This represents the affected specific EthernetPhysicalChannel.
+        self.specificPhysicalChannel: Optional[RefType] = None
+
+        # This represents the applicable subnet number (which is an arbitrary number ranging from 1..14)
+        self.subnetNumber: Optional[PositiveInteger] = None
+
+    def getSpecificChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected CommunicationCluster in the role specificChannel
+        """
+        return self.specificChannel
+
+    def setSpecificChannel(self, value: Optional[RefType]) -> DiagnosticComControlSpecificChannel:
+        """
+        This represents the affected CommunicationCluster in the role specificChannel
+
+        A None value is a no-op and does not overwrite an existing specificChannel.
+        """
+        if value is not None:
+            self.specificChannel = value
+        return self
+
+    def getSpecificPhysicalChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected specific EthernetPhysicalChannel.
+        """
+        return self.specificPhysicalChannel
+
+    def setSpecificPhysicalChannel(self, value: Optional[RefType]) -> DiagnosticComControlSpecificChannel:
+        """
+        This represents the affected specific EthernetPhysicalChannel.
+
+        A None value is a no-op and does not overwrite an existing specificPhysicalChannel.
+        """
+        if value is not None:
+            self.specificPhysicalChannel = value
+        return self
+
+    def getSubnetNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the applicable subnet number (which is an arbitrary number ranging from 1..14)
+        """
+        return self.subnetNumber
+
+    def setSubnetNumber(self, value: Optional[PositiveInteger]) -> DiagnosticComControlSpecificChannel:
+        """
+        This represents the applicable subnet number (which is an arbitrary number ranging from 1..14)
+
+        A None value is a no-op and does not overwrite an existing subnetNumber.
+        """
+        if value is not None:
+            self.subnetNumber = value
+        return self
 
 
 class DiagnosticComControlSubNodeChannel(ARObject):
@@ -1153,5 +1226,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
+    RefType,
     TimeValue,
 )

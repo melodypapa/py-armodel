@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     DiagnosticAbstractParameter,
+    DiagnosticComControlSpecificChannel,
     DiagnosticCommonProps,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
@@ -23,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     PositiveInteger,
+    RefType,
     String,
     TimeValue,
 )
@@ -453,3 +455,100 @@ class TestDiagnosticCommonProps:
         result = obj.setResponseOnSecondDeclinedRequest(None)
         assert result is obj  # method chaining with None
         assert obj.getResponseOnSecondDeclinedRequest() is value  # None is a no-op
+
+
+class TestDiagnosticComControlSpecificChannel:
+    """
+    Test class for DiagnosticComControlSpecificChannel functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.65, p.109
+    """
+
+    def _create_channel(self) -> DiagnosticComControlSpecificChannel:
+        return DiagnosticComControlSpecificChannel()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticComControlSpecificChannel initializes all attributes to None.
+        """
+        obj = self._create_channel()
+
+        assert obj.getSpecificChannel() is None
+        assert obj.getSpecificPhysicalChannel() is None
+        assert obj.getSubnetNumber() is None
+
+    def test_get_set_specific_channel(self):
+        """
+        Test getSpecificChannel and setSpecificChannel round-trip and None no-op.
+        """
+        obj = self._create_channel()
+
+        ref = RefType()
+        ref.setDest("COMMUNICATION-CLUSTER")
+        ref.setValue("/System/Clusters/Cluster1")
+        result = obj.setSpecificChannel(ref)
+        assert result is obj  # method chaining
+        assert obj.getSpecificChannel() is ref
+        assert obj.getSpecificChannel().getValue() == "/System/Clusters/Cluster1"
+        assert obj.getSpecificChannel().getDest() == "COMMUNICATION-CLUSTER"
+
+        result = obj.setSpecificChannel(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSpecificChannel() is ref  # None is a no-op
+
+    def test_get_set_specific_physical_channel(self):
+        """
+        Test getSpecificPhysicalChannel and setSpecificPhysicalChannel round-trip and None no-op.
+        """
+        obj = self._create_channel()
+
+        ref = RefType()
+        ref.setDest("ETHERNET-PHYSICAL-CHANNEL")
+        ref.setValue("/System/EthernetClusters/Cluster1/Vlan1")
+        result = obj.setSpecificPhysicalChannel(ref)
+        assert result is obj  # method chaining
+        assert obj.getSpecificPhysicalChannel() is ref
+        assert obj.getSpecificPhysicalChannel().getValue() == "/System/EthernetClusters/Cluster1/Vlan1"
+
+        result = obj.setSpecificPhysicalChannel(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSpecificPhysicalChannel() is ref  # None is a no-op
+
+    def test_get_set_subnet_number(self):
+        """
+        Test getSubnetNumber and setSubnetNumber round-trip and None no-op.
+        """
+        obj = self._create_channel()
+
+        value = PositiveInteger()
+        value.setValue("3")
+        result = obj.setSubnetNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getSubnetNumber() is value
+        assert obj.getSubnetNumber().getValue() == 3
+
+        result = obj.setSubnetNumber(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSubnetNumber() is value  # None is a no-op
+
+    def test_get_set_specific_channel_type_hints(self):
+        """
+        Pin the specificChannel accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticComControlSpecificChannel.getSpecificChannel)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(DiagnosticComControlSpecificChannel.setSpecificChannel)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DiagnosticComControlSpecificChannel
+
+    def test_get_set_subnet_number_type_hints(self):
+        """
+        Pin the subnetNumber accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticComControlSpecificChannel.getSubnetNumber)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticComControlSpecificChannel.setSubnetNumber)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticComControlSpecificChannel
