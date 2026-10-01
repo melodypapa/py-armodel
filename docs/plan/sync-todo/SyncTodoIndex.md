@@ -629,7 +629,7 @@ Status: **15/15** completed
 
 ## Group13
 
-Status: **10/23** completed
+Status: **12/23** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -643,8 +643,8 @@ Status: **10/23** completed
 | `BswDataReceptionPolicy`                | [x] Done     | 893f5df32e |
 | `BswQueuedDataReceptionPolicy`          | [x] Done     | 254de705ea |
 | `BswAsynchronousServerCallReturnsEvent` | [x] Done     | f2df52d4b5 |
-| `BswDataReceivedEvent`                  | [ ] Pending* | N/A        |
-| `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
+| `BswDataReceivedEvent`                  | [x] Done     | e316f1e6ea |
+| `BswInternalTriggerOccurredEvent`       | [x] Done     | caffd21921 |
 | `BswModeManagerErrorEvent`              | [ ] Pending* | N/A        |
 | `BswModeSwitchedAckEvent`               | [ ] Pending* | 160eae8f23 |
 | `BswTimingEvent`                        | [ ] Pending* | 1a0a0619b2 |

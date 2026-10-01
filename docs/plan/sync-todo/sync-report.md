@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 627 | 32.9% |
+| [x] Done | 629 | 33.1% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 218 | 11.5% |
+| [ ] Deferred | 216 | 11.4% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -162,7 +162,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswCalledEntity`                                       | [x] Done    | bd96645681                               | Group22          |
 | `BswClientPolicy`                                       | [x] Done    | 3141824107                               | Group4           |
 | `BswCompositionTiming`                                  | [ ] Created | N/A                                      | Group35          |
-| `BswDataReceivedEvent`                                  | [ ] Deferred| N/A                                      | Group13          |
+| `BswDataReceivedEvent`                                  | [x] Done    | e316f1e6ea                               | Group13          |
 | `BswDataReceptionPolicy`                                | [x] Done    | 893f5df32e                               | Group13          |
 | `BswDataSendPolicy`                                     | [x] Done    | ccacff4a64                               | Group4           |
 | `BswDirectCallPoint`                                    | [x] Done    | 518ebf6a09                               | Group13          |
@@ -177,7 +177,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswExternalTriggerOccurredEvent`                       | [ ] Deferred| a52b41da2c                               | Group22          |
 | `BswImplementation`                                     | [x] Done    | 46ce237162                               | Group22          |
 | `BswInternalBehavior`                                   | [x] Done    | 89a7231799                               | Group4           |
-| `BswInternalTriggerOccurredEvent`                       | [ ] Deferred| N/A                                      | Group13          |
+| `BswInternalTriggerOccurredEvent`                       | [x] Done    | caffd21921                               | Group13          |
 | `BswInternalTriggeringPoint`                            | [x] Done    | f67e3865ef                               | Group13          |
 | `BswInternalTriggeringPointPolicy`                      | [x] Done    | 2bb8413910                               | Group4           |
 | `BswInterruptCategory`                                  | [ ] Deferred| 87a572d24b                               | Group22          |
