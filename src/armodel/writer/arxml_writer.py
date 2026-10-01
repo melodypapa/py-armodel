@@ -407,6 +407,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticFimEventGroup,
+    DiagnosticJ1939ExpandedFreezeFrame,
+    DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
     DiagnosticEcuReset,
     DiagnosticProtocol,
@@ -13772,6 +13774,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, j1939_spn)
         self.setChildElementOptionalPositiveInteger(child_element, "SPN", j1939_spn.getSpn())
 
+    def writeDiagnosticJ1939FreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticJ1939FreezeFrame):
+        self.logger.debug("Write DiagnosticJ1939FreezeFrame %s" % freeze_frame.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-J-1939-FREEZE-FRAME")
+        self.writeIdentifiable(child_element, freeze_frame)
+        self.setChildElementOptionalRefType(child_element, "NODE-REF", freeze_frame.getNodeRef())
+        spn_refs = freeze_frame.getSpnRefs()
+        if len(spn_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SPN-REFS")
+            for ref in spn_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SPN-REF", ref)
+
+    def writeDiagnosticJ1939ExpandedFreezeFrame(self, element: ET.Element, expanded_freeze_frame: DiagnosticJ1939ExpandedFreezeFrame):
+        self.logger.debug("Write DiagnosticJ1939ExpandedFreezeFrame %s" % expanded_freeze_frame.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-J-1939-EXPANDED-FREEZE-FRAME")
+        self.writeIdentifiable(child_element, expanded_freeze_frame)
+        self.setChildElementOptionalRefType(child_element, "NODE-REF", expanded_freeze_frame.getNodeRef())
+        spn_refs = expanded_freeze_frame.getSpnRefs()
+        if len(spn_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SPN-REFS")
+            for ref in spn_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SPN-REF", ref)
+
     def writeDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
         self.logger.debug("Write DiagnosticContributionSet %s" % contribution_set.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTRIBUTION-SET")
@@ -15099,6 +15123,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticFimEventGroup):
             self.writeDiagnosticFimEventGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticJ1939ExpandedFreezeFrame):
+            self.writeDiagnosticJ1939ExpandedFreezeFrame(element, ar_element)
+        elif isinstance(ar_element, DiagnosticJ1939FreezeFrame):
+            self.writeDiagnosticJ1939FreezeFrame(element, ar_element)
         elif isinstance(ar_element, DiagnosticJ1939Spn):
             self.writeDiagnosticJ1939Spn(element, ar_element)
         elif isinstance(ar_element, DiagnosticContributionSet):

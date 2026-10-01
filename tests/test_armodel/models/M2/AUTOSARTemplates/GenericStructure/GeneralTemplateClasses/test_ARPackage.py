@@ -28,6 +28,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticFimEventGroup,
+    DiagnosticJ1939ExpandedFreezeFrame,
+    DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
     DiagnosticMapping,
     DiagnosticProofOfOwnership,
@@ -3137,3 +3139,194 @@ class TestDiagnosticJ1939Spn:
 
         duplicate = package.createDiagnosticJ1939Spn("Spn1")
         assert duplicate is spn  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939FreezeFrame:
+    """
+    Test class for DiagnosticJ1939FreezeFrame functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.220, p.220
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939FreezeFrames"
+
+    def _make_obj(self) -> DiagnosticJ1939FreezeFrame:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939FreezeFrame(ar_root, "TestFreezeFrame")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939FreezeFrame instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFreezeFrame"
+        assert obj.getNodeRef() is None
+        assert obj.getSpnRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939FreezeFrame.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939FreezeFrame.__init__.__doc__ is None
+
+    def test_get_set_node_ref(self):
+        """
+        Round-trips the node reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-J-1939-NODE")
+        ref.setValue("/AUTOSAR/J1939Nodes/Node1")
+        result = obj.setNodeRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getNodeRef() is ref
+        assert obj.getNodeRef().getValue() == "/AUTOSAR/J1939Nodes/Node1"
+
+        result = obj.setNodeRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getNodeRef() is ref  # None is a no-op
+
+    def test_add_get_spn_refs(self):
+        """
+        Round-trips the spn multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref1.setValue("/AUTOSAR/Spns/Spn1")
+        result = obj.addSpnRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref2.setValue("/AUTOSAR/Spns/Spn2")
+        obj.addSpnRef(ref2)
+
+        refs = obj.getSpnRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/Spns/Spn2"
+
+        result = obj.addSpnRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getSpnRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_j1939_freeze_frame(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticJ1939FreezeFrames")
+        freeze_frame = package.createDiagnosticJ1939FreezeFrame("FreezeFrame1")
+
+        assert freeze_frame is not None
+        assert isinstance(freeze_frame, DiagnosticJ1939FreezeFrame)
+        assert freeze_frame.getShortName() == "FreezeFrame1"
+        assert package.getElement("FreezeFrame1", DiagnosticJ1939FreezeFrame) is freeze_frame
+
+        duplicate = package.createDiagnosticJ1939FreezeFrame("FreezeFrame1")
+        assert duplicate is freeze_frame  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939ExpandedFreezeFrame:
+    """
+    Test class for DiagnosticJ1939ExpandedFreezeFrame functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.221, p.221
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an expanded J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939ExpandedFreezeFrames"
+
+    def _make_obj(self) -> DiagnosticJ1939ExpandedFreezeFrame:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939ExpandedFreezeFrame(ar_root, "TestExpandedFreezeFrame")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939ExpandedFreezeFrame instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestExpandedFreezeFrame"
+        assert obj.getNodeRef() is None
+        assert obj.getSpnRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939ExpandedFreezeFrame.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939ExpandedFreezeFrame.__init__.__doc__ is None
+
+    def test_get_set_node_ref(self):
+        """
+        Round-trips the node reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-J-1939-NODE")
+        ref.setValue("/AUTOSAR/J1939Nodes/Node1")
+        result = obj.setNodeRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getNodeRef() is ref
+
+        result = obj.setNodeRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getNodeRef() is ref  # None is a no-op
+
+    def test_add_get_spn_refs(self):
+        """
+        Round-trips the spn multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref1.setValue("/AUTOSAR/Spns/Spn1")
+        result = obj.addSpnRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref2.setValue("/AUTOSAR/Spns/Spn2")
+        obj.addSpnRef(ref2)
+
+        refs = obj.getSpnRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/Spns/Spn2"
+
+        result = obj.addSpnRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getSpnRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_j1939_expanded_freeze_frame(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticJ1939ExpandedFreezeFrames")
+        expanded_freeze_frame = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
+
+        assert expanded_freeze_frame is not None
+        assert isinstance(expanded_freeze_frame, DiagnosticJ1939ExpandedFreezeFrame)
+        assert expanded_freeze_frame.getShortName() == "ExpandedFreezeFrame1"
+        assert package.getElement("ExpandedFreezeFrame1", DiagnosticJ1939ExpandedFreezeFrame) is expanded_freeze_frame
+
+        duplicate = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
+        assert duplicate is expanded_freeze_frame  # duplicate short name returns the existing element

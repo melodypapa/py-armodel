@@ -529,6 +529,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticFimEventGroup,
+    DiagnosticJ1939ExpandedFreezeFrame,
+    DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
     DiagnosticEcuReset,
     DiagnosticProtocol,
@@ -10471,6 +10473,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, j1939_spn)
         j1939_spn.setSpn(self.getChildElementOptionalPositiveInteger(element, "SPN"))
 
+    def readDiagnosticJ1939FreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticJ1939FreezeFrame):
+        self.readIdentifiable(element, freeze_frame)
+        freeze_frame.setNodeRef(self.getChildElementOptionalRefType(element, "NODE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SPN-REFS/SPN-REF"):
+            freeze_frame.addSpnRef(ref)
+
+    def readDiagnosticJ1939ExpandedFreezeFrame(self, element: ET.Element, expanded_freeze_frame: DiagnosticJ1939ExpandedFreezeFrame):
+        self.readIdentifiable(element, expanded_freeze_frame)
+        expanded_freeze_frame.setNodeRef(self.getChildElementOptionalRefType(element, "NODE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SPN-REFS/SPN-REF"):
+            expanded_freeze_frame.addSpnRef(ref)
+
     def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
         self.readIdentifiable(element, did)
         id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
@@ -15473,6 +15487,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-FIM-EVENT-GROUP":
                 fim_event_group = parent.createDiagnosticFimEventGroup(self.getShortName(child_element))
                 self.readDiagnosticFimEventGroup(child_element, fim_event_group)
+            elif tag_name == "DIAGNOSTIC-J-1939-EXPANDED-FREEZE-FRAME":
+                expanded_freeze_frame = parent.createDiagnosticJ1939ExpandedFreezeFrame(self.getShortName(child_element))
+                self.readDiagnosticJ1939ExpandedFreezeFrame(child_element, expanded_freeze_frame)
+            elif tag_name == "DIAGNOSTIC-J-1939-FREEZE-FRAME":
+                freeze_frame = parent.createDiagnosticJ1939FreezeFrame(self.getShortName(child_element))
+                self.readDiagnosticJ1939FreezeFrame(child_element, freeze_frame)
             elif tag_name == "DIAGNOSTIC-J-1939-SPN":
                 j1939_spn = parent.createDiagnosticJ1939Spn(self.getShortName(child_element))
                 self.readDiagnosticJ1939Spn(child_element, j1939_spn)

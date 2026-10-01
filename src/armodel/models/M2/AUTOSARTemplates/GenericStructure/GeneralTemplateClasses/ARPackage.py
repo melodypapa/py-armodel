@@ -2055,6 +2055,43 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(j1939_spn)
         return self.getElement(short_name, DiagnosticJ1939Spn)
 
+    def createDiagnosticJ1939ExpandedFreezeFrame(self, short_name: str) -> DiagnosticJ1939ExpandedFreezeFrame:
+        """
+        Creates a new DiagnosticJ1939ExpandedFreezeFrame with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939ExpandedFreezeFrame represents the ability to model an
+        expanded J1939 Freeze Frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939ExpandedFreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticJ1939ExpandedFreezeFrame instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939ExpandedFreezeFrame):
+            expanded_freeze_frame = DiagnosticJ1939ExpandedFreezeFrame(self, short_name)
+            self.addElement(expanded_freeze_frame)
+        return self.getElement(short_name, DiagnosticJ1939ExpandedFreezeFrame)
+
+    def createDiagnosticJ1939FreezeFrame(self, short_name: str) -> DiagnosticJ1939FreezeFrame:
+        """
+        Creates a new DiagnosticJ1939FreezeFrame with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939FreezeFrame represents the ability to model a J1939 Freeze Frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939FreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticJ1939FreezeFrame instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939FreezeFrame):
+            freeze_frame = DiagnosticJ1939FreezeFrame(self, short_name)
+            self.addElement(freeze_frame)
+        return self.getElement(short_name, DiagnosticJ1939FreezeFrame)
+
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
         Creates a new DiagnosticAccessPermission with the given short name,
@@ -3629,12 +3666,108 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     pass
 
 
-class DiagnosticJ1939ExpandedFreezeFrame(ARElement):
-    pass
+class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
+    """This meta-class represents the ability to model an expanded J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939ExpandedFreezeFrames"""
+
+    # DiagnosticJ1939ExpandedFreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.221, p.221
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSpnRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpnRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNodeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the DiagnosticJ1939Node to which the J1939 expanded freeze frame is associated.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the collection of SPNs that make the expanded J1939 Freeze Frame.
+        self.spnRefs: List[RefType] = []
+
+    def addSpnRef(self, value: Optional[RefType]) -> DiagnosticJ1939ExpandedFreezeFrame:
+        """
+        This represents the collection of SPNs that make the expanded J1939 Freeze Frame.
+        A None value is a no-op and does not append an spnRef.
+        """
+        if value is not None:
+            self.spnRefs.append(value)
+        return self
+
+    def getSpnRefs(self) -> List[RefType]:
+        """
+        This represents the collection of SPNs that make the expanded J1939 Freeze Frame.
+        """
+        return self.spnRefs
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 expanded freeze frame is associated.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939ExpandedFreezeFrame:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 expanded freeze frame is associated.
+        A None value is a no-op and does not overwrite an existing node reference.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
 
 
-class DiagnosticJ1939FreezeFrame(ARElement):
-    pass
+class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
+    """This meta-class represents the ability to model a J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939FreezeFrames"""
+
+    # DiagnosticJ1939FreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.220, p.220
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSpnRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpnRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNodeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the DiagnosticJ1939Node to which the J1939 freeze frame is associated.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the collection of SPNs that make the J1939 Freeze Frame.
+        self.spnRefs: List[RefType] = []
+
+    def addSpnRef(self, value: Optional[RefType]) -> DiagnosticJ1939FreezeFrame:
+        """
+        This represents the collection of SPNs that make the J1939 Freeze Frame.
+        A None value is a no-op and does not append an spnRef.
+        """
+        if value is not None:
+            self.spnRefs.append(value)
+        return self
+
+    def getSpnRefs(self) -> List[RefType]:
+        """
+        This represents the collection of SPNs that make the J1939 Freeze Frame.
+        """
+        return self.spnRefs
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 freeze frame is associated.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939FreezeFrame:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 freeze frame is associated.
+        A None value is a no-op and does not overwrite an existing node reference.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
 
 
 class DiagnosticJ1939Node(ARElement):
