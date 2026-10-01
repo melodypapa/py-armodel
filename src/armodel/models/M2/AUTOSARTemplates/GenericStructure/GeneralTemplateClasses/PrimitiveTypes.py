@@ -1699,10 +1699,50 @@ class DiagnosticEventClearAllowedEnum(AREnum):
     pass
 
 class DiagnosticEventCombinationBehaviorEnum(AREnum):
-    pass
+    """
+    Select type of Event Combination support
+    """
+
+    # DiagnosticEventCombinationBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.23, p.67
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Event combination on retrieval is used to combine events. For each event an individual event memory entry is created, while reporting the data via UDS, the data is combined. Tags: atp.EnumerationLiteralIndex=1
+    EVENT_COMBINATION_ON_RETRIEVAL = "eventCombinationOnRetrieval"
+
+    # Event combination on storage is used to combine events. Only one memory entry exists for each DTC which is also reported via UDS. Tags: atp.EnumerationLiteralIndex=0
+    EVENT_COMBINATION_ON_STORAGE = "eventCombinationOnStorage"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL,
+                DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE,
+            ]
+        )
 
 class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
-    pass
+    """
+    Select reporting format of events. Applicable only for Event Combination on Retrieval.
+    """
+
+    # DiagnosticEventCombinationReportingBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.24, p.67
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The reporting order for event combination on retrieval is the chronological storage order of the events Tags: atp.EnumerationLiteralIndex=0
+    REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST = "reportingInChronlogicalOrderOldestFirst"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST,
+            ]
+        )
 
 class DiagnosticEventDisplacementStrategyEnum(AREnum):
     pass
@@ -1729,7 +1769,29 @@ class DiagnosticObdSupportEnum(AREnum):
     pass
 
 class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
-    pass
+    """
+    The occurrence counter triggering types.
+    """
+
+    # DiagnosticOccurrenceCounterProcessingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.20, p.66
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 if the fault confirmation was successful (ConfirmedDTC bit is already set). Tags: atp.EnumerationLiteralIndex=0
+    CONFIRMED_DTC_BIT = "confirmedDtcBit"
+
+    # The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 (and the fault confirmation is not considered). Tags: atp.EnumerationLiteralIndex=1
+    TEST_FAILED_BIT = "testFailedBit"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT,
+                DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT,
+            ]
+        )
 
 class DiagnosticOperationCycleTypeEnum(AREnum):
     pass
@@ -1744,7 +1806,29 @@ class DiagnosticResponseOnEventActionEnum(AREnum):
     pass
 
 class DiagnosticResponseToEcuResetEnum(AREnum):
-    pass
+    """
+    This enumeration controls the point in time in which a response to the reception of an EcuReset service shall be generated.
+    """
+
+    # DiagnosticResponseToEcuResetEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.62, p.102
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Answer to EcuReset service should come after the reset. Tags: atp.EnumerationLiteralIndex=0
+    RESPOND_AFTER_RESET = "respondAfterReset"
+
+    # Answer to EcuReset service should come before the reset. Tags: atp.EnumerationLiteralIndex=1
+    RESPOND_BEFORE_RESET = "respondBeforeReset"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET,
+                DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET,
+            ]
+        )
 
 class DiagnosticSignificanceEnum(AREnum):
     pass
@@ -1759,7 +1843,41 @@ class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
     pass
 
 class DiagnosticTypeOfDtcSupportedEnum(AREnum):
-    pass
+    """
+    Supported Dtc Types
+    """
+
+    # DiagnosticTypeOfDtcSupportedEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.21, p.66
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # ISO11992-4 DTC format Tags: atp.EnumerationLiteralIndex=0 xml.name=ISO-11992-4
+    ISO11992_4 = "iso11992_4"
+
+    # ISO14229-1 DTC format (3 byte format) Tags: atp.EnumerationLiteralIndex=1 xml.name=ISO-14229-1
+    ISO14229_1 = "iso14229_1"
+
+    # ISO15031-6 DTC format (2 byte format) Tags: atp.EnumerationLiteralIndex=2 xml.name=ISO-15031-6
+    ISO15031_6 = "iso15031_6"
+
+    # SAEJ1939-73 DTC format Tags: atp.EnumerationLiteralIndex=3 xml.name=SAE-J-1939-73
+    SAEJ1939_73 = "saeJ1939_73"
+
+    # SAE_J2012-DA_DTCFormat_00 (3 byte format) Tags: atp.EnumerationLiteralIndex=4 xml.name=SAE-J-2012-DA
+    SAEJ2012_DA = "saeJ2012_da"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTypeOfDtcSupportedEnum.ISO11992_4,
+                DiagnosticTypeOfDtcSupportedEnum.ISO14229_1,
+                DiagnosticTypeOfDtcSupportedEnum.ISO15031_6,
+                DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73,
+                DiagnosticTypeOfDtcSupportedEnum.SAEJ2012_DA,
+            ]
+        )
 
 class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
     pass

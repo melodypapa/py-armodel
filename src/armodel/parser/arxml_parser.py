@@ -127,7 +127,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum, ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
@@ -379,13 +379,25 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
+    DiagnosticAuthenticationClass,
+    DiagnosticCustomServiceClass,
+    DiagnosticEcuResetClass,
+    DiagnosticSecurityAccessClass,
+    DiagnosticServiceInstance,
+    DiagnosticSessionControlClass,
+)
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
     DiagnosticCompareTypeEnum,
+    DiagnosticEnvBswModeElement,
     DiagnosticEnvCompareCondition,
+    DiagnosticEnvDataCondition,
+    DiagnosticEnvDataElementCondition,
     DiagnosticEnvConditionFormula,
+    DiagnosticEnvModeCondition,
+    DiagnosticEnvSwcModeElement,
     DiagnosticEnvironmentalCondition,
     DiagnosticLogicalOperatorEnum,
 )
@@ -474,6 +486,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    DiagnosticAbstractParameter,
+    DiagnosticCommonProps,
+    DiagnosticComControlSpecificChannel,
+    DiagnosticParameter,
+    DiagnosticParameterSupportInfo,
+    DiagnosticSupportInfoByte,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
@@ -496,6 +516,26 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    DiagnosticAbstractDataIdentifier,
+    DiagnosticAuthRole,
+    DiagnosticAuthentication,
+    DiagnosticAuthenticationConfiguration,
+    DiagnosticAuthTransmitCertificate,
+    DiagnosticComControl,
+    DiagnosticContributionSet,
+    DiagnosticDataIdentifier,
+    DiagnosticDeAuthentication,
+    DiagnosticDynamicDataIdentifier,
+    DiagnosticEcuReset,
+    DiagnosticProtocol,
+    DiagnosticProofOfOwnership,
+    DiagnosticSecurityAccess,
+    DiagnosticSessionControl,
+    DiagnosticVerifyCertificateBidirectional,
+    DiagnosticVerifyCertificateUnidirectional,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
@@ -503,6 +543,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticAuthTransmitCertificateEvaluation,
+    DiagnosticDataElement,
+    DiagnosticParameterElement,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -517,8 +560,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyVersionString,
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     CIdentifier,
     DateTime,
+    DiagnosticEventCombinationBehaviorEnum,
+    DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticResponseToEcuResetEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -732,7 +780,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -1362,6 +1410,41 @@ DTC_FORMAT_TYPE_XML_MAP = {
 DTC_KIND_XML_MAP = {
     "emissionRelatedDtc": "EMISSION-RELATED-DTC",
     "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
+}
+
+#: Mapping between DiagnosticResponseToEcuResetEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE).
+DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP = {
+    "respondAfterReset": "RESPOND-AFTER-RESET",
+    "respondBeforeReset": "RESPOND-BEFORE-RESET",
+}
+
+#: Mapping between DiagnosticOccurrenceCounterProcessingEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-OCCURRENCE-COUNTER-PROCESSING-ENUM--SIMPLE).
+DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP = {
+    "confirmedDtcBit": "CONFIRMED-DTC-BIT",
+    "testFailedBit": "TEST-FAILED-BIT",
+}
+
+#: Mapping between ByteOrderEnum literal values and their XML element text
+#: (AR:BYTE-ORDER-ENUM--SIMPLE).
+BYTE_ORDER_XML_MAP = {
+    "mostSignificantByteFirst": "MOST-SIGNIFICANT-BYTE-FIRST",
+    "mostSignificantByteLast": "MOST-SIGNIFICANT-BYTE-LAST",
+    "opaque": "OPAQUE",
+}
+
+#: Mapping between DiagnosticEventCombinationBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-COMBINATION-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP = {
+    "eventCombinationOnRetrieval": "EVENT-COMBINATION-ON-RETRIEVAL",
+    "eventCombinationOnStorage": "EVENT-COMBINATION-ON-STORAGE",
+}
+
+#: Mapping between DiagnosticEventCombinationReportingBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-COMBINATION-REPORTING-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP = {
+    "reportingInChronlogicalOrderOldestFirst": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
 }
 
 
@@ -2934,6 +3017,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
         self.readDiagnosticCapabilityElement(element, algorithm)
+        algorithm.setTimeBasedFdcThresholdStorageValue(self.getChildElementOptionalTimeValue(element, "TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE"))
+        algorithm.setTimeFailedThreshold(self.getChildElementOptionalTimeValue(element, "TIME-FAILED-THRESHOLD"))
+        algorithm.setTimePassedThreshold(self.getChildElementOptionalTimeValue(element, "TIME-PASSED-THRESHOLD"))
 
     def readDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         for child_element in self.findall(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM/*"):
@@ -10353,10 +10439,186 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
         instance.setServiceClassRef(self.getChildElementOptionalRefType(element, "SERVICE-CLASS-REF"))
 
+    def readDiagnosticCustomServiceClass(self, element: ET.Element, service_class: DiagnosticCustomServiceClass):
+        self.logger.debug("Read DiagnosticCustomServiceClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+        service_class.setCustomServiceId(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SERVICE-ID"))
+
+    def readDiagnosticCustomServiceInstance(self, element: ET.Element, instance: DiagnosticCustomServiceInstance):
+        self.logger.debug("Read DiagnosticCustomServiceInstance <%s>" % instance.getShortName())
+        self.readIdentifiable(element, instance)
+        self.readDiagnosticServiceInstance(element, instance)
+        instance.setCustomServiceClassRef(self.getChildElementOptionalRefType(element, "CUSTOM-SERVICE-CLASS-REF"))
+
     def readDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
         self.readARObject(element, proxy)
         for ref in self.getChildElementRefTypeList(element, "AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF"):
             proxy.addAuthenticationRoleRef(ref)
+
+    def readDiagnosticMapping(self, element: ET.Element, mapping: DiagnosticMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setProviderSoftwareClusterRef(self.getChildElementOptionalRefType(element, "PROVIDER-SOFTWARE-CLUSTER-REF"))
+        mapping.setRequesterSoftwareClusterRef(self.getChildElementOptionalRefType(element, "REQUESTER-SOFTWARE-CLUSTER-REF"))
+
+    def readDiagnosticAbstractDataIdentifier(self, element: ET.Element, did: DiagnosticAbstractDataIdentifier):
+        self.readIdentifiable(element, did)
+        id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if id_avp_element is not None and id_avp_element.text is not None and id_avp_element.text.strip() != "":
+            id_value = PositiveInteger()
+            id_value.setValue(id_avp_element.text.strip())
+            did.setId(id_value)
+
+    def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
+        self.readARObject(element, common_props)
+        conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
+        if conditional_element is None:
+            return
+        common_props.setAuthenticationTimeout(self.getChildElementOptionalTimeValue(conditional_element, "AUTHENTICATION-TIMEOUT"))
+        for child_element in self.findall(conditional_element, "DEBOUNCE-ALGORITHM-PROPSS/DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS"):
+            debounce_props = common_props.createDebounceAlgorithmProps(self.getShortName(child_element))
+            self.readIdentifiable(child_element, debounce_props)
+        common_props.setDefaultEndianness(self._readEnumToken(conditional_element, "DEFAULT-ENDIANNESS", ByteOrderEnum, BYTE_ORDER_XML_MAP))
+        common_props.setEventCombinationReportingBehavior(
+            self._readEnumToken(conditional_element, "EVENT-COMBINATION-REPORTING-BEHAVIOR", DiagnosticEventCombinationReportingBehaviorEnum, DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP)
+        )
+        common_props.setMaxNumberOfRequestCorrectlyReceivedResponsePending(
+            self.getChildElementOptionalPositiveInteger(conditional_element, "MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING")
+        )
+        common_props.setOccurrenceCounterProcessing(
+            self._readEnumToken(conditional_element, "OCCURRENCE-COUNTER-PROCESSING", DiagnosticOccurrenceCounterProcessingEnum, DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP)
+        )
+        common_props.setResetConfirmedBitOnOverflow(self.getChildElementOptionalBooleanValue(conditional_element, "RESET-CONFIRMED-BIT-ON-OVERFLOW"))
+        common_props.setResetPendingBitOnOverflow(self.getChildElementOptionalBooleanValue(conditional_element, "RESET-PENDING-BIT-ON-OVERFLOW"))
+        common_props.setResponseOnAllRequestSids(self.getChildElementOptionalBooleanValue(conditional_element, "RESPONSE-ON-ALL-REQUEST-SIDS"))
+        common_props.setResponseOnSecondDeclinedRequest(self.getChildElementOptionalBooleanValue(conditional_element, "RESPONSE-ON-SECOND-DECLINED-REQUEST"))
+        common_props.setTypeOfEventCombinationSupported(
+            self._readEnumToken(conditional_element, "TYPE-OF-EVENT-COMBINATION-SUPPORTED", DiagnosticEventCombinationBehaviorEnum, DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP)
+        )
+
+    def readDiagnosticContributionSet(self, element: ET.Element, contribution_set: DiagnosticContributionSet):
+        self.logger.debug("Read DiagnosticContributionSet <%s>" % contribution_set.getShortName())
+        self.readIdentifiable(element, contribution_set)
+        common_properties_element = self.find(element, "COMMON-PROPERTIES")
+        if common_properties_element is not None:
+            common_props = DiagnosticCommonProps()
+            self.readDiagnosticCommonProps(common_properties_element, common_props)
+            contribution_set.setCommonProperties(common_props)
+        for ref in self.getChildElementRefTypeList(element, "ELEMENTS/DIAGNOSTIC-COMMON-ELEMENT-REF-CONDITIONAL/DIAGNOSTIC-COMMON-ELEMENT-REF"):
+            contribution_set.addElementRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"):
+            contribution_set.addServiceTableRef(ref)
+
+    def readDiagnosticProtocol(self, element: ET.Element, protocol: DiagnosticProtocol):
+        self.logger.debug("Read DiagnosticProtocol <%s>" % protocol.getShortName())
+        self.readIdentifiable(element, protocol)
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
+            protocol.addDiagnosticConnectionRef(ref)
+        priority_avp_element = self.find(element, "PRIORITY/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if priority_avp_element is not None and priority_avp_element.text is not None and priority_avp_element.text.strip() != "":
+            priority_value = PositiveInteger()
+            priority_value.setValue(priority_avp_element.text.strip())
+            protocol.setPriority(priority_value)
+        protocol.setProtocolKind(self.getChildElementOptionalNameToken(element, "PROTOCOL-KIND"))
+        send_resp_pend_avp_element = self.find(element, "SEND-RESP-PEND-ON-TRANS-TO-BOOT/BOOLEAN-VALUE-VARIATION-POINT")
+        if send_resp_pend_avp_element is not None and send_resp_pend_avp_element.text is not None and send_resp_pend_avp_element.text.strip() != "":
+            send_resp_pend_value = Boolean()
+            send_resp_pend_value.setValue(send_resp_pend_avp_element.text.strip())
+            protocol.setSendRespPendOnTransToBoot(send_resp_pend_value)
+        protocol.setServiceTableRef(self.getChildElementOptionalRefType(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"))
+
+    def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
+        self.readDiagnosticAbstractDataIdentifier(element, did)
+        for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
+            data_element = DiagnosticParameter()
+            self.readDiagnosticParameter(child_element, data_element)
+            did.addDataElement(data_element)
+        did.setDidSize(self.getChildElementOptionalPositiveInteger(element, "DID-SIZE"))
+        did.setRepresentsVin(self.getChildElementOptionalBooleanValue(element, "REPRESENTS-VIN"))
+        support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
+        if support_info_byte_element is not None:
+            did.setSupportInfoByte(DiagnosticSupportInfoByte())
+
+    def readDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
+        self.readARObject(element, parameter)
+        parameter.setBitOffset(self.getChildElementOptionalPositiveInteger(element, "BIT-OFFSET"))
+        data_elements = self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-DATA-ELEMENT")
+        if len(data_elements) > 0:
+            if len(data_elements) > 1:
+                self.logger.warning("DATA-ELEMENTS carries %d items; the PDF multiplicity of DiagnosticAbstractParameter.dataElement is 0..1 — extra items ignored" % len(data_elements))
+            data_element = parameter.createDataElement(self.getShortName(data_elements[0]))
+            self.readDiagnosticDataElement(data_elements[0], data_element)
+        parameter.setParameterSize(self.getChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE"))
+
+    def readDiagnosticDataElement(self, element: ET.Element, data_element: DiagnosticDataElement):
+        self.readIdentifiable(element, data_element)
+        array_size_semantics = self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS")
+        if array_size_semantics is not None:
+            data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(array_size_semantics.getValue()))
+        data_element.setMaxNumberOfElements(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ELEMENTS"))
+        data_element.setScalingInfoSize(self.getChildElementOptionalPositiveInteger(element, "SCALING-INFO-SIZE"))
+        data_element.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(data_element, VariationPointCapable):
+                data_element.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
+        self.readDiagnosticAbstractParameter(element, parameter)
+        ident_element = self.find(element, "IDENT")
+        if ident_element is not None:
+            ident = parameter.createIdent(self.getShortName(ident_element))
+            self.readDiagnosticParameterIdent(ident_element, ident)
+        support_info_element = self.find(element, "SUPPORT-INFO")
+        if support_info_element is not None:
+            parameter.setSupportInfo(DiagnosticParameterSupportInfo())
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(parameter, VariationPointCapable):
+                parameter.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readDiagnosticParameterElement(self, element: ET.Element, parameter_element: DiagnosticParameterElement):
+        self.readIdentifiable(element, parameter_element)
+        self.readDiagnosticAbstractParameter(element, parameter_element)
+        parameter_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
+        for child_element in self.findall(element, "SUB-ELEMENTS/DIAGNOSTIC-PARAMETER-ELEMENT"):
+            sub_element = parameter_element.createSubElement(self.getShortName(child_element))
+            self.readDiagnosticParameterElement(child_element, sub_element)
+
+    def readDiagnosticParameterIdent(self, element: ET.Element, ident: DiagnosticParameterIdent):
+        self.readIdentifiable(element, ident)
+        for child_element in self.findall(element, "SUB-ELEMENTS/DIAGNOSTIC-PARAMETER-ELEMENT"):
+            sub_element = ident.createSubElement(self.getShortName(child_element))
+            self.readDiagnosticParameterElement(child_element, sub_element)
+
+    def readDiagnosticDynamicDataIdentifier(self, element: ET.Element, did: DiagnosticDynamicDataIdentifier):
+        self.readDiagnosticAbstractDataIdentifier(element, did)
+
+    def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
+        self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())
+        self.readIdentifiable(element, ecu_reset)
+        ecu_reset.setCustomSubFunctionNumber(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SUB-FUNCTION-NUMBER"))
+        ecu_reset.setEcuResetClass(self.getChildElementOptionalRefType(element, "ECU-RESET-CLASS-REF"))
+
+    def readDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
+        self.logger.debug("Read DiagnosticComControl <%s>" % com_control.getShortName())
+        self.readIdentifiable(element, com_control)
+        com_control.setComControlClass(self.getChildElementOptionalRefType(element, "COM-CONTROL-CLASS-REF"))
+        com_control.setCustomSubFunctionNumber(self.getChildElementOptionalPositiveInteger(element, "CUSTOM-SUB-FUNCTION-NUMBER"))
+
+    def readDiagnosticComControlSpecificChannel(self, element: ET.Element, channel: DiagnosticComControlSpecificChannel):
+        self.logger.debug("Read DiagnosticComControlSpecificChannel")
+        channel.setSpecificChannel(self.getChildElementOptionalRefType(element, "SPECIFIC-CHANNEL-REF"))
+        channel.setSpecificPhysicalChannel(self.getChildElementOptionalRefType(element, "SPECIFIC-PHYSICAL-CHANNEL-REF"))
+        channel.setSubnetNumber(self.getChildElementOptionalPositiveInteger(element, "SUBNET-NUMBER"))
+
+    def readDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
+        self.logger.debug("Read DiagnosticEcuResetClass <%s>" % ecu_reset_class.getShortName())
+        self.readIdentifiable(element, ecu_reset_class)
+        ecu_reset_class.setRespondToReset(self._readEnumToken(element, "RESPOND-TO-RESET", DiagnosticResponseToEcuResetEnum, DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP))
 
     def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
         self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
@@ -10370,6 +10632,29 @@ class ARXMLParser(AbstractARXMLParser):
         session.setP2ServerMax(self.getChildElementOptionalTimeValue(element, "P-2-SERVER-MAX"))
         session.setP2StarServerMax(self.getChildElementOptionalTimeValue(element, "P-2-STAR-SERVER-MAX"))
 
+    def readDiagnosticSessionControl(self, element: ET.Element, session_control: DiagnosticSessionControl):
+        self.logger.debug("Read DiagnosticSessionControl <%s>" % session_control.getShortName())
+        self.readIdentifiable(element, session_control)
+        session_control.setDiagnosticSessionRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-SESSION-REF"))
+        session_control.setSessionControlClassRef(self.getChildElementOptionalRefType(element, "SESSION-CONTROL-CLASS-REF"))
+
+    def readDiagnosticSessionControlClass(self, element: ET.Element, service_class: DiagnosticSessionControlClass):
+        self.logger.debug("Read DiagnosticSessionControlClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+        service_class.setS3ServerTimeout(self.getChildElementOptionalTimeValue(element, "S-3-SERVER-TIMEOUT"))
+
+    def readDiagnosticSecurityAccessClass(self, element: ET.Element, service_class: DiagnosticSecurityAccessClass):
+        self.logger.debug("Read DiagnosticSecurityAccessClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+
+    def readDiagnosticSecurityAccess(self, element: ET.Element, security_access: DiagnosticSecurityAccess):
+        self.logger.debug("Read DiagnosticSecurityAccess <%s>" % security_access.getShortName())
+        self.readIdentifiable(element, security_access)
+        security_access.setRequestSeedId(self.getChildElementOptionalPositiveInteger(element, "REQUEST-SEED-ID"))
+        security_access.setSecurityAccessClass(self.getChildElementOptionalRefType(element, "SECURITY-ACCESS-CLASS-REF"))
+        security_access.setSecurityDelayTimeOnBoot(self.getChildElementOptionalTimeValue(element, "SECURITY-DELAY-TIME-ON-BOOT"))
+        security_access.setSecurityLevel(self.getChildElementOptionalRefType(element, "SECURITY-LEVEL-REF"))
+
     def readDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
         self.logger.debug("Read DiagnosticSecurityLevel <%s>" % security_level.getShortName())
         self.readIdentifiable(element, security_level)
@@ -10382,6 +10667,20 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticEnvCompareCondition(self, element: ET.Element, condition: DiagnosticEnvCompareCondition):
         self.readARObject(element, condition)
         condition.setCompareType(self._readEnumToken(element, "COMPARE-TYPE", DiagnosticCompareTypeEnum, DIAGNOSTIC_COMPARE_TYPE_XML_MAP))
+
+    def readDiagnosticEnvDataCondition(self, element: ET.Element, condition: DiagnosticEnvDataCondition):
+        self.readDiagnosticEnvCompareCondition(element, condition)
+        condition.setCompareValue(self.getChildValueSpecification(element, "COMPARE-VALUE"))
+        condition.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+
+    def readDiagnosticEnvDataElementCondition(self, element: ET.Element, condition: DiagnosticEnvDataElementCondition):
+        self.readDiagnosticEnvCompareCondition(element, condition)
+        condition.setCompareValue(self.getChildValueSpecification(element, "COMPARE-VALUE"))
+        condition.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+
+    def readDiagnosticEnvModeCondition(self, element: ET.Element, condition: DiagnosticEnvModeCondition):
+        self.readDiagnosticEnvCompareCondition(element, condition)
+        condition.setModeElementRef(self.getChildElementOptionalRefType(element, "MODE-ELEMENT-REF"))
 
     def readDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.readARObject(element, formula)
@@ -10401,6 +10700,18 @@ class ARXMLParser(AbstractARXMLParser):
                     part = DiagnosticEnvConditionFormula()
                     self.readDiagnosticEnvConditionFormula(child_element, part)
                     formula.addPart(part)
+                elif tag_name == "DIAGNOSTIC-ENV-DATA-CONDITION":
+                    part = DiagnosticEnvDataCondition()
+                    self.readDiagnosticEnvDataCondition(child_element, part)
+                    formula.addPart(part)
+                elif tag_name == "DIAGNOSTIC-ENV-DATA-ELEMENT-CONDITION":
+                    part = DiagnosticEnvDataElementCondition()
+                    self.readDiagnosticEnvDataElementCondition(child_element, part)
+                    formula.addPart(part)
+                elif tag_name == "DIAGNOSTIC-ENV-MODE-CONDITION":
+                    part = DiagnosticEnvModeCondition()
+                    self.readDiagnosticEnvModeCondition(child_element, part)
+                    formula.addPart(part)
                 else:
                     self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % tag_name)
 
@@ -10416,6 +10727,30 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticEnvironmentalCondition <%s>" % condition.getShortName())
         self.readIdentifiable(element, condition)
         condition.setFormula(self.getDiagnosticEnvConditionFormula(element, "FORMULA"))
+        mode_elements_element = self.find(element, "MODE-ELEMENTS")
+        if mode_elements_element is not None:
+            for child_element in mode_elements_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT":
+                    short_name_element = self.find(child_element, "SHORT-NAME")
+                    short_name = short_name_element.text if short_name_element is not None else "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT"
+                    mode_element = DiagnosticEnvSwcModeElement(condition, short_name)
+                    self.readDiagnosticEnvSwcModeElement(child_element, mode_element)
+                    condition.addModeElement(mode_element)
+                elif tag_name == "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT":
+                    short_name_element = self.find(child_element, "SHORT-NAME")
+                    short_name = short_name_element.text if short_name_element is not None else "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT"
+                    mode_element = DiagnosticEnvBswModeElement(condition, short_name)
+                    self.readDiagnosticEnvBswModeElement(child_element, mode_element)
+                    condition.addModeElement(mode_element)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvironmentalCondition modeElement <%s>" % tag_name)
+
+    def readDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
+        self.readReferrable(element, mode_element)
+
+    def readDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
+        self.readReferrable(element, mode_element)
 
     def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Read DiagnosticAccessPermission <%s>" % permission.getShortName())
@@ -10430,6 +10765,58 @@ class ARXMLParser(AbstractARXMLParser):
         permission.setEnvironmentalConditionRef(self.getChildElementOptionalRefType(element, "ENVIRONMENTAL-CONDITION-REF"))
         for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
             permission.addSecurityLevelRef(ref)
+
+    def readDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
+        authentication.setAuthenticationClass(self.getChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF"))
+
+    def readDiagnosticAuthenticationClass(self, element: ET.Element, service_class: DiagnosticAuthenticationClass):
+        self.logger.debug("Read DiagnosticAuthenticationClass <%s>" % service_class.getShortName())
+        self.readIdentifiable(element, service_class)
+
+    def readDiagnosticAuthenticationConfiguration(self, element: ET.Element, configuration: DiagnosticAuthenticationConfiguration):
+        self.logger.debug("Read DiagnosticAuthenticationConfiguration <%s>" % configuration.getShortName())
+        self.readIdentifiable(element, configuration)
+        self.readDiagnosticAuthentication(element, configuration)
+
+    def readDiagnosticAuthTransmitCertificate(self, element: ET.Element, certificate: DiagnosticAuthTransmitCertificate):
+        self.logger.debug("Read DiagnosticAuthTransmitCertificate <%s>" % certificate.getShortName())
+        self.readIdentifiable(element, certificate)
+        self.readDiagnosticAuthentication(element, certificate)
+        for eval_element in self.findall(element, "CERTIFICATE-EVALUATIONS/DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-EVALUATION"):
+            evaluation = certificate.createDiagnosticAuthTransmitCertificateEvaluation(self.getShortName(eval_element))
+            self.readDiagnosticAuthTransmitCertificateEvaluation(eval_element, evaluation)
+
+    def readDiagnosticAuthTransmitCertificateEvaluation(self, element: ET.Element, evaluation: DiagnosticAuthTransmitCertificateEvaluation):
+        self.logger.debug("Read DiagnosticAuthTransmitCertificateEvaluation <%s>" % evaluation.getShortName())
+        self.readIdentifiable(element, evaluation)
+        evaluation.setEvaluationId(self.getChildElementOptionalPositiveInteger(element, "EVALUATION-ID"))
+        evaluation.setFunction(self.getChildElementOptionalString(element, "FUNCTION"))
+
+    def readDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
+        self.logger.debug("Read DiagnosticDeAuthentication <%s>" % de_authentication.getShortName())
+        self.readIdentifiable(element, de_authentication)
+        self.readDiagnosticAuthentication(element, de_authentication)
+
+    def readDiagnosticProofOfOwnership(self, element: ET.Element, proof_of_ownership: DiagnosticProofOfOwnership):
+        self.logger.debug("Read DiagnosticProofOfOwnership <%s>" % proof_of_ownership.getShortName())
+        self.readIdentifiable(element, proof_of_ownership)
+        self.readDiagnosticAuthentication(element, proof_of_ownership)
+
+    def readDiagnosticVerifyCertificateBidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateBidirectional):
+        self.logger.debug("Read DiagnosticVerifyCertificateBidirectional <%s>" % verification.getShortName())
+        self.readIdentifiable(element, verification)
+        self.readDiagnosticAuthentication(element, verification)
+
+    def readDiagnosticVerifyCertificateUnidirectional(self, element: ET.Element, verification: DiagnosticVerifyCertificateUnidirectional):
+        self.logger.debug("Read DiagnosticVerifyCertificateUnidirectional <%s>" % verification.getShortName())
+        self.readIdentifiable(element, verification)
+        self.readDiagnosticAuthentication(element, verification)
+
+    def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
+        self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
+        self.readIdentifiable(element, auth_role)
+        auth_role.setBitPosition(self.getChildElementOptionalPositiveInteger(element, "BIT-POSITION"))
+        auth_role.setIsDefault(self.getChildElementOptionalBooleanValue(element, "IS-DEFAULT"))
 
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
@@ -15051,12 +15438,42 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-CONNECTION":
                 connection = parent.createDiagnosticConnection(self.getShortName(child_element))
                 self.readDiagnosticConnection(child_element, connection)
+            elif tag_name == "DIAGNOSTIC-CONTRIBUTION-SET":
+                contribution_set = parent.createDiagnosticContributionSet(self.getShortName(child_element))
+                self.readDiagnosticContributionSet(child_element, contribution_set)
+            elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-CLASS":
+                custom_service_class = parent.createDiagnosticCustomServiceClass(self.getShortName(child_element))
+                self.readDiagnosticCustomServiceClass(child_element, custom_service_class)
+            elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE":
+                custom_service_instance = parent.createDiagnosticCustomServiceInstance(self.getShortName(child_element))
+                self.readDiagnosticCustomServiceInstance(child_element, custom_service_instance)
+            elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
+                did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
+                self.readDiagnosticDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
+                did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
+                self.readDiagnosticDynamicDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-PROTOCOL":
+                protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
+                self.readDiagnosticProtocol(child_element, protocol)
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
             elif tag_name == "DIAGNOSTIC-SESSION":
                 session = parent.createDiagnosticSession(self.getShortName(child_element))
                 self.readDiagnosticSession(child_element, session)
+            elif tag_name == "DIAGNOSTIC-SESSION-CONTROL":
+                session_control = parent.createDiagnosticSessionControl(self.getShortName(child_element))
+                self.readDiagnosticSessionControl(child_element, session_control)
+            elif tag_name == "DIAGNOSTIC-SESSION-CONTROL-CLASS":
+                session_control_class = parent.createDiagnosticSessionControlClass(self.getShortName(child_element))
+                self.readDiagnosticSessionControlClass(child_element, session_control_class)
+            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
+                security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
+                self.readDiagnosticSecurityAccess(child_element, security_access)
+            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS-CLASS":
+                security_access_class = parent.createDiagnosticSecurityAccessClass(self.getShortName(child_element))
+                self.readDiagnosticSecurityAccessClass(child_element, security_access_class)
             elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
                 security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
                 self.readDiagnosticSecurityLevel(child_element, security_level)
@@ -15066,6 +15483,39 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
                 permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
                 self.readDiagnosticAccessPermission(child_element, permission)
+            elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
+                auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
+                self.readDiagnosticAuthRole(child_element, auth_role)
+            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
+                authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
+                self.readDiagnosticAuthenticationClass(child_element, authentication_class)
+            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
+                configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
+                self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
+            elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE":
+                certificate = parent.createDiagnosticAuthTransmitCertificate(self.getShortName(child_element))
+                self.readDiagnosticAuthTransmitCertificate(child_element, certificate)
+            elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
+                de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
+                self.readDiagnosticDeAuthentication(child_element, de_authentication)
+            elif tag_name == "DIAGNOSTIC-COM-CONTROL":
+                com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
+                self.readDiagnosticComControl(child_element, com_control)
+            elif tag_name == "DIAGNOSTIC-ECU-RESET":
+                ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
+                self.readDiagnosticEcuReset(child_element, ecu_reset)
+            elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
+                ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
+                self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+            elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
+                proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
+                self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
+            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
+                verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
+                self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
+            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
+                verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
+                self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)

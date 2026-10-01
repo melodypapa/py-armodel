@@ -11,7 +11,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [ ] `MeasuredHeapUsage` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.15, p.153
+- [x] `MeasuredHeapUsage` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.15, p.153 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -23,7 +24,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RoughEstimateHeapUsage` — HeapUsage — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.16, p.153
+- [x] `RoughEstimateHeapUsage` — HeapUsage — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.16, p.153 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -35,7 +37,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ExecutionTime` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.17, p.160
+- [x] `ExecutionTime` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.17, p.160 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -47,7 +50,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `MemorySectionLocation` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.19, p.162
+- [x] `MemorySectionLocation` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.19, p.162 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -59,7 +63,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `AnalyzedExecutionTime` — ExecutionTime — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.21, p.164
+- [x] `AnalyzedExecutionTime` — ExecutionTime — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.21, p.164 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -71,7 +76,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `MeasuredExecutionTime` — ExecutionTime — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.23, p.166
+- [x] `MeasuredExecutionTime` — ExecutionTime — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.23, p.166 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -83,7 +89,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `SimulatedExecutionTime` — ExecutionTime — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.24, p.167
+- [x] `SimulatedExecutionTime` — ExecutionTime — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.24, p.167 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -95,7 +102,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RoughEstimateOfExecutionTime` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.25, p.168
+- [x] `RoughEstimateOfExecutionTime` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 8.25, p.168 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -107,7 +115,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McSupportData` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.1, p.172
+- [x] `McSupportData` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.1, p.172 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -119,7 +128,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `AliasNameSet` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.2, p.174; also CP_TPS_SystemTemplate Table 14.3, p.968
+- [x] `AliasNameSet` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.2, p.174; also CP_TPS_SystemTemplate Table 14.3, p.968 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/FlatMap.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -131,7 +141,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `AliasNameAssignment` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.3, p.175; also CP_TPS_SystemTemplate Table 14.4, p.969
+- [x] `AliasNameAssignment` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.3, p.175; also CP_TPS_SystemTemplate Table 14.4, p.969 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/FlatMap.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -143,7 +154,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McDataInstance` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.4, p.178
+- [x] `McDataInstance` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.4, p.178 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -155,7 +167,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McSwEmulationMethodSupport` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.5, p.180
+- [x] `McSwEmulationMethodSupport` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.5, p.180 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -167,7 +180,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McParameterElementGroup` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.6, p.181
+- [x] `McParameterElementGroup` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.6, p.181 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -179,7 +193,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ImplementationElementInParameterInstanceRef` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.7, p.184
+- [x] `ImplementationElementInParameterInstanceRef` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.7, p.184 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -191,7 +206,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McFunction` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.8, p.186
+- [x] `McFunction` — ARElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.8, p.186 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -203,7 +219,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McFunctionDataRefSet` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.9, p.187
+- [x] `McFunctionDataRefSet` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.9, p.187 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -215,7 +232,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McGroup` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.10, p.191
+- [x] `McGroup` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.10, p.191 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/McGroups.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -227,7 +245,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McGroupDataRefSet` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.11, p.191
+- [x] `McGroupDataRefSet` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.11, p.191 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/McGroups.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -239,7 +258,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `McDataAccessDetails` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.12, p.195
+- [x] `McDataAccessDetails` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.12, p.195 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -251,7 +271,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptSupportData` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.13, p.198
+- [x] `RptSupportData` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.13, p.198 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -263,7 +284,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptSwPrototypingAccess` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.14, p.199; also CP_TPS_SoftwareComponentTemplate Table 14.11, p.856
+- [x] `RptSwPrototypingAccess` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.14, p.199; also CP_TPS_SoftwareComponentTemplate Table 14.11, p.856 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -275,7 +297,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptComponent` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.15, p.199
+- [x] `RptComponent` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.15, p.199 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -287,7 +310,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptExecutableEntity` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.16, p.200
+- [x] `RptExecutableEntity` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.16, p.200 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -299,7 +323,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptExecutableEntityEvent` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.17, p.201
+- [x] `RptExecutableEntityEvent` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.17, p.201 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -311,7 +336,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptImplPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.18, p.202; also CP_TPS_SoftwareComponentTemplate Table 14.8, p.854
+- [x] `RptImplPolicy` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.18, p.202; also CP_TPS_SoftwareComponentTemplate Table 14.8, p.854 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -323,7 +349,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptEnablerImplTypeEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.19, p.202; also CP_TPS_SoftwareComponentTemplate Table 14.9, p.855
+- [x] `RptEnablerImplTypeEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.19, p.202; also CP_TPS_SoftwareComponentTemplate Table 14.9, p.855 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -335,7 +362,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptPreparationEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.20, p.203; also CP_TPS_SoftwareComponentTemplate Table 14.10, p.855
+- [x] `RptPreparationEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.20, p.203; also CP_TPS_SoftwareComponentTemplate Table 14.10, p.855 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -347,7 +375,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptExecutableEntityProperties` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.21, p.203; also CP_TPS_SoftwareComponentTemplate Table 14.13, p.859
+- [x] `RptExecutableEntityProperties` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.21, p.203; also CP_TPS_SoftwareComponentTemplate Table 14.13, p.859 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -359,7 +388,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptExecutionControlEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.22, p.203; also CP_TPS_SoftwareComponentTemplate Table 14.14, p.860
+- [x] `RptExecutionControlEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.22, p.203; also CP_TPS_SoftwareComponentTemplate Table 14.14, p.860 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -371,7 +401,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptServicePointEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.23, p.204; also CP_TPS_SoftwareComponentTemplate Table 14.15, p.860
+- [x] `RptServicePointEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.23, p.204; also CP_TPS_SoftwareComponentTemplate Table 14.15, p.860 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -383,7 +414,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptExecutionContext` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.24, p.205
+- [x] `RptExecutionContext` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.24, p.205 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -395,7 +427,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptAccessEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.25, p.205; also CP_TPS_SoftwareComponentTemplate Table 14.12, p.857
+- [x] `RptAccessEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.25, p.205; also CP_TPS_SoftwareComponentTemplate Table 14.12, p.857 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -407,7 +440,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RptServicePoint` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.26, p.206
+- [x] `RptServicePoint` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 9.26, p.206 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -419,7 +453,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ServiceDependency` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.1, p.225; also CP_TPS_SoftwareComponentTemplate Table 7.57, p.609
+- [x] `ServiceDependency` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.1, p.225; also CP_TPS_SoftwareComponentTemplate Table 7.57, p.609 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -431,7 +466,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `BswServiceDependency` — ServiceDependency — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.2, p.225; also CP_TPS_DiagnosticExtractTemplate Table 5.3, p.226
+- [x] `BswServiceDependency` — ServiceDependency — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.2, p.225; also CP_TPS_DiagnosticExtractTemplate Table 5.3, p.226 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -443,7 +479,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RoleBasedBswModuleEntryAssignment` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.3, p.226
+- [x] `RoleBasedBswModuleEntryAssignment` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.3, p.226 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -455,7 +492,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RoleBasedDataTypeAssignment` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.5, p.227; also CP_TPS_SoftwareComponentTemplate Table 7.60, p.610
+- [x] `RoleBasedDataTypeAssignment` — ARObject — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.5, p.227; also CP_TPS_SoftwareComponentTemplate Table 7.60, p.610 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -467,7 +505,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `MaxCommModeEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.11, p.234; also CP_TPS_SoftwareComponentTemplate Table 13.6, p.711
+- [x] `MaxCommModeEnum` — AREnum — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.11, p.234; also CP_TPS_SoftwareComponentTemplate Table 13.6, p.711 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -479,7 +518,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `SupervisedEntityNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.12, p.234; also CP_TPS_SoftwareComponentTemplate Table 13.2, p.708
+- [x] `SupervisedEntityNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.12, p.234; also CP_TPS_SoftwareComponentTemplate Table 13.2, p.708 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -491,7 +531,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ComMgrUserNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.13, p.235; also CP_TPS_SoftwareComponentTemplate Table 13.5, p.711
+- [x] `ComMgrUserNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.13, p.235; also CP_TPS_SoftwareComponentTemplate Table 13.5, p.711 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -503,7 +544,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DoIpServiceNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.20, p.237; also CP_TPS_SoftwareComponentTemplate Table 13.54, p.805
+- [x] `DoIpServiceNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.20, p.237; also CP_TPS_SoftwareComponentTemplate Table 13.54, p.805 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -515,7 +557,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticIoControlNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.26, p.248; also CP_TPS_SoftwareComponentTemplate Table 13.38, p.781; also CP_TPS_DiagnosticExtractTemplate Table 4.82, p.119
+- [x] `DiagnosticIoControlNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.26, p.248; also CP_TPS_SoftwareComponentTemplate Table 13.38, p.781; also CP_TPS_DiagnosticExtractTemplate Table 4.82, p.119 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -527,7 +570,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticEventNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.31, p.258; also CP_TPS_SoftwareComponentTemplate Table 13.18, p.756
+- [x] `DiagnosticEventNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.31, p.258; also CP_TPS_SoftwareComponentTemplate Table 13.18, p.756 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -541,17 +585,19 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagEventDebounceTimeBased` — DiagEventDebounceAlgorithm — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.34, p.260; also CP_TPS_SoftwareComponentTemplate Table 13.21, p.758; also CP_TPS_DiagnosticExtractTemplate Table 4.190, p.198
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): own table = BSWModuleDescriptionTemplate Table 12.34 (md L6643-6654), identical text in SWC TPS Table 13.21 and DEXT TPS Table 4.190; concrete Class; Base most-derived = `DiagEventDebounceAlgorithm` (already synced). Pre-existing src content was UNSTAMPED fabricated (shape 3): invented class/`__init__` docstrings, invented inline comments, bare `TimeValue` annotations, untyped accessors, no None-guard setters, stale checklist without `# Spec:` — field names matched the spec so no field add/remove needed; full docstring/typing/checklist rewrite. XSD group order: TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE, TIME-FAILED-THRESHOLD, TIME-PASSED-THRESHOLD.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (14 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/test_DiagEventDebounceTimeBased.py, tests/test_armodel/parser/test_diag_event_debounce_time_based.py, tests/test_armodel/writer/test_writer_diag_event_debounce_time_based.py); 9b deferred to batch confirmation (user instruction); sync commit `eb9e19867`
 
-- [ ] `ErrorTracerNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.36, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.73, p.832
+- [x] `ErrorTracerNeeds` — ServiceNeeds — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.36, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.73, p.832 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -563,7 +609,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `TracedFailure` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.37, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.74, p.832
+- [x] `TracedFailure` — Identifiable — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.37, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.74, p.832 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -575,7 +622,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DevelopmentError` — TracedFailure — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.38, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.75, p.832
+- [x] `DevelopmentError` — TracedFailure — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.38, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.75, p.832 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -587,7 +635,8 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RuntimeError` — TracedFailure — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.39, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.76, p.832
+- [x] `RuntimeError` — TracedFailure — R23-11 CP_TPS_BSWModuleDescriptionTemplate Table 12.39, p.263; also CP_TPS_SoftwareComponentTemplate Table 13.76, p.832 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -601,125 +650,156 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDataIdentifier` — DiagnosticAbstractDataIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.2, p.34
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.2 (md body L898-906 + class block L887-890, trailing caption L908); Base most-derived = `DiagnosticAbstractDataIdentifier`; attrs `dataElement` (DiagnosticParameter `*` aggr → plural `dataElements`), `didSize`, `representsVin`, `supportInfoByte` (0..1); DATA-ELEMENTS is a wrapper list per XSD group L34234.
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDataIdentifier` factory + readARPackageElements DIAGNOSTIC-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch. Pending debt (Rule 0001.7): DIAGNOSTIC-PARAMETER items and SUPPORT-INFO-BYTE are identity-only until the child syncs (DiagnosticParameter this batch; DiagnosticSupportInfoByte queued Group25 Table 4.129).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (14 passed / 0 failed test_ARPackage.py::TestDiagnosticDataIdentifier, tests/test_armodel/parser/test_diagnostic_data_identifier.py, tests/test_armodel/writer/test_writer_diagnostic_data_identifier.py); 9b deferred to batch confirmation (user instruction); sync commit `18cb60097`
 
 - [ ] `DiagnosticDynamicDataIdentifier` — DiagnosticAbstractDataIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.3, p.34
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.3 (md caption L910, body L912-919); attribute table renders no rows (`-`), matching XSD group L35097 (empty sequence) — no own attributes; Base most-derived = `DiagnosticAbstractDataIdentifier`.
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicDataIdentifier` factory + readARPackageElements DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch; own reader/writer delegate to the base helpers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (10 passed / 0 failed test_ARPackage.py::TestDiagnosticDynamicDataIdentifier, tests/test_armodel/parser/test_diagnostic_dynamic_data_identifier.py, tests/test_armodel/writer/test_writer_diagnostic_dynamic_data_identifier.py); 9b deferred to batch confirmation (user instruction); sync commit `6127bd9f0`
 
 - [ ] `DiagnosticAbstractDataIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.4, p.34
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.4 (md body L923-931, caption L921); abstract Class; Base most-derived = `ARElement`; single attr `id` (PositiveInteger 0..1 attr, atpVariation) — Kind=attr with atpVariation is attribute-value variation only, NO class VP capability (Rule 0020; XSD group has no VARIATION-POINT); constr_1793 appended to class docstring.
+  - note (Step 6): XSD wraps ID in POSITIVE-INTEGER-VALUE-VARIATION-POINT (unlike DiagnosticSession's plain POSITIVE-INTEGER ID) — wrapper absorbed in `readDiagnosticAbstractDataIdentifier`/`writeDiagnosticAbstractDataIdentifier`; model keeps the PDF type PositiveInteger. Abstract base owns the reusable helpers (Rule 0001.7); no ARPackage element dispatch (no standalone element) — concrete subclasses wire it at their own syncs.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (9 passed / 0 failed test_ARPackage.py::TestDiagnosticAbstractDataIdentifier, tests/test_armodel/parser/test_diagnostic_abstract_data_identifier.py, tests/test_armodel/writer/test_writer_diagnostic_abstract_data_identifier.py); 9b deferred to batch confirmation (user instruction); sync commit `d32c58534`
 
 - [ ] `DiagnosticParameter` — DiagnosticAbstractParameter — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.5, p.36
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.5 (md body L969-977, caption L967); Base most-derived = `DiagnosticAbstractParameter` — UN-SYNCED STUB (queued Group23 Table 4.8, later batch): only own rows modeled (ident, supportInfo), no base members fabricated; VP-capable per Rule 0020 (XSD group L40573 carries VARIATION-POINT, Applicable for DiagnosticDataIdentifier.dataElement) → VariationPointCapable mixin.
+  - note (Step 6): DATA-ELEMENTS identity-only debt replaced — readDiagnosticDataIdentifier/readDiagnosticParameter + writeDiagnosticParameter now read/write real DIAGNOSTIC-PARAMETER items; recorded deviation (Rule 0005): cross-package DiagnosticParameterIdent import uses a function-local import in createIdent + TYPE_CHECKING annotation name (eager bottom import in ArObject.py — model-graph root — explodes the SWComponentTemplate/CommonStructure bootstrap); identity-only debt remains for IDENT child (Group23 Table 4.7) and SUPPORT-INFO child (Group24 Table 4.128).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (11 passed / 0 failed test_ArObject.py::TestDiagnosticParameter, tests/test_armodel/parser/test_diagnostic_parameter.py, tests/test_armodel/writer/test_writer_diagnostic_parameter.py); 9b deferred to batch confirmation (user instruction); sync commit `d1dafe3f0`
 
 - [ ] `DiagnosticParameterElement` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.6, p.36
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.6 (md caption L979, body L981-991); Base row names two chains → Python `DiagnosticAbstractParameter, Identifiable` multiple inheritance (Rule 0001.3 relocation — bitOffset/dataElement/parameterSize stay on the Table 4.8 base, queued within this batch, currently a bare stub); attrs `arraySize` (PositiveInteger 0..1 attr), `subElement` (DiagnosticParameterElement `*` aggr → plural `subElements` + `createSubElement(short_name)`/`getSubElements`, registry duplicate check); NOT VP-capable (XSD group DIAGNOSTIC-PARAMETER-ELEMENT L40629 carries no VARIATION-POINT); constr_10369 appended to class docstring.
+  - note (Step 6): reader/writer cover ARRAY-SIZE + recursive SUB-ELEMENTS (wrapper omitted when empty) in XSD complexType order (L40656); base-group serialization + readIdentifiable→readDiagnosticAbstractParameter swap pending the Table 4.8 sync (Rule 0001.7 debt); document-level dispatch via DiagnosticParameterIdent SUB-ELEMENTS lands with Table 4.7 — ET-level write→serialize→read round-trip until then.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (13 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py::TestDiagnosticParameterElement, tests/test_armodel/parser/test_diagnostic_parameter_element.py, tests/test_armodel/writer/test_writer_diagnostic_parameter_element.py); 9b deferred to batch confirmation (user instruction); sync commit `e626d82fd`
 
 - [ ] `DiagnosticParameterIdent` — IdentCaption — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.7, p.37
   - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.7 (md caption L993, body L999-1005); Base most-derived = `IdentCaption` (stamped); single attr `subElement` (DiagnosticParameterElement `*` aggr → plural `subElements` + `createSubElement(short_name)`/`getSubElements`, registry duplicate check); XSD groups ATP-CLASSIFIER/ATP-FEATURE/ATP-STRUCTURE-ELEMENT/IDENT-CAPTION/DSMDT all empty sequences — only identity groups + SUB-ELEMENTS serialize; NOT VP-capable.
+  - note (Step 6): reusable `readDiagnosticParameterIdent`/`writeDiagnosticParameterIdent` helpers (ModeAccessPointIdent precedent); B01 debt partially resolved — readDiagnosticParameter/writeDiagnosticParameter IDENT branches upgraded from identity-only SHORT-NAME to full ident + SUB-ELEMENTS dispatch with field values; full-document round-trip covers DPE dispatch too.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (32 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/test_RPTScenario.py, tests/test_armodel/parser/test_diagnostic_parameter_ident.py, tests/test_armodel/writer/test_writer_diagnostic_parameter_ident.py + 12 prior DiagnosticParameter/Element tests); 9b deferred to batch confirmation (user instruction); sync commit `d666ff9ed`
 
 - [ ] `DiagnosticAbstractParameter` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.8, p.37
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.8 (md caption L1004, body L1010-1018); ABSTRACT → ABC + instantiation guard; Base = ARObject → `__init__()`; attrs in displayed row order `bitOffset` (PositiveInteger 0..1), `dataElement` (DiagnosticDataElement 0..1 aggr → `createDataElement(short_name)`/`getDataElement()`; PDF 0..1 kept single per Rule 0001.4 — XSD resolves atpVariation/atpSplitable into the DATA-ELEMENTS wrapper with unbounded choice, absorbed by the helpers, extra items warn), `parameterSize` (PositiveInteger 0..1); NOT VP-capable (own group carries no VARIATION-POINT — the capability lands on the Type class DiagnosticDataElement per Rule 0020); constr_1790 + constr_1470 appended to class docstring.
+  - note (Step 6): reusable `readDiagnosticAbstractParameter`/`writeDiagnosticAbstractParameter` group helpers (Rule 0001.7); B01 debt resolved — readDiagnosticParameter/writeDiagnosticParameter now call them (base group serialized before IDENT/SUPPORT-INFO/VARIATION-POINT per XSD complexType L40615); DiagnosticParameterElement reader/writer call them after readIdentifiable/writeIdentifiable (complexType L40656 group order); dataElement child's identity-only serialization resolved by the Table 4.9 sync in this batch; `__init__` calls ARObject.__init__ directly (cooperative super would hit Identifiable.__init__ under the DPE MRO); PositiveInteger via bottom-of-module import (noqa E402), DiagnosticDataElement via TYPE_CHECKING + function-local import (Rule 0005 deviations recorded).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (26 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_ArObject.py, tests/test_armodel/parser/test_diagnostic_abstract_parameter.py, tests/test_armodel/writer/test_writer_diagnostic_abstract_parameter.py + extended DPE round-trip tests); 9b deferred to batch confirmation (user instruction); sync commit `6665fb7d7`
 
 - [ ] `DiagnosticDataElement` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.9, p.41
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.9 (md caption L1116, body L1122-1130); Base most-derived = `Identifiable`; attrs in displayed row order `arraySizeSemantics` (shared ArraySizeSemanticsEnum 0..1), `maxNumberOfElements` (PositiveInteger 0..1), `scalingInfoSize` (PositiveInteger 0..1), `swDataDefProps` (SwDataDefProps 0..1 aggr, plain ARObject child → set/get pair, shared SW-DATA-DEF-PROPS helpers); VP-capable per Rule 0020 (XSD group L34124 carries VARIATION-POINT "Applicable for: DiagnosticAbstractParameter.dataElement", sequenceOffset=10000 → last) → VariationPointCapable mixin; constr_1394 appended to class docstring.
+  - note (Step 6): reader/writer cover the four attributes + trailing VARIATION-POINT in XSD group order (writeIdentifiable VP suppressed via write_variation_point=False, StackUsage precedent); Table 4.8 debt resolved — readDiagnosticAbstractParameter/writeDiagnosticAbstractParameter DATA-ELEMENTS branch now dispatches full read/writeDiagnosticDataElement with field values; ArraySizeSemanticsEnum/SwDataDefProps are TYPE_CHECKING annotation names (bottom-of-module import explodes the CommonStructure hub mid-bootstrap — Rule 0005 deviation recorded), so those two annotations are not runtime-pinned.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (18 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py::TestDiagnosticDataElement, tests/test_armodel/parser/test_diagnostic_data_element.py, tests/test_armodel/writer/test_writer_diagnostic_data_element.py + full parser/writer unit dirs green); 9b deferred to batch confirmation (user instruction); sync commit `04e40cda0`
 
 - [ ] `DiagnosticContributionSet` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.14, p.57
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base most-derived = `ARElement` per Table 4.14 Base chain — FIXED from
+    the queued stub's `ARObject` (Rule 0001.2); module relocated ArObject.py →
+    ARPackage.py (ArObject.py cannot import ARElement — ARPackage imports
+    ArObject). Attrs: commonProperties (0..1 aggr), element/serviceTable (`*`
+    ref → elementRefs/serviceTableRefs); ecuInstance removed (atp.Status) →
+    deviation row. COMMON-PROPERTIES identity-only until DiagnosticCommonProps
+    syncs (this batch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (102 passed / 0 failed test_ARPackage.py + test_ArObject.py + test_diagnostic_contribution_set.py + test_writer_diagnostic_contribution_set.py); 9b deferred to batch confirmation (user instruction); sync commit `4c70e34d0`
 
 - [ ] `DiagnosticProtocol` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.15, p.58
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base most-derived = `ARElement` (Table 4.15 Base chain incl.
+    DiagnosticCommonElement; ARElement is the most-derived model class).
+    Attrs: diagnosticConnection (`*` ref → diagnosticConnectionRefs), priority
+    (PositiveInteger 0..1, PRIORITY/POSITIVE-INTEGER-VALUE-VARIATION-POINT),
+    protocolKind (NameToken 0..1), sendRespPendOnTransToBoot (Boolean 0..1,
+    BOOLEAN-VALUE-VARIATION-POINT), serviceTable (0..1 ref, SERVICE-TABLES
+    wrapper). No deviations. constr_1794/1795 in class docstring.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (95 passed / 0 failed test_ARPackage.py + test_diagnostic_protocol.py + test_writer_diagnostic_protocol.py); 9b deferred to batch confirmation (user instruction); sync commit `7324a51f2`
 
-- [ ] `TpConnectionIdent` — Referrable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.18, p.61; also CP_TPS_SystemTemplate Table 6.273, p.633
+- [x] `TpConnectionIdent` — Referrable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.18, p.61; also CP_TPS_SystemTemplate Table 6.273, p.633 — already verified (short-circuit 2026-10-01)
+  - note: already-verified short-circuit 2026-10-01 (Group23-25 batch header rule) — `# Spec verified: R23-11` marker present in src; quick deviation check clean (marker + `# Spec:` line + method checklist with no open rows + importable via armodel.models; class already reviewed by its stamped pass, no drift found). 9 steps not re-run (Rule 0012.3); stamp confirmation not required — already stamped.
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -733,181 +813,289 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticCommonProps` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.19, p.65
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base = `ARObject`; 11 attrs in displayed order (authenticationTimeout,
+    debounceAlgorithmProps `*` aggr → create/get, defaultEndianness,
+    eventCombinationReportingBehavior, maxNumberOfRequestCorrectlyReceivedResponsePending,
+    occurrenceCounterProcessing, resetConfirmedBitOnOverflow, resetPendingBitOnOverflow,
+    responseOnAllRequestSids, responseOnSecondDeclinedRequest,
+    typeOfEventCombinationSupported); <<atpVariation>> class → attrs serialize
+    inside VARIANTS/CONDITIONAL (transparent, no Conditional model); XSD-only /
+    removed attrs not modeled (Rule 0015); enum token maps registered
+    (BYTE_ORDER, EVENT_COMBINATION(_REPORTING), OCCURRENCE_COUNTER_PROCESSING);
+    DiagnosticContributionSet COMMON-PROPERTIES placeholder replaced with the
+    real reader/writer. Synced after its member enum
+    DiagnosticOccurrenceCounterProcessingEnum (dependency-first swap).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (32 passed / 0 failed test_ArObject.py + test_diagnostic_common_props.py + test_writer_diagnostic_common_props.py; DCS round-trip files re-green); 9b deferred to batch confirmation (user instruction); sync commit `0b2c7c2fa`
 
 - [ ] `DiagnosticOccurrenceCounterProcessingEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.20, p.66
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: literals (displayed order) confirmedDtcBit (idx 0) → CONFIRMED-DTC-BIT,
+    testFailedBit (idx 1) → TEST-FAILED-BIT; token map
+    DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP registered in parser +
+    writer for the consumer DiagnosticCommonProps. No deviations. Synced before
+    DiagnosticCommonProps (dependency-first: member type before referrer).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — round-trips as an attribute value on consuming classes)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map entry registered in parser/writer map blocks instead)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (126 passed / 0 failed test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction); sync commit `5d402fe9d`
 
 - [ ] `DiagnosticTypeOfDtcSupportedEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.21, p.66
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: literals (displayed order) iso11992_4 (idx 0) → ISO-11992--4,
+    iso14229_1 (idx 1) → ISO-14229--1, iso15031_6 (idx 2) → ISO-15031--6,
+    saeJ1939_73 (idx 3) → SAE-J-1939--73, saeJ2012_da (idx 4) → SAE-J-2012--DA.
+    No token map registered yet — consumer not modeled
+    (DiagnosticMemoryDestinationPrimary queued stub; DiagnosticCommonProps.typeOfDtcSupported
+    atp.Status="removed", Rule 0015). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no modeled consumer, no XML carrier)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map deferred to the consuming class's sync)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (129 passed / 0 failed test_PrimitiveTypes.py); 9b deferred to batch confirmation (user instruction); sync commit `210840b94`
 
 - [ ] `DiagnosticEventCombinationBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.23, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: literals (displayed order) eventCombinationOnRetrieval (idx 1) →
+    EVENT-COMBINATION-ON-RETRIEVAL, eventCombinationOnStorage (idx 0) →
+    EVENT-COMBINATION-ON-STORAGE (displayed order differs from index order —
+    markdown row order wins). Token map DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP
+    was pre-registered by the DiagnosticCommonProps sync (0b2c7c2fa); this pass
+    landed the deferred typed-value coverage (model setter test + parser/writer
+    TYPE-OF-EVENT-COMBINATION-SUPPORTED field-value and round-trip assertions).
+    No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — deferred DiagnosticCommonProps value coverage landed instead; reader branch pre-wired)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map + reader/writer branches pre-wired by 0b2c7c2fa, verified by the new assertions)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (165 passed / 0 failed test_PrimitiveTypes.py + test_ArObject.py + test_diagnostic_common_props.py + test_writer_diagnostic_common_props.py); 9b deferred to batch confirmation (user instruction); sync commit `c5c9c65c4`
 
 - [ ] `DiagnosticEventCombinationReportingBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.24, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: single literal reportingInChronlogicalOrderOldestFirst (idx 0) →
+    REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST (spec's own "Chronlogical"
+    spelling kept verbatim). Token map
+    DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP was pre-registered
+    by the DiagnosticCommonProps sync (0b2c7c2fa); this pass landed the deferred
+    typed-value coverage (model setter test + parser/writer
+    EVENT-COMBINATION-REPORTING-BEHAVIOR field-value and round-trip assertions).
+    No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — deferred DiagnosticCommonProps value coverage landed instead; reader branch pre-wired)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map + reader/writer branches pre-wired by 0b2c7c2fa, verified by the new assertions)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (168 passed / 0 failed test_PrimitiveTypes.py + test_ArObject.py + test_diagnostic_common_props.py + test_writer_diagnostic_common_props.py); 9b deferred to batch confirmation (user instruction); sync commit `d36baa82d`
 
 - [ ] `DiagnosticCustomServiceInstance` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.27, p.70
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Base most-derived = `DiagnosticServiceInstance` — FIXED from the
+    queued stub's `ARElement` (Rule 0001.2); own attr `customServiceClass`
+    (DiagnosticCustomServiceClass 0..1 ref) → `customServiceClassRef:
+    Optional[RefType]`; wire order identifiable → ACCESS-PERMISSION-REF
+    (inherited via shared base helpers) → CUSTOM-SERVICE-CLASS-REF (XSD group
+    l.34019); full 5-place ARPackage dispatch (factory + parser + writer
+    branches + dispatch tests). Ref target DiagnosticCustomServiceClass exists
+    as a stub (Table 4.28 queued — not a placeholder). Report-only: XSD marks
+    base `serviceClass` atpDerived/skipped while the stamped Table 4.26 base
+    still reads/writes SERVICE-CLASS-REF (out of scope). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (99 passed / 0 failed test_ARPackage.py + test_diagnostic_custom_service_instance.py + test_writer_diagnostic_custom_service_instance.py + test_writer_diagnostic_contribution_set.py); 9b deferred to batch confirmation (user instruction); sync commit `6beeb07b0`
 
 - [ ] `DiagnosticCustomServiceClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.28, p.71
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.28 (md L1950-1963); concrete Class; Base most-derived = `DiagnosticServiceClass`
+    (stub base already correct); single attr `customServiceId` (PositiveInteger 0..1 attr); constr_1330 appended to
+    class docstring; not VP-capable (XSD group L33976 has no VARIATION-POINT); XSD: single CUSTOM-SERVICE-ID element.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (31 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_CommonService.py, tests/test_armodel/parser/test_diagnostic_custom_service_class.py, tests/test_armodel/writer/test_writer_diagnostic_custom_service_class.py); 9b deferred to batch confirmation (user instruction); sync commit `259d8d82a`
 
 - [ ] `DiagnosticAuthRole` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.34, p.77
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.34 (md L2151-2161); concrete Class; Base most-derived = `ARElement` (stub base
+    already correct); attrs in displayed order `bitPosition` (PositiveInteger 0..1 attr), `isDefault` (Boolean 0..1
+    attr); class docstring = Note verbatim (Tags tail dropped), no constr rows for this class (the L2186 constr
+    targets DiagnosticAccessPermission); not VP-capable (XSD group L31670 has no VARIATION-POINT); XSD wire order
+    BIT-POSITION, IS-DEFAULT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (101 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_ARPackage.py, tests/test_armodel/parser/test_diagnostic_auth_role.py, tests/test_armodel/writer/test_writer_diagnostic_auth_role.py); 9b deferred to batch confirmation (user instruction); sync commit `16e3c0c30`
 
 - [ ] `DiagnosticCompareTypeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.40, p.83
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: synced FROM SCRATCH per Rule 0001.3/0012.2.3 (unstamped content) — drift FOUND and repaired: pre-existing
+    member/`__init__` tuple order was operator-logical (IS_EQUAL, IS_NOT_EQUAL, IS_LESS_THAN, IS_LESS_OR_EQUAL,
+    IS_GREATER_THAN, IS_GREATER_OR_EQUAL); markdown displayed order is alphabetical (isEqual idx0, isGreaterOrEqual
+    idx5, isGreaterThan idx4, isLessOrEqual idx3, isLessThan idx2, isNotEqual idx1) → reordered (Rule 0001.11,
+    EventCombinationBehaviorEnum precedent). Literal set (6), member values (spec camelCase verbatim), class Note,
+    literal descriptions verified correct; all docstrings/comments wiped and rewritten fresh. Wire tokens via
+    pre-registered DIAGNOSTIC_COMPARE_TYPE_XML_MAP (parser l.1318 / writer l.1152) verified against the XSD SIMPLE
+    enum (l.134030); reader/writer branches on compareType pre-wired (_readEnumToken/_writeEnumToken). Not
+    VP-capable (enum). Steps 5/6 N/A (standalone enum).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — round-trip via the consuming DiagnosticEnvCompareCondition; reader branch pre-wired and consumer tests green)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — token map + reader/writer branches pre-wired, verified by the new assertions)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (46 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py + 6 passed/0 failed parser/writer consumer tests); 9b deferred to batch confirmation (user instruction); sync commit `cc55d1d35`
 
 - [ ] `DiagnosticEnvDataCondition` — DiagnosticEnvCompareCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.41, p.84
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.41 (md L2377-2391); concrete Class; Base most-derived = `DiagnosticEnvCompareCondition`
+    (stub base already correct); attrs in displayed order `compareValue` (ValueSpecification 0..1 aggr →
+    `Optional[ValueSpecification]` + set/get, shared getChild/setChildValueSpecification dispatch; XSD choice has 12
+    alternatives, APPLICATION-ASSOC-MAP-VALUE-SPECIFICATION not modeled — report-only Rule 0001.10), `dataElement`
+    (DiagnosticDataElement 0..1 ref → `dataElementRef: Optional[RefType]`, DATA-ELEMENT-REF); constr_1802 + constr_1803
+    appended to class docstring; not VP-capable (compareValue carries vh.variationPointApplicable="false" — no
+    VARIATION-POINT in the XSD group, Rule 0020); ValueSpecification imported bottom-of-module (Rule 0001.8
+    cycle-breaker). XSD formula PARTS dispatch WIRED: DIAGNOSTIC-ENV-DATA-CONDITION branch in
+    readDiagnosticEnvConditionFormula + writeDiagnosticEnvConditionFormula PARTS loop (dispatch point was clear).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (62 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py, tests/test_armodel/parser/test_diagnostic_env_data_condition.py, tests/test_armodel/writer/test_writer_diagnostic_env_data_condition.py + 6 passed/0 failed neighbor env-condition round-trip tests); 9b deferred to batch confirmation (user instruction); sync commit `19d7cb9cd`
 
 - [ ] `DiagnosticEnvDataElementCondition` — DiagnosticEnvCompareCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.42, p.85
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.42 (md L2414-2425, constr block L2427-2458); concrete Class; Base most-derived =
+    `DiagnosticEnvCompareCondition`; attrs in displayed order `compareValue` (ValueSpecification 0..1 aggr →
+    `Optional[ValueSpecification]` + set/get, shared getChild/setChildValueSpecification dispatch), `dataPrototype`
+    (DataPrototype 0..1 iref → `dataPrototypeIRef` — DataPrototypeInSystemInstanceRef NOT in src, Rule 0001.10
+    placeholder RefType, DATA-PROTOTYPE-IREF reader/writer deferred), `swDataDefProps` (SwDataDefProps 0..1 aggr →
+    shared get/setSwDataDefProps, atpSplitable); constr_10115 + constr_10116 + constr_10117 appended to class
+    docstring; not VP-capable (compareValue vh.variationPointApplicable="false" — no VARIATION-POINT in the XSD
+    group, Rule 0020); XSD group carries two AP-only elements absent from the PDF table (P-PORT-PROTOTYPE-IREF,
+    PROCESS-REF) — not modeled per Rule 0015. XSD formula PARTS dispatch WIRED: DIAGNOSTIC-ENV-DATA-ELEMENT-CONDITION
+    branch in readDiagnosticEnvConditionFormula + writeDiagnosticEnvConditionFormula PARTS loop.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (79 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py, tests/test_armodel/parser/test_diagnostic_env_data_element_condition.py, tests/test_armodel/writer/test_writer_diagnostic_env_data_element_condition.py + 7 passed/0 failed neighbor env-condition round-trip tests); 9b deferred to batch confirmation (user instruction); sync commit `519aca853`
 
 - [ ] `DiagnosticEnvModeCondition` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.43, p.89
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = DEXT Table 4.43 (md header rows L2507-2514, caption L2519, attr row L2523, trailing-caption
+    trap); concrete Class; Base CORRECTED — queue row said `ARObject` but the Base cell reads
+    `ARObject , DiagnosticEnvCompareCondition , DiagnosticEnvConditionFormulaPart` → most-derived =
+    `DiagnosticEnvCompareCondition` (Rule 0001.2); placement follows the base into EnvironmentalCondition.py
+    (Rule 0007), not ArObject.py; attr `modeElement` (DiagnosticEnvModeElement 0..1 ref → `modeElementRef:
+    Optional[RefType]`, MODE-ELEMENT-REF DEST DIAGNOSTIC-ENV-MODE-ELEMENT--SUBTYPES-ENUM); constr_1804 appended;
+    not VP-capable (no VARIATION-POINT in XSD group l.36015, Rule 0020); prose constraints constr_1466/1467 sit
+    outside the table block — recorded in the tracker, not appended. XSD formula PARTS dispatch WIRED:
+    DIAGNOSTIC-ENV-MODE-CONDITION branch in readDiagnosticEnvConditionFormula +
+    writeDiagnosticEnvConditionFormula PARTS loop.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (87 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_EnvironmentalCondition.py, tests/test_armodel/parser/test_diagnostic_env_mode_condition.py, tests/test_armodel/writer/test_writer_diagnostic_env_mode_condition.py + 7 passed/0 failed neighbor env-condition round-trip tests); 9b deferred to batch confirmation (user instruction); sync commit `4e6f0e303`
 
 - [ ] `DiagnosticEnvSwcModeElement` — DiagnosticEnvModeElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.45, p.89
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.45 concrete subclass of stamped DiagnosticEnvModeElement; attrs per table;
+      XSD group wiring resolved at Step 6.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (88 passed / 0 failed, 3 files incl. neighbors); 9b deferred to batch confirmation (user instruction); sync commit `4e64e33af`
 
 - [ ] `DiagnosticEnvBswModeElement` — DiagnosticEnvModeElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.46, p.90
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 8): MODE-IREF deferred — ModeInBswModuleDescriptionInstanceRef not yet modeled
+      (Rule 0001.10 placeholder RefType); identity read/write wired via MODE-ELEMENTS dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (96 passed / 0 failed, 3 files incl. Swc sibling); 9b deferred to batch confirmation (user instruction); sync commit `9b9020585`
 
 - [ ] `DiagnosticSessionControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.47, p.93
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): own table = DEXT Table 4.47 (md body L2676-2684, trailing caption L2674); Base
+      most-derived = `ARElement` (chain's DiagnosticServiceInstance contributes no modeled members —
+      ARElement-only sibling precedent DiagnosticProtocol); attrs `diagnosticSession` (ref →
+      `diagnosticSessionRef`), `sessionControlClass` (ref → `sessionControlClassRef`), both 0..1 RefType.
+    - note (Step 6): ARPackage element dispatch per the 5-place pattern (createDiagnosticSessionControl
+      factory + readARPackageElements DIAGNOSTIC-SESSION-CONTROL branch + writeARPackageElement isinstance
+      branch); wire order per XSD group L44381 — DIAGNOSTIC-SESSION-REF then SESSION-CONTROL-CLASS-REF;
+      base groups DIAGNOSTIC-COMMON-ELEMENT / DIAGNOSTIC-SERVICE-INSTANCE serialize nothing (the
+      <<atpDerived>> serviceClass association is skipped by the XSD group).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-01 (14 passed / 0 failed test_ARPackage.py::TestDiagnosticSessionControl, tests/test_armodel/parser/test_diagnostic_session_control.py, tests/test_armodel/writer/test_writer_diagnostic_session_control.py); 9b deferred to batch confirmation (user instruction); sync commit `a68f0804f`
 

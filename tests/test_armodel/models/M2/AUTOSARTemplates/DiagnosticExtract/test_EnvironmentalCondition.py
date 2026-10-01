@@ -6,22 +6,31 @@ DiagnosticEnvConditionFormula (Table 4.36), DiagnosticLogicalOperatorEnum
 DiagnosticEnvModeElement (Table 4.44).
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
     DiagnosticCompareTypeEnum,
+    DiagnosticEnvBswModeElement,
     DiagnosticEnvCompareCondition,
     DiagnosticEnvConditionFormula,
     DiagnosticEnvConditionFormulaPart,
+    DiagnosticEnvDataCondition,
+    DiagnosticEnvDataElementCondition,
     DiagnosticEnvironmentalCondition,
+    DiagnosticEnvModeCondition,
     DiagnosticEnvModeElement,
+    DiagnosticEnvSwcModeElement,
     DiagnosticLogicalOperatorEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, PositiveInteger, RefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 ENV_CONDITION_NOTE = (
     "The meta-class DiagnosticEnvironmentalCondition formalizes the idea of a condition which is evaluated during runtime of the ECU by looking at "
@@ -44,6 +53,7 @@ MODE_ELEMENT_NOTE = (
     "that an InstanceRef only needs to be defined once and can be used multiple times in the different DiagnosticEnvModeConditions."
 )
 LOGICAL_OPERATOR_ENUM_NOTE = "Logical AND and OR operation (&&, ||)"
+COMPARE_TYPE_ENUM_NOTE = "Enumeration for the type of a comparison of values usually expressed by the following operators: ==, !=, <, <=, >, >="
 FORMULA_ATTR_NOTE = "This attribute represents the formula part of the DiagnosticEnvironmentalCondition."
 MODE_ELEMENT_ATTR_NOTE = "This aggregation contains a representation of ModeDeclarations in the context of a DiagnosticEnvironmentalCondition."
 NRC_VALUE_NOTE = "This attribute represents the concrete NRC value that shall be returned if the condition fails."
@@ -277,17 +287,37 @@ class Test_DiagnosticLogicalOperatorEnum:
 class Test_DiagnosticCompareTypeEnum:
     """Test cases for DiagnosticCompareTypeEnum (Table 4.40, p.83)."""
 
-    def test_instantiation_and_values(self):
+    def test_instantiation_and_displayed_order(self):
         enum = DiagnosticCompareTypeEnum()
         assert enum.getEnumValues() == (
-            DiagnosticCompareTypeEnum.IS_EQUAL,
-            DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
-            DiagnosticCompareTypeEnum.IS_LESS_THAN,
-            DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
-            DiagnosticCompareTypeEnum.IS_GREATER_THAN,
-            DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL,
+            "isEqual",
+            "isGreaterOrEqual",
+            "isGreaterThan",
+            "isLessOrEqual",
+            "isLessThan",
+            "isNotEqual",
         )
+
+    def test_literal_members(self):
         assert DiagnosticCompareTypeEnum.IS_EQUAL == "isEqual"
+        assert DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL == "isGreaterOrEqual"
+        assert DiagnosticCompareTypeEnum.IS_GREATER_THAN == "isGreaterThan"
+        assert DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL == "isLessOrEqual"
+        assert DiagnosticCompareTypeEnum.IS_LESS_THAN == "isLessThan"
+        assert DiagnosticCompareTypeEnum.IS_NOT_EQUAL == "isNotEqual"
+
+    def test_validate_enum_value(self):
+        enum = DiagnosticCompareTypeEnum()
+        assert enum.validateEnumValue("isEqual") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_instantiable_and_value_round_trip(self):
+        enum = DiagnosticCompareTypeEnum()
+        enum.setValue(DiagnosticCompareTypeEnum.IS_GREATER_THAN)
+        assert enum.getValue() == "isGreaterThan"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert DiagnosticCompareTypeEnum.__doc__ == COMPARE_TYPE_ENUM_NOTE
 
 
 class Test_DiagnosticEnvCompareCondition:
@@ -335,3 +365,343 @@ class Test_DiagnosticEnvCompareCondition:
         parsed = _ConcreteCompareCondition()
         ARXMLParser().readDiagnosticEnvCompareCondition(reloaded[0], parsed)
         assert parsed.getCompareType().getValue() == "isEqual"
+
+
+class Test_DiagnosticEnvDataCondition:
+    """Test cases for DiagnosticEnvDataCondition (Table 4.41, p.84)."""
+
+    CLASS_DOCSTRING = (
+        "A DiagnosticEnvDataCondition is an atomic condition that compares the current value of the referenced DiagnosticDataElement "
+        "with a constant value defined by the ValueSpecification. All compareTypes are supported.\n"
+        "\n"
+        "[constr_1802] Existence of DiagnosticEnvDataCondition.compareValue: For each DiagnosticEnvDataCondition, that attribute "
+        "compareValue shall exist at the time when the DEXT is complete.\n"
+        "\n"
+        "[constr_1803] Existence of DiagnosticEnvDataCondition.dataElement: For each DiagnosticEnvDataCondition, that attribute "
+        "dataElement shall exist at the time when the DEXT is complete."
+    )
+    COMPARE_VALUE_NOTE = "This attribute represents a fixed compare value taken to evaluate the compare condition."
+    DATA_ELEMENT_NOTE = "This reference represents the related diagnostic data element."
+
+    def test_is_concrete(self):
+        condition = DiagnosticEnvDataCondition()
+        assert condition is not None
+
+    def test_is_diagnostic_env_compare_condition_subclass(self):
+        assert issubclass(DiagnosticEnvDataCondition, DiagnosticEnvCompareCondition)
+        assert issubclass(DiagnosticEnvDataCondition, DiagnosticEnvConditionFormulaPart)
+        assert issubclass(DiagnosticEnvDataCondition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvDataCondition.__init__.__doc__ is None
+
+    def test_defaults(self):
+        condition = DiagnosticEnvDataCondition()
+        assert condition.getCompareValue() is None
+        assert condition.getDataElementRef() is None
+        assert condition.getCompareType() is None
+
+    def test_get_set_compare_value(self):
+        condition = DiagnosticEnvDataCondition()
+        value_spec = TextValueSpecification()
+        literal = ARLiteral()
+        literal.setValue("42")
+        value_spec.setValue(literal)
+        assert condition.setCompareValue(value_spec) is condition
+        assert condition.getCompareValue() is value_spec
+        condition.setCompareValue(None)
+        assert condition.getCompareValue() is value_spec
+
+    def test_get_set_data_element_ref(self):
+        condition = DiagnosticEnvDataCondition()
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagDataElements/Dde1")
+        assert condition.setDataElementRef(ref) is condition
+        assert condition.getDataElementRef() is ref
+        condition.setDataElementRef(None)
+        assert condition.getDataElementRef() is ref
+
+    def test_inherited_compare_type(self):
+        condition = DiagnosticEnvDataCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL)
+        condition.setCompareType(compare_type)
+        assert condition.getCompareType() is compare_type
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.getCompareValue.__doc__) == self.COMPARE_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.setCompareValue.__doc__) == (self.COMPARE_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing compareValue.")
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.getDataElementRef.__doc__) == self.DATA_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataCondition.setDataElementRef.__doc__) == (self.DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataElementRef.")
+
+
+class Test_DiagnosticEnvDataElementCondition:
+    """Test cases for DiagnosticEnvDataElementCondition (Table 4.42, p.85)."""
+
+    CLASS_DOCSTRING = (
+        "This meta-class represents the ability to formulate a diagnostic environment condition based on the value of a data element owned by the application software.\n"
+        "\n"
+        "[constr_10115] Existence of attributes of DiagnosticEnvDataElementCondition if the reference in the role dataPrototype exists: If the reference in the role "
+        "DiagnosticEnvDataElementCondition.dataPrototype exists, then the aggregation in the role compareValue shall exist and the aggregation in the role "
+        "swDataDefProps shall not exist at the time when the DEXT is complete.\n"
+        "\n"
+        "[constr_10116] Existence of attributes of DiagnosticEnvDataElementCondition if the reference in the role dataPrototype does not exist: If the reference in the "
+        "role DiagnosticEnvDataElementCondition.dataPrototype does not exist, then the aggregations in the role compareValue and swDataDefProps shall exist at the "
+        "time when the DEXT is complete.\n"
+        "\n"
+        "[constr_10117] Existence of attributes of DiagnosticEnvDataElementCondition.swDataDefProps: baseType 1, compuMethod 0..1, dataConstr 0..1. This rule shall be "
+        "imposed at the time when the DEXT is complete."
+    )
+    COMPARE_VALUE_NOTE = "This aggregation represents the definition of the compare value against which the value taken from the application software shall be compared."
+    DATA_PROTOTYPE_NOTE = "This instanceRef represent the ability to access a data element owned by the application software on the AUTOSAR classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef"
+    SW_DATA_DEF_PROPS_NOTE = "Via this aggregation it is possible to describe the properties of the data that is obtained from the application for the environmental condition."
+
+    def test_is_concrete(self):
+        condition = DiagnosticEnvDataElementCondition()
+        assert condition is not None
+
+    def test_is_diagnostic_env_compare_condition_subclass(self):
+        assert issubclass(DiagnosticEnvDataElementCondition, DiagnosticEnvCompareCondition)
+        assert issubclass(DiagnosticEnvDataElementCondition, DiagnosticEnvConditionFormulaPart)
+        assert issubclass(DiagnosticEnvDataElementCondition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvDataElementCondition.__init__.__doc__ is None
+
+    def test_defaults(self):
+        condition = DiagnosticEnvDataElementCondition()
+        assert condition.getCompareValue() is None
+        assert condition.getDataPrototypeIRef() is None
+        assert condition.getSwDataDefProps() is None
+        assert condition.getCompareType() is None
+
+    def test_get_set_compare_value(self):
+        condition = DiagnosticEnvDataElementCondition()
+        value_spec = TextValueSpecification()
+        literal = ARLiteral()
+        literal.setValue("42")
+        value_spec.setValue(literal)
+        assert condition.setCompareValue(value_spec) is condition
+        assert condition.getCompareValue() is value_spec
+        condition.setCompareValue(None)
+        assert condition.getCompareValue() is value_spec
+
+    def test_get_set_data_prototype_iref(self):
+        condition = DiagnosticEnvDataElementCondition()
+        ref = RefType()
+        ref.setDest("VARIABLE-DATA-PROTOTYPE")
+        ref.setValue("/AUTOSAR/RootSwComposition/Comp1/Vdp1")
+        assert condition.setDataPrototypeIRef(ref) is condition
+        assert condition.getDataPrototypeIRef() is ref
+        condition.setDataPrototypeIRef(None)
+        assert condition.getDataPrototypeIRef() is ref
+
+    def test_get_set_sw_data_def_props(self):
+        condition = DiagnosticEnvDataElementCondition()
+        props = SwDataDefProps()
+        base_type_ref = RefType()
+        base_type_ref.setDest("SW-BASE-TYPE")
+        base_type_ref.setValue("/DataTypes/BaseTypes/uint8")
+        props.setBaseTypeRef(base_type_ref)
+        assert condition.setSwDataDefProps(props) is condition
+        assert condition.getSwDataDefProps() is props
+        assert condition.getSwDataDefProps().getBaseTypeRef().getValue() == "/DataTypes/BaseTypes/uint8"
+        condition.setSwDataDefProps(None)
+        assert condition.getSwDataDefProps() is props
+
+    def test_inherited_compare_type(self):
+        condition = DiagnosticEnvDataElementCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_EQUAL)
+        condition.setCompareType(compare_type)
+        assert condition.getCompareType() is compare_type
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.getCompareValue.__doc__) == self.COMPARE_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setCompareValue.__doc__) == (self.COMPARE_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing compareValue.")
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.getDataPrototypeIRef.__doc__) == self.DATA_PROTOTYPE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setDataPrototypeIRef.__doc__) == (
+            self.DATA_PROTOTYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataPrototypeIRef."
+        )
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.getSwDataDefProps.__doc__) == self.SW_DATA_DEF_PROPS_NOTE
+        assert inspect.cleandoc(DiagnosticEnvDataElementCondition.setSwDataDefProps.__doc__) == (
+            self.SW_DATA_DEF_PROPS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing swDataDefProps."
+        )
+
+
+class Test_DiagnosticEnvModeCondition:
+    """Test cases for DiagnosticEnvModeCondition (Table 4.43, p.89)."""
+
+    CLASS_DOCSTRING = (
+        "DiagnosticEnvModeCondition are atomic condition based on the comparison of the active Mode Declaration in a ModeDeclarationGroupProtoype with the constant "
+        "value of a ModeDeclaration. The formulation of this condition uses only one DiagnosticEnvElement, which contains enough information to deduce the variable "
+        "part (i.e. the part that changes at runtime) as well as the constant part of the comparison. Only DiagnosticCompareTypeEnum.isEqual or "
+        "DiagnosticCompareTypeEnum.isNotEqual are eligible values for DiagnosticAtomicCondition.compareType.\n"
+        "\n"
+        "[constr_1804] Existence of DiagnosticEnvModeCondition.modeElement: For each DiagnosticEnvModeCondition, that attribute modeElement shall exist at the time "
+        "when the DEXT is complete."
+    )
+    MODE_ELEMENT_NOTE = "This reference represents both the ModeDeclarationGroupPrototype and the ModeDeclaration relevant for the mode comparison."
+
+    def test_is_concrete(self):
+        condition = DiagnosticEnvModeCondition()
+        assert condition is not None
+
+    def test_is_diagnostic_env_compare_condition_subclass(self):
+        assert issubclass(DiagnosticEnvModeCondition, DiagnosticEnvCompareCondition)
+        assert issubclass(DiagnosticEnvModeCondition, DiagnosticEnvConditionFormulaPart)
+        assert issubclass(DiagnosticEnvModeCondition, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvModeCondition.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvModeCondition.__init__.__doc__ is None
+
+    def test_defaults(self):
+        condition = DiagnosticEnvModeCondition()
+        assert condition.getModeElementRef() is None
+        assert condition.getCompareType() is None
+
+    def test_get_set_mode_element_ref(self):
+        condition = DiagnosticEnvModeCondition()
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagEnvConditions/Env1/ModeElements/BswMode1")
+        assert condition.setModeElementRef(ref) is condition
+        assert condition.getModeElementRef() is ref
+        condition.setModeElementRef(None)
+        assert condition.getModeElementRef() is ref
+
+    def test_inherited_compare_type(self):
+        condition = DiagnosticEnvModeCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_EQUAL)
+        condition.setCompareType(compare_type)
+        assert condition.getCompareType() is compare_type
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvModeCondition.getModeElementRef.__doc__) == self.MODE_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticEnvModeCondition.setModeElementRef.__doc__) == (self.MODE_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing modeElementRef.")
+
+
+class Test_DiagnosticEnvSwcModeElement:
+    """Test cases for DiagnosticEnvSwcModeElement (Table 4.45, p.89)."""
+
+    CLASS_DOCSTRING = (
+        "This meta-class represents the ability to refer to a ModeDeclaration in a concrete System context.\n"
+        "\n"
+        "[constr_1805] Existence of DiagnosticEnvSwcModeElement.mode: For each DiagnosticEnvSwcModeElement, that attribute mode shall exist at the time when the DEXT is complete."
+    )
+    MODE_NOTE = "This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef"
+
+    def _create(self):
+        document = AUTOSAR.getInstance()
+        package = document.createARPackage("EnvConds")
+        return package.createDiagnosticEnvironmentalCondition("Env1")
+
+    def test_is_concrete(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        assert mode_element is not None
+
+    def test_is_diagnostic_env_mode_element_subclass(self):
+        assert issubclass(DiagnosticEnvSwcModeElement, DiagnosticEnvModeElement)
+        assert issubclass(DiagnosticEnvSwcModeElement, Referrable)
+        assert issubclass(DiagnosticEnvSwcModeElement, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvSwcModeElement.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvSwcModeElement.__init__.__doc__ is None
+
+    def test_short_name_and_parent(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        assert mode_element.getShortName() == "SwcMode1"
+        assert mode_element.getParent() is env_condition
+
+    def test_defaults(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        assert mode_element.getModeIRef() is None
+
+    def test_get_set_mode_iref(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
+        ref = RefType()
+        ref.setDest("MODE-DECLARATION")
+        ref.setValue("/AUTOSAR/ModeDcls/MDG1/Normal")
+        assert mode_element.setModeIRef(ref) is mode_element
+        assert mode_element.getModeIRef() is ref
+        mode_element.setModeIRef(None)
+        assert mode_element.getModeIRef() is ref
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvSwcModeElement.getModeIRef.__doc__) == self.MODE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvSwcModeElement.setModeIRef.__doc__) == (self.MODE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing modeIRef.")
+
+
+class Test_DiagnosticEnvBswModeElement:
+    """Test cases for DiagnosticEnvBswModeElement (Table 4.46, p.90)."""
+
+    CLASS_DOCSTRING = (
+        "This meta-class represents the ability to refer to a specific ModeDeclaration in the scope of a BswModuleDescription.\n"
+        "\n"
+        "[constr_1806] Existence of DiagnosticEnvBswModeElement.mode: For each DiagnosticEnvBswModeElement, that attribute mode shall exist at the time when the DEXT is complete."
+    )
+    MODE_NOTE = (
+        "This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: ModeInBswModuleDescriptionInstanceRef"
+    )
+
+    def _create(self):
+        document = AUTOSAR.getInstance()
+        package = document.createARPackage("EnvConds")
+        return package.createDiagnosticEnvironmentalCondition("Env1")
+
+    def test_is_concrete(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
+        assert mode_element is not None
+
+    def test_is_diagnostic_env_mode_element_subclass(self):
+        assert issubclass(DiagnosticEnvBswModeElement, DiagnosticEnvModeElement)
+        assert issubclass(DiagnosticEnvBswModeElement, Referrable)
+        assert issubclass(DiagnosticEnvBswModeElement, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvBswModeElement.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticEnvBswModeElement.__init__.__doc__ is None
+
+    def test_short_name_and_parent(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
+        assert mode_element.getShortName() == "BswMode1"
+        assert mode_element.getParent() is env_condition
+
+    def test_defaults(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
+        assert mode_element.getModeIRef() is None
+
+    def test_get_set_mode_iref(self):
+        env_condition = self._create()
+        mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
+        ref = RefType()
+        ref.setDest("MODE-DECLARATION")
+        ref.setValue("/AUTOSAR/ModeDcls/MDG1/Normal")
+        assert mode_element.setModeIRef(ref) is mode_element
+        assert mode_element.getModeIRef() is ref
+        mode_element.setModeIRef(None)
+        assert mode_element.getModeIRef() is ref
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticEnvBswModeElement.getModeIRef.__doc__) == self.MODE_NOTE
+        assert inspect.cleandoc(DiagnosticEnvBswModeElement.setModeIRef.__doc__) == (self.MODE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing modeIRef.")

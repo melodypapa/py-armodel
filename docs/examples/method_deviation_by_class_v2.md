@@ -280,6 +280,13 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
+## `DiagEventDebounceTimeBased`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 260  | **table:** Table 12.34
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+No deviations — all three Table 12.34 attributes (`timeBasedFdcThresholdStorageValue`, `timeFailedThreshold`, `timePassedThreshold`, TimeValue 0..1 attr) are modeled as `Optional[TimeValue]` PEP 526 fields with typed getter/setter pairs (None-no-op, chaining); Base most-derived = `DiagEventDebounceAlgorithm` (stamped); reader `readDiagEventDebounceTimeBased` / writer `setDiagEventDebounceTimeBased` cover all three in XSD group order (TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE → TIME-FAILED-THRESHOLD → TIME-PASSED-THRESHOLD, AUTOSAR_00052.xsd group line 31344) with dispatch in `readDiagEventDebounceAlgorithm` / `writeDiagEventDebounceAlgorithm`; in-pass fixes (not deviations): fabricated pre-sync docstrings/comments wiped and rewritten verbatim from the spec (Rule 0012.2.3), bare `TimeValue` annotations retyped `Optional[TimeValue]` (Rule 0001.4), None no-op guards added to all setters (Rule 0004), `__init__` docstring removed. Member type `TimeValue` exists (PrimitiveTypes, stamped).
+
 ## `EcuStateMgrUserNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 12.15
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
@@ -472,6 +479,190 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 |---|---|---|---|---|---|
 | `providedInterfaceTRef` | `TRefType` | `providedInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
+## `DiagnosticContributionSet`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 57  | **table:** Table 4.14
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(missing)* | — | `ecuInstance` | `EcuInstance` | ref | deprecated (atp.Status=removed), not implemented (XSD ECU-INSTANCE-REFS, AUTOSAR_00052.xsd l.33732; absent from Table 4.14 rendering) |
+
+Base most-derived = `ARElement` (Table 4.14 Base chain — FIXED from the queued stub's `ARObject`, Rule 0001.2; module relocated ArObject.py → ARPackage.py accordingly). All three Table 4.14 attributes modeled: `commonProperties` (DiagnosticCommonProps 0..1 aggr → set/get pair, child Base `ARObject` so no createXxx), `element` (DiagnosticCommonElement `*` ref → `elementRefs: List[RefType]` + addElementRef/getElementRefs), `serviceTable` (DiagnosticServiceTable `*` ref → `serviceTableRefs: List[RefType]` + addServiceTableRef/getServiceTableRefs); ref rows carry atpVariation → capability lands on the generated REF-CONDITIONAL wrapper classes, not on DiagnosticContributionSet (Rule 0020 NOT-indicator); XSD group order COMMON-PROPERTIES, ELEMENTS, SERVICE-TABLES (AUTOSAR_00052.xsd l.33717) with wrapper lists emitted only when non-empty; ARPackage element dispatch (createDiagnosticContributionSet + readARPackageElements/writeARPackageElement branches). Pending debt (Rule 0001.7 identity-only child serialization): `COMMON-PROPERTIES` is emitted/read as identity-only until DiagnosticCommonProps syncs (this batch, Table 4.19) — value-asserting coverage lands with that sync. (Resolved: the DiagnosticCommonProps sync replaced the placeholders with the real readDiagnosticCommonProps/writeDiagnosticCommonProps calls.)
+
+## `DiagnosticProtocol`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 58  | **table:** Table 4.15
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — all five Table 4.15 attributes modeled: `diagnosticConnection` (DiagnosticConnection `*` ref → `diagnosticConnectionRefs: List[RefType]` + addDiagnosticConnectionRef/getDiagnosticConnectionRefs), `priority` (PositiveInteger 0..1 attr), `protocolKind` (NameToken 0..1 attr), `sendRespPendOnTransToBoot` (Boolean 0..1 attr), `serviceTable` (DiagnosticServiceTable 0..1 ref → `serviceTableRef: Optional[RefType]`); Base most-derived = `ARElement`; attr rows carry atpVariation → attribute-value variation only (PRIORITY/POSITIVE-INTEGER-VALUE-VARIATION-POINT, SEND-RESP-PEND-ON-TRANS-TO-BOOT/BOOLEAN-VALUE-VARIATION-POINT wrappers absorbed by the reader/writer, model keeps the PDF types — DiagnosticAbstractDataIdentifier precedent), ref rows' atpVariation lands on the REF-CONDITIONAL wrappers (Rule 0020 NOT-indicator); XSD group order DIAGNOSTIC-CONNECTIONS, PRIORITY, PROTOCOL-KIND, SEND-RESP-PEND-ON-TRANS-TO-BOOT, SERVICE-TABLES (AUTOSAR_00052.xsd l.41010); ARPackage element dispatch (createDiagnosticProtocol + readARPackageElements/writeARPackageElement branches).
+
+## `DiagnosticOccurrenceCounterProcessingEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 66  | **table:** Table 4.20
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — both Table 4.20 literals modeled in displayed order (`CONFIRMED_DTC_BIT = "confirmedDtcBit"` atp.EnumerationLiteralIndex=0, `TEST_FAILED_BIT = "testFailedBit"` atp.EnumerationLiteralIndex=1); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP` (confirmedDtcBit→CONFIRMED-DTC-BIT, testFailedBit→TEST-FAILED-BIT, AR:DIAGNOSTIC-OCCURRENCE-COUNTER-PROCESSING-ENUM--SIMPLE) is registered in the parser and writer map blocks for the consuming class DiagnosticCommonProps.occurrenceCounterProcessing.
+
+## `DiagnosticTypeOfDtcSupportedEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 66  | **table:** Table 4.21
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — all five Table 4.21 literals modeled in displayed order (`ISO11992_4 = "iso11992_4"` atp.EnumerationLiteralIndex=0, `ISO14229_1 = "iso14229_1"` =1, `ISO15031_6 = "iso15031_6"` =2, `SAEJ1939_73 = "saeJ1939_73"` =3, `SAEJ2012_DA = "saeJ2012_da"` =4); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); no XML token map registered yet: the Table 4.21 consuming attribute DiagnosticMemoryDestinationPrimary.typeOfDtcSupported is not modeled (DiagnosticMemoryDestinationPrimary still a queued stub; the DiagnosticCommonProps.typeOfDtcSupported XSD twin carries atp.Status="removed" — Rule 0015, per the DiagnosticCommonProps deviation row) — the map (iso11992_4→ISO-11992--4, iso14229_1→ISO-14229--1, iso15031_6→ISO-15031--6, saeJ1939_73→SAE-J-1939--73, saeJ2012_da→SAE-J-2012--DA, AR:DIAGNOSTIC-TYPE-OF-DTC-SUPPORTED-ENUM--SIMPLE) lands with the consuming class's sync.
+
+## `DiagnosticEventCombinationBehaviorEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 67  | **table:** Table 4.23
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — both Table 4.23 literals modeled in displayed order (`EVENT_COMBINATION_ON_RETRIEVAL = "eventCombinationOnRetrieval"` atp.EnumerationLiteralIndex=1, `EVENT_COMBINATION_ON_STORAGE = "eventCombinationOnStorage"` atp.EnumerationLiteralIndex=0 — displayed order differs from the index order, the markdown row order wins, Rule 0001.11); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP` (eventCombinationOnRetrieval→EVENT-COMBINATION-ON-RETRIEVAL, eventCombinationOnStorage→EVENT-COMBINATION-ON-STORAGE, AR:DIAGNOSTIC-EVENT-COMBINATION-BEHAVIOR-ENUM--SIMPLE) was pre-registered in the parser and writer map blocks by the DiagnosticCommonProps sync (0b2c7c2fa); this pass landed the deferred typed-value coverage — DiagnosticCommonProps.setTypeOfEventCombinationSupported model test plus TYPE-OF-EVENT-COMBINATION-SUPPORTED field-value and round-trip assertions in the DiagnosticCommonProps parser/writer tests.
+
+## `DiagnosticEventCombinationReportingBehaviorEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 67  | **table:** Table 4.24
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — the single Table 4.24 literal modeled (`REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST = "reportingInChronlogicalOrderOldestFirst"` atp.EnumerationLiteralIndex=0; the spec's own "Chronlogical" spelling is kept verbatim in the literal, member value and wire token); class Note verbatim in the docstring, literal Note as inline comment; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP` (reportingInChronlogicalOrderOldestFirst→REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST, AR:DIAGNOSTIC-EVENT-COMBINATION-REPORTING-BEHAVIOR-ENUM--SIMPLE) was pre-registered in the parser and writer map blocks by the DiagnosticCommonProps sync (0b2c7c2fa); this pass landed the deferred typed-value coverage — DiagnosticCommonProps.setEventCombinationReportingBehavior model test plus EVENT-COMBINATION-REPORTING-BEHAVIOR field-value and round-trip assertions in the DiagnosticCommonProps parser/writer tests.
+
+## `DiagnosticCustomServiceInstance`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 70  | **table:** Table 4.27
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — the single Table 4.27 attribute (`customServiceClass` DiagnosticCustomServiceClass 0..1 ref) modeled as `customServiceClassRef: Optional[RefType]` + get/set pair (None no-op, chaining), sibling shape to the stamped base DiagnosticServiceInstance refs; Base most-derived = `DiagnosticServiceInstance` (Table 4.27 Base chain — FIXED from the queued stub's `ARElement`, Rule 0001.2; module kept at the queue-hint ARPackage.py per the stub's existing placement and `__all__` registration); wire order per the XSD complexType groups: identifiable content, DIAGNOSTIC-COMMON-ELEMENT (empty group), DIAGNOSTIC-SERVICE-INSTANCE (ACCESS-PERMISSION-REF inherited via the shared read/writeDiagnosticServiceInstance helpers), then own CUSTOM-SERVICE-CLASS-REF (AUTOSAR_00052.xsd group l.34019, DEST DIAGNOSTIC-CUSTOM-SERVICE-CLASS--SUBTYPES-ENUM); ARPackage element dispatch per the 5-place pattern (createDiagnosticCustomServiceInstance factory + DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests). Report-only notes: (1) ref target DiagnosticCustomServiceClass exists as a stub subclass of the stamped DiagnosticServiceClass (Table 4.28 queued) — not a Rule 0001.10 placeholder, the ref is RefType-typed and touches none of its fields; (2) the XSD DIAGNOSTIC-SERVICE-INSTANCE group comments `Association <<atpDerived>>serviceClass skipped` while the stamped base DiagnosticServiceInstance (Table 4.26) still reads/writes SERVICE-CLASS-REF — pre-existing base-class behavior out of this pass's scope (harmless no-op for this class: the element never appears on its wire format and serviceClassRef defaults to None).
+
+## `DiagnosticCustomServiceClass`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 71  | **table:** Table 4.28
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py`
+
+No deviations — the single Table 4.28 attribute (`customServiceId` PositiveInteger 0..1 attr) modeled as `customServiceId: Optional[PositiveInteger]` + get/set pair (None no-op, chaining), field/accessor types all `Optional[PositiveInteger]`; Base most-derived = `DiagnosticServiceClass` (stub base already correct, kept); class Note verbatim in the docstring with constr_1330 appended; not VP-capable (XSD group l.33976 carries no VARIATION-POINT); XSD DIAGNOSTIC-SERVICE-CLASS base group carries only an `atp.Status="removed"` ACCESS-PERMISSION-REF — deprecated, not modeled (no readDiagnosticServiceClass helper needed); ARPackage element dispatch per the 5-place pattern (createDiagnosticCustomServiceClass factory + DIAGNOSTIC-CUSTOM-SERVICE-CLASS readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests); wire: plain CUSTOM-SERVICE-ID text via getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger. This sync also resolves the DiagnosticCustomServiceInstance report-only note (1) — the ref target is now fully synced.
+
+## `DiagnosticSessionControl`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 93  | **table:** Table 4.47
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SessionControl`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — both Table 4.47 attributes in displayed order (`diagnosticSession` DiagnosticSession 0..1 ref, `sessionControlClass` DiagnosticSessionControlClass 0..1 ref) modeled as `Optional[RefType]` fields `diagnosticSessionRef` / `sessionControlClassRef` + get/set pairs (None no-op, chaining), sibling shape to the stamped base DiagnosticServiceInstance refs (Rule 0001.5 Ref suffix); Base most-derived = `ARElement` (stub base already correct, kept); class Note verbatim in the docstring (Tags tail dropped); not VP-capable (XSD group l.44381 carries no VARIATION-POINT); base groups DIAGNOSTIC-COMMON-ELEMENT and DIAGNOSTIC-SERVICE-INSTANCE serialize nothing on this wire format (the <<atpDerived>> serviceClass association is skipped by the XSD group; ARElement-derived service instances keep the DiagnosticProtocol precedent of not calling the DiagnosticServiceInstance helpers); ARPackage element dispatch per the 5-place pattern (createDiagnosticSessionControl factory + DIAGNOSTIC-SESSION-CONTROL readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests); wire: DIAGNOSTIC-SESSION-REF (DEST DIAGNOSTIC-SESSION--SUBTYPES-ENUM) then SESSION-CONTROL-CLASS-REF (DEST DIAGNOSTIC-SESSION-CONTROL-CLASS--SUBTYPES-ENUM) via getChildElementOptionalRefType / setChildElementOptionalRefType. Report-only note: ref target DiagnosticSessionControlClass is still a stub subclass of the stamped DiagnosticServiceClass (Table 4.48, this batch) — the ref is RefType-typed and touches none of its fields.
+
+## `DiagnosticEnvSwcModeElement`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 89  | **table:** Table 4.45
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `modeIRef` | `Optional[RefType]` | `mode` | `ModeDeclaration` (InstanceRef implemented by `PModeInSystemInstanceRef`) | iref | class not yet implemented (`PModeInSystemInstanceRef`; XSD complexType l.87429, group l.87359) — placeholder `RefType` per Rule 0001.10; `MODE-IREF` reader/writer deferred until the child class syncs (Referrable identity SHORT-NAME/AR-OBJECT attrs read/written now) |
+
+The single Table 4.45 attribute otherwise modeled verbatim: class Note in the docstring with constr_1805 appended; Base most-derived = `DiagnosticEnvModeElement` (stamped abstract; XSD complexType sequence AR-OBJECT + REFERRABLE + DIAGNOSTIC-ENV-MODE-ELEMENT + own group); concrete class (no instantiation guard). NOT VP-capable (the XSD group carries no VARIATION-POINT element, Rule 0020). MODE-ELEMENTS choice dispatch WIRED on the DiagnosticEnvironmentalCondition aggregator (this resolves the stamped class's "Pending 16.4" MODE-ELEMENTS reader/writer gap — its getModeElements/addModeElement checklist rows now carry reader/writer coverage): DIAGNOSTIC-ENV-SWC-MODE-ELEMENT branch in readDiagnosticEnvironmentalCondition (construct-with-short-name + readReferrable + addModeElement) + writeDiagnosticEnvSwcModeElement helper in the writeDiagnosticEnvironmentalCondition MODE-ELEMENTS loop (wrapper emitted only when non-empty) + reader/writer dispatch tests. The sibling alternative DIAGNOSTIC-ENV-BSW-MODE-ELEMENT still warns notImplemented until its own sync.
+
+## `DiagnosticEnvModeCondition`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 89  | **table:** Table 4.43
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py`
+
+No deviations — the single Table 4.43 attribute (`modeElement` DiagnosticEnvModeElement 0..1 ref) modeled as `modeElementRef: Optional[RefType]` + get/set pair (None no-op, chaining; MODE-ELEMENT-REF, DEST DIAGNOSTIC-ENV-MODE-ELEMENT--SUBTYPES-ENUM). Class Note verbatim in the docstring with constr_1804 appended. Base CORRECTION: the queue row said `ARObject`, but the Table 4.43 Base cell reads `ARObject , DiagnosticEnvCompareCondition , DiagnosticEnvConditionFormulaPart` — most-derived = `DiagnosticEnvCompareCondition` (Rule 0001.2), matching the sibling compare conditions; placement follows the base into EnvironmentalCondition.py (Rule 0007), not the queue's ArObject.py hint. Not VP-capable (the XSD group DIAGNOSTIC-ENV-MODE-CONDITION carries no VARIATION-POINT element, Rule 0020). Concrete-subclass dispatch WIRED per the 5-place pattern on the DiagnosticEnvConditionFormula aggregator: DIAGNOSTIC-ENV-MODE-CONDITION branch in the readDiagnosticEnvConditionFormula PARTS loop + `isinstance(part, DiagnosticEnvModeCondition)` branch in the writeDiagnosticEnvConditionFormula PARTS loop + reader/writer dispatch tests. Report-only: the class-level prose constraints constr_1466 (compareType limited to isEqual/isNotEqual) and constr_1467 (modeElement shall point to an aggregated DiagnosticEnvModeElement) sit in the section prose outside the table block (the Note already states the isEqual/isNotEqual restriction); they are recorded here, not appended to the docstring.
+
+## `DiagnosticEnvDataElementCondition`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 85  | **table:** Table 4.42
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `dataPrototypeIRef` | `Optional[RefType]` | `dataPrototype` | `DataPrototype` (InstanceRef implemented by `DataPrototypeInSystemInstanceRef`) | iref | class not yet implemented (`DataPrototypeInSystemInstanceRef`; XSD complexType l.27809) — placeholder `RefType` per Rule 0001.10; `DATA-PROTOTYPE-IREF` reader/writer deferred until the child class syncs |
+
+The other two Table 4.42 attributes in displayed order have no deviations: `compareValue` (ValueSpecification 0..1 aggr) as `compareValue: Optional[ValueSpecification]` + get/set pair (None no-op, chaining; non-Referrable child → setXxx shape per Rule 0001.6) serialized via the shared `getChildValueSpecification`/`setChildValueSpecification` choice dispatch; `swDataDefProps` (SwDataDefProps 0..1 aggr) as `swDataDefProps: Optional[SwDataDefProps]` + get/set pair serialized via the shared `getSwDataDefProps`/`setSwDataDefProps` helpers (atpSplitable VARIANTS/CONDITIONAL wrapper absorbed by the shared helpers). Class Note verbatim in the docstring with constr_10115 + constr_10116 + constr_10117 appended; Base most-derived = `DiagnosticEnvCompareCondition`; not VP-capable (compareValue carries `vh.variationPointApplicable="false"` — the XSD group carries no VARIATION-POINT element, Rule 0020). XSD group DIAGNOSTIC-ENV-DATA-ELEMENT-CONDITION carries two further elements absent from the PDF table — `P-PORT-PROTOTYPE-IREF` (`pPortPrototype`) and `PROCESS-REF` (`process`), both `mmt.RestrictToStandards="AP"` — not modeled per Rule 0015 (PDF/markdown attribute set is authoritative). Concrete-subclass dispatch WIRED per the 5-place pattern on the DiagnosticEnvConditionFormula aggregator: DIAGNOSTIC-ENV-DATA-ELEMENT-CONDITION branch in the readDiagnosticEnvConditionFormula PARTS loop + `isinstance(part, DiagnosticEnvDataElementCondition)` branch in the writeDiagnosticEnvConditionFormula PARTS loop + reader/writer dispatch tests. SwDataDefProps imported top-level from `M2.MSR.DataDictionary.DataDefProperties` (stamped, no cycle).
+
+## `DiagnosticEnvDataCondition`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 84  | **table:** Table 4.41
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py`
+
+No deviations — the two Table 4.41 attributes in displayed order modeled: `compareValue` (ValueSpecification 0..1 aggr) as `compareValue: Optional[ValueSpecification]` + get/set pair (None no-op, chaining; non-Referrable child → setXxx shape per Rule 0001.6) typed against the stamped `CommonStructure.Constants.ValueSpecification` abstract base, serialized via the shared `getChildValueSpecification`/`setChildValueSpecification` choice dispatch (XSD COMPARE-VALUE choice has 12 alternatives); `dataElement` (DiagnosticDataElement 0..1 ref) as `dataElementRef: Optional[RefType]` + get/set pair (DATA-ELEMENT-REF, DEST DIAGNOSTIC-DATA-ELEMENT--SUBTYPES-ENUM); class Note verbatim in the docstring with constr_1802 + constr_1803 appended; Base most-derived = `DiagnosticEnvCompareCondition` (stub base already correct, kept); not VP-capable (compareValue carries `vh.variationPointApplicable="false"` — the XSD group carries no VARIATION-POINT element, Rule 0020); ValueSpecification imported bottom-of-module `# noqa: E402` (Rule 0001.8 cycle-breaker). Concrete-subclass dispatch WIRED per the 5-place pattern on the DiagnosticEnvConditionFormula aggregator: DIAGNOSTIC-ENV-DATA-CONDITION branch in the readDiagnosticEnvConditionFormula PARTS loop + `isinstance(part, DiagnosticEnvDataCondition)` branch in the writeDiagnosticEnvConditionFormula PARTS loop + reader/writer dispatch tests (this retires the Group14 "concrete subclasses were not modeled — not dispatched from the formula loop" note for this subclass). Report-only: the COMPARE-VALUE choice alternative APPLICATION-ASSOC-MAP-VALUE-SPECIFICATION has no model class — the shared dispatchers `notImplemented`-warn on it (Rule 0001.10, class not yet implemented; the other 11 alternatives are covered by the shared helpers).
+
+## `DiagnosticCompareTypeEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 83  | **table:** Table 4.40
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py`
+
+No deviations — all six Table 4.40 literals modeled 1:1 in markdown displayed order (`isEqual` idx0, `isGreaterOrEqual` idx5, `isGreaterThan` idx4, `isLessOrEqual` idx3, `isLessThan` idx2, `isNotEqual` idx1 — displayed order is alphabetical and differs from the EnumerationLiteralIndex order; the markdown row order wins, Rule 0001.11). Synced FROM SCRATCH per Rule 0012.2.3 (unstamped content): drift found and repaired — the pre-existing member/`__init__` tuple order was operator-logical (IS_EQUAL, IS_NOT_EQUAL, IS_LESS_THAN, IS_LESS_OR_EQUAL, IS_GREATER_THAN, IS_GREATER_OR_EQUAL), reordered to the markdown displayed order; literal set, member values (spec camelCase verbatim), class Note and literal descriptions verified correct and rewritten fresh. Wire tokens via the pre-registered `DIAGNOSTIC_COMPARE_TYPE_XML_MAP` (isEqual→IS-EQUAL … isGreaterOrEqual→IS-GREATER-OR-EQUAL, AR:DIAGNOSTIC-COMPARE-TYPE-ENUM--SIMPLE, AUTOSAR_00052.xsd l.134030) verified against the XSD; reader/writer branches on DiagnosticEnvCompareCondition.compareType pre-wired (`_readEnumToken`/`_writeEnumToken` COMPARE-TYPE). Standalone enum — Steps 5/6 N/A (no own XML element).
+
+## `DiagnosticAuthRole`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 77  | **table:** Table 4.34
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — the two Table 4.34 attributes in displayed order (`bitPosition` PositiveInteger 0..1 attr, `isDefault` Boolean 0..1 attr) modeled as `Optional[PositiveInteger]` / `Optional[Boolean]` fields + get/set pairs (None no-op, chaining); Base most-derived = `ARElement` (stub base already correct, kept); class Note verbatim in the docstring (Tags tail dropped); no constr rows for this class (the markdown constr after the table targets DiagnosticAccessPermission.authenticationEnabled — not appended); not VP-capable (XSD group l.31670 carries no VARIATION-POINT); ARPackage element dispatch per the 5-place pattern (createDiagnosticAuthRole factory + DIAGNOSTIC-AUTH-ROLE readARPackageElements branch + writeARPackageElement isinstance branch + reader/writer dispatch tests); wire: BIT-POSITION text via getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger, IS-DEFAULT text via getChildElementOptionalBooleanValue / setChildElementOptionalBooleanValue.
+
+## `DiagnosticCommonProps`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 65  | **table:** Table 4.19
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(missing)* | — | `agingRequiresTestedCycle`, `clearDtcLimitation`, `dtcStatusAvailabilityMask`, `environmentDataCapture`, `eventDisplacementStrategy`, `maxNumberOfEventEntries`, `memoryEntryStorageTrigger`, `securityDelayTimeOnBoot`, `statusBitHandlingTestFailedSinceLastClear`, `statusBitStorageTestFailed`, `typeOfDtcSupported`, `typeOfFreezeFrameRecordNumeration` | various | various | XSD-only/removed in Table 4.19 rendering; most carry atp.Status="removed" (AUTOSAR_00052.xsd group DIAGNOSTIC-COMMON-PROPS-CONDITIONAL) — not modeled (Rule 0015; no fixture carries them) |
+
+All eleven Table 4.19 attributes modeled in displayed order (authenticationTimeout TimeValue, debounceAlgorithmProps `*` aggr → dedicated list + createDebounceAlgorithmProps/getDebounceAlgorithmProps (child Base Identifiable → createXxx), defaultEndianness ByteOrderEnum, eventCombinationReportingBehavior, maxNumberOfRequestCorrectlyReceivedResponsePending PositiveInteger, occurrenceCounterProcessing DiagnosticOccurrenceCounterProcessingEnum, resetConfirmedBitOnOverflow/resetPendingBitOnOverflow/responseOnAllRequestSids/responseOnSecondDeclinedRequest Boolean, typeOfEventCombinationSupported); Base = `ARObject`; class-level `<<atpVariation>>` → attributes serialize inside the DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL wrapper, read/written transparently into the owning object (no Conditional model); enum attributes serialize via the registered token maps (BYTE_ORDER_XML_MAP, DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP, DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP, DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP); class-level diagnosticCommonPropsVariant split wrapper has no PDF attribute row — not modeled (Rule 0015). Pending debt (Rule 0001.7): `DEBOUNCE-ALGORITHM-PROPSS` items are written/read at identity level (SHORT-NAME) until DiagnosticDebounceAlgorithmProps syncs (queued Group25 Table 4.187); `EVENT-COMBINATION-REPORTING-BEHAVIOR` / `TYPE-OF-EVENT-COMBINATION-SUPPORTED` read/write via _readEnumToken/_writeEnumToken but their enum classes are un-synced stubs (queued Group23 Tables 4.24/4.23) — typed-value coverage and setter value tests land with those syncs.
+
+## `DiagnosticAbstractDataIdentifier`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.4
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — the single Table 4.4 attribute (`id`, PositiveInteger 0..1 attr, atpVariation stereotype) is modeled as `Optional[PositiveInteger]` with a typed get/set pair (None-no-op, chaining); Base most-derived = `ARElement` (abstract, instantiation guard); the XSD serializes ID wrapped in POSITIVE-INTEGER-VALUE-VARIATION-POINT (attribute-value variation, AUTOSAR_00052.xsd group DIAGNOSTIC-ABSTRACT-DATA-IDENTIFIER line 31403) — the wrapper is absorbed by the reusable reader/writer helpers `readDiagnosticAbstractDataIdentifier`/`writeDiagnosticAbstractDataIdentifier`, the model keeps the PDF type PositiveInteger; Kind=attr with atpVariation → attribute-value variation only, no class VP capability (Rule 0020); subclasses DiagnosticDataIdentifier/DiagnosticDynamicDataIdentifier (queued this batch) call the helpers at their own syncs.
+
+## `DiagnosticDataIdentifier`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.2
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — all four Table 4.2 attributes modeled: `dataElement` (DiagnosticParameter `*` aggr → `dataElements: List[DiagnosticParameter]` + addDataElement/getDataElements, spec-singular → plural per Rule 0001.4), `didSize` (PositiveInteger 0..1 attr), `representsVin` (Boolean 0..1 attr), `supportInfoByte` (DiagnosticSupportInfoByte 0..1 aggr → set/get pair); Base most-derived = `DiagnosticAbstractDataIdentifier` (inherits its id + reusable helpers, Rule 0001.7); reader/writer cover DATA-ELEMENTS (wrapper list, empty-wrapper omitted), DID-SIZE, REPRESENTS-VIN, SUPPORT-INFO-BYTE in XSD group order (AUTOSAR_00052.xsd group DIAGNOSTIC-DATA-IDENTIFIER line 34234) with ARPackage element dispatch (createDiagnosticDataIdentifier + readARPackageElements/writeARPackageElement branches). Pending debt (Rule 0001.7 identity-only child serialization): `DIAGNOSTIC-PARAMETER` items and `SUPPORT-INFO-BYTE` are emitted/read as identity-only until their classes sync (DiagnosticParameter this batch; DiagnosticSupportInfoByte queued Group25 Table 4.129) — value-asserting coverage lands with the child syncs.
+
+## `DiagnosticDynamicDataIdentifier`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 34  | **table:** Table 4.3
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — the Table 4.3 attribute table renders no rows (`-`), matching the XSD group DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER (AUTOSAR_00052.xsd line 35097, empty sequence); the class defines only `__init__(parent, short_name)` and inherits the `DiagnosticAbstractDataIdentifier` id + reusable read/write helpers (Rule 0001.7); Base most-derived = `DiagnosticAbstractDataIdentifier`; full 5-place dispatch (createDiagnosticDynamicDataIdentifier + readARPackageElements DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch).
+
+## `DiagnosticParameter`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 36  | **table:** Table 4.5
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py`
+
+Both Table 4.5 attributes modeled: `ident` (DiagnosticParameterIdent 0..1 aggr, Referrable child → `createIdent(short_name)`/`getIdent` per Rule 0001.6, duplicate short name returns the existing ident) and `supportInfo` (DiagnosticParameterSupportInfo 0..1 aggr → `setSupportInfo`/`getSupportInfo`); VP-capable per Rule 0020 (XSD group DIAGNOSTIC-PARAMETER carries VARIATION-POINT, "Applicable for: DiagnosticDataIdentifier.dataElement") → `VariationPointCapable` mixin, no per-class checklist rows. Base most-derived = `DiagnosticAbstractParameter` (was an un-synced stub at this sync — only DiagnosticParameter's own rows modeled, no base members fabricated; resolved by the Table 4.8 sync: the reader/writer now call the reusable `readDiagnosticAbstractParameter`/`writeDiagnosticAbstractParameter` helpers, which also serialize the inherited bitOffset/dataElement/parameterSize group before IDENT/SUPPORT-INFO/VARIATION-POINT per the XSD complexType order). Identity-only child serialization pending the child syncs (Rule 0001.7): IDENT carried SHORT-NAME only (resolved by the DiagnosticParameterIdent sync, Group23 Table 4.7 — IDENT now dispatches ident + SUB-ELEMENTS with field values); SUPPORT-INFO emitted empty (DiagnosticParameterSupportInfo stub, Group24 Table 4.128, still pending). Recorded deviation (Rule 0005): `DiagnosticParameterIdent` lives in SWComponentTemplate/RPTScenario (import cycle); the Rule 0005 bottom-of-module import is unachievable here — ArObject.py is the model-graph root (imported first by AdminData) and an eager RPTScenario import executes the SWComponentTemplate/CommonStructure package chain mid-bootstrap (ImportError on partially-initialized CommonStructure) — replaced by a deterministic function-local import inside `createIdent` plus a TYPE_CHECKING import for the annotation name (PEP 563 keeps annotations lazy; nothing pins them at runtime); `from __future__ import annotations` added to ArObject.py for the intra-module forward ref to DiagnosticParameterSupportInfo (defined later in the module).
+
+## `DiagnosticParameterElement`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 36  | **table:** Table 4.6
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
+
+No deviations — both Table 4.6 attributes modeled: `arraySize` (PositiveInteger 0..1 attr → get/set pair, None-no-op, chaining) and `subElement` (DiagnosticParameterElement `*` aggr, Identifiable child → `createSubElement(short_name)`/`getSubElements()` per Rule 0001.6, duplicate short name returns the existing element via the elements registry); spec-singular `subElement` → plural `subElements` field per Rule 0001.4. Base = `DiagnosticAbstractParameter, Identifiable` multiple inheritance (Table 4.6 Base row names both chains; Rule 0001.3 inherited-attribute relocation keeps bitOffset/dataElement/parameterSize on the Table 4.8 base — queued within this batch, currently a bare stub, so no base members duplicated); NOT VP-capable (XSD group DIAGNOSTIC-PARAMETER-ELEMENT line 40629 carries no VARIATION-POINT). Reader/writer cover ARRAY-SIZE + recursive SUB-ELEMENTS (wrapper list, empty-wrapper omitted) in XSD group order (AUTOSAR_00052.xsd complexType line 40656); base-group serialization landed with the Table 4.8 sync — the reader/writer call readIdentifiable/writeIdentifiable plus the reusable readDiagnosticAbstractParameter/writeDiagnosticAbstractParameter helpers (BIT-OFFSET/DATA-ELEMENTS/PARAMETER-SIZE between the identity and own groups); document-level dispatch through DiagnosticParameterIdent SUB-ELEMENTS landed with the Table 4.7 sync.
+
+## `DiagnosticParameterIdent`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 37  | **table:** Table 4.7
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py`
+
+No deviations — the single Table 4.7 attribute modeled: `subElement` (DiagnosticParameterElement `*` aggr, Identifiable child → `createSubElement(short_name)`/`getSubElements()` per Rule 0001.6, duplicate short name returns the existing element via the elements registry); spec-singular `subElement` → plural `subElements` field per Rule 0001.4. Base most-derived = `IdentCaption` (XSD groups ATP-CLASSIFIER/ATP-FEATURE/ATP-STRUCTURE-ELEMENT/IDENT-CAPTION/DIAGNOSTIC-SERVICE-MAPPING-DIAG-TARGET are empty sequences — only the Identifiable identity groups plus SUB-ELEMENTS serialize, AUTOSAR_00052.xsd complexType l.40756); NOT VP-capable (no VARIATION-POINT in any referenced group). Reader/writer cover SUB-ELEMENTS (wrapper omitted when empty) via the reusable `readDiagnosticParameterIdent`/`writeDiagnosticParameterIdent` helpers (ModeAccessPointIdent precedent); B01 debt partially resolved — the DiagnosticParameter IDENT branch now dispatches ident + SUB-ELEMENTS with field values instead of the identity-only SHORT-NAME read/write.
+
+## `DiagnosticAbstractParameter`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 37  | **table:** Table 4.8
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py`
+
+No deviations — all three Table 4.8 attributes modeled in displayed row order: `bitOffset` (PositiveInteger 0..1 attr), `dataElement` (DiagnosticDataElement 0..1 aggr, Identifiable child → `createDataElement(short_name)`/`getDataElement()` per Rule 0001.6) and `parameterSize` (PositiveInteger 0..1 attr); abstract per the table header → ABC + instantiation guard. PDF `dataElement` Mult 0..1 vs XSD DATA-ELEMENTS wrapper (atpVariation/atpSplitable resolution, unbounded choice, group doc "previous value was 1"): the single optional field stays PDF-correct (Rule 0001.4); the wrapper is absorbed by the reusable helpers `readDiagnosticAbstractParameter`/`writeDiagnosticAbstractParameter` (Rule 0001.7 abstract-XML-bearing-base rule) — emitted only when set, single item, extra read items warn. Base = ARObject → `__init__()`; `__init__` calls `ARObject.__init__` directly (Referrable precedent) because cooperative super() dispatches to `Identifiable.__init__(parent, short_name)` under the DiagnosticParameterElement MRO. B01 debt resolved — DiagnosticParameter's reader/writer now call the base helpers (replacing `readARObject`/`writeARObject`), and DiagnosticParameterElement's call them after `readIdentifiable`/`writeIdentifiable` (readARObject is idempotent — registration lives in readIdentifiable, called once). Recorded deviations (Rule 0005): `PositiveInteger` is bound by a bottom-of-module runtime import (cycle-breaker, `# noqa: E402` — PrimitiveTypes imports ARObject from this module; safe in both bootstrap orders because ARObject is defined above the import), and `DiagnosticDataElement` uses a TYPE_CHECKING annotation name plus a function-local import in `createDataElement` (Identifiable.py may itself be mid-import when this module loads, so neither a top-level nor an order-dependent bottom import is deterministic; nothing pins that annotation at runtime).
+
+## `DiagnosticDataElement`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 41  | **table:** Table 4.9
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
+
+No deviations — all four Table 4.9 attributes modeled in displayed row order: `arraySizeSemantics` (ArraySizeSemanticsEnum 0..1 attr — the shared enum, Table 5.10 SWC TPS), `maxNumberOfElements` (PositiveInteger 0..1 attr), `scalingInfoSize` (PositiveInteger 0..1 attr) and `swDataDefProps` (SwDataDefProps 0..1 aggr, plain ARObject child → set/get pair per Rule 0001.6, serialized through the shared getSwDataDefProps/setSwDataDefProps SW-DATA-DEF-PROPS-VARIANTS/CONDITIONAL helpers); constr_1394 appended to the class docstring. VP-capable per Rule 0020 (XSD group DIAGNOSTIC-DATA-ELEMENT l.34124 carries VARIATION-POINT, "Applicable for: DiagnosticAbstractParameter.dataElement", sequenceOffset=10000 → last) → VariationPointCapable mixin, no per-class checklist rows; writeIdentifiable's default VP write is suppressed (write_variation_point=False, StackUsage precedent) and the VARIATION-POINT is emitted last per the XSD offset. arraySizeSemantics round-trips the raw XML literal (parser converts to ArraySizeSemanticsEnum via setValue, DiagnosticSession JUMP-TO-BOOT-LOADER precedent). Base most-derived = Identifiable (XSD complexType l.34167: AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE groups + empty DIAGNOSTIC-SERVICE-MAPPING-DIAG-TARGET). Recorded deviation (Rule 0005): `ArraySizeSemanticsEnum`/`SwDataDefProps` are cross-package types imported back into GeneralTemplateClasses — a bottom-of-module runtime import explodes the bootstrap (Identifiable loads mid-GenericStructure-hub from the AdminData chain; the bottom import triggers the CommonStructure hub whose Constants → ARPackage bottom imports → BswModuleTemplate → SWComponentTemplate chain re-enters the partially-initialized CommonStructure with an ImportError), so the file-wide TYPE_CHECKING annotation pattern (AdminData/Annotation precedent) applies and nothing pins those two annotations at runtime. Table 4.8 debt resolved — the DiagnosticAbstractParameter DATA-ELEMENTS branch now dispatches full readDiagnosticDataElement/writeDiagnosticDataElement with field values instead of the identity-only SHORT-NAME read/write.
+
 ## `DiagnosticCommonElement`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonElement`
@@ -480,6 +671,13 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
+
+## `DiagnosticMapping`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 223  | **table:** Table 5.1
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+No deviations — both Table 5.1 attributes modeled (`providerSoftwareCluster` / `requesterSoftwareCluster`, CpSoftwareCluster `0..1` ref → `Optional[RefType]` fields `providerSoftwareClusterRef` / `requesterSoftwareClusterRef` with get/set pairs, Rule 0001.5 Ref suffix); Base most-derived = `ARElement` (abstract, instantiation guard); reusable reader/writer helpers `readDiagnosticMapping`/`writeDiagnosticMapping` cover both refs in XSD order (PROVIDER-SOFTWARE-CLUSTER-REF → REQUESTER-SOFTWARE-CLUSTER-REF, AUTOSAR_00052.xsd group DIAGNOSTIC-MAPPING line 39242); subclasses (stubs, queued in Group26) call the helpers at their own syncs. Member types: `ref` → core RefType; `CpSoftwareCluster` exists (SystemTemplate/SoftwareCluster.py) as ref target only.
 
 ## `DiagnosticServiceTable`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
@@ -2014,3 +2212,39 @@ Remediated 2026-08-30 (see `docs/plan/2026-08-30-rule-0007-package-location-reme
 |---|---|---|---|---|---|
 | `nmCoordinator` | `Optional[ARObject]` | `nmCoordinator` | `NmCoordinator` | aggr | placeholder — aggregated child class `NmCoordinator` (Table 6.302) not yet implemented; reader/writer coverage deferred (Rule 0001.10 / 0001.7) |
 | XSD `BUS-SPECIFIC-NM-ECU` group | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group NM-ECU), absent from R23-11 Table 6.300; PDF is authoritative (Rule 0015) |
+
+
+## `DiagnosticSecurityAccessClass`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 96
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SecurityAccess`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| XSD `SHARED-TIMER` | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group DIAGNOSTIC-SECURITY-ACCESS-CLASS, `mmt.RestrictToStandards="AP"`), absent from R23-11 Table 4.50 (attribute row is "-"); PDF is authoritative (Rule 0015) |
+
+
+## `DiagnosticAuthentication`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 99
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| XSD `AUTHENTICATION-TIMEOUT` | — | — | — | — | not modeled — XSD-only (AUTOSAR_00052.xsd group DIAGNOSTIC-AUTHENTICATION, `atp.Status="removed"`), absent from R23-11 Table 4.51; PDF is authoritative (Rule 0015) |
+| — | — | ARPackage.element dispatch | — | — | none — abstract class (Table 4.51 marks it abstract): no create factory, no AR-PACKAGE element dispatch; Rule 0001.7 reusable helpers readDiagnosticAuthentication/writeDiagnosticAuthentication provided for the subclass readers/writers queued in later batches |
+
+
+## `DiagnosticResponseToEcuResetEnum`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 102  | **table:** Table 4.62
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+No deviations — both Table 4.62 literals modeled in displayed order (`RESPOND_AFTER_RESET = "respondAfterReset"` atp.EnumerationLiteralIndex=0, `RESPOND_BEFORE_RESET = "respondBeforeReset"` atp.EnumerationLiteralIndex=1); class Note verbatim in the docstring, literal Notes as inline comments; instantiable via the AREnum literal tuple. Standalone enum — Steps 5/6 N/A (no own XML element); the XML token map `DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP` (respondAfterReset→RESPOND-AFTER-RESET, respondBeforeReset→RESPOND-BEFORE-RESET, AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE) was already pre-registered in the parser and writer map blocks by the consuming class DiagnosticEcuResetClass.respondToReset (092a0c7cf) — verified, not duplicated; this sync extended the consumer's tests (RESPOND-TO-RESET field-value reads, token emission, full round-trip) instead.
+
+## `DiagnosticComControlSpecificChannel`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 109  | **table:** Table 4.65
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py`
+
+No deviations — the three Table 4.65 attributes in displayed order (`specificChannel` CommunicationCluster 0..1 ref → `Optional[RefType]`, `specificPhysicalChannel` EthernetPhysicalChannel 0..1 ref → `Optional[RefType]`, `subnetNumber` PositiveInteger 0..1 attr) modeled as PEP 526 fields + get/set pairs (None no-op, chaining); Base most-derived = `ARObject` (stub base already correct, kept — no-arg ctor); class Note verbatim in the docstring; attribute docstrings verbatim from the XSD group DIAGNOSTIC-COM-CONTROL-SPECIFIC-CHANNEL (AUTOSAR_00052.xsd l.32704) per family idiom (markdown attribute table carries no Note column); wire: SPECIFIC-CHANNEL-REF / SPECIFIC-PHYSICAL-CHANNEL-REF via getChildElementOptionalRefType/setChildElementOptionalRefType (DEST COMMUNICATION-CLUSTER / ETHERNET-PHYSICAL-CHANNEL), SUBNET-NUMBER via PositiveInteger helpers; not VP-capable (no VARIATION-POINT in the XSD group); aggregator `DiagnosticComControlClass.specificChannel` (Table 4.66) not modeled yet — reusable read/writeDiagnosticComControlSpecificChannel helpers verified directly (Rule 0001.7), the aggregator dispatches them when synced (no ARPackage dispatch: the class is not an ARPackage element).

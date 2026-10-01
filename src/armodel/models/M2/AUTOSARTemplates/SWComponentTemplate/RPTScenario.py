@@ -6,9 +6,10 @@ and access point identification elements in software component templates.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
 from abc import ABC
-from typing import Optional
+from typing import List, Optional
 
 
 class IdentCaption(AtpStructureElement, ABC):
@@ -296,4 +297,41 @@ class ExternalTriggeringPointIdent(IdentCaption):
 
 
 class DiagnosticParameterIdent(IdentCaption):
-    pass
+    """
+    This meta-class has been created to introduce the ability to become referenced into the meta-class AbstractDiagnosticParameter without breaking backwards compatibility.
+    """
+
+    # DiagnosticParameterIdent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.7, p.37
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSubElement  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # XSD complexType DIAGNOSTIC-PARAMETER-IDENT (AUTOSAR_00052.xsd l.40756): the
+    # ATP-CLASSIFIER / ATP-FEATURE / ATP-STRUCTURE-ELEMENT / IDENT-CAPTION /
+    # DIAGNOSTIC-SERVICE-MAPPING-DIAG-TARGET groups are empty sequences — only the
+    # Identifiable identity groups and SUB-ELEMENTS are serialized.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This collection represents the subElements on the top level.
+        self.subElements: List[DiagnosticParameterElement] = []
+
+    def createSubElement(self, short_name: str) -> DiagnosticParameterElement:
+        """
+        This collection represents the subElements on the top level.
+        The existing sub element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsElementExists(short_name, DiagnosticParameterElement):
+            sub_element = DiagnosticParameterElement(self, short_name)
+            self.addElement(sub_element)
+            self.subElements.append(sub_element)
+        return self.getElement(short_name, DiagnosticParameterElement)
+
+    def getSubElements(self) -> List[DiagnosticParameterElement]:
+        """
+        This collection represents the subElements on the top level.
+        """
+        return self.subElements
