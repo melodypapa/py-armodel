@@ -1038,167 +1038,167 @@ Status: **57/75** completed
 
 ## Group23
 
-Status: **0/75** completed
+Status: **49/75** completed
 
-| Class Name                                        | Status          | Commit ID |
-| ------------------------------------------------- | --------------- | --------- |
-| `MeasuredHeapUsage`                               | [ ] Implemented | N/A       |
-| `RoughEstimateHeapUsage`                          | [ ] Implemented | N/A       |
-| `ExecutionTime`                                   | [ ] Implemented | N/A       |
-| `MemorySectionLocation`                           | [ ] Implemented | N/A       |
-| `AnalyzedExecutionTime`                           | [ ] Implemented | N/A       |
-| `MeasuredExecutionTime`                           | [ ] Implemented | N/A       |
-| `SimulatedExecutionTime`                          | [ ] Implemented | N/A       |
-| `RoughEstimateOfExecutionTime`                    | [ ] Implemented | N/A       |
-| `McSupportData`                                   | [ ] Implemented | N/A       |
-| `AliasNameSet`                                    | [ ] Implemented | N/A       |
-| `AliasNameAssignment`                             | [ ] Implemented | N/A       |
-| `McDataInstance`                                  | [ ] Implemented | N/A       |
-| `McSwEmulationMethodSupport`                      | [ ] Implemented | N/A       |
-| `McParameterElementGroup`                         | [ ] Implemented | N/A       |
-| `ImplementationElementInParameterInstanceRef`     | [ ] Implemented | N/A       |
-| `McFunction`                                      | [ ] Implemented | N/A       |
-| `McFunctionDataRefSet`                            | [ ] Implemented | N/A       |
-| `McGroup`                                         | [ ] Implemented | N/A       |
-| `McGroupDataRefSet`                               | [ ] Implemented | N/A       |
-| `McDataAccessDetails`                             | [ ] Implemented | N/A       |
-| `RptSupportData`                                  | [ ] Implemented | N/A       |
-| `RptSwPrototypingAccess`                          | [ ] Implemented | N/A       |
-| `RptComponent`                                    | [ ] Implemented | N/A       |
-| `RptExecutableEntity`                             | [ ] Implemented | N/A       |
-| `RptExecutableEntityEvent`                        | [ ] Implemented | N/A       |
-| `RptImplPolicy`                                   | [ ] Implemented | N/A       |
-| `RptEnablerImplTypeEnum`                          | [ ] Implemented | N/A       |
-| `RptPreparationEnum`                              | [ ] Implemented | N/A       |
-| `RptExecutableEntityProperties`                   | [ ] Implemented | N/A       |
-| `RptExecutionControlEnum`                         | [ ] Implemented | N/A       |
-| `RptServicePointEnum`                             | [ ] Implemented | N/A       |
-| `RptExecutionContext`                             | [ ] Implemented | N/A       |
-| `RptAccessEnum`                                   | [ ] Implemented | N/A       |
-| `RptServicePoint`                                 | [ ] Implemented | N/A       |
-| `ServiceDependency`                               | [ ] Implemented | N/A       |
-| `BswServiceDependency`                            | [ ] Implemented | N/A       |
-| `RoleBasedBswModuleEntryAssignment`               | [ ] Implemented | N/A       |
-| `RoleBasedDataTypeAssignment`                     | [ ] Implemented | N/A       |
-| `MaxCommModeEnum`                                 | [ ] Implemented | N/A       |
-| `SupervisedEntityNeeds`                           | [ ] Implemented | N/A       |
-| `ComMgrUserNeeds`                                 | [ ] Implemented | N/A       |
-| `DoIpServiceNeeds`                                | [ ] Implemented | N/A       |
-| `DiagnosticIoControlNeeds`                        | [ ] Implemented | N/A       |
-| `DiagnosticEventNeeds`                            | [ ] Implemented | N/A       |
-| `DiagEventDebounceTimeBased`                      | [ ] Implemented | N/A       |
-| `ErrorTracerNeeds`                                | [ ] Implemented | N/A       |
-| `TracedFailure`                                   | [ ] Implemented | N/A       |
-| `DevelopmentError`                                | [ ] Implemented | N/A       |
-| `RuntimeError`                                    | [ ] Implemented | N/A       |
-| `DiagnosticDataIdentifier`                        | [ ] Created     | N/A       |
-| `DiagnosticDynamicDataIdentifier`                 | [ ] Created     | N/A       |
-| `DiagnosticAbstractDataIdentifier`                | [ ] Created     | N/A       |
-| `DiagnosticParameter`                             | [ ] Created     | N/A       |
-| `DiagnosticParameterElement`                      | [ ] Created     | N/A       |
-| `DiagnosticParameterIdent`                        | [ ] Created     | N/A       |
-| `DiagnosticAbstractParameter`                     | [ ] Created     | N/A       |
-| `DiagnosticDataElement`                           | [ ] Created     | N/A       |
-| `DiagnosticContributionSet`                       | [ ] Created     | N/A       |
-| `DiagnosticProtocol`                              | [ ] Created     | N/A       |
-| `TpConnectionIdent`                               | [ ] Implemented | N/A       |
-| `DiagnosticCommonProps`                           | [ ] Created     | N/A       |
-| `DiagnosticOccurrenceCounterProcessingEnum`       | [ ] Created     | N/A       |
-| `DiagnosticTypeOfDtcSupportedEnum`                | [ ] Created     | N/A       |
-| `DiagnosticEventCombinationBehaviorEnum`          | [ ] Created     | N/A       |
-| `DiagnosticEventCombinationReportingBehaviorEnum` | [ ] Created     | N/A       |
-| `DiagnosticCustomServiceInstance`                 | [ ] Created     | N/A       |
-| `DiagnosticCustomServiceClass`                    | [ ] Created     | N/A       |
-| `DiagnosticAuthRole`                              | [ ] Created     | N/A       |
-| `DiagnosticCompareTypeEnum`                       | [ ] Implemented | N/A       |
-| `DiagnosticEnvDataCondition`                      | [ ] Created     | N/A       |
-| `DiagnosticEnvDataElementCondition`               | [ ] Created     | N/A       |
-| `DiagnosticEnvModeCondition`                      | [ ] Created     | N/A       |
-| `DiagnosticEnvSwcModeElement`                     | [ ] Created     | N/A       |
-| `DiagnosticEnvBswModeElement`                     | [ ] Created     | N/A       |
-| `DiagnosticSessionControl`                        | [ ] Created     | N/A       |
+| Class Name                                        | Status       | Commit ID |
+| ------------------------------------------------- | ------------ | --------- |
+| `MeasuredHeapUsage`                               | [x] Done     | N/A       |
+| `RoughEstimateHeapUsage`                          | [x] Done     | N/A       |
+| `ExecutionTime`                                   | [x] Done     | N/A       |
+| `MemorySectionLocation`                           | [x] Done     | N/A       |
+| `AnalyzedExecutionTime`                           | [x] Done     | N/A       |
+| `MeasuredExecutionTime`                           | [x] Done     | N/A       |
+| `SimulatedExecutionTime`                          | [x] Done     | N/A       |
+| `RoughEstimateOfExecutionTime`                    | [x] Done     | N/A       |
+| `McSupportData`                                   | [x] Done     | N/A       |
+| `AliasNameSet`                                    | [x] Done     | N/A       |
+| `AliasNameAssignment`                             | [x] Done     | N/A       |
+| `McDataInstance`                                  | [x] Done     | N/A       |
+| `McSwEmulationMethodSupport`                      | [x] Done     | N/A       |
+| `McParameterElementGroup`                         | [x] Done     | N/A       |
+| `ImplementationElementInParameterInstanceRef`     | [x] Done     | N/A       |
+| `McFunction`                                      | [x] Done     | N/A       |
+| `McFunctionDataRefSet`                            | [x] Done     | N/A       |
+| `McGroup`                                         | [x] Done     | N/A       |
+| `McGroupDataRefSet`                               | [x] Done     | N/A       |
+| `McDataAccessDetails`                             | [x] Done     | N/A       |
+| `RptSupportData`                                  | [x] Done     | N/A       |
+| `RptSwPrototypingAccess`                          | [x] Done     | N/A       |
+| `RptComponent`                                    | [x] Done     | N/A       |
+| `RptExecutableEntity`                             | [x] Done     | N/A       |
+| `RptExecutableEntityEvent`                        | [x] Done     | N/A       |
+| `RptImplPolicy`                                   | [x] Done     | N/A       |
+| `RptEnablerImplTypeEnum`                          | [x] Done     | N/A       |
+| `RptPreparationEnum`                              | [x] Done     | N/A       |
+| `RptExecutableEntityProperties`                   | [x] Done     | N/A       |
+| `RptExecutionControlEnum`                         | [x] Done     | N/A       |
+| `RptServicePointEnum`                             | [x] Done     | N/A       |
+| `RptExecutionContext`                             | [x] Done     | N/A       |
+| `RptAccessEnum`                                   | [x] Done     | N/A       |
+| `RptServicePoint`                                 | [x] Done     | N/A       |
+| `ServiceDependency`                               | [x] Done     | N/A       |
+| `BswServiceDependency`                            | [x] Done     | N/A       |
+| `RoleBasedBswModuleEntryAssignment`               | [x] Done     | N/A       |
+| `RoleBasedDataTypeAssignment`                     | [x] Done     | N/A       |
+| `MaxCommModeEnum`                                 | [x] Done     | N/A       |
+| `SupervisedEntityNeeds`                           | [x] Done     | N/A       |
+| `ComMgrUserNeeds`                                 | [x] Done     | N/A       |
+| `DoIpServiceNeeds`                                | [x] Done     | N/A       |
+| `DiagnosticIoControlNeeds`                        | [x] Done     | N/A       |
+| `DiagnosticEventNeeds`                            | [x] Done     | N/A       |
+| `DiagEventDebounceTimeBased`                      | [ ] Pending* | N/A       |
+| `ErrorTracerNeeds`                                | [x] Done     | N/A       |
+| `TracedFailure`                                   | [x] Done     | N/A       |
+| `DevelopmentError`                                | [x] Done     | N/A       |
+| `RuntimeError`                                    | [x] Done     | N/A       |
+| `DiagnosticDataIdentifier`                        | [ ] Pending* | N/A       |
+| `DiagnosticDynamicDataIdentifier`                 | [ ] Pending* | N/A       |
+| `DiagnosticAbstractDataIdentifier`                | [ ] Pending* | N/A       |
+| `DiagnosticParameter`                             | [ ] Pending* | N/A       |
+| `DiagnosticParameterElement`                      | [ ] Pending* | N/A       |
+| `DiagnosticParameterIdent`                        | [ ] Pending* | N/A       |
+| `DiagnosticAbstractParameter`                     | [ ] Pending* | N/A       |
+| `DiagnosticDataElement`                           | [ ] Pending* | N/A       |
+| `DiagnosticContributionSet`                       | [ ] Pending* | N/A       |
+| `DiagnosticProtocol`                              | [ ] Pending* | N/A       |
+| `TpConnectionIdent`                               | [x] Done     | N/A       |
+| `DiagnosticCommonProps`                           | [ ] Pending* | N/A       |
+| `DiagnosticOccurrenceCounterProcessingEnum`       | [ ] Pending* | N/A       |
+| `DiagnosticTypeOfDtcSupportedEnum`                | [ ] Pending* | N/A       |
+| `DiagnosticEventCombinationBehaviorEnum`          | [ ] Pending* | N/A       |
+| `DiagnosticEventCombinationReportingBehaviorEnum` | [ ] Pending* | N/A       |
+| `DiagnosticCustomServiceInstance`                 | [ ] Pending* | N/A       |
+| `DiagnosticCustomServiceClass`                    | [ ] Pending* | N/A       |
+| `DiagnosticAuthRole`                              | [ ] Pending* | N/A       |
+| `DiagnosticCompareTypeEnum`                       | [ ] Pending* | N/A       |
+| `DiagnosticEnvDataCondition`                      | [ ] Pending* | N/A       |
+| `DiagnosticEnvDataElementCondition`               | [ ] Pending* | N/A       |
+| `DiagnosticEnvModeCondition`                      | [ ] Pending* | N/A       |
+| `DiagnosticEnvSwcModeElement`                     | [ ] Pending* | N/A       |
+| `DiagnosticEnvBswModeElement`                     | [ ] Pending* | N/A       |
+| `DiagnosticSessionControl`                        | [ ] Pending* | N/A       |
 
 ## Group24
 
-Status: **0/75** completed
+Status: **1/75** completed
 
-| Class Name                                                 | Status          | Commit ID |
-| ---------------------------------------------------------- | --------------- | --------- |
-| `DiagnosticSessionControlClass`                            | [ ] Created     | N/A       |
-| `DiagnosticSecurityAccess`                                 | [ ] Created     | N/A       |
-| `DiagnosticSecurityAccessClass`                            | [ ] Created     | N/A       |
-| `DiagnosticAuthentication`                                 | [ ] Created     | N/A       |
-| `DiagnosticAuthenticationClass`                            | [ ] Created     | N/A       |
-| `DiagnosticAuthenticationConfiguration`                    | [ ] Created     | N/A       |
-| `DiagnosticVerifyCertificateBidirectional`                 | [ ] Created     | N/A       |
-| `DiagnosticVerifyCertificateUnidirectional`                | [ ] Created     | N/A       |
-| `DiagnosticDeAuthentication`                               | [ ] Created     | N/A       |
-| `DiagnosticProofOfOwnership`                               | [ ] Created     | N/A       |
-| `DiagnosticAuthTransmitCertificate`                        | [ ] Created     | N/A       |
-| `DiagnosticAuthTransmitCertificateEvaluation`              | [ ] Created     | N/A       |
-| `DiagnosticEcuReset`                                       | [ ] Created     | N/A       |
-| `DiagnosticEcuResetClass`                                  | [ ] Created     | N/A       |
-| `DiagnosticResponseToEcuResetEnum`                         | [ ] Created     | N/A       |
-| `CommunicationCluster`                                     | [ ] Implemented | N/A       |
-| `DiagnosticComControl`                                     | [ ] Created     | N/A       |
-| `DiagnosticComControlSpecificChannel`                      | [ ] Created     | N/A       |
-| `DiagnosticComControlClass`                                | [ ] Created     | N/A       |
-| `DiagnosticComControlSubNodeChannel`                       | [ ] Created     | N/A       |
-| `DiagnosticControlDTCSetting`                              | [ ] Created     | N/A       |
-| `DiagnosticControlDTCSettingClass`                         | [ ] Created     | N/A       |
-| `DiagnosticReadDataByIdentifier`                           | [ ] Created     | N/A       |
-| `DiagnosticWriteDataByIdentifier`                          | [ ] Created     | N/A       |
-| `DiagnosticWriteDataByIdentifierClass`                     | [ ] Created     | N/A       |
-| `DiagnosticDataByIdentifier`                               | [ ] Created     | N/A       |
-| `DiagnosticReadDataByIdentifierClass`                      | [ ] Created     | N/A       |
-| `DiagnosticReadScalingDataByIdentifier`                    | [ ] Created     | N/A       |
-| `DiagnosticReadScalingDataByIdentifierClass`               | [ ] Created     | N/A       |
-| `DiagnosticIOControl`                                      | [ ] Created     | N/A       |
-| `DiagnosticIoControlClass`                                 | [ ] Created     | N/A       |
-| `DiagnosticControlEnableMaskBit`                           | [ ] Created     | N/A       |
-| `DiagnosticRoutineSubfunction`                             | [ ] Created     | N/A       |
-| `DiagnosticRoutine`                                        | [ ] Created     | N/A       |
-| `DiagnosticStartRoutine`                                   | [ ] Created     | N/A       |
-| `DiagnosticStopRoutine`                                    | [ ] Created     | N/A       |
-| `DiagnosticRequestRoutineResults`                          | [ ] Created     | N/A       |
-| `DiagnosticRoutineControl`                                 | [ ] Created     | N/A       |
-| `DiagnosticRoutineControlClass`                            | [ ] Created     | N/A       |
-| `DiagnosticDynamicallyDefineDataIdentifier`                | [ ] Created     | N/A       |
-| `DiagnosticDynamicallyDefineDataIdentifierClass`           | [ ] Created     | N/A       |
-| `DiagnosticHandleDDDIConfigurationEnum`                    | [ ] Created     | N/A       |
-| `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` | [ ] Created     | N/A       |
-| `DiagnosticReadDataByPeriodicID`                           | [ ] Created     | N/A       |
-| `DiagnosticReadDataByPeriodicIDClass`                      | [ ] Created     | N/A       |
-| `DiagnosticPeriodicRate`                                   | [ ] Created     | N/A       |
-| `DiagnosticPeriodicRateCategoryEnum`                       | [ ] Created     | N/A       |
-| `DiagnosticResponseOnEvent`                                | [ ] Created     | N/A       |
-| `DiagnosticResponseOnEventClass`                           | [ ] Created     | N/A       |
-| `DiagnosticEventWindow`                                    | [ ] Created     | N/A       |
-| `DiagnosticEventWindowTimeEnum`                            | [ ] Created     | N/A       |
-| `DiagnosticResponseOnEventActionEnum`                      | [ ] Created     | N/A       |
-| `DiagnosticReadDTCInformation`                             | [ ] Created     | N/A       |
-| `DiagnosticReadDTCInformationClass`                        | [ ] Created     | N/A       |
-| `DiagnosticClearDiagnosticInformation`                     | [ ] Created     | N/A       |
-| `DiagnosticClearDiagnosticInformationClass`                | [ ] Created     | N/A       |
-| `DiagnosticMemoryByAddress`                                | [ ] Created     | N/A       |
-| `DiagnosticMemoryAddressableRangeAccess`                   | [ ] Created     | N/A       |
-| `DiagnosticMemoryIdentifier`                               | [ ] Created     | N/A       |
-| `DiagnosticWriteMemoryByAddress`                           | [ ] Created     | N/A       |
-| `DiagnosticWriteMemoryByAddressClass`                      | [ ] Created     | N/A       |
-| `DiagnosticReadMemoryByAddress`                            | [ ] Created     | N/A       |
-| `DiagnosticReadMemoryByAddressClass`                       | [ ] Created     | N/A       |
-| `DiagnosticTransferExit`                                   | [ ] Created     | N/A       |
-| `DiagnosticTransferExitClass`                              | [ ] Created     | N/A       |
-| `DiagnosticDataTransfer`                                   | [ ] Created     | N/A       |
-| `DiagnosticDataTransferClass`                              | [ ] Created     | N/A       |
-| `DiagnosticRequestDownload`                                | [ ] Created     | N/A       |
-| `DiagnosticRequestDownloadClass`                           | [ ] Created     | N/A       |
-| `DiagnosticRequestUpload`                                  | [ ] Created     | N/A       |
-| `DiagnosticRequestUploadClass`                             | [ ] Created     | N/A       |
-| `DiagnosticRequestFileTransfer`                            | [ ] Created     | N/A       |
-| `DiagnosticRequestFileTransferClass`                       | [ ] Created     | N/A       |
-| `DiagnosticParameterIdentifier`                            | [ ] Created     | N/A       |
-| `DiagnosticParameterSupportInfo`                           | [ ] Created     | N/A       |
+| Class Name                                                 | Status       | Commit ID |
+| ---------------------------------------------------------- | ------------ | --------- |
+| `DiagnosticSessionControlClass`                            | [ ] Pending* | N/A       |
+| `DiagnosticSecurityAccess`                                 | [ ] Pending* | N/A       |
+| `DiagnosticSecurityAccessClass`                            | [ ] Pending* | N/A       |
+| `DiagnosticAuthentication`                                 | [ ] Pending* | N/A       |
+| `DiagnosticAuthenticationClass`                            | [ ] Pending* | N/A       |
+| `DiagnosticAuthenticationConfiguration`                    | [ ] Pending* | N/A       |
+| `DiagnosticVerifyCertificateBidirectional`                 | [ ] Pending* | N/A       |
+| `DiagnosticVerifyCertificateUnidirectional`                | [ ] Pending* | N/A       |
+| `DiagnosticDeAuthentication`                               | [ ] Pending* | N/A       |
+| `DiagnosticProofOfOwnership`                               | [ ] Pending* | N/A       |
+| `DiagnosticAuthTransmitCertificate`                        | [ ] Pending* | N/A       |
+| `DiagnosticAuthTransmitCertificateEvaluation`              | [ ] Pending* | N/A       |
+| `DiagnosticEcuReset`                                       | [ ] Pending* | N/A       |
+| `DiagnosticEcuResetClass`                                  | [ ] Pending* | N/A       |
+| `DiagnosticResponseToEcuResetEnum`                         | [ ] Pending* | N/A       |
+| `CommunicationCluster`                                     | [x] Done     | N/A       |
+| `DiagnosticComControl`                                     | [ ] Pending* | N/A       |
+| `DiagnosticComControlSpecificChannel`                      | [ ] Pending* | N/A       |
+| `DiagnosticComControlClass`                                | [ ] Created  | N/A       |
+| `DiagnosticComControlSubNodeChannel`                       | [ ] Created  | N/A       |
+| `DiagnosticControlDTCSetting`                              | [ ] Created  | N/A       |
+| `DiagnosticControlDTCSettingClass`                         | [ ] Created  | N/A       |
+| `DiagnosticReadDataByIdentifier`                           | [ ] Created  | N/A       |
+| `DiagnosticWriteDataByIdentifier`                          | [ ] Created  | N/A       |
+| `DiagnosticWriteDataByIdentifierClass`                     | [ ] Created  | N/A       |
+| `DiagnosticDataByIdentifier`                               | [ ] Created  | N/A       |
+| `DiagnosticReadDataByIdentifierClass`                      | [ ] Created  | N/A       |
+| `DiagnosticReadScalingDataByIdentifier`                    | [ ] Created  | N/A       |
+| `DiagnosticReadScalingDataByIdentifierClass`               | [ ] Created  | N/A       |
+| `DiagnosticIOControl`                                      | [ ] Created  | N/A       |
+| `DiagnosticIoControlClass`                                 | [ ] Created  | N/A       |
+| `DiagnosticControlEnableMaskBit`                           | [ ] Created  | N/A       |
+| `DiagnosticRoutineSubfunction`                             | [ ] Created  | N/A       |
+| `DiagnosticRoutine`                                        | [ ] Created  | N/A       |
+| `DiagnosticStartRoutine`                                   | [ ] Created  | N/A       |
+| `DiagnosticStopRoutine`                                    | [ ] Created  | N/A       |
+| `DiagnosticRequestRoutineResults`                          | [ ] Created  | N/A       |
+| `DiagnosticRoutineControl`                                 | [ ] Created  | N/A       |
+| `DiagnosticRoutineControlClass`                            | [ ] Created  | N/A       |
+| `DiagnosticDynamicallyDefineDataIdentifier`                | [ ] Created  | N/A       |
+| `DiagnosticDynamicallyDefineDataIdentifierClass`           | [ ] Created  | N/A       |
+| `DiagnosticHandleDDDIConfigurationEnum`                    | [ ] Created  | N/A       |
+| `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` | [ ] Created  | N/A       |
+| `DiagnosticReadDataByPeriodicID`                           | [ ] Created  | N/A       |
+| `DiagnosticReadDataByPeriodicIDClass`                      | [ ] Created  | N/A       |
+| `DiagnosticPeriodicRate`                                   | [ ] Created  | N/A       |
+| `DiagnosticPeriodicRateCategoryEnum`                       | [ ] Created  | N/A       |
+| `DiagnosticResponseOnEvent`                                | [ ] Created  | N/A       |
+| `DiagnosticResponseOnEventClass`                           | [ ] Created  | N/A       |
+| `DiagnosticEventWindow`                                    | [ ] Created  | N/A       |
+| `DiagnosticEventWindowTimeEnum`                            | [ ] Created  | N/A       |
+| `DiagnosticResponseOnEventActionEnum`                      | [ ] Created  | N/A       |
+| `DiagnosticReadDTCInformation`                             | [ ] Created  | N/A       |
+| `DiagnosticReadDTCInformationClass`                        | [ ] Created  | N/A       |
+| `DiagnosticClearDiagnosticInformation`                     | [ ] Created  | N/A       |
+| `DiagnosticClearDiagnosticInformationClass`                | [ ] Created  | N/A       |
+| `DiagnosticMemoryByAddress`                                | [ ] Created  | N/A       |
+| `DiagnosticMemoryAddressableRangeAccess`                   | [ ] Created  | N/A       |
+| `DiagnosticMemoryIdentifier`                               | [ ] Created  | N/A       |
+| `DiagnosticWriteMemoryByAddress`                           | [ ] Created  | N/A       |
+| `DiagnosticWriteMemoryByAddressClass`                      | [ ] Created  | N/A       |
+| `DiagnosticReadMemoryByAddress`                            | [ ] Created  | N/A       |
+| `DiagnosticReadMemoryByAddressClass`                       | [ ] Created  | N/A       |
+| `DiagnosticTransferExit`                                   | [ ] Created  | N/A       |
+| `DiagnosticTransferExitClass`                              | [ ] Created  | N/A       |
+| `DiagnosticDataTransfer`                                   | [ ] Created  | N/A       |
+| `DiagnosticDataTransferClass`                              | [ ] Created  | N/A       |
+| `DiagnosticRequestDownload`                                | [ ] Created  | N/A       |
+| `DiagnosticRequestDownloadClass`                           | [ ] Created  | N/A       |
+| `DiagnosticRequestUpload`                                  | [ ] Created  | N/A       |
+| `DiagnosticRequestUploadClass`                             | [ ] Created  | N/A       |
+| `DiagnosticRequestFileTransfer`                            | [ ] Created  | N/A       |
+| `DiagnosticRequestFileTransferClass`                       | [ ] Created  | N/A       |
+| `DiagnosticParameterIdentifier`                            | [ ] Created  | N/A       |
+| `DiagnosticParameterSupportInfo`                           | [ ] Created  | N/A       |
 
 ## Group25
 
@@ -1295,7 +1295,7 @@ Status: **0/75** completed
 | `DiagnosticJ1939ExpandedFreezeFrame`            | [ ] Created     | N/A       |
 | `DiagnosticTroubleCodeJ1939DtcKindEnum`         | [ ] Created     | N/A       |
 | `DiagnosticTroubleCodeJ1939`                    | [ ] Created     | N/A       |
-| `DiagnosticMapping`                             | [ ] Created     | N/A       |
+| `DiagnosticMapping`                             | [ ] Pending*    | N/A       |
 | `DiagnosticServiceDataMapping`                  | [ ] Created     | N/A       |
 | `DiagnosticParameterElementAccess`              | [ ] Created     | N/A       |
 | `DiagnosticServiceMappingDiagTarget`            | [ ] Created     | N/A       |
