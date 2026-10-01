@@ -606,7 +606,9 @@ class Test_DiagnosticReadDataByIdentifierClass:
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
         assert inspect.cleandoc(DiagnosticReadDataByIdentifierClass.getMaxDidToRead.__doc__) == self.MAX_DID_TO_READ_NOTE
-        assert inspect.cleandoc(DiagnosticReadDataByIdentifierClass.setMaxDidToRead.__doc__) == (self.MAX_DID_TO_READ_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxDidToRead.")
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifierClass.setMaxDidToRead.__doc__) == (
+            self.MAX_DID_TO_READ_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxDidToRead."
+        )
 
     def test_create_diagnostic_read_data_by_identifier_class(self):
         package = _pkg()
