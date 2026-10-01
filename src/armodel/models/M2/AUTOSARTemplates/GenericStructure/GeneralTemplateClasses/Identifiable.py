@@ -686,7 +686,57 @@ class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
 
 
 class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
-    pass
+    """This meta-class represents the ability to configure a certificate evaluation in the context of a diagnostic authentication."""
+
+    # DiagnosticAuthTransmitCertificateEvaluation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.59, p.101
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEvaluationId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEvaluationId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunction        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunction        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attributes represents the ID of the certificate evaluation.
+        self.evaluationId: Optional[PositiveInteger] = None
+
+        # This attribute represents the description of the actual semantics of the corresponding evaluation ID.
+        self.function: Optional[String] = None
+
+    def getEvaluationId(self) -> Optional[PositiveInteger]:
+        """
+        This attributes represents the ID of the certificate evaluation.
+        """
+        return self.evaluationId
+
+    def setEvaluationId(self, value: Optional[PositiveInteger]) -> DiagnosticAuthTransmitCertificateEvaluation:
+        """
+        This attributes represents the ID of the certificate evaluation.
+
+        A None value is a no-op and does not overwrite an existing evaluationId.
+        """
+        if value is not None:
+            self.evaluationId = value
+        return self
+
+    def getFunction(self) -> Optional[String]:
+        """
+        This attribute represents the description of the actual semantics of the corresponding evaluation ID.
+        """
+        return self.function
+
+    def setFunction(self, value: Optional[String]) -> DiagnosticAuthTransmitCertificateEvaluation:
+        """
+        This attribute represents the description of the actual semantics of the corresponding evaluation ID.
+
+        A None value is a no-op and does not overwrite an existing function.
+        """
+        if value is not None:
+            self.function = value
+        return self
 
 
 class DiagnosticDataElement(Identifiable, VariationPointCapable):

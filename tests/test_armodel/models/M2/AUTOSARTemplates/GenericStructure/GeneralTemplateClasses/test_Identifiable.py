@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
+    DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
     Identifiable,
@@ -1018,3 +1019,107 @@ class TestDiagnosticDataElement:
         setter_hints = typing.get_type_hints(DiagnosticDataElement.setScalingInfoSize)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is DiagnosticDataElement
+
+
+class TestDiagnosticAuthTransmitCertificateEvaluation:
+    """
+    Test class for DiagnosticAuthTransmitCertificateEvaluation functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.59, p.101
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to configure a certificate evaluation in the context of a diagnostic authentication."
+
+    def _make_obj(self) -> DiagnosticAuthTransmitCertificateEvaluation:
+        parent = AUTOSAR.getInstance()
+        return DiagnosticAuthTransmitCertificateEvaluation(parent, "Eval1")
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticAuthTransmitCertificateEvaluation is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Eval1"
+        assert obj.getEvaluationId() is None
+        assert obj.getFunction() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAuthTransmitCertificateEvaluation.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthTransmitCertificateEvaluation.__init__.__doc__ is None
+
+    def test_get_set_evaluation_id(self):
+        """
+        Round-trips evaluationId; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("2")
+        result = obj.setEvaluationId(value)
+        assert result is obj  # method chaining
+        assert obj.getEvaluationId() is value
+        assert obj.getEvaluationId().getValue() == 2
+
+        obj.setEvaluationId(None)
+        assert obj.getEvaluationId() is value  # None is a no-op
+
+    def test_get_set_function(self):
+        """
+        Round-trips function; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = String()
+        value.setValue("FUNCTION_SECURE_CODING")
+        result = obj.setFunction(value)
+        assert result is obj  # method chaining
+        assert obj.getFunction() is value
+        assert obj.getFunction().getValue() == "FUNCTION_SECURE_CODING"
+
+        obj.setFunction(None)
+        assert obj.getFunction() is value  # None is a no-op
+
+    def test_get_set_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.getEvaluationId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.setEvaluationId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticAuthTransmitCertificateEvaluation
+
+        getter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.getFunction)
+        assert getter_hints.get("return") == typing.Optional[String]
+
+        setter_hints = typing.get_type_hints(DiagnosticAuthTransmitCertificateEvaluation.setFunction)
+        assert setter_hints.get("value") == typing.Optional[String]
+        assert setter_hints.get("return") is DiagnosticAuthTransmitCertificateEvaluation
+
+    def test_create_via_parent_certificate(self):
+        """
+        Test creation through the owning DiagnosticAuthTransmitCertificate aggregation and duplicate reuse.
+        """
+        package = AUTOSAR.getInstance().createARPackage("AuthTransmitCertificates")
+        certificate = package.createDiagnosticAuthTransmitCertificate("Certificate1")
+
+        evaluation = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
+        assert evaluation is not None
+        assert isinstance(evaluation, DiagnosticAuthTransmitCertificateEvaluation)
+        assert evaluation.getShortName() == "Eval1"
+        assert evaluation.getParent() is certificate
+        assert certificate.getCertificateEvaluations() == [evaluation]
+
+        duplicate = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
+        assert duplicate is evaluation  # duplicate short name returns the existing element
+        assert len(certificate.getCertificateEvaluations()) == 1

@@ -10736,6 +10736,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticAuthTransmitCertificateEvaluation(self, element: ET.Element, evaluation: DiagnosticAuthTransmitCertificateEvaluation):
         self.logger.debug("Read DiagnosticAuthTransmitCertificateEvaluation <%s>" % evaluation.getShortName())
         self.readIdentifiable(element, evaluation)
+        evaluation.setEvaluationId(self.getChildElementOptionalPositiveInteger(element, "EVALUATION-ID"))
+        evaluation.setFunction(self.getChildElementOptionalString(element, "FUNCTION"))
 
     def readDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
         self.logger.debug("Read DiagnosticDeAuthentication <%s>" % de_authentication.getShortName())

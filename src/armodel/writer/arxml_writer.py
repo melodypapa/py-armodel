@@ -13924,6 +13924,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticAuthTransmitCertificateEvaluation %s" % evaluation.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-EVALUATION")
         self.writeIdentifiable(child_element, evaluation)
+        self.setChildElementOptionalPositiveInteger(child_element, "EVALUATION-ID", evaluation.getEvaluationId())
+        self.setChildElementOptionalString(child_element, "FUNCTION", evaluation.getFunction())
 
     def writeDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
         self.logger.debug("Write DiagnosticDeAuthentication %s" % de_authentication.getShortName())
