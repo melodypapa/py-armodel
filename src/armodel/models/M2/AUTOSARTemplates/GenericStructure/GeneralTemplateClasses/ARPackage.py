@@ -28,7 +28,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    DiagnosticAuthTransmitCertificateEvaluation,
+    DiagnosticRequestRoutineResults,
+    DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
+    Identifiable,
+    Referrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -1956,6 +1963,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
             self.addElement(read_scaling_data_by_identifier_class)
         return self.getElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
+
+    def createDiagnosticRoutine(self, short_name: str) -> DiagnosticRoutine:
+        """
+        Creates a new DiagnosticRoutine with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRoutine represents the ability to define a diagnostic routine.
+
+        Args:
+            short_name: The short name for the new DiagnosticRoutine
+
+        Returns:
+            The newly created or existing DiagnosticRoutine instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticRoutine):
+            routine = DiagnosticRoutine(self, short_name)
+            self.addElement(routine)
+        return self.getElement(short_name, DiagnosticRoutine)
 
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
@@ -4284,7 +4309,120 @@ class DiagnosticResponseOnEvent(ARElement):
 
 
 class DiagnosticRoutine(ARElement):
-    pass
+    """This meta-class represents the ability to define a diagnostic routine."""
+
+    # DiagnosticRoutine method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.85, p.124
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRequestResult   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestResult      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRoutineInfo        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutineInfo        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createStart           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStart              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStop            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStop               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is the numerical identifier used to identify the DiagnosticRoutine in the scope of diagnostic workflow
+        self.id: Optional[PositiveInteger] = None
+
+        # This represents the ability to request the result of a running routine.
+        self.requestResult: Optional[DiagnosticRequestRoutineResults] = None
+
+        # This represents the routine info byte. The info byte contains a manufacturer-specific value (for the identification of record identifiers) that is reported to the tester. Other use cases for this attribute are mentioned in ISO 27145 and ISO 26021.
+        self.routineInfo: Optional[PositiveInteger] = None
+
+        # This represents the ability to start a routine
+        self.start: Optional[DiagnosticStartRoutine] = None
+
+        # This represents the ability to stop a running routine.
+        self.stop: Optional[DiagnosticStopRoutine] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This is the numerical identifier used to identify the DiagnosticRoutine in the scope of diagnostic workflow
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticRoutine:
+        """
+        This is the numerical identifier used to identify the DiagnosticRoutine in the scope of diagnostic workflow
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def createRequestResult(self, short_name: str) -> DiagnosticRequestRoutineResults:
+        """
+        This represents the ability to request the result of a running routine.
+
+        The existing requestResult is returned when the short name already exists (no duplicate creation).
+        """
+        if self.requestResult is None or self.requestResult.getShortName() != short_name:
+            self.requestResult = DiagnosticRequestRoutineResults(self, short_name)
+        return self.requestResult
+
+    def getRequestResult(self) -> Optional[DiagnosticRequestRoutineResults]:
+        """
+        This represents the ability to request the result of a running routine.
+        """
+        return self.requestResult
+
+    def getRoutineInfo(self) -> Optional[PositiveInteger]:
+        """
+        This represents the routine info byte. The info byte contains a manufacturer-specific value (for the identification of record identifiers) that is reported to the tester. Other use cases for this attribute are mentioned in ISO 27145 and ISO 26021.
+        """
+        return self.routineInfo
+
+    def setRoutineInfo(self, value: Optional[PositiveInteger]) -> DiagnosticRoutine:
+        """
+        This represents the routine info byte. The info byte contains a manufacturer-specific value (for the identification of record identifiers) that is reported to the tester. Other use cases for this attribute are mentioned in ISO 27145 and ISO 26021.
+
+        A None value is a no-op and does not overwrite an existing routineInfo.
+        """
+        if value is not None:
+            self.routineInfo = value
+        return self
+
+    def createStart(self, short_name: str) -> DiagnosticStartRoutine:
+        """
+        This represents the ability to start a routine
+
+        The existing start is returned when the short name already exists (no duplicate creation).
+        """
+        if self.start is None or self.start.getShortName() != short_name:
+            self.start = DiagnosticStartRoutine(self, short_name)
+        return self.start
+
+    def getStart(self) -> Optional[DiagnosticStartRoutine]:
+        """
+        This represents the ability to start a routine
+        """
+        return self.start
+
+    def createStop(self, short_name: str) -> DiagnosticStopRoutine:
+        """
+        This represents the ability to stop a running routine.
+
+        The existing stop is returned when the short name already exists (no duplicate creation).
+        """
+        if self.stop is None or self.stop.getShortName() != short_name:
+            self.stop = DiagnosticStopRoutine(self, short_name)
+        return self.stop
+
+    def getStop(self) -> Optional[DiagnosticStopRoutine]:
+        """
+        This represents the ability to stop a running routine.
+        """
+        return self.stop
 
 
 class DiagnosticRoutineControl(ARElement):

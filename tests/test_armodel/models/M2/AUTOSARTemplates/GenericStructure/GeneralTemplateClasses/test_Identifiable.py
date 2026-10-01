@@ -3,6 +3,7 @@ This module contains comprehensive tests for the Identifiable.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import inspect
 import typing
 
 import pytest
@@ -1294,6 +1295,15 @@ class TestDiagnosticStartRoutine:
         assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
         assert adder_hints.get("return") is DiagnosticStartRoutine
 
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticStartRoutine.getRequest.__doc__) == "This represents the request parameters."
+        assert inspect.cleandoc(DiagnosticStartRoutine.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
+        assert inspect.cleandoc(DiagnosticStartRoutine.getResponse.__doc__) == "This represents the response parameters."
+        assert inspect.cleandoc(DiagnosticStartRoutine.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."
+
 
 class TestDiagnosticStopRoutine:
     """
@@ -1383,6 +1393,15 @@ class TestDiagnosticStopRoutine:
         assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
         assert adder_hints.get("return") is DiagnosticStopRoutine
 
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticStopRoutine.getRequest.__doc__) == "This represents the request parameters."
+        assert inspect.cleandoc(DiagnosticStopRoutine.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
+        assert inspect.cleandoc(DiagnosticStopRoutine.getResponse.__doc__) == "This represents the response parameters."
+        assert inspect.cleandoc(DiagnosticStopRoutine.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."
+
 
 class TestDiagnosticRequestRoutineResults:
     """
@@ -1471,3 +1490,12 @@ class TestDiagnosticRequestRoutineResults:
         adder_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.addResponse)
         assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
         assert adder_hints.get("return") is DiagnosticRequestRoutineResults
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.getRequest.__doc__) == "This represents the request parameters."
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.getResponse.__doc__) == "This represents the response parameters."
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."

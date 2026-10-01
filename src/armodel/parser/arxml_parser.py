@@ -544,6 +544,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRoutine,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -10549,6 +10550,28 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticParameter(child_element, response)
             request_results.addResponse(response)
 
+    def readDiagnosticRoutine(self, element: ET.Element, routine: DiagnosticRoutine):
+        self.logger.debug("Read DiagnosticRoutine <%s>" % routine.getShortName())
+        self.readIdentifiable(element, routine)
+        id_avp_element = self.find(element, "ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if id_avp_element is not None and id_avp_element.text is not None and id_avp_element.text.strip() != "":
+            id_value = PositiveInteger()
+            id_value.setValue(id_avp_element.text.strip())
+            routine.setId(id_value)
+        request_result_element = self.find(element, "REQUEST-RESULT")
+        if request_result_element is not None:
+            request_result = routine.createRequestResult(self.getShortName(request_result_element))
+            self.readDiagnosticRequestRoutineResults(request_result_element, request_result)
+        routine.setRoutineInfo(self.getChildElementOptionalPositiveInteger(element, "ROUTINE-INFO"))
+        start_element = self.find(element, "START")
+        if start_element is not None:
+            start = routine.createStart(self.getShortName(start_element))
+            self.readDiagnosticStartRoutine(start_element, start)
+        stop_element = self.find(element, "STOP")
+        if stop_element is not None:
+            stop = routine.createStop(self.getShortName(stop_element))
+            self.readDiagnosticStopRoutine(stop_element, stop)
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -15690,6 +15713,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS":
                 read_scaling_data_by_identifier_class = parent.createDiagnosticReadScalingDataByIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticReadScalingDataByIdentifierClass(child_element, read_scaling_data_by_identifier_class)
+            elif tag_name == "DIAGNOSTIC-ROUTINE":
+                routine = parent.createDiagnosticRoutine(self.getShortName(child_element))
+                self.readDiagnosticRoutine(child_element, routine)
             elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
                 proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
                 self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)

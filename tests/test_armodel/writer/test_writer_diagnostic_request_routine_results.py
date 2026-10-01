@@ -50,14 +50,13 @@ class TestWriteDiagnosticRequestRoutineResults:
     """Tests for writeDiagnosticRequestRoutineResults — own element field values (Table 4.88)."""
 
     def _write(self, request_results: DiagnosticRequestRoutineResults) -> ET.Element:
-        parent = ET.Element("PARENT")
+        parent = ET.Element("DIAGNOSTIC-REQUEST-ROUTINE-RESULTS", {"xmlns": "http://autosar.org/schema/r4.0"})
         ARXMLWriter().writeDiagnosticRequestRoutineResults(parent, request_results)
-        return parent.find("DIAGNOSTIC-REQUEST-ROUTINE-RESULTS")
+        return parent
 
     def test_write_empty_wrapper(self):
         """Test that a DiagnosticRequestRoutineResults without attributes emits only the IDENTIFIABLE wrapper content."""
         child = self._write(DiagnosticRequestRoutineResults(parent=MagicMock(), short_name="RequestResults1"))
-        assert child is not None
         assert child.find("SHORT-NAME").text == "RequestResults1"
         assert child.find("REQUESTS") is None
         assert child.find("RESPONSES") is None
@@ -122,12 +121,12 @@ class TestWriteDiagnosticRequestRoutineResults:
         response_parameter.createIdent("RespParam1")
         obj.addResponse(response_parameter)
 
-        parent = ET.Element("PARENT", {"xmlns": "http://autosar.org/schema/r4.0"})
+        parent = ET.Element("DIAGNOSTIC-REQUEST-ROUTINE-RESULTS", {"xmlns": "http://autosar.org/schema/r4.0"})
         ARXMLWriter().writeDiagnosticRequestRoutineResults(parent, obj)
         xml_text = ET.tostring(parent, encoding="unicode")
 
         reloaded = DiagnosticRequestRoutineResults(parent=MagicMock(), short_name="RequestResults1")
-        ARXMLParser().readDiagnosticRequestRoutineResults(ET.fromstring(xml_text)[0], reloaded)
+        ARXMLParser().readDiagnosticRequestRoutineResults(ET.fromstring(xml_text), reloaded)
         assert reloaded.getShortName() == "RequestResults1"
         assert reloaded.getAccessPermission() is not None
         assert reloaded.getAccessPermission().getValue() == "/AUTOSAR/DiagnosticAccessPermissions/Level1"

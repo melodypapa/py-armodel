@@ -420,6 +420,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRoutine,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -13869,51 +13870,71 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticStartRoutine(self, element: ET.Element, start_routine: DiagnosticStartRoutine):
         self.logger.debug("Write DiagnosticStartRoutine %s" % start_routine.getShortName())
-        child_element = ET.SubElement(element, "DIAGNOSTIC-START-ROUTINE")
-        self.writeIdentifiable(child_element, start_routine)
-        self.writeDiagnosticRoutineSubfunction(child_element, start_routine)
+        self.writeIdentifiable(element, start_routine)
+        self.writeDiagnosticRoutineSubfunction(element, start_routine)
         requests = start_routine.getRequest()
         if len(requests) > 0:
-            requests_tag = ET.SubElement(child_element, "REQUESTS")
+            requests_tag = ET.SubElement(element, "REQUESTS")
             for request in requests:
                 self.writeDiagnosticParameter(requests_tag, request)
         responses = start_routine.getResponse()
         if len(responses) > 0:
-            responses_tag = ET.SubElement(child_element, "RESPONSES")
+            responses_tag = ET.SubElement(element, "RESPONSES")
             for response in responses:
                 self.writeDiagnosticParameter(responses_tag, response)
 
     def writeDiagnosticStopRoutine(self, element: ET.Element, stop_routine: DiagnosticStopRoutine):
         self.logger.debug("Write DiagnosticStopRoutine %s" % stop_routine.getShortName())
-        child_element = ET.SubElement(element, "DIAGNOSTIC-STOP-ROUTINE")
-        self.writeIdentifiable(child_element, stop_routine)
-        self.writeDiagnosticRoutineSubfunction(child_element, stop_routine)
+        self.writeIdentifiable(element, stop_routine)
+        self.writeDiagnosticRoutineSubfunction(element, stop_routine)
         requests = stop_routine.getRequest()
         if len(requests) > 0:
-            requests_tag = ET.SubElement(child_element, "REQUESTS")
+            requests_tag = ET.SubElement(element, "REQUESTS")
             for request in requests:
                 self.writeDiagnosticParameter(requests_tag, request)
         responses = stop_routine.getResponse()
         if len(responses) > 0:
-            responses_tag = ET.SubElement(child_element, "RESPONSES")
+            responses_tag = ET.SubElement(element, "RESPONSES")
             for response in responses:
                 self.writeDiagnosticParameter(responses_tag, response)
 
     def writeDiagnosticRequestRoutineResults(self, element: ET.Element, request_results: DiagnosticRequestRoutineResults):
         self.logger.debug("Write DiagnosticRequestRoutineResults %s" % request_results.getShortName())
-        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-ROUTINE-RESULTS")
-        self.writeIdentifiable(child_element, request_results)
-        self.writeDiagnosticRoutineSubfunction(child_element, request_results)
+        self.writeIdentifiable(element, request_results)
+        self.writeDiagnosticRoutineSubfunction(element, request_results)
         requests = request_results.getRequest()
         if len(requests) > 0:
-            requests_tag = ET.SubElement(child_element, "REQUESTS")
+            requests_tag = ET.SubElement(element, "REQUESTS")
             for request in requests:
                 self.writeDiagnosticParameter(requests_tag, request)
         responses = request_results.getResponse()
         if len(responses) > 0:
-            responses_tag = ET.SubElement(child_element, "RESPONSES")
+            responses_tag = ET.SubElement(element, "RESPONSES")
             for response in responses:
                 self.writeDiagnosticParameter(responses_tag, response)
+
+    def writeDiagnosticRoutine(self, element: ET.Element, routine: DiagnosticRoutine):
+        self.logger.debug("Write DiagnosticRoutine %s" % routine.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE")
+        self.writeIdentifiable(child_element, routine)
+        id_value = routine.getId()
+        if id_value is not None:
+            id_element = ET.SubElement(child_element, "ID")
+            avp_element = ET.SubElement(id_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if id_value._text is not None:
+                avp_element.text = id_value._text
+            elif id_value._value is not None:
+                avp_element.text = str(id_value._value)
+        if routine.getRequestResult() is not None:
+            request_result_element = ET.SubElement(child_element, "REQUEST-RESULT")
+            self.writeDiagnosticRequestRoutineResults(request_result_element, routine.getRequestResult())
+        self.setChildElementOptionalPositiveInteger(child_element, "ROUTINE-INFO", routine.getRoutineInfo())
+        if routine.getStart() is not None:
+            start_element = ET.SubElement(child_element, "START")
+            self.writeDiagnosticStartRoutine(start_element, routine.getStart())
+        if routine.getStop() is not None:
+            stop_element = ET.SubElement(child_element, "STOP")
+            self.writeDiagnosticStopRoutine(stop_element, routine.getStop())
 
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
@@ -15325,6 +15346,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifierClass):
             self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRoutine):
+            self.writeDiagnosticRoutine(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):

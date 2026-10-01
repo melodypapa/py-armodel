@@ -49,14 +49,13 @@ class TestWriteDiagnosticStopRoutine:
     """Tests for writeDiagnosticStopRoutine — own element field values (Table 4.87)."""
 
     def _write(self, stop_routine: DiagnosticStopRoutine) -> ET.Element:
-        parent = ET.Element("PARENT")
+        parent = ET.Element("DIAGNOSTIC-STOP-ROUTINE", {"xmlns": "http://autosar.org/schema/r4.0"})
         ARXMLWriter().writeDiagnosticStopRoutine(parent, stop_routine)
-        return parent.find("DIAGNOSTIC-STOP-ROUTINE")
+        return parent
 
     def test_write_empty_wrapper(self):
         """Test that a DiagnosticStopRoutine without attributes emits only the IDENTIFIABLE wrapper content."""
         child = self._write(DiagnosticStopRoutine(parent=MagicMock(), short_name="StopRoutine1"))
-        assert child is not None
         assert child.find("SHORT-NAME").text == "StopRoutine1"
         assert child.find("REQUESTS") is None
         assert child.find("RESPONSES") is None
@@ -121,12 +120,12 @@ class TestWriteDiagnosticStopRoutine:
         response_parameter.createIdent("RespParam1")
         obj.addResponse(response_parameter)
 
-        parent = ET.Element("PARENT", {"xmlns": "http://autosar.org/schema/r4.0"})
+        parent = ET.Element("DIAGNOSTIC-STOP-ROUTINE", {"xmlns": "http://autosar.org/schema/r4.0"})
         ARXMLWriter().writeDiagnosticStopRoutine(parent, obj)
         xml_text = ET.tostring(parent, encoding="unicode")
 
         reloaded = DiagnosticStopRoutine(parent=MagicMock(), short_name="StopRoutine1")
-        ARXMLParser().readDiagnosticStopRoutine(ET.fromstring(xml_text)[0], reloaded)
+        ARXMLParser().readDiagnosticStopRoutine(ET.fromstring(xml_text), reloaded)
         assert reloaded.getShortName() == "StopRoutine1"
         assert reloaded.getAccessPermission() is not None
         assert reloaded.getAccessPermission().getValue() == "/AUTOSAR/DiagnosticAccessPermissions/Level1"

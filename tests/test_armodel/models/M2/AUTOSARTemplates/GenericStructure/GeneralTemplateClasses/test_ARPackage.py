@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRoutine,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
@@ -46,7 +47,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    DiagnosticAuthTransmitCertificateEvaluation,
+    DiagnosticRequestRoutineResults,
+    DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
+    Identifiable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
@@ -3598,3 +3605,162 @@ class TestDiagnosticIOControl:
 
         duplicate = package.createDiagnosticIOControl("IOControl1")
         assert duplicate is io_control  # duplicate short name returns the existing element
+
+
+class TestDiagnosticRoutine:
+    """
+    Test class for DiagnosticRoutine functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.85, p.124
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define a diagnostic routine."
+    ID_NOTE = "This is the numerical identifier used to identify the DiagnosticRoutine in the scope of diagnostic workflow"
+    REQUEST_RESULT_NOTE = "This represents the ability to request the result of a running routine."
+    ROUTINE_INFO_NOTE = (
+        "This represents the routine info byte. The info byte contains a manufacturer-specific value"
+        " (for the identification of record identifiers) that is reported to the tester."
+        " Other use cases for this attribute are mentioned in ISO 27145 and ISO 26021."
+    )
+    START_NOTE = "This represents the ability to start a routine"
+    STOP_NOTE = "This represents the ability to stop a running routine."
+
+    def _make_obj(self) -> DiagnosticRoutine:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRoutine(ar_root, "Routine1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRoutine instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Routine1"
+        assert isinstance(obj, ARElement)
+        assert obj.getId() is None
+        assert obj.getRequestResult() is None
+        assert obj.getRoutineInfo() is None
+        assert obj.getStart() is None
+        assert obj.getStop() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRoutine.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRoutine.__init__.__doc__ is None
+
+    def test_get_set_id(self):
+        """
+        Round-trips the id; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("5")
+        result = obj.setId(value)
+        assert result is obj  # method chaining
+        assert obj.getId() is value
+        assert obj.getId().getValue() == 5
+
+        obj.setId(None)
+        assert obj.getId() is value  # None is a no-op
+
+    def test_create_get_request_result(self):
+        """
+        Test createRequestResult creation and duplicate reuse.
+        """
+        obj = self._make_obj()
+
+        request_result = obj.createRequestResult("RequestResults1")
+        assert isinstance(request_result, DiagnosticRequestRoutineResults)
+        assert request_result.getShortName() == "RequestResults1"
+        assert request_result.getParent() is obj
+        assert obj.getRequestResult() is request_result
+
+        duplicate = obj.createRequestResult("RequestResults1")
+        assert duplicate is request_result  # existing element returned (no duplicate creation)
+
+    def test_get_set_routine_info(self):
+        """
+        Round-trips the routineInfo; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setRoutineInfo(value)
+        assert result is obj  # method chaining
+        assert obj.getRoutineInfo() is value
+        assert obj.getRoutineInfo().getValue() == 7
+
+        obj.setRoutineInfo(None)
+        assert obj.getRoutineInfo() is value  # None is a no-op
+
+    def test_create_get_start(self):
+        """
+        Test createStart creation and duplicate reuse.
+        """
+        obj = self._make_obj()
+
+        start = obj.createStart("Start1")
+        assert isinstance(start, DiagnosticStartRoutine)
+        assert start.getShortName() == "Start1"
+        assert start.getParent() is obj
+        assert obj.getStart() is start
+
+        duplicate = obj.createStart("Start1")
+        assert duplicate is start  # existing element returned (no duplicate creation)
+
+    def test_create_get_stop(self):
+        """
+        Test createStop creation and duplicate reuse.
+        """
+        obj = self._make_obj()
+
+        stop = obj.createStop("Stop1")
+        assert isinstance(stop, DiagnosticStopRoutine)
+        assert stop.getShortName() == "Stop1"
+        assert stop.getParent() is obj
+        assert obj.getStop() is stop
+
+        duplicate = obj.createStop("Stop1")
+        assert duplicate is stop  # existing element returned (no duplicate creation)
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRoutine.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticRoutine.getRequestResult.__doc__) == self.REQUEST_RESULT_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.createRequestResult.__doc__) == (
+            self.REQUEST_RESULT_NOTE + "\n\nThe existing requestResult is returned when the short name already exists (no duplicate creation)."
+        )
+        assert inspect.cleandoc(DiagnosticRoutine.getRoutineInfo.__doc__) == self.ROUTINE_INFO_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.setRoutineInfo.__doc__) == (self.ROUTINE_INFO_NOTE + "\n\nA None value is a no-op and does not overwrite an existing routineInfo.")
+        assert inspect.cleandoc(DiagnosticRoutine.getStart.__doc__) == self.START_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.createStart.__doc__) == (self.START_NOTE + "\n\nThe existing start is returned when the short name already exists (no duplicate creation).")
+        assert inspect.cleandoc(DiagnosticRoutine.getStop.__doc__) == (self.STOP_NOTE)
+        assert inspect.cleandoc(DiagnosticRoutine.createStop.__doc__) == (self.STOP_NOTE + "\n\nThe existing stop is returned when the short name already exists (no duplicate creation).")
+
+    def test_create_diagnostic_routine(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticRoutines")
+        routine = package.createDiagnosticRoutine("Routine1")
+
+        assert routine is not None
+        assert isinstance(routine, DiagnosticRoutine)
+        assert routine.getShortName() == "Routine1"
+        assert package.getElement("Routine1", DiagnosticRoutine) is routine
+
+        duplicate = package.createDiagnosticRoutine("Routine1")
+        assert duplicate is routine  # duplicate short name returns the existing element

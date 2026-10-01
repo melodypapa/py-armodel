@@ -545,14 +545,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRoutine` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.85, p.124
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.85 body matched by Class row (trailing-caption page-break artifact — body renders above the caption l.3655); attrs id (PositiveInteger — XSD ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT), requestResult/start/stop (0..1 aggrs of the pulled-in concrete subfunctions — create/get accessors per the createDataElement Referrable-child idiom), routineInfo (PositiveInteger 0..1); XSD group DIAGNOSTIC-ROUTINE (AUTOSAR_00052.xsd l.42845) order ID, REQUEST-RESULT, ROUTINE-INFO, START, STOP; DIAGNOSTIC-COMMON-ELEMENT base group is an empty sequence (no members to model); Aggregated by ARPackage.element — full 5-place with createDiagnosticRoutine factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticRoutine` factory (alphabetical after createDiagnosticReadScalingDataByIdentifierClass) + readARPackageElements DIAGNOSTIC-ROUTINE branch + writeARPackageElement isinstance branch; requestResult/start/stop serialized as REQUEST-RESULT/START/STOP typed wrappers whose content is written by the concrete subfunction writers (amended to content-writers this pass); id via ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT (readDiagnosticAbstractDataIdentifier idiom).
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticStartRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.86, p.124
@@ -596,7 +599,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - note (Step 6): read/writeDiagnosticRequestRoutineResults mirrors the Start/Stop passes — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.requestResult).
+  - note (Step 6): read/writeDiagnosticRequestRoutineResults mirrors the Start/Stop passes — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.requestResult). Amended during the DiagnosticRoutine pass: the concrete writer became a content-writer (XSD types REQUEST-RESULT/START/STOP with the concrete complexType — the wrapper tag IS the concrete element; writeDiagnosticMapping precedent); accessor-docstring tests backfilled in the same pass.
   - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
