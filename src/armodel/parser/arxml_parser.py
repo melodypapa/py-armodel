@@ -382,6 +382,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticComControlClass,
+    DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
@@ -10627,6 +10628,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticComControlSubNodeChannel(child_element, channel)
             com_control_class.addSubNodeChannel(channel)
 
+    def readDiagnosticControlDTCSettingClass(self, element: ET.Element, control_dtc_setting_class: DiagnosticControlDTCSettingClass):
+        self.logger.debug("Read DiagnosticControlDTCSettingClass <%s>" % control_dtc_setting_class.getShortName())
+        self.readIdentifiable(element, control_dtc_setting_class)
+        control_dtc_setting_class.setControlOptionRecordPresent(self.getChildElementOptionalBooleanValue(element, "CONTROL-OPTION-RECORD-PRESENT"))
+
     def readDiagnosticComControlSpecificChannel(self, element: ET.Element, channel: DiagnosticComControlSpecificChannel):
         self.logger.debug("Read DiagnosticComControlSpecificChannel")
         channel.setSpecificChannel(self.getChildElementOptionalRefType(element, "SPECIFIC-CHANNEL-REF"))
@@ -15528,6 +15534,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
                 com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
                 self.readDiagnosticComControlClass(child_element, com_control_class)
+            elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS":
+                control_dtc_setting_class = parent.createDiagnosticControlDTCSettingClass(self.getShortName(child_element))
+                self.readDiagnosticControlDTCSettingClass(child_element, control_dtc_setting_class)
             elif tag_name == "DIAGNOSTIC-ECU-RESET":
                 ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
                 self.readDiagnosticEcuReset(child_element, ecu_reset)

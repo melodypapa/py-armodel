@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticComControlSpecificChannel, DiagnosticComControlSubNodeChannel
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticResponseToEcuResetEnum, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DiagnosticResponseToEcuResetEnum, PositiveInteger, RefType, TimeValue
 
 
 class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
@@ -194,7 +194,36 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
 
 
 class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Control DTC Setting" diagnostic service."""
+
+    # DiagnosticControlDTCSettingClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.69, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getControlOptionRecordPresent   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setControlOptionRecordPresent   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the decision whether the DTCSettingControlOptionRecord (see ISO 14229-1) is in general supported in the request message.
+        self.controlOptionRecordPresent: Optional[Boolean] = None
+
+    def getControlOptionRecordPresent(self) -> Optional[Boolean]:
+        """
+        This represents the decision whether the DTCSettingControlOptionRecord (see ISO 14229-1) is in general supported in the request message.
+        """
+        return self.controlOptionRecordPresent
+
+    def setControlOptionRecordPresent(self, value: Optional[Boolean]) -> "DiagnosticControlDTCSettingClass":
+        """
+        This represents the decision whether the DTCSettingControlOptionRecord (see ISO 14229-1) is in general supported in the request message.
+
+        A None value is a no-op and does not overwrite an existing controlOptionRecordPresent.
+        """
+        if value is not None:
+            self.controlOptionRecordPresent = value
+        return self
 
 
 class DiagnosticCustomServiceClass(DiagnosticServiceClass):

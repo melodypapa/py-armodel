@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticComControlClass,
+    DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
     DiagnosticEcuResetClass,
     DiagnosticSecurityAccessClass,
@@ -27,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
     DiagnosticResponseToEcuResetEnum,
     PositiveInteger,
     RefType,
@@ -504,4 +506,62 @@ class TestDiagnosticComControlClass:
         assert package.getElement("Dccc1", DiagnosticComControlClass) is service_class
 
         duplicate = package.createDiagnosticComControlClass("Dccc1")
+        assert duplicate is service_class
+
+
+class TestDiagnosticControlDTCSettingClass:
+    """Test cases for DiagnosticControlDTCSettingClass class (Table 4.69, p.111)."""
+
+    DCDTSC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Control DTC Setting" diagnostic service.'
+    CONTROL_OPTION_RECORD_PRESENT_NOTE = "This represents the decision whether the DTCSettingControlOptionRecord (see ISO 14229-1) is in general supported in the request message."
+
+    def _make_obj(self) -> DiagnosticControlDTCSettingClass:
+        return DiagnosticControlDTCSettingClass(_pkg(), "MyDcdtsc")
+
+    def test_is_concrete(self):
+        service_class = self._make_obj()
+        assert service_class.getShortName() == "MyDcdtsc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticControlDTCSettingClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticControlDTCSettingClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticControlDTCSettingClass, ARObject)
+        assert issubclass(DiagnosticControlDTCSettingClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticControlDTCSettingClass.__doc__) == self.DCDTSC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticControlDTCSettingClass.__init__.__doc__ is None
+
+    def test_defaults(self):
+        service_class = self._make_obj()
+        assert service_class.getControlOptionRecordPresent() is None
+
+    def test_get_set_control_option_record_present(self):
+        service_class = self._make_obj()
+        value = Boolean()
+        value.setValue(True)
+        assert service_class.setControlOptionRecordPresent(value) is service_class
+        assert service_class.getControlOptionRecordPresent() is value
+        assert service_class.getControlOptionRecordPresent().getValue() is True
+
+        service_class.setControlOptionRecordPresent(None)
+        assert service_class.getControlOptionRecordPresent() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticControlDTCSettingClass.getControlOptionRecordPresent.__doc__) == self.CONTROL_OPTION_RECORD_PRESENT_NOTE
+        assert inspect.cleandoc(DiagnosticControlDTCSettingClass.setControlOptionRecordPresent.__doc__) == (
+            self.CONTROL_OPTION_RECORD_PRESENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing controlOptionRecordPresent."
+        )
+
+    def test_create_diagnostic_control_dtc_setting_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticControlDTCSettingClass("Dcdtsc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticControlDTCSettingClass)
+        assert service_class.getShortName() == "Dcdtsc1"
+        assert package.getElement("Dcdtsc1", DiagnosticControlDTCSettingClass) is service_class
+
+        duplicate = package.createDiagnosticControlDTCSettingClass("Dcdtsc1")
         assert duplicate is service_class

@@ -340,14 +340,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticControlDTCSettingClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.69, p.111
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled in ahead of DiagnosticControlDTCSetting (its Table 4.68 dtcSettingClass
+      member type) — dependency-first per sync convention. Concrete DiagnosticServiceClass;
+      attr controlOptionRecordPresent (Boolean 0..1); XSD group l.33857 / complexType l.33873.
+    - note (Step 4): markdown cell-wrap "DTCSetting ControlOptionRecord" healed to
+      "DTCSettingControlOptionRecord" (XSD documentation agrees); Tags suffix dropped
+      (sibling convention).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.70, p.112

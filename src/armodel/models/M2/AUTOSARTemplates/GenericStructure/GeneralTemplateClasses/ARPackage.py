@@ -1719,6 +1719,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(com_control_class)
         return self.getElement(short_name, DiagnosticComControlClass)
 
+    def createDiagnosticControlDTCSettingClass(self, short_name: str) -> DiagnosticControlDTCSettingClass:
+        """
+        Creates a new DiagnosticControlDTCSettingClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticControlDTCSettingClass contains attributes shared by all
+        instances of the "Control DTC Setting" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticControlDTCSettingClass
+
+        Returns:
+            The newly created or existing DiagnosticControlDTCSettingClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticControlDTCSettingClass):
+            control_dtc_setting_class = DiagnosticControlDTCSettingClass(self, short_name)
+            self.addElement(control_dtc_setting_class)
+        return self.getElement(short_name, DiagnosticControlDTCSettingClass)
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsElementExists(short_name, DiagnosticConnection):
@@ -2651,6 +2670,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticSecurityAccessClass  # noqa: E402
