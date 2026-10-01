@@ -202,7 +202,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     config-time existence constraint (not a model invariant), recorded here only.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12296 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: abstract, Table 5.42 p.105, Base most-derived = `BswApiOptions` (XSD child complexType L12400 composes BSW-API-OPTIONS + BSW-DATA-RECEPTION-POLICY, confirming the Step-1 Base intake), VP-capable mixin kept (Rule 0020 — group L9727 + VARIATION-POINT seq 10000), sole attr receivedData → `receivedDataRef` `Optional[RefType]` with typed get/set + None no-op, reader/writer cover RECEIVED-DATA-REF + ENABLE-TAKE-ADDRESS + VARIATION-POINT (added Steps 5/6), abstract guard (ABC) kept, checklist 3/3 in source order, Step 8 no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1)
+- [x] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — R23-11 markdown · Table 5.43 (CP_TPS_BSWModuleDescriptionTemplate), p.105 — **finished, stamped `# Spec verified: R23-11`** (sync commit pending)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.43, p.105 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Concrete Class; Base most-derived = `BswDataReceptionPolicy` (already correct in src).
@@ -225,7 +225,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     value-asserting + full round-trip tests passed immediately, no parser/writer edit.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12057 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12057 passed / 0 failed, lint clean, black-check clean); 9a re-run 2026-10-01 on feature/g13-9b-confirm (post PR #876 merge): full suite 15,346 passed / 1 failed (= the pre-existing 8× `*SystemMapping.arxml` round-trip file_compare set, documented Group11.md:292 — unrelated to this class) + `npm run lint` (flake8 + ruff) clean + `black --check` clean on BswBehavior.py; 9b user-confirmed 2026-10-01: concrete, Table 5.43 p.105, Base most-derived = `BswDataReceptionPolicy` (stamped this batch), VP capability inherited from base group BSW-DATA-RECEPTION-POLICY L9727 (Rule 0020 — no own VARIATION-POINT), sole attr queueLength (PositiveInteger, 0..1, attr) typed `Optional[PositiveInteger]` with get/set + None no-op, reader/writer cover QUEUE-LENGTH via own group BSW-QUEUED-DATA-RECEPTION-POLICY L12385 (Steps 5/6 N/A — matched pair pre-existed, no edit), checklist 3/3 in source order, no deviations remain; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `BswAsynchronousServerCallReturnsEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
