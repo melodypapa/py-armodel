@@ -629,19 +629,19 @@ Status: **15/15** completed
 
 ## Group13
 
-Status: **3/23** completed
+Status: **9/23** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
 | `BswApiOptions`                         | [x] Done     | 816c64f3d0 |
 | `BswModuleCallPoint`                    | [x] Done     | 879aacf8c4 |
 | `BswDirectCallPoint`                    | [x] Done     | 518ebf6a09 |
-| `BswSynchronousServerCallPoint`         | [ ] Pending* | N/A        |
-| `BswInternalTriggeringPoint`            | [ ] Pending* | N/A        |
-| `BswInterruptEntity`                    | [ ] Pending* | N/A        |
-| `BswModeSwitchAckRequest`               | [ ] Pending* | N/A        |
-| `BswDataReceptionPolicy`                | [ ] Pending* | 7e3a2541a3 |
-| `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A        |
+| `BswSynchronousServerCallPoint`         | [x] Done     | f23ec00417 |
+| `BswInternalTriggeringPoint`            | [x] Done     | f67e3865ef |
+| `BswInterruptEntity`                    | [x] Done     | f19be09d07 |
+| `BswModeSwitchAckRequest`               | [x] Done     | 8d9cad6b3c |
+| `BswDataReceptionPolicy`                | [x] Done     | 893f5df32e |
+| `BswQueuedDataReceptionPolicy`          | [x] Done     | 254de705ea |
 | `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
 | `BswDataReceivedEvent`                  | [ ] Pending* | N/A        |
 | `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
