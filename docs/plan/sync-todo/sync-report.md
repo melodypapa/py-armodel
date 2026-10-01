@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 629 | 33.1% |
+| [x] Done | 631 | 33.2% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 216 | 11.4% |
+| [ ] Deferred | 214 | 11.2% |
 | [ ] Implemented | 486 | 25.5% |
 | [ ] Created | 558 | 29.3% |
 | [ ] Pending | 2 | 0.1% |
@@ -184,12 +184,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswInterruptEntity`                                    | [x] Done    | f19be09d07                               | Group13          |
 | `BswInterruptEvent`                                     | [x] Done    | acf1e772ac                               | Group22          |
 | `BswMgrNeeds`                                           | [x] Done    | 628464ed64                               | Group4           |
-| `BswModeManagerErrorEvent`                              | [ ] Deferred| N/A                                      | Group13          |
+| `BswModeManagerErrorEvent`                              | [x] Done    | 91083c1916                               | Group13          |
 | `BswModeReceiverPolicy`                                 | [ ] Deferred| 2b15f92b16                               | Group22          |
 | `BswModeSenderPolicy`                                   | [ ] Deferred| af6d69bbfa                               | Group22          |
 | `BswModeSwitchAckRequest`                               | [x] Done    | 8d9cad6b3c                               | Group13          |
 | `BswModeSwitchEvent`                                    | [x] Done    | af5498712f                               | Group22          |
-| `BswModeSwitchedAckEvent`                               | [ ] Deferred| 160eae8f23                               | Group13          |
+| `BswModeSwitchedAckEvent`                               | [x] Done    | a250dbe4b5                               | Group13          |
 | `BswModuleCallPoint`                                    | [x] Done    | 879aacf8c4                               | Group13          |
 | `BswModuleClientServerEntry`                            | [ ] Deferred| e69bc46baa                               | Group13          |
 | `BswModuleDependency`                                   | [ ] Deferred| 1ca038b144                               | Group13          |
