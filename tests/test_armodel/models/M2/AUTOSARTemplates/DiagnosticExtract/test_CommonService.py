@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
+    DiagnosticWriteDataByIdentifierClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -619,4 +620,42 @@ class Test_DiagnosticReadDataByIdentifierClass:
         assert package.getElement("Rdibc1", DiagnosticReadDataByIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticReadDataByIdentifierClass("Rdibc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticWriteDataByIdentifierClass:
+    """Test cases for DiagnosticWriteDataByIdentifierClass class (Table 4.72, p.113)."""
+
+    DWDIBC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Write Data by Identifier" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticWriteDataByIdentifierClass(_pkg(), "MyWdibc")
+        assert service_class.getShortName() == "MyWdibc"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticWriteDataByIdentifierClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticWriteDataByIdentifierClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticWriteDataByIdentifierClass, ARObject)
+        assert issubclass(DiagnosticWriteDataByIdentifierClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticWriteDataByIdentifierClass.__doc__) == self.DWDIBC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticWriteDataByIdentifierClass.__init__.__doc__ is None
+
+    def test_has_no_own_attributes(self):
+        """Table 4.72 defines no attribute rows beyond the inherited ones."""
+        service_class = DiagnosticWriteDataByIdentifierClass(_pkg(), "MyWdibc")
+        assert not any(attr.startswith("set") or attr.startswith("get") for attr in vars(service_class))
+
+    def test_create_diagnostic_write_data_by_identifier_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticWriteDataByIdentifierClass("Wdibc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticWriteDataByIdentifierClass)
+        assert service_class.getShortName() == "Wdibc1"
+        assert package.getElement("Wdibc1", DiagnosticWriteDataByIdentifierClass) is service_class
+
+        duplicate = package.createDiagnosticWriteDataByIdentifierClass("Wdibc1")
         assert duplicate is service_class

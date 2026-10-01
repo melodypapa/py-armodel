@@ -283,6 +283,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
+    DiagnosticWriteDataByIdentifierClass,
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -13994,6 +13995,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, read_data_by_identifier_class)
         self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", read_data_by_identifier_class.getMaxDidToRead())
 
+    def writeDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
+        self.logger.debug("Write DiagnosticWriteDataByIdentifierClass %s" % write_data_by_identifier_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, write_data_by_identifier_class)
+
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
@@ -15208,6 +15214,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuResetClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
+            self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
