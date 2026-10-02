@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
+    DiagnosticReadDTCInformationClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -1062,4 +1063,37 @@ class Test_DiagnosticResponseOnEventClass:
         assert package.getElement("Roec1", DiagnosticResponseOnEventClass) is service_class
 
         duplicate = package.createDiagnosticResponseOnEventClass("Roec1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticReadDTCInformationClass:
+    """Test cases for DiagnosticReadDTCInformationClass class (Table 4.107, p.136)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "ReadDTCInformation" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticReadDTCInformationClass(_pkg(), "MyRdtci")
+        assert service_class.getShortName() == "MyRdtci"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticReadDTCInformationClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticReadDTCInformationClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticReadDTCInformationClass, ARObject)
+        assert issubclass(DiagnosticReadDTCInformationClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadDTCInformationClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticReadDTCInformationClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_read_dtc_information_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticReadDTCInformationClass("Rdtci1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticReadDTCInformationClass)
+        assert service_class.getShortName() == "Rdtci1"
+        assert package.getElement("Rdtci1", DiagnosticReadDTCInformationClass) is service_class
+
+        duplicate = package.createDiagnosticReadDTCInformationClass("Rdtci1")
         assert duplicate is service_class

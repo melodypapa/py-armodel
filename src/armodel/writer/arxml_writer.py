@@ -283,6 +283,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
+    DiagnosticReadDTCInformationClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -14216,6 +14217,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, read_dtc_information)
         self.setChildElementOptionalRefType(child_element, "READ-DTC-INFORMATION-CLASS-REF", read_dtc_information.getReadDTCInformationClass())
 
+    def writeDiagnosticReadDTCInformationClass(self, element: ET.Element, read_dtc_information_class: DiagnosticReadDTCInformationClass):
+        self.logger.debug("Write DiagnosticReadDTCInformationClass %s" % read_dtc_information_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS")
+        self.writeIdentifiable(child_element, read_dtc_information_class)
+
     def writeDiagnosticResponseOnEvent(self, element: ET.Element, response_on_event: DiagnosticResponseOnEvent):
         self.logger.debug("Write DiagnosticResponseOnEvent %s" % response_on_event.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT")
@@ -15504,6 +15510,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDTCInformation):
             self.writeDiagnosticReadDTCInformation(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDTCInformationClass):
+            self.writeDiagnosticReadDTCInformationClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEventClass):

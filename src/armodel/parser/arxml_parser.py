@@ -389,6 +389,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
+    DiagnosticReadDTCInformationClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -10889,6 +10890,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, read_dtc_information)
         read_dtc_information.setReadDTCInformationClass(self.getChildElementOptionalRefType(element, "READ-DTC-INFORMATION-CLASS-REF"))
 
+    def readDiagnosticReadDTCInformationClass(self, element: ET.Element, read_dtc_information_class: DiagnosticReadDTCInformationClass):
+        self.logger.debug("Read DiagnosticReadDTCInformationClass <%s>" % read_dtc_information_class.getShortName())
+        self.readIdentifiable(element, read_dtc_information_class)
+
     def readDiagnosticResponseOnEvent(self, element: ET.Element, response_on_event: DiagnosticResponseOnEvent):
         self.logger.debug("Read DiagnosticResponseOnEvent <%s>" % response_on_event.getShortName())
         self.readIdentifiable(element, response_on_event)
@@ -15861,6 +15866,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION":
                 read_dtc_information = parent.createDiagnosticReadDTCInformation(self.getShortName(child_element))
                 self.readDiagnosticReadDTCInformation(child_element, read_dtc_information)
+            elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS":
+                read_dtc_information_class = parent.createDiagnosticReadDTCInformationClass(self.getShortName(child_element))
+                self.readDiagnosticReadDTCInformationClass(child_element, read_dtc_information_class)
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
                 write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
