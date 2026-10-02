@@ -11,6 +11,7 @@ import inspect
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
@@ -27,10 +28,19 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvSwcModeElement,
     DiagnosticLogicalOperatorEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, PositiveInteger, RefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+
+
+def _ref(dest, value):
+    ref = RefType()
+    ref.setDest(dest)
+    ref.setValue(value)
+    return ref
+
 
 ENV_CONDITION_NOTE = (
     "The meta-class DiagnosticEnvironmentalCondition formalizes the idea of a condition which is evaluated during runtime of the ECU by looking at "
@@ -634,13 +644,12 @@ class Test_DiagnosticEnvSwcModeElement:
     def test_get_set_mode_iref(self):
         env_condition = self._create()
         mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
-        ref = RefType()
-        ref.setDest("MODE-DECLARATION")
-        ref.setValue("/AUTOSAR/ModeDcls/MDG1/Normal")
-        assert mode_element.setModeIRef(ref) is mode_element
-        assert mode_element.getModeIRef() is ref
+        iref = PModeInSystemInstanceRef()
+        iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/ModeDcls/MDG1/Normal"))
+        assert mode_element.setModeIRef(iref) is mode_element
+        assert mode_element.getModeIRef() is iref
         mode_element.setModeIRef(None)
-        assert mode_element.getModeIRef() is ref
+        assert mode_element.getModeIRef() is iref
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
         assert inspect.cleandoc(DiagnosticEnvSwcModeElement.getModeIRef.__doc__) == self.MODE_NOTE
@@ -694,13 +703,12 @@ class Test_DiagnosticEnvBswModeElement:
     def test_get_set_mode_iref(self):
         env_condition = self._create()
         mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
-        ref = RefType()
-        ref.setDest("MODE-DECLARATION")
-        ref.setValue("/AUTOSAR/ModeDcls/MDG1/Normal")
-        assert mode_element.setModeIRef(ref) is mode_element
-        assert mode_element.getModeIRef() is ref
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/ModeDcls/MDG1/Normal"))
+        assert mode_element.setModeIRef(iref) is mode_element
+        assert mode_element.getModeIRef() is iref
         mode_element.setModeIRef(None)
-        assert mode_element.getModeIRef() is ref
+        assert mode_element.getModeIRef() is iref
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
         assert inspect.cleandoc(DiagnosticEnvBswModeElement.getModeIRef.__doc__) == self.MODE_NOTE

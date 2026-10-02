@@ -547,24 +547,24 @@ class TestIdentifiable:
         ar_root = parent.createARPackage("AUTOSAR")
         element = ConcreteReferrable(ar_root, "TestElement")
 
-        assert obj.getTotalElement() == 0
-        assert obj.getElements() == []
-        assert obj.IsElementExists("TestElement") is False
-        assert obj.getElement("TestElement") is None
+        assert obj.getTotalReferrableElement() == 0
+        assert obj.getReferrableElements() == []
+        assert obj.IsReferrableElementExists("TestElement") is False
+        assert obj.getReferrableElement("TestElement") is None
 
-        obj.addElement(element)
-        assert obj.getTotalElement() == 1
-        assert obj.getElements() == [element]
-        assert obj.IsElementExists("TestElement") is True
-        assert obj.getElement("TestElement") is element
+        obj.addReferrableElement(element)
+        assert obj.getTotalReferrableElement() == 1
+        assert obj.getReferrableElements() == [element]
+        assert obj.IsReferrableElementExists("TestElement") is True
+        assert obj.getReferrableElement("TestElement") is element
 
         # Adding the same short name + type twice does not duplicate the entry.
-        obj.addElement(element)
-        assert obj.getTotalElement() == 1
+        obj.addReferrableElement(element)
+        assert obj.getTotalReferrableElement() == 1
 
-        obj.removeElement("TestElement")
-        assert obj.getTotalElement() == 0
-        assert obj.getElements() == []
+        obj.removeReferrableElement("TestElement")
+        assert obj.getTotalReferrableElement() == 0
+        assert obj.getReferrableElements() == []
 
     def test_remove_element_unknown_short_name_raises(self):
         """
@@ -573,7 +573,7 @@ class TestIdentifiable:
         obj = self._make_obj()
 
         try:
-            obj.removeElement("NonExistent")
+            obj.removeReferrableElement("NonExistent")
             assert False, "removeElement should raise KeyError for an unknown short name"
         except KeyError:
             pass
@@ -1132,6 +1132,7 @@ class TestDiagnosticAuthTransmitCertificateEvaluation:
         duplicate = certificate.createDiagnosticAuthTransmitCertificateEvaluation("Eval1")
         assert duplicate is evaluation  # duplicate short name returns the existing element
         assert len(certificate.getCertificateEvaluations()) == 1
+
 
 class TestCpSoftwareClusterResource:
     """

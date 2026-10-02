@@ -38,7 +38,7 @@ class TestWriteDiagnosticJ1939ExpandedFreezeFrame:
         package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticJ1939ExpandedFreezeFrame(parent, package.getElement("ExpandedFreezeFrame1", DiagnosticJ1939ExpandedFreezeFrame))
+        ARXMLWriter().writeDiagnosticJ1939ExpandedFreezeFrame(parent, package.getReferrableElement("ExpandedFreezeFrame1", DiagnosticJ1939ExpandedFreezeFrame))
 
         child = parent.find("DIAGNOSTIC-J-1939-EXPANDED-FREEZE-FRAME")
         assert child is not None

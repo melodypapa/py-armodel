@@ -33,7 +33,7 @@ class TestWriteDiagnosticIumprToFunctionIdentifierMapping:
         package.createDiagnosticIumprToFunctionIdentifierMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticIumprToFunctionIdentifierMapping(parent, package.getElement("M1", DiagnosticIumprToFunctionIdentifierMapping))
+        ARXMLWriter().writeDiagnosticIumprToFunctionIdentifierMapping(parent, package.getReferrableElement("M1", DiagnosticIumprToFunctionIdentifierMapping))
 
         child = parent.find("DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING")
         assert child is not None

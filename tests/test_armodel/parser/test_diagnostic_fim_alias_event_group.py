@@ -29,10 +29,7 @@ def _snip(inner: str, root_tag: str = "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP") -> ET.
 class TestReadDiagnosticFimAliasEventGroup:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticFimAliasEventGroup(AUTOSAR.getInstance(), "M1")
-        element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<GROUPED-ALIAS-EVENT-REFS><GROUPED-ALIAS-EVENT-REF DEST='DEST'>/AUTOSAR/GroupedAliasEvent1</GROUPED-ALIAS-EVENT-REF></GROUPED-ALIAS-EVENT-REFS>"
-        )
+        element = _snip("<SHORT-NAME>M1</SHORT-NAME>" "<GROUPED-ALIAS-EVENT-REFS><GROUPED-ALIAS-EVENT-REF DEST='DEST'>/AUTOSAR/GroupedAliasEvent1</GROUPED-ALIAS-EVENT-REF></GROUPED-ALIAS-EVENT-REFS>")
         parser.readDiagnosticFimAliasEventGroup(element, mapping)
         assert mapping.getShortName() == "M1"
         assert len(mapping.getGroupedAliasEventRefs()) == 1

@@ -1,7 +1,7 @@
 """Model tests for DiagnosticExtract Dcm classes.
 
 DiagnosticAuthRoleProxy (Table 4.33, p.76), DiagnosticSession (Table 4.30,
-p.74), DiagnosticJumpToBootLoaderEnum (Table 4.31, p.75),
+p.74), DiagnosticJumpToBootLoaderEnum (Table 4.31, p.74),
 DiagnosticSecurityLevel (Table 4.32, p.75) and DiagnosticAccessPermission
 (Table 4.29, p.73).
 """

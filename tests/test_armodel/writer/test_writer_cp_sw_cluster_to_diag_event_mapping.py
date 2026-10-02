@@ -33,7 +33,7 @@ class TestWriteCpSwClusterToDiagEventMapping:
         package.createCpSwClusterToDiagEventMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeCpSwClusterToDiagEventMapping(parent, package.getElement("M1", CpSwClusterToDiagEventMapping))
+        ARXMLWriter().writeCpSwClusterToDiagEventMapping(parent, package.getReferrableElement("M1", CpSwClusterToDiagEventMapping))
 
         child = parent.find("CP-SW-CLUSTER-TO-DIAG-EVENT-MAPPING")
         assert child is not None

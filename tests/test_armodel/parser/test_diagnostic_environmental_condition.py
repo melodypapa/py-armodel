@@ -75,7 +75,7 @@ def test_arpackage_dispatch_reads_element(parser):
     )
     parser.readARPackageElements(ar_package, package)
 
-    condition = package.getElement("Cond1", DiagnosticEnvironmentalCondition)
+    condition = package.getReferrableElement("Cond1", DiagnosticEnvironmentalCondition)
     assert condition is not None
     assert isinstance(condition, DiagnosticEnvironmentalCondition)
     assert condition.getFormula().getNrcValue().getValue() == 34

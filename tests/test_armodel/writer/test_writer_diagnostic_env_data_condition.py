@@ -138,7 +138,7 @@ class TestWriteDiagnosticEnvDataCondition:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            env_condition_2 = package_2.getElement("Env1", type(env_condition))
+            env_condition_2 = package_2.getReferrableElement("Env1", type(env_condition))
             assert env_condition_2 is not None
             formula_2 = env_condition_2.getFormula()
             assert formula_2 is not None

@@ -75,13 +75,13 @@ def loaded_document(tmp_path):
 class TestSignalServiceTranslationParsing:
     def test_props_set_parsed(self, loaded_document):
         pkg = loaded_document.getARPackages()[0]
-        props_set = pkg.getElement("propsSet", None)
+        props_set = pkg.getReferrableElement("propsSet", None)
         assert props_set is not None
         assert props_set.getShortName() == "propsSet"
 
     def test_props_refs_and_service_control(self, loaded_document):
         pkg = loaded_document.getARPackages()[0]
-        props_set = pkg.getElement("propsSet", None)
+        props_set = pkg.getReferrableElement("propsSet", None)
         props = props_set.getSignalServiceTranslationProps()[0]
         assert props.getShortName() == "props"
         assert len(props.getControlConsumedEventGroupRefs()) == 1
@@ -94,7 +94,7 @@ class TestSignalServiceTranslationParsing:
 
     def test_event_props(self, loaded_document):
         pkg = loaded_document.getARPackages()[0]
-        props_set = pkg.getElement("propsSet", None)
+        props_set = pkg.getReferrableElement("propsSet", None)
         props = props_set.getSignalServiceTranslationProps()[0]
         event_props = props.getSignalServiceTranslationEventProps()[0]
         assert event_props.getShortName() == "eventProps"
@@ -106,7 +106,7 @@ class TestSignalServiceTranslationParsing:
 
     def test_element_props(self, loaded_document):
         pkg = loaded_document.getARPackages()[0]
-        props_set = pkg.getElement("propsSet", None)
+        props_set = pkg.getReferrableElement("propsSet", None)
         props = props_set.getSignalServiceTranslationProps()[0]
         event_props = props.getSignalServiceTranslationEventProps()[0]
         element_props = event_props.getSignalServiceTranslationElementProps()[0]
@@ -140,6 +140,6 @@ class TestSignalServiceTranslationParsing:
         parser = ARXMLParser()
         parser.load(str(test_file), document)
         pkg = document.getARPackages()[0]
-        props_set = pkg.getElement("emptySet", None)
+        props_set = pkg.getReferrableElement("emptySet", None)
         assert props_set is not None
         assert props_set.getSignalServiceTranslationProps() == []

@@ -47,4 +47,3 @@ class TestReadDiagnosticEventToOperationCycleMapping:
         parser.readDiagnosticEventToOperationCycleMapping(element, mapping)
         assert mapping.getDiagnosticEventRef() is None
         assert mapping.getOperationCycleRef() is None
-

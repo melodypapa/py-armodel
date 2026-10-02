@@ -31,7 +31,7 @@ def _build_document(consistency_needs: ConsistencyNeeds):
     document = AUTOSAR.getInstance()
     document.clear()
     ar_root = document.createARPackage("AUTOSAR")
-    ar_root.addElement(consistency_needs)
+    ar_root.addReferrableElement(consistency_needs)
     return document
 
 
@@ -40,7 +40,7 @@ def _reload(file_path):
     document_2.clear()
     ARXMLParser().load(file_path, document_2)
     package = document_2.getARPackages()[0]
-    return next(element for element in package.elements if isinstance(element, ConsistencyNeeds))
+    return next(element for element in package.referrableElements if isinstance(element, ConsistencyNeeds))
 
 
 class TestWriteConsistencyNeeds:

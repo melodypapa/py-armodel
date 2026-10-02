@@ -86,7 +86,7 @@ class TestARXMLParser:
         assert len(document.getARPackages()) == 1
         ar_package = document.getARPackages()[0]
 
-        interface = ar_package.getElement("NvIf", NvDataInterface)
+        interface = ar_package.getReferrableElement("NvIf", NvDataInterface)
         assert interface is not None
         assert interface.getShortName() == "NvIf"
         assert interface.getIsService().getValue() is True

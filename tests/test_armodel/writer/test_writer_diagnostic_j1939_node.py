@@ -33,7 +33,7 @@ class TestWriteDiagnosticJ1939Node:
         package.createDiagnosticJ1939Node("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticJ1939Node(parent, package.getElement("M1", DiagnosticJ1939Node))
+        ARXMLWriter().writeDiagnosticJ1939Node(parent, package.getReferrableElement("M1", DiagnosticJ1939Node))
 
         child = parent.find("DIAGNOSTIC-J-1939-NODE")
         assert child is not None

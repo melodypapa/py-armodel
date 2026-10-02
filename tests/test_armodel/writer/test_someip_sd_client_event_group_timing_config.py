@@ -84,7 +84,7 @@ class TestSomeipSdClientEventGroupTimingConfigRoundTrip:
         document.setARRelease("R23-11")
         parser.load(out_file, document)
 
-        re_config = document.find("Pkg").getElement("MySdTiming", SomeipSdClientEventGroupTimingConfig)
+        re_config = document.find("Pkg").getReferrableElement("MySdTiming", SomeipSdClientEventGroupTimingConfig)
         assert re_config is not None
         assert re_config.getSubscribeEventgroupRetryDelay().getValue() == 5000
         assert re_config.getSubscribeEventgroupRetryMax().getValue() == 3

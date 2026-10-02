@@ -29,10 +29,7 @@ def _snip(inner: str, root_tag: str = "DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING") ->
 class TestReadDiagnosticDemProvidedDataMapping:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticDemProvidedDataMapping(AUTOSAR.getInstance(), "M1")
-        element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<DATA-ELEMENT-REF DEST='DEST'>/AUTOSAR/DataElement1</DATA-ELEMENT-REF><DATA-PROVIDER>provider</DATA-PROVIDER>"
-        )
+        element = _snip("<SHORT-NAME>M1</SHORT-NAME>" "<DATA-ELEMENT-REF DEST='DEST'>/AUTOSAR/DataElement1</DATA-ELEMENT-REF><DATA-PROVIDER>provider</DATA-PROVIDER>")
         parser.readDiagnosticDemProvidedDataMapping(element, mapping)
         assert mapping.getShortName() == "M1"
         assert mapping.getDataElementRef() is not None

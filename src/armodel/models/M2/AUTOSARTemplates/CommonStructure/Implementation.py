@@ -490,11 +490,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created Code instance
         """
-        if not self.IsElementExists(short_name, Code):
+        if not self.IsReferrableElementExists(short_name, Code):
             code_descriptor = Code(self, short_name)
-            self.addElement(code_descriptor)
+            self.addReferrableElement(code_descriptor)
             self.codeDescriptors.append(code_descriptor)
-        return self.getElement(short_name, Code)
+        return self.getReferrableElement(short_name, Code)
 
     def getCompilers(self) -> List[Compiler]:
         """Specifies the compiler for which this implementation has been released."""
@@ -510,11 +510,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created Compiler instance
         """
-        if not self.IsElementExists(short_name, Compiler):
+        if not self.IsReferrableElementExists(short_name, Compiler):
             compiler = Compiler(self, short_name)
-            self.addElement(compiler)
+            self.addReferrableElement(compiler)
             self.compilers.append(compiler)
-        return self.getElement(short_name, Compiler)
+        return self.getReferrableElement(short_name, Compiler)
 
     def getGeneratedArtifacts(self) -> List[DependencyOnArtifact]:
         """Relates to an artifact that will be generated during the integration of this Implementation by an associated generator tool."""
@@ -530,11 +530,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created DependencyOnArtifact instance
         """
-        if not self.IsElementExists(short_name, DependencyOnArtifact):
+        if not self.IsReferrableElementExists(short_name, DependencyOnArtifact):
             artifact = DependencyOnArtifact(self, short_name)
-            self.addElement(artifact)
+            self.addReferrableElement(artifact)
             self.generatedArtifacts.append(artifact)
-        return self.getElement(short_name, DependencyOnArtifact)
+        return self.getReferrableElement(short_name, DependencyOnArtifact)
 
     def getHwElementRefs(self) -> List[RefType]:
         """The hardware elements (e.g. the processor) required for this implementation."""
@@ -560,11 +560,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created Linker instance
         """
-        if not self.IsElementExists(short_name, Linker):
+        if not self.IsReferrableElementExists(short_name, Linker):
             linker = Linker(self, short_name)
-            self.addElement(linker)
+            self.addReferrableElement(linker)
             self.linkers.append(linker)
-        return self.getElement(short_name, Linker)
+        return self.getReferrableElement(short_name, Linker)
 
     def getMcSupport(self) -> Optional[McSupportData]:
         """The measurement & calibration support data belonging to this implementation."""
@@ -600,11 +600,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created DependencyOnArtifact instance
         """
-        if not self.IsElementExists(short_name, DependencyOnArtifact):
+        if not self.IsReferrableElementExists(short_name, DependencyOnArtifact):
             artifact = DependencyOnArtifact(self, short_name)
-            self.addElement(artifact)
+            self.addReferrableElement(artifact)
             self.requiredArtifacts.append(artifact)
-        return self.getElement(short_name, DependencyOnArtifact)
+        return self.getReferrableElement(short_name, DependencyOnArtifact)
 
     def getRequiredGeneratorTools(self) -> List[DependencyOnArtifact]:
         """Relates this Implementation to a generator tool in order to generate additional artifacts during integration."""
@@ -620,11 +620,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created DependencyOnArtifact instance
         """
-        if not self.IsElementExists(short_name, DependencyOnArtifact):
+        if not self.IsReferrableElementExists(short_name, DependencyOnArtifact):
             tool = DependencyOnArtifact(self, short_name)
-            self.addElement(tool)
+            self.addReferrableElement(tool)
             self.requiredGeneratorTools.append(tool)
-        return self.getElement(short_name, DependencyOnArtifact)
+        return self.getReferrableElement(short_name, DependencyOnArtifact)
 
     def getResourceConsumption(self) -> Optional[ResourceConsumption]:
         """All static and dynamic resources for each implementation are described within the ResourceConsumption class."""
@@ -642,11 +642,11 @@ class Implementation(ARElement, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 
-        if not self.IsElementExists(short_name, ResourceConsumption):
+        if not self.IsReferrableElementExists(short_name, ResourceConsumption):
             consumption = ResourceConsumption(self, short_name)
-            self.addElement(consumption)
+            self.addReferrableElement(consumption)
             self.resourceConsumption = consumption
-        return self.getElement(short_name, ResourceConsumption)
+        return self.getReferrableElement(short_name, ResourceConsumption)
 
     def getSwcBswMappingRef(self) -> Optional[RefType]:
         """This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both."""

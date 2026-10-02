@@ -33,7 +33,7 @@ class TestWriteDiagnosticEventToSecurityEventMapping:
         package.createDiagnosticEventToSecurityEventMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToSecurityEventMapping(parent, package.getElement("M1", DiagnosticEventToSecurityEventMapping))
+        ARXMLWriter().writeDiagnosticEventToSecurityEventMapping(parent, package.getReferrableElement("M1", DiagnosticEventToSecurityEventMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING")
         assert child is not None

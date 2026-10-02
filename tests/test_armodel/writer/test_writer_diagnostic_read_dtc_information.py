@@ -78,7 +78,7 @@ class TestWriteDiagnosticReadDTCInformation:
         package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ReadDTCInformation1", DiagnosticReadDTCInformation))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ReadDTCInformation1", DiagnosticReadDTCInformation))
 
         child = parent.find("DIAGNOSTIC-READ-DTC-INFORMATION")
         assert child is not None
@@ -98,7 +98,7 @@ class TestWriteDiagnosticReadDTCInformation:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            read_dtc_information_2 = package_2.getElement("ReadDTCInformation1", DiagnosticReadDTCInformation)
+            read_dtc_information_2 = package_2.getReferrableElement("ReadDTCInformation1", DiagnosticReadDTCInformation)
             assert read_dtc_information_2 is not None
             assert read_dtc_information_2.getShortName() == "ReadDTCInformation1"
             ref = read_dtc_information_2.getReadDTCInformationClass()

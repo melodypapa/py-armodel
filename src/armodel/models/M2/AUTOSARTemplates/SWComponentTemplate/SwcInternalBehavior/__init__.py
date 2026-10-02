@@ -172,11 +172,11 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         self.writtenLocalVariables: List[VariableAccess] = []
 
     def _createVariableAccess(self, short_name, variable_accesses: List[VariableAccess]):
-        if not self.IsElementExists(short_name, VariableAccess):
+        if not self.IsReferrableElementExists(short_name, VariableAccess):
             variable_access = VariableAccess(self, short_name)
-            self.addElement(variable_access)
+            self.addReferrableElement(variable_access)
             variable_accesses.append(variable_access)
-        return self.getElement(short_name, VariableAccess)
+        return self.getReferrableElement(short_name, VariableAccess)
 
     def getArguments(self) -> List[RunnableEntityArgument]:
         """
@@ -401,7 +401,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[ParameterAccess]: The list of parameter accesses
         """
-        return list(sorted(filter(lambda a: isinstance(a, ParameterAccess), self.elements), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, ParameterAccess), self.referrableElements), key=lambda o: o.short_name))
 
     def createParameterAccess(self, short_name: str) -> ParameterAccess:
         """
@@ -414,10 +414,10 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             ParameterAccess: the created or existing ParameterAccess
         """
-        if not self.IsElementExists(short_name, ParameterAccess):
+        if not self.IsReferrableElementExists(short_name, ParameterAccess):
             access = ParameterAccess(self, short_name)
-            self.addElement(access)
-        return self.getElement(short_name, ParameterAccess)
+            self.addReferrableElement(access)
+        return self.getReferrableElement(short_name, ParameterAccess)
 
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
         """
@@ -432,8 +432,8 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         """
         if short_name not in self.serverCallPoints:
             point = SynchronousServerCallPoint(self, short_name)
-            self.addElement(point)
-        return self.getElement(short_name)
+            self.addReferrableElement(point)
+        return self.getReferrableElement(short_name)
 
     def createAsynchronousServerCallPoint(self, short_name: str) -> AsynchronousServerCallPoint:
         """
@@ -448,8 +448,8 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         """
         if short_name not in self.serverCallPoints:
             point = AsynchronousServerCallPoint(self, short_name)
-            self.addElement(point)
-        return self.getElement(short_name, AsynchronousServerCallPoint)
+            self.addReferrableElement(point)
+        return self.getReferrableElement(short_name, AsynchronousServerCallPoint)
 
     def createAsynchronousServerCallResultPoint(self, short_name: str) -> AsynchronousServerCallResultPoint:
         """
@@ -464,8 +464,8 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         """
         if short_name not in self.serverCallPoints:
             point = AsynchronousServerCallResultPoint(self, short_name)
-            self.addElement(point)
-        return self.getElement(short_name)
+            self.addReferrableElement(point)
+        return self.getReferrableElement(short_name)
 
     def getSynchronousServerCallPoint(self) -> List[SynchronousServerCallPoint]:
         """
@@ -475,7 +475,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[SynchronousServerCallPoint]: The list of synchronous server call points
         """
-        return list(sorted(filter(lambda a: isinstance(a, SynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, SynchronousServerCallPoint), self.referrableElements), key=lambda o: o.getShortName()))
 
     def getAsynchronousServerCallPoint(self) -> List[AsynchronousServerCallPoint]:
         """
@@ -485,7 +485,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[AsynchronousServerCallPoint]: The list of asynchronous server call points
         """
-        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.referrableElements), key=lambda o: o.getShortName()))
 
     def getAsynchronousServerCallResultPoints(self) -> List[AsynchronousServerCallResultPoint]:
         """
@@ -495,7 +495,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[AsynchronousServerCallResultPoint]: The list of asynchronous server call result points
         """
-        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements), key=lambda o: o.getShortName()))  # noqa E501
+        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.referrableElements), key=lambda o: o.getShortName()))  # noqa E501
 
     def getServerCallPoints(self) -> List[ServerCallPoint]:
         """
@@ -505,7 +505,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[ServerCallPoint]: The list of server call points
         """
-        return list(sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.elements), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.referrableElements), key=lambda o: o.getShortName()))
 
     def createInternalTriggeringPoint(self, short_name: str) -> InternalTriggeringPoint:
         """
@@ -517,10 +517,10 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             InternalTriggeringPoint: the created or existing InternalTriggeringPoint
         """
-        if not self.IsElementExists(short_name, InternalTriggeringPoint):
+        if not self.IsReferrableElementExists(short_name, InternalTriggeringPoint):
             point = InternalTriggeringPoint(self, short_name)
-            self.addElement(point)
-        return self.getElement(short_name, InternalTriggeringPoint)
+            self.addReferrableElement(point)
+        return self.getReferrableElement(short_name, InternalTriggeringPoint)
 
     def getInternalTriggeringPoints(self) -> List[InternalTriggeringPoint]:
         """
@@ -529,7 +529,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[InternalTriggeringPoint]: The list of internal triggering points
         """
-        return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.elements)
+        return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.referrableElements)
 
     def getExternalTriggeringPoints(self) -> List[ExternalTriggeringPoint]:
         """
@@ -589,7 +589,7 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             List[ModeSwitchPoint]: The list of mode switch points
         """
-        return list(sorted(filter(lambda a: isinstance(a, ModeSwitchPoint), self.elements), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, ModeSwitchPoint), self.referrableElements), key=lambda o: o.short_name))
 
     def createModeSwitchPoint(self, short_name: str) -> ModeSwitchPoint:
         """
@@ -602,11 +602,11 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             ModeSwitchPoint: the created or existing ModeSwitchPoint
         """
-        if not self.IsElementExists(short_name, ModeSwitchPoint):
+        if not self.IsReferrableElementExists(short_name, ModeSwitchPoint):
             access = ModeSwitchPoint(self, short_name)
-            self.addElement(access)
+            self.addReferrableElement(access)
             self.modeSwitchPoints.append(access)
-        return self.getElement(short_name, ModeSwitchPoint)
+        return self.getReferrableElement(short_name, ModeSwitchPoint)
 
     def getSymbol(self) -> Optional[ARLiteral]:
         """
@@ -642,11 +642,11 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
         Returns:
             WaitPoint: the created or existing WaitPoint
         """
-        if not self.IsElementExists(short_name, WaitPoint):
+        if not self.IsReferrableElementExists(short_name, WaitPoint):
             point = WaitPoint(self, short_name)
-            self.addElement(point)
+            self.addReferrableElement(point)
             self.waitPoints.append(point)
-        return self.getElement(short_name, WaitPoint)
+        return self.getReferrableElement(short_name, WaitPoint)
 
     def getWaitPoints(self) -> List[WaitPoint]:
         """
@@ -665,7 +665,7 @@ class SwcExclusiveAreaPolicy(ARObject, VariationPointCapable):
 
     # SwcExclusiveAreaPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.28, p.556
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApiPrinciple             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -852,11 +852,11 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         Defines an AUTOSAR typed memory-block that needs to be available for each instance of the SW-component. This is typically only useful if supportsMultipleInstantiation is set to "true" or if the component defines NVRAM access via permanent blocks. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arTypedPerInstanceMemory.shortName, ar TypedPerInstanceMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.arTypedPerInstanceMemories.append(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
         """
@@ -868,11 +868,11 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         Implement state message semantics for establishing communication among runnables of the same component. The aggregation of explicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=explicitInterRunnableVariable.shortName, explicitInterRunnableVariable.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.explicitInterRunnableVariables.append(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getHandleTerminationAndRestart(self) -> Optional[ARLiteral]:
         """
@@ -898,11 +898,11 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         Implement state message semantics for establishing communication among runnables of the same component. The aggregation of implicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=implicitInterRunnableVariable.shortName, implicitInterRunnableVariable.variationPoint.shortLabel
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.implicitInterRunnableVariables.append(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
         """
@@ -914,11 +914,11 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         Defines a per-instance memory object needed by this software component. The aggregation of PerInstance Memory is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceMemory.shortName, perInstance Memory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, PerInstanceMemory):
+        if not self.IsReferrableElementExists(short_name, PerInstanceMemory):
             memory = PerInstanceMemory(self, short_name)
-            self.addElement(memory)
+            self.addReferrableElement(memory)
             self.perInstanceMemories.append(memory)
-        return self.getElement(short_name, PerInstanceMemory)
+        return self.getReferrableElement(short_name, PerInstanceMemory)
 
     def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
         """
@@ -930,11 +930,11 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         Defines parameter(s) or characteristic value(s) that needs to be available for each instance of the software-component. This is typically only useful if supportsMultipleInstantiation is set to "true". The aggregation of perInstanceParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceParameter.shortName, per InstanceParameter.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, ParameterDataPrototype):
+        if not self.IsReferrableElementExists(short_name, ParameterDataPrototype):
             prototype = ParameterDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.perInstanceParameters.append(prototype)
-        return self.getElement(short_name, ParameterDataPrototype)
+        return self.getReferrableElement(short_name, ParameterDataPrototype)
 
     def getSharedParameters(self) -> List[ParameterDataPrototype]:
         """
@@ -946,11 +946,11 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         Defines parameter(s) or characteristic value(s) shared between SwComponentPrototypes of the same Sw ComponentType The aggregation of sharedParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sharedParameter.shortName, shared Parameter.variationPoint.shortLabel
         """
-        if not self.IsElementExists(short_name, ParameterDataPrototype):
+        if not self.IsReferrableElementExists(short_name, ParameterDataPrototype):
             memory = ParameterDataPrototype(self, short_name)
-            self.addElement(memory)
+            self.addReferrableElement(memory)
             self.sharedParameters.append(memory)
-        return self.getElement(short_name, ParameterDataPrototype)
+        return self.getReferrableElement(short_name, ParameterDataPrototype)
 
     def addPortAPIOption(self, value: Optional[PortAPIOption]) -> "SwcInternalBehavior":
         """
@@ -1012,131 +1012,131 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, OperationInvokedEvent):
+        if not self.IsReferrableElementExists(short_name, OperationInvokedEvent):
             event = OperationInvokedEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, OperationInvokedEvent)
+        return self.getReferrableElement(short_name, OperationInvokedEvent)
 
     def createTimingEvent(self, short_name: str) -> TimingEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, TimingEvent):
+        if not self.IsReferrableElementExists(short_name, TimingEvent):
             event = TimingEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, TimingEvent)
+        return self.getReferrableElement(short_name, TimingEvent)
 
     def createInitEvent(self, short_name: str) -> InitEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, InitEvent):
+        if not self.IsReferrableElementExists(short_name, InitEvent):
             event = InitEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, InitEvent)
+        return self.getReferrableElement(short_name, InitEvent)
 
     def createAsynchronousServerCallReturnsEvent(self, short_name: str) -> AsynchronousServerCallReturnsEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, AsynchronousServerCallReturnsEvent):
+        if not self.IsReferrableElementExists(short_name, AsynchronousServerCallReturnsEvent):
             event = AsynchronousServerCallReturnsEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, AsynchronousServerCallReturnsEvent)
+        return self.getReferrableElement(short_name, AsynchronousServerCallReturnsEvent)
 
     def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, DataReceivedEvent):
+        if not self.IsReferrableElementExists(short_name, DataReceivedEvent):
             event = DataReceivedEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, DataReceivedEvent)
+        return self.getReferrableElement(short_name, DataReceivedEvent)
 
     def createDataReceiveErrorEvent(self, short_name: str) -> DataReceiveErrorEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, DataReceiveErrorEvent):
+        if not self.IsReferrableElementExists(short_name, DataReceiveErrorEvent):
             event = DataReceiveErrorEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, DataReceiveErrorEvent)
+        return self.getReferrableElement(short_name, DataReceiveErrorEvent)
 
     def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, SwcModeSwitchEvent):
+        if not self.IsReferrableElementExists(short_name, SwcModeSwitchEvent):
             event = SwcModeSwitchEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, SwcModeSwitchEvent)
+        return self.getReferrableElement(short_name, SwcModeSwitchEvent)
 
     def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, InternalTriggerOccurredEvent):
+        if not self.IsReferrableElementExists(short_name, InternalTriggerOccurredEvent):
             event = InternalTriggerOccurredEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, InternalTriggerOccurredEvent)
+        return self.getReferrableElement(short_name, InternalTriggerOccurredEvent)
 
     def createModeSwitchedAckEvent(self, short_name: str) -> ModeSwitchedAckEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, ModeSwitchedAckEvent):
+        if not self.IsReferrableElementExists(short_name, ModeSwitchedAckEvent):
             event = ModeSwitchedAckEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, ModeSwitchedAckEvent)
+        return self.getReferrableElement(short_name, ModeSwitchedAckEvent)
 
     def createBackgroundEvent(self, short_name: str) -> BackgroundEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, BackgroundEvent):
+        if not self.IsReferrableElementExists(short_name, BackgroundEvent):
             event = BackgroundEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, BackgroundEvent)
+        return self.getReferrableElement(short_name, BackgroundEvent)
 
     def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, DataSendCompletedEvent):
+        if not self.IsReferrableElementExists(short_name, DataSendCompletedEvent):
             event = DataSendCompletedEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, DataSendCompletedEvent)
+        return self.getReferrableElement(short_name, DataSendCompletedEvent)
 
     def createDataWriteCompletedEvent(self, short_name: str) -> DataWriteCompletedEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, DataWriteCompletedEvent):
+        if not self.IsReferrableElementExists(short_name, DataWriteCompletedEvent):
             event = DataWriteCompletedEvent(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.events.append(event)
-        return self.getElement(short_name, DataWriteCompletedEvent)
+        return self.getReferrableElement(short_name, DataWriteCompletedEvent)
 
     def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
         """
         Defines the requirements on AUTOSAR Services for a particular item. The aggregation of SwcServiceDependency is subject to variability with the purpose to support the conditional existence of ports as well as the conditional existence of ServiceNeeds. The SwcServiceDependency owned by an SwcInternal Behavior can be located in a different physical file in order to support that SwcServiceDependency might be provided in later development steps or even by different expert domain (e.g OBD expert for Obd related Service Needs) tools. Therefore the aggregation is <<atp Splitable>>. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceDependency.shortName, service Dependency.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, SwcServiceDependency):
+        if not self.IsReferrableElementExists(short_name, SwcServiceDependency):
             event = SwcServiceDependency(self, short_name)
-            self.addElement(event)
+            self.addReferrableElement(event)
             self.serviceDependencies.append(event)
-        return self.getElement(short_name, SwcServiceDependency)
+        return self.getReferrableElement(short_name, SwcServiceDependency)
 
     def getRteEvents(self) -> List[RTEEvent]:
         """
@@ -1208,21 +1208,21 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
-        return self.getElement(short_name, RTEEvent)
+        return self.getReferrableElement(short_name, RTEEvent)
 
     def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
         """Gets all VariableDataPrototype instances owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, VariableDataPrototype), self.referrableElements), key=lambda e: e.short_name)
 
     def createRunnableEntity(self, short_name: str) -> RunnableEntity:
         """
         This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         """
-        if not self.IsElementExists(short_name, RunnableEntity):
+        if not self.IsReferrableElementExists(short_name, RunnableEntity):
             runnable = RunnableEntity(self, short_name)
-            self.addElement(runnable)
+            self.addReferrableElement(runnable)
             self.runnables.append(runnable)
-        return self.getElement(short_name, RunnableEntity)
+        return self.getReferrableElement(short_name, RunnableEntity)
 
     def getRunnableEntities(self) -> List[RunnableEntity]:
         """
@@ -1234,7 +1234,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         """
         This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         """
-        return self.getElement(short_name, RunnableEntity)
+        return self.getReferrableElement(short_name, RunnableEntity)
 
     def getSupportsMultipleInstantiation(self) -> Optional[Boolean]:
         """

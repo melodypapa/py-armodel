@@ -215,11 +215,11 @@ class FlatMap(ARElement):
         """
         A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
         """
-        if not self.IsElementExists(short_name, FlatInstanceDescriptor):
+        if not self.IsReferrableElementExists(short_name, FlatInstanceDescriptor):
             element = FlatInstanceDescriptor(self, short_name)
-            self.addElement(element)
+            self.addReferrableElement(element)
             self.instances.append(element)
-        return self.getElement(short_name, FlatInstanceDescriptor)
+        return self.getReferrableElement(short_name, FlatInstanceDescriptor)
 
     def getInstances(self) -> List[FlatInstanceDescriptor]:
         """
@@ -235,7 +235,7 @@ class AliasNameAssignment(ARObject, VariationPointCapable):
 
     # AliasNameAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.3, p.175
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFlatInstanceRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -328,7 +328,7 @@ class AliasNameSet(ARElement):
 
     # AliasNameSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.2, p.174
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAliasNames               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

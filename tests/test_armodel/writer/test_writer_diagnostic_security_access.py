@@ -85,7 +85,7 @@ class TestWriteDiagnosticSecurityAccess:
         package.createDiagnosticSecurityAccess("SecAccess1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticSecurityAccess(parent, package.getElement("SecAccess1", DiagnosticSecurityAccess))
+        ARXMLWriter().writeDiagnosticSecurityAccess(parent, package.getReferrableElement("SecAccess1", DiagnosticSecurityAccess))
 
         child = parent.find("DIAGNOSTIC-SECURITY-ACCESS")
         assert child is not None
@@ -130,7 +130,7 @@ class TestWriteDiagnosticSecurityAccess:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            security_access_2 = package_2.getElement("SecAccess1", DiagnosticSecurityAccess)
+            security_access_2 = package_2.getReferrableElement("SecAccess1", DiagnosticSecurityAccess)
             assert security_access_2 is not None
             assert security_access_2.getRequestSeedId() is not None
             assert security_access_2.getRequestSeedId().getValue() == 259
@@ -159,7 +159,7 @@ class TestWriteDiagnosticSecurityAccess:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            security_access_2 = package_2.getElement("SecAccess1", DiagnosticSecurityAccess)
+            security_access_2 = package_2.getReferrableElement("SecAccess1", DiagnosticSecurityAccess)
             assert security_access_2 is not None
             assert security_access_2.getRequestSeedId() is None
             assert security_access_2.getSecurityAccessClass() is None

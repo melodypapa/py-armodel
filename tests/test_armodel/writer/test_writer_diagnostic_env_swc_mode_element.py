@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticEnvironmentalCondition,
     DiagnosticEnvSwcModeElement,
 )
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -59,7 +60,6 @@ class TestWriteDiagnosticEnvSwcModeElement:
     def test_write_referrable_identity(self):
         """Test that the Referrable identity (SHORT-NAME) is emitted under DIAGNOSTIC-ENV-SWC-MODE-ELEMENT."""
         mode_element = DiagnosticEnvSwcModeElement(AUTOSAR.getInstance(), "SwcMode1")
-        mode_element.setModeIRef(_ref("MODE-DECLARATION", "/AUTOSAR/ModeDcls/MDG1/Normal"))
 
         parent = ET.Element("MODE-ELEMENTS")
         ARXMLWriter().writeDiagnosticEnvSwcModeElement(parent, mode_element)
@@ -68,6 +68,32 @@ class TestWriteDiagnosticEnvSwcModeElement:
         assert child is not None
         assert child.find("SHORT-NAME").text == "SwcMode1"
         assert child.find("MODE-IREF") is None
+
+    def test_write_mode_iref(self):
+        """Test that a set modeIRef is written as a nested MODE-IREF (P-MODE-IN-SYSTEM-INSTANCE-REF)."""
+        mode_element = DiagnosticEnvSwcModeElement(AUTOSAR.getInstance(), "SwcMode1")
+        iref = PModeInSystemInstanceRef()
+        iref.setContextCompositionRef(_ref("ROOT-SW-COMPOSITION-PROTOTYPE", "/AUTOSAR/System/RootSwComposition"))
+        iref.addContextComponentRef(_ref("SW-COMPONENT-PROTOTYPE", "/AUTOSAR/System/Comp1"))
+        iref.setContextPPortRef(_ref("ABSTRACT-PROVIDED-PORT-PROTOTYPE", "/AUTOSAR/System/Comp1/Sw1/modePort"))
+        iref.setContextModeDeclarationGroupRef(_ref("MODE-DECLARATION-GROUP-PROTOTYPE", "/AUTOSAR/Port/MDG1"))
+        iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/ModeDcls/MDG1/Normal"))
+        mode_element.setModeIRef(iref)
+
+        parent = ET.Element("MODE-ELEMENTS")
+        ARXMLWriter().writeDiagnosticEnvSwcModeElement(parent, mode_element)
+
+        child = parent.find("DIAGNOSTIC-ENV-SWC-MODE-ELEMENT")
+        assert child is not None
+        mode_iref = child.find("MODE-IREF")
+        assert mode_iref is not None
+        assert mode_iref.find("CONTEXT-COMPOSITION-REF").text == "/AUTOSAR/System/RootSwComposition"
+        assert mode_iref.find("CONTEXT-COMPOSITION-REF").get("DEST") == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        comps = mode_iref.findall("CONTEXT-COMPONENT-REF")
+        assert [r.text for r in comps] == ["/AUTOSAR/System/Comp1"]
+        assert mode_iref.find("CONTEXT-P-PORT-REF").text == "/AUTOSAR/System/Comp1/Sw1/modePort"
+        assert mode_iref.find("CONTEXT-MODE-DECLARATION-GROUP-REF").text == "/AUTOSAR/Port/MDG1"
+        assert mode_iref.find("TARGET-MODE-REF").text == "/AUTOSAR/ModeDcls/MDG1/Normal"
 
     def test_mode_elements_dispatch_writes_element(self):
         """Test that writeDiagnosticEnvironmentalCondition emits the MODE-ELEMENTS wrapper with the DIAGNOSTIC-ENV-SWC-MODE-ELEMENT item."""
@@ -106,7 +132,11 @@ class TestWriteDiagnosticEnvSwcModeElement:
         formula.setNrcValue(_positive_integer("49"))
         env_condition.setFormula(formula)
         mode_element = DiagnosticEnvSwcModeElement(env_condition, "SwcMode1")
-        mode_element.setModeIRef(_ref("MODE-DECLARATION", "/AUTOSAR/ModeDcls/MDG1/Normal"))
+        iref = PModeInSystemInstanceRef()
+        iref.setContextCompositionRef(_ref("ROOT-SW-COMPOSITION-PROTOTYPE", "/AUTOSAR/System/RootSwComposition"))
+        iref.addContextComponentRef(_ref("SW-COMPONENT-PROTOTYPE", "/AUTOSAR/System/Comp1"))
+        iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/ModeDcls/MDG1/Normal"))
+        mode_element.setModeIRef(iref)
         env_condition.addModeElement(mode_element)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -116,13 +146,18 @@ class TestWriteDiagnosticEnvSwcModeElement:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            env_condition_2 = package_2.getElement("Env1", type(env_condition))
+            env_condition_2 = package_2.getReferrableElement("Env1", type(env_condition))
             assert env_condition_2 is not None
             mode_elements = env_condition_2.getModeElements()
             assert len(mode_elements) == 1
             mode_element_2 = mode_elements[0]
             assert type(mode_element_2).__name__ == "DiagnosticEnvSwcModeElement"
             assert mode_element_2.getShortName() == "SwcMode1"
+            iref_2 = mode_element_2.getModeIRef()
+            assert iref_2 is not None
+            assert iref_2.getContextCompositionRef().getValue() == "/AUTOSAR/System/RootSwComposition"
+            assert [r.getValue() for r in iref_2.getContextComponentRefs()] == ["/AUTOSAR/System/Comp1"]
+            assert iref_2.getTargetModeRef().getValue() == "/AUTOSAR/ModeDcls/MDG1/Normal"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

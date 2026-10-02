@@ -54,7 +54,7 @@ class TestWriteDiagnosticReadDataByPeriodicID:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDataByPeriodicIds")
         package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
 
-        child = self._write(package.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID))
+        child = self._write(package.getReferrableElement("Rdbpid1", DiagnosticReadDataByPeriodicID))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Rdbpid1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -78,7 +78,7 @@ class TestWriteDiagnosticReadDataByPeriodicID:
         package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Rdbpid1", DiagnosticReadDataByPeriodicID))
 
         child = parent.find("DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID")
         assert child is not None
@@ -98,7 +98,7 @@ class TestWriteDiagnosticReadDataByPeriodicID:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            obj_2 = package_2.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID)
+            obj_2 = package_2.getReferrableElement("Rdbpid1", DiagnosticReadDataByPeriodicID)
             assert obj_2 is not None
             assert obj_2.getShortName() == "Rdbpid1"
             read_data_class = obj_2.getReadDataClass()

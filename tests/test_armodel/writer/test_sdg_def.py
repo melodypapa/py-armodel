@@ -101,7 +101,7 @@ class TestSdgDefRoundTrip:
             parser = ARXMLParser()
             parser.load(file_path, reload_doc)
 
-            reloaded_def = reload_doc.getARPackages()[0].getElement("MySdgDef")
+            reloaded_def = reload_doc.getARPackages()[0].getReferrableElement("MySdgDef")
             assert reloaded_def is not None
             reloaded_classes = reloaded_def.getSdgClasses()
             assert len(reloaded_classes) == 1

@@ -77,7 +77,7 @@ def test_arpackage_dispatch_reads_element():
     )
     parser.readARPackageElements(ar_package, package)
 
-    config = package.getElement("Cfg1", PlatformModuleEthernetEndpointConfiguration)
+    config = package.getReferrableElement("Cfg1", PlatformModuleEthernetEndpointConfiguration)
     assert config is not None
     assert isinstance(config, PlatformModuleEthernetEndpointConfiguration)
     assert config.getCommunicationConnectorRef().getValue() == "/Ecu/Conn"

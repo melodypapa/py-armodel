@@ -64,7 +64,7 @@ class TestWriteDiagnosticCustomServiceClass:
         package.createDiagnosticCustomServiceClass("Csc")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticCustomServiceClass(parent, package.getElement("Csc", DiagnosticCustomServiceClass))
+        ARXMLWriter().writeDiagnosticCustomServiceClass(parent, package.getReferrableElement("Csc", DiagnosticCustomServiceClass))
 
         child = parent.find("DIAGNOSTIC-CUSTOM-SERVICE-CLASS")
         assert child is not None
@@ -99,7 +99,7 @@ class TestWriteDiagnosticCustomServiceClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            service_class_2 = package_2.getElement("Csc", DiagnosticCustomServiceClass)
+            service_class_2 = package_2.getReferrableElement("Csc", DiagnosticCustomServiceClass)
             assert service_class_2 is not None
             assert service_class_2.getCustomServiceId() is not None
             assert service_class_2.getCustomServiceId().getValue() == 5
@@ -120,7 +120,7 @@ class TestWriteDiagnosticCustomServiceClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            service_class_2 = package_2.getElement("Csc", DiagnosticCustomServiceClass)
+            service_class_2 = package_2.getReferrableElement("Csc", DiagnosticCustomServiceClass)
             assert service_class_2 is not None
             assert service_class_2.getCustomServiceId() is None
         finally:

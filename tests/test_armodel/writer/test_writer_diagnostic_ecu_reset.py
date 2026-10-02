@@ -45,7 +45,7 @@ class TestWriteDiagnosticEcuReset:
         package.createDiagnosticEcuReset("EcuReset1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEcuReset(parent, package.getElement("EcuReset1", DiagnosticEcuReset))
+        ARXMLWriter().writeDiagnosticEcuReset(parent, package.getReferrableElement("EcuReset1", DiagnosticEcuReset))
 
         child = parent.find("DIAGNOSTIC-ECU-RESET")
         assert child is not None
@@ -113,7 +113,7 @@ class TestWriteDiagnosticEcuReset:
         package.createDiagnosticEcuReset("EcuReset1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("EcuReset1", DiagnosticEcuReset))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("EcuReset1", DiagnosticEcuReset))
 
         child = parent.find("DIAGNOSTIC-ECU-RESET")
         assert child is not None
@@ -139,7 +139,7 @@ class TestWriteDiagnosticEcuReset:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            ecu_reset_2 = package_2.getElement("EcuReset1", DiagnosticEcuReset)
+            ecu_reset_2 = package_2.getReferrableElement("EcuReset1", DiagnosticEcuReset)
             assert ecu_reset_2 is not None
             assert ecu_reset_2.getShortName() == "EcuReset1"
             assert ecu_reset_2.getCustomSubFunctionNumber() is not None

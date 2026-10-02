@@ -95,6 +95,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation impo
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
@@ -4060,6 +4061,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, iref)
         self.setChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-REF", iref.getContextModeDeclarationGroupRef())
         self.setChildElementOptionalRefType(child_element, "TARGET-MODE-REF", iref.getTargetModeRef())
+
+    def setPModeInSystemInstanceRef(self, element: ET.Element, key: str, iref: PModeInSystemInstanceRef):
+        if iref is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, iref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", iref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", iref.getContextCompositionRef())
+            for ref in iref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", iref.getContextPPortRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-REF", iref.getContextModeDeclarationGroupRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-REF", iref.getTargetModeRef())
 
     def setPOperationInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: POperationInAtomicSwcInstanceRef):
         if iref is not None:
@@ -14835,11 +14848,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticEnvSwcModeElement")
         child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT")
         self.writeReferrable(child_element, mode_element)
+        if mode_element.getModeIRef() is not None:
+            self.setPModeInSystemInstanceRef(child_element, "MODE-IREF", mode_element.getModeIRef())
 
     def writeDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
         self.logger.debug("Write DiagnosticEnvBswModeElement")
         child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
         self.writeReferrable(child_element, mode_element)
+        if mode_element.getModeIRef() is not None:
+            self.setModeInBswModuleDescriptionInstanceRef(child_element, "MODE-IREF", mode_element.getModeIRef())
 
     def writeDiagnosticEventWindow(self, element: ET.Element, event_window: DiagnosticEventWindow):
         self.logger.debug("Write DiagnosticEventWindow")
@@ -16904,10 +16921,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARPackages(child_element, pkg.getARPackages())
 
     def writeARPackageElements(self, element: ET.Element, pkg: ARPackage):
-        if pkg.getTotalElement() > 0:
+        if pkg.getTotalReferrableElement() > 0:
             elements_tag = ET.SubElement(element, "ELEMENTS")
 
-            for ar_element in pkg.getElements():
+            for ar_element in pkg.getReferrableElements():
                 if not isinstance(ar_element, ARPackage):
                     self.writeARPackageElement(elements_tag, ar_element)
 

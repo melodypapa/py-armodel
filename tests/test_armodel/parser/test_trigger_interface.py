@@ -71,7 +71,7 @@ class TestReadTriggerInterface:
         ar_root = document.createARPackage("AUTOSAR")
         pkg = ar_root.createARPackage("PortInterfaces")
         trigger_if = TriggerInterface(pkg, "MyTriggerInterface")
-        pkg.addElement(trigger_if)
+        pkg.addReferrableElement(trigger_if)
         trigger1 = trigger_if.createTrigger("Trig1")
         trigger1.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
         trigger_if.createTrigger("Trig2")
@@ -87,7 +87,7 @@ class TestReadTriggerInterface:
             ARXMLParser().load(file_path, document_2)
 
             pkg_2 = document_2.getARPackages()[0].getARPackages()[0]
-            trigger_if_2 = pkg_2.getElement("MyTriggerInterface", TriggerInterface)
+            trigger_if_2 = pkg_2.getReferrableElement("MyTriggerInterface", TriggerInterface)
             assert trigger_if_2 is not None
             triggers = trigger_if_2.getTriggers()
             assert len(triggers) == 2

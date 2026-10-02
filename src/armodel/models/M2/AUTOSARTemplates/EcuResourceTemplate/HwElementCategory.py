@@ -205,11 +205,11 @@ class HwAttributeDef(Identifiable):
         """
         The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
         """
-        if not self.IsElementExists(short_name, HwAttributeLiteralDef):
+        if not self.IsReferrableElementExists(short_name, HwAttributeLiteralDef):
             literal_def = HwAttributeLiteralDef(self, short_name)
-            self.addElement(literal_def)
+            self.addReferrableElement(literal_def)
             self.hwAttributeLiterals.append(literal_def)
-        return self.getElement(short_name, HwAttributeLiteralDef)
+        return self.getReferrableElement(short_name, HwAttributeLiteralDef)
 
     def addHwAttributeLiteral(self, literal_def: HwAttributeLiteralDef) -> "HwAttributeDef":
         """
@@ -284,11 +284,11 @@ class HwCategory(ARElement):
         """
         This aggregation describes particular hardware attribute definition.
         """
-        if not self.IsElementExists(short_name, HwAttributeDef):
+        if not self.IsReferrableElementExists(short_name, HwAttributeDef):
             attribute_def = HwAttributeDef(self, short_name)
-            self.addElement(attribute_def)
+            self.addReferrableElement(attribute_def)
             self.hwAttributeDefs.append(attribute_def)
-        return self.getElement(short_name, HwAttributeDef)
+        return self.getReferrableElement(short_name, HwAttributeDef)
 
     def addHwAttributeDef(self, attribute_def: HwAttributeDef) -> "HwCategory":
         """

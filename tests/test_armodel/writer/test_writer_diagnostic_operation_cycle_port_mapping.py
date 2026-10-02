@@ -37,7 +37,7 @@ class TestWriteDiagnosticOperationCyclePortMapping:
         package.createDiagnosticOperationCyclePortMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticOperationCyclePortMapping(parent, package.getElement("M1", DiagnosticOperationCyclePortMapping))
+        ARXMLWriter().writeDiagnosticOperationCyclePortMapping(parent, package.getReferrableElement("M1", DiagnosticOperationCyclePortMapping))
 
         child = parent.find("DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING")
         assert child is not None

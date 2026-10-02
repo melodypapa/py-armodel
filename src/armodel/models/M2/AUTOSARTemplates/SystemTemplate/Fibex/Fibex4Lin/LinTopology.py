@@ -567,11 +567,11 @@ class LinPhysicalChannel(PhysicalChannel):
     def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinScheduleTable
 
-        if not self.IsElementExists(short_name, LinScheduleTable):
+        if not self.IsReferrableElementExists(short_name, LinScheduleTable):
             end_point = LinScheduleTable(self, short_name)
-            self.addElement(end_point)
+            self.addReferrableElement(end_point)
             self.scheduleTables.append(end_point)
-        return self.getElement(short_name, LinScheduleTable)
+        return self.getReferrableElement(short_name, LinScheduleTable)
 
 
 class LinSlave(LinCommunicationController):

@@ -50,7 +50,7 @@ class TestCryptoServiceCertificateParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        created = pkg.getElement("Cert", CryptoServiceCertificate)
+        created = pkg.getReferrableElement("Cert", CryptoServiceCertificate)
         assert created is not None
         assert isinstance(created, CryptoServiceCertificate)
         assert created.getShortName() == "Cert"
@@ -60,7 +60,7 @@ class TestCryptoServiceCertificateParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        certificate = pkg.getElement("Cert", CryptoServiceCertificate)
+        certificate = pkg.getReferrableElement("Cert", CryptoServiceCertificate)
         assert certificate.getAlgorithmFamily().getValue() == "RSA"
         assert certificate.getFormat().getValue() == "X-509"
         assert certificate.getMaximumLength().getValue() == 4096
@@ -81,7 +81,7 @@ class TestCryptoServiceCertificateParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoServiceCertificate")
         ARXMLParser().readARPackageElements(ET.fromstring(xml), pkg)
 
-        certificate = pkg.getElement("Empty", CryptoServiceCertificate)
+        certificate = pkg.getReferrableElement("Empty", CryptoServiceCertificate)
         assert certificate.getAlgorithmFamily() is None
         assert certificate.getFormat() is None
         assert certificate.getMaximumLength() is None
@@ -102,7 +102,7 @@ class TestCryptoServiceCertificateParser:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoServiceCertificate")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        certificate = reloaded.getElement("Cert", CryptoServiceCertificate)
+        certificate = reloaded.getReferrableElement("Cert", CryptoServiceCertificate)
         assert certificate is not None
         assert certificate.getAlgorithmFamily().getValue() == "RSA"
         assert certificate.getFormat().getValue() == "X-509"

@@ -373,11 +373,11 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
         """This refers to an instance reference of an argument of an operation call."""
-        if not self.IsElementExists(short_name, AutosarOperationArgumentInstance):
+        if not self.IsReferrableElementExists(short_name, AutosarOperationArgumentInstance):
             argument = AutosarOperationArgumentInstance(self, short_name)
-            self.addElement(argument)
+            self.addReferrableElement(argument)
             self.timingArguments.append(argument)
-        return self.getElement(short_name, AutosarOperationArgumentInstance)
+        return self.getReferrableElement(short_name, AutosarOperationArgumentInstance)
 
     def getTimingArguments(self) -> List[AutosarOperationArgumentInstance]:
         """This refers to an instance reference of an argument of an operation call."""
@@ -385,11 +385,11 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingMode(self, short_name: str) -> TimingModeInstance:
         """This refers to an instance reference of a mode declaration."""
-        if not self.IsElementExists(short_name, TimingModeInstance):
+        if not self.IsReferrableElementExists(short_name, TimingModeInstance):
             mode = TimingModeInstance(self, short_name)
-            self.addElement(mode)
+            self.addReferrableElement(mode)
             self.timingModes.append(mode)
-        return self.getElement(short_name, TimingModeInstance)
+        return self.getReferrableElement(short_name, TimingModeInstance)
 
     def getTimingModes(self) -> List[TimingModeInstance]:
         """This refers to an instance reference of a mode declaration."""
@@ -397,11 +397,11 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
         """This refers to an instance reference of a variable."""
-        if not self.IsElementExists(short_name, AutosarVariableInstance):
+        if not self.IsReferrableElementExists(short_name, AutosarVariableInstance):
             variable = AutosarVariableInstance(self, short_name)
-            self.addElement(variable)
+            self.addReferrableElement(variable)
             self.timingVariables.append(variable)
-        return self.getElement(short_name, AutosarVariableInstance)
+        return self.getReferrableElement(short_name, AutosarVariableInstance)
 
     def getTimingVariables(self) -> List[AutosarVariableInstance]:
         """This refers to an instance reference of a variable."""

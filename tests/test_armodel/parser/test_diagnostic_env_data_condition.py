@@ -12,7 +12,6 @@ DIAGNOSTIC-ENV-DATA-CONDITION to readDiagnosticEnvDataCondition.
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_env_data_condition.py
 """
 
-
 from tests.test_armodel.parser._helpers import _snip
 
 

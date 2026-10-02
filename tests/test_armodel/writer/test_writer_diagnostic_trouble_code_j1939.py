@@ -40,7 +40,7 @@ class TestWriteDiagnosticTroubleCodeJ1939:
         package.createDiagnosticTroubleCodeJ1939("Dtc1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticTroubleCodeJ1939(parent, package.getElement("Dtc1", DiagnosticTroubleCodeJ1939))
+        ARXMLWriter().writeDiagnosticTroubleCodeJ1939(parent, package.getReferrableElement("Dtc1", DiagnosticTroubleCodeJ1939))
 
         child = parent.find("DIAGNOSTIC-TROUBLE-CODE-J-1939")
         assert child is not None

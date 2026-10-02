@@ -47,4 +47,3 @@ class TestReadDiagnosticEventToStorageConditionGroupMapping:
         parser.readDiagnosticEventToStorageConditionGroupMapping(element, mapping)
         assert mapping.getDiagnosticEventRef() is None
         assert mapping.getStorageConditionGroupRef() is None
-

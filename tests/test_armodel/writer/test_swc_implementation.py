@@ -133,7 +133,7 @@ class TestWriteSwcImplementation:
         _save_and_reload()
 
         pkg = AUTOSAR.getInstance().getARPackages()[0]
-        impl = pkg.getElement("Impl1", SwcImplementation)
+        impl = pkg.getReferrableElement("Impl1", SwcImplementation)
         assert impl is not None
         assert impl.getBehaviorRef() is not None
         assert impl.getBehaviorRef().getValue() == "/Pkg/Behavior"
@@ -174,7 +174,7 @@ class TestWriteSwcImplementation:
         _save_and_reload()
 
         pkg = AUTOSAR.getInstance().getARPackages()[0]
-        impl = pkg.getElement("Impl1", SwcImplementation)
+        impl = pkg.getReferrableElement("Impl1", SwcImplementation)
         assert impl is not None
         sizes = impl.getPerInstanceMemorySizes()
         assert len(sizes) == 2

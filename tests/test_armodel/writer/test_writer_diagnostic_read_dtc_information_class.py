@@ -45,7 +45,7 @@ class TestWriteDiagnosticReadDTCInformationClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDtcInformations")
         package.createDiagnosticReadDTCInformationClass("Rdtci1")
 
-        child = self._write(package.getElement("Rdtci1", DiagnosticReadDTCInformationClass))
+        child = self._write(package.getReferrableElement("Rdtci1", DiagnosticReadDTCInformationClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Rdtci1"
         assert [c.tag for c in child if c.tag != "SHORT-NAME"] == []
@@ -56,7 +56,7 @@ class TestWriteDiagnosticReadDTCInformationClass:
         package.createDiagnosticReadDTCInformationClass("Rdtci1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Rdtci1", DiagnosticReadDTCInformationClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Rdtci1", DiagnosticReadDTCInformationClass))
 
         child = parent.find("DIAGNOSTIC-READ-DTC-INFORMATION-CLASS")
         assert child is not None
@@ -75,7 +75,7 @@ class TestWriteDiagnosticReadDTCInformationClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            read_dtc_information_class_2 = package_2.getElement("Rdtci1", DiagnosticReadDTCInformationClass)
+            read_dtc_information_class_2 = package_2.getReferrableElement("Rdtci1", DiagnosticReadDTCInformationClass)
             assert read_dtc_information_class_2 is not None
             assert read_dtc_information_class_2.getShortName() == "Rdtci1"
         finally:

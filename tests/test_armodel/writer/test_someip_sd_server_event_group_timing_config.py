@@ -75,7 +75,7 @@ class TestSomeipSdServerEventGroupTimingConfigRoundTrip:
         document.setARRelease("R23-11")
         parser.load(out_file, document)
 
-        re_config = document.find("Pkg").getElement("MySdTiming", SomeipSdServerEventGroupTimingConfig)
+        re_config = document.find("Pkg").getReferrableElement("MySdTiming", SomeipSdServerEventGroupTimingConfig)
         assert re_config is not None
         re_delay = re_config.getRequestResponseDelay()
         assert re_delay is not None

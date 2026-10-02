@@ -168,14 +168,14 @@ class Frame(FibexElement, ABC):
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
-        if not self.IsElementExists(short_name, PduToFrameMapping):
+        if not self.IsReferrableElementExists(short_name, PduToFrameMapping):
             mapping = PduToFrameMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.pduToFrameMappings.append(mapping)
-        return self.getElement(short_name, PduToFrameMapping)
+        return self.getReferrableElement(short_name, PduToFrameMapping)
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.referrableElements), key=lambda o: o.short_name))
 
 
 class ContainedIPduCollectionSemanticsEnum(AREnum):
@@ -1336,11 +1336,11 @@ class NmPdu(Pdu):
         """
         This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         """
-        if not self.IsElementExists(short_name, ISignalToIPduMapping):
+        if not self.IsReferrableElementExists(short_name, ISignalToIPduMapping):
             mapping = ISignalToIPduMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
-        return self.getElement(short_name, ISignalToIPduMapping)
+        return self.getReferrableElement(short_name, ISignalToIPduMapping)
 
     def getNmDataInformation(self) -> Optional[Boolean]:
         """
@@ -1536,11 +1536,11 @@ class ISignalIPdu(IPdu):
         """
         Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if not self.IsElementExists(short_name, ISignalToIPduMapping):
+        if not self.IsReferrableElementExists(short_name, ISignalToIPduMapping):
             mapping = ISignalToIPduMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.iSignalToPduMappings.append(mapping)
-        return self.getElement(short_name, ISignalToIPduMapping)
+        return self.getReferrableElement(short_name, ISignalToIPduMapping)
 
     def getUnusedBitPattern(self) -> Optional[Integer]:
         """
@@ -2797,11 +2797,11 @@ class SecureCommunicationPropsSet(FibexElement):
         """
         Authentication properties used to configure Secured IPdus.
         """
-        if not self.IsElementExists(short_name, SecureCommunicationAuthenticationProps):
+        if not self.IsReferrableElementExists(short_name, SecureCommunicationAuthenticationProps):
             props = SecureCommunicationAuthenticationProps(self, short_name)
-            self.addElement(props)
+            self.addReferrableElement(props)
             self.authenticationProps.append(props)
-        return self.getElement(short_name, SecureCommunicationAuthenticationProps)
+        return self.getReferrableElement(short_name, SecureCommunicationAuthenticationProps)
 
     def getAuthenticationProps(self) -> List[SecureCommunicationAuthenticationProps]:
         """
@@ -2813,11 +2813,11 @@ class SecureCommunicationPropsSet(FibexElement):
         """
         Freshness properties used to configure SecuredIPdus.
         """
-        if not self.IsElementExists(short_name, SecureCommunicationFreshnessProps):
+        if not self.IsReferrableElementExists(short_name, SecureCommunicationFreshnessProps):
             props = SecureCommunicationFreshnessProps(self, short_name)
-            self.addElement(props)
+            self.addReferrableElement(props)
             self.freshnessProps.append(props)
-        return self.getElement(short_name, SecureCommunicationFreshnessProps)
+        return self.getReferrableElement(short_name, SecureCommunicationFreshnessProps)
 
     def getFreshnessProps(self) -> List[SecureCommunicationFreshnessProps]:
         """

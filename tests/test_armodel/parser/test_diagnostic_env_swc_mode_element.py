@@ -35,17 +35,28 @@ class TestReadDiagnosticEnvSwcModeElement:
         mode_element = self._read(parser, inner)
         assert mode_element.getShortName() == "SwcMode1"
 
-    def test_mode_iref_deferred(self, parser):
-        """Test that the MODE-IREF element is not read yet (PModeInSystemInstanceRef not implemented)."""
+    def test_mode_iref_read(self, parser):
+        """Test that the MODE-IREF element is read into a typed PModeInSystemInstanceRef."""
         inner = (
             "<SHORT-NAME>SwcMode1</SHORT-NAME>"
             "<MODE-IREF>"
             '<CONTEXT-COMPOSITION-REF DEST="ROOT-SW-COMPOSITION-PROTOTYPE">/AUTOSAR/System/RootSwComposition</CONTEXT-COMPOSITION-REF>'
+            '<CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/System/Comp1</CONTEXT-COMPONENT-REF>'
+            '<CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/System/Comp1/Sw1/InnerComp</CONTEXT-COMPONENT-REF>'
+            '<CONTEXT-P-PORT-REF DEST="PROVIDED-PORT-PROTOTYPE">/AUTOSAR/System/Comp1/Sw1/modePort</CONTEXT-P-PORT-REF>'
+            '<CONTEXT-MODE-DECLARATION-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/AUTOSAR/Port/MDG1</CONTEXT-MODE-DECLARATION-GROUP-REF>'
             '<TARGET-MODE-REF DEST="MODE-DECLARATION">/AUTOSAR/ModeDcls/MDG1/Normal</TARGET-MODE-REF>'
             "</MODE-IREF>"
         )
         mode_element = self._read(parser, inner)
-        assert mode_element.getModeIRef() is None
+        iref = mode_element.getModeIRef()
+        assert iref is not None
+        assert type(iref).__name__ == "PModeInSystemInstanceRef"
+        assert iref.getContextCompositionRef().getValue() == "/AUTOSAR/System/RootSwComposition"
+        assert [r.getValue() for r in iref.getContextComponentRefs()] == ["/AUTOSAR/System/Comp1", "/AUTOSAR/System/Comp1/Sw1/InnerComp"]
+        assert iref.getContextPPortRef().getValue() == "/AUTOSAR/System/Comp1/Sw1/modePort"
+        assert iref.getContextModeDeclarationGroupRef().getValue() == "/AUTOSAR/Port/MDG1"
+        assert iref.getTargetModeRef().getValue() == "/AUTOSAR/ModeDcls/MDG1/Normal"
 
     def test_mode_elements_dispatch_reads_swc_mode_element(self, parser):
         """Test that the MODE-ELEMENTS choice dispatches DIAGNOSTIC-ENV-SWC-MODE-ELEMENT to a DiagnosticEnvSwcModeElement."""

@@ -67,6 +67,6 @@ class Test_PdurIPduGroup:
         pkg = AUTOSAR.getInstance().createARPackage("PdurIPduGroupPkg")
         group = pkg.createPdurIPduGroup("PduGroup1")
         assert isinstance(group, PdurIPduGroup)
-        assert pkg.getElement("PduGroup1", PdurIPduGroup) is group
+        assert pkg.getReferrableElement("PduGroup1", PdurIPduGroup) is group
         again = pkg.createPdurIPduGroup("PduGroup1")
         assert again is group

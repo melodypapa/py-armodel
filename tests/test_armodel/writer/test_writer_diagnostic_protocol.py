@@ -133,7 +133,7 @@ class TestWriteDiagnosticProtocol:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            protocol_2 = package_2.getElement("Dp", DiagnosticProtocol)
+            protocol_2 = package_2.getReferrableElement("Dp", DiagnosticProtocol)
             assert protocol_2 is not None
             refs = protocol_2.getDiagnosticConnectionRefs()
             assert len(refs) == 1
@@ -164,7 +164,7 @@ class TestWriteDiagnosticProtocol:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            protocol_2 = package_2.getElement("Dp", DiagnosticProtocol)
+            protocol_2 = package_2.getReferrableElement("Dp", DiagnosticProtocol)
             assert protocol_2 is not None
             assert protocol_2.getDiagnosticConnectionRefs() == []
             assert protocol_2.getPriority() is None

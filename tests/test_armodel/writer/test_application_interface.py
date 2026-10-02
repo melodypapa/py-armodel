@@ -47,7 +47,7 @@ class TestApplicationInterfaceRoundTrip:
             ARXMLParser().load(file_path, document_2)
 
             parsed_pkg = document_2.getARPackages()[0]
-            parsed_interfaces = [el for el in parsed_pkg.getElements() if isinstance(el, ApplicationInterface)]
+            parsed_interfaces = [el for el in parsed_pkg.getReferrableElements() if isinstance(el, ApplicationInterface)]
             assert len(parsed_interfaces) == 1
             parsed = parsed_interfaces[0]
             assert parsed.getShortName() == "AppInterface1"
@@ -88,7 +88,7 @@ class TestApplicationInterfaceRoundTrip:
             ARXMLParser().load(file_path, document_2)
 
             parsed_pkg = document_2.getARPackages()[0]
-            parsed_interfaces = [el for el in parsed_pkg.getElements() if isinstance(el, ApplicationInterface)]
+            parsed_interfaces = [el for el in parsed_pkg.getReferrableElements() if isinstance(el, ApplicationInterface)]
             assert len(parsed_interfaces) == 1
             assert parsed_interfaces[0].getAttributes() == []
             assert parsed_interfaces[0].getCommands() == []

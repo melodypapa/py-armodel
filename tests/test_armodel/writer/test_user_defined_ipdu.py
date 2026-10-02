@@ -79,7 +79,7 @@ class TestUserDefinedIPduWriter:
         reloaded = ARPackage(parent=AutosarDocument.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        ipdu = reloaded.getElement("UDIPdu", UserDefinedIPdu)
+        ipdu = reloaded.getReferrableElement("UDIPdu", UserDefinedIPdu)
         assert ipdu is not None
         assert ipdu.getLength().getValue() == 8
         assert ipdu.getCddType().getValue() == "ComplexDriverCdd"

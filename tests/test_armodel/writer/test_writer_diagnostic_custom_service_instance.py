@@ -109,7 +109,7 @@ class TestWriteDiagnosticCustomServiceInstance:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            instance_2 = package_2.getElement("Csi", DiagnosticCustomServiceInstance)
+            instance_2 = package_2.getReferrableElement("Csi", DiagnosticCustomServiceInstance)
             assert instance_2 is not None
             assert instance_2.getAccessPermissionRef() is not None
             assert instance_2.getAccessPermissionRef().getDest() == "DIAGNOSTIC-ACCESS-PERMISSION"
@@ -134,7 +134,7 @@ class TestWriteDiagnosticCustomServiceInstance:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            instance_2 = package_2.getElement("Csi", DiagnosticCustomServiceInstance)
+            instance_2 = package_2.getReferrableElement("Csi", DiagnosticCustomServiceInstance)
             assert instance_2 is not None
             assert instance_2.getAccessPermissionRef() is None
             assert instance_2.getCustomServiceClassRef() is None

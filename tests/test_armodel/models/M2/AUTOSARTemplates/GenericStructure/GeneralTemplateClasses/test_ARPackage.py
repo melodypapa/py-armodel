@@ -365,17 +365,17 @@ class TestARPackage:
         package = ARPackage(ar_root, "TestPackage")
 
         # Initially should return None for non-existent elements
-        assert package.getElement("NonExistent") is None
+        assert package.getReferrableElement("NonExistent") is None
 
         # Add a sub-package
         sub_package = package.createARPackage("SubPackage")
 
         # Should be able to get the sub-package
-        result = package.getElement("SubPackage")
+        result = package.getReferrableElement("SubPackage")
         assert result == sub_package
 
         # Should return None for non-existent type
-        result = package.getElement("SubPackage", type=str)  # Wrong type
+        result = package.getReferrableElement("SubPackage", type=str)  # Wrong type
         assert result is None
 
     def test_create_application_sw_component_type(self):
@@ -1970,7 +1970,7 @@ class TestDiagnosticCustomServiceInstance:
         assert isinstance(instance, DiagnosticCustomServiceInstance)
         assert instance.getShortName() == "Svc1"
         assert instance.getParent() is package
-        assert package.getElement("Svc1", DiagnosticCustomServiceInstance) is instance
+        assert package.getReferrableElement("Svc1", DiagnosticCustomServiceInstance) is instance
 
         duplicate = package.createDiagnosticCustomServiceInstance("Svc1")
         assert duplicate is instance  # duplicate short name returns the existing element
@@ -2069,7 +2069,7 @@ class TestDiagnosticAuthRole:
         assert isinstance(auth_role, DiagnosticAuthRole)
         assert auth_role.getShortName() == "Role1"
         assert auth_role.getParent() is package
-        assert package.getElement("Role1", DiagnosticAuthRole) is auth_role
+        assert package.getReferrableElement("Role1", DiagnosticAuthRole) is auth_role
 
         duplicate = package.createDiagnosticAuthRole("Role1")
         assert duplicate is auth_role  # duplicate short name returns the existing element
@@ -2172,7 +2172,7 @@ class TestDiagnosticSessionControl:
         assert isinstance(session_control, DiagnosticSessionControl)
         assert session_control.getShortName() == "SessionCtrl1"
         assert session_control.getParent() is package
-        assert package.getElement("SessionCtrl1", DiagnosticSessionControl) is session_control
+        assert package.getReferrableElement("SessionCtrl1", DiagnosticSessionControl) is session_control
 
         duplicate = package.createDiagnosticSessionControl("SessionCtrl1")
         assert duplicate is session_control  # duplicate short name returns the existing element
@@ -2324,7 +2324,7 @@ class TestDiagnosticSecurityAccess:
         assert isinstance(security_access, DiagnosticSecurityAccess)
         assert security_access.getShortName() == "SecAccess1"
         assert security_access.getParent() is package
-        assert package.getElement("SecAccess1", DiagnosticSecurityAccess) is security_access
+        assert package.getReferrableElement("SecAccess1", DiagnosticSecurityAccess) is security_access
 
         duplicate = package.createDiagnosticSecurityAccess("SecAccess1")
         assert duplicate is security_access  # duplicate short name returns the existing element
@@ -2478,7 +2478,7 @@ class TestDiagnosticAuthenticationConfiguration:
         assert configuration is not None
         assert isinstance(configuration, DiagnosticAuthenticationConfiguration)
         assert configuration.getShortName() == "AuthCfg1"
-        assert package.getElement("AuthCfg1", DiagnosticAuthenticationConfiguration) is configuration
+        assert package.getReferrableElement("AuthCfg1", DiagnosticAuthenticationConfiguration) is configuration
 
         duplicate = package.createDiagnosticAuthenticationConfiguration("AuthCfg1")
         assert duplicate is configuration  # duplicate short name returns the existing element
@@ -2556,7 +2556,7 @@ class TestDiagnosticVerifyCertificateBidirectional:
         assert verification is not None
         assert isinstance(verification, DiagnosticVerifyCertificateBidirectional)
         assert verification.getShortName() == "VerifyBidir1"
-        assert package.getElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional) is verification
+        assert package.getReferrableElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional) is verification
 
         duplicate = package.createDiagnosticVerifyCertificateBidirectional("VerifyBidir1")
         assert duplicate is verification  # duplicate short name returns the existing element
@@ -2634,7 +2634,7 @@ class TestDiagnosticVerifyCertificateUnidirectional:
         assert verification is not None
         assert isinstance(verification, DiagnosticVerifyCertificateUnidirectional)
         assert verification.getShortName() == "VerifyUnidir1"
-        assert package.getElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional) is verification
+        assert package.getReferrableElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional) is verification
 
         duplicate = package.createDiagnosticVerifyCertificateUnidirectional("VerifyUnidir1")
         assert duplicate is verification  # duplicate short name returns the existing element
@@ -2712,7 +2712,7 @@ class TestDiagnosticDeAuthentication:
         assert de_authentication is not None
         assert isinstance(de_authentication, DiagnosticDeAuthentication)
         assert de_authentication.getShortName() == "DeAuth1"
-        assert package.getElement("DeAuth1", DiagnosticDeAuthentication) is de_authentication
+        assert package.getReferrableElement("DeAuth1", DiagnosticDeAuthentication) is de_authentication
 
         duplicate = package.createDiagnosticDeAuthentication("DeAuth1")
         assert duplicate is de_authentication  # duplicate short name returns the existing element
@@ -2790,7 +2790,7 @@ class TestDiagnosticProofOfOwnership:
         assert proof_of_ownership is not None
         assert isinstance(proof_of_ownership, DiagnosticProofOfOwnership)
         assert proof_of_ownership.getShortName() == "Proof1"
-        assert package.getElement("Proof1", DiagnosticProofOfOwnership) is proof_of_ownership
+        assert package.getReferrableElement("Proof1", DiagnosticProofOfOwnership) is proof_of_ownership
 
         duplicate = package.createDiagnosticProofOfOwnership("Proof1")
         assert duplicate is proof_of_ownership  # duplicate short name returns the existing element
@@ -2878,7 +2878,7 @@ class TestDiagnosticAuthTransmitCertificate:
         assert certificate is not None
         assert isinstance(certificate, DiagnosticAuthTransmitCertificate)
         assert certificate.getShortName() == "Certificate1"
-        assert package.getElement("Certificate1", DiagnosticAuthTransmitCertificate) is certificate
+        assert package.getReferrableElement("Certificate1", DiagnosticAuthTransmitCertificate) is certificate
 
         duplicate = package.createDiagnosticAuthTransmitCertificate("Certificate1")
         assert duplicate is certificate  # duplicate short name returns the existing element
@@ -2965,7 +2965,7 @@ class TestDiagnosticEcuReset:
         assert ecu_reset is not None
         assert isinstance(ecu_reset, DiagnosticEcuReset)
         assert ecu_reset.getShortName() == "EcuReset1"
-        assert package.getElement("EcuReset1", DiagnosticEcuReset) is ecu_reset
+        assert package.getReferrableElement("EcuReset1", DiagnosticEcuReset) is ecu_reset
 
         duplicate = package.createDiagnosticEcuReset("EcuReset1")
         assert duplicate is ecu_reset  # duplicate short name returns the existing element
@@ -3052,7 +3052,7 @@ class TestDiagnosticComControl:
         assert com_control is not None
         assert isinstance(com_control, DiagnosticComControl)
         assert com_control.getShortName() == "ComControl1"
-        assert package.getElement("ComControl1", DiagnosticComControl) is com_control
+        assert package.getReferrableElement("ComControl1", DiagnosticComControl) is com_control
 
         duplicate = package.createDiagnosticComControl("ComControl1")
         assert duplicate is com_control  # duplicate short name returns the existing element
@@ -3130,7 +3130,7 @@ class TestDiagnosticFimEventGroup:
         assert fim_event_group is not None
         assert isinstance(fim_event_group, DiagnosticFimEventGroup)
         assert fim_event_group.getShortName() == "FimGroup1"
-        assert package.getElement("FimGroup1", DiagnosticFimEventGroup) is fim_event_group
+        assert package.getReferrableElement("FimGroup1", DiagnosticFimEventGroup) is fim_event_group
 
         duplicate = package.createDiagnosticFimEventGroup("FimGroup1")
         assert duplicate is fim_event_group  # duplicate short name returns the existing element
@@ -3198,7 +3198,7 @@ class TestDiagnosticJ1939Spn:
         assert spn is not None
         assert isinstance(spn, DiagnosticJ1939Spn)
         assert spn.getShortName() == "Spn1"
-        assert package.getElement("Spn1", DiagnosticJ1939Spn) is spn
+        assert package.getReferrableElement("Spn1", DiagnosticJ1939Spn) is spn
 
         duplicate = package.createDiagnosticJ1939Spn("Spn1")
         assert duplicate is spn  # duplicate short name returns the existing element
@@ -3294,7 +3294,7 @@ class TestDiagnosticJ1939FreezeFrame:
         assert freeze_frame is not None
         assert isinstance(freeze_frame, DiagnosticJ1939FreezeFrame)
         assert freeze_frame.getShortName() == "FreezeFrame1"
-        assert package.getElement("FreezeFrame1", DiagnosticJ1939FreezeFrame) is freeze_frame
+        assert package.getReferrableElement("FreezeFrame1", DiagnosticJ1939FreezeFrame) is freeze_frame
 
         duplicate = package.createDiagnosticJ1939FreezeFrame("FreezeFrame1")
         assert duplicate is freeze_frame  # duplicate short name returns the existing element
@@ -3389,7 +3389,7 @@ class TestDiagnosticJ1939ExpandedFreezeFrame:
         assert expanded_freeze_frame is not None
         assert isinstance(expanded_freeze_frame, DiagnosticJ1939ExpandedFreezeFrame)
         assert expanded_freeze_frame.getShortName() == "ExpandedFreezeFrame1"
-        assert package.getElement("ExpandedFreezeFrame1", DiagnosticJ1939ExpandedFreezeFrame) is expanded_freeze_frame
+        assert package.getReferrableElement("ExpandedFreezeFrame1", DiagnosticJ1939ExpandedFreezeFrame) is expanded_freeze_frame
 
         duplicate = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
         assert duplicate is expanded_freeze_frame  # duplicate short name returns the existing element
@@ -3502,7 +3502,7 @@ class TestDiagnosticTroubleCodeJ1939:
         assert trouble_code is not None
         assert isinstance(trouble_code, DiagnosticTroubleCodeJ1939)
         assert trouble_code.getShortName() == "Dtc1"
-        assert package.getElement("Dtc1", DiagnosticTroubleCodeJ1939) is trouble_code
+        assert package.getReferrableElement("Dtc1", DiagnosticTroubleCodeJ1939) is trouble_code
 
         duplicate = package.createDiagnosticTroubleCodeJ1939("Dtc1")
         assert duplicate is trouble_code  # duplicate short name returns the existing element
@@ -3707,7 +3707,7 @@ class TestDiagnosticServiceDataMapping:
         assert service_data_mapping is not None
         assert isinstance(service_data_mapping, DiagnosticServiceDataMapping)
         assert service_data_mapping.getShortName() == "Mapping1"
-        assert package.getElement("Mapping1", DiagnosticServiceDataMapping) is service_data_mapping
+        assert package.getReferrableElement("Mapping1", DiagnosticServiceDataMapping) is service_data_mapping
 
         duplicate = package.createDiagnosticServiceDataMapping("Mapping1")
         assert duplicate is service_data_mapping  # duplicate short name returns the existing element
@@ -3740,6 +3740,7 @@ class TestDiagnosticServiceMappingDiagTarget:
         Test that __init__ carries no docstring.
         """
         assert DiagnosticServiceMappingDiagTarget.__init__.__doc__ is None
+
 
 class TestDiagnosticEventToDebounceAlgorithmMapping:
     """
@@ -3804,7 +3805,7 @@ class TestDiagnosticEventToDebounceAlgorithmMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToDebounceAlgorithmMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToDebounceAlgorithmMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToDebounceAlgorithmMapping) is element
 
         duplicate = package.createDiagnosticEventToDebounceAlgorithmMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -3873,7 +3874,7 @@ class TestDiagnosticEventToEnableConditionGroupMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToEnableConditionGroupMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToEnableConditionGroupMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToEnableConditionGroupMapping) is element
 
         duplicate = package.createDiagnosticEventToEnableConditionGroupMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -3942,7 +3943,7 @@ class TestDiagnosticEventToOperationCycleMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToOperationCycleMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToOperationCycleMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToOperationCycleMapping) is element
 
         duplicate = package.createDiagnosticEventToOperationCycleMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4011,7 +4012,7 @@ class TestDiagnosticEventToStorageConditionGroupMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToStorageConditionGroupMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToStorageConditionGroupMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToStorageConditionGroupMapping) is element
 
         duplicate = package.createDiagnosticEventToStorageConditionGroupMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4080,10 +4081,11 @@ class TestDiagnosticEventToTroubleCodeUdsMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToTroubleCodeUdsMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToTroubleCodeUdsMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToTroubleCodeUdsMapping) is element
 
         duplicate = package.createDiagnosticEventToTroubleCodeUdsMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticEventPortMapping:
     """
@@ -4158,7 +4160,7 @@ class TestDiagnosticEventPortMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventPortMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventPortMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventPortMapping) is element
 
         duplicate = package.createDiagnosticEventPortMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4232,7 +4234,7 @@ class TestDiagnosticOperationCyclePortMapping:
         assert element is not None
         assert isinstance(element, DiagnosticOperationCyclePortMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticOperationCyclePortMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticOperationCyclePortMapping) is element
 
         duplicate = package.createDiagnosticOperationCyclePortMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4306,7 +4308,7 @@ class TestDiagnosticEnableConditionPortMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEnableConditionPortMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEnableConditionPortMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEnableConditionPortMapping) is element
 
         duplicate = package.createDiagnosticEnableConditionPortMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4380,10 +4382,11 @@ class TestDiagnosticStorageConditionPortMapping:
         assert element is not None
         assert isinstance(element, DiagnosticStorageConditionPortMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticStorageConditionPortMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticStorageConditionPortMapping) is element
 
         duplicate = package.createDiagnosticStorageConditionPortMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticAuthTransmitCertificateMapping:
     """
@@ -4448,7 +4451,7 @@ class TestDiagnosticAuthTransmitCertificateMapping:
         assert element is not None
         assert isinstance(element, DiagnosticAuthTransmitCertificateMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticAuthTransmitCertificateMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticAuthTransmitCertificateMapping) is element
 
         duplicate = package.createDiagnosticAuthTransmitCertificateMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4517,7 +4520,7 @@ class TestDiagnosticSecurityEventReportingModeMapping:
         assert element is not None
         assert isinstance(element, DiagnosticSecurityEventReportingModeMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticSecurityEventReportingModeMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticSecurityEventReportingModeMapping) is element
 
         duplicate = package.createDiagnosticSecurityEventReportingModeMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4586,7 +4589,7 @@ class TestDiagnosticDemProvidedDataMapping:
         assert element is not None
         assert isinstance(element, DiagnosticDemProvidedDataMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticDemProvidedDataMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticDemProvidedDataMapping) is element
 
         duplicate = package.createDiagnosticDemProvidedDataMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4655,7 +4658,7 @@ class TestDiagnosticMasterToSlaveEventMapping:
         assert element is not None
         assert isinstance(element, DiagnosticMasterToSlaveEventMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticMasterToSlaveEventMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticMasterToSlaveEventMapping) is element
 
         duplicate = package.createDiagnosticMasterToSlaveEventMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4724,10 +4727,11 @@ class TestDiagnosticEventToSecurityEventMapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToSecurityEventMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToSecurityEventMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToSecurityEventMapping) is element
 
         duplicate = package.createDiagnosticEventToSecurityEventMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticInhibitSourceEventMapping:
     """
@@ -4797,7 +4801,7 @@ class TestDiagnosticInhibitSourceEventMapping:
         assert element is not None
         assert isinstance(element, DiagnosticInhibitSourceEventMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticInhibitSourceEventMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticInhibitSourceEventMapping) is element
 
         duplicate = package.createDiagnosticInhibitSourceEventMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4810,7 +4814,7 @@ class TestDiagnosticFimAliasEventMapping:
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.34, p.262
     """
 
-    CLASS_NOTE = "This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the \"preliminary\" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings"
+    CLASS_NOTE = 'This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the "preliminary" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings'
 
     def _make_obj(self) -> DiagnosticFimAliasEventMapping:
         parent = AUTOSAR.getInstance()
@@ -4866,7 +4870,7 @@ class TestDiagnosticFimAliasEventMapping:
         assert element is not None
         assert isinstance(element, DiagnosticFimAliasEventMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticFimAliasEventMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticFimAliasEventMapping) is element
 
         duplicate = package.createDiagnosticFimAliasEventMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4930,7 +4934,7 @@ class TestDiagnosticFimAliasEventGroup:
         assert element is not None
         assert isinstance(element, DiagnosticFimAliasEventGroup)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticFimAliasEventGroup) is element
+        assert package.getReferrableElement("M1", DiagnosticFimAliasEventGroup) is element
 
         duplicate = package.createDiagnosticFimAliasEventGroup("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -4943,7 +4947,7 @@ class TestDiagnosticFimAliasEventGroupMapping:
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.36, p.263
     """
 
-    CLASS_NOTE = "This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the \"preliminary\" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings"
+    CLASS_NOTE = 'This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the "preliminary" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings'
 
     def _make_obj(self) -> DiagnosticFimAliasEventGroupMapping:
         parent = AUTOSAR.getInstance()
@@ -4999,10 +5003,11 @@ class TestDiagnosticFimAliasEventGroupMapping:
         assert element is not None
         assert isinstance(element, DiagnosticFimAliasEventGroupMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticFimAliasEventGroupMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticFimAliasEventGroupMapping) is element
 
         duplicate = package.createDiagnosticFimAliasEventGroupMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticEventToTroubleCodeJ1939Mapping:
     """
@@ -5067,7 +5072,7 @@ class TestDiagnosticEventToTroubleCodeJ1939Mapping:
         assert element is not None
         assert isinstance(element, DiagnosticEventToTroubleCodeJ1939Mapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticEventToTroubleCodeJ1939Mapping) is element
+        assert package.getReferrableElement("M1", DiagnosticEventToTroubleCodeJ1939Mapping) is element
 
         duplicate = package.createDiagnosticEventToTroubleCodeJ1939Mapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5136,7 +5141,7 @@ class TestDiagnosticIumprToFunctionIdentifierMapping:
         assert element is not None
         assert isinstance(element, DiagnosticIumprToFunctionIdentifierMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticIumprToFunctionIdentifierMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticIumprToFunctionIdentifierMapping) is element
 
         duplicate = package.createDiagnosticIumprToFunctionIdentifierMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5210,7 +5215,7 @@ class TestDiagnosticJ1939SpnMapping:
         assert element is not None
         assert isinstance(element, DiagnosticJ1939SpnMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticJ1939SpnMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticJ1939SpnMapping) is element
 
         duplicate = package.createDiagnosticJ1939SpnMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5223,7 +5228,7 @@ class TestDiagnosticJ1939Node:
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.41, p.267
     """
 
-    CLASS_NOTE = "This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a \"virtual Ecu\" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes"
+    CLASS_NOTE = 'This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a "virtual Ecu" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes'
 
     def _make_obj(self) -> DiagnosticJ1939Node:
         parent = AUTOSAR.getInstance()
@@ -5274,7 +5279,7 @@ class TestDiagnosticJ1939Node:
         assert element is not None
         assert isinstance(element, DiagnosticJ1939Node)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticJ1939Node) is element
+        assert package.getReferrableElement("M1", DiagnosticJ1939Node) is element
 
         duplicate = package.createDiagnosticJ1939Node("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5343,7 +5348,7 @@ class TestDiagnosticJ1939SwMapping:
         assert element is not None
         assert isinstance(element, DiagnosticJ1939SwMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticJ1939SwMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticJ1939SwMapping) is element
 
         duplicate = package.createDiagnosticJ1939SwMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5422,10 +5427,11 @@ class TestDiagnosticFimFunctionMapping:
         assert element is not None
         assert isinstance(element, DiagnosticFimFunctionMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", DiagnosticFimFunctionMapping) is element
+        assert package.getReferrableElement("M1", DiagnosticFimFunctionMapping) is element
 
         duplicate = package.createDiagnosticFimFunctionMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestCpSwClusterToDiagEventMapping:
     """
@@ -5490,7 +5496,7 @@ class TestCpSwClusterToDiagEventMapping:
         assert element is not None
         assert isinstance(element, CpSwClusterToDiagEventMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", CpSwClusterToDiagEventMapping) is element
+        assert package.getReferrableElement("M1", CpSwClusterToDiagEventMapping) is element
 
         duplicate = package.createCpSwClusterToDiagEventMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5559,7 +5565,7 @@ class TestCpSwClusterResourceToDiagDataElemMapping:
         assert element is not None
         assert isinstance(element, CpSwClusterResourceToDiagDataElemMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", CpSwClusterResourceToDiagDataElemMapping) is element
+        assert package.getReferrableElement("M1", CpSwClusterResourceToDiagDataElemMapping) is element
 
         duplicate = package.createCpSwClusterResourceToDiagDataElemMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5628,7 +5634,7 @@ class TestCpSwClusterToDiagRoutineSubfunctionMapping:
         assert element is not None
         assert isinstance(element, CpSwClusterToDiagRoutineSubfunctionMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", CpSwClusterToDiagRoutineSubfunctionMapping) is element
+        assert package.getReferrableElement("M1", CpSwClusterToDiagRoutineSubfunctionMapping) is element
 
         duplicate = package.createCpSwClusterToDiagRoutineSubfunctionMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5697,10 +5703,11 @@ class TestCpSwClusterResourceToDiagFunctionIdMapping:
         assert element is not None
         assert isinstance(element, CpSwClusterResourceToDiagFunctionIdMapping)
         assert element.getShortName() == "M1"
-        assert package.getElement("M1", CpSwClusterResourceToDiagFunctionIdMapping) is element
+        assert package.getReferrableElement("M1", CpSwClusterResourceToDiagFunctionIdMapping) is element
 
         duplicate = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticServiceSwMapping:
     """
@@ -5805,7 +5812,7 @@ class TestDiagnosticServiceSwMapping:
         assert element is not None
         assert isinstance(element, DiagnosticServiceSwMapping)
         assert element.getShortName() == "Mapping1"
-        assert package.getElement("Mapping1", DiagnosticServiceSwMapping) is element
+        assert package.getReferrableElement("Mapping1", DiagnosticServiceSwMapping) is element
 
         duplicate = package.createDiagnosticServiceSwMapping("Mapping1")
         assert duplicate is element  # duplicate short name returns the existing element
@@ -5887,7 +5894,7 @@ class TestDiagnosticControlDTCSetting:
         assert control_dtc_setting is not None
         assert isinstance(control_dtc_setting, DiagnosticControlDTCSetting)
         assert control_dtc_setting.getShortName() == "ControlDTCSetting1"
-        assert package.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting) is control_dtc_setting
+        assert package.getReferrableElement("ControlDTCSetting1", DiagnosticControlDTCSetting) is control_dtc_setting
 
         duplicate = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
         assert duplicate is control_dtc_setting
@@ -6046,7 +6053,7 @@ class TestDiagnosticReadDataByIdentifier:
         assert read_did is not None
         assert isinstance(read_did, DiagnosticReadDataByIdentifier)
         assert read_did.getShortName() == "ReadDataByIdentifier1"
-        assert package.getElement("ReadDataByIdentifier1", DiagnosticReadDataByIdentifier) is read_did
+        assert package.getReferrableElement("ReadDataByIdentifier1", DiagnosticReadDataByIdentifier) is read_did
 
         duplicate = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
         assert duplicate is read_did  # duplicate short name returns the existing element
@@ -6131,7 +6138,7 @@ class TestDiagnosticWriteDataByIdentifier:
         assert write_did is not None
         assert isinstance(write_did, DiagnosticWriteDataByIdentifier)
         assert write_did.getShortName() == "WriteDataByIdentifier1"
-        assert package.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier) is write_did
+        assert package.getReferrableElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier) is write_did
 
         duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
         assert duplicate is write_did  # duplicate short name returns the existing element
@@ -6218,7 +6225,7 @@ class TestDiagnosticReadScalingDataByIdentifier:
         assert read_scaling is not None
         assert isinstance(read_scaling, DiagnosticReadScalingDataByIdentifier)
         assert read_scaling.getShortName() == "ReadScalingDataByIdentifier1"
-        assert package.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier) is read_scaling
+        assert package.getReferrableElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier) is read_scaling
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
         assert duplicate is read_scaling  # duplicate short name returns the existing element
@@ -6412,7 +6419,7 @@ class TestDiagnosticIOControl:
         assert io_control is not None
         assert isinstance(io_control, DiagnosticIOControl)
         assert io_control.getShortName() == "IOControl1"
-        assert package.getElement("IOControl1", DiagnosticIOControl) is io_control
+        assert package.getReferrableElement("IOControl1", DiagnosticIOControl) is io_control
 
         duplicate = package.createDiagnosticIOControl("IOControl1")
         assert duplicate is io_control  # duplicate short name returns the existing element
@@ -6572,7 +6579,7 @@ class TestDiagnosticRoutine:
         assert routine is not None
         assert isinstance(routine, DiagnosticRoutine)
         assert routine.getShortName() == "Routine1"
-        assert package.getElement("Routine1", DiagnosticRoutine) is routine
+        assert package.getReferrableElement("Routine1", DiagnosticRoutine) is routine
 
         duplicate = package.createDiagnosticRoutine("Routine1")
         assert duplicate is routine  # duplicate short name returns the existing element
@@ -6676,7 +6683,7 @@ class TestDiagnosticRoutineControl:
         assert routine_control is not None
         assert isinstance(routine_control, DiagnosticRoutineControl)
         assert routine_control.getShortName() == "RoutineControl1"
-        assert package.getElement("RoutineControl1", DiagnosticRoutineControl) is routine_control
+        assert package.getReferrableElement("RoutineControl1", DiagnosticRoutineControl) is routine_control
 
         duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
         assert duplicate is routine_control  # duplicate short name returns the existing element
@@ -6804,7 +6811,7 @@ class TestDiagnosticDynamicallyDefineDataIdentifier:
         assert dddi is not None
         assert isinstance(dddi, DiagnosticDynamicallyDefineDataIdentifier)
         assert dddi.getShortName() == "Dddi1"
-        assert package.getElement("Dddi1", DiagnosticDynamicallyDefineDataIdentifier) is dddi
+        assert package.getReferrableElement("Dddi1", DiagnosticDynamicallyDefineDataIdentifier) is dddi
 
         duplicate = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
         assert duplicate is dddi  # duplicate short name returns the existing element
@@ -6887,7 +6894,7 @@ class TestDiagnosticReadDataByPeriodicID:
         assert obj is not None
         assert isinstance(obj, DiagnosticReadDataByPeriodicID)
         assert obj.getShortName() == "Rdbpid1"
-        assert package.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID) is obj
+        assert package.getReferrableElement("Rdbpid1", DiagnosticReadDataByPeriodicID) is obj
 
         duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
         assert duplicate is obj  # duplicate short name returns the existing element
@@ -7017,7 +7024,7 @@ class TestDiagnosticResponseOnEvent:
         assert response_on_event is not None
         assert isinstance(response_on_event, DiagnosticResponseOnEvent)
         assert response_on_event.getShortName() == "ResponseOnEvent1"
-        assert package.getElement("ResponseOnEvent1", DiagnosticResponseOnEvent) is response_on_event
+        assert package.getReferrableElement("ResponseOnEvent1", DiagnosticResponseOnEvent) is response_on_event
 
         duplicate = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
         assert duplicate is response_on_event  # duplicate short name returns the existing element
@@ -7106,7 +7113,7 @@ class TestDiagnosticReadDTCInformation:
         assert read_dtc_information is not None
         assert isinstance(read_dtc_information, DiagnosticReadDTCInformation)
         assert read_dtc_information.getShortName() == "ReadDTCInformation1"
-        assert package.getElement("ReadDTCInformation1", DiagnosticReadDTCInformation) is read_dtc_information
+        assert package.getReferrableElement("ReadDTCInformation1", DiagnosticReadDTCInformation) is read_dtc_information
 
         duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
         assert duplicate is read_dtc_information  # duplicate short name returns the existing element
@@ -7195,7 +7202,7 @@ class TestDiagnosticClearDiagnosticInformation:
         assert clear_diagnostic_information is not None
         assert isinstance(clear_diagnostic_information, DiagnosticClearDiagnosticInformation)
         assert clear_diagnostic_information.getShortName() == "ClearDiagnosticInformation1"
-        assert package.getElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation) is clear_diagnostic_information
+        assert package.getReferrableElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation) is clear_diagnostic_information
 
         duplicate = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
         assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element

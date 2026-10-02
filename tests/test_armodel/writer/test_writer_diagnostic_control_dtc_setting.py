@@ -53,7 +53,7 @@ class TestWriteDiagnosticControlDTCSetting:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticControlDtcSettings")
         package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
 
-        child = self._write(package.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting))
+        child = self._write(package.getReferrableElement("ControlDTCSetting1", DiagnosticControlDTCSetting))
         assert child is not None
         assert child.find("SHORT-NAME").text == "ControlDTCSetting1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -77,7 +77,7 @@ class TestWriteDiagnosticControlDTCSetting:
         package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ControlDTCSetting1", DiagnosticControlDTCSetting))
 
         child = parent.find("DIAGNOSTIC-CONTROL-DTC-SETTING")
         assert child is not None
@@ -97,7 +97,7 @@ class TestWriteDiagnosticControlDTCSetting:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            control_dtc_setting_2 = package_2.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting)
+            control_dtc_setting_2 = package_2.getReferrableElement("ControlDTCSetting1", DiagnosticControlDTCSetting)
             assert control_dtc_setting_2 is not None
             assert control_dtc_setting_2.getShortName() == "ControlDTCSetting1"
             ref = control_dtc_setting_2.getDtcSettingClass()

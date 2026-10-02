@@ -209,7 +209,7 @@ class TestPortInterfaceDispatch:
         parent = _make_parent()
         _dispatch(parser, parent, _snip("NV-DATA-INTERFACE", "NV1"))
         # Verify it was added to package (no exception means dispatch succeeded).
-        assert parent.getElement("NV1") is not None
+        assert parent.getReferrableElement("NV1") is not None
 
     def test_mode_switch_interface(self, parser):
         parent = _make_parent()
@@ -255,7 +255,7 @@ class TestMiscDispatch:
         parent = _make_parent()
         _dispatch(parser, parent, _snip("END-TO-END-PROTECTION-SET", "E2E1"))
         # No dedicated ARPackage getter for E2E; verify dispatch succeeded.
-        assert parent.getElement("E2E1") is not None
+        assert parent.getReferrableElement("E2E1") is not None
 
     def test_physical_dimension(self, parser):
         parent = _make_parent()
@@ -281,12 +281,12 @@ class TestNetworkDispatch:
         parent = _make_parent()
         _dispatch(parser, parent, _snip("FLEXRAY-CLUSTER", "FC1"))
         # No dedicated getter for FlexrayCluster on ARPackage; verify dispatch.
-        assert parent.getElement("FC1") is not None
+        assert parent.getReferrableElement("FC1") is not None
 
     def test_ethernet_cluster(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("ETHERNET-CLUSTER", "EC1"))
-        assert parent.getElement("EC1") is not None
+        assert parent.getReferrableElement("EC1") is not None
 
     def test_lin_unconditional_frame(self, parser):
         parent = _make_parent()
@@ -306,7 +306,7 @@ class TestNetworkDispatch:
     def test_generic_ethernet_frame(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("GENERIC-ETHERNET-FRAME", "EF1"))
-        assert parent.getElement("EF1") is not None
+        assert parent.getReferrableElement("EF1") is not None
 
     def test_nm_pdu(self, parser):
         parent = _make_parent()
@@ -346,13 +346,13 @@ class TestNetworkDispatch:
     def test_i_signal_i_pdu_group(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("I-SIGNAL-I-PDU-GROUP", "IIPG1"))
-        assert parent.getElement("IIPG1") is not None
+        assert parent.getReferrableElement("IIPG1") is not None
 
     def test_pdur_ipdu_group(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("PDUR-I-PDU-GROUP", "PIPG1"))
-        assert parent.getElement("PIPG1", PdurIPduGroup) is not None
-        assert isinstance(parent.getElement("PIPG1"), PdurIPduGroup)
+        assert parent.getReferrableElement("PIPG1", PdurIPduGroup) is not None
+        assert isinstance(parent.getReferrableElement("PIPG1"), PdurIPduGroup)
 
     def test_system_signal(self, parser):
         parent = _make_parent()
@@ -367,27 +367,27 @@ class TestNetworkDispatch:
     def test_multiplexed_i_pdu(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("MULTIPLEXED-I-PDU", "MIP1"))
-        assert parent.getElement("MIP1") is not None
+        assert parent.getReferrableElement("MIP1") is not None
 
     def test_user_defined_i_pdu(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("USER-DEFINED-I-PDU", "UDI1"))
-        assert parent.getElement("UDI1") is not None
+        assert parent.getReferrableElement("UDI1") is not None
 
     def test_user_defined_pdu(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("USER-DEFINED-PDU", "UDP1"))
-        assert parent.getElement("UDP1") is not None
+        assert parent.getReferrableElement("UDP1") is not None
 
     def test_general_purpose_pdu(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("GENERAL-PURPOSE-PDU", "GPP1"))
-        assert parent.getElement("GPP1") is not None
+        assert parent.getReferrableElement("GPP1") is not None
 
     def test_general_purpose_i_pdu(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("GENERAL-PURPOSE-I-PDU", "GPI1"))
-        assert parent.getElement("GPI1") is not None
+        assert parent.getReferrableElement("GPI1") is not None
 
 
 # ==================== Network management / TP / comm security ====================
@@ -407,22 +407,22 @@ class TestNmAndCommDispatch:
     def test_lin_tp_config(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("LIN-TP-CONFIG", "LTP1"))
-        assert parent.getElement("LTP1") is not None
+        assert parent.getReferrableElement("LTP1") is not None
 
     def test_do_ip_tp_config(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("DO-IP-TP-CONFIG", "DITP1"))
-        assert parent.getElement("DITP1") is not None
+        assert parent.getReferrableElement("DITP1") is not None
 
     def test_secure_communication_props_set(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("SECURE-COMMUNICATION-PROPS-SET", "SC1"))
-        assert parent.getElement("SC1") is not None
+        assert parent.getReferrableElement("SC1") is not None
 
     def test_so_ad_routing_group(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("SO-AD-ROUTING-GROUP", "SAR1"))
-        assert parent.getElement("SAR1") is not None
+        assert parent.getReferrableElement("SAR1") is not None
 
     def test_data_transformation_set(self, parser):
         parent = _make_parent()
@@ -452,8 +452,8 @@ class TestSystemDispatch:
     def test_os_task_proxy(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("OS-TASK-PROXY", "OTP1"))
-        assert parent.getElement("OTP1", OsTaskProxy) is not None
-        assert isinstance(parent.getElement("OTP1"), OsTaskProxy)
+        assert parent.getReferrableElement("OTP1", OsTaskProxy) is not None
+        assert isinstance(parent.getReferrableElement("OTP1"), OsTaskProxy)
 
 
 # ==================== ECUC ====================
@@ -488,12 +488,12 @@ class TestDiagnosticDispatch:
     def test_diagnostic_connection(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("DIAGNOSTIC-CONNECTION", "DC1"))
-        assert parent.getElement("DC1") is not None
+        assert parent.getReferrableElement("DC1") is not None
 
     def test_diagnostic_service_table(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("DIAGNOSTIC-SERVICE-TABLE", "DST1"))
-        assert parent.getElement("DST1") is not None
+        assert parent.getReferrableElement("DST1") is not None
 
 
 # ==================== Variant / lifecycle ====================
@@ -533,7 +533,7 @@ class TestVariantAndLifecycleDispatch:
     def test_life_cycle_info_set(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("LIFE-CYCLE-INFO-SET", "LC1"))
-        assert parent.getElement("LC1") is not None
+        assert parent.getReferrableElement("LC1") is not None
 
     def test_collection(self, parser):
         parent = _make_parent()
@@ -553,12 +553,12 @@ class TestMappingDispatch:
     def test_flat_map(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("FLAT-MAP", "FM1"))
-        assert parent.getElement("FM1") is not None
+        assert parent.getReferrableElement("FM1") is not None
 
     def test_port_interface_mapping_set(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("PORT-INTERFACE-MAPPING-SET", "PIM1"))
-        assert parent.getElement("PIM1") is not None
+        assert parent.getReferrableElement("PIM1") is not None
 
     def test_port_prototype_blueprint(self, parser):
         parent = _make_parent()
@@ -588,7 +588,7 @@ class TestHwDispatch:
     def test_hw_type(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("HW-TYPE", "HT1"))
-        assert parent.getElement("HT1") is not None
+        assert parent.getReferrableElement("HT1") is not None
 
 
 # ==================== MC support ====================

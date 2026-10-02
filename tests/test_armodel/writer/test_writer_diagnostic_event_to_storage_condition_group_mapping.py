@@ -37,7 +37,7 @@ class TestWriteDiagnosticEventToStorageConditionGroupMapping:
         package.createDiagnosticEventToStorageConditionGroupMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToStorageConditionGroupMapping(parent, package.getElement("M1", DiagnosticEventToStorageConditionGroupMapping))
+        ARXMLWriter().writeDiagnosticEventToStorageConditionGroupMapping(parent, package.getReferrableElement("M1", DiagnosticEventToStorageConditionGroupMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-STORAGE-CONDITION-GROUP-MAPPING")
         assert child is not None

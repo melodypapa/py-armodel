@@ -33,7 +33,7 @@ def _make_trigger() -> Trigger:
     AUTOSAR.getInstance().new()
     ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
     desc = BswModuleDescription(ar_root, "MyModule")
-    ar_root.addElement(desc)
+    ar_root.addReferrableElement(desc)
     return desc.createReleasedTrigger("MyTrigger")
 
 
@@ -86,7 +86,7 @@ class TestReadTrigger:
         document.clear()
         ar_root = document.createARPackage("AUTOSAR")
         desc = BswModuleDescription(ar_root, "MyModule")
-        ar_root.addElement(desc)
+        ar_root.addReferrableElement(desc)
         trigger = desc.createReleasedTrigger("MyTrigger")
         trigger.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
         period = MultidimensionalTime()
@@ -103,7 +103,7 @@ class TestReadTrigger:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
 
-            desc_2 = document_2.getARPackages()[0].getElement("MyModule", BswModuleDescription)
+            desc_2 = document_2.getARPackages()[0].getReferrableElement("MyModule", BswModuleDescription)
             triggers = desc_2.getReleasedTriggers()
             assert len(triggers) == 1
             assert triggers[0].getShortName() == "MyTrigger"

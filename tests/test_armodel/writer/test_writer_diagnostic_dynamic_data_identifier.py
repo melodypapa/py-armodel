@@ -93,7 +93,7 @@ class TestWriteDiagnosticDynamicDataIdentifier:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            did_2 = package_2.getElement("Ddi", DiagnosticDynamicDataIdentifier)
+            did_2 = package_2.getReferrableElement("Ddi", DiagnosticDynamicDataIdentifier)
             assert did_2 is not None
             assert isinstance(did_2, DiagnosticDynamicDataIdentifier)
             assert did_2.getId() is not None
@@ -115,7 +115,7 @@ class TestWriteDiagnosticDynamicDataIdentifier:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            did_2 = package_2.getElement("Ddi", DiagnosticDynamicDataIdentifier)
+            did_2 = package_2.getReferrableElement("Ddi", DiagnosticDynamicDataIdentifier)
             assert did_2 is not None
             assert did_2.getId() is None
         finally:

@@ -47,4 +47,3 @@ class TestReadDiagnosticEventToDebounceAlgorithmMapping:
         parser.readDiagnosticEventToDebounceAlgorithmMapping(element, mapping)
         assert mapping.getDebounceAlgorithmRef() is None
         assert mapping.getDiagnosticEventRef() is None
-

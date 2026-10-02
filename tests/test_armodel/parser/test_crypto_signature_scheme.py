@@ -46,7 +46,7 @@ class TestCryptoSignatureSchemeParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        created = pkg.getElement("SigScheme", CryptoSignatureScheme)
+        created = pkg.getReferrableElement("SigScheme", CryptoSignatureScheme)
         assert created is not None
         assert isinstance(created, CryptoSignatureScheme)
         assert created.getShortName() == "SigScheme"
@@ -56,7 +56,7 @@ class TestCryptoSignatureSchemeParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        scheme = pkg.getElement("SigScheme", CryptoSignatureScheme)
+        scheme = pkg.getReferrableElement("SigScheme", CryptoSignatureScheme)
         assert scheme.getSignatureSchemeId().getValue() == 7
 
     def test_parse_optional_attributes_absent(self):
@@ -71,7 +71,7 @@ class TestCryptoSignatureSchemeParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoSignatureScheme")
         ARXMLParser().readARPackageElements(ET.fromstring(xml), pkg)
 
-        scheme = pkg.getElement("Empty", CryptoSignatureScheme)
+        scheme = pkg.getReferrableElement("Empty", CryptoSignatureScheme)
         assert scheme.getSignatureSchemeId() is None
 
     def test_parse_write_reparse_round_trip(self):
@@ -88,6 +88,6 @@ class TestCryptoSignatureSchemeParser:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoSignatureScheme")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        scheme = reloaded.getElement("SigScheme", CryptoSignatureScheme)
+        scheme = reloaded.getReferrableElement("SigScheme", CryptoSignatureScheme)
         assert scheme is not None
         assert scheme.getSignatureSchemeId().getValue() == 7

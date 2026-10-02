@@ -242,11 +242,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             NvBlockNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, NvBlockNeeds):
+        if not self.IsReferrableElementExists(short_name, NvBlockNeeds):
             needs = NvBlockNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, NvBlockNeeds)
+        return self.getReferrableElement(short_name, NvBlockNeeds)
 
     def createDiagnosticCommunicationManagerNeeds(self, short_name: str) -> DiagnosticCommunicationManagerNeeds:
         """
@@ -259,11 +259,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             DiagnosticCommunicationManagerNeeds: The created or existing needs
                 element
         """
-        if not self.IsElementExists(short_name, DiagnosticCommunicationManagerNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticCommunicationManagerNeeds):
             needs = DiagnosticCommunicationManagerNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticCommunicationManagerNeeds)
+        return self.getReferrableElement(short_name, DiagnosticCommunicationManagerNeeds)
 
     def createDiagnosticComponentNeeds(self, short_name: str) -> DiagnosticComponentNeeds:
         """
@@ -275,11 +275,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticComponentNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticComponentNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticComponentNeeds):
             needs = DiagnosticComponentNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticComponentNeeds)
+        return self.getReferrableElement(short_name, DiagnosticComponentNeeds)
 
     def createDiagnosticControlNeeds(self, short_name: str) -> DiagnosticControlNeeds:
         """
@@ -291,11 +291,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticControlNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticControlNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticControlNeeds):
             needs = DiagnosticControlNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticControlNeeds)
+        return self.getReferrableElement(short_name, DiagnosticControlNeeds)
 
     def createDiagnosticUploadDownloadNeeds(self, short_name: str) -> DiagnosticUploadDownloadNeeds:
         """
@@ -307,11 +307,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticUploadDownloadNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticUploadDownloadNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticUploadDownloadNeeds):
             needs = DiagnosticUploadDownloadNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticUploadDownloadNeeds)
+        return self.getReferrableElement(short_name, DiagnosticUploadDownloadNeeds)
 
     def createDiagnosticsCommunicationSecurityNeeds(self, short_name: str) -> DiagnosticsCommunicationSecurityNeeds:
         """
@@ -323,11 +323,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticsCommunicationSecurityNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticsCommunicationSecurityNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticsCommunicationSecurityNeeds):
             needs = DiagnosticsCommunicationSecurityNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticsCommunicationSecurityNeeds)
+        return self.getReferrableElement(short_name, DiagnosticsCommunicationSecurityNeeds)
 
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
         """
@@ -339,11 +339,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticRoutineNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticRoutineNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticRoutineNeeds):
             needs = DiagnosticRoutineNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticRoutineNeeds)
+        return self.getReferrableElement(short_name, DiagnosticRoutineNeeds)
 
     def createDiagnosticValueNeeds(self, short_name: str) -> DiagnosticValueNeeds:
         """
@@ -355,11 +355,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticValueNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticValueNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticValueNeeds):
             needs = DiagnosticValueNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticValueNeeds)
+        return self.getReferrableElement(short_name, DiagnosticValueNeeds)
 
     def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
         """
@@ -371,11 +371,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticEventNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticEventNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticEventNeeds):
             needs = DiagnosticEventNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticEventNeeds)
+        return self.getReferrableElement(short_name, DiagnosticEventNeeds)
 
     def createDiagnosticEventInfoNeeds(self, short_name: str) -> DiagnosticEventInfoNeeds:
         """
@@ -387,11 +387,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticEventInfoNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticEventInfoNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticEventInfoNeeds):
             needs = DiagnosticEventInfoNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticEventInfoNeeds)
+        return self.getReferrableElement(short_name, DiagnosticEventInfoNeeds)
 
     def createCryptoKeyManagementNeeds(self, short_name: str) -> CryptoKeyManagementNeeds:
         """
@@ -403,11 +403,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             CryptoKeyManagementNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, CryptoKeyManagementNeeds):
+        if not self.IsReferrableElementExists(short_name, CryptoKeyManagementNeeds):
             needs = CryptoKeyManagementNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, CryptoKeyManagementNeeds)
+        return self.getReferrableElement(short_name, CryptoKeyManagementNeeds)
 
     def createCryptoServiceJobNeeds(self, short_name: str) -> CryptoServiceJobNeeds:
         """
@@ -419,11 +419,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             CryptoServiceJobNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, CryptoServiceJobNeeds):
+        if not self.IsReferrableElementExists(short_name, CryptoServiceJobNeeds):
             needs = CryptoServiceJobNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, CryptoServiceJobNeeds)
+        return self.getReferrableElement(short_name, CryptoServiceJobNeeds)
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
         """
@@ -435,11 +435,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             CryptoServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, CryptoServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, CryptoServiceNeeds):
             needs = CryptoServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, CryptoServiceNeeds)
+        return self.getReferrableElement(short_name, CryptoServiceNeeds)
 
     def createEcuStateMgrUserNeeds(self, short_name: str) -> EcuStateMgrUserNeeds:
         """
@@ -451,11 +451,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             EcuStateMgrUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, EcuStateMgrUserNeeds):
+        if not self.IsReferrableElementExists(short_name, EcuStateMgrUserNeeds):
             needs = EcuStateMgrUserNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, EcuStateMgrUserNeeds)
+        return self.getReferrableElement(short_name, EcuStateMgrUserNeeds)
 
     def createDtcStatusChangeNotificationNeeds(self, short_name: str) -> DtcStatusChangeNotificationNeeds:
         """
@@ -468,11 +468,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             DtcStatusChangeNotificationNeeds: The created or existing needs
                 element
         """
-        if not self.IsElementExists(short_name, DtcStatusChangeNotificationNeeds):
+        if not self.IsReferrableElementExists(short_name, DtcStatusChangeNotificationNeeds):
             needs = DtcStatusChangeNotificationNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DtcStatusChangeNotificationNeeds)
+        return self.getReferrableElement(short_name, DtcStatusChangeNotificationNeeds)
 
     def createDiagnosticIoControlNeeds(self, short_name: str) -> DiagnosticIoControlNeeds:
         """
@@ -484,11 +484,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticIoControlNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticIoControlNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticIoControlNeeds):
             needs = DiagnosticIoControlNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticIoControlNeeds)
+        return self.getReferrableElement(short_name, DiagnosticIoControlNeeds)
 
     def createDiagnosticEnableConditionNeeds(self, short_name: str) -> DiagnosticEnableConditionNeeds:
         """
@@ -500,11 +500,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticEnableConditionNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticEnableConditionNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticEnableConditionNeeds):
             needs = DiagnosticEnableConditionNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticEnableConditionNeeds)
+        return self.getReferrableElement(short_name, DiagnosticEnableConditionNeeds)
 
     def createDiagnosticEventManagerNeeds(self, short_name: str) -> DiagnosticEventManagerNeeds:
         """
@@ -516,11 +516,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticEventManagerNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticEventManagerNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticEventManagerNeeds):
             needs = DiagnosticEventManagerNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticEventManagerNeeds)
+        return self.getReferrableElement(short_name, DiagnosticEventManagerNeeds)
 
     def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
         """
@@ -532,11 +532,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticOperationCycleNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticOperationCycleNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticOperationCycleNeeds):
             needs = DiagnosticOperationCycleNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticOperationCycleNeeds)
+        return self.getReferrableElement(short_name, DiagnosticOperationCycleNeeds)
 
     def createDiagnosticRequestFileTransferNeeds(self, short_name: str) -> DiagnosticRequestFileTransferNeeds:
         """
@@ -548,11 +548,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticRequestFileTransferNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticRequestFileTransferNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransferNeeds):
             needs = DiagnosticRequestFileTransferNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticRequestFileTransferNeeds)
+        return self.getReferrableElement(short_name, DiagnosticRequestFileTransferNeeds)
 
     def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
         """
@@ -564,11 +564,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DiagnosticStorageConditionNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DiagnosticStorageConditionNeeds):
+        if not self.IsReferrableElementExists(short_name, DiagnosticStorageConditionNeeds):
             needs = DiagnosticStorageConditionNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DiagnosticStorageConditionNeeds)
+        return self.getReferrableElement(short_name, DiagnosticStorageConditionNeeds)
 
     def createFunctionInhibitionAvailabilityNeeds(self, short_name: str) -> FunctionInhibitionAvailabilityNeeds:
         """
@@ -580,11 +580,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             FunctionInhibitionAvailabilityNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, FunctionInhibitionAvailabilityNeeds):
+        if not self.IsReferrableElementExists(short_name, FunctionInhibitionAvailabilityNeeds):
             needs = FunctionInhibitionAvailabilityNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, FunctionInhibitionAvailabilityNeeds)
+        return self.getReferrableElement(short_name, FunctionInhibitionAvailabilityNeeds)
 
     def createFunctionInhibitionNeeds(self, short_name: str) -> FunctionInhibitionNeeds:
         """
@@ -596,11 +596,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             FunctionInhibitionNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, FunctionInhibitionNeeds):
+        if not self.IsReferrableElementExists(short_name, FunctionInhibitionNeeds):
             needs = FunctionInhibitionNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, FunctionInhibitionNeeds)
+        return self.getReferrableElement(short_name, FunctionInhibitionNeeds)
 
     def createFurtherActionByteNeeds(self, short_name: str) -> FurtherActionByteNeeds:
         """
@@ -612,11 +612,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             FurtherActionByteNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, FurtherActionByteNeeds):
+        if not self.IsReferrableElementExists(short_name, FurtherActionByteNeeds):
             needs = FurtherActionByteNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, FurtherActionByteNeeds)
+        return self.getReferrableElement(short_name, FurtherActionByteNeeds)
 
     def createGlobalSupervisionNeeds(self, short_name: str) -> GlobalSupervisionNeeds:
         """
@@ -628,11 +628,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             GlobalSupervisionNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, GlobalSupervisionNeeds):
+        if not self.IsReferrableElementExists(short_name, GlobalSupervisionNeeds):
             needs = GlobalSupervisionNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, GlobalSupervisionNeeds)
+        return self.getReferrableElement(short_name, GlobalSupervisionNeeds)
 
     def createHardwareTestNeeds(self, short_name: str) -> HardwareTestNeeds:
         """
@@ -644,11 +644,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             HardwareTestNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, HardwareTestNeeds):
+        if not self.IsReferrableElementExists(short_name, HardwareTestNeeds):
             needs = HardwareTestNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, HardwareTestNeeds)
+        return self.getReferrableElement(short_name, HardwareTestNeeds)
 
     def createIdsMgrCustomTimestampNeeds(self, short_name: str) -> IdsMgrCustomTimestampNeeds:
         """
@@ -660,11 +660,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             IdsMgrCustomTimestampNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, IdsMgrCustomTimestampNeeds):
+        if not self.IsReferrableElementExists(short_name, IdsMgrCustomTimestampNeeds):
             needs = IdsMgrCustomTimestampNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, IdsMgrCustomTimestampNeeds)
+        return self.getReferrableElement(short_name, IdsMgrCustomTimestampNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """
@@ -676,11 +676,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             IndicatorStatusNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, IndicatorStatusNeeds):
+        if not self.IsReferrableElementExists(short_name, IndicatorStatusNeeds):
             needs = IndicatorStatusNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, IndicatorStatusNeeds)
+        return self.getReferrableElement(short_name, IndicatorStatusNeeds)
 
     def createJ1939DcmDm19Support(self, short_name: str) -> J1939DcmDm19Support:
         """
@@ -692,11 +692,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             J1939DcmDm19Support: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, J1939DcmDm19Support):
+        if not self.IsReferrableElementExists(short_name, J1939DcmDm19Support):
             needs = J1939DcmDm19Support(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, J1939DcmDm19Support)
+        return self.getReferrableElement(short_name, J1939DcmDm19Support)
 
     def createJ1939RmIncomingRequestServiceNeeds(self, short_name: str) -> J1939RmIncomingRequestServiceNeeds:
         """
@@ -708,11 +708,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             J1939RmIncomingRequestServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, J1939RmIncomingRequestServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, J1939RmIncomingRequestServiceNeeds):
             needs = J1939RmIncomingRequestServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, J1939RmIncomingRequestServiceNeeds)
+        return self.getReferrableElement(short_name, J1939RmIncomingRequestServiceNeeds)
 
     def createJ1939RmOutgoingRequestServiceNeeds(self, short_name: str) -> J1939RmOutgoingRequestServiceNeeds:
         """
@@ -724,11 +724,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             J1939RmOutgoingRequestServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, J1939RmOutgoingRequestServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, J1939RmOutgoingRequestServiceNeeds):
             needs = J1939RmOutgoingRequestServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, J1939RmOutgoingRequestServiceNeeds)
+        return self.getReferrableElement(short_name, J1939RmOutgoingRequestServiceNeeds)
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """
@@ -740,11 +740,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DltUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DltUserNeeds):
+        if not self.IsReferrableElementExists(short_name, DltUserNeeds):
             needs = DltUserNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DltUserNeeds)
+        return self.getReferrableElement(short_name, DltUserNeeds)
 
     def createComMgrUserNeeds(self, short_name: str) -> ComMgrUserNeeds:
         """
@@ -756,11 +756,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ComMgrUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ComMgrUserNeeds):
+        if not self.IsReferrableElementExists(short_name, ComMgrUserNeeds):
             needs = ComMgrUserNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ComMgrUserNeeds)
+        return self.getReferrableElement(short_name, ComMgrUserNeeds)
 
     def createErrorTracerNeeds(self, short_name: str) -> ErrorTracerNeeds:
         """
@@ -772,11 +772,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ErrorTracerNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ErrorTracerNeeds):
+        if not self.IsReferrableElementExists(short_name, ErrorTracerNeeds):
             needs = ErrorTracerNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ErrorTracerNeeds)
+        return self.getReferrableElement(short_name, ErrorTracerNeeds)
 
     def createObdInfoServiceNeeds(self, short_name: str) -> ObdInfoServiceNeeds:
         """
@@ -788,11 +788,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ObdInfoServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ObdInfoServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, ObdInfoServiceNeeds):
             needs = ObdInfoServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ObdInfoServiceNeeds)
+        return self.getReferrableElement(short_name, ObdInfoServiceNeeds)
 
     def createObdMonitorServiceNeeds(self, short_name: str) -> ObdMonitorServiceNeeds:
         """
@@ -804,11 +804,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ObdMonitorServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ObdMonitorServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, ObdMonitorServiceNeeds):
             needs = ObdMonitorServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ObdMonitorServiceNeeds)
+        return self.getReferrableElement(short_name, ObdMonitorServiceNeeds)
 
     def createObdPidServiceNeeds(self, short_name: str) -> ObdPidServiceNeeds:
         """
@@ -820,11 +820,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ObdPidServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ObdPidServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, ObdPidServiceNeeds):
             needs = ObdPidServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ObdPidServiceNeeds)
+        return self.getReferrableElement(short_name, ObdPidServiceNeeds)
 
     def createObdControlServiceNeeds(self, short_name: str) -> ObdControlServiceNeeds:
         """
@@ -836,11 +836,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ObdControlServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ObdControlServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, ObdControlServiceNeeds):
             needs = ObdControlServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ObdControlServiceNeeds)
+        return self.getReferrableElement(short_name, ObdControlServiceNeeds)
 
     def createObdRatioServiceNeeds(self, short_name: str) -> ObdRatioServiceNeeds:
         """
@@ -852,11 +852,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ObdRatioServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ObdRatioServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, ObdRatioServiceNeeds):
             needs = ObdRatioServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ObdRatioServiceNeeds)
+        return self.getReferrableElement(short_name, ObdRatioServiceNeeds)
 
     def createObdRatioDenominatorNeeds(self, short_name: str) -> ObdRatioDenominatorNeeds:
         """
@@ -868,11 +868,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             ObdRatioDenominatorNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, ObdRatioDenominatorNeeds):
+        if not self.IsReferrableElementExists(short_name, ObdRatioDenominatorNeeds):
             needs = ObdRatioDenominatorNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, ObdRatioDenominatorNeeds)
+        return self.getReferrableElement(short_name, ObdRatioDenominatorNeeds)
 
     def createDoIpActivationLineNeeds(self, short_name: str) -> DoIpActivationLineNeeds:
         """
@@ -884,11 +884,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DoIpActivationLineNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DoIpActivationLineNeeds):
+        if not self.IsReferrableElementExists(short_name, DoIpActivationLineNeeds):
             needs = DoIpActivationLineNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DoIpActivationLineNeeds)
+        return self.getReferrableElement(short_name, DoIpActivationLineNeeds)
 
     def createDoIpGidNeeds(self, short_name: str) -> DoIpGidNeeds:
         """
@@ -900,11 +900,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DoIpGidNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DoIpGidNeeds):
+        if not self.IsReferrableElementExists(short_name, DoIpGidNeeds):
             needs = DoIpGidNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DoIpGidNeeds)
+        return self.getReferrableElement(short_name, DoIpGidNeeds)
 
     def createDoIpGidSynchronizationNeeds(self, short_name: str) -> DoIpGidSynchronizationNeeds:
         """
@@ -916,11 +916,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DoIpGidSynchronizationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DoIpGidSynchronizationNeeds):
+        if not self.IsReferrableElementExists(short_name, DoIpGidSynchronizationNeeds):
             needs = DoIpGidSynchronizationNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DoIpGidSynchronizationNeeds)
+        return self.getReferrableElement(short_name, DoIpGidSynchronizationNeeds)
 
     def createDoIpPowerModeStatusNeeds(self, short_name: str) -> DoIpPowerModeStatusNeeds:
         """
@@ -932,11 +932,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DoIpPowerModeStatusNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DoIpPowerModeStatusNeeds):
+        if not self.IsReferrableElementExists(short_name, DoIpPowerModeStatusNeeds):
             needs = DoIpPowerModeStatusNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DoIpPowerModeStatusNeeds)
+        return self.getReferrableElement(short_name, DoIpPowerModeStatusNeeds)
 
     def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
         """
@@ -948,11 +948,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DoIpRoutingActivationAuthenticationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DoIpRoutingActivationAuthenticationNeeds):
+        if not self.IsReferrableElementExists(short_name, DoIpRoutingActivationAuthenticationNeeds):
             needs = DoIpRoutingActivationAuthenticationNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DoIpRoutingActivationAuthenticationNeeds)
+        return self.getReferrableElement(short_name, DoIpRoutingActivationAuthenticationNeeds)
 
     def createDoIpRoutingActivationConfirmationNeeds(self, short_name: str) -> DoIpRoutingActivationConfirmationNeeds:
         """
@@ -964,11 +964,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             DoIpRoutingActivationConfirmationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, DoIpRoutingActivationConfirmationNeeds):
+        if not self.IsReferrableElementExists(short_name, DoIpRoutingActivationConfirmationNeeds):
             needs = DoIpRoutingActivationConfirmationNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, DoIpRoutingActivationConfirmationNeeds)
+        return self.getReferrableElement(short_name, DoIpRoutingActivationConfirmationNeeds)
 
     def createSecureOnBoardCommunicationNeeds(self, short_name: str) -> SecureOnBoardCommunicationNeeds:
         """
@@ -980,11 +980,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             SecureOnBoardCommunicationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, SecureOnBoardCommunicationNeeds):
+        if not self.IsReferrableElementExists(short_name, SecureOnBoardCommunicationNeeds):
             needs = SecureOnBoardCommunicationNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, SecureOnBoardCommunicationNeeds)
+        return self.getReferrableElement(short_name, SecureOnBoardCommunicationNeeds)
 
     def createSupervisedEntityCheckpointNeeds(self, short_name: str) -> SupervisedEntityCheckpointNeeds:
         """
@@ -996,11 +996,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             SupervisedEntityCheckpointNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, SupervisedEntityCheckpointNeeds):
+        if not self.IsReferrableElementExists(short_name, SupervisedEntityCheckpointNeeds):
             needs = SupervisedEntityCheckpointNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, SupervisedEntityCheckpointNeeds)
+        return self.getReferrableElement(short_name, SupervisedEntityCheckpointNeeds)
 
     def createSyncTimeBaseMgrUserNeeds(self, short_name: str) -> SyncTimeBaseMgrUserNeeds:
         """
@@ -1012,11 +1012,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             SyncTimeBaseMgrUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, SyncTimeBaseMgrUserNeeds):
+        if not self.IsReferrableElementExists(short_name, SyncTimeBaseMgrUserNeeds):
             needs = SyncTimeBaseMgrUserNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, SyncTimeBaseMgrUserNeeds)
+        return self.getReferrableElement(short_name, SyncTimeBaseMgrUserNeeds)
 
     def createV2xDataManagerNeeds(self, short_name: str) -> V2xDataManagerNeeds:
         """
@@ -1028,11 +1028,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             V2xDataManagerNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, V2xDataManagerNeeds):
+        if not self.IsReferrableElementExists(short_name, V2xDataManagerNeeds):
             needs = V2xDataManagerNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, V2xDataManagerNeeds)
+        return self.getReferrableElement(short_name, V2xDataManagerNeeds)
 
     def createV2xFacUserNeeds(self, short_name: str) -> V2xFacUserNeeds:
         """
@@ -1044,11 +1044,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             V2xFacUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, V2xFacUserNeeds):
+        if not self.IsReferrableElementExists(short_name, V2xFacUserNeeds):
             needs = V2xFacUserNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, V2xFacUserNeeds)
+        return self.getReferrableElement(short_name, V2xFacUserNeeds)
 
     def createV2xMUserNeeds(self, short_name: str) -> V2xMUserNeeds:
         """
@@ -1060,11 +1060,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             V2xMUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, V2xMUserNeeds):
+        if not self.IsReferrableElementExists(short_name, V2xMUserNeeds):
             needs = V2xMUserNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, V2xMUserNeeds)
+        return self.getReferrableElement(short_name, V2xMUserNeeds)
 
     def createVendorSpecificServiceNeeds(self, short_name: str) -> VendorSpecificServiceNeeds:
         """
@@ -1076,11 +1076,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             VendorSpecificServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, VendorSpecificServiceNeeds):
+        if not self.IsReferrableElementExists(short_name, VendorSpecificServiceNeeds):
             needs = VendorSpecificServiceNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, VendorSpecificServiceNeeds)
+        return self.getReferrableElement(short_name, VendorSpecificServiceNeeds)
 
     def createWarningIndicatorRequestedBitNeeds(self, short_name: str) -> WarningIndicatorRequestedBitNeeds:
         """
@@ -1092,11 +1092,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             WarningIndicatorRequestedBitNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, WarningIndicatorRequestedBitNeeds):
+        if not self.IsReferrableElementExists(short_name, WarningIndicatorRequestedBitNeeds):
             needs = WarningIndicatorRequestedBitNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, WarningIndicatorRequestedBitNeeds)
+        return self.getReferrableElement(short_name, WarningIndicatorRequestedBitNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """
@@ -1108,11 +1108,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             IdsMgrNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name, IdsMgrNeeds):
+        if not self.IsReferrableElementExists(short_name, IdsMgrNeeds):
             needs = IdsMgrNeeds(self, short_name)
-            self.addElement(needs)
+            self.addReferrableElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name, IdsMgrNeeds)
+        return self.getReferrableElement(short_name, IdsMgrNeeds)
 
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         """
@@ -1121,7 +1121,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[NvBlockNeeds]: Sorted list of NvBlockNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDiagnosticCommunicationManagerNeeds(self) -> List[DiagnosticCommunicationManagerNeeds]:
         """
@@ -1131,7 +1131,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             List[DiagnosticCommunicationManagerNeeds]: Sorted list of
                 DiagnosticCommunicationManagerNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DiagnosticCommunicationManagerNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticCommunicationManagerNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDiagnosticRoutineNeeds(self) -> List[DiagnosticRoutineNeeds]:
         """
@@ -1141,7 +1141,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             List[DiagnosticRoutineNeeds]: Sorted list of
                 DiagnosticRoutineNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DiagnosticRoutineNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticRoutineNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDiagnosticValueNeeds(self) -> List[DiagnosticValueNeeds]:
         """
@@ -1150,7 +1150,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[DiagnosticValueNeeds]: Sorted list of DiagnosticValueNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DiagnosticValueNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticValueNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDiagnosticEventNeeds(self) -> List[DiagnosticEventNeeds]:
         """
@@ -1159,7 +1159,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[DiagnosticEventNeeds]: Sorted list of DiagnosticEventNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DiagnosticEventNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticEventNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDiagnosticEventInfoNeeds(self) -> List[DiagnosticEventInfoNeeds]:
         """
@@ -1169,7 +1169,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             List[DiagnosticEventInfoNeeds]: Sorted list of
                 DiagnosticEventInfoNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DiagnosticEventInfoNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticEventInfoNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
         """
@@ -1178,7 +1178,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[CryptoServiceNeeds]: Sorted list of CryptoServiceNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getEcuStateMgrUserNeeds(self) -> List[EcuStateMgrUserNeeds]:
         """
@@ -1187,7 +1187,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[EcuStateMgrUserNeeds]: Sorted list of EcuStateMgrUserNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, EcuStateMgrUserNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, EcuStateMgrUserNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDtcStatusChangeNotificationNeeds(self) -> List[DtcStatusChangeNotificationNeeds]:
         """
@@ -1197,7 +1197,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             List[DtcStatusChangeNotificationNeeds]: Sorted list of
                 DtcStatusChangeNotificationNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDiagnosticIoControlNeeds(self) -> List[DiagnosticIoControlNeeds]:
         """
@@ -1207,7 +1207,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             List[DiagnosticIoControlNeeds]: Sorted list of
                 DiagnosticIoControlNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DiagnosticIoControlNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticIoControlNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getDltUserNeeds(self) -> List[DltUserNeeds]:
         """
@@ -1216,7 +1216,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[DltUserNeeds]: Sorted list of DltUserNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getComMgrUserNeeds(self) -> List[ComMgrUserNeeds]:
         """
@@ -1225,7 +1225,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ComMgrUserNeeds]: Sorted list of ComMgrUserNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ComMgrUserNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ComMgrUserNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getErrorTracerNeeds(self) -> List[ErrorTracerNeeds]:
         """
@@ -1234,7 +1234,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ErrorTracerNeeds]: Sorted list of ErrorTracerNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ErrorTracerNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ErrorTracerNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getObdInfoServiceNeeds(self) -> List[ObdInfoServiceNeeds]:
         """
@@ -1243,7 +1243,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ObdInfoServiceNeeds]: Sorted list of ObdInfoServiceNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ObdInfoServiceNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ObdInfoServiceNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getObdMonitorServiceNeeds(self) -> List[ObdMonitorServiceNeeds]:
         """
@@ -1252,7 +1252,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ObdMonitorServiceNeeds]: Sorted list of ObdMonitorServiceNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ObdMonitorServiceNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ObdMonitorServiceNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getObdPidServiceNeeds(self) -> List[ObdPidServiceNeeds]:
         """
@@ -1261,7 +1261,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ObdPidServiceNeeds]: Sorted list of ObdPidServiceNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ObdPidServiceNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ObdPidServiceNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getObdControlServiceNeeds(self) -> List[ObdControlServiceNeeds]:
         """
@@ -1270,7 +1270,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ObdControlServiceNeeds]: Sorted list of ObdControlServiceNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ObdControlServiceNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ObdControlServiceNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         """
@@ -1279,7 +1279,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         Returns:
             List[ServiceNeeds]: Sorted list of ServiceNeeds
         """
-        return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.referrableElements), key=lambda e: e.short_name)
 
     def setRepresentedPortGroupRef(self, value: Optional[RefType]) -> "SwcServiceDependency":
         """

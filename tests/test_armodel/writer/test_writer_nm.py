@@ -678,9 +678,9 @@ class TestBusspecificNmEcuRoundTrip:
 
         document = _reload(parser, out_file)
         re_pkg = document.find("Pkg")
-        re_config = re_pkg.getElement("NmConfig", NmConfig)
+        re_config = re_pkg.getReferrableElement("NmConfig", NmConfig)
         assert re_config is not None
-        re_ecu = re_config.getElement("nm_ecu", NmEcu)
+        re_ecu = re_config.getReferrableElement("nm_ecu", NmEcu)
         assert re_ecu is not None
 
         dependents = re_ecu.getBusDependentNmEcus()
@@ -704,7 +704,7 @@ class TestBusspecificNmEcuRoundTrip:
         assert "BUS-DEPENDENT-NM-ECUS" not in content
 
         document = _reload(parser, out_file)
-        re_config = document.find("Pkg").getElement("NmConfig", NmConfig)
-        re_ecu = re_config.getElement("bare_ecu", NmEcu)
+        re_config = document.find("Pkg").getReferrableElement("NmConfig", NmConfig)
+        re_ecu = re_config.getReferrableElement("bare_ecu", NmEcu)
         assert re_ecu is not None
         assert re_ecu.getBusDependentNmEcus() == []

@@ -58,7 +58,7 @@ class TestWriteDiagnosticComControlClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticCommunicationControls")
         package.createDiagnosticComControlClass("ComControlClass1")
 
-        child = self._write(package.getElement("ComControlClass1", DiagnosticComControlClass))
+        child = self._write(package.getReferrableElement("ComControlClass1", DiagnosticComControlClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "ComControlClass1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -143,7 +143,7 @@ class TestWriteDiagnosticComControlClass:
         package.createDiagnosticComControlClass("ComControlClass1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ComControlClass1", DiagnosticComControlClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ComControlClass1", DiagnosticComControlClass))
 
         child = parent.find("DIAGNOSTIC-COM-CONTROL-CLASS")
         assert child is not None
@@ -174,7 +174,7 @@ class TestWriteDiagnosticComControlClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            com_control_class_2 = package_2.getElement("ComControlClass1", DiagnosticComControlClass)
+            com_control_class_2 = package_2.getReferrableElement("ComControlClass1", DiagnosticComControlClass)
             assert com_control_class_2 is not None
             assert com_control_class_2.getShortName() == "ComControlClass1"
             channels = com_control_class_2.getAllChannels()

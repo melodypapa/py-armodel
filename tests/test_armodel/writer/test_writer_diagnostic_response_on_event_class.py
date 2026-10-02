@@ -55,7 +55,7 @@ class TestWriteDiagnosticResponseOnEventClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticResponseOnEvents")
         package.createDiagnosticResponseOnEventClass("Roec1")
 
-        child = self._write(package.getElement("Roec1", DiagnosticResponseOnEventClass))
+        child = self._write(package.getReferrableElement("Roec1", DiagnosticResponseOnEventClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Roec1"
         assert [c.tag for c in child if c.tag != "SHORT-NAME"] == []
@@ -161,7 +161,7 @@ class TestWriteDiagnosticResponseOnEventClass:
         package.createDiagnosticResponseOnEventClass("Roec1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Roec1", DiagnosticResponseOnEventClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Roec1", DiagnosticResponseOnEventClass))
 
         child = parent.find("DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS")
         assert child is not None
@@ -190,7 +190,7 @@ class TestWriteDiagnosticResponseOnEventClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            response_on_event_class_2 = package_2.getElement("Roec1", DiagnosticResponseOnEventClass)
+            response_on_event_class_2 = package_2.getReferrableElement("Roec1", DiagnosticResponseOnEventClass)
             assert response_on_event_class_2 is not None
             assert response_on_event_class_2.getShortName() == "Roec1"
             assert response_on_event_class_2.getMaxNumberOfStoredDTCStatusChangedEvents().getValue() == 5

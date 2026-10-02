@@ -54,6 +54,7 @@ class SignalServiceTranslationElementProps(Identifiable):
 
     # SignalServiceTranslationElementProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.342, p.735
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getElement                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -96,7 +97,7 @@ class SignalServiceTranslationElementProps(Identifiable):
         """
         return self.filter
 
-    def setFilter(self, value: Optional[DataFilter]):
+    def setFilter(self, value: Optional[DataFilter]) -> SignalServiceTranslationElementProps:
         """
         Defines an optional filter to be applied during translation.
         A None value is a no-op and does not overwrite an existing filter.
@@ -160,7 +161,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         Defines properties for a single translated element.
         """
         element = SignalServiceTranslationElementProps(self, short_name)
-        self.addElement(element)
+        self.addReferrableElement(element)
         self.elementProps.append(element)
         return element
 
@@ -320,7 +321,7 @@ class SignalServiceTranslationProps(Identifiable):
         Defines properties for a single translated event.
         """
         element = SignalServiceTranslationEventProps(self, short_name)
-        self.addElement(element)
+        self.addReferrableElement(element)
         self.signalServiceTranslationEventProps.append(element)
         return element
 
@@ -355,7 +356,7 @@ class SignalServiceTranslationPropsSet(Identifiable):
         Collection of SignalServiceTranslationProps.
         """
         element = SignalServiceTranslationProps(self, short_name)
-        self.addElement(element)
+        self.addReferrableElement(element)
         self.signalServiceTranslationProps.append(element)
         return element
 

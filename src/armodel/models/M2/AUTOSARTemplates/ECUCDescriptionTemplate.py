@@ -457,11 +457,11 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
 
     def createSubContainer(self, short_name: str) -> EcucContainerValue:
         """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
-        if not self.IsElementExists(short_name, EcucContainerValue):
+        if not self.IsReferrableElementExists(short_name, EcucContainerValue):
             container_value = EcucContainerValue(self, short_name)
-            self.addElement(container_value)
+            self.addReferrableElement(container_value)
             self.subContainers.append(container_value)
-        return self.getElement(short_name, EcucContainerValue)
+        return self.getReferrableElement(short_name, EcucContainerValue)
 
 
 class EcucModuleConfigurationValues(ARElement):
@@ -510,11 +510,11 @@ class EcucModuleConfigurationValues(ARElement):
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
-        if not self.IsElementExists(short_name, EcucContainerValue):
+        if not self.IsReferrableElementExists(short_name, EcucContainerValue):
             container = EcucContainerValue(self, short_name)
-            self.addElement(container)
+            self.addReferrableElement(container)
             self.containers.append(container)
-        return self.getElement(short_name, EcucContainerValue)
+        return self.getReferrableElement(short_name, EcucContainerValue)
 
     def getContainers(self) -> List[EcucContainerValue]:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
@@ -1009,11 +1009,11 @@ class Container(Identifiable):
 
     def createSubContainer(self, short_name: str) -> Container:
         """Aggregates all sub-containers within this container."""
-        if not self.IsElementExists(short_name, Container):
+        if not self.IsReferrableElementExists(short_name, Container):
             sub_container = Container(self, short_name)
-            self.addElement(sub_container)
+            self.addReferrableElement(sub_container)
             self.subContainers.append(sub_container)
-        return self.getElement(short_name, Container)
+        return self.getReferrableElement(short_name, Container)
 
 
 class ModuleConfiguration(ARElement):
@@ -1081,11 +1081,11 @@ class ModuleConfiguration(ARElement):
 
     def createContainer(self, short_name: str) -> Container:
         """Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10"""
-        if not self.IsElementExists(short_name, Container):
+        if not self.IsReferrableElementExists(short_name, Container):
             container = Container(self, short_name)
-            self.addElement(container)
+            self.addReferrableElement(container)
             self.containers.append(container)
-        return self.getElement(short_name, Container)
+        return self.getReferrableElement(short_name, Container)
 
     def getContainers(self) -> List[Container]:
         """Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10"""

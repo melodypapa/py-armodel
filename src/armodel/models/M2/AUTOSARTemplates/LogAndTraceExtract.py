@@ -132,11 +132,11 @@ class DltArgument(Identifiable):
         """
         This aggregation is used to describe subElements of a Dlt Argument that defines a Structure.
         """
-        if not self.IsElementExists(short_name, DltArgument):
+        if not self.IsReferrableElementExists(short_name, DltArgument):
             entry = DltArgument(self, short_name)
-            self.addElement(entry)
+            self.addReferrableElement(entry)
             self.dltArgumentEntries.append(entry)
-        return self.getElement(short_name, DltArgument)
+        return self.getReferrableElement(short_name, DltArgument)
 
     def getDltArgumentEntries(self) -> List[DltArgument]:
         """
@@ -275,11 +275,11 @@ class DltMessage(Identifiable, VariationPointCapable):
         """
         Ordered collection of DltArguments in the DltMessage.
         """
-        if not self.IsElementExists(short_name, DltArgument):
+        if not self.IsReferrableElementExists(short_name, DltArgument):
             argument = DltArgument(self, short_name)
-            self.addElement(argument)
+            self.addReferrableElement(argument)
             self.dltArguments.append(argument)
-        return self.getElement(short_name, DltArgument)
+        return self.getReferrableElement(short_name, DltArgument)
 
     def getDltArguments(self) -> List[DltArgument]:
         """
@@ -566,11 +566,11 @@ class DltEcu(ARElement):
         """
         Application on DltEcu that provides log or trace data.
         """
-        if not self.IsElementExists(short_name, DltApplication):
+        if not self.IsReferrableElementExists(short_name, DltApplication):
             application = DltApplication(self, short_name)
-            self.addElement(application)
+            self.addReferrableElement(application)
             self.applications.append(application)
-        return self.getElement(short_name, DltApplication)
+        return self.getReferrableElement(short_name, DltApplication)
 
     def getApplications(self) -> List[DltApplication]:
         """

@@ -29,10 +29,7 @@ def _snip(inner: str, root_tag: str = "DIAGNOSTIC-J-1939-NODE") -> ET.Element:
 class TestReadDiagnosticJ1939Node:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticJ1939Node(AUTOSAR.getInstance(), "M1")
-        element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<NM-NODE-REF DEST='DEST'>/AUTOSAR/NmNode1</NM-NODE-REF>"
-        )
+        element = _snip("<SHORT-NAME>M1</SHORT-NAME>" "<NM-NODE-REF DEST='DEST'>/AUTOSAR/NmNode1</NM-NODE-REF>")
         parser.readDiagnosticJ1939Node(element, mapping)
         assert mapping.getShortName() == "M1"
         assert mapping.getNmNodeRef() is not None

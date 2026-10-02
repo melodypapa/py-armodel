@@ -90,7 +90,7 @@ class TestCollectableElement:
             assert name not in CollectableElement.__dict__, "%s should be inherited from Identifiable" % name
 
         assert "elements" not in CollectableElement.__dict__
-        assert "element_mappings" not in CollectableElement.__dict__
+        assert "referrableElementMappings" not in CollectableElement.__dict__
 
     def test_concrete_subclass_inherits_identifiable_members(self):
         """
@@ -111,8 +111,8 @@ class TestCollectableElement:
         assert obj.getUuid() is None
         assert obj.getLongName() is None
         assert obj.getAnnotations() == []
-        assert obj.getElements() == []
-        assert obj.getTotalElement() == 0
+        assert obj.getReferrableElements() == []
+        assert obj.getTotalReferrableElement() == 0
 
     def test_concrete_subclass_element_round_trip(self):
         """
@@ -132,14 +132,14 @@ class TestCollectableElement:
         obj = ConcreteCollectableElement(ar_root, "TestElement")
         element = ConcreteReferrable(ar_root, "ChildElement")
 
-        obj.addElement(element)
-        assert obj.getTotalElement() == 1
-        assert obj.getElements() == [element]
-        assert obj.IsElementExists("ChildElement") is True
-        assert obj.getElement("ChildElement") is element
+        obj.addReferrableElement(element)
+        assert obj.getTotalReferrableElement() == 1
+        assert obj.getReferrableElements() == [element]
+        assert obj.IsReferrableElementExists("ChildElement") is True
+        assert obj.getReferrableElement("ChildElement") is element
 
-        obj.removeElement("ChildElement")
-        assert obj.getTotalElement() == 0
+        obj.removeReferrableElement("ChildElement")
+        assert obj.getTotalReferrableElement() == 0
 
     def test_class_docstring_matches_spec_note(self):
         """
@@ -161,7 +161,7 @@ class TestCollectableElement:
                 super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
-        assert obj.getTotalElement() == 0
+        assert obj.getTotalReferrableElement() == 0
 
         # Add an element
         class MockReferrable:
@@ -172,8 +172,8 @@ class TestCollectableElement:
                 return self.short_name
 
         mock_element = MockReferrable("TestElement")
-        obj.addElement(mock_element)
-        assert obj.getTotalElement() == 1
+        obj.addReferrableElement(mock_element)
+        assert obj.getTotalReferrableElement() == 1
 
     def test_add_element_and_get_elements(self):
         """
@@ -187,7 +187,7 @@ class TestCollectableElement:
         obj = ConcreteCollectableElement()
 
         # Initially should be empty
-        assert obj.getElements() == []
+        assert obj.getReferrableElements() == []
 
         # Add an element
         class MockReferrable:
@@ -198,9 +198,9 @@ class TestCollectableElement:
                 return self.short_name
 
         mock_element = MockReferrable("TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
-        elements = obj.getElements()
+        elements = obj.getReferrableElements()
         assert len(elements) == 1
         assert elements[0] == mock_element
 
@@ -223,18 +223,18 @@ class TestCollectableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Test getting element with specific type
-        result = obj.getElement("TestElement", type=ConcreteReferrable)
+        result = obj.getReferrableElement("TestElement", type=ConcreteReferrable)
         assert result == mock_element
 
         # Test getting element with wrong type (should return None)
-        result = obj.getElement("TestElement", type=str)  # Wrong type
+        result = obj.getReferrableElement("TestElement", type=str)  # Wrong type
         assert result is None
 
         # Test getting non-existent element with type
-        result = obj.getElement("NonExistent", type=ConcreteReferrable)
+        result = obj.getReferrableElement("NonExistent", type=ConcreteReferrable)
         assert result is None
 
     def test_get_element_no_match_for_type(self):
@@ -256,10 +256,10 @@ class TestCollectableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Try to get element with different type (should return None)
-        result = obj.getElement("TestElement", type=str)  # Wrong type
+        result = obj.getReferrableElement("TestElement", type=str)  # Wrong type
         assert result is None
 
     def test_get_element_no_match_for_type_manually_added(self):
@@ -282,12 +282,12 @@ class TestCollectableElement:
             def getShortName(self):
                 return "TestElement"
 
-        # Add elements with same name but different types to element_mappings
-        obj.element_mappings["TestElement"] = [TypeA()]
-        obj.elements = [TypeA()]
+        # Add elements with same name but different types to referrableElementMappings
+        obj.referrableElementMappings["TestElement"] = [TypeA()]
+        obj.referrableElements = [TypeA()]
 
         # Try to get element with typeB (should return None, triggering the len(result) == 0 path)
-        result = obj.getElement("TestElement", type=TypeB)
+        result = obj.getReferrableElement("TestElement", type=TypeB)
         assert result is None
 
     def test_is_element_exists_with_type(self):
@@ -302,7 +302,7 @@ class TestCollectableElement:
         obj = ConcreteCollectableElement()
 
         # Initially should return False
-        assert obj.IsElementExists("NonExistent", type=str) is False
+        assert obj.IsReferrableElementExists("NonExistent", type=str) is False
 
         # Add an element
         class ConcreteReferrable(Referrable):
@@ -312,13 +312,13 @@ class TestCollectableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Should return True for correct type
-        assert obj.IsElementExists("TestElement", type=ConcreteReferrable) is True
+        assert obj.IsReferrableElementExists("TestElement", type=ConcreteReferrable) is True
 
         # Should return False for incorrect type
-        assert obj.IsElementExists("TestElement", type=str) is False
+        assert obj.IsReferrableElementExists("TestElement", type=str) is False
 
     def test_remove_element_with_type_param(self):
         """
@@ -339,18 +339,18 @@ class TestCollectableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Call removeElement with type specified to exercise the code path
         # First, add another element with the same name (this would typically not be done in practice
         # but is needed to test the type filtering code)
         # Actually, addElement doesn't allow duplicate names for same type by default
         # so let's just call the method to ensure the type path is covered
-        original_total = obj.getTotalElement()
+        original_total = obj.getTotalReferrableElement()
         try:
-            obj.removeElement("TestElement", type=ConcreteReferrable)
+            obj.removeReferrableElement("TestElement", type=ConcreteReferrable)
             # If successful, one element should be removed
-            assert obj.getTotalElement() == original_total - 1
+            assert obj.getTotalReferrableElement() == original_total - 1
         except StopIteration:
             # This can happen if type filtering doesn't find an element, which is also a code path
             pass  # This is also a valid execution path
@@ -368,7 +368,7 @@ class TestCollectableElement:
 
         # Try to remove non-existent element to trigger KeyError
         try:
-            obj.removeElement("NonExistentElement")
+            obj.removeReferrableElement("NonExistentElement")
             assert False, "Should have raised KeyError"
         except KeyError:
             pass  # Expected behavior
@@ -392,10 +392,10 @@ class TestCollectableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Get element with default type=None (should return the element)
-        result = obj.getElement("TestElement")  # type defaults to None
+        result = obj.getReferrableElement("TestElement")  # type defaults to None
         assert result == mock_element
 
     def test_ar_element_initialization(self):
@@ -463,7 +463,7 @@ class TestCollectableElement:
         obj = ConcreteCollectableElement()
 
         # Initially should return False
-        assert obj.IsElementExists("NonExistent") is False
+        assert obj.IsReferrableElementExists("NonExistent") is False
 
         # Add an element
         class MockReferrable:
@@ -474,11 +474,11 @@ class TestCollectableElement:
                 return self.short_name
 
         mock_element = MockReferrable("TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Should return True
-        assert obj.IsElementExists("TestElement") is True
-        assert obj.IsElementExists("NonExistent") is False
+        assert obj.IsReferrableElementExists("TestElement") is True
+        assert obj.IsReferrableElementExists("NonExistent") is False
 
     def test_remove_element(self):
         """
@@ -499,19 +499,19 @@ class TestCollectableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
-        obj.addElement(mock_element)
+        obj.addReferrableElement(mock_element)
 
         # Verify element exists
-        assert obj.IsElementExists("TestElement") is True
-        assert obj.getTotalElement() == 1
+        assert obj.IsReferrableElementExists("TestElement") is True
+        assert obj.getTotalReferrableElement() == 1
 
         # Remove the element
-        obj.removeElement("TestElement")
+        obj.removeReferrableElement("TestElement")
 
-        # Note: There appears to be a bug in the source code where the key remains in element_mappings
+        # Note: There appears to be a bug in the source code where the key remains in referrableElementMappings
         # even after all elements are removed, so IsElementExists still returns True
         # Let's just check that the total element count is 0
-        assert obj.getTotalElement() == 0
+        assert obj.getTotalReferrableElement() == 0
 
 
 class TestCollection:

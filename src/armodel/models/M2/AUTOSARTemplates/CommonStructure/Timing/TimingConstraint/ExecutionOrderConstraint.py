@@ -292,27 +292,27 @@ class ExecutionOrderConstraint(TimingConstraint):
 
     def createEOCEventRef(self, short_name: str) -> "EOCEventRef":
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
-        if not self.IsElementExists(short_name, EOCEventRef):
+        if not self.IsReferrableElementExists(short_name, EOCEventRef):
             event_ref = EOCEventRef(self, short_name)
-            self.addElement(event_ref)
+            self.addReferrableElement(event_ref)
             self.orderedElements.append(event_ref)
-        return self.getElement(short_name, EOCEventRef)
+        return self.getReferrableElement(short_name, EOCEventRef)
 
     def createEOCExecutableEntityRef(self, short_name: str) -> EOCExecutableEntityRef:
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
-        if not self.IsElementExists(short_name, EOCExecutableEntityRef):
+        if not self.IsReferrableElementExists(short_name, EOCExecutableEntityRef):
             entity_ref = EOCExecutableEntityRef(self, short_name)
-            self.addElement(entity_ref)
+            self.addReferrableElement(entity_ref)
             self.orderedElements.append(entity_ref)
-        return self.getElement(short_name, EOCExecutableEntityRef)
+        return self.getReferrableElement(short_name, EOCExecutableEntityRef)
 
     def createEOCExecutableEntityRefGroup(self, short_name: str) -> "EOCExecutableEntityRefGroup":
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
-        if not self.IsElementExists(short_name, EOCExecutableEntityRefGroup):
+        if not self.IsReferrableElementExists(short_name, EOCExecutableEntityRefGroup):
             entity_ref_group = EOCExecutableEntityRefGroup(self, short_name)
-            self.addElement(entity_ref_group)
+            self.addReferrableElement(entity_ref_group)
             self.orderedElements.append(entity_ref_group)
-        return self.getElement(short_name, EOCExecutableEntityRefGroup)
+        return self.getReferrableElement(short_name, EOCExecutableEntityRefGroup)
 
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""

@@ -141,7 +141,7 @@ class TestDiagnosticDataElementRoundTrip:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            did_2 = package_2.getElement("Di", DiagnosticDataIdentifier)
+            did_2 = package_2.getReferrableElement("Di", DiagnosticDataIdentifier)
             assert did_2 is not None
             parameter_2 = did_2.getDataElements()[0]
             data_element_2 = parameter_2.getDataElement()

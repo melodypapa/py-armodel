@@ -68,7 +68,7 @@ class TestCryptoServicePrimitiveWriter:
         pkg = AUTOSAR.getInstance().createARPackage("CryptoPrimitives")
         pkg.createCryptoServicePrimitive("Empty")
         parent = ET.Element("ELEMENTS")
-        ARXMLWriter().writeARPackageElement(parent, pkg.getElement("Empty", CryptoServicePrimitive))
+        ARXMLWriter().writeARPackageElement(parent, pkg.getReferrableElement("Empty", CryptoServicePrimitive))
 
         child = parent.find("CRYPTO-SERVICE-PRIMITIVE")
         assert child is not None
@@ -99,7 +99,7 @@ class TestCryptoServicePrimitiveWriter:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoPrimitives")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        re_primitive = reloaded.getElement("Primitive", CryptoServicePrimitive)
+        re_primitive = reloaded.getReferrableElement("Primitive", CryptoServicePrimitive)
         assert re_primitive is not None
         assert isinstance(re_primitive, CryptoServicePrimitive)
         assert re_primitive.getAlgorithmFamily().getValue() == "AES"

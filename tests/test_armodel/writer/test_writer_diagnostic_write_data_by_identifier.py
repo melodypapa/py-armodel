@@ -58,7 +58,7 @@ class TestWriteDiagnosticWriteDataByIdentifier:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticWriteDataByIdentifiers")
         package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
 
-        child = self._write(package.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier))
+        child = self._write(package.getReferrableElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier))
         assert child is not None
         assert child.find("SHORT-NAME").text == "WriteDataByIdentifier1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -91,7 +91,7 @@ class TestWriteDiagnosticWriteDataByIdentifier:
         package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier))
 
         child = parent.find("DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER")
         assert child is not None
@@ -112,7 +112,7 @@ class TestWriteDiagnosticWriteDataByIdentifier:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            write_data_by_identifier_2 = package_2.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier)
+            write_data_by_identifier_2 = package_2.getReferrableElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier)
             assert write_data_by_identifier_2 is not None
             assert write_data_by_identifier_2.getShortName() == "WriteDataByIdentifier1"
             data_identifier = write_data_by_identifier_2.getDataIdentifier()

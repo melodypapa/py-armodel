@@ -66,7 +66,7 @@ def test_round_trip_full(writer, parser, tmp_path):
     assert re_pkg is not None
     assert len(re_pkg.getLinClusters()) == 1
 
-    re_cluster = re_pkg.getElement("LinCluster", LinCluster)
+    re_cluster = re_pkg.getReferrableElement("LinCluster", LinCluster)
     assert re_cluster is not None
     assert isinstance(re_cluster, LinCluster)
     assert re_cluster.getBaudrate().getValue() == 19200
@@ -84,7 +84,7 @@ def test_round_trip_empty(writer, parser, tmp_path):
     document = _reload(parser, out_file)
     re_pkg = document.find("Pkg")
 
-    re_cluster = re_pkg.getElement("EmptyCluster", LinCluster)
+    re_cluster = re_pkg.getReferrableElement("EmptyCluster", LinCluster)
     assert re_cluster is not None
     assert re_cluster.getBaudrate() is None
     assert re_cluster.getProtocolName() is None

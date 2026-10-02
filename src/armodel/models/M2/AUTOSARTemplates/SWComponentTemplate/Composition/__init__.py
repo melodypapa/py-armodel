@@ -490,11 +490,11 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing SwComponentPrototype
         """
-        if not self.IsElementExists(short_name, SwComponentPrototype):
+        if not self.IsReferrableElementExists(short_name, SwComponentPrototype):
             prototype = SwComponentPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.components.append(prototype)
-        return self.getElement(short_name, SwComponentPrototype)
+        return self.getReferrableElement(short_name, SwComponentPrototype)
 
     def getComponents(self) -> List[SwComponentPrototype]:
         """
@@ -516,11 +516,11 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing AssemblySwConnector
         """
-        if not self.IsElementExists(short_name, AssemblySwConnector):
+        if not self.IsReferrableElementExists(short_name, AssemblySwConnector):
             connector = AssemblySwConnector(self, short_name)
-            self.addElement(connector)
+            self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getElement(short_name, AssemblySwConnector)
+        return self.getReferrableElement(short_name, AssemblySwConnector)
 
     def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
         """
@@ -533,11 +533,11 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing DelegationSwConnector
         """
-        if not self.IsElementExists(short_name, DelegationSwConnector):
+        if not self.IsReferrableElementExists(short_name, DelegationSwConnector):
             connector = DelegationSwConnector(self, short_name)
-            self.addElement(connector)
+            self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getElement(short_name, DelegationSwConnector)
+        return self.getReferrableElement(short_name, DelegationSwConnector)
 
     def createPassThroughSwConnector(self, short_name: str) -> PassThroughSwConnector:
         """
@@ -550,11 +550,11 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing PassThroughSwConnector
         """
-        if not self.IsElementExists(short_name, PassThroughSwConnector):
+        if not self.IsReferrableElementExists(short_name, PassThroughSwConnector):
             connector = PassThroughSwConnector(self, short_name)
-            self.addElement(connector)
+            self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getElement(short_name, PassThroughSwConnector)
+        return self.getReferrableElement(short_name, PassThroughSwConnector)
 
     def getSwConnectors(self) -> List[SwConnector]:
         """
@@ -597,7 +597,7 @@ class CompositionSwComponentType(SwComponentType):
         Removes all AssemblySwConnectors aggregated by this CompositionSwComponentType.
         """
         for sw_connector in self.getAssemblySwConnectors():
-            self.elements.remove(sw_connector)
+            self.referrableElements.remove(sw_connector)
             self.connectors.remove(sw_connector)
 
     def removeAllDelegationSwConnector(self):
@@ -605,7 +605,7 @@ class CompositionSwComponentType(SwComponentType):
         Removes all DelegationSwConnectors aggregated by this CompositionSwComponentType.
         """
         for sw_connector in self.getDelegationSwConnectors():
-            self.elements.remove(sw_connector)
+            self.referrableElements.remove(sw_connector)
             self.connectors.remove(sw_connector)
 
     def removeAllPassThroughSwConnector(self):
@@ -613,7 +613,7 @@ class CompositionSwComponentType(SwComponentType):
         Removes all PassThroughSwConnectors aggregated by this CompositionSwComponentType.
         """
         for sw_connector in self.getPassThroughSwConnectors():
-            self.elements.remove(sw_connector)
+            self.referrableElements.remove(sw_connector)
             self.connectors.remove(sw_connector)
 
     def addConstantValueMappingRef(self, ref: Optional[RefType]) -> "CompositionSwComponentType":
@@ -712,7 +712,7 @@ class CompositionSwComponentType(SwComponentType):
         """
         return self.physicalDimensionMappingRef
 
-    def removeElement(self, short_name: str, type=None):
+    def removeReferrableElement(self, short_name: str, type=None):
         """
         Removes an element from this composition.
         The element is removed both from the elements registry and from the dedicated
@@ -722,8 +722,8 @@ class CompositionSwComponentType(SwComponentType):
             short_name: The short name of the element to remove
             type: The type of element to remove (optional)
         """
-        item = self.getElement(short_name, type)
-        super().removeElement(short_name, type)
+        item = self.getReferrableElement(short_name, type)
+        super().removeReferrableElement(short_name, type)
         if item is not None:
             if isinstance(item, SwComponentPrototype) and item in self.components:
                 self.components.remove(item)

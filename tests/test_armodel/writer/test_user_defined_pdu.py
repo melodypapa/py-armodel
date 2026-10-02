@@ -79,7 +79,7 @@ class TestUserDefinedPduWriter:
         reloaded = ARPackage(parent=AutosarDocument.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        pdu = reloaded.getElement("UDPdu", UserDefinedPdu)
+        pdu = reloaded.getReferrableElement("UDPdu", UserDefinedPdu)
         assert pdu is not None
         assert pdu.getLength().getValue() == 8
         assert pdu.getCddType().getValue() == "ComplexDriverCdd"

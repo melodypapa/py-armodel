@@ -70,7 +70,7 @@ def test_arpackage_dispatch_reads_element(parser):
     )
     parser.readARPackageElements(ar_package, package)
 
-    level = package.getElement("Sec1", DiagnosticSecurityLevel)
+    level = package.getReferrableElement("Sec1", DiagnosticSecurityLevel)
     assert level is not None
     assert isinstance(level, DiagnosticSecurityLevel)
     assert level.getKeySize().getValue() == 4

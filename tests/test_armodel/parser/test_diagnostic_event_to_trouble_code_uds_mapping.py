@@ -47,4 +47,3 @@ class TestReadDiagnosticEventToTroubleCodeUdsMapping:
         parser.readDiagnosticEventToTroubleCodeUdsMapping(element, mapping)
         assert mapping.getDiagnosticEventRef() is None
         assert mapping.getTroubleCodeUdsRef() is None
-

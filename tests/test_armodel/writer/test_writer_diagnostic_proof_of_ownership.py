@@ -46,7 +46,7 @@ class TestWriteDiagnosticProofOfOwnership:
         package.createDiagnosticProofOfOwnership("Proof1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticProofOfOwnership(parent, package.getElement("Proof1", DiagnosticProofOfOwnership))
+        ARXMLWriter().writeDiagnosticProofOfOwnership(parent, package.getReferrableElement("Proof1", DiagnosticProofOfOwnership))
 
         child = parent.find("DIAGNOSTIC-PROOF-OF-OWNERSHIP")
         assert child is not None
@@ -78,7 +78,7 @@ class TestWriteDiagnosticProofOfOwnership:
         package.createDiagnosticProofOfOwnership("Proof1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Proof1", DiagnosticProofOfOwnership))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Proof1", DiagnosticProofOfOwnership))
 
         child = parent.find("DIAGNOSTIC-PROOF-OF-OWNERSHIP")
         assert child is not None
@@ -101,7 +101,7 @@ class TestWriteDiagnosticProofOfOwnership:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            proof_of_ownership_2 = package_2.getElement("Proof1", DiagnosticProofOfOwnership)
+            proof_of_ownership_2 = package_2.getReferrableElement("Proof1", DiagnosticProofOfOwnership)
             assert proof_of_ownership_2 is not None
             assert proof_of_ownership_2.getShortName() == "Proof1"
             ref_2 = proof_of_ownership_2.getAuthenticationClass()

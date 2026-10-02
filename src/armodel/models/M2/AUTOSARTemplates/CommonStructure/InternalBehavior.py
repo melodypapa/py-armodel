@@ -128,11 +128,11 @@ class ExecutableEntity(Identifiable, ABC):
         Returns:
             The created ExecutableEntityActivationReason instance
         """
-        if not self.IsElementExists(short_name, ExecutableEntityActivationReason):
+        if not self.IsReferrableElementExists(short_name, ExecutableEntityActivationReason):
             reason = ExecutableEntityActivationReason(self, short_name)
-            self.addElement(reason)
+            self.addReferrableElement(reason)
             self.activationReasons.append(reason)
-        return self.getElement(short_name, ExecutableEntityActivationReason)
+        return self.getReferrableElement(short_name, ExecutableEntityActivationReason)
 
     def getActivationReasons(self) -> List[ExecutableEntityActivationReason]:
         """
@@ -362,11 +362,11 @@ class InternalBehavior(AtpStructureElement, ABC):
         self.staticMemories: List[VariableDataPrototype] = []
 
     def createConstantMemory(self, short_name: str) -> ParameterDataPrototype:
-        if not self.IsElementExists(short_name, ParameterDataPrototype):
+        if not self.IsReferrableElementExists(short_name, ParameterDataPrototype):
             prototype = ParameterDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.constantMemories.append(prototype)
-        return self.getElement(short_name, ParameterDataPrototype)
+        return self.getReferrableElement(short_name, ParameterDataPrototype)
 
     def getConstantMemories(self) -> List[ParameterDataPrototype]:
         """
@@ -435,11 +435,11 @@ class InternalBehavior(AtpStructureElement, ABC):
         Returns:
             The created (or existing) ExclusiveArea instance
         """
-        if not self.IsElementExists(short_name, ExclusiveArea):
+        if not self.IsReferrableElementExists(short_name, ExclusiveArea):
             area = ExclusiveArea(self, short_name)
-            self.addElement(area)
+            self.addReferrableElement(area)
             self.exclusiveAreas.append(area)
-        return self.getElement(short_name, ExclusiveArea)
+        return self.getReferrableElement(short_name, ExclusiveArea)
 
     def getExclusiveAreas(self) -> List[ExclusiveArea]:
         """
@@ -460,11 +460,11 @@ class InternalBehavior(AtpStructureElement, ABC):
         Returns:
             The created (or existing) ExclusiveAreaNestingOrder instance
         """
-        if not self.IsElementExists(short_name, ExclusiveAreaNestingOrder):
+        if not self.IsReferrableElementExists(short_name, ExclusiveAreaNestingOrder):
             nesting_order = ExclusiveAreaNestingOrder(self, short_name)
-            self.addElement(nesting_order)
+            self.addReferrableElement(nesting_order)
             self.exclusiveAreaNestingOrders.append(nesting_order)
-        return self.getElement(short_name, ExclusiveAreaNestingOrder)
+        return self.getReferrableElement(short_name, ExclusiveAreaNestingOrder)
 
     def getExclusiveAreaNestingOrders(self) -> List[ExclusiveAreaNestingOrder]:
         """
@@ -485,11 +485,11 @@ class InternalBehavior(AtpStructureElement, ABC):
         Returns:
             The created (or existing) VariableDataPrototype instance
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.staticMemories.append(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getStaticMemories(self) -> List[VariableDataPrototype]:
         """

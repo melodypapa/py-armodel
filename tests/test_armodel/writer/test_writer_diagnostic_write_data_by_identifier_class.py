@@ -46,7 +46,7 @@ class TestWriteDiagnosticWriteDataByIdentifierClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticWriteDataByIdentifierClasses")
         package.createDiagnosticWriteDataByIdentifierClass("Wdibc1")
 
-        child = self._write(package.getElement("Wdibc1", DiagnosticWriteDataByIdentifierClass))
+        child = self._write(package.getReferrableElement("Wdibc1", DiagnosticWriteDataByIdentifierClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Wdibc1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -57,7 +57,7 @@ class TestWriteDiagnosticWriteDataByIdentifierClass:
         package.createDiagnosticWriteDataByIdentifierClass("Wdibc1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Wdibc1", DiagnosticWriteDataByIdentifierClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Wdibc1", DiagnosticWriteDataByIdentifierClass))
 
         child = parent.find("DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
         assert child is not None
@@ -76,7 +76,7 @@ class TestWriteDiagnosticWriteDataByIdentifierClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            write_data_by_identifier_class_2 = package_2.getElement("Wdibc1", DiagnosticWriteDataByIdentifierClass)
+            write_data_by_identifier_class_2 = package_2.getReferrableElement("Wdibc1", DiagnosticWriteDataByIdentifierClass)
             assert write_data_by_identifier_class_2 is not None
             assert write_data_by_identifier_class_2.getShortName() == "Wdibc1"
         finally:

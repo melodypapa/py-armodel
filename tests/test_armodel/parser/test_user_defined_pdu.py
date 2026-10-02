@@ -47,7 +47,7 @@ class TestUserDefinedPduParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(ET.fromstring(_fragment()), pkg)
 
-        created = pkg.getElement("UDPdu", UserDefinedPdu)
+        created = pkg.getReferrableElement("UDPdu", UserDefinedPdu)
         assert created is not None
         assert isinstance(created, UserDefinedPdu)
         assert created.getShortName() == "UDPdu"
@@ -56,7 +56,7 @@ class TestUserDefinedPduParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(ET.fromstring(_fragment()), pkg)
 
-        pdu = pkg.getElement("UDPdu", UserDefinedPdu)
+        pdu = pkg.getReferrableElement("UDPdu", UserDefinedPdu)
         assert pdu.getLength().getValue() == 8
         assert pdu.getCddType().getValue() == "ComplexDriverCdd"
 
@@ -64,7 +64,7 @@ class TestUserDefinedPduParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(ET.fromstring(_fragment(with_cdd_type=False)), pkg)
 
-        pdu = pkg.getElement("UDPdu", UserDefinedPdu)
+        pdu = pkg.getReferrableElement("UDPdu", UserDefinedPdu)
         assert pdu.getCddType() is None
         assert pdu.getLength().getValue() == 8
 
@@ -81,7 +81,7 @@ class TestUserDefinedPduParser:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        pdu = reloaded.getElement("UDPdu", UserDefinedPdu)
+        pdu = reloaded.getReferrableElement("UDPdu", UserDefinedPdu)
         assert pdu is not None
         assert pdu.getLength().getValue() == 8
         assert pdu.getCddType().getValue() == "ComplexDriverCdd"

@@ -37,7 +37,7 @@ class TestWriteDiagnosticEventToTroubleCodeUdsMapping:
         package.createDiagnosticEventToTroubleCodeUdsMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToTroubleCodeUdsMapping(parent, package.getElement("M1", DiagnosticEventToTroubleCodeUdsMapping))
+        ARXMLWriter().writeDiagnosticEventToTroubleCodeUdsMapping(parent, package.getReferrableElement("M1", DiagnosticEventToTroubleCodeUdsMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-UDS-MAPPING")
         assert child is not None

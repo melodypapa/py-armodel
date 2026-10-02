@@ -731,7 +731,6 @@ class DiagnosticFunctionIdentifierInhibit(ARObject):
     pass
 
 
-
 class DiagnosticIumprGroupIdentifier(ARObject):
     pass
 

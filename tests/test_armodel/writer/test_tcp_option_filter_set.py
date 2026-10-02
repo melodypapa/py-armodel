@@ -69,19 +69,19 @@ def test_round_trip_full(writer, parser, tmp_path):
     re_pkg = document.find("Pkg")
     assert re_pkg is not None
 
-    re_set = re_pkg.getElement("FilterSet", TcpOptionFilterSet)
+    re_set = re_pkg.getReferrableElement("FilterSet", TcpOptionFilterSet)
     assert re_set is not None
     assert isinstance(re_set, TcpOptionFilterSet)
 
     lists = re_set.getTcpOptionFilterLists()
     assert len(lists) == 2
 
-    re_list1 = re_set.getElement("List1", TcpOptionFilterList)
+    re_list1 = re_set.getReferrableElement("List1", TcpOptionFilterList)
     assert re_list1 is not None
     assert isinstance(re_list1, TcpOptionFilterList)
     assert [int(option.getValue()) for option in re_list1.getAllowedTcpOptions()] == [2, 8]
 
-    re_list2 = re_set.getElement("List2", TcpOptionFilterList)
+    re_list2 = re_set.getReferrableElement("List2", TcpOptionFilterList)
     assert re_list2 is not None
     assert [int(option.getValue()) for option in re_list2.getAllowedTcpOptions()] == [3]
 
@@ -97,10 +97,10 @@ def test_round_trip_empty(writer, parser, tmp_path):
     document = _reload(parser, out_file)
     re_pkg = document.find("Pkg")
 
-    re_set = re_pkg.getElement("EmptySet", TcpOptionFilterSet)
+    re_set = re_pkg.getReferrableElement("EmptySet", TcpOptionFilterSet)
     assert re_set is not None
     assert len(re_set.getTcpOptionFilterLists()) == 1
 
-    re_list = re_set.getElement("EmptyList", TcpOptionFilterList)
+    re_list = re_set.getReferrableElement("EmptyList", TcpOptionFilterList)
     assert re_list is not None
     assert re_list.getAllowedTcpOptions() == []

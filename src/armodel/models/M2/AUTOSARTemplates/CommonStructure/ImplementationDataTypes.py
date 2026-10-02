@@ -165,11 +165,11 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement, Varia
         """
         Element of an array, struct, or union in case of a nested declaration (i.e. without using "typedefs"). The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a ImplementationDataType representing a structure.
         """
-        if not self.IsElementExists(short_name, ImplementationDataTypeElement):
+        if not self.IsReferrableElementExists(short_name, ImplementationDataTypeElement):
             type_element = ImplementationDataTypeElement(self, short_name)
-            self.addElement(type_element)
+            self.addReferrableElement(type_element)
             self.subElements.append(type_element)
-        return self.getElement(short_name, ImplementationDataTypeElement)
+        return self.getReferrableElement(short_name, ImplementationDataTypeElement)
 
     def getSubElements(self) -> List[ImplementationDataTypeElement]:
         """
@@ -319,11 +319,11 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             The created ImplementationDataTypeElement instance
         """
-        if not self.IsElementExists(short_name, ImplementationDataTypeElement):
+        if not self.IsReferrableElementExists(short_name, ImplementationDataTypeElement):
             type_element = ImplementationDataTypeElement(self, short_name)
-            self.addElement(type_element)
+            self.addReferrableElement(type_element)
             self.subElements.append(type_element)
-        return self.getElement(short_name, ImplementationDataTypeElement)
+        return self.getReferrableElement(short_name, ImplementationDataTypeElement)
 
     def getSubElements(self) -> List[ImplementationDataTypeElement]:
         """
@@ -345,9 +345,9 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             The created SymbolProps instance
         """
-        if not self.IsElementExists(short_name, SymbolProps):
+        if not self.IsReferrableElementExists(short_name, SymbolProps):
             symbol_props = SymbolProps(self, short_name)
-            self.addElement(symbol_props)
+            self.addReferrableElement(symbol_props)
             self.symbolProps = symbol_props
         return self.symbolProps
 

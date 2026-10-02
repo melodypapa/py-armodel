@@ -46,7 +46,7 @@ class TestWriteDiagnosticVerifyCertificateBidirectional:
         package.createDiagnosticVerifyCertificateBidirectional("VerifyBidir1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticVerifyCertificateBidirectional(parent, package.getElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional))
+        ARXMLWriter().writeDiagnosticVerifyCertificateBidirectional(parent, package.getReferrableElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional))
 
         child = parent.find("DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL")
         assert child is not None
@@ -78,7 +78,7 @@ class TestWriteDiagnosticVerifyCertificateBidirectional:
         package.createDiagnosticVerifyCertificateBidirectional("VerifyBidir1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional))
 
         child = parent.find("DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL")
         assert child is not None
@@ -101,7 +101,7 @@ class TestWriteDiagnosticVerifyCertificateBidirectional:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            verification_2 = package_2.getElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional)
+            verification_2 = package_2.getReferrableElement("VerifyBidir1", DiagnosticVerifyCertificateBidirectional)
             assert verification_2 is not None
             assert verification_2.getShortName() == "VerifyBidir1"
             ref_2 = verification_2.getAuthenticationClass()

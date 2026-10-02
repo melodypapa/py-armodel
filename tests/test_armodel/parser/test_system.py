@@ -170,7 +170,7 @@ class TestSystemTemplate:
         arxml_file.write_text(FULL_SYSTEM_ARXML, encoding="utf-8")
         ARXMLParser().load(str(arxml_file), document)
 
-        system = document.getARPackages()[0].getElement("FullSystem")
+        system = document.getARPackages()[0].getReferrableElement("FullSystem")
         assert isinstance(system, System)
 
         documentations = system.getSystemDocumentations()
@@ -229,7 +229,7 @@ class TestSystemTemplate:
         document_2.clear()
         ARXMLParser().load(str(saved_file), document_2)
 
-        system_2 = document_2.getARPackages()[0].getElement("FullSystem")
+        system_2 = document_2.getARPackages()[0].getReferrableElement("FullSystem")
         assert system_2 is not None
         assert len(system_2.getSystemDocumentations()) == 1
         assert system_2.getSystemDocumentations()[0].getShortName() == "Doc1"
@@ -254,7 +254,7 @@ class TestSystemTemplate:
         arxml_file.write_text(J1939_SHARED_ADDRESS_CLUSTER_ARXML, encoding="utf-8")
         ARXMLParser().load(str(arxml_file), document)
 
-        system = document.getARPackages()[0].getElement("J1939System")
+        system = document.getARPackages()[0].getReferrableElement("J1939System")
         assert isinstance(system, System)
 
         clusters = system.getJ1939SharedAddressClusters()
@@ -282,7 +282,7 @@ class TestSystemTemplate:
         arxml_file.write_text(COM_MANAGEMENT_MAPPING_ARXML, encoding="utf-8")
         ARXMLParser().load(str(arxml_file), document)
 
-        system = document.getARPackages()[0].getElement("ComMapSystem")
+        system = document.getARPackages()[0].getReferrableElement("ComMapSystem")
         assert isinstance(system, System)
 
         mappings = system.getMappings()
@@ -383,7 +383,7 @@ class TestEcuInstancePartitions:
         arxml_file.write_text(ECU_INSTANCE_PARTITIONS_ARXML, encoding="utf-8")
         ARXMLParser().load(str(arxml_file), document)
 
-        ecu = document.getARPackages()[0].getElement("EcuInst")
+        ecu = document.getARPackages()[0].getReferrableElement("EcuInst")
         assert ecu is not None
 
         partitions = ecu.getPartitions()
@@ -400,7 +400,7 @@ class TestEcuInstancePartitions:
         document_2.clear()
         ARXMLParser().load(str(saved_file), document_2)
 
-        ecu_2 = document_2.getARPackages()[0].getElement("EcuInst")
+        ecu_2 = document_2.getARPackages()[0].getReferrableElement("EcuInst")
         partitions_2 = ecu_2.getPartitions()
         assert [p.getShortName() for p in partitions_2] == ["PartA", "PartB"]
         assert partitions_2[0].getExecInUserMode().getValue() is True
@@ -415,6 +415,6 @@ class TestEcuInstancePartitions:
         arxml_file.write_text(ECU_INSTANCE_NO_PARTITIONS_ARXML, encoding="utf-8")
         ARXMLParser().load(str(arxml_file), document)
 
-        ecu = document.getARPackages()[0].getElement("EcuInst")
+        ecu = document.getARPackages()[0].getReferrableElement("EcuInst")
         assert ecu is not None
         assert ecu.getPartitions() == []

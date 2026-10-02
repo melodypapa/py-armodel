@@ -250,11 +250,11 @@ class DoIpInterface(Identifiable):
         """
         Collection of DoIpRoutingActivation possibilities defined in the DoIpInterface.
         """
-        if not self.IsElementExists(short_name, DoIpRoutingActivation):
+        if not self.IsReferrableElementExists(short_name, DoIpRoutingActivation):
             activation = DoIpRoutingActivation(self, short_name)
-            self.addElement(activation)
+            self.addReferrableElement(activation)
             self.doIpRoutingActivations.append(activation)
-        return self.getElement(short_name, DoIpRoutingActivation)
+        return self.getReferrableElement(short_name, DoIpRoutingActivation)
 
     def getDoIpRoutingActivations(self) -> List[DoIpRoutingActivation]:
         """

@@ -33,7 +33,7 @@ class TestWriteCpSwClusterResourceToDiagDataElemMapping:
         package.createCpSwClusterResourceToDiagDataElemMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeCpSwClusterResourceToDiagDataElemMapping(parent, package.getElement("M1", CpSwClusterResourceToDiagDataElemMapping))
+        ARXMLWriter().writeCpSwClusterResourceToDiagDataElemMapping(parent, package.getReferrableElement("M1", CpSwClusterResourceToDiagDataElemMapping))
 
         child = parent.find("CP-SW-CLUSTER-RESOURCE-TO-DIAG-DATA-ELEM-MAPPING")
         assert child is not None

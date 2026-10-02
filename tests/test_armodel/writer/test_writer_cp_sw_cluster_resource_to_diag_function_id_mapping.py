@@ -33,7 +33,7 @@ class TestWriteCpSwClusterResourceToDiagFunctionIdMapping:
         package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeCpSwClusterResourceToDiagFunctionIdMapping(parent, package.getElement("M1", CpSwClusterResourceToDiagFunctionIdMapping))
+        ARXMLWriter().writeCpSwClusterResourceToDiagFunctionIdMapping(parent, package.getReferrableElement("M1", CpSwClusterResourceToDiagFunctionIdMapping))
 
         child = parent.find("CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING")
         assert child is not None

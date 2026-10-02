@@ -48,7 +48,7 @@ class TestWriteDiagnosticAuthTransmitCertificate:
         package.createDiagnosticAuthTransmitCertificate("Certificate1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticAuthTransmitCertificate(parent, package.getElement("Certificate1", DiagnosticAuthTransmitCertificate))
+        ARXMLWriter().writeDiagnosticAuthTransmitCertificate(parent, package.getReferrableElement("Certificate1", DiagnosticAuthTransmitCertificate))
 
         child = parent.find("DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE")
         assert child is not None
@@ -97,7 +97,7 @@ class TestWriteDiagnosticAuthTransmitCertificate:
         package.createDiagnosticAuthTransmitCertificate("Certificate1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticAuthTransmitCertificate(parent, package.getElement("Certificate1", DiagnosticAuthTransmitCertificate))
+        ARXMLWriter().writeDiagnosticAuthTransmitCertificate(parent, package.getReferrableElement("Certificate1", DiagnosticAuthTransmitCertificate))
 
         child = parent.find("DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE")
         assert child is not None
@@ -109,7 +109,7 @@ class TestWriteDiagnosticAuthTransmitCertificate:
         package.createDiagnosticAuthTransmitCertificate("Certificate1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Certificate1", DiagnosticAuthTransmitCertificate))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Certificate1", DiagnosticAuthTransmitCertificate))
 
         child = parent.find("DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE")
         assert child is not None
@@ -133,7 +133,7 @@ class TestWriteDiagnosticAuthTransmitCertificate:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            certificate_2 = package_2.getElement("Certificate1", DiagnosticAuthTransmitCertificate)
+            certificate_2 = package_2.getReferrableElement("Certificate1", DiagnosticAuthTransmitCertificate)
             assert certificate_2 is not None
             assert certificate_2.getShortName() == "Certificate1"
             ref_2 = certificate_2.getAuthenticationClass()

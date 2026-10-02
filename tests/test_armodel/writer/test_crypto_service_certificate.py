@@ -90,7 +90,7 @@ class TestCryptoServiceCertificateWriter:
         pkg = AUTOSAR.getInstance().createARPackage("CryptoServiceCertificate")
         pkg.createCryptoServiceCertificate("Empty")
         parent = ET.Element("ELEMENTS")
-        ARXMLWriter().writeARPackageElement(parent, pkg.getElement("Empty", CryptoServiceCertificate))
+        ARXMLWriter().writeARPackageElement(parent, pkg.getReferrableElement("Empty", CryptoServiceCertificate))
 
         child = parent.find("CRYPTO-SERVICE-CERTIFICATE")
         assert child is not None
@@ -125,7 +125,7 @@ class TestCryptoServiceCertificateWriter:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoServiceCertificate")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        re_certificate = reloaded.getElement("Cert", CryptoServiceCertificate)
+        re_certificate = reloaded.getReferrableElement("Cert", CryptoServiceCertificate)
         assert re_certificate is not None
         assert isinstance(re_certificate, CryptoServiceCertificate)
         assert re_certificate.getAlgorithmFamily().getValue() == "RSA"

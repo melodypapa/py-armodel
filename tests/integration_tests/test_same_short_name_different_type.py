@@ -52,17 +52,17 @@ def load_channel(file_path: Path) -> EthernetPhysicalChannel:
     ARXMLParser().load(str(file_path), document)
 
     package = document.getARPackages()[0]
-    cluster = package.getElement(CLUSTER_NAME, EthernetCluster)
+    cluster = package.getReferrableElement(CLUSTER_NAME, EthernetCluster)
     assert cluster is not None, "EthernetCluster '%s' not found" % CLUSTER_NAME
-    channel = cluster.getElement(CHANNEL_NAME, EthernetPhysicalChannel)
+    channel = cluster.getReferrableElement(CHANNEL_NAME, EthernetPhysicalChannel)
     assert channel is not None, "EthernetPhysicalChannel '%s' not found" % CHANNEL_NAME
     return channel
 
 
 def assert_coexistence(channel: EthernetPhysicalChannel) -> Tuple[ISignalTriggering, PduTriggering]:
     """Assert that the same short name is kept for the two different types."""
-    isignal = channel.getElement(SHORT_NAME, ISignalTriggering)
-    pdu = channel.getElement(SHORT_NAME, PduTriggering)
+    isignal = channel.getReferrableElement(SHORT_NAME, ISignalTriggering)
+    pdu = channel.getReferrableElement(SHORT_NAME, PduTriggering)
 
     assert isignal is not None, "ISignalTriggering '%s' lost" % SHORT_NAME
     assert pdu is not None, "PduTriggering '%s' lost" % SHORT_NAME

@@ -100,6 +100,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
@@ -3773,7 +3774,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
-            extension.addElement(event)
+            extension.addReferrableElement(event)
             extension.addTimingDescription(event)
 
     def readTDEventVfb(self, element: ET.Element, event: TDEventVfb):
@@ -6170,6 +6171,17 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, instance_ref)
         instance_ref.setContextModeDeclarationGroupRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-REF"))
         instance_ref.setTargetModeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-REF"))  # NOQA E501
+        return instance_ref
+
+    def getPModeInSystemInstanceRef(self, element: ET.Element) -> PModeInSystemInstanceRef:
+        instance_ref = PModeInSystemInstanceRef()
+        self.readARObject(element, instance_ref)
+        instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            instance_ref.addContextComponentRef(ref)
+        instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF"))
+        instance_ref.setContextModeDeclarationGroupRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-REF"))
+        instance_ref.setTargetModeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-REF"))
         return instance_ref
 
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
@@ -9305,7 +9317,7 @@ class ARXMLParser(AbstractARXMLParser):
         else:
             self.raiseError("Unsupported timing requirement <%s>" % tag_name)
             return
-        extension.addElement(constraint)
+        extension.addReferrableElement(constraint)
         if key == "TIMING-GUARANTEES":
             extension.addTimingGuarantee(constraint)
         else:
@@ -9317,7 +9329,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "TDLET-ZONE-CLOCK":
                 clock = TDLETZoneClock(extension, self.getShortName(child_element))
                 self.readTDLETZoneClock(child_element, clock)
-                extension.addElement(clock)
+                extension.addReferrableElement(clock)
                 extension.addTimingClock(clock)
             else:
                 self.notImplemented("Unsupported TIMING-CLOCKS item <%s>" % tag_name)
@@ -11365,9 +11377,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
         self.readReferrable(element, mode_element)
+        mode_iref_element = self.find(element, "MODE-IREF")
+        if mode_iref_element is not None:
+            mode_element.setModeIRef(self.getPModeInSystemInstanceRef(mode_iref_element))
 
     def readDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
         self.readReferrable(element, mode_element)
+        mode_iref_element = self.find(element, "MODE-IREF")
+        if mode_iref_element is not None:
+            mode_element.setModeIRef(self.getModeInBswModuleDescriptionInstanceRef(mode_iref_element))
 
     def readDiagnosticEventWindow(self, element: ET.Element, event_window: DiagnosticEventWindow):
         self.logger.debug("Read DiagnosticEventWindow")

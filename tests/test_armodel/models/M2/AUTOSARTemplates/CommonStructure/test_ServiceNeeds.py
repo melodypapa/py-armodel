@@ -1729,7 +1729,12 @@ class TestDiagnosticClearDtcNotificationEnum:
         """Test DiagnosticClearDtcNotificationEnum initialization (Table 13.33 literals)"""
         enum = DiagnosticClearDtcNotificationEnum()
 
-        assert enum.enumValues == ("start", "finish")
+        assert enum.enumValues == ("finish", "start")
+
+    def test_values(self):
+        """Test enum values (Table 13.33)"""
+        assert DiagnosticClearDtcNotificationEnum.FINISH == "finish"
+        assert DiagnosticClearDtcNotificationEnum.START == "start"
 
 
 class TestDtcFormatTypeEnum:
@@ -1737,7 +1742,13 @@ class TestDtcFormatTypeEnum:
         """Test DtcFormatTypeEnum initialization (R4.3.1 Table 13.30 literals)"""
         enum = DtcFormatTypeEnum()
 
-        assert enum.enumValues == ("j1939", "obd")
+        assert enum.enumValues == ("j1939", "obd", "uds")
+
+    def test_values(self):
+        """Test enum values"""
+        assert DtcFormatTypeEnum.J1939 == "j1939"
+        assert DtcFormatTypeEnum.OBD == "obd"
+        assert DtcFormatTypeEnum.UDS == "uds"
 
 
 class TestDtcStatusChangeNotificationNeeds:
@@ -3108,7 +3119,7 @@ class TestObdMonitorServiceNeedsRoundTrip:
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
-            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdMonitorServiceNeeds()[0]
             assert needs_2.getShortName() == "ObdMonitorNeeds"
             assert isinstance(needs_2, ObdMonitorServiceNeeds)
@@ -3206,7 +3217,7 @@ class TestObdControlServiceNeedsRoundTrip:
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
-            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdControlServiceNeeds()[0]
             assert needs_2.getShortName() == "ObdControlNeeds"
             assert isinstance(needs_2, ObdControlServiceNeeds)
@@ -3743,7 +3754,7 @@ class TestNewServiceNeedsSwcRoundTrip:
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
-            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             return needs_2
         finally:

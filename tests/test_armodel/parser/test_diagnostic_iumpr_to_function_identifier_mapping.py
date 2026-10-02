@@ -29,10 +29,7 @@ def _snip(inner: str, root_tag: str = "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-M
 class TestReadDiagnosticIumprToFunctionIdentifierMapping:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticIumprToFunctionIdentifierMapping(AUTOSAR.getInstance(), "M1")
-        element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<FUNCTION-IDENTIFIER-REF DEST='DEST'>/AUTOSAR/FunctionIdentifier1</FUNCTION-IDENTIFIER-REF><IUMPR-REF DEST='DEST'>/AUTOSAR/Iumpr1</IUMPR-REF>"
-        )
+        element = _snip("<SHORT-NAME>M1</SHORT-NAME>" "<FUNCTION-IDENTIFIER-REF DEST='DEST'>/AUTOSAR/FunctionIdentifier1</FUNCTION-IDENTIFIER-REF><IUMPR-REF DEST='DEST'>/AUTOSAR/Iumpr1</IUMPR-REF>")
         parser.readDiagnosticIumprToFunctionIdentifierMapping(element, mapping)
         assert mapping.getShortName() == "M1"
         assert mapping.getFunctionIdentifierRef() is not None

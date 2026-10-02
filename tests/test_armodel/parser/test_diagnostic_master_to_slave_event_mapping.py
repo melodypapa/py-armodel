@@ -29,10 +29,7 @@ def _snip(inner: str, root_tag: str = "DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING"
 class TestReadDiagnosticMasterToSlaveEventMapping:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticMasterToSlaveEventMapping(AUTOSAR.getInstance(), "M1")
-        element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<MASTER-EVENT-REF DEST='DEST'>/AUTOSAR/MasterEvent1</MASTER-EVENT-REF><SLAVE-EVENT-REF DEST='DEST'>/AUTOSAR/SlaveEvent1</SLAVE-EVENT-REF>"
-        )
+        element = _snip("<SHORT-NAME>M1</SHORT-NAME>" "<MASTER-EVENT-REF DEST='DEST'>/AUTOSAR/MasterEvent1</MASTER-EVENT-REF><SLAVE-EVENT-REF DEST='DEST'>/AUTOSAR/SlaveEvent1</SLAVE-EVENT-REF>")
         parser.readDiagnosticMasterToSlaveEventMapping(element, mapping)
         assert mapping.getShortName() == "M1"
         assert mapping.getMasterEventRef() is not None

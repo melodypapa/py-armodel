@@ -51,7 +51,7 @@ class TestWriteEvaluatedVariantSetRoundTrip:
             parser = ARXMLParser()
             parser.load(file_path, reload_doc)
 
-            reloaded = reload_doc.getARPackages()[0].getElement("MyEvaluatedVariantSet")
+            reloaded = reload_doc.getARPackages()[0].getReferrableElement("MyEvaluatedVariantSet")
             assert reloaded is not None
             assert reloaded.getApprovalStatus().getValue() == "APPROVED"
             assert len(reloaded.getEvaluatedElementRefs()) == 1

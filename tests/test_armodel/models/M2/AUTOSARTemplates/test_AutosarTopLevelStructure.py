@@ -111,8 +111,8 @@ class TestAbstractAUTOSAR:
         # arPackages is now a List with an internal lookup index (Step 3 restructure)
         assert autosar.arPackages == []
         assert autosar._ar_package_index == {}
-        assert autosar.elements == []
-        assert autosar.element_mappings == {}
+        assert autosar.referrableElements == []
+        assert autosar.referrableElementMappings == {}
 
     def test_get_admin_data(self):
         """Test the getAdminData method."""
@@ -209,7 +209,7 @@ class TestAbstractAUTOSAR:
         autosar = AbstractAUTOSAR()
         test_package = autosar.createARPackage("TestPackage")
 
-        result = autosar.getElement("TestPackage")
+        result = autosar.getReferrableElement("TestPackage")
         assert result == test_package
 
     def test_get_element_fallback(self):
@@ -217,7 +217,7 @@ class TestAbstractAUTOSAR:
         autosar = AbstractAUTOSAR()
         # A non-existent package short name is neither in the arPackages index
         # nor in the element registry; getElement must return None.
-        result = autosar.getElement("NonExistent")
+        result = autosar.getReferrableElement("NonExistent")
         assert result is None
 
     def test_get_ar_packages(self):
@@ -320,7 +320,7 @@ class TestAbstractAUTOSAR:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("TestPackage")
         impl_type = ImplementationDataType(pkg, "TestImplType")
-        pkg.addElement(impl_type)  # Add the element to the package
+        pkg.addReferrableElement(impl_type)  # Add the element to the package
 
         # Create a RefType with a referred type that doesn't match
         ref_type = RefType()
@@ -516,7 +516,7 @@ class TestAbstractAUTOSAR:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("TestPackage")
         base_type = ImplementationDataType(pkg, "BaseType")
-        pkg.addElement(base_type)
+        pkg.addReferrableElement(base_type)
 
         # Create a data reference type (lines 203-205)
         data_ref_type = ImplementationDataType(pkg, "DataRefType")

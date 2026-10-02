@@ -143,11 +143,11 @@ class EthernetCluster(CommunicationCluster):
 
     def createMacMulticastGroup(self, short_name: str) -> MacMulticastGroup:
         """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
-        if not self.IsElementExists(short_name, MacMulticastGroup):
+        if not self.IsReferrableElementExists(short_name, MacMulticastGroup):
             group = MacMulticastGroup(self, short_name)
-            self.addElement(group)
+            self.addReferrableElement(group)
             self.macMulticastGroups.append(group)
-        return self.getElement(short_name, MacMulticastGroup)
+        return self.getReferrableElement(short_name, MacMulticastGroup)
 
     def getMacMulticastGroups(self) -> List[MacMulticastGroup]:
         """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
@@ -1111,11 +1111,11 @@ class EthernetCommunicationController(CommunicationController):
 
     def createCouplingPort(self, short_name: str) -> CouplingPort:
         """Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch)."""
-        if not self.IsElementExists(short_name, CouplingPort):
+        if not self.IsReferrableElementExists(short_name, CouplingPort):
             group = CouplingPort(self, short_name)
-            self.addElement(group)
+            self.addReferrableElement(group)
             self.couplingPorts.append(group)
-        return self.getElement(short_name, CouplingPort)
+        return self.getReferrableElement(short_name, CouplingPort)
 
     def getMacLayerType(self) -> Optional[EthernetMacLayerTypeEnum]:
         """Specifies the mac layer type of the ethernet controller."""
@@ -1917,11 +1917,11 @@ class ApplicationEndpoint(Identifiable):
         """Consumed service instances."""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance
 
-        if not self.IsElementExists(short_name, ConsumedServiceInstance):
+        if not self.IsReferrableElementExists(short_name, ConsumedServiceInstance):
             instance = ConsumedServiceInstance(self, short_name)
-            self.addElement(instance)
+            self.addReferrableElement(instance)
             self.consumedServiceInstances.append(instance)
-        return self.getElement(short_name, ConsumedServiceInstance)
+        return self.getReferrableElement(short_name, ConsumedServiceInstance)
 
     def getConsumedServiceInstances(self) -> List[ConsumedServiceInstance]:
         """Consumed service instances."""
@@ -1970,11 +1970,11 @@ class ApplicationEndpoint(Identifiable):
         """Provided service instances."""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance
 
-        if not self.IsElementExists(short_name, ProvidedServiceInstance):
+        if not self.IsReferrableElementExists(short_name, ProvidedServiceInstance):
             instance = ProvidedServiceInstance(self, short_name)
-            self.addElement(instance)
+            self.addReferrableElement(instance)
             self.providedServiceInstances.append(instance)
-        return self.getElement(short_name, ProvidedServiceInstance)
+        return self.getReferrableElement(short_name, ProvidedServiceInstance)
 
     def getProvidedServiceInstances(self) -> List[ProvidedServiceInstance]:
         """Provided service instances."""
@@ -4017,11 +4017,11 @@ class EthernetPhysicalChannel(PhysicalChannel):
 
     def createNetworkEndpoint(self, short_name: str) -> NetworkEndpoint:
         """Collection of NetworkEndpoints that are used in the VLan."""
-        if not self.IsElementExists(short_name, NetworkEndpoint):
+        if not self.IsReferrableElementExists(short_name, NetworkEndpoint):
             end_point = NetworkEndpoint(self, short_name)
-            self.addElement(end_point)
+            self.addReferrableElement(end_point)
             self.networkEndpoints.append(end_point)
-        return self.getElement(short_name, NetworkEndpoint)
+        return self.getReferrableElement(short_name, NetworkEndpoint)
 
     def getNetworkEndpoints(self) -> List[NetworkEndpoint]:
         """Collection of NetworkEndpoints that are used in the VLan."""
@@ -4042,11 +4042,11 @@ class EthernetPhysicalChannel(PhysicalChannel):
 
     def createVlanConfig(self, short_name: str) -> VlanConfig:
         """VLAN Configuration."""
-        if not self.IsElementExists(short_name, VlanConfig):
+        if not self.IsReferrableElementExists(short_name, VlanConfig):
             config = VlanConfig(self, short_name)
-            self.addElement(config)
+            self.addReferrableElement(config)
             self.vlan = config
-        return self.getElement(short_name, VlanConfig)
+        return self.getReferrableElement(short_name, VlanConfig)
 
     def getVlan(self) -> Optional[VlanConfig]:
         """VLAN Configuration."""

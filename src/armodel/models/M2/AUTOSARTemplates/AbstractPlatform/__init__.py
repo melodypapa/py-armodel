@@ -27,7 +27,7 @@ class ApplicationInterface(PortInterface):
 
     # ApplicationInterface method parity checklist:
     # Spec: AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf, Table 3.7, p.28
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAttributes               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

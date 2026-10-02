@@ -30,8 +30,7 @@ class TestReadDiagnosticJ1939SwMapping:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticJ1939SwMapping(AUTOSAR.getInstance(), "M1")
         element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<NODE-REF DEST='DEST'>/AUTOSAR/Node1</NODE-REF><SW-COMPONENT-PROTOTYPE-IREF DEST='DEST'>/AUTOSAR/SwComponentPrototype1</SW-COMPONENT-PROTOTYPE-IREF>"
+            "<SHORT-NAME>M1</SHORT-NAME>" "<NODE-REF DEST='DEST'>/AUTOSAR/Node1</NODE-REF><SW-COMPONENT-PROTOTYPE-IREF DEST='DEST'>/AUTOSAR/SwComponentPrototype1</SW-COMPONENT-PROTOTYPE-IREF>"
         )
         parser.readDiagnosticJ1939SwMapping(element, mapping)
         assert mapping.getShortName() == "M1"

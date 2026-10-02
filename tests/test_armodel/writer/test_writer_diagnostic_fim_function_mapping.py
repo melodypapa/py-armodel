@@ -33,7 +33,7 @@ class TestWriteDiagnosticFimFunctionMapping:
         package.createDiagnosticFimFunctionMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticFimFunctionMapping(parent, package.getElement("M1", DiagnosticFimFunctionMapping))
+        ARXMLWriter().writeDiagnosticFimFunctionMapping(parent, package.getReferrableElement("M1", DiagnosticFimFunctionMapping))
 
         child = parent.find("DIAGNOSTIC-FIM-FUNCTION-MAPPING")
         assert child is not None

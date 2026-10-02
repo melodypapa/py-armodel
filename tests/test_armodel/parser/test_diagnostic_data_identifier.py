@@ -102,7 +102,7 @@ def test_arpackage_dispatch_reads_diagnostic_data_identifier(parser):
     )
     parser.readARPackageElements(ar_package, package)
 
-    did = package.getElement("Di", DiagnosticDataIdentifier)
+    did = package.getReferrableElement("Di", DiagnosticDataIdentifier)
     assert did is not None
     assert isinstance(did, DiagnosticDataIdentifier)
     assert did.getDidSize().getValue() == 8

@@ -45,7 +45,7 @@ class TestWriteDiagnosticAuthenticationConfiguration:
         package.createDiagnosticAuthenticationConfiguration("AuthCfg1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticAuthenticationConfiguration(parent, package.getElement("AuthCfg1", DiagnosticAuthenticationConfiguration))
+        ARXMLWriter().writeDiagnosticAuthenticationConfiguration(parent, package.getReferrableElement("AuthCfg1", DiagnosticAuthenticationConfiguration))
 
         child = parent.find("DIAGNOSTIC-AUTHENTICATION-CONFIGURATION")
         assert child is not None
@@ -77,7 +77,7 @@ class TestWriteDiagnosticAuthenticationConfiguration:
         package.createDiagnosticAuthenticationConfiguration("AuthCfg1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("AuthCfg1", DiagnosticAuthenticationConfiguration))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("AuthCfg1", DiagnosticAuthenticationConfiguration))
 
         child = parent.find("DIAGNOSTIC-AUTHENTICATION-CONFIGURATION")
         assert child is not None
@@ -100,7 +100,7 @@ class TestWriteDiagnosticAuthenticationConfiguration:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            configuration_2 = package_2.getElement("AuthCfg1", DiagnosticAuthenticationConfiguration)
+            configuration_2 = package_2.getReferrableElement("AuthCfg1", DiagnosticAuthenticationConfiguration)
             assert configuration_2 is not None
             assert configuration_2.getShortName() == "AuthCfg1"
             ref_2 = configuration_2.getAuthenticationClass()

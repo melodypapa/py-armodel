@@ -37,7 +37,7 @@ class TestWriteDiagnosticStorageConditionPortMapping:
         package.createDiagnosticStorageConditionPortMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticStorageConditionPortMapping(parent, package.getElement("M1", DiagnosticStorageConditionPortMapping))
+        ARXMLWriter().writeDiagnosticStorageConditionPortMapping(parent, package.getReferrableElement("M1", DiagnosticStorageConditionPortMapping))
 
         child = parent.find("DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING")
         assert child is not None

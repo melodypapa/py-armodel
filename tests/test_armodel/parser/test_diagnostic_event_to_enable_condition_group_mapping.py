@@ -47,4 +47,3 @@ class TestReadDiagnosticEventToEnableConditionGroupMapping:
         parser.readDiagnosticEventToEnableConditionGroupMapping(element, mapping)
         assert mapping.getDiagnosticEventRef() is None
         assert mapping.getEnableConditionGroupRef() is None
-

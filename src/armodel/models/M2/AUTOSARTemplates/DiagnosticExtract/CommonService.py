@@ -81,12 +81,14 @@ class DiagnosticServiceClass(DiagnosticCommonElement, ABC):
 
     # DiagnosticServiceClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.25, p.69
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DiagnosticServiceClass:
             raise TypeError("DiagnosticServiceClass is an abstract class.")
+
         super().__init__(parent, short_name)
 
 

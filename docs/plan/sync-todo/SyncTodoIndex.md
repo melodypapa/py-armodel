@@ -659,35 +659,35 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **2/25** completed
+Status: **25/25** completed
 
-| Class Name                                 | Status       | Commit ID  |
-| ------------------------------------------ | ------------ | ---------- |
-| `DiagnosticAudienceEnum`                   | [ ] Pending* | 5685ad743e |
-| `DiagnosticClearDtcNotificationEnum`       | [ ] Pending* | 28746ce3cc |
-| `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3cc |
-| `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3cc |
-| `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending* | 28746ce3cc |
-| `DiagnosticValueAccessEnum`                | [ ] Pending* | 28746ce3cc |
-| `DtcFormatTypeEnum`                        | [ ] Pending* | 28746ce3cc |
-| `DtcKindEnum`                              | [ ] Pending* | 28746ce3cc |
-| `ServiceDiagnosticRelevanceEnum`           | [ ] Pending* | 28746ce3cc |
-| `DiagnosticCapabilityElement`              | [ ] Pending* | f5ffd3abf2 |
-| `DiagnosticCommunicationManagerNeeds`      | [ ] Pending* | 79c639e42a |
-| `DiagnosticEventInfoNeeds`                 | [ ] Pending* | 79c639e42a |
-| `DiagnosticRoutineNeeds`                   | [ ] Pending* | 79c639e42a |
-| `DiagnosticValueNeeds`                     | [ ] Pending* | 79c639e42a |
-| `DtcStatusChangeNotificationNeeds`         | [ ] Pending* | 79c639e42a |
-| `CryptoServiceNeeds`                       | [ ] Pending* | d064592a44 |
-| `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a44 |
-| `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc625 |
-| `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
-| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending* | N/A        |
-| `DiagnosticLogicalOperatorEnum`            | [ ] Pending* | N/A        |
-| `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af373 |
-| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af373 |
-| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af373 |
-| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |
+| Class Name                                 | Status   | Commit ID  |
+| ------------------------------------------ | -------- | ---------- |
+| `DiagnosticAudienceEnum`                   | [x] Done | 80d64e8f15 |
+| `DiagnosticClearDtcNotificationEnum`       | [x] Done | 2415d2157a |
+| `DiagnosticProcessingStyleEnum`            | [x] Done | d07b0d0144 |
+| `DiagnosticRoutineTypeEnum`                | [x] Done | f9dc536d57 |
+| `DiagnosticServiceRequestCallbackTypeEnum` | [x] Done | 77c7312cc8 |
+| `DiagnosticValueAccessEnum`                | [x] Done | 85e9c3f3be |
+| `DtcFormatTypeEnum`                        | [x] Done | f376d8339f |
+| `DtcKindEnum`                              | [x] Done | 8b62eec625 |
+| `ServiceDiagnosticRelevanceEnum`           | [x] Done | da3a2d3532 |
+| `DiagnosticCapabilityElement`              | [x] Done | caf7dc3419 |
+| `DiagnosticCommunicationManagerNeeds`      | [x] Done | 8c487102b9 |
+| `DiagnosticEventInfoNeeds`                 | [x] Done | 99f3db39c4 |
+| `DiagnosticRoutineNeeds`                   | [x] Done | 9f1a4310b7 |
+| `DiagnosticValueNeeds`                     | [x] Done | 475d150577 |
+| `DtcStatusChangeNotificationNeeds`         | [x] Done | 89407b6f0f |
+| `CryptoServiceNeeds`                       | [x] Done | bea3457ed5 |
+| `DiagEventDebounceCounterBased`            | [x] Done | f41b486233 |
+| `SignalServiceTranslationElementProps`     | [x] Done | 8b6384cb3f |
+| `DiagnosticServiceClass`                   | [x] Done | d19685ff4f |
+| `DiagnosticJumpToBootLoaderEnum`           | [x] Done | d901d9ee70 |
+| `DiagnosticLogicalOperatorEnum`            | [x] Done | a70421898e |
+| `DiagnosticEnvConditionFormulaPart`        | [x] Done | 66e22b5a41 |
+| `DiagnosticEnvConditionFormula`            | [x] Done | 9f4e1849ac |
+| `DiagnosticEnvCompareCondition`            | [x] Done | e2c6fe29bb |
+| `DiagnosticEnvModeElement`                 | [x] Done | 513c78a4a8 |
 
 ## Group15
 

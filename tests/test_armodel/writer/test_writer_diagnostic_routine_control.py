@@ -54,7 +54,7 @@ class TestWriteDiagnosticRoutineControl:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticRoutineControls")
         package.createDiagnosticRoutineControl("RoutineControl1")
 
-        child = self._write(package.getElement("RoutineControl1", DiagnosticRoutineControl))
+        child = self._write(package.getReferrableElement("RoutineControl1", DiagnosticRoutineControl))
         assert child is not None
         assert child.find("SHORT-NAME").text == "RoutineControl1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -101,7 +101,7 @@ class TestWriteDiagnosticRoutineControl:
         package.createDiagnosticRoutineControl("RoutineControl1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("RoutineControl1", DiagnosticRoutineControl))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("RoutineControl1", DiagnosticRoutineControl))
 
         child = parent.find("DIAGNOSTIC-ROUTINE-CONTROL")
         assert child is not None
@@ -122,7 +122,7 @@ class TestWriteDiagnosticRoutineControl:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            routine_control_2 = package_2.getElement("RoutineControl1", DiagnosticRoutineControl)
+            routine_control_2 = package_2.getReferrableElement("RoutineControl1", DiagnosticRoutineControl)
             assert routine_control_2 is not None
             assert routine_control_2.getShortName() == "RoutineControl1"
             routine_ref = routine_control_2.getRoutine()

@@ -33,7 +33,7 @@ class TestWriteDiagnosticEventToTroubleCodeJ1939Mapping:
         package.createDiagnosticEventToTroubleCodeJ1939Mapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToTroubleCodeJ1939Mapping(parent, package.getElement("M1", DiagnosticEventToTroubleCodeJ1939Mapping))
+        ARXMLWriter().writeDiagnosticEventToTroubleCodeJ1939Mapping(parent, package.getReferrableElement("M1", DiagnosticEventToTroubleCodeJ1939Mapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING")
         assert child is not None

@@ -46,7 +46,7 @@ class TestCryptoEllipticCurvePropsParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        created = pkg.getElement("Curve", CryptoEllipticCurveProps)
+        created = pkg.getReferrableElement("Curve", CryptoEllipticCurveProps)
         assert created is not None
         assert isinstance(created, CryptoEllipticCurveProps)
         assert created.getShortName() == "Curve"
@@ -56,7 +56,7 @@ class TestCryptoEllipticCurvePropsParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        props = pkg.getElement("Curve", CryptoEllipticCurveProps)
+        props = pkg.getReferrableElement("Curve", CryptoEllipticCurveProps)
         assert props.getNamedCurveId().getValue() == 23
 
     def test_parse_optional_attributes_absent(self):
@@ -71,7 +71,7 @@ class TestCryptoEllipticCurvePropsParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoEllipticCurveProps")
         ARXMLParser().readARPackageElements(ET.fromstring(xml), pkg)
 
-        props = pkg.getElement("Empty", CryptoEllipticCurveProps)
+        props = pkg.getReferrableElement("Empty", CryptoEllipticCurveProps)
         assert props.getNamedCurveId() is None
 
     def test_parse_write_reparse_round_trip(self):
@@ -88,6 +88,6 @@ class TestCryptoEllipticCurvePropsParser:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoEllipticCurveProps")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        props = reloaded.getElement("Curve", CryptoEllipticCurveProps)
+        props = reloaded.getReferrableElement("Curve", CryptoEllipticCurveProps)
         assert props is not None
         assert props.getNamedCurveId().getValue() == 23

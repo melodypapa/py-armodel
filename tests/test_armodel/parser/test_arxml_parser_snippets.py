@@ -952,7 +952,7 @@ class TestRealArxmlRoundTripBranches:
         assert base_pkg is not None
         base_types = base_pkg.getSwBaseTypes()
         assert len(base_types) > 0
-        float32 = base_pkg.getElement("float32")
+        float32 = base_pkg.getReferrableElement("float32")
         assert float32 is not None
         impl_pkg = autosar.find("/AUTOSAR_Platform/ImplementationDataTypes")
         assert impl_pkg is not None

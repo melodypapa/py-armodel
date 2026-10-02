@@ -119,11 +119,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswModuleDependency instance
         """
-        if not self.IsElementExists(short_name, BswModuleDependency):
+        if not self.IsReferrableElementExists(short_name, BswModuleDependency):
             dependency = BswModuleDependency(self, short_name)
-            self.addElement(dependency)
+            self.addReferrableElement(dependency)
             self.bswModuleDependencies.append(dependency)
-        return self.getElement(short_name, BswModuleDependency)
+        return self.getReferrableElement(short_name, BswModuleDependency)
 
     def addBswModuleDependency(self, value: BswModuleDependency) -> "BswModuleDescription":
         """
@@ -249,11 +249,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswInternalBehavior instance
         """
-        if not self.IsElementExists(short_name, BswInternalBehavior):
+        if not self.IsReferrableElementExists(short_name, BswInternalBehavior):
             behavior = BswInternalBehavior(self, short_name)
-            self.addElement(behavior)
+            self.addReferrableElement(behavior)
             self.internalBehaviors.append(behavior)
-        return self.getElement(short_name, BswInternalBehavior)
+        return self.getReferrableElement(short_name, BswInternalBehavior)
 
     def getModuleId(self) -> Optional[PositiveInteger]:
         """
@@ -292,11 +292,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswModuleClientServerEntry instance
         """
-        if not self.IsElementExists(short_name, BswModuleClientServerEntry):
+        if not self.IsReferrableElementExists(short_name, BswModuleClientServerEntry):
             entry = BswModuleClientServerEntry(self, short_name)
-            self.addElement(entry)
+            self.addReferrableElement(entry)
             self.providedClientServerEntries.append(entry)
-        return self.getElement(short_name, BswModuleClientServerEntry)
+        return self.getReferrableElement(short_name, BswModuleClientServerEntry)
 
     def getProvidedDatas(self) -> List[VariableDataPrototype]:
         """
@@ -314,11 +314,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created VariableDataPrototype instance
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.providedDatas.append(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getProvidedModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         """
@@ -336,11 +336,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created ModeDeclarationGroupPrototype instance
         """
-        if not self.IsElementExists(short_name, ModeDeclarationGroupPrototype):
+        if not self.IsReferrableElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.providedModeGroups.append(prototype)
-        return self.getElement(short_name, ModeDeclarationGroupPrototype)
+        return self.getReferrableElement(short_name, ModeDeclarationGroupPrototype)
 
     def getReleasedTriggers(self) -> List[Trigger]:
         """
@@ -358,11 +358,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created Trigger instance
         """
-        if not self.IsElementExists(short_name, Trigger):
+        if not self.IsReferrableElementExists(short_name, Trigger):
             trigger = Trigger(self, short_name)
-            self.addElement(trigger)
+            self.addReferrableElement(trigger)
             self.releasedTriggers.append(trigger)
-        return self.getElement(short_name, Trigger)
+        return self.getReferrableElement(short_name, Trigger)
 
     def getRequiredClientServerEntries(self) -> List[BswModuleClientServerEntry]:
         """
@@ -380,11 +380,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswModuleClientServerEntry instance
         """
-        if not self.IsElementExists(short_name, BswModuleClientServerEntry):
+        if not self.IsReferrableElementExists(short_name, BswModuleClientServerEntry):
             entry = BswModuleClientServerEntry(self, short_name)
-            self.addElement(entry)
+            self.addReferrableElement(entry)
             self.requiredClientServerEntries.append(entry)
-        return self.getElement(short_name, BswModuleClientServerEntry)
+        return self.getReferrableElement(short_name, BswModuleClientServerEntry)
 
     def getRequiredDatas(self) -> List[VariableDataPrototype]:
         """
@@ -402,11 +402,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created VariableDataPrototype instance
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.requiredDatas.append(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getRequiredModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         """
@@ -424,11 +424,11 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created ModeDeclarationGroupPrototype instance
         """
-        if not self.IsElementExists(short_name, ModeDeclarationGroupPrototype):
+        if not self.IsReferrableElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.requiredModeGroups.append(prototype)
-        return self.getElement(short_name, ModeDeclarationGroupPrototype)
+        return self.getReferrableElement(short_name, ModeDeclarationGroupPrototype)
 
     def getRequiredTriggers(self) -> List[Trigger]:
         """
@@ -446,8 +446,8 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created Trigger instance
         """
-        if not self.IsElementExists(short_name, Trigger):
+        if not self.IsReferrableElementExists(short_name, Trigger):
             trigger = Trigger(self, short_name)
-            self.addElement(trigger)
+            self.addReferrableElement(trigger)
             self.requiredTriggers.append(trigger)
-        return self.getElement(short_name, Trigger)
+        return self.getReferrableElement(short_name, Trigger)

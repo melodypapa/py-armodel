@@ -1098,6 +1098,8 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
         if value is not None:
             self.destinationRef = value
         return self
+
+
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Specify alternative references where in the ECU Configuration description
@@ -1174,6 +1176,8 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
         if value is not None:
             self.destinationRef = value
         return self
+
+
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Definition of reference with a destination that is specified via a destinationUri. With such a reference it is possible to define a reference to a EcucContainerDef in a different module independent from the concrete definition of the target container.
@@ -1219,6 +1223,8 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
         if value is not None:
             self.destinationUriRef = value
         return self
+
+
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
     Specify a reference to an XML description of an entity described in another AUTOSAR template.
@@ -1596,11 +1602,11 @@ class EcucEnumerationParamDef(EcucParameterDef):
         """
         Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
         """
-        if not self.IsElementExists(short_name, EcucEnumerationLiteralDef):
+        if not self.IsReferrableElementExists(short_name, EcucEnumerationLiteralDef):
             literal = EcucEnumerationLiteralDef(self, short_name)
-            self.addElement(literal)
+            self.addReferrableElement(literal)
             self.literals.append(literal)
-        return self.getElement(short_name, EcucEnumerationLiteralDef)
+        return self.getReferrableElement(short_name, EcucEnumerationLiteralDef)
 
 
 class EcucFloatParamDef(EcucParameterDef):
@@ -1705,11 +1711,11 @@ class EcucChoiceContainerDef(EcucContainerDef):
         """
         The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
         """
-        if not self.IsElementExists(short_name, EcucParamConfContainerDef):
+        if not self.IsReferrableElementExists(short_name, EcucParamConfContainerDef):
             choice = EcucParamConfContainerDef(self, short_name)
-            self.addElement(choice)
+            self.addReferrableElement(choice)
             self.choices.append(choice)
-        return self.getElement(short_name, EcucParamConfContainerDef)
+        return self.getReferrableElement(short_name, EcucParamConfContainerDef)
 
 
 class EcucParamConfContainerDef(EcucContainerDef):
@@ -1761,91 +1767,91 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucAddInfoParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucAddInfoParamDef):
             param = EcucAddInfoParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucAddInfoParamDef)
+        return self.getReferrableElement(short_name, EcucAddInfoParamDef)
 
     def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucBooleanParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucBooleanParamDef):
             param = EcucBooleanParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucBooleanParamDef)
+        return self.getReferrableElement(short_name, EcucBooleanParamDef)
 
     def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucStringParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucStringParamDef):
             param = EcucStringParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucStringParamDef)
+        return self.getReferrableElement(short_name, EcucStringParamDef)
 
     def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucIntegerParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucIntegerParamDef):
             param = EcucIntegerParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucIntegerParamDef)
+        return self.getReferrableElement(short_name, EcucIntegerParamDef)
 
     def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucFloatParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucFloatParamDef):
             param = EcucFloatParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucFloatParamDef)
+        return self.getReferrableElement(short_name, EcucFloatParamDef)
 
     def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucEnumerationParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucEnumerationParamDef):
             param = EcucEnumerationParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucEnumerationParamDef)
+        return self.getReferrableElement(short_name, EcucEnumerationParamDef)
 
     def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucFunctionNameDef):
+        if not self.IsReferrableElementExists(short_name, EcucFunctionNameDef):
             ref = EcucFunctionNameDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.parameters.append(ref)
-        return self.getElement(short_name, EcucFunctionNameDef)
+        return self.getReferrableElement(short_name, EcucFunctionNameDef)
 
     def createEcucMultilineStringParamDef(self, short_name: str) -> EcucMultilineStringParamDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucMultilineStringParamDef):
+        if not self.IsReferrableElementExists(short_name, EcucMultilineStringParamDef):
             param = EcucMultilineStringParamDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucMultilineStringParamDef)
+        return self.getReferrableElement(short_name, EcucMultilineStringParamDef)
 
     def createEcucLinkerSymbolDef(self, short_name: str) -> EcucLinkerSymbolDef:
         """
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
-        if not self.IsElementExists(short_name, EcucLinkerSymbolDef):
+        if not self.IsReferrableElementExists(short_name, EcucLinkerSymbolDef):
             param = EcucLinkerSymbolDef(self, short_name)
-            self.addElement(param)
+            self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getElement(short_name, EcucLinkerSymbolDef)
+        return self.getReferrableElement(short_name, EcucLinkerSymbolDef)
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
@@ -1857,11 +1863,11 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         """
-        if not self.IsElementExists(short_name, EcucSymbolicNameReferenceDef):
+        if not self.IsReferrableElementExists(short_name, EcucSymbolicNameReferenceDef):
             ref = EcucSymbolicNameReferenceDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getElement(short_name, EcucSymbolicNameReferenceDef)
+        return self.getReferrableElement(short_name, EcucSymbolicNameReferenceDef)
 
     def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
         """
@@ -1873,11 +1879,11 @@ class EcucParamConfContainerDef(EcucContainerDef):
         Returns:
             EcucReferenceDef: The newly created ECUC reference definition.
         """
-        if not self.IsElementExists(short_name, EcucReferenceDef):
+        if not self.IsReferrableElementExists(short_name, EcucReferenceDef):
             ref = EcucReferenceDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getElement(short_name, EcucReferenceDef)
+        return self.getReferrableElement(short_name, EcucReferenceDef)
 
     def createEcucUriReferenceDef(self, short_name: str) -> EcucUriReferenceDef:
         """
@@ -1889,11 +1895,11 @@ class EcucParamConfContainerDef(EcucContainerDef):
         Returns:
             EcucUriReferenceDef: The newly created ECUC URI reference definition.
         """
-        if not self.IsElementExists(short_name, EcucUriReferenceDef):
+        if not self.IsReferrableElementExists(short_name, EcucUriReferenceDef):
             ref = EcucUriReferenceDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getElement(short_name, EcucUriReferenceDef)
+        return self.getReferrableElement(short_name, EcucUriReferenceDef)
 
     def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
         """
@@ -1905,31 +1911,31 @@ class EcucParamConfContainerDef(EcucContainerDef):
         Returns:
             EcucChoiceReferenceDef: The newly created ECUC choice reference definition.
         """
-        if not self.IsElementExists(short_name, EcucChoiceReferenceDef):
+        if not self.IsReferrableElementExists(short_name, EcucChoiceReferenceDef):
             ref = EcucChoiceReferenceDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getElement(short_name, EcucChoiceReferenceDef)
+        return self.getReferrableElement(short_name, EcucChoiceReferenceDef)
 
     def createEcucInstanceReferenceDef(self, short_name: str) -> EcucInstanceReferenceDef:
         """
         The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         """
-        if not self.IsElementExists(short_name, EcucInstanceReferenceDef):
+        if not self.IsReferrableElementExists(short_name, EcucInstanceReferenceDef):
             ref = EcucInstanceReferenceDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getElement(short_name, EcucInstanceReferenceDef)
+        return self.getReferrableElement(short_name, EcucInstanceReferenceDef)
 
     def createEcucForeignReferenceDef(self, short_name: str) -> EcucForeignReferenceDef:
         """
         The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         """
-        if not self.IsElementExists(short_name, EcucForeignReferenceDef):
+        if not self.IsReferrableElementExists(short_name, EcucForeignReferenceDef):
             ref = EcucForeignReferenceDef(self, short_name)
-            self.addElement(ref)
+            self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getElement(short_name, EcucForeignReferenceDef)
+        return self.getReferrableElement(short_name, EcucForeignReferenceDef)
 
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
@@ -1941,21 +1947,21 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         """
-        if not self.IsElementExists(short_name, EcucChoiceContainerDef):
+        if not self.IsReferrableElementExists(short_name, EcucChoiceContainerDef):
             container = EcucChoiceContainerDef(self, short_name)
-            self.addElement(container)
+            self.addReferrableElement(container)
             self.subContainers.append(container)
-        return self.getElement(short_name, EcucChoiceContainerDef)
+        return self.getReferrableElement(short_name, EcucChoiceContainerDef)
 
     def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
         """
         The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         """
-        if not self.IsElementExists(short_name, EcucParamConfContainerDef):
+        if not self.IsReferrableElementExists(short_name, EcucParamConfContainerDef):
             container = EcucParamConfContainerDef(self, short_name)
-            self.addElement(container)
+            self.addReferrableElement(container)
             self.subContainers.append(container)
-        return self.getElement(short_name, EcucParamConfContainerDef)
+        return self.getReferrableElement(short_name, EcucParamConfContainerDef)
 
 
 class EcucAddInfoParamDef(EcucParameterDef):
@@ -2498,21 +2504,21 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         """
-        if not self.IsElementExists(short_name, EcucParamConfContainerDef):
+        if not self.IsReferrableElementExists(short_name, EcucParamConfContainerDef):
             container_def = EcucParamConfContainerDef(self, short_name)
-            self.addElement(container_def)
+            self.addReferrableElement(container_def)
             self.containers.append(container_def)
-        return self.getElement(short_name, EcucParamConfContainerDef)
+        return self.getReferrableElement(short_name, EcucParamConfContainerDef)
 
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
         """
         Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         """
-        if not self.IsElementExists(short_name, EcucChoiceContainerDef):
+        if not self.IsReferrableElementExists(short_name, EcucChoiceContainerDef):
             container_def = EcucChoiceContainerDef(self, short_name)
-            self.addElement(container_def)
+            self.addReferrableElement(container_def)
             self.containers.append(container_def)
-        return self.getElement(short_name, EcucChoiceContainerDef)
+        return self.getReferrableElement(short_name, EcucChoiceContainerDef)
 
     def getPostBuildVariantSupport(self) -> Optional[Boolean]:
         """

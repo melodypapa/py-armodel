@@ -195,11 +195,11 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         Returns:
             The newly created or existing ApplicationArrayElement instance
         """
-        if not self.IsElementExists(short_name, ApplicationArrayElement):
+        if not self.IsReferrableElementExists(short_name, ApplicationArrayElement):
             array_element = ApplicationArrayElement(self, short_name)
-            self.addElement(array_element)
+            self.addReferrableElement(array_element)
             self.element = array_element
-        return self.getElement(short_name, ApplicationArrayElement)
+        return self.getReferrableElement(short_name, ApplicationArrayElement)
 
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
@@ -220,11 +220,11 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
         self.recordElements: List[ApplicationRecordElement] = []
 
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
-        if not self.IsElementExists(short_name, ApplicationRecordElement):
+        if not self.IsReferrableElementExists(short_name, ApplicationRecordElement):
             record_element = ApplicationRecordElement(self, short_name)
-            self.addElement(record_element)
+            self.addReferrableElement(record_element)
             self.recordElements.append(record_element)
-        return self.getElement(short_name, ApplicationRecordElement)
+        return self.getReferrableElement(short_name, ApplicationRecordElement)
 
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
         return self.recordElements

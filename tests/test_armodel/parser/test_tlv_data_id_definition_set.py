@@ -56,7 +56,7 @@ class TestTlvDataIdDefinitionSetParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        created = pkg.getElement("MySet", TlvDataIdDefinitionSet)
+        created = pkg.getReferrableElement("MySet", TlvDataIdDefinitionSet)
         assert created is not None
         assert isinstance(created, TlvDataIdDefinitionSet)
         assert created.getShortName() == "MySet"
@@ -66,7 +66,7 @@ class TestTlvDataIdDefinitionSetParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        tlv_set = pkg.getElement("MySet", TlvDataIdDefinitionSet)
+        tlv_set = pkg.getReferrableElement("MySet", TlvDataIdDefinitionSet)
         definitions = tlv_set.getTlvDataIdDefinitions()
         assert len(definitions) == 2
         assert isinstance(definitions[0], TlvDataIdDefinition)
@@ -89,7 +89,7 @@ class TestTlvDataIdDefinitionSetParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="TlvDataIdDefinitionSets")
         ARXMLParser().readARPackageElements(ET.fromstring(xml), pkg)
 
-        tlv_set = pkg.getElement("EmptySet", TlvDataIdDefinitionSet)
+        tlv_set = pkg.getReferrableElement("EmptySet", TlvDataIdDefinitionSet)
         assert tlv_set is not None
         assert tlv_set.getTlvDataIdDefinitions() == []
 
@@ -99,4 +99,4 @@ class TestTlvDataIdDefinitionSetParser:
         second = pkg.createTlvDataIdDefinitionSet("MySet")
 
         assert first is second
-        assert pkg.getTotalElement() == 1
+        assert pkg.getTotalReferrableElement() == 1
