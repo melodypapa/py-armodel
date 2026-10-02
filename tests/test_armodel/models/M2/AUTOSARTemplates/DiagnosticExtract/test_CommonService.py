@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestEmissionRelatedDTCClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
@@ -1436,4 +1437,37 @@ class Test_DiagnosticRequestPowertrainFreezeFrameDataClass:
         assert package.getReferrableElement("Rpf1", DiagnosticRequestPowertrainFreezeFrameDataClass) is service_class
 
         duplicate = package.createDiagnosticRequestPowertrainFreezeFrameDataClass("Rpf1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestEmissionRelatedDTCClass:
+    """Test cases for DiagnosticRequestEmissionRelatedDTCClass class (Table 4.136, p.154)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Emission Related DTC" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestEmissionRelatedDTCClass(_pkg(), "MyRed")
+        assert service_class.getShortName() == "MyRed"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, ARObject)
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTCClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestEmissionRelatedDTCClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_emission_related_dtc_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestEmissionRelatedDTCClass("Red1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestEmissionRelatedDTCClass)
+        assert service_class.getShortName() == "Red1"
+        assert package.getReferrableElement("Red1", DiagnosticRequestEmissionRelatedDTCClass) is service_class
+
+        duplicate = package.createDiagnosticRequestEmissionRelatedDTCClass("Red1")
         assert duplicate is service_class

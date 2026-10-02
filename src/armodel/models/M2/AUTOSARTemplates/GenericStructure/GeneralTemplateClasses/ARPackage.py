@@ -1140,6 +1140,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_emission_related_dtc)
         return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTC)
 
+    def createDiagnosticRequestEmissionRelatedDTCClass(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCClass:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTCClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTCClass contains attributes shared by all
+        instances of the "Request Emission Related DTC" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTCClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTCClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCClass):
+            request_emission_related_dtc_class = DiagnosticRequestEmissionRelatedDTCClass(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCClass)
+
     def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
         """
         Creates a new DiagnosticRequestUpload with the given short name, or
@@ -4361,6 +4380,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDataTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestCurrentPowertrainDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestFileTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestPowertrainFreezeFrameDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestUploadClass  # noqa: E402

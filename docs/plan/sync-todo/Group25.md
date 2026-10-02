@@ -200,14 +200,14 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     trailing "Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCs" suffix (twin convention); PDF p.154 via
     pdf_page.py.
   - [x] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1939 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_emission_related_dtc.py + test_diagnostic_request_emission_related_dtc_class.py + test_writer_diagnostic_request_emission_related_dtc.py + test_writer_diagnostic_request_emission_related_dtc_class.py; parser+writer regression 7318 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticClearResetEmissionRelatedInfo` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.137, p.155
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)

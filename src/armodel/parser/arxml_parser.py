@@ -396,6 +396,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticDataTransferClass,
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestEmissionRelatedDTCClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
@@ -11593,6 +11594,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestPowertrainFreezeFrameDataClass <%s>" % request_powertrain_freeze_frame_data_class.getShortName())
         self.readIdentifiable(element, request_powertrain_freeze_frame_data_class)
 
+    def readDiagnosticRequestEmissionRelatedDTCClass(self, element: ET.Element, request_emission_related_dtc_class: DiagnosticRequestEmissionRelatedDTCClass):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCClass <%s>" % request_emission_related_dtc_class.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc_class)
+
     def readDiagnosticRequestUploadClass(self, element: ET.Element, request_upload_class: DiagnosticRequestUploadClass):
         self.logger.debug("Read DiagnosticRequestUploadClass <%s>" % request_upload_class.getShortName())
         self.readIdentifiable(element, request_upload_class)
@@ -16460,6 +16465,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS":
             request_upload_class = parent.createDiagnosticRequestUploadClass(self.getShortName(child_element))
             self.readDiagnosticRequestUploadClass(child_element, request_upload_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS":
+            request_emission_related_dtc_class = parent.createDiagnosticRequestEmissionRelatedDTCClass(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTCClass(child_element, request_emission_related_dtc_class)
         elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS":
             request_file_transfer_class = parent.createDiagnosticRequestFileTransferClass(self.getShortName(child_element))
             self.readDiagnosticRequestFileTransferClass(child_element, request_file_transfer_class)

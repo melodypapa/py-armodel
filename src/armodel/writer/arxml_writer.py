@@ -289,6 +289,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticDataTransferClass,
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestEmissionRelatedDTCClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
@@ -15036,6 +15037,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS")
         self.writeIdentifiable(child_element, request_powertrain_freeze_frame_data_class)
 
+    def writeDiagnosticRequestEmissionRelatedDTCClass(self, element: ET.Element, request_emission_related_dtc_class: DiagnosticRequestEmissionRelatedDTCClass):
+        self.logger.debug("Write DiagnosticRequestEmissionRelatedDTCClass %s" % request_emission_related_dtc_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS")
+        self.writeIdentifiable(child_element, request_emission_related_dtc_class)
+
     def writeDiagnosticRequestDownload(self, element: ET.Element, request_download: DiagnosticRequestDownload):
         self.logger.debug("Write DiagnosticRequestDownload %s" % request_download.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD")
@@ -16209,6 +16215,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRequestCurrentPowertrainDataClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestDownloadClass):
             self.writeDiagnosticRequestDownloadClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestEmissionRelatedDTCClass):
+            self.writeDiagnosticRequestEmissionRelatedDTCClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestUploadClass):
             self.writeDiagnosticRequestUploadClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestFileTransferClass):
