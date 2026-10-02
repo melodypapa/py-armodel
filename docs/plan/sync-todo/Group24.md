@@ -813,14 +813,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticResponseOnEvent` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.101, p.132
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): trailing-caption table — body at md l.3932 (Class row = DiagnosticResponseOnEvent),
+      caption l.3943; the body at md l.3945 following that caption is Table 4.102's (Class row =
+      DiagnosticResponseOnEventClass). Attrs in displayed order eventWindow (DiagnosticEventWindow `*` aggr,
+      cell-wrap none) / responseOnEventAction (DiagnosticResponseOnEventActionEnum 0..1 attr, cell-wrap
+      "responseOn EventAction" healed) / responseOnEventClass (DiagnosticResponseOnEventClass 0..1 ref —
+      RefType, no pull-in needed). Base chain cell-wrap healed: most-derived ARElement. XSD group
+      DIAGNOSTIC-RESPONSE-ON-EVENT l.42645: EVENTS + STORE-EVENT-SUPPORT carry atp.Status="removed" and are
+      absent from the R23-11 table → not modeled (Rule 0015); XML order EVENT-WINDOWS /
+      RESPONSE-ON-EVENT-ACTION / RESPONSE-ON-EVENT-CLASS-REF.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticResponseOnEvent` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; eventWindow aggregation dispatches to
+      the pulled-in read/writeDiagnosticEventWindow helpers via the EVENT-WINDOWS wrapper; enum via
+      DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP (token map pre-registered in the Table 4.105 pass).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticResponseOnEventClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.102, p.133

@@ -425,6 +425,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
@@ -14207,6 +14208,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
         self.writeIdentifiable(child_element, read_scaling_data_by_identifier_class)
 
+    def writeDiagnosticResponseOnEvent(self, element: ET.Element, response_on_event: DiagnosticResponseOnEvent):
+        self.logger.debug("Write DiagnosticResponseOnEvent %s" % response_on_event.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT")
+        self.writeIdentifiable(child_element, response_on_event)
+        event_windows = response_on_event.getEventWindows()
+        if len(event_windows) > 0:
+            event_windows_tag = ET.SubElement(child_element, "EVENT-WINDOWS")
+            for event_window in event_windows:
+                self.writeDiagnosticEventWindow(event_windows_tag, event_window)
+        self._writeEnumToken(child_element, "RESPONSE-ON-EVENT-ACTION", response_on_event.getResponseOnEventAction(), DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP)
+        self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-CLASS-REF", response_on_event.getResponseOnEventClass())
+
     def writeDiagnosticControlEnableMaskBit(self, element: ET.Element, mask_bit: DiagnosticControlEnableMaskBit):
         self.logger.debug("Write DiagnosticControlEnableMaskBit")
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT")
@@ -15470,6 +15483,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifierClass):
             self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticResponseOnEvent):
+            self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticRoutine):
             self.writeDiagnosticRoutine(element, ar_element)
         elif isinstance(ar_element, DiagnosticRoutineControl):

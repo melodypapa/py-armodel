@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARObject,
     DiagnosticCommonProps,
     DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
 )
@@ -393,7 +394,15 @@ __all__ = [
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, PositiveInteger, RefType, ReferrableSubtypesEnum  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
+    Boolean,
+    DiagnosticResponseOnEventActionEnum,
+    Identifier,
+    NameToken,
+    PositiveInteger,
+    RefType,
+    ReferrableSubtypesEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
 
@@ -2001,6 +2010,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
             self.addElement(read_scaling_data_by_identifier_class)
         return self.getElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
+
+    def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
+        """
+        Creates a new DiagnosticResponseOnEvent with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticResponseOnEvent represents an instance of the
+        "Response on Event" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticResponseOnEvent
+
+        Returns:
+            The newly created or existing DiagnosticResponseOnEvent instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticResponseOnEvent):
+            response_on_event = DiagnosticResponseOnEvent(self, short_name)
+            self.addElement(response_on_event)
+        return self.getElement(short_name, DiagnosticResponseOnEvent)
 
     def createDiagnosticRoutine(self, short_name: str) -> DiagnosticRoutine:
         """
@@ -4522,7 +4550,78 @@ class DiagnosticRequestVehicleInfo(ARElement):
 
 
 class DiagnosticResponseOnEvent(ARElement):
-    pass
+    """This represents an instance of the "Response on Event" diagnostic service."""
+
+    # DiagnosticResponseOnEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.101, p.132
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEventWindow             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventWindows            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getResponseOnEventAction   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnEventAction   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnEventClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnEventClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable DiagnosticEventWindows
+        self.eventWindow: List[DiagnosticEventWindow] = []
+
+        # Defines sub-functions of the service ResponseOnEvent.
+        self.responseOnEventAction: Optional[DiagnosticResponseOnEventActionEnum] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticResponseOnEvent in the given context.
+        self.responseOnEventClass: Optional[RefType] = None
+
+    def addEventWindow(self, value: Optional[DiagnosticEventWindow]) -> DiagnosticResponseOnEvent:
+        """
+        This represents the applicable DiagnosticEventWindows
+
+        A None value is a no-op and does not append an eventWindow.
+        """
+        if value is not None:
+            self.eventWindow.append(value)
+        return self
+
+    def getEventWindows(self) -> List[DiagnosticEventWindow]:
+        """
+        This represents the applicable DiagnosticEventWindows
+        """
+        return self.eventWindow
+
+    def getResponseOnEventAction(self) -> Optional[DiagnosticResponseOnEventActionEnum]:
+        """
+        Defines sub-functions of the service ResponseOnEvent.
+        """
+        return self.responseOnEventAction
+
+    def setResponseOnEventAction(self, value: Optional[DiagnosticResponseOnEventActionEnum]) -> DiagnosticResponseOnEvent:
+        """
+        Defines sub-functions of the service ResponseOnEvent.
+
+        A None value is a no-op and does not overwrite an existing responseOnEventAction.
+        """
+        if value is not None:
+            self.responseOnEventAction = value
+        return self
+
+    def getResponseOnEventClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticResponseOnEvent in the given context.
+        """
+        return self.responseOnEventClass
+
+    def setResponseOnEventClass(self, value: Optional[RefType]) -> DiagnosticResponseOnEvent:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticResponseOnEvent in the given context.
+
+        A None value is a no-op and does not overwrite an existing responseOnEventClass.
+        """
+        if value is not None:
+            self.responseOnEventClass = value
+        return self
 
 
 class DiagnosticRoutine(ARElement):

@@ -10,7 +10,13 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps, DiagnosticControlEnableMaskBit, DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    DiagnosticCommonProps,
+    DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
+    DiagnosticParameter,
+    DiagnosticSupportInfoByte,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
@@ -37,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
@@ -60,6 +67,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
+    DiagnosticResponseOnEventActionEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -4079,3 +4087,132 @@ class TestDiagnosticReadDataByPeriodicID:
 
         duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
         assert duplicate is obj  # duplicate short name returns the existing element
+
+
+class TestDiagnosticResponseOnEvent:
+    """
+    Test class for DiagnosticResponseOnEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.101, p.132
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Response on Event" diagnostic service.'
+    EVENT_WINDOW_NOTE = "This represents the applicable DiagnosticEventWindows"
+    RESPONSE_ON_EVENT_ACTION_NOTE = "Defines sub-functions of the service ResponseOnEvent."
+    RESPONSE_ON_EVENT_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticResponseOnEvent in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticResponseOnEvent:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticResponseOnEvent(ar_root, "TestResponseOnEvent")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticResponseOnEvent instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestResponseOnEvent"
+        assert isinstance(obj, ARElement)
+        assert obj.getEventWindows() == []
+        assert obj.getResponseOnEventAction() is None
+        assert obj.getResponseOnEventClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticResponseOnEvent.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticResponseOnEvent.__init__.__doc__ is None
+
+    def test_add_event_window(self):
+        """
+        Test addEventWindow append and None no-op.
+        """
+        obj = self._make_obj()
+
+        event_window = DiagnosticEventWindow()
+        result = obj.addEventWindow(event_window)
+        assert result is obj  # method chaining
+        assert obj.getEventWindows() == [event_window]
+
+        result = obj.addEventWindow(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventWindows() == [event_window]  # None is a no-op
+
+    def test_get_set_response_on_event_action(self):
+        """
+        Round-trips the responseOnEventAction enum; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticResponseOnEventActionEnum().setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
+        result = obj.setResponseOnEventAction(value)
+        assert result is obj  # method chaining
+        assert obj.getResponseOnEventAction() is value
+        assert obj.getResponseOnEventAction().getValue() == "onChangeOfDataIdentifier"
+
+        result = obj.setResponseOnEventAction(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseOnEventAction() is value  # None is a no-op
+
+    def test_get_set_response_on_event_class(self):
+        """
+        Round-trips the responseOnEventClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS", "/AUTOSAR/DiagnosticResponseOnEventClasses/ResponseOnEventClass")
+        result = obj.setResponseOnEventClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getResponseOnEventClass() is ref
+        assert obj.getResponseOnEventClass().getValue() == "/AUTOSAR/DiagnosticResponseOnEventClasses/ResponseOnEventClass"
+        assert obj.getResponseOnEventClass().getDest() == "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS"
+
+        result = obj.setResponseOnEventClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseOnEventClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.getEventWindows.__doc__) == self.EVENT_WINDOW_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.addEventWindow.__doc__) == (self.EVENT_WINDOW_NOTE + "\n\nA None value is a no-op and does not append an eventWindow.")
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.getResponseOnEventAction.__doc__) == self.RESPONSE_ON_EVENT_ACTION_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.setResponseOnEventAction.__doc__) == (
+            self.RESPONSE_ON_EVENT_ACTION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseOnEventAction."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.getResponseOnEventClass.__doc__) == self.RESPONSE_ON_EVENT_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.setResponseOnEventClass.__doc__) == (
+            self.RESPONSE_ON_EVENT_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseOnEventClass."
+        )
+
+    def test_create_diagnostic_response_on_event(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticResponseOnEvents")
+        response_on_event = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
+
+        assert response_on_event is not None
+        assert isinstance(response_on_event, DiagnosticResponseOnEvent)
+        assert response_on_event.getShortName() == "ResponseOnEvent1"
+        assert package.getElement("ResponseOnEvent1", DiagnosticResponseOnEvent) is response_on_event
+
+        duplicate = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
+        assert duplicate is response_on_event  # duplicate short name returns the existing element
