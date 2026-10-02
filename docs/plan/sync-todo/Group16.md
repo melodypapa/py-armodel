@@ -146,33 +146,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — accepted deviation documented in the checklist comment + docs/examples/method_deviation_by_class.md (## CouplingPortAbstractShaper); children queued (see new rows)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
 
-- [ ] `CouplingPortAsynchronousTrafficShaper` — CouplingPortAbstractShaper — NEW row (discovered 2026-09-30 as missing CouplingPortAbstractShaper concrete child / CouplingPortFifo.shaper choice member, Rule 0001.10/0016.4) — XSD-only · xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER (00052.xsd L23458, atp.Status="candidate")
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - note: no Class/Enumeration table in any corpus (candidate-status CP class). XSD members: committedBurstSize (PositiveInteger 0..1), committedInformationRate (PositiveInteger 0..1), trafficShaperGroupRef (ref 0..1, kind-suffix Ref per Rule 0001.5 — XSD element TRAFFIC-SHAPER-GROUP-REF). Registered in CouplingPortAbstractShaper._shaper_registry ("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER") at import time; consumer dispatch = readCouplingPortFifoShaper/writeCouplingPortFifoShaper + per-class read/write helpers.
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - note (Step 8): registry-based polymorphic SHAPER choice = accepted deviation recorded on the parent (2026-09-30 user arbitration); no new deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
+- [x] `CouplingPortAsynchronousTrafficShaper` — CouplingPortAbstractShaper — XSD-only · xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER (00052.xsd L23458, atp.Status=candidate) — commit d41997345 (stamped 2026-10-02, # XSD verified: AUTOSAR_00052.xsd)
 
-- [ ] `CouplingPortCreditBasedShaper` — CouplingPortAbstractShaper — NEW row (discovered 2026-09-30 as missing CouplingPortAbstractShaper concrete child / CouplingPortFifo.shaper choice member, Rule 0001.10/0016.4) — XSD-only · xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER (00052.xsd L23597, atp.Status="candidate")
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - note: no Class/Enumeration table in any corpus (candidate-status CP class). XSD members: idleSlope (PositiveInteger 0..1), lowerBoundary (PositiveInteger 0..1), upperBoundary (PositiveInteger 0..1). Registered in CouplingPortAbstractShaper._shaper_registry ("COUPLING-PORT-CREDIT-BASED-SHAPER") at import time; consumer dispatch = readCouplingPortFifoShaper/writeCouplingPortFifoShaper + per-class read/write helpers.
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - note (Step 8): registry-based polymorphic SHAPER choice = accepted deviation recorded on the parent (2026-09-30 user arbitration); no new deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9b deferred to batch confirmation (user instruction)
+- [x] `CouplingPortCreditBasedShaper` — CouplingPortAbstractShaper — XSD-only · xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER (00052.xsd L23597, atp.Status=candidate) — commit c5cfd1dc4 (stamped 2026-10-02, # XSD verified: AUTOSAR_00052.xsd)
 
 - [ ] `MacMulticastGroup` — Identifiable — R23-11 markdown · Table 3.48 (CP_TPS_SystemTemplate), p.104 — commit b1e4750b1
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + macMulticastAddress; rw via readMacMulticastGroup complete

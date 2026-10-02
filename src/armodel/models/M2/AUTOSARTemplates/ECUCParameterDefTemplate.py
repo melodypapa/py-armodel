@@ -1064,6 +1064,7 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucSymbolicNameReferenceDef method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_ECUConfiguration.pdf, Table 2.34, p.83
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -1139,6 +1140,7 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.29, p.73
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1179,6 +1181,7 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucUriReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.33, p.81
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

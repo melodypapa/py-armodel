@@ -219,6 +219,7 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
 
     # CouplingPortAsynchronousTrafficShaper method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortAsynchronousTrafficShaper, AUTOSAR_00052.xsd line 23458 (xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommittedBurstSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -299,6 +300,7 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
 
     # CouplingPortCreditBasedShaper method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortCreditBasedShaper, AUTOSAR_00052.xsd line 23597 (xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIdleSlope        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
