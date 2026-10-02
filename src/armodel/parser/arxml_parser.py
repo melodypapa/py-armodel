@@ -390,6 +390,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
@@ -10892,6 +10893,16 @@ class ARXMLParser(AbstractARXMLParser):
         response_on_event.setResponseOnEventAction(self._readEnumToken(element, "RESPONSE-ON-EVENT-ACTION", DiagnosticResponseOnEventActionEnum, DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP))
         response_on_event.setResponseOnEventClass(self.getChildElementOptionalRefType(element, "RESPONSE-ON-EVENT-CLASS-REF"))
 
+    def readDiagnosticResponseOnEventClass(self, element: ET.Element, response_on_event_class: DiagnosticResponseOnEventClass):
+        self.logger.debug("Read DiagnosticResponseOnEventClass <%s>" % response_on_event_class.getShortName())
+        self.readIdentifiable(element, response_on_event_class)
+        response_on_event_class.setMaxNumChangeOfDataIdentfierEvents(self.getChildElementOptionalPositiveInteger(element, "MAX-NUM-CHANGE-OF-DATA-IDENTFIER-EVENTS"))
+        response_on_event_class.setMaxNumComparisionOfValueEvents(self.getChildElementOptionalPositiveInteger(element, "MAX-NUM-COMPARISION-OF-VALUE-EVENTS"))
+        response_on_event_class.setMaxNumberOfStoredDTCStatusChangedEvents(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-STORED-DTC-STATUS-CHANGED-EVENTS"))
+        response_on_event_class.setMaxSupportedDIDLength(self.getChildElementOptionalPositiveInteger(element, "MAX-SUPPORTED-DID-LENGTH"))
+        response_on_event_class.setResponseOnEventSchedulerRate(self.getChildElementOptionalTimeValue(element, "RESPONSE-ON-EVENT-SCHEDULER-RATE"))
+        response_on_event_class.setStoreEventEnabled(self.getChildElementOptionalBooleanValue(element, "STORE-EVENT-ENABLED"))
+
     def readDiagnosticControlEnableMaskBit(self, element: ET.Element, mask_bit: DiagnosticControlEnableMaskBit):
         self.logger.debug("Read DiagnosticControlEnableMaskBit")
         self.readARObject(element, mask_bit)
@@ -15856,6 +15867,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-RESPONSE-ON-EVENT":
                 response_on_event = parent.createDiagnosticResponseOnEvent(self.getShortName(child_element))
                 self.readDiagnosticResponseOnEvent(child_element, response_on_event)
+            elif tag_name == "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS":
+                response_on_event_class = parent.createDiagnosticResponseOnEventClass(self.getShortName(child_element))
+                self.readDiagnosticResponseOnEventClass(child_element, response_on_event_class)
             elif tag_name == "DIAGNOSTIC-ROUTINE":
                 routine = parent.createDiagnosticRoutine(self.getShortName(child_element))
                 self.readDiagnosticRoutine(child_element, routine)

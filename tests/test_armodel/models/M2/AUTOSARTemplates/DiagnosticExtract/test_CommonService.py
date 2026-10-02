@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceClass,
@@ -933,4 +934,132 @@ class Test_DiagnosticReadDataByPeriodicIDClass:
         assert package.getElement("Rdbpidc1", DiagnosticReadDataByPeriodicIDClass) is service_class
 
         duplicate = package.createDiagnosticReadDataByPeriodicIDClass("Rdbpidc1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticResponseOnEventClass:
+    """Test cases for DiagnosticResponseOnEventClass class (Table 4.102, p.133)."""
+
+    ROEC_CLASS_DOCSTRING = 'This represents the ability to define common properties for all instances of the "Response on Event" diagnostic service.'
+    MAX_NUM_CHANGE_OF_DATA_IDENTFIER_EVENTS_NOTE = "The maximum number of events that can be simultaneously configured with sub function onChangeOfDataIdentifier."
+    MAX_NUM_COMPARISION_OF_VALUE_EVENTS_NOTE = "The maximum number of events that can be simultaneously configured with sub function onComparisonOfValues."
+    MAX_NUMBER_OF_STORED_DTC_STATUS_CHANGED_EVENTS_NOTE = "The maximum number of DTCs that can be stored as DTCs with change status within one ResponseOnEventSchedulerRate interval."
+    MAX_SUPPORTED_DID_LENGTH_NOTE = "The maximum number of measurable data bytes allowed for each DID that is used for comparison or data change."
+    RESPONSE_ON_EVENT_SCHEDULER_RATE_NOTE = "The call rate of the periodic scheduler to compare the values of the DataIdentifier (DID) or to detect DTC status changes."
+    STORE_EVENT_ENABLED_NOTE = (
+        "Specifies if the storeEvent functionality of the Response OnEvent diagnostic service shall be supported or not."
+        " If set to true, the storeEvent functionality is available. If set to false the storeEvent functionality is not available."
+    )
+
+    def test_is_concrete(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        assert service_class.getShortName() == "MyRoec"
+        assert service_class.getMaxNumberOfStoredDTCStatusChangedEvents() is None
+        assert service_class.getMaxNumChangeOfDataIdentfierEvents() is None
+        assert service_class.getMaxNumComparisionOfValueEvents() is None
+        assert service_class.getMaxSupportedDIDLength() is None
+        assert service_class.getResponseOnEventSchedulerRate() is None
+        assert service_class.getStoreEventEnabled() is None
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticResponseOnEventClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticResponseOnEventClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticResponseOnEventClass, ARObject)
+        assert issubclass(DiagnosticResponseOnEventClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.__doc__) == self.ROEC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticResponseOnEventClass.__init__.__doc__ is None
+
+    def test_get_set_max_number_of_stored_dtc_status_changed_events(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        value = PositiveInteger().setValue("5")
+        assert service_class.setMaxNumberOfStoredDTCStatusChangedEvents(value) is service_class
+        assert service_class.getMaxNumberOfStoredDTCStatusChangedEvents() is value
+        assert service_class.getMaxNumberOfStoredDTCStatusChangedEvents().getValue() == 5
+        service_class.setMaxNumberOfStoredDTCStatusChangedEvents(None)
+        assert service_class.getMaxNumberOfStoredDTCStatusChangedEvents() is value  # None is a no-op
+
+    def test_get_set_max_num_change_of_data_identfier_events(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        value = PositiveInteger().setValue("4")
+        assert service_class.setMaxNumChangeOfDataIdentfierEvents(value) is service_class
+        assert service_class.getMaxNumChangeOfDataIdentfierEvents() is value
+        assert service_class.getMaxNumChangeOfDataIdentfierEvents().getValue() == 4
+        service_class.setMaxNumChangeOfDataIdentfierEvents(None)
+        assert service_class.getMaxNumChangeOfDataIdentfierEvents() is value  # None is a no-op
+
+    def test_get_set_max_num_comparision_of_value_events(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        value = PositiveInteger().setValue("3")
+        assert service_class.setMaxNumComparisionOfValueEvents(value) is service_class
+        assert service_class.getMaxNumComparisionOfValueEvents() is value
+        assert service_class.getMaxNumComparisionOfValueEvents().getValue() == 3
+        service_class.setMaxNumComparisionOfValueEvents(None)
+        assert service_class.getMaxNumComparisionOfValueEvents() is value  # None is a no-op
+
+    def test_get_set_max_supported_did_length(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        value = PositiveInteger().setValue("6")
+        assert service_class.setMaxSupportedDIDLength(value) is service_class
+        assert service_class.getMaxSupportedDIDLength() is value
+        assert service_class.getMaxSupportedDIDLength().getValue() == 6
+        service_class.setMaxSupportedDIDLength(None)
+        assert service_class.getMaxSupportedDIDLength() is value  # None is a no-op
+
+    def test_get_set_response_on_event_scheduler_rate(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        value = TimeValue().setValue(0.5)
+        assert service_class.setResponseOnEventSchedulerRate(value) is service_class
+        assert service_class.getResponseOnEventSchedulerRate() is value
+        assert service_class.getResponseOnEventSchedulerRate().getValue() == 0.5
+        service_class.setResponseOnEventSchedulerRate(None)
+        assert service_class.getResponseOnEventSchedulerRate() is value  # None is a no-op
+
+    def test_get_set_store_event_enabled(self):
+        service_class = DiagnosticResponseOnEventClass(_pkg(), "MyRoec")
+        value = Boolean().setValue("true")
+        assert service_class.setStoreEventEnabled(value) is service_class
+        assert service_class.getStoreEventEnabled() is value
+        assert service_class.getStoreEventEnabled().getValue() is True
+        service_class.setStoreEventEnabled(None)
+        assert service_class.getStoreEventEnabled() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.getMaxNumChangeOfDataIdentfierEvents.__doc__) == self.MAX_NUM_CHANGE_OF_DATA_IDENTFIER_EVENTS_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.setMaxNumChangeOfDataIdentfierEvents.__doc__) == (
+            self.MAX_NUM_CHANGE_OF_DATA_IDENTFIER_EVENTS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumChangeOfDataIdentfierEvents."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.getMaxNumComparisionOfValueEvents.__doc__) == self.MAX_NUM_COMPARISION_OF_VALUE_EVENTS_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.setMaxNumComparisionOfValueEvents.__doc__) == (
+            self.MAX_NUM_COMPARISION_OF_VALUE_EVENTS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumComparisionOfValueEvents."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.getMaxNumberOfStoredDTCStatusChangedEvents.__doc__) == self.MAX_NUMBER_OF_STORED_DTC_STATUS_CHANGED_EVENTS_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.setMaxNumberOfStoredDTCStatusChangedEvents.__doc__) == (
+            self.MAX_NUMBER_OF_STORED_DTC_STATUS_CHANGED_EVENTS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumberOfStoredDTCStatusChangedEvents."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.getMaxSupportedDIDLength.__doc__) == self.MAX_SUPPORTED_DID_LENGTH_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.setMaxSupportedDIDLength.__doc__) == (
+            self.MAX_SUPPORTED_DID_LENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxSupportedDIDLength."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.getResponseOnEventSchedulerRate.__doc__) == self.RESPONSE_ON_EVENT_SCHEDULER_RATE_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.setResponseOnEventSchedulerRate.__doc__) == (
+            self.RESPONSE_ON_EVENT_SCHEDULER_RATE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseOnEventSchedulerRate."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.getStoreEventEnabled.__doc__) == self.STORE_EVENT_ENABLED_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEventClass.setStoreEventEnabled.__doc__) == (
+            self.STORE_EVENT_ENABLED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing storeEventEnabled."
+        )
+
+    def test_create_diagnostic_response_on_event_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticResponseOnEventClass("Roec1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticResponseOnEventClass)
+        assert service_class.getShortName() == "Roec1"
+        assert package.getElement("Roec1", DiagnosticResponseOnEventClass) is service_class
+
+        duplicate = package.createDiagnosticResponseOnEventClass("Roec1")
         assert duplicate is service_class

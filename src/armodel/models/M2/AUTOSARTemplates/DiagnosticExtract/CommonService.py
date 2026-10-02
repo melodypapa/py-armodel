@@ -561,7 +561,141 @@ class DiagnosticRequestVehicleInfoClass(DiagnosticServiceClass):
 
 
 class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
-    pass
+    """This represents the ability to define common properties for all instances of the "Response on Event" diagnostic service."""
+
+    # DiagnosticResponseOnEventClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.102, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxNumChangeOfDataIdentfierEvents            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumChangeOfDataIdentfierEvents            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumComparisionOfValueEvents               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumComparisionOfValueEvents               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfStoredDTCStatusChangedEvents      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfStoredDTCStatusChangedEvents      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSupportedDIDLength                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSupportedDIDLength                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnEventSchedulerRate                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnEventSchedulerRate                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStoreEventEnabled                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStoreEventEnabled                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The maximum number of DTCs that can be stored as DTCs with change status within one ResponseOnEventSchedulerRate interval.
+        self.maxNumberOfStoredDTCStatusChangedEvents: Optional[PositiveInteger] = None
+
+        # The maximum number of events that can be simultaneously configured with sub function onChangeOfDataIdentifier.
+        self.maxNumChangeOfDataIdentfierEvents: Optional[PositiveInteger] = None
+
+        # The maximum number of events that can be simultaneously configured with sub function onComparisonOfValues.
+        self.maxNumComparisionOfValueEvents: Optional[PositiveInteger] = None
+
+        # The maximum number of measurable data bytes allowed for each DID that is used for comparison or data change.
+        self.maxSupportedDIDLength: Optional[PositiveInteger] = None
+
+        # The call rate of the periodic scheduler to compare the values of the DataIdentifier (DID) or to detect DTC status changes.
+        self.responseOnEventSchedulerRate: Optional[TimeValue] = None
+
+        # Specifies if the storeEvent functionality of the Response OnEvent diagnostic service shall be supported or not. If set to true, the storeEvent functionality is available. If set to false the storeEvent functionality is not available.
+        self.storeEventEnabled: Optional[Boolean] = None
+
+    def getMaxNumChangeOfDataIdentfierEvents(self) -> Optional[PositiveInteger]:
+        """
+        The maximum number of events that can be simultaneously configured with sub function onChangeOfDataIdentifier.
+        """
+        return self.maxNumChangeOfDataIdentfierEvents
+
+    def setMaxNumChangeOfDataIdentfierEvents(self, value: Optional[PositiveInteger]) -> "DiagnosticResponseOnEventClass":
+        """
+        The maximum number of events that can be simultaneously configured with sub function onChangeOfDataIdentifier.
+
+        A None value is a no-op and does not overwrite an existing maxNumChangeOfDataIdentfierEvents.
+        """
+        if value is not None:
+            self.maxNumChangeOfDataIdentfierEvents = value
+        return self
+
+    def getMaxNumComparisionOfValueEvents(self) -> Optional[PositiveInteger]:
+        """
+        The maximum number of events that can be simultaneously configured with sub function onComparisonOfValues.
+        """
+        return self.maxNumComparisionOfValueEvents
+
+    def setMaxNumComparisionOfValueEvents(self, value: Optional[PositiveInteger]) -> "DiagnosticResponseOnEventClass":
+        """
+        The maximum number of events that can be simultaneously configured with sub function onComparisonOfValues.
+
+        A None value is a no-op and does not overwrite an existing maxNumComparisionOfValueEvents.
+        """
+        if value is not None:
+            self.maxNumComparisionOfValueEvents = value
+        return self
+
+    def getMaxNumberOfStoredDTCStatusChangedEvents(self) -> Optional[PositiveInteger]:
+        """
+        The maximum number of DTCs that can be stored as DTCs with change status within one ResponseOnEventSchedulerRate interval.
+        """
+        return self.maxNumberOfStoredDTCStatusChangedEvents
+
+    def setMaxNumberOfStoredDTCStatusChangedEvents(self, value: Optional[PositiveInteger]) -> "DiagnosticResponseOnEventClass":
+        """
+        The maximum number of DTCs that can be stored as DTCs with change status within one ResponseOnEventSchedulerRate interval.
+
+        A None value is a no-op and does not overwrite an existing maxNumberOfStoredDTCStatusChangedEvents.
+        """
+        if value is not None:
+            self.maxNumberOfStoredDTCStatusChangedEvents = value
+        return self
+
+    def getMaxSupportedDIDLength(self) -> Optional[PositiveInteger]:
+        """
+        The maximum number of measurable data bytes allowed for each DID that is used for comparison or data change.
+        """
+        return self.maxSupportedDIDLength
+
+    def setMaxSupportedDIDLength(self, value: Optional[PositiveInteger]) -> "DiagnosticResponseOnEventClass":
+        """
+        The maximum number of measurable data bytes allowed for each DID that is used for comparison or data change.
+
+        A None value is a no-op and does not overwrite an existing maxSupportedDIDLength.
+        """
+        if value is not None:
+            self.maxSupportedDIDLength = value
+        return self
+
+    def getResponseOnEventSchedulerRate(self) -> Optional[TimeValue]:
+        """
+        The call rate of the periodic scheduler to compare the values of the DataIdentifier (DID) or to detect DTC status changes.
+        """
+        return self.responseOnEventSchedulerRate
+
+    def setResponseOnEventSchedulerRate(self, value: Optional[TimeValue]) -> "DiagnosticResponseOnEventClass":
+        """
+        The call rate of the periodic scheduler to compare the values of the DataIdentifier (DID) or to detect DTC status changes.
+
+        A None value is a no-op and does not overwrite an existing responseOnEventSchedulerRate.
+        """
+        if value is not None:
+            self.responseOnEventSchedulerRate = value
+        return self
+
+    def getStoreEventEnabled(self) -> Optional[Boolean]:
+        """
+        Specifies if the storeEvent functionality of the Response OnEvent diagnostic service shall be supported or not. If set to true, the storeEvent functionality is available. If set to false the storeEvent functionality is not available.
+        """
+        return self.storeEventEnabled
+
+    def setStoreEventEnabled(self, value: Optional[Boolean]) -> "DiagnosticResponseOnEventClass":
+        """
+        Specifies if the storeEvent functionality of the Response OnEvent diagnostic service shall be supported or not. If set to true, the storeEvent functionality is available. If set to false the storeEvent functionality is not available.
+
+        A None value is a no-op and does not overwrite an existing storeEventEnabled.
+        """
+        if value is not None:
+            self.storeEventEnabled = value
+        return self
 
 
 class DiagnosticRoutineControlClass(DiagnosticServiceClass):

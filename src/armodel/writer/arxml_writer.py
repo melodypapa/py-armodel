@@ -284,6 +284,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
@@ -14220,6 +14221,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self._writeEnumToken(child_element, "RESPONSE-ON-EVENT-ACTION", response_on_event.getResponseOnEventAction(), DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP)
         self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-CLASS-REF", response_on_event.getResponseOnEventClass())
 
+    def writeDiagnosticResponseOnEventClass(self, element: ET.Element, response_on_event_class: DiagnosticResponseOnEventClass):
+        self.logger.debug("Write DiagnosticResponseOnEventClass %s" % response_on_event_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS")
+        self.writeIdentifiable(child_element, response_on_event_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-CHANGE-OF-DATA-IDENTFIER-EVENTS", response_on_event_class.getMaxNumChangeOfDataIdentfierEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-COMPARISION-OF-VALUE-EVENTS", response_on_event_class.getMaxNumComparisionOfValueEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-STORED-DTC-STATUS-CHANGED-EVENTS", response_on_event_class.getMaxNumberOfStoredDTCStatusChangedEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SUPPORTED-DID-LENGTH", response_on_event_class.getMaxSupportedDIDLength())
+        self.setChildElementOptionalTimeValue(child_element, "RESPONSE-ON-EVENT-SCHEDULER-RATE", response_on_event_class.getResponseOnEventSchedulerRate())
+        self.setChildElementOptionalBooleanValue(child_element, "STORE-EVENT-ENABLED", response_on_event_class.getStoreEventEnabled())
+
     def writeDiagnosticControlEnableMaskBit(self, element: ET.Element, mask_bit: DiagnosticControlEnableMaskBit):
         self.logger.debug("Write DiagnosticControlEnableMaskBit")
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT")
@@ -15485,6 +15497,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
+        elif isinstance(ar_element, DiagnosticResponseOnEventClass):
+            self.writeDiagnosticResponseOnEventClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRoutine):
             self.writeDiagnosticRoutine(element, ar_element)
         elif isinstance(ar_element, DiagnosticRoutineControl):
