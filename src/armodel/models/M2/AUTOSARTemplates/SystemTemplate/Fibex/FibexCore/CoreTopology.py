@@ -387,6 +387,7 @@ class FlexrayChannelName(AREnum):
 
     # FlexrayChannelName method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.35, p.89 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on FlexrayPhysicalChannel.channelName
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -698,6 +699,7 @@ class PncGatewayTypeEnum(AREnum):
 
     # PncGatewayTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.5, p.55 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CommunicationConnector.pncGatewayType
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
