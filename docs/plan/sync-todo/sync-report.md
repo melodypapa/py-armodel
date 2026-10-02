@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 696 | 36.6% |
+| [x] Done | 698 | 36.7% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 292 | 15.3% |
+| [ ] Deferred | 290 | 15.2% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -510,7 +510,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticClearDiagnosticInformation`                  | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticClearDiagnosticInformationClass`             | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticClearDtcLimitationEnum`                      | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticClearDtcNotificationEnum`                    | [ ] Deferred| 28746ce3cc                               | Group14          |
+| `DiagnosticClearDtcNotificationEnum`                    | [x] Done    | 2415d2157a                               | Group14          |
 | `DiagnosticClearEventAllowedBehaviorEnum`               | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticClearResetEmissionRelatedInfo`               | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticClearResetEmissionRelatedInfoClass`          | [ ] Created | N/A                                      | Group25          |
