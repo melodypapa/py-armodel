@@ -324,6 +324,16 @@ No deviations — all three Table 12.34 attributes (`timeBasedFdcThresholdStorag
 |---|---|---|---|---|---|
 | `dtcKind` | `Optional[DtcKindEnum]` | `dtcKind` | `DtcKindEnum` | attr | **accepted legacy** — `dtcKind` is documented in R4.3.1 Table 13.22 (p.767) but removed from the R23-11 Table 13.23; modeled as optional member with full reader/writer coverage (DTC-KIND, DtcKindEnum tokens), per Rule 0019 combine-case pattern |
 
+## `DiagnosticRoutineNeeds`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf` (R23-11)  | **page:** 780  | **table:** Table 13.36
+- **Legacy corpus:** `AUTOSAR_TPS_SoftwareComponentTemplate.pdf` (R4.3.1)  | **page:** 780  | **table:** Table 13.33
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `ridNumber` | `Optional[PositiveInteger]` | `ridNumber` | `PositiveInteger` | attr | **accepted legacy** — `ridNumber` is documented in R4.3.1 Table 13.33 (p.780) but removed from the R23-11 Table 13.36; modeled as optional member with full reader/writer coverage (RID-NUMBER), per Rule 0019 combine-case pattern; src field renamed `RidNumber` → `ridNumber` (spec lowerCamel member name) |
+
 ## `DiagnosticUploadDownloadNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
