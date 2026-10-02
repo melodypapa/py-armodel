@@ -81,6 +81,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadMemoryByAddress,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestDownload,
+    DiagnosticRequestFileTransfer,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -8035,3 +8036,82 @@ class TestDiagnosticRequestUpload:
         """
         assert inspect.cleandoc(DiagnosticRequestUpload.getRequestUploadClassRef.__doc__) == self.REQUEST_UPLOAD_CLASS_NOTE
         assert inspect.cleandoc(DiagnosticRequestUpload.setRequestUploadClassRef.__doc__) == (self.REQUEST_UPLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestUploadClassRef.")
+
+
+class TestDiagnosticRequestFileTransfer:
+    """
+    Test class for DiagnosticRequestFileTransfer functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.125, p.147
+    """
+
+    CLASS_NOTE = "This diagnostic service instance implements the UDS service 0x38. Tags: atp.recommendedPackage=DiagnosticRequestFileTransfers"
+    REQUEST_FILE_TRANSFER_CLASS_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context."
+
+    def _make_obj(self) -> DiagnosticRequestFileTransfer:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestFileTransfer(ar_root, "TestRequestFileTransfer")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestFileTransfer instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestRequestFileTransfer"
+        assert isinstance(obj, ARElement)
+        assert obj.getRequestFileTransferClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestFileTransfer.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestFileTransfer.__init__.__doc__ is None
+
+    def test_get_set_request_file_transfer_class_ref(self):
+        """
+        Round-trips the requestFileTransferClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestFileTransferClasses/Class1")
+        result = obj.setRequestFileTransferClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestFileTransferClassRef() is ref
+        assert obj.getRequestFileTransferClassRef().getValue() == "/AUTOSAR/DiagnosticRequestFileTransferClasses/Class1"
+        assert obj.getRequestFileTransferClassRef().getDest() == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS"
+
+        result = obj.setRequestFileTransferClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestFileTransferClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_file_transfer(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticRequestFileTransferServices")
+        element = package.createDiagnosticRequestFileTransfer("RequestFileTransferService1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestFileTransfer)
+        assert element.getShortName() == "RequestFileTransferService1"
+        assert package.getReferrableElement("RequestFileTransferService1", DiagnosticRequestFileTransfer) is element
+
+        duplicate = package.createDiagnosticRequestFileTransfer("RequestFileTransferService1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestFileTransfer.getRequestFileTransferClassRef.__doc__) == self.REQUEST_FILE_TRANSFER_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticRequestFileTransfer.setRequestFileTransferClassRef.__doc__) == (self.REQUEST_FILE_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestFileTransferClassRef.")

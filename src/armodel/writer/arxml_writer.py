@@ -448,6 +448,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestDownload,
+    DiagnosticRequestFileTransfer,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -15011,6 +15012,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, request_upload)
         self.setChildElementOptionalRefType(child_element, "REQUEST-UPLOAD-CLASS-REF", request_upload.getRequestUploadClassRef())
 
+    def writeDiagnosticRequestFileTransfer(self, element: ET.Element, request_file_transfer: DiagnosticRequestFileTransfer):
+        self.logger.debug("Write DiagnosticRequestFileTransfer %s" % request_file_transfer.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-FILE-TRANSFER")
+        self.writeIdentifiable(child_element, request_file_transfer)
+        self.setChildElementOptionalRefType(child_element, "REQUEST-FILE-TRANSFER-CLASS-REF", request_file_transfer.getRequestFileTransferClassRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16326,6 +16333,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestUpload):
             self.writeDiagnosticRequestUpload(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestFileTransfer):
+            self.writeDiagnosticRequestFileTransfer(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

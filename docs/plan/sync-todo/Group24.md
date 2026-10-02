@@ -1356,19 +1356,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestFileTransfer` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.125, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; spec Base chain (md l.4457) = ARElement , ARObject , CollectableElement ,
+    DiagnosticCommonElement , DiagnosticServiceInstance , Identifiable , MultilanguageReferrable , PackageableElement ,
+    Referrable ⇒ most-derived base ARElement per Rule 0001.2 (XSD complexType DIAGNOSTIC-REQUEST-FILE-TRANSFER l.42066:
+    ... AR-ELEMENT → DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-INSTANCE → DIAGNOSTIC-REQUEST-FILE-TRANSFER; no
+    memory-family link) — the existing ARPackage.py stub base is already correct, no relocation. Table rendered as TWO
+    page-break blocks (md l.4441-4445: Class/Package/Note; md l.4455-4460: Base/Aggregated by/Attribute; caption l.4453);
+    PDF p.147 via pdf_page.py. Note spans two markdown rows (l.4444-4445) ⇒ class docstring joins Note + Tags:
+    "This diagnostic service instance implements the UDS service 0x38. Tags: atp.recommendedPackage=DiagnosticRequestFileTransfers".
+    Attribute (single — "nothing to configure ... beyond its mere existence", md l.4433): requestFileTransferClass
+    (DiagnosticRequestFileTransferClass, 0..1, ref — cell-wraps l.4460 healed) → requestFileTransferClassRef (XSD
+    REQUEST-FILE-TRANSFER-CLASS-REF, DEST DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS--SUBTYPES-ENUM; Note cell-wrap
+    "DiagnosticRequestFile Transfer" healed per XSD documentation). Aggregated by ARPackage.element ⇒ ARPackage factory
+    createDiagnosticRequestFileTransfer + memory-family dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1707 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_file_transfer.py + test_writer_diagnostic_request_file_transfer.py; parser+writer regression 7255 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestFileTransferClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.126, p.147
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified against the XSD complexType
+    DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS (AUTOSAR_00052.xsd l.42092 region: group l.42092 — empty sequence; complexType
+    chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS) ⇒ most-derived base per Rule 0001.2. The pass-stub already
+    lives in CommonService.py next to its family (STUBS entry already CommonService/DiagnosticServiceClass) — NO relocation.
+    Attribute row `-` ⇒ no own attributes, bare __init__ only (twin shape 8d1719c7a). Note (markdown l.4467): "This
+    meta-class contains attributes shared by all instances of the "Request File transfer" diagnostic service." — class
+    docstring drops the trailing "Tags: atp.recommendedPackage=DiagnosticRequestFileTransfers" suffix (twin convention);
+    PDF p.147 via pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)

@@ -1155,6 +1155,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_upload_class)
         return self.getReferrableElement(short_name, DiagnosticRequestUploadClass)
 
+    def createDiagnosticRequestFileTransfer(self, short_name: str) -> DiagnosticRequestFileTransfer:
+        """
+        Creates a new DiagnosticRequestFileTransfer with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestFileTransfer represents an instance of the "Request File transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestFileTransfer
+
+        Returns:
+            The newly created or existing DiagnosticRequestFileTransfer instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransfer):
+            request_file_transfer = DiagnosticRequestFileTransfer(self, short_name)
+            self.addReferrableElement(request_file_transfer)
+        return self.getReferrableElement(short_name, DiagnosticRequestFileTransfer)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -7375,7 +7393,36 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
 
 
 class DiagnosticRequestFileTransfer(ARElement):
-    pass
+    """This diagnostic service instance implements the UDS service 0x38. Tags: atp.recommendedPackage=DiagnosticRequestFileTransfers"""
+
+    # DiagnosticRequestFileTransfer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.125, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestFileTransferClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestFileTransferClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context.
+        self.requestFileTransferClassRef: Optional[RefType] = None
+
+    def getRequestFileTransferClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context.
+        """
+        return self.requestFileTransferClassRef
+
+    def setRequestFileTransferClassRef(self, value: Optional[RefType]) -> DiagnosticRequestFileTransfer:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestFileTransferClassRef.
+        """
+        if value is not None:
+            self.requestFileTransferClassRef = value
+        return self
 
 
 class DiagnosticRequestOnBoardMonitoringTestResults(ARElement):

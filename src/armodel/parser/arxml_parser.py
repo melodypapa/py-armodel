@@ -575,6 +575,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestDownload,
+    DiagnosticRequestFileTransfer,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -11507,6 +11508,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_upload)
         request_upload.setRequestUploadClassRef(self.getChildElementOptionalRefType(element, "REQUEST-UPLOAD-CLASS-REF"))
 
+    def readDiagnosticRequestFileTransfer(self, element: ET.Element, request_file_transfer: DiagnosticRequestFileTransfer):
+        self.logger.debug("Read DiagnosticRequestFileTransfer <%s>" % request_file_transfer.getShortName())
+        self.readIdentifiable(element, request_file_transfer)
+        request_file_transfer.setRequestFileTransferClassRef(self.getChildElementOptionalRefType(element, "REQUEST-FILE-TRANSFER-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16857,6 +16863,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-UPLOAD":
             request_upload = parent.createDiagnosticRequestUpload(self.getShortName(child_element))
             self.readDiagnosticRequestUpload(child_element, request_upload)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER":
+            request_file_transfer = parent.createDiagnosticRequestFileTransfer(self.getShortName(child_element))
+            self.readDiagnosticRequestFileTransfer(child_element, request_file_transfer)
             return True
         return False
 
