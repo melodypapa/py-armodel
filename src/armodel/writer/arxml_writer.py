@@ -424,6 +424,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticIOControl,
+    DiagnosticMemoryAddressableRangeAccess,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -14113,6 +14114,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION")
         self.writeIdentifiable(child_element, clear_diagnostic_information)
         self.setChildElementOptionalRefType(child_element, "CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF", clear_diagnostic_information.getClearDiagnosticInformationClass())
+
+    def writeDiagnosticMemoryAddressableRangeAccess(self, element: ET.Element, range_access: DiagnosticMemoryAddressableRangeAccess):
+        memory_ranges = range_access.getMemoryRanges()
+        if len(memory_ranges) > 0:
+            child_element = ET.SubElement(element, "MEMORY-RANGE-REFS")
+            for memory_range in memory_ranges:
+                self.setChildElementOptionalRefType(child_element, "MEMORY-RANGE-REF", memory_range)
 
     def writeDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
         self.logger.debug("Write DiagnosticClearDiagnosticInformationClass %s" % clear_diagnostic_information_class.getShortName())

@@ -1027,14 +1027,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMemoryAddressableRangeAccess` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.111, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.111 body matched by Class row (trailing-caption page-break artifact — body
+    renders above the caption l.4189, caption l.4201); abstract, Base most-derived =
+    DiagnosticMemoryByAddress. Attribute (displayed order): memoryRange (DiagnosticMemoryIdentifier,
+    `*`, ref — cell-wrap "DiagnosticMemory Identifier" healed; a REFS-wrapper multi-ref per XSD group
+    DIAGNOSTIC-MEMORY-ADDRESSABLE-RANGE-ACCESS l.39420: MEMORY-RANGE-REFS/MEMORY-RANGE-REF, DEST
+    DIAGNOSTIC-MEMORY-IDENTIFIER--SUBTYPES-ENUM). Aggregated by ARPackage.element but abstract ⇒ no
+    factory/dispatch; Rule 0001.7 reusable read/writeDiagnosticMemoryAddressableRangeAccess helpers
+    (MEMORY-RANGE-REFS wrapper only; callers do readIdentifiable/writeIdentifiable).
+    Spec anomaly: the class Note is truncated to "This abstract base class" in the R23-11 PDF itself
+    (p.140 text verified) and in R4.3.1 Table 5.35 — kept verbatim.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): abstract base — no factory/dispatch; Rule 0001.7 reusable helpers readDiagnosticMemoryAddressableRangeAccess / writeDiagnosticMemoryAddressableRangeAccess (MEMORY-RANGE-REFS wrapper via getChildElementRefTypeList / SubElement loop) for the concrete subclasses (RequestDownload/RequestUpload/TransferExit/DataTransfer).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations (truncated class Note "This abstract base class" is the spec's own text, kept verbatim).
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticMemoryIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.112, p.140

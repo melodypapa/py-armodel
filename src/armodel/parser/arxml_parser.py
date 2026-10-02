@@ -550,6 +550,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticIOControl,
+    DiagnosticMemoryAddressableRangeAccess,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -10808,6 +10809,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticClearDiagnosticInformation <%s>" % clear_diagnostic_information.getShortName())
         self.readIdentifiable(element, clear_diagnostic_information)
         clear_diagnostic_information.setClearDiagnosticInformationClass(self.getChildElementOptionalRefType(element, "CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF"))
+
+    def readDiagnosticMemoryAddressableRangeAccess(self, element: ET.Element, range_access: DiagnosticMemoryAddressableRangeAccess):
+        for ref in self.getChildElementRefTypeList(element, "MEMORY-RANGE-REFS/MEMORY-RANGE-REF"):
+            range_access.addMemoryRange(ref)
 
     def readDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
         self.logger.debug("Read DiagnosticClearDiagnosticInformationClass <%s>" % clear_diagnostic_information_class.getShortName())

@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticMapping,
+    DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryByAddress,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
@@ -4442,3 +4443,91 @@ class TestDiagnosticMemoryByAddress:
         Test that __init__ carries no docstring.
         """
         assert DiagnosticMemoryByAddress.__init__.__doc__ is None
+
+
+class _MemoryAddressableRangeAccessStub(DiagnosticMemoryAddressableRangeAccess):
+    """Concrete test stub for the abstract DiagnosticMemoryAddressableRangeAccess."""
+
+    pass
+
+
+class TestDiagnosticMemoryAddressableRangeAccess:
+    """
+    Test class for DiagnosticMemoryAddressableRangeAccess functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.111, p.140
+    (abstract base; exercised through the test stub subclass
+    _MemoryAddressableRangeAccessStub until a concrete sibling syncs)
+    """
+
+    CLASS_NOTE = "This abstract base class"
+    MEMORY_RANGE_NOTE = "This represents the formal description of the memory segment to which the DiagnosticMemoryByAddress applies."
+
+    def _make_obj(self) -> _MemoryAddressableRangeAccessStub:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return _MemoryAddressableRangeAccessStub(ar_root, "TestRangeAccess")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass of the abstract DiagnosticMemoryAddressableRangeAccess is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestRangeAccess"
+        assert isinstance(obj, DiagnosticMemoryAddressableRangeAccess)
+        assert isinstance(obj, DiagnosticMemoryByAddress)
+        assert isinstance(obj, ARElement)
+        assert obj.getMemoryRanges() == []
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticMemoryAddressableRangeAccess cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMemoryAddressableRangeAccess(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticMemoryAddressableRangeAccess.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryAddressableRangeAccess.__init__.__doc__ is None
+
+    def test_add_get_memory_ranges(self):
+        """
+        Appends memoryRange refs; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-MEMORY-IDENTIFIER")
+        ref1.setValue("/AUTOSAR/DiagnosticMemoryIdentifiers/Segment1")
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-MEMORY-IDENTIFIER")
+        ref2.setValue("/AUTOSAR/DiagnosticMemoryIdentifiers/Segment2")
+
+        result = obj.addMemoryRange(ref1)
+        assert result is obj  # method chaining
+        result = obj.addMemoryRange(ref2)
+        assert result is obj  # method chaining
+        assert obj.getMemoryRanges() == [ref1, ref2]
+        assert obj.getMemoryRanges()[0].getValue() == "/AUTOSAR/DiagnosticMemoryIdentifiers/Segment1"
+        assert obj.getMemoryRanges()[0].getDest() == "DIAGNOSTIC-MEMORY-IDENTIFIER"
+        assert obj.getMemoryRanges()[1].getValue() == "/AUTOSAR/DiagnosticMemoryIdentifiers/Segment2"
+
+        result = obj.addMemoryRange(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMemoryRanges() == [ref1, ref2]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.getMemoryRanges.__doc__) == self.MEMORY_RANGE_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.addMemoryRange.__doc__) == (self.MEMORY_RANGE_NOTE + "\n\nA None value is a no-op and does not append a memoryRange.")

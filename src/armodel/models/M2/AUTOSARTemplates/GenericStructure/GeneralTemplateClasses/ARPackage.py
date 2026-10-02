@@ -4396,7 +4396,39 @@ class DiagnosticMeasurementIdentifier(ARElement):
 
 
 class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
-    pass
+    """This abstract base class"""
+
+    # DiagnosticMemoryAddressableRangeAccess method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.111, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addMemoryRange     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryRanges    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticMemoryAddressableRangeAccess:
+            raise TypeError("DiagnosticMemoryAddressableRangeAccess is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This represents the formal description of the memory segment to which the DiagnosticMemoryByAddress applies.
+        self.memoryRanges: List[RefType] = []
+
+    def addMemoryRange(self, value: Optional[RefType]) -> DiagnosticMemoryAddressableRangeAccess:
+        """
+        This represents the formal description of the memory segment to which the DiagnosticMemoryByAddress applies.
+
+        A None value is a no-op and does not append a memoryRange.
+        """
+        if value is not None:
+            self.memoryRanges.append(value)
+        return self
+
+    def getMemoryRanges(self) -> List[RefType]:
+        """
+        This represents the formal description of the memory segment to which the DiagnosticMemoryByAddress applies.
+        """
+        return self.memoryRanges
 
 
 class DiagnosticMemoryDestinationPrimary(ARElement):
