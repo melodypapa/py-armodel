@@ -691,14 +691,14 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **2/24** completed
+Status: **3/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
 | `CommunicationDirectionType`  | [ ] Pending* | 3378eb6247 |
 | `TransferPropertyEnum`        | [x] Done     | f3a9dc08dd |
 | `MultiplexedPart`             | [x] Done     | 9ed9d78782 |
-| `DynamicPart`                 | [ ] Pending* | 4211085bc4 |
+| `DynamicPart`                 | [x] Done     | 82138518f9 |
 | `SegmentPosition`             | [ ] Pending* | 9546cf291b |
 | `ISignalPort`                 | [ ] Pending* | b5f92f4b28 |
 | `ISignalIPduGroup`            | [ ] Pending* | 1e758bd44e |

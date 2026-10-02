@@ -55,7 +55,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none (abstract per table)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (51 targeted passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note + constr_9181 verbatim, Base = ARObject, abstract guard, segmentPosition *→List[SegmentPosition] with Note verbatim, rw via concrete subclasses; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `DynamicPart` — MultiplexedPart — R23-11 markdown · Table 6.74 (CP_TPS_SystemTemplate), p.410 — commit 4211085bc
+- [x] `DynamicPart` — MultiplexedPart — R23-11 markdown · Table 6.74 (CP_TPS_SystemTemplate), p.410 — **finished, stamped `# Spec verified: R23-11`** (sync commit 82138518f; steps 1-8 commit 4211085bc)
   - commit: 4211085bc (feat; steps 1-8; verbatim Note, PEP 526 typed list, typed accessors, 6-col checklist)
   - note: kept `MultiplexedPart, VariationPointCapable` — Base row "ARObject, MultiplexedPart" but DYNAMIC-PART XSD group has VARIATION-POINT (StaticPart precedent, accepted deviation)
   - [x] Step 1 — Sync members & description from spec
@@ -66,7 +66,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — helpers already complete
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — VariationPointCapable mixin XSD-justified (see note)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (313 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (30 targeted tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note verbatim, Base = MultiplexedPart, dynamicPartAlternative *→List with Note verbatim, VP mixin XSD-justified (VARIATION-POINT in DYNAMIC-PART group, Rule 0020); no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `SegmentPosition` — ARObject — R23-11 markdown · Table 6.77 (CP_TPS_SystemTemplate), p.412 — commit 9546cf291
   - commit: 9546cf291 (feat; steps 1-8; verbatim Note + 3 attr notes incl. long segmentPosition note, Optional[T] PEP 526 replacing bare `: ByteOrderEnum = None`, typed accessors + None-no-op, 6-col checklist)
