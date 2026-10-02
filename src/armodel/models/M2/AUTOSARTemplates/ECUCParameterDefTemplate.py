@@ -2447,19 +2447,19 @@ class EcucModuleDef(EcucDefinitionElement):
 
     # EcucModuleDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.2, p.32
-    # Spec verified: R23-11
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getApiServicePrefix            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setApiServicePrefix            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContainers                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucChoiceContainerDef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantSupport     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantSupport     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRefinedModuleDefRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRefinedModuleDefRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSupportedConfigVariants     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSupportedConfigVariant      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApiServicePrefix             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApiServicePrefix             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucChoiceContainerDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantSupport      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPostBuildVariantSupport      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRefinedModuleDefRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRefinedModuleDefRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportedConfigVariants      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSupportedConfigVariant       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2485,7 +2485,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.apiServicePrefix
 
-    def setApiServicePrefix(self, value: Optional[CIdentifier]):
+    def setApiServicePrefix(self, value: Optional[CIdentifier]) -> EcucModuleDef:
         """
         For modules where several instances of the VSMD can be defined the apiServicePrefix defines the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
         A None value is a no-op and does not overwrite an existing apiServicePrefix.
@@ -2526,7 +2526,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.postBuildVariantSupport
 
-    def setPostBuildVariantSupport(self, value: Optional[Boolean]):
+    def setPostBuildVariantSupport(self, value: Optional[Boolean]) -> EcucModuleDef:
         """
         Indicates if a module supports different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
         A None value is a no-op and does not overwrite an existing postBuildVariantSupport.
@@ -2541,7 +2541,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.refinedModuleDefRef
 
-    def setRefinedModuleDefRef(self, value: Optional[RefType]):
+    def setRefinedModuleDefRef(self, value: Optional[RefType]) -> EcucModuleDef:
         """
         Optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines. In case this EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION this reference shall not be provided. In case this EcucModuleDef has the category VENDOR_SPECIFIC_MODULE_DEFINITION this reference is mandatory. Stereotypes: atpUriDef
         A None value is a no-op and does not overwrite an existing refinedModuleDefRef.
@@ -2556,10 +2556,10 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.supportedConfigVariants
 
-    def addSupportedConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]):
+    def addSupportedConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> EcucModuleDef:
         """
         Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this attribute is mandatory.
-        A None value is a no-op and does not append anything.
+        A None value is a no-op and does not append a supportedConfigVariant.
         """
         if value is not None:
             self.supportedConfigVariants.append(value)

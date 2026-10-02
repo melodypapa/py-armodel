@@ -55,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -271,8 +271,135 @@ class TestEcucQuery:
 
 
 class TestEcucModuleDef:
+    """
+    Test class for EcucModuleDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.2, p.32
+    """
+
+    CLASS_NOTE = "Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure. Tags: atp.recommendedPackage=EcucModuleDefs"
+
+    def _make_obj(self) -> EcucModuleDef:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return EcucModuleDef(ar_root, "TestModuleDef")
+
     def test_instantiation(self):
         assert _instantiate(EcucModuleDef, "EcucModuleDef").getShortName() == "EcucModuleDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucModuleDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucModuleDef.__init__.__doc__ is None
+
+    def test_defaults_are_spec_multiplicity(self):
+        """
+        Test that members start with the spec multiplicity defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getApiServicePrefix() is None
+        assert obj.getContainers() == []
+        assert obj.getPostBuildVariantSupport() is None
+        assert obj.getRefinedModuleDefRef() is None
+        assert obj.getSupportedConfigVariants() == []
+
+    def test_get_set_api_service_prefix(self):
+        """
+        Round-trips apiServicePrefix; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = CIdentifier()
+        value.setValue("Cdd")
+        result = obj.setApiServicePrefix(value)
+        assert result is obj  # method chaining
+        assert obj.getApiServicePrefix() is value
+
+        result = obj.setApiServicePrefix(None)
+        assert result is obj  # method chaining with None
+        assert obj.getApiServicePrefix() is value  # None is a no-op
+
+    def test_get_set_post_build_variant_support(self):
+        """
+        Round-trips postBuildVariantSupport; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setPostBuildVariantSupport(value)
+        assert result is obj  # method chaining
+        assert obj.getPostBuildVariantSupport() is value
+
+        obj.setPostBuildVariantSupport(None)
+        assert obj.getPostBuildVariantSupport() is value  # None is a no-op
+
+    def test_get_set_refined_module_def_ref(self):
+        """
+        Round-trips refinedModuleDefRef; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("ECUC-MODULE-DEF")
+        ref.setValue("/AUTOSAR/EcucModuleDefs/Standard")
+        result = obj.setRefinedModuleDefRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRefinedModuleDefRef() is ref
+
+        obj.setRefinedModuleDefRef(None)
+        assert obj.getRefinedModuleDefRef() is ref  # None is a no-op
+
+    def test_add_supported_config_variants(self):
+        """
+        Round-trips the supportedConfigVariants multi-attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        v1 = EcucConfigurationVariantEnum()
+        v1.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        result = obj.addSupportedConfigVariant(v1)
+        assert result is obj  # method chaining
+        v2 = EcucConfigurationVariantEnum()
+        v2.setValue(EcucConfigurationVariantEnum.VARIANT_LINK_TIME)
+        obj.addSupportedConfigVariant(v2)
+
+        variants = obj.getSupportedConfigVariants()
+        assert len(variants) == 2
+        assert variants[0] is v1
+        assert variants[1] is v2
+
+        result = obj.addSupportedConfigVariant(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getSupportedConfigVariants()) == 2  # None is a no-op
+
+    def test_create_container_factories(self):
+        """
+        Test that the container create factories append to the typed containers list.
+        """
+        obj = self._make_obj()
+
+        param_conf = obj.createEcucParamConfContainerDef("Container1")
+        assert isinstance(param_conf, EcucParamConfContainerDef)
+        choice = obj.createEcucChoiceContainerDef("Container2")
+        assert isinstance(choice, EcucChoiceContainerDef)
+
+        containers = obj.getContainers()
+        assert len(containers) == 2
+        assert containers[0] is param_conf
+        assert containers[1] is choice
+
+        duplicate = obj.createEcucParamConfContainerDef("Container1")
+        assert duplicate is param_conf  # duplicate short name returns the existing element
+        assert len(obj.getContainers()) == 2  # duplicate does not append
 
 
 class TestEcucBooleanParamDef:
