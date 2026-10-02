@@ -965,14 +965,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticClearDiagnosticInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.108, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): leading-caption table — caption at md l.4100, body follows (Class row =
+      DiagnosticClearDiagnosticInformation). Single attr clearDiagnosticInformationClass
+      (DiagnosticClearDiagnosticInformationClass 0..1 ref — RefType, no pull-in needed; cell-wraps
+      "clearDiagnostic Information Class" / "DiagnosticClear DiagnosticInformation Class" /
+      "DiagnosticClearDiagnostic Information" healed). Base chain most-derived ARElement. XSD group
+      DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION l.32349: single element CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF
+      (DEST DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS--SUBTYPES-ENUM), no removed elements; XML order
+      CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF only. [TPS_DEXT_01022] (category not constrained) is chapter
+      prose, not the class Note — not modeled.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticClearDiagnosticInformation` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; single ref via
+      getChildElementOptionalRefType / setChildElementOptionalRefType (DEST preserved).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticClearDiagnosticInformationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.109, p.137

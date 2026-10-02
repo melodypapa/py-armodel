@@ -1705,6 +1705,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(verification)
         return self.getElement(short_name, DiagnosticVerifyCertificateUnidirectional)
 
+    def createDiagnosticClearDiagnosticInformation(self, short_name: str) -> DiagnosticClearDiagnosticInformation:
+        """
+        Creates a new DiagnosticClearDiagnosticInformation with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticClearDiagnosticInformation represents an instance of the
+        "Clear Diagnostic Information" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearDiagnosticInformation
+
+        Returns:
+            The newly created or existing DiagnosticClearDiagnosticInformation instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformation):
+            clear_diagnostic_information = DiagnosticClearDiagnosticInformation(self, short_name)
+            self.addElement(clear_diagnostic_information)
+        return self.getElement(short_name, DiagnosticClearDiagnosticInformation)
+
     def createDiagnosticComControl(self, short_name: str) -> DiagnosticComControl:
         """
         Creates a new DiagnosticComControl with the given short name,
@@ -3522,7 +3541,36 @@ class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
 
 
 class DiagnosticClearDiagnosticInformation(ARElement):
-    pass
+    """This represents an instance of the "Clear Diagnostic Information" diagnostic service."""
+
+    # DiagnosticClearDiagnosticInformation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.108, p.137
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearDiagnosticInformationClass      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearDiagnosticInformationClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearDiagnosticInformation in the given context.
+        self.clearDiagnosticInformationClass: Optional[RefType] = None
+
+    def getClearDiagnosticInformationClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearDiagnosticInformation in the given context.
+        """
+        return self.clearDiagnosticInformationClass
+
+    def setClearDiagnosticInformationClass(self, value: Optional[RefType]) -> DiagnosticClearDiagnosticInformation:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearDiagnosticInformation in the given context.
+
+        A None value is a no-op and does not overwrite an existing clearDiagnosticInformationClass.
+        """
+        if value is not None:
+            self.clearDiagnosticInformationClass = value
+        return self
 
 
 class DiagnosticComControl(ARElement):

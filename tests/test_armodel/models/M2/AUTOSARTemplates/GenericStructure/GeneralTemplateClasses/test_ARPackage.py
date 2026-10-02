@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthRole,
     DiagnosticAuthTransmitCertificate,
+    DiagnosticClearDiagnosticInformation,
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
@@ -4305,3 +4306,91 @@ class TestDiagnosticReadDTCInformation:
 
         duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
         assert duplicate is read_dtc_information  # duplicate short name returns the existing element
+
+
+class TestDiagnosticClearDiagnosticInformation:
+    """
+    Test class for DiagnosticClearDiagnosticInformation functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.108, p.137
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Clear Diagnostic Information" diagnostic service.'
+    CLEAR_DIAGNOSTIC_INFORMATION_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearDiagnosticInformation in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticClearDiagnosticInformation:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticClearDiagnosticInformation(ar_root, "TestClearDiagnosticInformation")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticClearDiagnosticInformation instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestClearDiagnosticInformation"
+        assert isinstance(obj, ARElement)
+        assert obj.getClearDiagnosticInformationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticClearDiagnosticInformation.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticClearDiagnosticInformation.__init__.__doc__ is None
+
+    def test_get_set_clear_diagnostic_information_class(self):
+        """
+        Round-trips the clearDiagnosticInformationClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS", "/AUTOSAR/DiagnosticClearDiagnosticInformations/ClearDiagnosticInformationClass")
+        result = obj.setClearDiagnosticInformationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getClearDiagnosticInformationClass() is ref
+        assert obj.getClearDiagnosticInformationClass().getValue() == "/AUTOSAR/DiagnosticClearDiagnosticInformations/ClearDiagnosticInformationClass"
+        assert obj.getClearDiagnosticInformationClass().getDest() == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS"
+
+        result = obj.setClearDiagnosticInformationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getClearDiagnosticInformationClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticClearDiagnosticInformation.getClearDiagnosticInformationClass.__doc__) == self.CLEAR_DIAGNOSTIC_INFORMATION_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticClearDiagnosticInformation.setClearDiagnosticInformationClass.__doc__) == (
+            self.CLEAR_DIAGNOSTIC_INFORMATION_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearDiagnosticInformationClass."
+        )
+
+    def test_create_diagnostic_clear_diagnostic_information(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticClearDiagnosticInformations")
+        clear_diagnostic_information = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
+
+        assert clear_diagnostic_information is not None
+        assert isinstance(clear_diagnostic_information, DiagnosticClearDiagnosticInformation)
+        assert clear_diagnostic_information.getShortName() == "ClearDiagnosticInformation1"
+        assert package.getElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation) is clear_diagnostic_information
+
+        duplicate = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
+        assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element
