@@ -586,6 +586,7 @@ class TestEcucConfigurationVariantEnum:
         config_variant_enum = EcucConfigurationVariantEnum()
 
         assert config_variant_enum.getEnumValues() == [
+            "PRECONFIGURED-CONFIGURATION",
             "RECOMMENDED-CONFIGURATION",
             "VARIANT-LINK-TIME",
             "VARIANT-POST-BUILD",

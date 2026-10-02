@@ -1329,7 +1329,7 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractStringParamDef:
-            raise TypeError("EcucAbstractStringParamDef is an abstract class.")
+            raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
 
         super().__init__(parent, short_name)
 
