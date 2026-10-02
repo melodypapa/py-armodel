@@ -254,7 +254,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see below
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (1137 Fibex tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note verbatim (wrap-space 'Com_Trigger IPDUSend' kept), Spec page p.399 confirmed per pdf_page, accessor contract preserved; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `CyclicTiming` — Describable — R23-11 markdown · Table 6.65 (CP_TPS_SystemTemplate), p.408 — commit dcbc6abdb
   - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)

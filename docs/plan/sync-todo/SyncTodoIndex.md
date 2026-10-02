@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **15/24** completed
+Status: **16/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -712,7 +712,7 @@ Status: **15/24** completed
 | `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
 | `TimeRangeTypeTolerance`      | [x] Done     | dcbc6abdb3 |
 | `TransmissionModeCondition`   | [x] Done     | dcbc6abdb3 |
-| `TriggerIPduSendCondition`    | [ ] Pending* | dcbc6abdb3 |
+| `TriggerIPduSendCondition`    | [x] Done     | dcbc6abdb3 |
 | `CyclicTiming`                | [ ] Pending* | dcbc6abdb3 |
 | `EventControlledTiming`       | [ ] Pending* | dcbc6abdb3 |
 | `FlexrayChannelName`          | [ ] Pending* | 7c137656f6 |
