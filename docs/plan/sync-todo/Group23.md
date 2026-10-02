@@ -1040,6 +1040,10 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     outside the table block — recorded in the tracker, not appended. XSD formula PARTS dispatch WIRED:
     DIAGNOSTIC-ENV-MODE-CONDITION branch in readDiagnosticEnvConditionFormula +
     writeDiagnosticEnvConditionFormula PARTS loop.
+  - note: 2026-10-02 (feature/g23-g25-residual-sync) — dead `ArObject.py` stub removed; it shadowed the synced
+    EnvironmentalCondition.py class at models level (import order); stub-gate tuple rehoused to
+    EnvironmentalCondition.py / DiagnosticEnvCompareCondition; 1,284 targeted tests pass. 9b still deferred to
+    batch stamp (user instruction).
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
