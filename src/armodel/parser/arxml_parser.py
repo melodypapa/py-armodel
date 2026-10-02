@@ -395,6 +395,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadMemoryByAddressClass,
     DiagnosticDataTransferClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestUploadClass,
     DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
@@ -11517,6 +11518,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestDownloadClass <%s>" % request_download_class.getShortName())
         self.readIdentifiable(element, request_download_class)
 
+    def readDiagnosticRequestUploadClass(self, element: ET.Element, request_upload_class: DiagnosticRequestUploadClass):
+        self.logger.debug("Read DiagnosticRequestUploadClass <%s>" % request_upload_class.getShortName())
+        self.readIdentifiable(element, request_upload_class)
+
     def readDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
         self.logger.debug("Read DiagnosticWriteMemoryByAddress <%s>" % write_memory_by_address.getShortName())
         self.readIdentifiable(element, write_memory_by_address)
@@ -16367,6 +16372,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS":
             request_download_class = parent.createDiagnosticRequestDownloadClass(self.getShortName(child_element))
             self.readDiagnosticRequestDownloadClass(child_element, request_download_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS":
+            request_upload_class = parent.createDiagnosticRequestUploadClass(self.getShortName(child_element))
+            self.readDiagnosticRequestUploadClass(child_element, request_upload_class)
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
             write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)

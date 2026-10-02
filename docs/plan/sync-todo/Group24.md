@@ -1336,15 +1336,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestUploadClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.124, p.146
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified against the XSD complexType
+    DIAGNOSTIC-REQUEST-UPLOAD-CLASS (AUTOSAR_00052.xsd l.42503, group l.42508 — empty sequence) chaining
+    DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS ⇒ most-derived base per Rule 0001.2. The pass-stub already lives in
+    CommonService.py next to its family (STUBS entry already CommonService/DiagnosticServiceClass) — NO relocation needed
+    (unlike DiagnosticRequestDownloadClass, whose ArObject.py stub had to move). Attribute row `-` ⇒ no own attributes, bare
+    __init__ only (twin shape 8d1719c7a). Note (markdown row EXISTS this time, md l.4421): "This meta-class contains attributes
+    shared by all instances of the "Request Upload" diagnostic service." — class docstring drops the trailing
+    "Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss" suffix (twin convention); PDF p.146 via pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1878 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_upload.py + test_diagnostic_request_upload_class.py + test_writer_diagnostic_request_upload.py + test_writer_diagnostic_request_upload_class.py; parser+writer regression 7250 passed / 0 failed; npm run lint clean; black clean on all touched files — one join-the-strings reformat folded into the pair commit); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestFileTransfer` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.125, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
