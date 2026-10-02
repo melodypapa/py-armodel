@@ -124,7 +124,7 @@ class TestWriteDiagnosticResponseOnEvent:
         package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ResponseOnEvent1", DiagnosticResponseOnEvent))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ResponseOnEvent1", DiagnosticResponseOnEvent))
 
         child = parent.find("DIAGNOSTIC-RESPONSE-ON-EVENT")
         assert child is not None
@@ -148,7 +148,7 @@ class TestWriteDiagnosticResponseOnEvent:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            response_on_event_2 = package_2.getElement("ResponseOnEvent1", DiagnosticResponseOnEvent)
+            response_on_event_2 = package_2.getReferrableElement("ResponseOnEvent1", DiagnosticResponseOnEvent)
             assert response_on_event_2 is not None
             assert response_on_event_2.getShortName() == "ResponseOnEvent1"
             event_windows_2 = response_on_event_2.getEventWindows()

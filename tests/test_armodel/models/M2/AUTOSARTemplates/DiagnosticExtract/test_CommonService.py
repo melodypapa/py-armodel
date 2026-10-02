@@ -516,7 +516,7 @@ class TestDiagnosticComControlClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticComControlClass)
         assert service_class.getShortName() == "Dccc1"
-        assert package.getElement("Dccc1", DiagnosticComControlClass) is service_class
+        assert package.getReferrableElement("Dccc1", DiagnosticComControlClass) is service_class
 
         duplicate = package.createDiagnosticComControlClass("Dccc1")
         assert duplicate is service_class
@@ -574,7 +574,7 @@ class TestDiagnosticControlDTCSettingClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticControlDTCSettingClass)
         assert service_class.getShortName() == "Dcdtsc1"
-        assert package.getElement("Dcdtsc1", DiagnosticControlDTCSettingClass) is service_class
+        assert package.getReferrableElement("Dcdtsc1", DiagnosticControlDTCSettingClass) is service_class
 
         duplicate = package.createDiagnosticControlDTCSettingClass("Dcdtsc1")
         assert duplicate is service_class
@@ -628,7 +628,7 @@ class Test_DiagnosticReadDataByIdentifierClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticReadDataByIdentifierClass)
         assert service_class.getShortName() == "Rdibc1"
-        assert package.getElement("Rdibc1", DiagnosticReadDataByIdentifierClass) is service_class
+        assert package.getReferrableElement("Rdibc1", DiagnosticReadDataByIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticReadDataByIdentifierClass("Rdibc1")
         assert duplicate is service_class
@@ -666,7 +666,7 @@ class Test_DiagnosticWriteDataByIdentifierClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticWriteDataByIdentifierClass)
         assert service_class.getShortName() == "Wdibc1"
-        assert package.getElement("Wdibc1", DiagnosticWriteDataByIdentifierClass) is service_class
+        assert package.getReferrableElement("Wdibc1", DiagnosticWriteDataByIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticWriteDataByIdentifierClass("Wdibc1")
         assert duplicate is service_class
@@ -699,7 +699,7 @@ class Test_DiagnosticReadScalingDataByIdentifierClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticReadScalingDataByIdentifierClass)
         assert service_class.getShortName() == "Rsdibc1"
-        assert package.getElement("Rsdibc1", DiagnosticReadScalingDataByIdentifierClass) is service_class
+        assert package.getReferrableElement("Rsdibc1", DiagnosticReadScalingDataByIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifierClass("Rsdibc1")
         assert duplicate is service_class
@@ -737,7 +737,7 @@ class Test_DiagnosticIoControlClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticIoControlClass)
         assert service_class.getShortName() == "Icc1"
-        assert package.getElement("Icc1", DiagnosticIoControlClass) is service_class
+        assert package.getReferrableElement("Icc1", DiagnosticIoControlClass) is service_class
 
         duplicate = package.createDiagnosticIoControlClass("Icc1")
         assert duplicate is service_class
@@ -775,7 +775,7 @@ class Test_DiagnosticRoutineControlClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticRoutineControlClass)
         assert service_class.getShortName() == "Rcc1"
-        assert package.getElement("Rcc1", DiagnosticRoutineControlClass) is service_class
+        assert package.getReferrableElement("Rcc1", DiagnosticRoutineControlClass) is service_class
 
         duplicate = package.createDiagnosticRoutineControlClass("Rcc1")
         assert duplicate is service_class
@@ -856,7 +856,7 @@ class Test_DiagnosticDynamicallyDefineDataIdentifierClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticDynamicallyDefineDataIdentifierClass)
         assert service_class.getShortName() == "Dddic1"
-        assert package.getElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass) is service_class
+        assert package.getReferrableElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticDynamicallyDefineDataIdentifierClass("Dddic1")
         assert duplicate is service_class
@@ -933,7 +933,7 @@ class Test_DiagnosticReadDataByPeriodicIDClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticReadDataByPeriodicIDClass)
         assert service_class.getShortName() == "Rdbpidc1"
-        assert package.getElement("Rdbpidc1", DiagnosticReadDataByPeriodicIDClass) is service_class
+        assert package.getReferrableElement("Rdbpidc1", DiagnosticReadDataByPeriodicIDClass) is service_class
 
         duplicate = package.createDiagnosticReadDataByPeriodicIDClass("Rdbpidc1")
         assert duplicate is service_class
@@ -1061,7 +1061,7 @@ class Test_DiagnosticResponseOnEventClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticResponseOnEventClass)
         assert service_class.getShortName() == "Roec1"
-        assert package.getElement("Roec1", DiagnosticResponseOnEventClass) is service_class
+        assert package.getReferrableElement("Roec1", DiagnosticResponseOnEventClass) is service_class
 
         duplicate = package.createDiagnosticResponseOnEventClass("Roec1")
         assert duplicate is service_class
@@ -1094,7 +1094,7 @@ class Test_DiagnosticReadDTCInformationClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticReadDTCInformationClass)
         assert service_class.getShortName() == "Rdtci1"
-        assert package.getElement("Rdtci1", DiagnosticReadDTCInformationClass) is service_class
+        assert package.getReferrableElement("Rdtci1", DiagnosticReadDTCInformationClass) is service_class
 
         duplicate = package.createDiagnosticReadDTCInformationClass("Rdtci1")
         assert duplicate is service_class
@@ -1127,7 +1127,7 @@ class Test_DiagnosticClearDiagnosticInformationClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticClearDiagnosticInformationClass)
         assert service_class.getShortName() == "Cdci1"
-        assert package.getElement("Cdci1", DiagnosticClearDiagnosticInformationClass) is service_class
+        assert package.getReferrableElement("Cdci1", DiagnosticClearDiagnosticInformationClass) is service_class
 
         duplicate = package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
         assert duplicate is service_class

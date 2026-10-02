@@ -71,7 +71,7 @@ class TestWriteDiagnosticIOControl:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticIoControls")
         package.createDiagnosticIOControl("IOControl1")
 
-        child = self._write(package.getElement("IOControl1", DiagnosticIOControl))
+        child = self._write(package.getReferrableElement("IOControl1", DiagnosticIOControl))
         assert child is not None
         assert child.find("SHORT-NAME").text == "IOControl1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -174,7 +174,7 @@ class TestWriteDiagnosticIOControl:
         package.createDiagnosticIOControl("IOControl1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("IOControl1", DiagnosticIOControl))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("IOControl1", DiagnosticIOControl))
 
         child = parent.find("DIAGNOSTIC-IO-CONTROL")
         assert child is not None
@@ -202,7 +202,7 @@ class TestWriteDiagnosticIOControl:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            io_control_2 = package_2.getElement("IOControl1", DiagnosticIOControl)
+            io_control_2 = package_2.getReferrableElement("IOControl1", DiagnosticIOControl)
             assert io_control_2 is not None
             assert io_control_2.getShortName() == "IOControl1"
             mask_bits_2 = io_control_2.getControlEnableMaskBits()

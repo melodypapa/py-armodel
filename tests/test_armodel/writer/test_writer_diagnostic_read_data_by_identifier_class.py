@@ -53,7 +53,7 @@ class TestWriteDiagnosticReadDataByIdentifierClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDataByIdentifierClasses")
         package.createDiagnosticReadDataByIdentifierClass("Rdibc1")
 
-        child = self._write(package.getElement("Rdibc1", DiagnosticReadDataByIdentifierClass))
+        child = self._write(package.getReferrableElement("Rdibc1", DiagnosticReadDataByIdentifierClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Rdibc1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -75,7 +75,7 @@ class TestWriteDiagnosticReadDataByIdentifierClass:
         package.createDiagnosticReadDataByIdentifierClass("Rdibc1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Rdibc1", DiagnosticReadDataByIdentifierClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Rdibc1", DiagnosticReadDataByIdentifierClass))
 
         child = parent.find("DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
         assert child is not None
@@ -95,7 +95,7 @@ class TestWriteDiagnosticReadDataByIdentifierClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            read_data_by_identifier_class_2 = package_2.getElement("Rdibc1", DiagnosticReadDataByIdentifierClass)
+            read_data_by_identifier_class_2 = package_2.getReferrableElement("Rdibc1", DiagnosticReadDataByIdentifierClass)
             assert read_data_by_identifier_class_2 is not None
             assert read_data_by_identifier_class_2.getShortName() == "Rdibc1"
             assert read_data_by_identifier_class_2.getMaxDidToRead() is not None

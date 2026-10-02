@@ -647,10 +647,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticClearDiagnosticInformation instance
         """
-        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformation):
+        if not self.IsReferrableElementExists(short_name, DiagnosticClearDiagnosticInformation):
             clear_diagnostic_information = DiagnosticClearDiagnosticInformation(self, short_name)
-            self.addElement(clear_diagnostic_information)
-        return self.getElement(short_name, DiagnosticClearDiagnosticInformation)
+            self.addReferrableElement(clear_diagnostic_information)
+        return self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformation)
 
     def createDiagnosticClearDiagnosticInformationClass(self, short_name: str) -> DiagnosticClearDiagnosticInformationClass:
         """
@@ -666,10 +666,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticClearDiagnosticInformationClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformationClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticClearDiagnosticInformationClass):
             clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
-            self.addElement(clear_diagnostic_information_class)
-        return self.getElement(short_name, DiagnosticClearDiagnosticInformationClass)
+            self.addReferrableElement(clear_diagnostic_information_class)
+        return self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformationClass)
 
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
@@ -685,10 +685,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticComControlClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticComControlClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticComControlClass):
             com_control_class = DiagnosticComControlClass(self, short_name)
-            self.addElement(com_control_class)
-        return self.getElement(short_name, DiagnosticComControlClass)
+            self.addReferrableElement(com_control_class)
+        return self.getReferrableElement(short_name, DiagnosticComControlClass)
 
     def createDiagnosticControlDTCSetting(self, short_name: str) -> DiagnosticControlDTCSetting:
         """
@@ -703,10 +703,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticControlDTCSetting instance
         """
-        if not self.IsElementExists(short_name, DiagnosticControlDTCSetting):
+        if not self.IsReferrableElementExists(short_name, DiagnosticControlDTCSetting):
             control_dtc_setting = DiagnosticControlDTCSetting(self, short_name)
-            self.addElement(control_dtc_setting)
-        return self.getElement(short_name, DiagnosticControlDTCSetting)
+            self.addReferrableElement(control_dtc_setting)
+        return self.getReferrableElement(short_name, DiagnosticControlDTCSetting)
 
     def createDiagnosticControlDTCSettingClass(self, short_name: str) -> DiagnosticControlDTCSettingClass:
         """
@@ -722,10 +722,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticControlDTCSettingClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticControlDTCSettingClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticControlDTCSettingClass):
             control_dtc_setting_class = DiagnosticControlDTCSettingClass(self, short_name)
-            self.addElement(control_dtc_setting_class)
-        return self.getElement(short_name, DiagnosticControlDTCSettingClass)
+            self.addReferrableElement(control_dtc_setting_class)
+        return self.getReferrableElement(short_name, DiagnosticControlDTCSettingClass)
 
     def createDiagnosticDynamicallyDefineDataIdentifier(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
@@ -741,10 +741,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticDynamicallyDefineDataIdentifier instance
         """
-        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifier):
+        if not self.IsReferrableElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifier):
             dddi = DiagnosticDynamicallyDefineDataIdentifier(self, short_name)
-            self.addElement(dddi)
-        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
+            self.addReferrableElement(dddi)
+        return self.getReferrableElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
 
     def createDiagnosticDynamicallyDefineDataIdentifierClass(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
@@ -760,10 +760,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticDynamicallyDefineDataIdentifierClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifierClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifierClass):
             dddi_class = DiagnosticDynamicallyDefineDataIdentifierClass(self, short_name)
-            self.addElement(dddi_class)
-        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass)
+            self.addReferrableElement(dddi_class)
+        return self.getReferrableElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass)
 
     def createDiagnosticIOControl(self, short_name: str) -> DiagnosticIOControl:
         """
@@ -779,10 +779,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticIOControl instance
         """
-        if not self.IsElementExists(short_name, DiagnosticIOControl):
+        if not self.IsReferrableElementExists(short_name, DiagnosticIOControl):
             io_control = DiagnosticIOControl(self, short_name)
-            self.addElement(io_control)
-        return self.getElement(short_name, DiagnosticIOControl)
+            self.addReferrableElement(io_control)
+        return self.getReferrableElement(short_name, DiagnosticIOControl)
 
     def createDiagnosticIoControlClass(self, short_name: str) -> DiagnosticIoControlClass:
         """
@@ -798,10 +798,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticIoControlClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticIoControlClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticIoControlClass):
             io_control_class = DiagnosticIoControlClass(self, short_name)
-            self.addElement(io_control_class)
-        return self.getElement(short_name, DiagnosticIoControlClass)
+            self.addReferrableElement(io_control_class)
+        return self.getReferrableElement(short_name, DiagnosticIoControlClass)
 
     def createDiagnosticReadDTCInformation(self, short_name: str) -> DiagnosticReadDTCInformation:
         """
@@ -817,10 +817,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadDTCInformation instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadDTCInformation):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadDTCInformation):
             read_dtc_information = DiagnosticReadDTCInformation(self, short_name)
-            self.addElement(read_dtc_information)
-        return self.getElement(short_name, DiagnosticReadDTCInformation)
+            self.addReferrableElement(read_dtc_information)
+        return self.getReferrableElement(short_name, DiagnosticReadDTCInformation)
 
     def createDiagnosticReadDTCInformationClass(self, short_name: str) -> DiagnosticReadDTCInformationClass:
         """
@@ -836,10 +836,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadDTCInformationClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadDTCInformationClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadDTCInformationClass):
             read_dtc_information_class = DiagnosticReadDTCInformationClass(self, short_name)
-            self.addElement(read_dtc_information_class)
-        return self.getElement(short_name, DiagnosticReadDTCInformationClass)
+            self.addReferrableElement(read_dtc_information_class)
+        return self.getReferrableElement(short_name, DiagnosticReadDTCInformationClass)
 
     def createDiagnosticReadDataByIdentifier(self, short_name: str) -> DiagnosticReadDataByIdentifier:
         """
@@ -854,10 +854,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadDataByIdentifier instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByIdentifier):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByIdentifier):
             read_data_by_identifier = DiagnosticReadDataByIdentifier(self, short_name)
-            self.addElement(read_data_by_identifier)
-        return self.getElement(short_name, DiagnosticReadDataByIdentifier)
+            self.addReferrableElement(read_data_by_identifier)
+        return self.getReferrableElement(short_name, DiagnosticReadDataByIdentifier)
 
     def createDiagnosticReadDataByIdentifierClass(self, short_name: str) -> DiagnosticReadDataByIdentifierClass:
         """
@@ -873,10 +873,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadDataByIdentifierClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByIdentifierClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByIdentifierClass):
             read_data_by_identifier_class = DiagnosticReadDataByIdentifierClass(self, short_name)
-            self.addElement(read_data_by_identifier_class)
-        return self.getElement(short_name, DiagnosticReadDataByIdentifierClass)
+            self.addReferrableElement(read_data_by_identifier_class)
+        return self.getReferrableElement(short_name, DiagnosticReadDataByIdentifierClass)
 
     def createDiagnosticReadDataByPeriodicID(self, short_name: str) -> DiagnosticReadDataByPeriodicID:
         """
@@ -892,10 +892,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadDataByPeriodicID instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicID):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByPeriodicID):
             read_data_by_periodic_id = DiagnosticReadDataByPeriodicID(self, short_name)
-            self.addElement(read_data_by_periodic_id)
-        return self.getElement(short_name, DiagnosticReadDataByPeriodicID)
+            self.addReferrableElement(read_data_by_periodic_id)
+        return self.getReferrableElement(short_name, DiagnosticReadDataByPeriodicID)
 
     def createDiagnosticReadDataByPeriodicIDClass(self, short_name: str) -> DiagnosticReadDataByPeriodicIDClass:
         """
@@ -911,10 +911,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadDataByPeriodicIDClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicIDClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByPeriodicIDClass):
             read_data_by_periodic_id_class = DiagnosticReadDataByPeriodicIDClass(self, short_name)
-            self.addElement(read_data_by_periodic_id_class)
-        return self.getElement(short_name, DiagnosticReadDataByPeriodicIDClass)
+            self.addReferrableElement(read_data_by_periodic_id_class)
+        return self.getReferrableElement(short_name, DiagnosticReadDataByPeriodicIDClass)
 
     def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
         """
@@ -929,10 +929,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadScalingDataByIdentifier instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifier):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadScalingDataByIdentifier):
             read_scaling_data_by_identifier = DiagnosticReadScalingDataByIdentifier(self, short_name)
-            self.addElement(read_scaling_data_by_identifier)
-        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifier)
+            self.addReferrableElement(read_scaling_data_by_identifier)
+        return self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifier)
 
     def createDiagnosticReadScalingDataByIdentifierClass(self, short_name: str) -> DiagnosticReadScalingDataByIdentifierClass:
         """
@@ -948,10 +948,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticReadScalingDataByIdentifierClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifierClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadScalingDataByIdentifierClass):
             read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
-            self.addElement(read_scaling_data_by_identifier_class)
-        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
+            self.addReferrableElement(read_scaling_data_by_identifier_class)
+        return self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
 
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
@@ -967,10 +967,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticResponseOnEvent instance
         """
-        if not self.IsElementExists(short_name, DiagnosticResponseOnEvent):
+        if not self.IsReferrableElementExists(short_name, DiagnosticResponseOnEvent):
             response_on_event = DiagnosticResponseOnEvent(self, short_name)
-            self.addElement(response_on_event)
-        return self.getElement(short_name, DiagnosticResponseOnEvent)
+            self.addReferrableElement(response_on_event)
+        return self.getReferrableElement(short_name, DiagnosticResponseOnEvent)
 
     def createDiagnosticResponseOnEventClass(self, short_name: str) -> DiagnosticResponseOnEventClass:
         """
@@ -986,10 +986,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticResponseOnEventClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticResponseOnEventClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticResponseOnEventClass):
             response_on_event_class = DiagnosticResponseOnEventClass(self, short_name)
-            self.addElement(response_on_event_class)
-        return self.getElement(short_name, DiagnosticResponseOnEventClass)
+            self.addReferrableElement(response_on_event_class)
+        return self.getReferrableElement(short_name, DiagnosticResponseOnEventClass)
 
     def createDiagnosticRoutine(self, short_name: str) -> DiagnosticRoutine:
         """
@@ -1004,10 +1004,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticRoutine instance
         """
-        if not self.IsElementExists(short_name, DiagnosticRoutine):
+        if not self.IsReferrableElementExists(short_name, DiagnosticRoutine):
             routine = DiagnosticRoutine(self, short_name)
-            self.addElement(routine)
-        return self.getElement(short_name, DiagnosticRoutine)
+            self.addReferrableElement(routine)
+        return self.getReferrableElement(short_name, DiagnosticRoutine)
 
     def createDiagnosticRoutineControl(self, short_name: str) -> DiagnosticRoutineControl:
         """
@@ -1023,10 +1023,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticRoutineControl instance
         """
-        if not self.IsElementExists(short_name, DiagnosticRoutineControl):
+        if not self.IsReferrableElementExists(short_name, DiagnosticRoutineControl):
             routine_control = DiagnosticRoutineControl(self, short_name)
-            self.addElement(routine_control)
-        return self.getElement(short_name, DiagnosticRoutineControl)
+            self.addReferrableElement(routine_control)
+        return self.getReferrableElement(short_name, DiagnosticRoutineControl)
 
     def createDiagnosticRoutineControlClass(self, short_name: str) -> DiagnosticRoutineControlClass:
         """
@@ -1042,10 +1042,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticRoutineControlClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticRoutineControlClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticRoutineControlClass):
             routine_control_class = DiagnosticRoutineControlClass(self, short_name)
-            self.addElement(routine_control_class)
-        return self.getElement(short_name, DiagnosticRoutineControlClass)
+            self.addReferrableElement(routine_control_class)
+        return self.getReferrableElement(short_name, DiagnosticRoutineControlClass)
 
     def createDiagnosticWriteDataByIdentifier(self, short_name: str) -> DiagnosticWriteDataByIdentifier:
         """
@@ -1060,10 +1060,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticWriteDataByIdentifier instance
         """
-        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifier):
+        if not self.IsReferrableElementExists(short_name, DiagnosticWriteDataByIdentifier):
             write_data_by_identifier = DiagnosticWriteDataByIdentifier(self, short_name)
-            self.addElement(write_data_by_identifier)
-        return self.getElement(short_name, DiagnosticWriteDataByIdentifier)
+            self.addReferrableElement(write_data_by_identifier)
+        return self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifier)
 
     def createDiagnosticWriteDataByIdentifierClass(self, short_name: str) -> DiagnosticWriteDataByIdentifierClass:
         """
@@ -1079,10 +1079,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
         Returns:
             The newly created or existing DiagnosticWriteDataByIdentifierClass instance
         """
-        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifierClass):
+        if not self.IsReferrableElementExists(short_name, DiagnosticWriteDataByIdentifierClass):
             write_data_by_identifier_class = DiagnosticWriteDataByIdentifierClass(self, short_name)
-            self.addElement(write_data_by_identifier_class)
-        return self.getElement(short_name, DiagnosticWriteDataByIdentifierClass)
+            self.addReferrableElement(write_data_by_identifier_class)
+        return self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifierClass)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 

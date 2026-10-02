@@ -80,7 +80,7 @@ class TestWriteDiagnosticClearDiagnosticInformation:
         package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation))
 
         child = parent.find("DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION")
         assert child is not None
@@ -102,7 +102,7 @@ class TestWriteDiagnosticClearDiagnosticInformation:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            clear_diagnostic_information_2 = package_2.getElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation)
+            clear_diagnostic_information_2 = package_2.getReferrableElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation)
             assert clear_diagnostic_information_2 is not None
             assert clear_diagnostic_information_2.getShortName() == "ClearDiagnosticInformation1"
             ref = clear_diagnostic_information_2.getClearDiagnosticInformationClass()

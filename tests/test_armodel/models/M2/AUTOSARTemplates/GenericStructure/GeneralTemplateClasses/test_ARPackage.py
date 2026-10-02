@@ -5894,7 +5894,7 @@ class TestDiagnosticControlDTCSetting:
         assert control_dtc_setting is not None
         assert isinstance(control_dtc_setting, DiagnosticControlDTCSetting)
         assert control_dtc_setting.getShortName() == "ControlDTCSetting1"
-        assert package.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting) is control_dtc_setting
+        assert package.getReferrableElement("ControlDTCSetting1", DiagnosticControlDTCSetting) is control_dtc_setting
 
         duplicate = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
         assert duplicate is control_dtc_setting
@@ -6053,7 +6053,7 @@ class TestDiagnosticReadDataByIdentifier:
         assert read_did is not None
         assert isinstance(read_did, DiagnosticReadDataByIdentifier)
         assert read_did.getShortName() == "ReadDataByIdentifier1"
-        assert package.getElement("ReadDataByIdentifier1", DiagnosticReadDataByIdentifier) is read_did
+        assert package.getReferrableElement("ReadDataByIdentifier1", DiagnosticReadDataByIdentifier) is read_did
 
         duplicate = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
         assert duplicate is read_did  # duplicate short name returns the existing element
@@ -6138,7 +6138,7 @@ class TestDiagnosticWriteDataByIdentifier:
         assert write_did is not None
         assert isinstance(write_did, DiagnosticWriteDataByIdentifier)
         assert write_did.getShortName() == "WriteDataByIdentifier1"
-        assert package.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier) is write_did
+        assert package.getReferrableElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier) is write_did
 
         duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
         assert duplicate is write_did  # duplicate short name returns the existing element
@@ -6225,7 +6225,7 @@ class TestDiagnosticReadScalingDataByIdentifier:
         assert read_scaling is not None
         assert isinstance(read_scaling, DiagnosticReadScalingDataByIdentifier)
         assert read_scaling.getShortName() == "ReadScalingDataByIdentifier1"
-        assert package.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier) is read_scaling
+        assert package.getReferrableElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier) is read_scaling
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
         assert duplicate is read_scaling  # duplicate short name returns the existing element
@@ -6419,7 +6419,7 @@ class TestDiagnosticIOControl:
         assert io_control is not None
         assert isinstance(io_control, DiagnosticIOControl)
         assert io_control.getShortName() == "IOControl1"
-        assert package.getElement("IOControl1", DiagnosticIOControl) is io_control
+        assert package.getReferrableElement("IOControl1", DiagnosticIOControl) is io_control
 
         duplicate = package.createDiagnosticIOControl("IOControl1")
         assert duplicate is io_control  # duplicate short name returns the existing element
@@ -6579,7 +6579,7 @@ class TestDiagnosticRoutine:
         assert routine is not None
         assert isinstance(routine, DiagnosticRoutine)
         assert routine.getShortName() == "Routine1"
-        assert package.getElement("Routine1", DiagnosticRoutine) is routine
+        assert package.getReferrableElement("Routine1", DiagnosticRoutine) is routine
 
         duplicate = package.createDiagnosticRoutine("Routine1")
         assert duplicate is routine  # duplicate short name returns the existing element
@@ -6683,7 +6683,7 @@ class TestDiagnosticRoutineControl:
         assert routine_control is not None
         assert isinstance(routine_control, DiagnosticRoutineControl)
         assert routine_control.getShortName() == "RoutineControl1"
-        assert package.getElement("RoutineControl1", DiagnosticRoutineControl) is routine_control
+        assert package.getReferrableElement("RoutineControl1", DiagnosticRoutineControl) is routine_control
 
         duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
         assert duplicate is routine_control  # duplicate short name returns the existing element
@@ -6811,7 +6811,7 @@ class TestDiagnosticDynamicallyDefineDataIdentifier:
         assert dddi is not None
         assert isinstance(dddi, DiagnosticDynamicallyDefineDataIdentifier)
         assert dddi.getShortName() == "Dddi1"
-        assert package.getElement("Dddi1", DiagnosticDynamicallyDefineDataIdentifier) is dddi
+        assert package.getReferrableElement("Dddi1", DiagnosticDynamicallyDefineDataIdentifier) is dddi
 
         duplicate = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
         assert duplicate is dddi  # duplicate short name returns the existing element
@@ -6894,7 +6894,7 @@ class TestDiagnosticReadDataByPeriodicID:
         assert obj is not None
         assert isinstance(obj, DiagnosticReadDataByPeriodicID)
         assert obj.getShortName() == "Rdbpid1"
-        assert package.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID) is obj
+        assert package.getReferrableElement("Rdbpid1", DiagnosticReadDataByPeriodicID) is obj
 
         duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
         assert duplicate is obj  # duplicate short name returns the existing element
@@ -7024,7 +7024,7 @@ class TestDiagnosticResponseOnEvent:
         assert response_on_event is not None
         assert isinstance(response_on_event, DiagnosticResponseOnEvent)
         assert response_on_event.getShortName() == "ResponseOnEvent1"
-        assert package.getElement("ResponseOnEvent1", DiagnosticResponseOnEvent) is response_on_event
+        assert package.getReferrableElement("ResponseOnEvent1", DiagnosticResponseOnEvent) is response_on_event
 
         duplicate = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
         assert duplicate is response_on_event  # duplicate short name returns the existing element
@@ -7113,7 +7113,7 @@ class TestDiagnosticReadDTCInformation:
         assert read_dtc_information is not None
         assert isinstance(read_dtc_information, DiagnosticReadDTCInformation)
         assert read_dtc_information.getShortName() == "ReadDTCInformation1"
-        assert package.getElement("ReadDTCInformation1", DiagnosticReadDTCInformation) is read_dtc_information
+        assert package.getReferrableElement("ReadDTCInformation1", DiagnosticReadDTCInformation) is read_dtc_information
 
         duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
         assert duplicate is read_dtc_information  # duplicate short name returns the existing element
@@ -7202,7 +7202,7 @@ class TestDiagnosticClearDiagnosticInformation:
         assert clear_diagnostic_information is not None
         assert isinstance(clear_diagnostic_information, DiagnosticClearDiagnosticInformation)
         assert clear_diagnostic_information.getShortName() == "ClearDiagnosticInformation1"
-        assert package.getElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation) is clear_diagnostic_information
+        assert package.getReferrableElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation) is clear_diagnostic_information
 
         duplicate = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
         assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element

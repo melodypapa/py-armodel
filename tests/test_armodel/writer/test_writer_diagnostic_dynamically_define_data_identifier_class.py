@@ -53,7 +53,7 @@ class TestWriteDiagnosticDynamicallyDefineDataIdentifierClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticDynamicallyDefineDataIdentifiers")
         package.createDiagnosticDynamicallyDefineDataIdentifierClass("Dddic1")
 
-        child = self._write(package.getElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass))
+        child = self._write(package.getReferrableElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Dddic1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -113,7 +113,7 @@ class TestWriteDiagnosticDynamicallyDefineDataIdentifierClass:
         package.createDiagnosticDynamicallyDefineDataIdentifierClass("Dddic1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass))
 
         child = parent.find("DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS")
         assert child is not None
@@ -138,7 +138,7 @@ class TestWriteDiagnosticDynamicallyDefineDataIdentifierClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            dddi_class_2 = package_2.getElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass)
+            dddi_class_2 = package_2.getReferrableElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass)
             assert dddi_class_2 is not None
             assert dddi_class_2.getShortName() == "Dddic1"
             assert dddi_class_2.getCheckPerSourceId() is not None

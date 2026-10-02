@@ -46,7 +46,7 @@ class TestWriteDiagnosticClearDiagnosticInformationClass:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticClearDiagnosticInformations")
         package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
 
-        child = self._write(package.getElement("Cdci1", DiagnosticClearDiagnosticInformationClass))
+        child = self._write(package.getReferrableElement("Cdci1", DiagnosticClearDiagnosticInformationClass))
         assert child is not None
         assert child.find("SHORT-NAME").text == "Cdci1"
         assert [c.tag for c in child if c.tag != "SHORT-NAME"] == []
@@ -57,7 +57,7 @@ class TestWriteDiagnosticClearDiagnosticInformationClass:
         package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("Cdci1", DiagnosticClearDiagnosticInformationClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("Cdci1", DiagnosticClearDiagnosticInformationClass))
 
         child = parent.find("DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS")
         assert child is not None
@@ -76,7 +76,7 @@ class TestWriteDiagnosticClearDiagnosticInformationClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            clear_diagnostic_information_class_2 = package_2.getElement("Cdci1", DiagnosticClearDiagnosticInformationClass)
+            clear_diagnostic_information_class_2 = package_2.getReferrableElement("Cdci1", DiagnosticClearDiagnosticInformationClass)
             assert clear_diagnostic_information_class_2 is not None
             assert clear_diagnostic_information_class_2.getShortName() == "Cdci1"
         finally:

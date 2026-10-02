@@ -59,7 +59,7 @@ class TestWriteDiagnosticReadScalingDataByIdentifier:
         package = AUTOSAR.getInstance().createARPackage("DiagnosticReadScalingDataByIdentifiers")
         package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
 
-        child = self._write(package.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier))
+        child = self._write(package.getReferrableElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier))
         assert child is not None
         assert child.find("SHORT-NAME").text == "ReadScalingDataByIdentifier1"
         assert [c.tag for c in child] == ["SHORT-NAME"]
@@ -92,7 +92,7 @@ class TestWriteDiagnosticReadScalingDataByIdentifier:
         package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier))
 
         child = parent.find("DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER")
         assert child is not None
@@ -113,7 +113,7 @@ class TestWriteDiagnosticReadScalingDataByIdentifier:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            read_scaling_data_by_identifier_2 = package_2.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier)
+            read_scaling_data_by_identifier_2 = package_2.getReferrableElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier)
             assert read_scaling_data_by_identifier_2 is not None
             assert read_scaling_data_by_identifier_2.getShortName() == "ReadScalingDataByIdentifier1"
             data_identifier = read_scaling_data_by_identifier_2.getDataIdentifier()
