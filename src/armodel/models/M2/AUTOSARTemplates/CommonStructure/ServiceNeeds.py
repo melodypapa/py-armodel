@@ -1714,7 +1714,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticEventNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.31, p.258
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDeferringFidRefs         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2029,7 +2029,7 @@ class ComMgrUserNeeds(ServiceNeeds):
 
     # ComMgrUserNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.13, p.235
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMaxCommMode              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2148,7 +2148,7 @@ class DevelopmentError(TracedFailure):
 
     # DevelopmentError method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.38, p.263
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2193,7 +2193,7 @@ class DiagnosticDenominatorConditionEnum(AREnum):
 
     # DiagnosticDenominatorConditionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.52, p.803
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -2234,7 +2234,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticEnableConditionNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.26, p.762
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitialStatus            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2284,7 +2284,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticIoControlNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.26, p.248
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCurrentValueRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2379,7 +2379,7 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
 
     # DiagnosticMonitorUpdateKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.50, p.798
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -2409,7 +2409,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticOperationCycleNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.24, p.761
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getOperationCycle           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2459,7 +2459,7 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticStorageConditionNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.28, p.762
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitialStatus            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2803,7 +2803,7 @@ class ErrorTracerNeeds(ServiceNeeds):
 
     # ErrorTracerNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.36, p.263
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTracedFailures           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2878,7 +2878,7 @@ class EventAcceptanceStatusEnum(AREnum):
 
     # EventAcceptanceStatusEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.27, p.762
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -2904,7 +2904,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
     # FunctionInhibitionAvailabilityNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.13, p.751
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getControlledFidRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -3057,7 +3057,7 @@ class DiagnosticIndicatorTypeEnum(AREnum):
 
     # DiagnosticIndicatorTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.31, p.766
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3099,7 +3099,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
     # IndicatorStatusNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.766
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getType                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -3179,7 +3179,7 @@ class MaxCommModeEnum(AREnum):
 
     # MaxCommModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.6, p.711
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3213,7 +3213,7 @@ class ObdControlServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdControlServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.45, p.796
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3228,7 +3228,7 @@ class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdInfoServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.48, p.797
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3243,7 +3243,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdMonitorServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.49, p.798
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApplicationDataTypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -3338,7 +3338,7 @@ class ObdPidServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdPidServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.47, p.797
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3353,7 +3353,7 @@ class ObdRatioConnectionKindEnum(AREnum):
 
     # ObdRatioConnectionKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.46, p.796
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3523,7 +3523,7 @@ class OperationCycleTypeEnum(AREnum):
 
     # OperationCycleTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.25, p.761
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3561,7 +3561,7 @@ class RuntimeError(TracedFailure):
 
     # RuntimeError method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.39, p.263
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3619,7 +3619,7 @@ class ServiceProviderEnum(AREnum):
 
     # ServiceProviderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.20, p.90
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3736,7 +3736,7 @@ class StorageConditionStatusEnum(AREnum):
 
     # StorageConditionStatusEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.29, p.762
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3777,7 +3777,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     # SupervisedEntityNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.12, p.234
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getActivateAtStart          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -3932,7 +3932,7 @@ class SymbolicNameProps(ImplementationProps):
 
     # SymbolicNameProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.59, p.610
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -4010,7 +4010,7 @@ class TransientFault(TracedFailure):
 
     # TransientFault method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.50, p.1009
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPossibleErrorReactions   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -4106,7 +4106,7 @@ class VerificationStatusIndicationModeEnum(AREnum):
 
     # VerificationStatusIndicationModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.69, p.824
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
