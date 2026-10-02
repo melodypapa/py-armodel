@@ -280,7 +280,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see below
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (1137 Fibex tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note ('a event driven' kept per table) verbatim, Base = Describable, numberOfRepetitions/repetitionPeriod 0..1 Optional with Notes verbatim, Spec page corrected p.409→p.397 per pdf_page; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
-- [ ] `FlexrayChannelName` — AREnum — R23-11 markdown · Table 3.35 (CP_TPS_SystemTemplate), p.89 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit 7c137656f)
+- [x] `FlexrayChannelName` — AREnum — R23-11 markdown · Table 3.35 (CP_TPS_SystemTemplate), p.89 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit 7c137656f)
   - commit: 7c137656f (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — literal renamed channel_B → CHANNEL_B (case fix, no external usages)
   - [x] Step 1 — Sync members & description from spec
@@ -293,7 +293,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see below
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — 9b user-confirmed 2026-10-02; `# Spec verified: R23-11` written in source (9a re-run green 2026-10-02)
 
-- [ ] `PncGatewayTypeEnum` — AREnum — R23-11 markdown · Table 3.5 (CP_TPS_SystemTemplate), p.55 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit 7c137656f)
+- [x] `PncGatewayTypeEnum` — AREnum — R23-11 markdown · Table 3.5 (CP_TPS_SystemTemplate), p.55 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit 7c137656f)
   - commit: 7c137656f (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — literals renamed ENUM_ACTIVE/ENUM_NONE/ENUM_PASSIVE → ACTIVE/NONE/PASSIVE
   - [x] Step 1 — Sync members & description from spec
@@ -306,7 +306,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see below
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — 9b user-confirmed 2026-10-02; `# Spec verified: R23-11` written in source (9a re-run green 2026-10-02)
 
-- [ ] `TransmissionModeTiming` — ARObject — R23-11 markdown · Table 6.62 (CP_TPS_SystemTemplate), p.393 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit dcbc6abdb)
+- [x] `TransmissionModeTiming` — ARObject — R23-11 markdown · Table 6.62 (CP_TPS_SystemTemplate), p.393 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit dcbc6abdb)
   - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -318,7 +318,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see below
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — 9b user-confirmed 2026-10-02; `# Spec verified: R23-11` written in source (9a re-run green 2026-10-02)
 
-- [ ] `TransmissionModeDeclaration` — ARObject — R23-11 markdown · Table 6.59 (CP_TPS_SystemTemplate), p.392 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit dcbc6abdb)
+- [x] `TransmissionModeDeclaration` — ARObject — R23-11 markdown · Table 6.59 (CP_TPS_SystemTemplate), p.392 — **finished, stamped `# Spec verified: R23-11`** (sync commit f4ffa771c; steps 1-8 commit dcbc6abdb)
   - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — accessor contract preserved (getModeDrivenFalseConditions/addModeDrivenFalseCondition etc. used by parser+writer); legacy test_Timing.py None-overwrite/None-append assertions updated to the None-guard contract
   - [x] Step 1 — Sync members & description from spec
