@@ -501,6 +501,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
     DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -592,6 +593,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
@@ -11033,6 +11035,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
         self.readReferrable(element, mode_element)
+
+    def readDiagnosticEventWindow(self, element: ET.Element, event_window: DiagnosticEventWindow):
+        self.logger.debug("Read DiagnosticEventWindow")
+        self.readARObject(element, event_window)
+        event_window.setEventWindowTime(self._readEnumToken(element, "EVENT-WINDOW-TIME", DiagnosticEventWindowTimeEnum, DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP))
 
     def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Read DiagnosticAccessPermission <%s>" % permission.getShortName())

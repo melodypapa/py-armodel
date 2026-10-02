@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSubNodeChannel,
     DiagnosticCommonProps,
     DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -26,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     PositiveInteger,
@@ -831,3 +833,66 @@ class TestDiagnosticPeriodicRate:
         assert inspect.cleandoc(DiagnosticPeriodicRate.setPeriodicRateCategory.__doc__) == (
             self.PERIODIC_RATE_CATEGORY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing periodicRateCategory."
         )
+
+
+class TestDiagnosticEventWindow:
+    """
+    Test class for DiagnosticEventWindow functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.103, p.133
+    """
+
+    CLASS_NOTE = "This represents the ability to define the characteristics of the applicable event window"
+    EVENT_WINDOW_TIME_NOTE = "This attribute clarifies the validity of the eventWindow"
+
+    def _create_event_window(self) -> DiagnosticEventWindow:
+        return DiagnosticEventWindow()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticEventWindow initializes all attributes to their defaults.
+        """
+        obj = self._create_event_window()
+
+        assert obj.getEventWindowTime() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticEventWindow derives from ARObject (Table 4.103 Base).
+        """
+        assert issubclass(DiagnosticEventWindow, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticEventWindow.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventWindow.__init__.__doc__ is None
+
+    def test_get_set_event_window_time(self):
+        """
+        Test getEventWindowTime and setEventWindowTime round-trip and None no-op.
+        """
+        obj = self._create_event_window()
+
+        value = DiagnosticEventWindowTimeEnum().setValue(DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE)
+        result = obj.setEventWindowTime(value)
+        assert result is obj  # method chaining
+        assert obj.getEventWindowTime() is value
+        assert obj.getEventWindowTime().getValue() == "infiniteTimeToResponse"
+
+        result = obj.setEventWindowTime(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventWindowTime() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticEventWindow.getEventWindowTime.__doc__) == self.EVENT_WINDOW_TIME_NOTE
+        assert inspect.cleandoc(DiagnosticEventWindow.setEventWindowTime.__doc__) == (self.EVENT_WINDOW_TIME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventWindowTime.")

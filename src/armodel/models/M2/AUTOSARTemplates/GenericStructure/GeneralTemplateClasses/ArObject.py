@@ -691,7 +691,36 @@ class DiagnosticEnvModeCondition(ARObject):
 
 
 class DiagnosticEventWindow(ARObject):
-    pass
+    """This represents the ability to define the characteristics of the applicable event window"""
+
+    # DiagnosticEventWindow method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.103, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventWindowTime   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventWindowTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute clarifies the validity of the eventWindow
+        self.eventWindowTime: Optional[DiagnosticEventWindowTimeEnum] = None
+
+    def getEventWindowTime(self) -> Optional[DiagnosticEventWindowTimeEnum]:
+        """
+        This attribute clarifies the validity of the eventWindow
+        """
+        return self.eventWindowTime
+
+    def setEventWindowTime(self, value: Optional[DiagnosticEventWindowTimeEnum]) -> DiagnosticEventWindow:
+        """
+        This attribute clarifies the validity of the eventWindow
+
+        A None value is a no-op and does not overwrite an existing eventWindowTime.
+        """
+        if value is not None:
+            self.eventWindowTime = value
+        return self
 
 
 class DiagnosticFimFunctionMapping(ARObject):
@@ -1370,6 +1399,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     PositiveInteger,

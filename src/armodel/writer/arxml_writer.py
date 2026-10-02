@@ -439,6 +439,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
     DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
     DiagnosticParameter,
     DiagnosticPeriodicRate,
 )
@@ -14378,6 +14379,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticEnvBswModeElement")
         child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
         self.writeReferrable(child_element, mode_element)
+
+    def writeDiagnosticEventWindow(self, element: ET.Element, event_window: DiagnosticEventWindow):
+        self.logger.debug("Write DiagnosticEventWindow")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-WINDOW")
+        self.writeARObject(child_element, event_window)
+        self._writeEnumToken(child_element, "EVENT-WINDOW-TIME", event_window.getEventWindowTime(), DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP)
 
     def writeDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Write DiagnosticAccessPermission %s" % permission.getShortName())
