@@ -15441,48 +15441,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignalIPduGroup(element, ar_element)
         elif isinstance(ar_element, PdurIPduGroup):
             self.writePdurIPduGroup(element, ar_element)
-        elif isinstance(ar_element, DiagnosticConnection):
-            self.writeDiagnosticConnection(element, ar_element)
-        elif isinstance(ar_element, DiagnosticFimEventGroup):
-            self.writeDiagnosticFimEventGroup(element, ar_element)
-        elif isinstance(ar_element, DiagnosticJ1939ExpandedFreezeFrame):
-            self.writeDiagnosticJ1939ExpandedFreezeFrame(element, ar_element)
-        elif isinstance(ar_element, DiagnosticJ1939FreezeFrame):
-            self.writeDiagnosticJ1939FreezeFrame(element, ar_element)
-        elif isinstance(ar_element, DiagnosticJ1939Spn):
-            self.writeDiagnosticJ1939Spn(element, ar_element)
-        elif isinstance(ar_element, DiagnosticTroubleCodeJ1939):
-            self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
-        elif isinstance(ar_element, DiagnosticServiceDataMapping):
-            self.writeDiagnosticServiceDataMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticServiceSwMapping):
-            self.writeDiagnosticServiceSwMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventPortMapping):
-            self.writeDiagnosticEventPortMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticOperationCyclePortMapping):
-            self.writeDiagnosticOperationCyclePortMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEnableConditionPortMapping):
-            self.writeDiagnosticEnableConditionPortMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticStorageConditionPortMapping):
-            self.writeDiagnosticStorageConditionPortMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAuthTransmitCertificateMapping):
-            self.writeDiagnosticAuthTransmitCertificateMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSecurityEventReportingModeMapping):
-            self.writeDiagnosticSecurityEventReportingModeMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticDemProvidedDataMapping):
-            self.writeDiagnosticDemProvidedDataMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticMasterToSlaveEventMapping):
-            self.writeDiagnosticMasterToSlaveEventMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToSecurityEventMapping):
-            self.writeDiagnosticEventToSecurityEventMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticInhibitSourceEventMapping):
-            self.writeDiagnosticInhibitSourceEventMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticFimAliasEventMapping):
-            self.writeDiagnosticFimAliasEventMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticFimAliasEventGroup):
-            self.writeDiagnosticFimAliasEventGroup(element, ar_element)
-        elif isinstance(ar_element, DiagnosticFimAliasEventGroupMapping):
-            self.writeDiagnosticFimAliasEventGroupMapping(element, ar_element)
+        elif ar_element.__class__.__name__.startswith("Diagnostic"):
+            if not self.writeDiagnosticElement(element, ar_element):
+                self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         elif isinstance(ar_element, CpSwClusterToDiagEventMapping):
             self.writeCpSwClusterToDiagEventMapping(element, ar_element)
         elif isinstance(ar_element, CpSwClusterResourceToDiagDataElemMapping):
@@ -15491,80 +15452,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCpSwClusterToDiagRoutineSubfunctionMapping(element, ar_element)
         elif isinstance(ar_element, CpSwClusterResourceToDiagFunctionIdMapping):
             self.writeCpSwClusterResourceToDiagFunctionIdMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToTroubleCodeJ1939Mapping):
-            self.writeDiagnosticEventToTroubleCodeJ1939Mapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticIumprToFunctionIdentifierMapping):
-            self.writeDiagnosticIumprToFunctionIdentifierMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticJ1939SpnMapping):
-            self.writeDiagnosticJ1939SpnMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticJ1939Node):
-            self.writeDiagnosticJ1939Node(element, ar_element)
-        elif isinstance(ar_element, DiagnosticJ1939SwMapping):
-            self.writeDiagnosticJ1939SwMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticFimFunctionMapping):
-            self.writeDiagnosticFimFunctionMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToDebounceAlgorithmMapping):
-            self.writeDiagnosticEventToDebounceAlgorithmMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToEnableConditionGroupMapping):
-            self.writeDiagnosticEventToEnableConditionGroupMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToOperationCycleMapping):
-            self.writeDiagnosticEventToOperationCycleMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToStorageConditionGroupMapping):
-            self.writeDiagnosticEventToStorageConditionGroupMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEventToTroubleCodeUdsMapping):
-            self.writeDiagnosticEventToTroubleCodeUdsMapping(element, ar_element)
-        elif isinstance(ar_element, DiagnosticContributionSet):
-            self.writeDiagnosticContributionSet(element, ar_element)
-        elif isinstance(ar_element, DiagnosticCustomServiceClass):
-            self.writeDiagnosticCustomServiceClass(element, ar_element)
-        elif isinstance(ar_element, DiagnosticCustomServiceInstance):
-            self.writeDiagnosticCustomServiceInstance(element, ar_element)
-        elif isinstance(ar_element, DiagnosticProtocol):
-            self.writeDiagnosticProtocol(element, ar_element)
-        elif isinstance(ar_element, DiagnosticServiceTable):
-            self.writeDiagnosticServiceTable(element, ar_element)
-        elif isinstance(ar_element, DiagnosticDataIdentifier):
-            self.writeDiagnosticDataIdentifier(element, ar_element)
-        elif isinstance(ar_element, DiagnosticDynamicDataIdentifier):
-            self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSession):
-            self.writeDiagnosticSession(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSessionControl):
-            self.writeDiagnosticSessionControl(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSessionControlClass):
-            self.writeDiagnosticSessionControlClass(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSecurityAccessClass):
-            self.writeDiagnosticSecurityAccessClass(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSecurityAccess):
-            self.writeDiagnosticSecurityAccess(element, ar_element)
-        elif isinstance(ar_element, DiagnosticSecurityLevel):
-            self.writeDiagnosticSecurityLevel(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
-            self.writeDiagnosticEnvironmentalCondition(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAccessPermission):
-            self.writeDiagnosticAccessPermission(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAuthRole):
-            self.writeDiagnosticAuthRole(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAuthenticationClass):
-            self.writeDiagnosticAuthenticationClass(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAuthenticationConfiguration):
-            self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAuthTransmitCertificate):
-            self.writeDiagnosticAuthTransmitCertificate(element, ar_element)
-        elif isinstance(ar_element, DiagnosticDeAuthentication):
-            self.writeDiagnosticDeAuthentication(element, ar_element)
-        elif isinstance(ar_element, DiagnosticComControl):
-            self.writeDiagnosticComControl(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEcuReset):
-            self.writeDiagnosticEcuReset(element, ar_element)
-        elif isinstance(ar_element, DiagnosticEcuResetClass):
-            self.writeDiagnosticEcuResetClass(element, ar_element)
-        elif isinstance(ar_element, DiagnosticProofOfOwnership):
-            self.writeDiagnosticProofOfOwnership(element, ar_element)
-        elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
-            self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
-        elif isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):
-            self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):
@@ -15684,6 +15571,182 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
+    def writeDiagnosticElement(self, element: ET.Element, ar_element: ARElement) -> bool:
+        if isinstance(ar_element, DiagnosticConnection):
+            self.writeDiagnosticConnection(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFimEventGroup):
+            self.writeDiagnosticFimEventGroup(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticJ1939ExpandedFreezeFrame):
+            self.writeDiagnosticJ1939ExpandedFreezeFrame(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticJ1939FreezeFrame):
+            self.writeDiagnosticJ1939FreezeFrame(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticJ1939Spn):
+            self.writeDiagnosticJ1939Spn(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTroubleCodeJ1939):
+            self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticServiceDataMapping):
+            self.writeDiagnosticServiceDataMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticServiceSwMapping):
+            self.writeDiagnosticServiceSwMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventPortMapping):
+            self.writeDiagnosticEventPortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
+            self.writeDiagnosticOperationCyclePortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEnableConditionPortMapping):
+            self.writeDiagnosticEnableConditionPortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticStorageConditionPortMapping):
+            self.writeDiagnosticStorageConditionPortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAuthTransmitCertificateMapping):
+            self.writeDiagnosticAuthTransmitCertificateMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSecurityEventReportingModeMapping):
+            self.writeDiagnosticSecurityEventReportingModeMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticDemProvidedDataMapping):
+            self.writeDiagnosticDemProvidedDataMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticMasterToSlaveEventMapping):
+            self.writeDiagnosticMasterToSlaveEventMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToSecurityEventMapping):
+            self.writeDiagnosticEventToSecurityEventMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticInhibitSourceEventMapping):
+            self.writeDiagnosticInhibitSourceEventMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFimAliasEventMapping):
+            self.writeDiagnosticFimAliasEventMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFimAliasEventGroup):
+            self.writeDiagnosticFimAliasEventGroup(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFimAliasEventGroupMapping):
+            self.writeDiagnosticFimAliasEventGroupMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToTroubleCodeJ1939Mapping):
+            self.writeDiagnosticEventToTroubleCodeJ1939Mapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticIumprToFunctionIdentifierMapping):
+            self.writeDiagnosticIumprToFunctionIdentifierMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticJ1939SpnMapping):
+            self.writeDiagnosticJ1939SpnMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticJ1939Node):
+            self.writeDiagnosticJ1939Node(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticJ1939SwMapping):
+            self.writeDiagnosticJ1939SwMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFimFunctionMapping):
+            self.writeDiagnosticFimFunctionMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToDebounceAlgorithmMapping):
+            self.writeDiagnosticEventToDebounceAlgorithmMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToEnableConditionGroupMapping):
+            self.writeDiagnosticEventToEnableConditionGroupMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToOperationCycleMapping):
+            self.writeDiagnosticEventToOperationCycleMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToStorageConditionGroupMapping):
+            self.writeDiagnosticEventToStorageConditionGroupMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEventToTroubleCodeUdsMapping):
+            self.writeDiagnosticEventToTroubleCodeUdsMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticContributionSet):
+            self.writeDiagnosticContributionSet(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticCustomServiceClass):
+            self.writeDiagnosticCustomServiceClass(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticCustomServiceInstance):
+            self.writeDiagnosticCustomServiceInstance(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticProtocol):
+            self.writeDiagnosticProtocol(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticServiceTable):
+            self.writeDiagnosticServiceTable(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticDataIdentifier):
+            self.writeDiagnosticDataIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticDynamicDataIdentifier):
+            self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSession):
+            self.writeDiagnosticSession(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSessionControl):
+            self.writeDiagnosticSessionControl(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSessionControlClass):
+            self.writeDiagnosticSessionControlClass(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSecurityAccessClass):
+            self.writeDiagnosticSecurityAccessClass(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSecurityAccess):
+            self.writeDiagnosticSecurityAccess(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticSecurityLevel):
+            self.writeDiagnosticSecurityLevel(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEnvironmentalCondition):
+            self.writeDiagnosticEnvironmentalCondition(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAccessPermission):
+            self.writeDiagnosticAccessPermission(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAuthRole):
+            self.writeDiagnosticAuthRole(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAuthenticationClass):
+            self.writeDiagnosticAuthenticationClass(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAuthenticationConfiguration):
+            self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAuthTransmitCertificate):
+            self.writeDiagnosticAuthTransmitCertificate(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticDeAuthentication):
+            self.writeDiagnosticDeAuthentication(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticComControl):
+            self.writeDiagnosticComControl(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEcuReset):
+            self.writeDiagnosticEcuReset(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEcuResetClass):
+            self.writeDiagnosticEcuResetClass(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticProofOfOwnership):
+            self.writeDiagnosticProofOfOwnership(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
+            self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):
+            self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
+            return True
+        return False
     def writeDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())

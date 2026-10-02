@@ -15705,90 +15705,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)
-            elif tag_name == "DIAGNOSTIC-CONNECTION":
-                connection = parent.createDiagnosticConnection(self.getShortName(child_element))
-                self.readDiagnosticConnection(child_element, connection)
-            elif tag_name == "DIAGNOSTIC-CONTRIBUTION-SET":
-                contribution_set = parent.createDiagnosticContributionSet(self.getShortName(child_element))
-                self.readDiagnosticContributionSet(child_element, contribution_set)
-            elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-CLASS":
-                custom_service_class = parent.createDiagnosticCustomServiceClass(self.getShortName(child_element))
-                self.readDiagnosticCustomServiceClass(child_element, custom_service_class)
-            elif tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE":
-                custom_service_instance = parent.createDiagnosticCustomServiceInstance(self.getShortName(child_element))
-                self.readDiagnosticCustomServiceInstance(child_element, custom_service_instance)
-            elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
-                did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
-                self.readDiagnosticDataIdentifier(child_element, did)
-            elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
-                did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
-                self.readDiagnosticDynamicDataIdentifier(child_element, did)
-            elif tag_name == "DIAGNOSTIC-PROTOCOL":
-                protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
-                self.readDiagnosticProtocol(child_element, protocol)
-            elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
-                table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
-                self.readDiagnosticServiceTable(child_element, table)
-            elif tag_name == "DIAGNOSTIC-FIM-EVENT-GROUP":
-                fim_event_group = parent.createDiagnosticFimEventGroup(self.getShortName(child_element))
-                self.readDiagnosticFimEventGroup(child_element, fim_event_group)
-            elif tag_name == "DIAGNOSTIC-J-1939-EXPANDED-FREEZE-FRAME":
-                expanded_freeze_frame = parent.createDiagnosticJ1939ExpandedFreezeFrame(self.getShortName(child_element))
-                self.readDiagnosticJ1939ExpandedFreezeFrame(child_element, expanded_freeze_frame)
-            elif tag_name == "DIAGNOSTIC-J-1939-FREEZE-FRAME":
-                freeze_frame = parent.createDiagnosticJ1939FreezeFrame(self.getShortName(child_element))
-                self.readDiagnosticJ1939FreezeFrame(child_element, freeze_frame)
-            elif tag_name == "DIAGNOSTIC-J-1939-SPN":
-                j1939_spn = parent.createDiagnosticJ1939Spn(self.getShortName(child_element))
-                self.readDiagnosticJ1939Spn(child_element, j1939_spn)
-            elif tag_name == "DIAGNOSTIC-TROUBLE-CODE-J-1939":
-                trouble_code = parent.createDiagnosticTroubleCodeJ1939(self.getShortName(child_element))
-                self.readDiagnosticTroubleCodeJ1939(child_element, trouble_code)
-            elif tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
-                service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
-                self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
-            elif tag_name == "DIAGNOSTIC-SERVICE-SW-MAPPING":
-                mapping = parent.createDiagnosticServiceSwMapping(self.getShortName(child_element))
-                self.readDiagnosticServiceSwMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
-                mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))
-                self.readDiagnosticEventPortMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
-                mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))
-                self.readDiagnosticOperationCyclePortMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
-                mapping = parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element))
-                self.readDiagnosticEnableConditionPortMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
-                mapping = parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element))
-                self.readDiagnosticStorageConditionPortMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-MAPPING":
-                mapping = parent.createDiagnosticAuthTransmitCertificateMapping(self.getShortName(child_element))
-                self.readDiagnosticAuthTransmitCertificateMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-SECURITY-EVENT-REPORTING-MODE-MAPPING":
-                mapping = parent.createDiagnosticSecurityEventReportingModeMapping(self.getShortName(child_element))
-                self.readDiagnosticSecurityEventReportingModeMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING":
-                mapping = parent.createDiagnosticDemProvidedDataMapping(self.getShortName(child_element))
-                self.readDiagnosticDemProvidedDataMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING":
-                mapping = parent.createDiagnosticMasterToSlaveEventMapping(self.getShortName(child_element))
-                self.readDiagnosticMasterToSlaveEventMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING":
-                mapping = parent.createDiagnosticEventToSecurityEventMapping(self.getShortName(child_element))
-                self.readDiagnosticEventToSecurityEventMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING":
-                mapping = parent.createDiagnosticInhibitSourceEventMapping(self.getShortName(child_element))
-                self.readDiagnosticInhibitSourceEventMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING":
-                mapping = parent.createDiagnosticFimAliasEventMapping(self.getShortName(child_element))
-                self.readDiagnosticFimAliasEventMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP":
-                mapping = parent.createDiagnosticFimAliasEventGroup(self.getShortName(child_element))
-                self.readDiagnosticFimAliasEventGroup(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING":
-                mapping = parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element))
-                self.readDiagnosticFimAliasEventGroupMapping(child_element, mapping)
+            elif tag_name.startswith("DIAGNOSTIC-"):
+                if not self.readDiagnosticPackageElement(tag_name, child_element, parent):
+                    self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
             elif tag_name == "CP-SW-CLUSTER-TO-DIAG-EVENT-MAPPING":
                 mapping = parent.createCpSwClusterToDiagEventMapping(self.getShortName(child_element))
                 self.readCpSwClusterToDiagEventMapping(child_element, mapping)
@@ -15801,96 +15720,6 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING":
                 mapping = parent.createCpSwClusterResourceToDiagFunctionIdMapping(self.getShortName(child_element))
                 self.readCpSwClusterResourceToDiagFunctionIdMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
-                mapping = parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element))
-                self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING":
-                mapping = parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element))
-                self.readDiagnosticIumprToFunctionIdentifierMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-J-1939-SPN-MAPPING":
-                mapping = parent.createDiagnosticJ1939SpnMapping(self.getShortName(child_element))
-                self.readDiagnosticJ1939SpnMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-J-1939-NODE":
-                mapping = parent.createDiagnosticJ1939Node(self.getShortName(child_element))
-                self.readDiagnosticJ1939Node(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-J-1939-SW-MAPPING":
-                mapping = parent.createDiagnosticJ1939SwMapping(self.getShortName(child_element))
-                self.readDiagnosticJ1939SwMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-FIM-FUNCTION-MAPPING":
-                mapping = parent.createDiagnosticFimFunctionMapping(self.getShortName(child_element))
-                self.readDiagnosticFimFunctionMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
-                mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
-                self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-ENABLE-CONDITION-GROUP-MAPPING":
-                mapping = parent.createDiagnosticEventToEnableConditionGroupMapping(self.getShortName(child_element))
-                self.readDiagnosticEventToEnableConditionGroupMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-OPERATION-CYCLE-MAPPING":
-                mapping = parent.createDiagnosticEventToOperationCycleMapping(self.getShortName(child_element))
-                self.readDiagnosticEventToOperationCycleMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-STORAGE-CONDITION-GROUP-MAPPING":
-                mapping = parent.createDiagnosticEventToStorageConditionGroupMapping(self.getShortName(child_element))
-                self.readDiagnosticEventToStorageConditionGroupMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-UDS-MAPPING":
-                mapping = parent.createDiagnosticEventToTroubleCodeUdsMapping(self.getShortName(child_element))
-                self.readDiagnosticEventToTroubleCodeUdsMapping(child_element, mapping)
-            elif tag_name == "DIAGNOSTIC-SESSION":
-                session = parent.createDiagnosticSession(self.getShortName(child_element))
-                self.readDiagnosticSession(child_element, session)
-            elif tag_name == "DIAGNOSTIC-SESSION-CONTROL":
-                session_control = parent.createDiagnosticSessionControl(self.getShortName(child_element))
-                self.readDiagnosticSessionControl(child_element, session_control)
-            elif tag_name == "DIAGNOSTIC-SESSION-CONTROL-CLASS":
-                session_control_class = parent.createDiagnosticSessionControlClass(self.getShortName(child_element))
-                self.readDiagnosticSessionControlClass(child_element, session_control_class)
-            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
-                security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
-                self.readDiagnosticSecurityAccess(child_element, security_access)
-            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS-CLASS":
-                security_access_class = parent.createDiagnosticSecurityAccessClass(self.getShortName(child_element))
-                self.readDiagnosticSecurityAccessClass(child_element, security_access_class)
-            elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
-                security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
-                self.readDiagnosticSecurityLevel(child_element, security_level)
-            elif tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
-                condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
-                self.readDiagnosticEnvironmentalCondition(child_element, condition)
-            elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
-                permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
-                self.readDiagnosticAccessPermission(child_element, permission)
-            elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
-                auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
-                self.readDiagnosticAuthRole(child_element, auth_role)
-            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
-                authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
-                self.readDiagnosticAuthenticationClass(child_element, authentication_class)
-            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
-                configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
-                self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
-            elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE":
-                certificate = parent.createDiagnosticAuthTransmitCertificate(self.getShortName(child_element))
-                self.readDiagnosticAuthTransmitCertificate(child_element, certificate)
-            elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
-                de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
-                self.readDiagnosticDeAuthentication(child_element, de_authentication)
-            elif tag_name == "DIAGNOSTIC-COM-CONTROL":
-                com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
-                self.readDiagnosticComControl(child_element, com_control)
-            elif tag_name == "DIAGNOSTIC-ECU-RESET":
-                ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
-                self.readDiagnosticEcuReset(child_element, ecu_reset)
-            elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
-                ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
-                self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
-            elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
-                proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
-                self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
-            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
-                verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
-                self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
-            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
-                verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
-                self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)
@@ -16059,6 +15888,240 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
+    def readDiagnosticPackageElement(self, tag_name: str, child_element: ET.Element, parent: ARPackage) -> bool:
+        if tag_name == "DIAGNOSTIC-CONNECTION":
+            connection = parent.createDiagnosticConnection(self.getShortName(child_element))
+            self.readDiagnosticConnection(child_element, connection)
+            return True
+        if tag_name == "DIAGNOSTIC-CONTRIBUTION-SET":
+            contribution_set = parent.createDiagnosticContributionSet(self.getShortName(child_element))
+            self.readDiagnosticContributionSet(child_element, contribution_set)
+            return True
+        if tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-CLASS":
+            custom_service_class = parent.createDiagnosticCustomServiceClass(self.getShortName(child_element))
+            self.readDiagnosticCustomServiceClass(child_element, custom_service_class)
+            return True
+        if tag_name == "DIAGNOSTIC-CUSTOM-SERVICE-INSTANCE":
+            custom_service_instance = parent.createDiagnosticCustomServiceInstance(self.getShortName(child_element))
+            self.readDiagnosticCustomServiceInstance(child_element, custom_service_instance)
+            return True
+        if tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
+            did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
+            self.readDiagnosticDataIdentifier(child_element, did)
+            return True
+        if tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
+            did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
+            self.readDiagnosticDynamicDataIdentifier(child_element, did)
+            return True
+        if tag_name == "DIAGNOSTIC-PROTOCOL":
+            protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
+            self.readDiagnosticProtocol(child_element, protocol)
+            return True
+        if tag_name == "DIAGNOSTIC-SERVICE-TABLE":
+            table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
+            self.readDiagnosticServiceTable(child_element, table)
+            return True
+        if tag_name == "DIAGNOSTIC-FIM-EVENT-GROUP":
+            fim_event_group = parent.createDiagnosticFimEventGroup(self.getShortName(child_element))
+            self.readDiagnosticFimEventGroup(child_element, fim_event_group)
+            return True
+        if tag_name == "DIAGNOSTIC-J-1939-EXPANDED-FREEZE-FRAME":
+            expanded_freeze_frame = parent.createDiagnosticJ1939ExpandedFreezeFrame(self.getShortName(child_element))
+            self.readDiagnosticJ1939ExpandedFreezeFrame(child_element, expanded_freeze_frame)
+            return True
+        if tag_name == "DIAGNOSTIC-J-1939-FREEZE-FRAME":
+            freeze_frame = parent.createDiagnosticJ1939FreezeFrame(self.getShortName(child_element))
+            self.readDiagnosticJ1939FreezeFrame(child_element, freeze_frame)
+            return True
+        if tag_name == "DIAGNOSTIC-J-1939-SPN":
+            j1939_spn = parent.createDiagnosticJ1939Spn(self.getShortName(child_element))
+            self.readDiagnosticJ1939Spn(child_element, j1939_spn)
+            return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE-J-1939":
+            trouble_code = parent.createDiagnosticTroubleCodeJ1939(self.getShortName(child_element))
+            self.readDiagnosticTroubleCodeJ1939(child_element, trouble_code)
+            return True
+        if tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
+            service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
+            self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-SERVICE-SW-MAPPING":
+            mapping = parent.createDiagnosticServiceSwMapping(self.getShortName(child_element))
+            self.readDiagnosticServiceSwMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
+            mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))
+            self.readDiagnosticEventPortMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
+            mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))
+            self.readDiagnosticOperationCyclePortMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
+            mapping = parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element))
+            self.readDiagnosticEnableConditionPortMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
+            mapping = parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element))
+            self.readDiagnosticStorageConditionPortMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-MAPPING":
+            mapping = parent.createDiagnosticAuthTransmitCertificateMapping(self.getShortName(child_element))
+            self.readDiagnosticAuthTransmitCertificateMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-SECURITY-EVENT-REPORTING-MODE-MAPPING":
+            mapping = parent.createDiagnosticSecurityEventReportingModeMapping(self.getShortName(child_element))
+            self.readDiagnosticSecurityEventReportingModeMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING":
+            mapping = parent.createDiagnosticDemProvidedDataMapping(self.getShortName(child_element))
+            self.readDiagnosticDemProvidedDataMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING":
+            mapping = parent.createDiagnosticMasterToSlaveEventMapping(self.getShortName(child_element))
+            self.readDiagnosticMasterToSlaveEventMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING":
+            mapping = parent.createDiagnosticEventToSecurityEventMapping(self.getShortName(child_element))
+            self.readDiagnosticEventToSecurityEventMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING":
+            mapping = parent.createDiagnosticInhibitSourceEventMapping(self.getShortName(child_element))
+            self.readDiagnosticInhibitSourceEventMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING":
+            mapping = parent.createDiagnosticFimAliasEventMapping(self.getShortName(child_element))
+            self.readDiagnosticFimAliasEventMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP":
+            mapping = parent.createDiagnosticFimAliasEventGroup(self.getShortName(child_element))
+            self.readDiagnosticFimAliasEventGroup(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING":
+            mapping = parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element))
+            self.readDiagnosticFimAliasEventGroupMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
+            mapping = parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element))
+            self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING":
+            mapping = parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element))
+            self.readDiagnosticIumprToFunctionIdentifierMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-J-1939-SPN-MAPPING":
+            mapping = parent.createDiagnosticJ1939SpnMapping(self.getShortName(child_element))
+            self.readDiagnosticJ1939SpnMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-J-1939-NODE":
+            mapping = parent.createDiagnosticJ1939Node(self.getShortName(child_element))
+            self.readDiagnosticJ1939Node(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-J-1939-SW-MAPPING":
+            mapping = parent.createDiagnosticJ1939SwMapping(self.getShortName(child_element))
+            self.readDiagnosticJ1939SwMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-FIM-FUNCTION-MAPPING":
+            mapping = parent.createDiagnosticFimFunctionMapping(self.getShortName(child_element))
+            self.readDiagnosticFimFunctionMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
+            mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
+            self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-ENABLE-CONDITION-GROUP-MAPPING":
+            mapping = parent.createDiagnosticEventToEnableConditionGroupMapping(self.getShortName(child_element))
+            self.readDiagnosticEventToEnableConditionGroupMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-OPERATION-CYCLE-MAPPING":
+            mapping = parent.createDiagnosticEventToOperationCycleMapping(self.getShortName(child_element))
+            self.readDiagnosticEventToOperationCycleMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-STORAGE-CONDITION-GROUP-MAPPING":
+            mapping = parent.createDiagnosticEventToStorageConditionGroupMapping(self.getShortName(child_element))
+            self.readDiagnosticEventToStorageConditionGroupMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-UDS-MAPPING":
+            mapping = parent.createDiagnosticEventToTroubleCodeUdsMapping(self.getShortName(child_element))
+            self.readDiagnosticEventToTroubleCodeUdsMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-SESSION":
+            session = parent.createDiagnosticSession(self.getShortName(child_element))
+            self.readDiagnosticSession(child_element, session)
+            return True
+        if tag_name == "DIAGNOSTIC-SESSION-CONTROL":
+            session_control = parent.createDiagnosticSessionControl(self.getShortName(child_element))
+            self.readDiagnosticSessionControl(child_element, session_control)
+            return True
+        if tag_name == "DIAGNOSTIC-SESSION-CONTROL-CLASS":
+            session_control_class = parent.createDiagnosticSessionControlClass(self.getShortName(child_element))
+            self.readDiagnosticSessionControlClass(child_element, session_control_class)
+            return True
+        if tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
+            security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
+            self.readDiagnosticSecurityAccess(child_element, security_access)
+            return True
+        if tag_name == "DIAGNOSTIC-SECURITY-ACCESS-CLASS":
+            security_access_class = parent.createDiagnosticSecurityAccessClass(self.getShortName(child_element))
+            self.readDiagnosticSecurityAccessClass(child_element, security_access_class)
+            return True
+        if tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
+            security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
+            self.readDiagnosticSecurityLevel(child_element, security_level)
+            return True
+        if tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
+            condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
+            self.readDiagnosticEnvironmentalCondition(child_element, condition)
+            return True
+        if tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
+            permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
+            self.readDiagnosticAccessPermission(child_element, permission)
+            return True
+        if tag_name == "DIAGNOSTIC-AUTH-ROLE":
+            auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
+            self.readDiagnosticAuthRole(child_element, auth_role)
+            return True
+        if tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
+            authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
+            self.readDiagnosticAuthenticationClass(child_element, authentication_class)
+            return True
+        if tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
+            configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
+            self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
+            return True
+        if tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE":
+            certificate = parent.createDiagnosticAuthTransmitCertificate(self.getShortName(child_element))
+            self.readDiagnosticAuthTransmitCertificate(child_element, certificate)
+            return True
+        if tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
+            de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
+            self.readDiagnosticDeAuthentication(child_element, de_authentication)
+            return True
+        if tag_name == "DIAGNOSTIC-COM-CONTROL":
+            com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
+            self.readDiagnosticComControl(child_element, com_control)
+            return True
+        if tag_name == "DIAGNOSTIC-ECU-RESET":
+            ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
+            self.readDiagnosticEcuReset(child_element, ecu_reset)
+            return True
+        if tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
+            ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
+            self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+            return True
+        if tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
+            proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
+            self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
+            return True
+        if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
+            verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
+            self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
+            return True
+        if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
+            verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
+            self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+            return True
+        return False
     def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
         if destination_mac is not None:
