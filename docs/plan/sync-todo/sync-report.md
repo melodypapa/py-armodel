@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 700 | 36.8% |
+| [x] Done | 701 | 36.8% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 288 | 15.1% |
+| [ ] Deferred | 287 | 15.1% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -700,7 +700,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticServiceDataMapping`                          | [ ] Deferred| 80105a7831                               | Group26          |
 | `DiagnosticServiceInstance`                             | [x] Done    | 6b514727f9                               | Group7           |
 | `DiagnosticServiceMappingDiagTarget`                    | [ ] Deferred| 80105a7831                               | Group26          |
-| `DiagnosticServiceRequestCallbackTypeEnum`              | [ ] Deferred| 28746ce3cc                               | Group14          |
+| `DiagnosticServiceRequestCallbackTypeEnum`              | [x] Done    | 77c7312cc8                               | Group14          |
 | `DiagnosticServiceSwMapping`                            | [ ] Deferred| 0f2a3876e3                               | Group26          |
 | `DiagnosticServiceTable`                                | [x] Done    | 9bd6fadae5                               | Group7           |
 | `DiagnosticSession`                                     | [x] Done    | 06d4e49a26                               | Group7           |
