@@ -684,7 +684,7 @@ Status: **22/25** completed
 | `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
 | `DiagnosticJumpToBootLoaderEnum`           | [x] Done     | N/A        |
 | `DiagnosticLogicalOperatorEnum`            | [x] Done     | N/A        |
-| `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af373 |
+| `DiagnosticEnvConditionFormulaPart`        | [x] Done     | 66e22b5a41 |
 | `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af373 |
 | `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af373 |
 | `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |

@@ -276,7 +276,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): OP literal-value choice (XSD wire tokens LOGICAL-AND/LOGICAL-OR as enum values, consistent with DiagnosticJumpToBootLoaderEnum) — 9b user-ACCEPTED 2026-10-02
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (full suite 16300 passed / 1 failed = the pre-existing unrelated integration round-trip on gitignored *SystemMapping.arxml fixtures, documented at session start; targeted tests + member-annotation gate + npm run lint + black-check clean); 9b user-confirmed 2026-10-02 (wire-token values accepted)
 
-- [x] `DiagnosticEnvConditionFormulaPart` — ARObject — already verified (R23-11 · Table 4.38, p.81; short-circuit 2026-09-26)
+- [x] `DiagnosticEnvConditionFormulaPart` — ARObject — R23-11 markdown · Table 4.38 (CP_TPS_DiagnosticExtractTemplate), p.81 — **finished, stamped `# Spec verified: R23-11`** (sync commit 66e22b5a4; short-circuit 2026-09-26)
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
   - note (short-circuit 2026-09-26): class body already matches the spec — verbatim Note docstring, 6-col checklist with only __init__ (abstract, ZERO attribute rows), abstract guard, Base = ARObject (already correct). Deviation check found nothing new; marker deferred to batch confirmation. No code change needed.
   - [x] Step 1 — Sync members & description from spec
@@ -289,7 +289,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12339 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (full suite 16300 passed / 1 failed = the pre-existing unrelated integration round-trip on gitignored *SystemMapping.arxml fixtures; targeted tests + npm run lint + black-check clean); 9b user-confirmed 2026-10-02 — abstract, Table 4.38 p.81, Note verbatim, Base = ARObject, ZERO attribute rows, abstract guard, checklist 1/1, no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 - [ ] `DiagnosticEnvConditionFormula` — DiagnosticEnvConditionFormulaPart — R23-11 markdown · Table 4.36 (CP_TPS_DiagnosticExtractTemplate), p.80
   - module: M2/AUTOSARTemplates/CommonStructure/../DiagnosticExtract/EnvironmentalCondition.py
   - note (Step 1): class was already largely synced in the Group7 pass — verbatim Note, typed fields, 6-col checklist. This pass: added missing setter return annotations (PEP 563 module — bare self-reference), verified OP wire values (DiagnosticLogicalOperatorEnum stores XSD tokens LOGICAL-AND/LOGICAL-OR as literal values — pre-existing decision, OP needs no token map; recorded for 9b review vs the markdown literal values logicalAnd/logicalOr).
