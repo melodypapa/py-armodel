@@ -1116,10 +1116,10 @@ STUBS = [
         "DiagnosticEnvCompareCondition",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",
         "DiagnosticEnvModeCondition",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",
+        "DiagnosticEnvCompareCondition",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",

@@ -686,10 +686,6 @@ class DiagnosticEnableConditionPortMapping(ARObject):
     pass
 
 
-class DiagnosticEnvModeCondition(ARObject):
-    pass
-
-
 class DiagnosticEventWindow(ARObject):
     """This represents the ability to define the characteristics of the applicable event window"""
 
