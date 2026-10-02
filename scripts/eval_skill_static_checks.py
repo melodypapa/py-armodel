@@ -55,9 +55,7 @@ def check_dangling_refs(defined: List[str], referenced: Dict[str, int]) -> List[
 
 
 LEGACY_BLOCK_RE = re.compile(r"#\s*(\w+)\s+method parity checklist:")
-LEGACY_ROW_RE = re.compile(
-    r"^\s*#\s*\[[xX—]\]\s+\S+\s+\[[x—]\]\s+impl\s+\[[x—]\]\s+docstring\s+\[[x—]\]\s+test\s*$"
-)
+LEGACY_ROW_RE = re.compile(r"^\s*#\s*\[[xX—]\]\s+\S+\s+\[[x—]\]\s+impl\s+\[[x—]\]\s+docstring\s+\[[x—]\]\s+test\s*$")
 LEGACY_STAMP_RE = re.compile(r"#\s*((?:Spec|XSD) verified:[^\n]*)")
 
 

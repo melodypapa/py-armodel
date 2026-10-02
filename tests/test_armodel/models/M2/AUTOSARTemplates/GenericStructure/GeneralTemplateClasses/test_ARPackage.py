@@ -3712,6 +3712,7 @@ class TestDiagnosticServiceMappingDiagTarget:
         """
         assert DiagnosticServiceMappingDiagTarget.__init__.__doc__ is None
 
+
 class TestDiagnosticEventToDebounceAlgorithmMapping:
     """
     Test class for DiagnosticEventToDebounceAlgorithmMapping functionality.
@@ -4056,6 +4057,7 @@ class TestDiagnosticEventToTroubleCodeUdsMapping:
         duplicate = package.createDiagnosticEventToTroubleCodeUdsMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
 
+
 class TestDiagnosticEventPortMapping:
     """
     Test class for DiagnosticEventPortMapping functionality.
@@ -4355,6 +4357,7 @@ class TestDiagnosticStorageConditionPortMapping:
 
         duplicate = package.createDiagnosticStorageConditionPortMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticAuthTransmitCertificateMapping:
     """
@@ -4700,6 +4703,7 @@ class TestDiagnosticEventToSecurityEventMapping:
         duplicate = package.createDiagnosticEventToSecurityEventMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
 
+
 class TestDiagnosticInhibitSourceEventMapping:
     """
     Test class for DiagnosticInhibitSourceEventMapping functionality.
@@ -4781,7 +4785,7 @@ class TestDiagnosticFimAliasEventMapping:
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.34, p.262
     """
 
-    CLASS_NOTE = "This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the \"preliminary\" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings"
+    CLASS_NOTE = 'This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the "preliminary" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings'
 
     def _make_obj(self) -> DiagnosticFimAliasEventMapping:
         parent = AUTOSAR.getInstance()
@@ -4914,7 +4918,7 @@ class TestDiagnosticFimAliasEventGroupMapping:
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.36, p.263
     """
 
-    CLASS_NOTE = "This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the \"preliminary\" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings"
+    CLASS_NOTE = 'This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the "preliminary" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings'
 
     def _make_obj(self) -> DiagnosticFimAliasEventGroupMapping:
         parent = AUTOSAR.getInstance()
@@ -4974,6 +4978,7 @@ class TestDiagnosticFimAliasEventGroupMapping:
 
         duplicate = package.createDiagnosticFimAliasEventGroupMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticEventToTroubleCodeJ1939Mapping:
     """
@@ -5194,7 +5199,7 @@ class TestDiagnosticJ1939Node:
     Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.41, p.267
     """
 
-    CLASS_NOTE = "This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a \"virtual Ecu\" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes"
+    CLASS_NOTE = 'This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a "virtual Ecu" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes'
 
     def _make_obj(self) -> DiagnosticJ1939Node:
         parent = AUTOSAR.getInstance()
@@ -5397,6 +5402,7 @@ class TestDiagnosticFimFunctionMapping:
 
         duplicate = package.createDiagnosticFimFunctionMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestCpSwClusterToDiagEventMapping:
     """
@@ -5672,6 +5678,7 @@ class TestCpSwClusterResourceToDiagFunctionIdMapping:
 
         duplicate = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
+
 
 class TestDiagnosticServiceSwMapping:
     """

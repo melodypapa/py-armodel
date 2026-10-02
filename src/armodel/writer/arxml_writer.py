@@ -15774,6 +15774,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
             return True
         return False
+
     def writeDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())

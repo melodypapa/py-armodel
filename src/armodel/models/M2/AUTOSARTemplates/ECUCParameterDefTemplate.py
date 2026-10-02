@@ -1098,6 +1098,8 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
         if value is not None:
             self.destinationRef = value
         return self
+
+
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Specify alternative references where in the ECU Configuration description
@@ -1174,6 +1176,8 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
         if value is not None:
             self.destinationRef = value
         return self
+
+
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Definition of reference with a destination that is specified via a destinationUri. With such a reference it is possible to define a reference to a EcucContainerDef in a different module independent from the concrete definition of the target container.
@@ -1219,6 +1223,8 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
         if value is not None:
             self.destinationUriRef = value
         return self
+
+
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
     Specify a reference to an XML description of an entity described in another AUTOSAR template.

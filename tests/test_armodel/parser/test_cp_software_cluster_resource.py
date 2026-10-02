@@ -64,8 +64,7 @@ class TestReadRoleBasedResourceDependency:
     def test_read_sets_all_fields(self, parser):
         dependency = RoleBasedResourceDependency()
         element = _snip(
-            "<RESOURCE-REF DEST='CP-SOFTWARE-CLUSTER-RESOURCE'>/AUTOSAR/Resources/Res2</RESOURCE-REF>"
-            "<ROLE>provider</ROLE>",
+            "<RESOURCE-REF DEST='CP-SOFTWARE-CLUSTER-RESOURCE'>/AUTOSAR/Resources/Res2</RESOURCE-REF>" "<ROLE>provider</ROLE>",
             root_tag="ROLE-BASED-RESOURCE-DEPENDENCY",
         )
         parser.readRoleBasedResourceDependency(element, dependency)

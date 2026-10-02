@@ -29,10 +29,7 @@ def _snip(inner: str, root_tag: str = "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING") -> E
 class TestReadDiagnosticFimAliasEventMapping:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticFimAliasEventMapping(AUTOSAR.getInstance(), "M1")
-        element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<ACTUAL-EVENT-REF DEST='DEST'>/AUTOSAR/ActualEvent1</ACTUAL-EVENT-REF><ALIAS-EVENT-REF DEST='DEST'>/AUTOSAR/AliasEvent1</ALIAS-EVENT-REF>"
-        )
+        element = _snip("<SHORT-NAME>M1</SHORT-NAME>" "<ACTUAL-EVENT-REF DEST='DEST'>/AUTOSAR/ActualEvent1</ACTUAL-EVENT-REF><ALIAS-EVENT-REF DEST='DEST'>/AUTOSAR/AliasEvent1</ALIAS-EVENT-REF>")
         parser.readDiagnosticFimAliasEventMapping(element, mapping)
         assert mapping.getShortName() == "M1"
         assert mapping.getActualEventRef() is not None

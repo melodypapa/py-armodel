@@ -1053,16 +1053,6 @@ class RptContainer(Identifiable):
     pass
 
 
-
-
-
-
-
-
-
-
-
-
 class SdgTailoring(DataFormatElementScope):
     pass
 

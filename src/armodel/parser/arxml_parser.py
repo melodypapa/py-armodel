@@ -16152,6 +16152,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
             return True
         return False
+
     def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
         if destination_mac is not None:

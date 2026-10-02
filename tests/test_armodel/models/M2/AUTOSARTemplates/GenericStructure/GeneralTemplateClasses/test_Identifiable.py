@@ -1126,6 +1126,7 @@ class TestDiagnosticAuthTransmitCertificateEvaluation:
         assert duplicate is evaluation  # duplicate short name returns the existing element
         assert len(certificate.getCertificateEvaluations()) == 1
 
+
 class TestCpSoftwareClusterResource:
     """
     Test class for CpSoftwareClusterResource functionality.

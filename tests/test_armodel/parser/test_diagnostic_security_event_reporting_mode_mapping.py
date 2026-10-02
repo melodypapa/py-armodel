@@ -30,8 +30,7 @@ class TestReadDiagnosticSecurityEventReportingModeMapping:
     def test_read_sets_all_fields(self, parser):
         mapping = DiagnosticSecurityEventReportingModeMapping(AUTOSAR.getInstance(), "M1")
         element = _snip(
-            "<SHORT-NAME>M1</SHORT-NAME>"
-            "<DATA-ELEMENT-REF DEST='DEST'>/AUTOSAR/DataElement1</DATA-ELEMENT-REF><SECURITY-EVENT-REF DEST='DEST'>/AUTOSAR/SecurityEvent1</SECURITY-EVENT-REF>"
+            "<SHORT-NAME>M1</SHORT-NAME>" "<DATA-ELEMENT-REF DEST='DEST'>/AUTOSAR/DataElement1</DATA-ELEMENT-REF><SECURITY-EVENT-REF DEST='DEST'>/AUTOSAR/SecurityEvent1</SECURITY-EVENT-REF>"
         )
         parser.readDiagnosticSecurityEventReportingModeMapping(element, mapping)
         assert mapping.getShortName() == "M1"

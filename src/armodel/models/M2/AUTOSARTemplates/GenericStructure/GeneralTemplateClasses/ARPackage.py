@@ -6854,7 +6854,6 @@ class RapidPrototypingScenario(ARElement):
     pass
 
 
-
 class SecurityEventContextMappingApplication(ARElement):
     pass
 
