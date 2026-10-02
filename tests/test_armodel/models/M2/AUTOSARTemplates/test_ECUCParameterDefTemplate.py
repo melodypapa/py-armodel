@@ -137,13 +137,67 @@ class TestEcucInstanceReferenceDef:
 
 
 class TestEcucStringParamDef:
+    """
+    Test class for EcucStringParamDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.19, p.64
+    """
+
+    CLASS_NOTE = "Configuration parameter type for String."
+
     def test_instantiation(self):
         assert _instantiate(EcucStringParamDef, "EcucStringParamDef").getShortName() == "EcucStringParamDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucStringParamDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucStringParamDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_accessors(self):
+        """
+        Test that the concrete class instantiates and exposes the inherited string-param accessors.
+        """
+        obj = EcucStringParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TS"), "Param")
+        assert obj.getDefaultValue() is None
+
 
 class TestEcucFunctionNameDef:
+    """
+    Test class for EcucFunctionNameDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.22, p.65
+    """
+
+    CLASS_NOTE = "Configuration parameter type for Function Names like those used to specify callback functions."
+
     def test_instantiation(self):
         assert _instantiate(EcucFunctionNameDef, "EcucFunctionNameDef").getShortName() == "EcucFunctionNameDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucFunctionNameDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucFunctionNameDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_accessors(self):
+        """
+        Test that the concrete class instantiates and exposes the inherited string-param accessors.
+        """
+        obj = EcucFunctionNameDef(AUTOSAR.getInstance().createARPackage("Pkg_TF"), "Param")
+        assert obj.getDefaultValue() is None
 
 
 class TestEcucIntegerParamDef:
@@ -580,8 +634,35 @@ class TestEcucLinkerSymbolDef:
 
 
 class TestEcucMultilineStringParamDef:
+    """
+    Test class for EcucMultilineStringParamDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.20, p.64
+    """
+
+    CLASS_NOTE = "Configuration parameter type for multiline Strings (including \"carriage return\")."
+
     def test_instantiation(self):
         assert _instantiate(EcucMultilineStringParamDef, "EcucMultilineStringParamDef").getShortName() == "EcucMultilineStringParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucMultilineStringParamDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucMultilineStringParamDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_accessors(self):
+        """
+        Test that the concrete class instantiates and exposes the inherited string-param accessors.
+        """
+        obj = EcucMultilineStringParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TM"), "Param")
+        assert obj.getDefaultValue() is None
 
 
 class TestEcucDestinationUriDefRefType:
