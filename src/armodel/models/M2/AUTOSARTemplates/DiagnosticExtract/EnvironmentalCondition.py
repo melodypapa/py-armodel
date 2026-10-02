@@ -15,6 +15,7 @@ class DiagnosticLogicalOperatorEnum(AREnum):
 
     # DiagnosticLogicalOperatorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.37, p.80
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DiagnosticEnvConditionFormula.op
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
