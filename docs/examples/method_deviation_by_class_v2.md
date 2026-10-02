@@ -334,6 +334,16 @@ No deviations — all three Table 12.34 attributes (`timeBasedFdcThresholdStorag
 |---|---|---|---|---|---|
 | `ridNumber` | `Optional[PositiveInteger]` | `ridNumber` | `PositiveInteger` | attr | **accepted legacy** — `ridNumber` is documented in R4.3.1 Table 13.33 (p.780) but removed from the R23-11 Table 13.36; modeled as optional member with full reader/writer coverage (RID-NUMBER), per Rule 0019 combine-case pattern; src field renamed `RidNumber` → `ridNumber` (spec lowerCamel member name) |
 
+## `DiagnosticValueNeeds`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf` (R23-11)  | **page:** 782  | **table:** Table 13.39
+- **Legacy corpus:** `AUTOSAR_TPS_SoftwareComponentTemplate.pdf` (R4.3.1)  | **page:** 783  | **table:** Table 13.36
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `didNumber` | `Optional[PositiveInteger]` | `didNumber` | `PositiveInteger` | attr | **accepted legacy** — `didNumber` is documented in R4.3.1 Table 13.36 (p.783) but removed from the R23-11 Table 13.39; modeled as optional member with full reader/writer coverage (DID-NUMBER), per Rule 0019 combine-case pattern; src field renamed `DidNumber` → `didNumber` (spec lowerCamel member name) |
+
 ## `DiagnosticUploadDownloadNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`

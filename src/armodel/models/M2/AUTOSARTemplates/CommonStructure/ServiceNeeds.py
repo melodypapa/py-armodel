@@ -1113,8 +1113,9 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     """
 
     # DiagnosticValueNeeds method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.39, p.780 (R23-11)
-    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.39, p.782 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.36, p.783 (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataLength                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
