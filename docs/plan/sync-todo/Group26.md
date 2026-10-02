@@ -791,39 +791,42 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucEnumerationParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.23, p.66
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip file (tests/test_armodel/parser/test_ecuc_enum_param_family.py)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale stamp state rebuilt; checklists created 6-col (were absent); concrete; Base most-derived = EcucParameterDef; 2 members (defaultValue Identifier 0..1 / literals `*` aggr atpSplitable Splitkey=literal.shortName) with EMPTY docstrings → verbatim Notes; createLiteral factory docstring completed (was missing "Tags: atp.Splitkey=literal.shortName" tail)
 
 - [ ] `EcucEnumerationLiteralDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.24, p.67
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip file (tests/test_armodel/parser/test_ecuc_enum_param_family.py)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale stamp state rebuilt; checklists created 6-col (were absent); concrete; Base = Identifiable ✓; 2 attrs (ecucCond 0..1 aggr / origin 0..1) with EMPTY docstrings → verbatim Notes; reader helper is readEcucEnumerationLiteral (named without Def)
 
 - [ ] `EcucAddInfoParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.25, p.68
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip file (tests/test_armodel/parser/test_ecuc_enum_param_family.py)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale stamp state rebuilt; checklists created 6-col (were absent); concrete, NO own attrs (table attr row "-"); EMPTY class docstring → verbatim Note
 
 - [ ] `EcucAbstractReferenceDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.26, p.71
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

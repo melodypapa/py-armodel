@@ -1524,18 +1524,16 @@ class EcucIntegerParamDef(EcucParameterDef):
         return self
 
 class EcucEnumerationLiteralDef(Identifiable):
-    """
-    Configuration parameter type for enumeration literals definition.
-    """
+    """Configuration parameter type for enumeration literals definition."""
 
     # EcucEnumerationLiteralDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.24, p.67
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucCond      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucCond      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOrigin        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1576,20 +1574,17 @@ class EcucEnumerationLiteralDef(Identifiable):
             self.origin = value
         return self
 
-
 class EcucEnumerationParamDef(EcucParameterDef):
-    """
-    Configuration parameter type for Enumeration.
-    """
+    """Configuration parameter type for Enumeration."""
 
     # EcucEnumerationParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.66
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLiterals                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createLiteral                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLiterals       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLiteral     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1597,7 +1592,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
         # Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
         self.defaultValue: Optional[Identifier] = None
 
-        # Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
+        # Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable Tags: atp.Splitkey=literal.shortName
         self.literals: List[EcucEnumerationLiteralDef] = []
 
     def getDefaultValue(self) -> Optional[Identifier]:
@@ -1617,20 +1612,19 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
     def getLiterals(self) -> List[EcucEnumerationLiteralDef]:
         """
-        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
+        Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
         """
         return self.literals
 
     def createLiteral(self, short_name: str) -> EcucEnumerationLiteralDef:
         """
-        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
+        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable Tags: atp.Splitkey=literal.shortName
         """
         if not self.IsReferrableElementExists(short_name, EcucEnumerationLiteralDef):
             literal = EcucEnumerationLiteralDef(self, short_name)
             self.addReferrableElement(literal)
             self.literals.append(literal)
         return self.getReferrableElement(short_name, EcucEnumerationLiteralDef)
-
 
 class EcucFloatParamDef(EcucParameterDef):
     """
@@ -1991,18 +1985,15 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
 
 class EcucAddInfoParamDef(EcucParameterDef):
-    """
-    Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description.
-    """
+    """Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description."""
 
     # EcucAddInfoParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
 
 class EcucConditionFormula(FormulaExpression):
     """

@@ -59,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     Boolean,
     CIdentifier,
+    Identifier,
     PositiveInteger,
     RefType,
     RegularExpression,
@@ -267,13 +268,111 @@ class TestEcucIntegerParamDef:
 
 
 class TestEcucEnumerationLiteralDef:
+    """
+    Test class for EcucEnumerationLiteralDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.24, p.67
+    """
+
+    CLASS_NOTE = "Configuration parameter type for enumeration literals definition."
+
     def test_instantiation(self):
         assert _instantiate(EcucEnumerationLiteralDef, "EcucEnumerationLiteralDef").getShortName() == "EcucEnumerationLiteralDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucEnumerationLiteralDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucEnumerationLiteralDef.__init__.__doc__ is None
+
+    def test_get_set_ecuc_cond(self):
+        """
+        Round-trips ecucCond; None is a no-op.
+        """
+        obj = EcucEnumerationLiteralDef(AUTOSAR.getInstance().createARPackage("Pkg_TEL"), "Literal")
+
+        value = EcucConditionSpecification()
+        result = obj.setEcucCond(value)
+        assert result is obj  # method chaining
+        assert obj.getEcucCond() is value
+
+        obj.setEcucCond(None)
+        assert obj.getEcucCond() is value  # None is a no-op
+
+    def test_get_set_origin(self):
+        """
+        Round-trips origin; None is a no-op.
+        """
+        obj = EcucEnumerationLiteralDef(AUTOSAR.getInstance().createARPackage("Pkg_TEL"), "Literal")
+
+        value = String()
+        value.setValue("AUTOSAR Ecuc Definition Collection")
+        result = obj.setOrigin(value)
+        assert result is obj  # method chaining
+        assert obj.getOrigin() is value
+
+        obj.setOrigin(None)
+        assert obj.getOrigin() is value  # None is a no-op
+
 
 class TestEcucEnumerationParamDef:
+    """
+    Test class for EcucEnumerationParamDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.66
+    """
+
+    CLASS_NOTE = "Configuration parameter type for Enumeration."
+
     def test_instantiation(self):
         assert _instantiate(EcucEnumerationParamDef, "EcucEnumerationParamDef").getShortName() == "EcucEnumerationParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucEnumerationParamDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucEnumerationParamDef.__init__.__doc__ is None
+
+    def test_get_set_default_value(self):
+        """
+        Round-trips defaultValue; None is a no-op.
+        """
+        obj = EcucEnumerationParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEP"), "Param")
+
+        value = Identifier()
+        value.setValue("LITERAL_1")
+        result = obj.setDefaultValue(value)
+        assert result is obj  # method chaining
+        assert obj.getDefaultValue() is value
+
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() is value  # None is a no-op
+
+    def test_create_literal(self):
+        """
+        Test that createLiteral appends to the typed literals list and reuses duplicates.
+        """
+        obj = EcucEnumerationParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEP"), "Param")
+
+        literal = obj.createLiteral("Literal1")
+        assert isinstance(literal, EcucEnumerationLiteralDef)
+        assert obj.getLiterals() == [literal]
+
+        duplicate = obj.createLiteral("Literal1")
+        assert duplicate is literal  # duplicate short name returns the existing element
+        assert len(obj.getLiterals()) == 1  # duplicate does not append
 
 
 class TestEcucFloatParamDef:
@@ -388,8 +487,36 @@ class TestEcucParamConfContainerDef:
 
 
 class TestEcucAddInfoParamDef:
+    """
+    Test class for EcucAddInfoParamDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
+    """
+
+    CLASS_NOTE = "Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description."
+
     def test_instantiation(self):
         assert _instantiate(EcucAddInfoParamDef, "EcucAddInfoParamDef").getShortName() == "EcucAddInfoParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucAddInfoParamDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucAddInfoParamDef.__init__.__doc__ is None
+
+    def test_inherits_parameter_def_accessors(self):
+        """
+        Test that the attribute-less concrete instantiates and exposes inherited accessors.
+        """
+        obj = EcucAddInfoParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEAI"), "Param")
+
+        assert obj.getSymbolicNameValue() is None  # inherited from EcucParameterDef
 
 
 class TestEcucDefinitionCollection:
