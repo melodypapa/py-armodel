@@ -23,7 +23,7 @@ class RptAccessEnum(AREnum):
 
     # RptAccessEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.25, p.205
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -54,7 +54,7 @@ class RptEnablerImplTypeEnum(AREnum):
 
     # RptEnablerImplTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.19, p.202
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -89,7 +89,7 @@ class RptExecutionControlEnum(AREnum):
 
     # RptExecutionControlEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.22, p.203
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -116,7 +116,7 @@ class RptPreparationEnum(AREnum):
 
     # RptPreparationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.20, p.203
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -151,7 +151,7 @@ class RptExecutionContext(Identifiable):
 
     # RptExecutionContext method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.24, p.205
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -166,7 +166,7 @@ class RptSwPrototypingAccess(ARObject):
 
     # RptSwPrototypingAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.14, p.199
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRptHookAccess            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -241,7 +241,7 @@ class RptServicePoint(Identifiable, VariationPointCapable):
 
     # RptServicePoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.26, p.206
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getServiceId                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -371,7 +371,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     # RptExecutableEntityEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.17, p.201
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getExecutionContextRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -526,7 +526,7 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
 
     # RptExecutableEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.16, p.200
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRptExecutableEntityEvents[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -624,7 +624,7 @@ class RptComponent(Identifiable, VariationPointCapable):
 
     # RptComponent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.15, p.199
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMcDataAssignments        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -701,7 +701,7 @@ class RptSupportData(ARObject):
 
     # RptSupportData method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.13, p.198
-# Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getExecutionContexts        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
