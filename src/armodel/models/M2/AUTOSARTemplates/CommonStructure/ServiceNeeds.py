@@ -1046,7 +1046,10 @@ class DiagnosticValueAccessEnum(AREnum):
 
     # DiagnosticValueAccessEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.22, p.246
-    # (no methods)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DiagnosticValueNeeds.diagnosticValueAccess (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The access to the data element is limited to read-only. This is typically used to read-out diagnostic information (e.g. current values). Tags: atp.EnumerationLiteralIndex=0
     READ_ONLY = "readOnly"
