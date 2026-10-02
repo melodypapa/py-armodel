@@ -659,7 +659,7 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **15/25** completed
+Status: **16/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
@@ -676,7 +676,7 @@ Status: **15/25** completed
 | `DiagnosticCommunicationManagerNeeds`      | [x] Done     | 8c487102b9 |
 | `DiagnosticEventInfoNeeds`                 | [x] Done     | 99f3db39c4 |
 | `DiagnosticRoutineNeeds`                   | [x] Done     | 9f1a4310b7 |
-| `DiagnosticValueNeeds`                     | [ ] Pending* | 79c639e42a |
+| `DiagnosticValueNeeds`                     | [x] Done     | 475d150577 |
 | `DtcStatusChangeNotificationNeeds`         | [ ] Pending* | 79c639e42a |
 | `CryptoServiceNeeds`                       | [ ] Pending* | d064592a44 |
 | `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a44 |

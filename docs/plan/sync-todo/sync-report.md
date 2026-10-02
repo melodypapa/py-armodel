@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 709 | 37.3% |
+| [x] Done | 710 | 37.3% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 279 | 14.7% |
+| [ ] Deferred | 278 | 14.6% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -735,7 +735,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticUdsSeverityEnum`                             | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticUploadDownloadNeeds`                         | [x] Done    | fe8a0a1a6d                               | Group4           |
 | `DiagnosticValueAccessEnum`                             | [x] Done    | 85e9c3f3be                               | Group14          |
-| `DiagnosticValueNeeds`                                  | [ ] Deferred| 79c639e42a                               | Group14          |
+| `DiagnosticValueNeeds`                                  | [x] Done    | 475d150577                               | Group14          |
 | `DiagnosticVerifyCertificateBidirectional`              | [ ] Deferred| 5f62e6dbb3                               | Group24          |
 | `DiagnosticVerifyCertificateUnidirectional`             | [ ] Deferred| 682e50a2dd                               | Group24          |
 | `DiagnosticWriteDataByIdentifier`                       | [ ] Created | N/A                                      | Group24          |
