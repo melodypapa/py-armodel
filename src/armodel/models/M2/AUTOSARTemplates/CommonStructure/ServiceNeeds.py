@@ -1924,6 +1924,7 @@ class CryptoServiceNeeds(ServiceNeeds):
 
     # CryptoServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.9, p.733
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAlgorithmFamily       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
