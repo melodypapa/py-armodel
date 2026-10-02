@@ -560,8 +560,48 @@ class TestEcucConfigurationClassEnum:
 
 
 class TestEcucConfigurationVariantEnum:
+    """
+    Test class for EcucConfigurationVariantEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53
+    """
+
+    CLASS_NOTE = "Specifies the possible Configuration Variants used for AUTOSAR BSW Modules."
+
     def test_instantiation(self):
         assert isinstance(EcucConfigurationVariantEnum(), EcucConfigurationVariantEnum)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucConfigurationVariantEnum.__doc__) == self.CLASS_NOTE
+
+    def test_enum_values_in_displayed_order(self):
+        """
+        Test that the literals match the spec table in displayed order (removed idx 4/5 excluded).
+        """
+        enum = EcucConfigurationVariantEnum()
+
+        assert enum.getEnumValues() == [
+            "PRECONFIGURED-CONFIGURATION",
+            "RECOMMENDED-CONFIGURATION",
+            "VARIANT-LINK-TIME",
+            "VARIANT-POST-BUILD",
+            "VARIANT-PRE-COMPILE",
+        ]
+        assert EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION == "PRECONFIGURED-CONFIGURATION"
+        assert enum.validateEnumValue("PRECONFIGURED-CONFIGURATION") is True
+        assert enum.validateEnumValue("VARIANT-POST-BUILD-SELECTABLE") is False
+
+    def test_get_value(self):
+        """
+        Test instantiability and getValue.
+        """
+        enum = EcucConfigurationVariantEnum()
+        enum.setValue(EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION)
+
+        assert enum.getValue() == "PRECONFIGURED-CONFIGURATION"
 
 
 class TestEcucMultiplicityConfigurationClass:

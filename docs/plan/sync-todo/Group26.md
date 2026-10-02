@@ -700,15 +700,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucConfigurationVariantEnum` — AREnum — R23-11 CP_TPS_ECUConfiguration Table 2.13, p.53
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum, value round-trips on consuming classes (EcucModuleDef SUPPORTED-CONFIG-VARIANTS round-trip test)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (149 passed model file; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale `# Spec verified: R23-11` removed; MISSING LITERAL FIXED: PreconfiguredConfiguration (PRECONFIGURED-CONFIGURATION, idx 0) added in displayed position 1 — the markdown render splits the literal row across the Table 2.13 caption line; DOCSTRING DRIFT FIXED: was the supportedConfigVariant attr Note ("Specifies which ConfigurationVariants are supported by this software module.") → verbatim "Specifies the possible Configuration Variants used for AUTOSAR BSW Modules."; XSD VARIANT-POST-BUILD-LOADABLE (idx 4) + VARIANT-POST-BUILD-SELECTABLE (idx 5) atp.Status="removed" → not modeled; literal VALUES are the XML tokens directly (no camelCase map needed)
 
 - [ ] `EcucParameterDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.14, p.57
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
