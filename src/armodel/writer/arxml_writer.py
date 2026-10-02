@@ -287,6 +287,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
     DiagnosticDataTransferClass,
+    DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestUploadClass,
@@ -15011,6 +15012,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS")
         self.writeIdentifiable(child_element, request_download_class)
 
+    def writeDiagnosticRequestCurrentPowertrainDataClass(self, element: ET.Element, request_current_powertrain_data_class: DiagnosticRequestCurrentPowertrainDataClass):
+        self.logger.debug("Write DiagnosticRequestCurrentPowertrainDataClass %s" % request_current_powertrain_data_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA-CLASS")
+        self.writeIdentifiable(child_element, request_current_powertrain_data_class)
+
     def writeDiagnosticRequestUploadClass(self, element: ET.Element, request_upload_class: DiagnosticRequestUploadClass):
         self.logger.debug("Write DiagnosticRequestUploadClass %s" % request_upload_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-UPLOAD-CLASS")
@@ -16167,6 +16173,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticTransferExitClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticDataTransferClass):
             self.writeDiagnosticDataTransferClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestCurrentPowertrainDataClass):
+            self.writeDiagnosticRequestCurrentPowertrainDataClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestDownloadClass):
             self.writeDiagnosticRequestDownloadClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestUploadClass):

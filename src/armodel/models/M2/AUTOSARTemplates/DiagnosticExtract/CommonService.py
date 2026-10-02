@@ -567,7 +567,15 @@ class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
 
 
 class DiagnosticRequestCurrentPowertrainDataClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request current Powertrain Data" OBD diagnostic service."""
+
+    # DiagnosticRequestCurrentPowertrainDataClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.131, p.151
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestDownloadClass(DiagnosticServiceClass):
