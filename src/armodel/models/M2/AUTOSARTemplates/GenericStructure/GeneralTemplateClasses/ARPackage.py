@@ -155,6 +155,7 @@ __all__ = [
     "DiagnosticReadDataByPeriodicID",
     "DiagnosticReadDataByIdentifier",
     "DiagnosticReadDTCInformation",
+    "DiagnosticReadMemoryByAddress",
     "DiagnosticProtocol",
     "DiagnosticProofOfOwnership",
     "DiagnosticPowertrainFreezeFrame",
@@ -968,6 +969,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
             self.addReferrableElement(read_scaling_data_by_identifier_class)
         return self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
+
+    def createDiagnosticReadMemoryByAddress(self, short_name: str) -> DiagnosticReadMemoryByAddress:
+        """
+        Creates a new DiagnosticReadMemoryByAddress with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadMemoryByAddress: This represents an instance of the "Read Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadMemoryByAddress
+
+        Returns:
+            The newly created or existing DiagnosticReadMemoryByAddress instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadMemoryByAddress):
+            element = DiagnosticReadMemoryByAddress(self, short_name)
+            self.addReferrableElement(element)
+        return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddress)
 
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
@@ -8194,6 +8213,39 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
         """
         if value is not None:
             self.writeClass = value
+        return self
+
+
+class DiagnosticReadMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
+    """This represents an instance of the "Read Memory by Address" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticReadMemoryByAddress method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.115, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReadClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context.
+        self.readClassRef: Optional[RefType] = None
+
+    def getReadClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context.
+        """
+        return self.readClassRef
+
+    def setReadClassRef(self, value: Optional[RefType]) -> DiagnosticReadMemoryByAddress:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context.
+
+        A None value is a no-op and does not overwrite an existing readClassRef.
+        """
+        if value is not None:
+            self.readClassRef = value
         return self
 
 

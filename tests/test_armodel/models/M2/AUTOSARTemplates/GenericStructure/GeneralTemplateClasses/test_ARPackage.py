@@ -77,6 +77,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
     DiagnosticReadDTCInformation,
+    DiagnosticReadMemoryByAddress,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -7618,3 +7619,100 @@ class TestDiagnosticWriteMemoryByAddress:
         """
         assert inspect.cleandoc(DiagnosticWriteMemoryByAddress.getWriteClassRef.__doc__) == self.WRITE_CLASS_NOTE
         assert inspect.cleandoc(DiagnosticWriteMemoryByAddress.setWriteClassRef.__doc__) == (self.WRITE_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing writeClassRef.")
+
+
+class TestDiagnosticReadMemoryByAddress:
+    """
+    Test class for DiagnosticReadMemoryByAddress functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.115, p.142
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Memory by Address" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss'
+    READ_CLASS_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context."
+
+    def _make_obj(self) -> DiagnosticReadMemoryByAddress:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadMemoryByAddress(ar_root, "TestReadMemoryByAddress")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadMemoryByAddress instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadMemoryByAddress"
+        assert isinstance(obj, DiagnosticMemoryAddressableRangeAccess)
+        assert obj.getReadClassRef() is None
+        assert obj.getMemoryRanges() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadMemoryByAddress.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadMemoryByAddress.__init__.__doc__ is None
+
+    def test_get_set_read_class_ref(self):
+        """
+        Round-trips the readClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticReadMemoryByAddressClasses/Class1")
+        result = obj.setReadClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadClassRef() is ref
+        assert obj.getReadClassRef().getValue() == "/AUTOSAR/DiagnosticReadMemoryByAddressClasses/Class1"
+        assert obj.getReadClassRef().getDest() == "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS"
+
+        result = obj.setReadClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadClassRef() is ref  # None is a no-op
+
+    def test_add_memory_range_inherited(self):
+        """
+        Test the inherited memoryRange accessors from DiagnosticMemoryAddressableRangeAccess.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-MEMORY-IDENTIFIER")
+        ref.setValue("/AUTOSAR/DiagnosticMemoryIdentifiers/Segment1")
+        result = obj.addMemoryRange(ref)
+        assert result is obj  # method chaining
+        assert obj.getMemoryRanges() == [ref]
+        assert obj.getMemoryRanges()[0].getValue() == "/AUTOSAR/DiagnosticMemoryIdentifiers/Segment1"
+
+        obj.addMemoryRange(None)
+        assert obj.getMemoryRanges() == [ref]  # None is a no-op
+
+    def test_create_diagnostic_read_memory_by_address(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadMemoryByAddressServices")
+        element = package.createDiagnosticReadMemoryByAddress("ReadMemoryService1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticReadMemoryByAddress)
+        assert element.getShortName() == "ReadMemoryService1"
+        assert package.getReferrableElement("ReadMemoryService1", DiagnosticReadMemoryByAddress) is element
+
+        duplicate = package.createDiagnosticReadMemoryByAddress("ReadMemoryService1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadMemoryByAddress.getReadClassRef.__doc__) == self.READ_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadMemoryByAddress.setReadClassRef.__doc__) == (self.READ_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readClassRef.")

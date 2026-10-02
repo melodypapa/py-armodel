@@ -438,6 +438,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
     DiagnosticReadDTCInformation,
+    DiagnosticReadMemoryByAddress,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -14955,6 +14956,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, verification)
         self.writeDiagnosticAuthentication(child_element, verification)
 
+    def writeDiagnosticReadMemoryByAddress(self, element: ET.Element, read_memory_by_address: DiagnosticReadMemoryByAddress):
+        self.logger.debug("Write DiagnosticReadMemoryByAddress %s" % read_memory_by_address.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS")
+        self.writeIdentifiable(child_element, read_memory_by_address)
+        self.writeDiagnosticMemoryAddressableRangeAccess(child_element, read_memory_by_address)
+        self.setChildElementOptionalRefType(child_element, "READ-CLASS-REF", read_memory_by_address.getReadClassRef())
+
     def writeDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
         self.logger.debug("Write DiagnosticWriteMemoryByAddress %s" % write_memory_by_address.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS")
@@ -16236,6 +16244,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticMemoryIdentifier):
             self.writeDiagnosticMemoryIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticReadMemoryByAddress):
+            self.writeDiagnosticReadMemoryByAddress(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

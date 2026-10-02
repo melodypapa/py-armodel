@@ -1136,17 +1136,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
       artifacts in Note/Base cells; attribute row is `-`).
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1344 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_diagnostic_write_memory_by_address_class.py + test_writer_diagnostic_write_memory_by_address_class.py; parser+writer regression 7198 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
 
-- [ ] `DiagnosticReadMemoryByAddress` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.115, p.142
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticReadMemoryByAddress` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.115, p.142
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)
+  - note (Step 1): concrete class; spec Base chain (l.4260) lists DiagnosticMemoryAddressableRangeAccess ⇒ most-derived base per
+    Rule 0001.2 (the row's original "ARObject" was the pre-sync stub's base; cell-wrap "DiagnosticMemory AddressableRangeAccess"
+    healed). The ArObject.py stub cannot host the real class: ARPackage.py imports ArObject.py at load time, so a
+    DiagnosticMemoryAddressableRangeAccess base import from ArObject.py is a class-definition-time circular import ⇒ implemented
+    in ARPackage.py next to its family (DiagnosticRequestDownload / DiagnosticRequestUpload / DiagnosticWriteMemoryByAddress),
+    ArObject.py stub removed, STUBS entry updated (precedent 3400bec9c). Attributes (displayed order, table body l.4256-4274 —
+    trailing-caption page-break artifact, caption l.4270; R4.3.1 counterpart Table 5.39 p.105):
+    readClass (DiagnosticReadMemoryByAddressClass, 0..1, ref — cell-wrap healed) → readClassRef (XSD READ-CLASS-REF, DEST
+    DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS--SUBTYPES-ENUM; Note cell-wrap "DiagnosticReadMemoryBy Addresst" healed per the XSD
+    documentation, which itself carries the upstream "DiagnosticReadMemoryByAddresst" quirk); inherits memoryRange
+    (DiagnosticMemoryIdentifier, *, ref) from DiagnosticMemoryAddressableRangeAccess (Table 4.111, MEMORY-RANGE-REFS wrapper).
+    XSD complexType DIAGNOSTIC-READ-MEMORY-BY-ADDRESS (AUTOSAR_00052.xsd l.41458, group l.41433): XML element order
+    MEMORY-RANGE-REFS, READ-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory createDiagnosticReadMemoryByAddress +
+    reader dispatch readDiagnosticPackageElement + writer dispatch writeDiagnosticElement (recent-sibling convention).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): ARPackage factory createDiagnosticReadMemoryByAddress; reader readDiagnosticReadMemoryByAddress
+    (readIdentifiable + readDiagnosticMemoryAddressableRangeAccess + READ-CLASS-REF) + readDiagnosticPackageElement dispatch
+    (DIAGNOSTIC-READ-MEMORY-BY-ADDRESS); writer writeDiagnosticReadMemoryByAddress (writeIdentifiable +
+    writeDiagnosticMemoryAddressableRangeAccess + READ-CLASS-REF) + writeDiagnosticElement dispatch (XSD order
+    MEMORY-RANGE-REFS, READ-CLASS-REF; empty memoryRanges emit no MEMORY-RANGE-REFS wrapper).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations (markdown cell-wrap artifacts "DiagnosticMemory AddressableRangeAccess" /
+    "DiagnosticReadMemory ByAddressClass" healed; Note-internal "DiagnosticReadMemoryBy Addresst" healed per the XSD
+    documentation, which itself carries the upstream "DiagnosticReadMemoryByAddresst" quirk; the ArObject.py stub relocation
+    is documented in the Step 1 note, not a deviation).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1678 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_read_memory_by_address.py + test_writer_diagnostic_read_memory_by_address.py; parser+writer regression 7204 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticReadMemoryByAddressClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.116, p.142
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py

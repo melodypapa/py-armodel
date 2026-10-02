@@ -858,10 +858,6 @@ class DiagnosticPeriodicRate(ARObject):
         return self
 
 
-class DiagnosticReadMemoryByAddress(ARObject):
-    pass
-
-
 class DiagnosticRequestCurrentPowertrainData(ARObject):
     pass
 
