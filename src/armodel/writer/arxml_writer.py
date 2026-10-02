@@ -503,6 +503,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticParameter,
+    DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -14473,6 +14474,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_element.getSwDataDefProps())
         self.writeVariationPoint(child_element, data_element.getVariationPoint())
 
+    def writeDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
+        self.logger.debug("Write DiagnosticParameterSupportInfo")
+        support_info_element = ET.SubElement(element, "SUPPORT-INFO")
+        self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
+
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")
         self.writeDiagnosticAbstractParameter(child_element, parameter)
@@ -14480,7 +14486,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if ident is not None:
             self.writeDiagnosticParameterIdent(child_element, ident)
         if parameter.getSupportInfo() is not None:
-            ET.SubElement(child_element, "SUPPORT-INFO")
+            self.writeDiagnosticParameterSupportInfo(child_element, parameter.getSupportInfo())
         self.writeVariationPointCapable(child_element, parameter)
 
     def writeDiagnosticParameterElement(self, element: ET.Element, parameter_element: DiagnosticParameterElement):

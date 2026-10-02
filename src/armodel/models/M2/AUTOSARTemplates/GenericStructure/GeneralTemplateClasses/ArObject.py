@@ -801,7 +801,36 @@ class DiagnosticParameterElementAccess(ARObject):
 
 
 class DiagnosticParameterSupportInfo(ARObject):
-    pass
+    """This represents a way to define which bit of the supportInfo is representing this part of the PID"""
+
+    # DiagnosticParameterSupportInfo method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.128, p.149
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSupportInfoBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportInfoBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # defines the bit in the SupportInfo byte, which represents the PID DataElement pidSize / position / size. Unit: byte.
+        self.supportInfoBit: Optional[PositiveInteger] = None
+
+    def getSupportInfoBit(self) -> Optional[PositiveInteger]:
+        """
+        defines the bit in the SupportInfo byte, which represents the PID DataElement pidSize / position / size. Unit: byte.
+        """
+        return self.supportInfoBit
+
+    def setSupportInfoBit(self, value: Optional[PositiveInteger]) -> DiagnosticParameterSupportInfo:
+        """
+        defines the bit in the SupportInfo byte, which represents the PID DataElement pidSize / position / size. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing supportInfoBit.
+        """
+        if value is not None:
+            self.supportInfoBit = value
+        return self
 
 
 class DiagnosticPeriodicRate(ARObject):

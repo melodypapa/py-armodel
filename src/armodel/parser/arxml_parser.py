@@ -11055,6 +11055,10 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
+    def readDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
+        self.logger.debug("Read DiagnosticParameterSupportInfo")
+        support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
+
     def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         self.readDiagnosticAbstractParameter(element, parameter)
         ident_element = self.find(element, "IDENT")
@@ -11063,7 +11067,9 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticParameterIdent(ident_element, ident)
         support_info_element = self.find(element, "SUPPORT-INFO")
         if support_info_element is not None:
-            parameter.setSupportInfo(DiagnosticParameterSupportInfo())
+            support_info = DiagnosticParameterSupportInfo()
+            self.readDiagnosticParameterSupportInfo(support_info_element, support_info)
+            parameter.setSupportInfo(support_info)
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
             if isinstance(parameter, VariationPointCapable):

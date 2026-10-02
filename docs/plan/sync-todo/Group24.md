@@ -1448,12 +1448,12 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     already synced (Table 4.5) with supportInfo field + accessors — no parent model change needed, parent reader/writer
     call sites updated only.
   - [x] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the parent readDiagnosticParameter/writeDiagnosticParameter call-site update resolves the prior identity-only SUPPORT-INFO placeholder per the Rule 0001.7 identity-only-debt clause, not a deviation) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1276 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ArObject.py + test_diagnostic_parameter_support_info.py + test_writer_diagnostic_parameter_support_info.py + test_diagnostic_parameter.py + test_writer_diagnostic_parameter.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7273 passed / 0 failed; npm run lint clean; black clean on all touched files after one string-join reformat in test_ArObject.py); 9b deferred to batch stamp (user instruction)
 
