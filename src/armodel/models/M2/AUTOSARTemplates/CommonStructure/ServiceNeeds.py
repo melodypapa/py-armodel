@@ -927,7 +927,10 @@ class DiagnosticRoutineTypeEnum(AREnum):
 
     # DiagnosticRoutineTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.25, p.247
-    # (no methods)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DiagnosticRoutineNeeds.diagRoutineType (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the diagnostic server is not blocked while the diagnostic routine is running. Tags: atp.EnumerationLiteralIndex=0
     ASYNCHRONOUS = "asynchronous"
