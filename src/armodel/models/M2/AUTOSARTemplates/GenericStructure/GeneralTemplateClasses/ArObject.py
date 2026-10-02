@@ -862,10 +862,6 @@ class DiagnosticRequestCurrentPowertrainData(ARObject):
     pass
 
 
-class DiagnosticRequestDownloadClass(ARObject):
-    pass
-
-
 class DiagnosticRequestEmissionRelatedDTC(ARObject):
     pass
 

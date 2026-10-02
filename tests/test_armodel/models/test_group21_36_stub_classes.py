@@ -1640,10 +1640,10 @@ STUBS = [
         "DiagnosticMemoryAddressableRangeAccess",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
         "DiagnosticRequestDownloadClass",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
+        "DiagnosticServiceClass",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",

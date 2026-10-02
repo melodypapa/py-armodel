@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDTCInformationClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticRequestDownloadClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
@@ -1266,4 +1267,37 @@ class Test_DiagnosticDataTransferClass:
         assert package.getReferrableElement("Dta1", DiagnosticDataTransferClass) is service_class
 
         duplicate = package.createDiagnosticDataTransferClass("Dta1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestDownloadClass:
+    """Test cases for DiagnosticRequestDownloadClass class (Table 4.122, p.145)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Request Download" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestDownloadClass(_pkg(), "MyRqd")
+        assert service_class.getShortName() == "MyRqd"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestDownloadClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestDownloadClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestDownloadClass, ARObject)
+        assert issubclass(DiagnosticRequestDownloadClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestDownloadClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestDownloadClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_download_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestDownloadClass("Rqd1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestDownloadClass)
+        assert service_class.getShortName() == "Rqd1"
+        assert package.getReferrableElement("Rqd1", DiagnosticRequestDownloadClass) is service_class
+
+        duplicate = package.createDiagnosticRequestDownloadClass("Rqd1")
         assert duplicate is service_class

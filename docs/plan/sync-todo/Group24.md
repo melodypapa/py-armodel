@@ -1293,17 +1293,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations (none — clean sync)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1695 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_download.py + test_writer_diagnostic_request_download.py; parser+writer regression 7235 passed / 0 failed; npm run lint clean; black pre-existing branch state unchanged, new files clean); 9b deferred to batch stamp (user instruction)
 
-- [ ] `DiagnosticRequestDownloadClass` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.122, p.145
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticRequestDownloadClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.122, p.145
+  - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py (relocated from the ArObject.py stub — see Step 1 note)
+  - note (Step 1): row correction — the row's original "ARObject" was the pre-sync stub's base; the R23-11 table (md l.4388-4391)
+    renders an EMPTY attribute table (no Note/Base/Package rows), and the XSD complexType DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS
+    (AUTOSAR_00052.xsd l.41852, group l.41843 — empty sequence) chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS ⇒
+    Base = DiagnosticServiceClass per Rule 0001.2 (twin *Class containers 8d1719c7a). The ArObject.py stub cannot host the class:
+    it must subclass DiagnosticServiceClass (CommonService.py), and ARPackage.py imports ArObject.py at load time, so hosting the
+    real class in ArObject.py is a class-definition-time circular import ⇒ relocated to CommonService.py next to its family,
+    ArObject.py stub removed, STUBS entry updated (precedent 3400bec9c). Class docstring: no Note row in the markdown table —
+    text taken verbatim from the XSD documentation ("This meta-class contains attributes shared by all instances of the
+    "Request Download" diagnostic service."; PDF p.145 via pdf_page.py). No own attributes ⇒ bare __init__ only (twin shape).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the Base row correction is recorded in the Step 1 note)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1867 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_download.py + test_diagnostic_request_download_class.py + test_writer_diagnostic_request_download.py + test_writer_diagnostic_request_download_class.py; parser+writer regression 7240 passed / 0 failed; npm run lint clean; black clean on all touched files, parser/writer black hunks pre-existing at HEAD); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestUpload` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.123, p.145
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
