@@ -68,7 +68,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — VariationPointCapable mixin XSD-justified (see note)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (30 targeted tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note verbatim, Base = MultiplexedPart, dynamicPartAlternative *→List with Note verbatim, VP mixin XSD-justified (VARIATION-POINT in DYNAMIC-PART group, Rule 0020); no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `SegmentPosition` — ARObject — R23-11 markdown · Table 6.77 (CP_TPS_SystemTemplate), p.412 — commit 9546cf291
+- [x] `SegmentPosition` — ARObject — R23-11 markdown · Table 6.77 (CP_TPS_SystemTemplate), p.412 — **finished, stamped `# Spec verified: R23-11`** (sync commit 6c2d8befb; steps 1-8 commit 9546cf291)
   - commit: 9546cf291 (feat; steps 1-8; verbatim Note + 3 attr notes incl. long segmentPosition note, Optional[T] PEP 526 replacing bare `: ByteOrderEnum = None`, typed accessors + None-no-op, 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2 failed / 2 passed (fabricated docstrings)
@@ -78,7 +78,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — readSegmentPosition/writeSegmentPosition already complete (all 3 elements)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (329 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (model + parser segment tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note + 3 attr Notes verbatim in displayed order (segmentByteOrder/segmentLength/segmentPosition 0..1→Optional), rw coverage; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `ISignalPort` — CommConnectorPort — R23-11 markdown · Table 6.5 (CP_TPS_SystemTemplate), p.306 — commit b5f92f4b2
   - commit: b5f92f4b2 (feat; steps 1-8; page-split table reconstructed (rows above caption 6.5); verbatim Note + 5 attr notes; Optional[T] PEP 526; handleInvalid now typed HandleInvalidEnum; ddsQosProfile (spec, ref kind) already correctly named ddsQosProfileRef; NEW reader/writer coverage for DATA-FILTER/DDS-QOS-PROFILE-REF/FIRST-TIMEOUT/HANDLE-INVALID (only TIMEOUT was wired); parser+writer tests incl. XSD-order + round-trip)

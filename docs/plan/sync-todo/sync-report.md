@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 724 | 38.0% |
+| [x] Done | 725 | 38.1% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 306 | 16.1% |
+| [ ] Deferred | 305 | 16.0% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 434 | 22.8% |
 | [ ] Pending | 0 | 0.0% |
@@ -1562,7 +1562,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SecurityEventReportingModeEnum`                        | [ ] Created | N/A                                      | Group36          |
 | `SecurityEventStateFilter`                              | [ ] Created | N/A                                      | Group36          |
 | `SecurityEventThresholdFilter`                          | [ ] Created | N/A                                      | Group36          |
-| `SegmentPosition`                                       | [ ] Deferred| 9546cf291b                               | Group15          |
+| `SegmentPosition`                                       | [x] Done    | 6c2d8befb2                               | Group15          |
 | `SendIndicationEnum`                                    | [ ] Created | N/A                                      | Group34          |
 | `SenderAnnotation`                                      | [ ] Created | N/A                                      | Group27          |
 | `SenderComSpec`                                         | [ ] Implemented| N/A                                      | Group27          |

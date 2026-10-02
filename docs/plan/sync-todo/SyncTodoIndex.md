@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **3/24** completed
+Status: **4/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -699,7 +699,7 @@ Status: **3/24** completed
 | `TransferPropertyEnum`        | [x] Done     | f3a9dc08dd |
 | `MultiplexedPart`             | [x] Done     | 9ed9d78782 |
 | `DynamicPart`                 | [x] Done     | 82138518f9 |
-| `SegmentPosition`             | [ ] Pending* | 9546cf291b |
+| `SegmentPosition`             | [x] Done     | 6c2d8befb2 |
 | `ISignalPort`                 | [ ] Pending* | b5f92f4b28 |
 | `ISignalIPduGroup`            | [ ] Pending* | 1e758bd44e |
 | `MultiplexedIPdu`             | [ ] Pending* | eba346cb51 |
