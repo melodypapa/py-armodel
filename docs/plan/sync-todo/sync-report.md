@@ -10,12 +10,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 734 | 38.6% |
+| [x] Done | 735 | 38.6% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 296 | 15.6% |
-| [ ] Implemented | 429 | 22.5% |
-| [ ] Created | 434 | 22.8% |
+| [ ] Deferred | 295 | 15.5% |
+| [ ] Implemented | 431 | 22.6% |
+| [ ] Created | 432 | 22.7% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -25,7 +25,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ARObject`                                              | [x] Done    | 78ae363c75                               | Group1           |
 | `ARPackage`                                             | [x] Done    | 360648178f                               | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c80a                               | Group1           |
-| `AbsoluteTolerance`                                     | [ ] Created | N/A                                      | Group31          |
+| `AbsoluteTolerance`                                     | [ ] Implemented| N/A                                      | Group31          |
 | `AbstractAccessPoint`                                   | [x] Done    | e3d1262da1                               | Group22          |
 | `AbstractCanCluster`                                    | [ ] Implemented| N/A                                      | Group29          |
 | `AbstractCanCommunicationConnector`                     | [ ] Implemented| N/A                                      | Group29          |
@@ -1462,7 +1462,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Referrable`                                            | [x] Done    | N/A                                      | Group21          |
 | `ReferrableSubtypesEnum`                                | [ ] Deferred| N/A                                      | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
-| `RelativeTolerance`                                     | [ ] Created | N/A                                      | Group31          |
+| `RelativeTolerance`                                     | [ ] Implemented| N/A                                      | Group31          |
 | `RequestResponseDelay`                                  | [ ] Deferred| d7240be740                               | Group16          |
 | `ResolutionPolicyEnum`                                  | [x] Done    | f0a7460898                               | Group3           |
 | `ResourceConsumption`                                   | [x] Done    | 0404020952                               | Group1           |
@@ -1792,7 +1792,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TextualCondition`                                      | [ ] Created | N/A                                      | Group36          |
 | `Tgroup`                                                | [x] Done    | 278d4674f3                               | Group3           |
 | `TimeRangeType`                                         | [ ] Deferred| dcbc6abdb3                               | Group15          |
-| `TimeRangeTypeTolerance`                                | [ ] Deferred| dcbc6abdb3                               | Group15          |
+| `TimeRangeTypeTolerance`                                | [x] Done    | dcbc6abdb3                               | Group15          |
 | `TimeSyncClientConfiguration`                           | [x] Done    | a032fa05dc                               | Group6           |
 | `TimeSyncServerConfiguration`                           | [ ] Deferred| b1e4750b14                               | Group16          |
 | `TimeSyncTechnologyEnum`                                | [ ] Implemented| N/A                                      | Group32          |

@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **13/24** completed
+Status: **14/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -710,7 +710,7 @@ Status: **13/24** completed
 | `UserDefinedPdu`              | [x] Done     | 2c2e102933 |
 | `SystemSignal`                | [x] Done     | 7c5d9e9d81 |
 | `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
-| `TimeRangeTypeTolerance`      | [ ] Pending* | dcbc6abdb3 |
+| `TimeRangeTypeTolerance`      | [x] Done     | dcbc6abdb3 |
 | `TransmissionModeCondition`   | [ ] Pending* | dcbc6abdb3 |
 | `TriggerIPduSendCondition`    | [ ] Pending* | dcbc6abdb3 |
 | `CyclicTiming`                | [ ] Pending* | dcbc6abdb3 |
@@ -1735,8 +1735,8 @@ Status: **0/75** completed
 | `CryptoServiceKeyGenerationEnum`                         | [ ] Created     | N/A       |
 | `CryptoServiceQueue`                                     | [ ] Created     | N/A       |
 | `GeneralPurposeConnection`                               | [ ] Created     | N/A       |
-| `RelativeTolerance`                                      | [ ] Created     | N/A       |
-| `AbsoluteTolerance`                                      | [ ] Created     | N/A       |
+| `RelativeTolerance`                                      | [ ] Implemented | N/A       |
+| `AbsoluteTolerance`                                      | [ ] Implemented | N/A       |
 | `Frame`                                                  | [ ] Implemented | N/A       |
 | `LinFrame`                                               | [ ] Implemented | N/A       |
 | `LinFrameTriggering`                                     | [ ] Implemented | N/A       |
