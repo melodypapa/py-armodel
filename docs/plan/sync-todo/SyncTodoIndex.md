@@ -691,34 +691,34 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **20/24** completed
+Status: **24/24** completed
 
-| Class Name                    | Status       | Commit ID  |
-| ----------------------------- | ------------ | ---------- |
-| `CommunicationDirectionType`  | [x] Done     | 7aa197e046 |
-| `TransferPropertyEnum`        | [x] Done     | f3a9dc08dd |
-| `MultiplexedPart`             | [x] Done     | 9ed9d78782 |
-| `DynamicPart`                 | [x] Done     | 82138518f9 |
-| `SegmentPosition`             | [x] Done     | 6c2d8befb2 |
-| `ISignalPort`                 | [x] Done     | 7a508bea29 |
-| `ISignalIPduGroup`            | [x] Done     | 4658ff431a |
-| `MultiplexedIPdu`             | [x] Done     | 2c2e102933 |
-| `TriggerMode`                 | [x] Done     | 2c2e102933 |
-| `SecuredIPdu`                 | [x] Done     | 2c2e102933 |
-| `SecuredPduHeaderEnum`        | [x] Done     | 2c2e102933 |
-| `UserDefinedIPdu`             | [x] Done     | 2c2e102933 |
-| `UserDefinedPdu`              | [x] Done     | 2c2e102933 |
-| `SystemSignal`                | [x] Done     | 7828064475 |
-| `TimeRangeType`               | [x] Done     | 7aa197e046 |
-| `TimeRangeTypeTolerance`      | [x] Done     | ba8d04cbb4 |
-| `TransmissionModeCondition`   | [x] Done     | 7a7ff3c5af |
-| `TriggerIPduSendCondition`    | [x] Done     | d2dbe59bf6 |
-| `CyclicTiming`                | [x] Done     | 7aa197e046 |
-| `EventControlledTiming`       | [x] Done     | dcbc6abdb3 |
-| `FlexrayChannelName`          | [ ] Pending* | 7c137656f6 |
-| `PncGatewayTypeEnum`          | [ ] Pending* | 7c137656f6 |
-| `TransmissionModeTiming`      | [ ] Pending* | dcbc6abdb3 |
-| `TransmissionModeDeclaration` | [ ] Pending* | dcbc6abdb3 |
+| Class Name                    | Status   | Commit ID  |
+| ----------------------------- | -------- | ---------- |
+| `CommunicationDirectionType`  | [x] Done | 7aa197e046 |
+| `TransferPropertyEnum`        | [x] Done | f3a9dc08dd |
+| `MultiplexedPart`             | [x] Done | 9ed9d78782 |
+| `DynamicPart`                 | [x] Done | 82138518f9 |
+| `SegmentPosition`             | [x] Done | 6c2d8befb2 |
+| `ISignalPort`                 | [x] Done | 7a508bea29 |
+| `ISignalIPduGroup`            | [x] Done | 4658ff431a |
+| `MultiplexedIPdu`             | [x] Done | 2c2e102933 |
+| `TriggerMode`                 | [x] Done | 2c2e102933 |
+| `SecuredIPdu`                 | [x] Done | 2c2e102933 |
+| `SecuredPduHeaderEnum`        | [x] Done | 2c2e102933 |
+| `UserDefinedIPdu`             | [x] Done | 2c2e102933 |
+| `UserDefinedPdu`              | [x] Done | 2c2e102933 |
+| `SystemSignal`                | [x] Done | 7828064475 |
+| `TimeRangeType`               | [x] Done | 7aa197e046 |
+| `TimeRangeTypeTolerance`      | [x] Done | ba8d04cbb4 |
+| `TransmissionModeCondition`   | [x] Done | 7a7ff3c5af |
+| `TriggerIPduSendCondition`    | [x] Done | d2dbe59bf6 |
+| `CyclicTiming`                | [x] Done | 7aa197e046 |
+| `EventControlledTiming`       | [x] Done | 1649678501 |
+| `FlexrayChannelName`          | [x] Done | f4ffa771cf |
+| `PncGatewayTypeEnum`          | [x] Done | f4ffa771cf |
+| `TransmissionModeTiming`      | [x] Done | f4ffa771cf |
+| `TransmissionModeDeclaration` | [x] Done | f4ffa771cf |
 
 ## Group16
 

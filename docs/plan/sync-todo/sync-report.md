@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 741 | 38.9% |
+| [x] Done | 745 | 39.1% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 289 | 15.2% |
+| [ ] Deferred | 285 | 15.0% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 432 | 22.7% |
 | [ ] Pending | 0 | 0.0% |
@@ -890,7 +890,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthernetWakeupSleepOnDatalineConfigSet`                | [ ] Created | N/A                                      | Group30          |
 | `EvaluatedVariantSet`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `EventAcceptanceStatusEnum`                             | [ ] Implemented| N/A                                      | Group29          |
-| `EventControlledTiming`                                 | [x] Done    | dcbc6abdb3                               | Group15          |
+| `EventControlledTiming`                                 | [x] Done    | 1649678501                               | Group15          |
 | `EventGroupControlTypeEnum`                             | [ ] Implemented| N/A                                      | Group32          |
 | `EventHandler`                                          | [ ] Implemented| N/A                                      | Group32          |
 | `EventObdReadinessGroup`                                | [ ] Created | N/A                                      | Group25          |
@@ -939,7 +939,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FlexrayArTpConfig`                                     | [ ] Created | N/A                                      | Group33          |
 | `FlexrayArTpConnection`                                 | [ ] Created | N/A                                      | Group33          |
 | `FlexrayArTpNode`                                       | [ ] Created | N/A                                      | Group33          |
-| `FlexrayChannelName`                                    | [ ] Deferred| 7c137656f6                               | Group15          |
+| `FlexrayChannelName`                                    | [x] Done    | f4ffa771cf                               | Group15          |
 | `FlexrayCluster`                                        | [ ] Implemented| N/A                                      | Group29          |
 | `FlexrayCommunicationConnector`                         | [ ] Deferred| N/A                                      | Group17          |
 | `FlexrayCommunicationController`                        | [ ] Deferred| N/A                                      | Group17          |
@@ -1398,7 +1398,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PhysicalDimensionMappingSet`                           | [ ] Created | N/A                                      | Group28          |
 | `PlatformModuleEthernetEndpointConfiguration`           | [x] Done    | 5d4cc1c454                               | Group7           |
 | `PlcaProps`                                             | [ ] Implemented| N/A                                      | Group30          |
-| `PncGatewayTypeEnum`                                    | [ ] Deferred| 7c137656f6                               | Group15          |
+| `PncGatewayTypeEnum`                                    | [x] Done    | f4ffa771cf                               | Group15          |
 | `PncMapping`                                            | [ ] Created | N/A                                      | Group31          |
 | `PortAPIOption`                                         | [x] Done    | 7c67628122                               | Group2           |
 | `PortDefinedArgumentValue`                              | [x] Done    | 7fc79e4b73                               | Group2           |
@@ -1837,9 +1837,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransmissionAcknowledgementRequest`                    | [ ] Implemented| N/A                                      | Group27          |
 | `TransmissionComSpecProps`                              | [ ] Implemented| N/A                                      | Group27          |
 | `TransmissionModeCondition`                             | [x] Done    | 7a7ff3c5af                               | Group15          |
-| `TransmissionModeDeclaration`                           | [ ] Deferred| dcbc6abdb3                               | Group15          |
+| `TransmissionModeDeclaration`                           | [x] Done    | f4ffa771cf                               | Group15          |
 | `TransmissionModeDefinitionEnum`                        | [ ] Implemented| N/A                                      | Group27          |
-| `TransmissionModeTiming`                                | [ ] Deferred| dcbc6abdb3                               | Group15          |
+| `TransmissionModeTiming`                                | [x] Done    | f4ffa771cf                               | Group15          |
 | `TransportLayerRule`                                    | [ ] Deferred| cb197c6b8b                               | Group20          |
 | `TransportProtocolConfiguration`                        | [x] Done    | 0014960828                               | Group6           |
 | `Trigger`                                               | [x] Done    | 131473204c                               | Group1           |
