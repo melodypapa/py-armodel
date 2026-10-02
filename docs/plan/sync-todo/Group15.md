@@ -105,7 +105,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (19 targeted tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note (incl. Tags) verbatim, Base = FibexElement, 5 members in displayed order (communicationDirection/communicationMode/containedISignalIPduGroupRefs/iSignalIPduRefs/nmPduRefs) with correct quota shapes, NM-PDUS rw coverage added in prior pass; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `MultiplexedIPdu` — IPdu — R23-11 markdown · Table 6.72 (CP_TPS_SystemTemplate), p.410 — commit eba346cb5
+- [x] `MultiplexedIPdu` — IPdu — R23-11 markdown · Table 6.72 (CP_TPS_SystemTemplate), p.410 — **finished, stamped `# Spec verified: R23-11`** (sync commit 2c2e10293; steps 1-8 commit eba346cb5)
   - commit: eba346cb5 (feat; steps 1-8; verbatim Note + 7 attr notes incl. markdown wrap-spaces ("variation Point"/"short Label" per raw cells), PEP 526 Optional[T] replacing `# type:` comments, triggerMode now typed Optional[TriggerMode]; reader/writer already complete — no change)
   - note: markdown cells carry PDF-wrap spaces verbatim (raw-byte verified per row); test NOTES matched by diff loop
   - [x] Step 1 — Sync members & description from spec
@@ -116,9 +116,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — already complete (7/7 attrs incl. dynamic/static part helpers)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — TriggerMode class was missing (Rule 0001.10): created, see new row below
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (283 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (Fibex + user-defined tests green, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — 7 attr Notes verbatim (markdown wrap-spaces kept), triggerMode typed Optional[TriggerMode], rw 7/7 pre-existing; no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `TriggerMode` — AREnum — NEW row (discovered 2026-09-27 as missing MultiplexedIPdu.triggerMode member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.71 (CP_TPS_SystemTemplate), p.408 — commit cc609f42a
+- [x] `TriggerMode` — AREnum — NEW row (discovered 2026-09-27 as missing MultiplexedIPdu.triggerMode member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.71 (CP_TPS_SystemTemplate), p.408 — **finished, stamped `# Spec verified: R23-11`** (sync commit 2c2e10293; steps 1-8 commit cc609f42a)
   - commit: cc609f42a (feat; steps 1-8; 4 literals dynamicPartTrigger/none/staticOrDynamicPartTrigger/staticPartTrigger with verbatim descriptions + EnumerationLiteralIndex tags)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
@@ -128,9 +128,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (3 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (Fibex + user-defined tests green, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — 4 literals verbatim with EnumerationLiteralIndex tags, dedicated mirror test; no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `SecuredIPdu` — IPdu — R23-11 markdown · Table 6.42 (CP_TPS_SystemTemplate), p.368 — commit 0a98655a0
+- [x] `SecuredIPdu` — IPdu — R23-11 markdown · Table 6.42 (CP_TPS_SystemTemplate), p.368 — **finished, stamped `# Spec verified: R23-11`** (sync commit 2c2e10293; steps 1-8 commit 0a98655a0)
   - commit: 0a98655a0 (feat; steps 1-8; verbatim Note + 7 attr notes (class+test generated from single extraction), PEP 526 types, useSecuredPduHeader now Optional[SecuredPduHeaderEnum]; NEW reader/writer coverage for DYNAMIC-RUNTIME-LENGTH-HANDLING + USE-SECURED-PDU-HEADER per XSD order)
   - note: SecuredPduHeaderEnum was missing (Rule 0001.10) — created, see new row below
   - [x] Step 1 — Sync members & description from spec
@@ -141,9 +141,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — readSecuredIPdu/writeSecuredIPdu extended to all 7 attrs
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — SecuredPduHeaderEnum created (see new row)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (343+ passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (Fibex + user-defined tests green, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — 7 attr Notes verbatim, useSecuredPduHeader typed Optional[SecuredPduHeaderEnum], DYNAMIC-RUNTIME-LENGTH-HANDLING + USE-SECURED-PDU-HEADER rw added; no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `SecuredPduHeaderEnum` — AREnum — NEW row (discovered 2026-09-27 as missing SecuredIPdu.useSecuredPduHeader member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.43 (CP_TPS_SystemTemplate), p.369 — commit 3d5cb55db
+- [x] `SecuredPduHeaderEnum` — AREnum — NEW row (discovered 2026-09-27 as missing SecuredIPdu.useSecuredPduHeader member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.43 (CP_TPS_SystemTemplate), p.369 — **finished, stamped `# Spec verified: R23-11`** (sync commit 2c2e10293; steps 1-8 commit 3d5cb55db)
   - commit: 3d5cb55db (feat; steps 1-8; 4 literals noHeader/securedPduHeader08Bit/16Bit/32Bit with verbatim descriptions + EnumerationLiteralIndex tags)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
@@ -153,9 +153,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (3 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (Fibex + user-defined tests green, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — 4 literals verbatim (noHeader/08Bit/16Bit/32Bit) with EnumerationLiteralIndex tags, dedicated mirror test; no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `UserDefinedIPdu` — IPdu — R23-11 markdown · Table 6.28
+- [x] `UserDefinedIPdu` — IPdu — R23-11 markdown · Table 6.28 — **finished, stamped `# Spec verified: R23-11`** (sync commit 2c2e10293; steps 1-8 commit 78ff524a7)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
   - Note: own table = AUTOSAR_CP_TPS_SystemTemplate Table 6.28, p.346 (markdown L9188, caption L9198; R4.3.1 Table 6.32 p.229 exists but R23-11 wins); concrete Class (XSD complexType USER-DEFINED-I-PDU 00052.xsd L128888 abstract="false"); Base most-derived = `IPdu` (Base cell closure ARElement/ARObject/CollectableElement/FibexElement/IPdu/Identifiable/MultilanguageReferrable/PackageableElement/Pdu/Referrable/UploadableDesignElement/UploadablePackageElement; class IPdu(Pdu, ABC) stamped in-file) → current Python base already correct; class NOT VP-capable — complexType sequence = base groups (…PDU, I-PDU) + own group USER-DEFINED-I-PDU (L128872), NO VARIATION-POINT anywhere; aggregated by ARPackage.element; 1 own attribute in displayed order — cddType (String, 0..1, attr; XSD element CDD-TYPE); orphan-intake drift found (unstamped partial sync, queue row still source-TBC): class + verbatim docstrings + 6-column checklist + mirrored model test + parser readUserDefinedIPdu + writer writeUserDefinedIPdu + ARPackage dispatch ALL pre-existed — the only gap was reader/writer TEST coverage (added at Step 5); member type String native — no Rule 0001.10 work; no integration fixture carries USER-DEFINED-I-PDU (self-built round-trip per CryptoServiceCertificate ARPackage-aggregate precedent); docs/plan/deviation/ does not exist, docs/examples/method_deviation_by_class.md + _v2.md have NO entries for this class
   - [x] Step 1 — Sync members & description from spec — Table 6.28 located (markdown L9188; PDF p.346 via pdf_page.py); Class header + Note + Base + Aggregated-by + 1 Attribute row (cddType) extracted in displayed order; Base IPdu + no-VP verified against whole XSD group + complexType (L128872-L128910)
@@ -166,9 +166,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — pre-existing impl verified in-spec, no change: readUserDefinedIPdu calls readIPdu base helper exactly once then CDD-TYPE via getChildElementOptionalLiteral; writeUserDefinedIPdu emits USER-DEFINED-I-PDU → writeIPdu once → CDD-TYPE via setChildElementOptionalLiteral (XSD order); dispatch routes USER-DEFINED-I-PDU in readARPackageElements (parser L14683) + writeARPackageElement (writer L14292) — same path as SecuredIPdu; matched name pairs, no chained mutators
   - [x] Step 7 — Update checklist comment — pre-existing checklist verified: 6 columns + release column, rows in source order (getter-first scalar pair), `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.28, p.346 (R23-11)`, reader [x] on setCddType row / writer [x] on getCddType row matches call sites; NO `# Spec verified:` — deferred to batch confirmation
   - [x] Step 8 — Deviations — none open (orphan-intake drift recorded in Note: impl/model-test/reader/writer pre-existed unstamped, reader/writer tests were the only gap, added at Step 5; no tracker entries in docs/examples/method_deviation_by_class.md + _v2.md — nothing stale)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13485 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction). Incidental 9a fix: pre-existing black slip in tests/test_armodel/parser/test_target_ipdu_ref.py (committed unstamped 78ff524a7) reformatted — whitespace-only, its 4 tests re-verified green
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (Fibex + user-defined tests green, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — cddType 0..1 String verbatim, Base = IPdu, reader/writer tests added at Step 5 (orphan intake); no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `UserDefinedPdu` — Pdu — R23-11 markdown · Table 6.27
+- [x] `UserDefinedPdu` — Pdu — R23-11 markdown · Table 6.27 — **finished, stamped `# Spec verified: R23-11`** (sync commit 2c2e10293; steps 1-8 commit 78ff524a7)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
   - Note: own table = AUTOSAR_CP_TPS_SystemTemplate Table 6.27, p.345 (markdown L9177, caption L9175; R4.3.1 Table 6.31 p.228 exists but R23-11 wins); concrete Class (XSD complexType USER-DEFINED-PDU 00052.xsd L128955 abstract="false"); Base most-derived = `Pdu` (Base cell closure ARElement/ARObject/CollectableElement/FibexElement/Identifiable/MultilanguageReferrable/PackageableElement/Pdu/Referrable/UploadableDesignElement/UploadablePackageElement — NO IPdu; class Pdu(FibexElement, ABC) stamped in-file) → current Python base already correct; class NOT VP-capable — complexType sequence = base groups (…PDU) + own group USER-DEFINED-PDU (L128940), NO VARIATION-POINT anywhere; aggregated by ARPackage.element; 1 own attribute in displayed order — cddType (String, 0..1, attr; XSD element CDD-TYPE); orphan-intake drift found (unstamped partial sync, queue row still source-TBC): class + verbatim docstrings + 6-column checklist + mirrored model test + parser readUserDefinedPdu + writer writeUserDefinedPdu + ARPackage dispatch ALL pre-existed — the only gap was reader/writer TEST coverage (added at Step 5); spec quirk kept verbatim: the Table 6.27 cddType Note itself says "the UserDefinedIPdu" (cross-reference present in R23-11 markdown + XSD documentation); member type String native — no Rule 0001.10 work; no integration fixture carries USER-DEFINED-PDU (self-built round-trip per UserDefinedIPdu precedent); docs/plan/deviation/ does not exist, docs/examples/method_deviation_by_class.md + _v2.md have NO entries for this class
   - [x] Step 1 — Sync members & description from spec — Table 6.27 located (markdown L9177; PDF p.345 via pdf_page.py); Class header + Note + Base + Aggregated-by + 1 Attribute row (cddType) extracted in displayed order; Base Pdu + no-VP verified against whole XSD group (L128940) + complexType (L128955)
@@ -179,7 +179,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — pre-existing impl verified in-spec, no change: readUserDefinedPdu calls readPdu base helper exactly once then CDD-TYPE via getChildElementOptionalLiteral; writeUserDefinedPdu emits USER-DEFINED-PDU → writePdu once → CDD-TYPE via setChildElementOptionalLiteral (XSD order); dispatch routes USER-DEFINED-PDU in readARPackageElements (parser L14686) + writeARPackageElement (writer L14293); matched name pairs, no chained mutators
   - [x] Step 7 — Update checklist comment — pre-existing checklist verified: 6 columns + release column, rows in source order (getter-first scalar pair), `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.27, p.345 (R23-11)`, reader [x] on setCddType row / writer [x] on getCddType row matches call sites; NO `# Spec verified:` — deferred to batch confirmation
   - [x] Step 8 — Deviations — none open (orphan-intake drift recorded in Note: impl/model-test/reader/writer pre-existed unstamped, reader/writer tests were the only gap, added at Step 5; no tracker entries in docs/examples/method_deviation_by_class.md + _v2.md — nothing stale)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13492 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (Fibex + user-defined tests green, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — cddType 0..1 String verbatim (spec 'the UserDefinedIPdu' cross-ref kept), Base = Pdu, reader/writer tests added at Step 5 (orphan intake); no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `SystemSignal` — ARElement — R23-11 markdown · Table 5.23 (CP_TPS_SystemTemplate), p.218 — commit 7c5d9e9d8
   - commit: 7c5d9e9d8 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)

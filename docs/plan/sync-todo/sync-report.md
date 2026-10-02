@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 727 | 38.2% |
+| [x] Done | 733 | 38.5% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 303 | 15.9% |
+| [ ] Deferred | 297 | 15.6% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 434 | 22.8% |
 | [ ] Pending | 0 | 0.0% |
@@ -1304,7 +1304,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MultidimensionalTime`                                  | [x] Done    | b572582c11                               | Group8           |
 | `MultilanguageLongName`                                 | [x] Done    | 87855dea47                               | Group3           |
 | `MultilanguageReferrable`                               | [x] Done    | 7c7157a02b                               | Group1           |
-| `MultiplexedIPdu`                                       | [ ] Deferred| eba346cb51                               | Group15          |
+| `MultiplexedIPdu`                                       | [x] Done    | 2c2e102933                               | Group15          |
 | `MultiplexedPart`                                       | [x] Done    | 9ed9d78782                               | Group15          |
 | `MultiplicityRestrictionWithSeverity`                   | [ ] Created | N/A                                      | Group36          |
 | `NPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
@@ -1546,8 +1546,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SecureCommunicationProps`                              | [ ] Implemented| N/A                                      | Group31          |
 | `SecureCommunicationPropsSet`                           | [ ] Implemented| N/A                                      | Group31          |
 | `SecureOnBoardCommunicationNeeds`                       | [ ] Implemented| N/A                                      | Group29          |
-| `SecuredIPdu`                                           | [ ] Deferred| 0a98655a06                               | Group15          |
-| `SecuredPduHeaderEnum`                                  | [ ] Deferred| 3d5cb55dbe                               | Group15          |
+| `SecuredIPdu`                                           | [x] Done    | 2c2e102933                               | Group15          |
+| `SecuredPduHeaderEnum`                                  | [x] Done    | 2c2e102933                               | Group15          |
 | `SecurityEventAggregationFilter`                        | [ ] Created | N/A                                      | Group36          |
 | `SecurityEventContextDataSourceEnum`                    | [ ] Created | N/A                                      | Group36          |
 | `SecurityEventContextMapping`                           | [ ] Created | N/A                                      | Group36          |
@@ -1848,7 +1848,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4cc                               | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8feb                               | Group1           |
 | `TriggerMapping`                                        | [x] Done    | 905c48d323                               | Group1           |
-| `TriggerMode`                                           | [ ] Deferred| cc609f42a3                               | Group15          |
+| `TriggerMode`                                           | [x] Done    | 2c2e102933                               | Group15          |
 | `TriggerPortAnnotation`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `TriggerToSignalMapping`                                | [ ] Created | N/A                                      | Group31          |
 | `Tt`                                                    | [x] Done    | N/A                                      | Group21          |
@@ -1878,8 +1878,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `UserDefinedEthernetFrame`                              | [ ] Created | N/A                                      | Group33          |
 | `UserDefinedGlobalTimeMaster`                           | [ ] Created | N/A                                      | Group34          |
 | `UserDefinedGlobalTimeSlave`                            | [ ] Created | N/A                                      | Group34          |
-| `UserDefinedIPdu`                                       | [ ] Deferred| N/A                                      | Group15          |
-| `UserDefinedPdu`                                        | [ ] Deferred| N/A                                      | Group15          |
+| `UserDefinedIPdu`                                       | [x] Done    | 2c2e102933                               | Group15          |
+| `UserDefinedPdu`                                        | [x] Done    | 2c2e102933                               | Group15          |
 | `UserDefinedPhysicalChannel`                            | [ ] Created | N/A                                      | Group30          |
 | `UserDefinedTransformationComSpecProps`                 | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `UserDefinedTransformationDescription`                  | [ ] Created | N/A                                      | Group34          |

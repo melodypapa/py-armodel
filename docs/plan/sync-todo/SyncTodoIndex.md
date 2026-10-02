@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **6/24** completed
+Status: **12/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -702,12 +702,12 @@ Status: **6/24** completed
 | `SegmentPosition`             | [x] Done     | 6c2d8befb2 |
 | `ISignalPort`                 | [x] Done     | b5f92f4b28 |
 | `ISignalIPduGroup`            | [x] Done     | 1e758bd44e |
-| `MultiplexedIPdu`             | [ ] Pending* | eba346cb51 |
-| `TriggerMode`                 | [ ] Pending* | cc609f42a3 |
-| `SecuredIPdu`                 | [ ] Pending* | 0a98655a06 |
-| `SecuredPduHeaderEnum`        | [ ] Pending* | 3d5cb55dbe |
-| `UserDefinedIPdu`             | [ ] Pending* | N/A        |
-| `UserDefinedPdu`              | [ ] Pending* | N/A        |
+| `MultiplexedIPdu`             | [x] Done     | 2c2e102933 |
+| `TriggerMode`                 | [x] Done     | 2c2e102933 |
+| `SecuredIPdu`                 | [x] Done     | 2c2e102933 |
+| `SecuredPduHeaderEnum`        | [x] Done     | 2c2e102933 |
+| `UserDefinedIPdu`             | [x] Done     | 2c2e102933 |
+| `UserDefinedPdu`              | [x] Done     | 2c2e102933 |
 | `SystemSignal`                | [ ] Pending* | 7c5d9e9d81 |
 | `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
 | `TimeRangeTypeTolerance`      | [ ] Pending* | dcbc6abdb3 |
