@@ -946,6 +946,7 @@ class SecuredPduHeaderEnum(AREnum):
 
     # SecuredPduHeaderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.43, p.369 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on SecuredIPdu.useSecuredPduHeader
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -973,6 +974,7 @@ class SecuredIPdu(IPdu):
 
     # SecuredIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.42, p.368 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAuthenticationPropsRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2541,6 +2543,7 @@ class TriggerMode(AREnum):
 
     # TriggerMode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.71, p.408 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on MultiplexedIPdu.triggerMode
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -2569,6 +2572,7 @@ class MultiplexedIPdu(IPdu):
 
     # MultiplexedIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.72, p.410 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDynamicPart         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2838,6 +2842,7 @@ class UserDefinedPdu(Pdu):
 
     # UserDefinedPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.27, p.345 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2872,6 +2877,7 @@ class UserDefinedIPdu(IPdu):
 
     # UserDefinedIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.28, p.346 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
