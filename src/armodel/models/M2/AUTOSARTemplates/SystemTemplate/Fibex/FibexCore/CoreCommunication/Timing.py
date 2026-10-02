@@ -103,6 +103,7 @@ class TimeRangeTypeTolerance(ARObject):
 
     # TimeRangeTypeTolerance method parity checklist:
     # Spec: XSD group TIME-RANGE-TYPE-TOLERANCE, AUTOSAR_00052.xsd line 122919 (XSD-only; empty group, no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -475,8 +476,56 @@ class TriggerIPduSendCondition(ARObject):
 
 
 class AbsoluteTolerance(TimeRangeTypeTolerance):
-    pass
+    """
+    Maximum allowable deviation
+    """
+
+    # AbsoluteTolerance method parity checklist:
+    # Spec: XSD group ABSOLUTE-TOLERANCE, AUTOSAR_00052.xsd line 37 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAbsolute  [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAbsolute  [x] impl  [—] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Maximum allowable deviation in duration (in seconds).
+        self.absolute: Optional[TimeValue] = None
+
+    def getAbsolute(self) -> Optional[TimeValue]:
+        return self.absolute
+
+    def setAbsolute(self, value: Optional[TimeValue]) -> "AbsoluteTolerance":
+        if value is not None:
+            self.absolute = value
+        return self
 
 
 class RelativeTolerance(TimeRangeTypeTolerance):
-    pass
+    """
+    Maximum allowable deviation
+    """
+
+    # RelativeTolerance method parity checklist:
+    # Spec: XSD group RELATIVE-TOLERANCE, AUTOSAR_00052.xsd line 98240 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRelative  [x] impl  [—] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRelative  [x] impl  [—] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Maximum allowable deviation in percent (percent of the corresponding TimeValue).
+        self.relative: Optional[Integer] = None
+
+    def getRelative(self) -> Optional[Integer]:
+        return self.relative
+
+    def setRelative(self, value: Optional[Integer]) -> "RelativeTolerance":
+        if value is not None:
+            self.relative = value
+        return self
