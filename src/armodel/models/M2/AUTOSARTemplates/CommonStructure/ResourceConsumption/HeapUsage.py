@@ -136,25 +136,19 @@ class MeasuredHeapUsage(HeapUsage):
 
     # MeasuredHeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.15, p.152
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAverageMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] setAverageMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] getMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] setMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] getMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] setMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] getTestPattern               [x] impl  [x] docstring  [x] test
-    # [x] setTestPattern               [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAverageMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setAverageMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaximumMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaximumMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinimumMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinimumMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getTestPattern              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setTestPattern              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the MeasuredHeapUsage with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this measured heap usage
-            short_name: The unique short name of this measured heap usage
-        """
         super().__init__(parent, short_name)
 
         # The average heap usage measured. Unit: byte.
@@ -171,23 +165,14 @@ class MeasuredHeapUsage(HeapUsage):
 
     def getAverageMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the average heap usage measured.
-
-        Returns:
-            PositiveInteger of the average heap usage, or None if not set
+        The average heap usage measured. Unit: byte.
         """
         return self.averageMemoryConsumption
 
     def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
-        Sets the average heap usage measured.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The average heap usage to set
-
-        Returns:
-            self for method chaining
+        The average heap usage measured. Unit: byte.
+        A None value is a no-op and does not overwrite an existing averageMemoryConsumption.
         """
         if value is not None:
             self.averageMemoryConsumption = value
@@ -195,23 +180,14 @@ class MeasuredHeapUsage(HeapUsage):
 
     def getMaximumMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum heap usage measured.
-
-        Returns:
-            PositiveInteger of the maximum heap usage, or None if not set
+        The maximum heap usage measured. Unit: byte.
         """
         return self.maximumMemoryConsumption
 
     def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
-        Sets the maximum heap usage measured.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The maximum heap usage to set
-
-        Returns:
-            self for method chaining
+        The maximum heap usage measured. Unit: byte.
+        A None value is a no-op and does not overwrite an existing maximumMemoryConsumption.
         """
         if value is not None:
             self.maximumMemoryConsumption = value
@@ -219,23 +195,14 @@ class MeasuredHeapUsage(HeapUsage):
 
     def getMinimumMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the minimum heap usage measured.
-
-        Returns:
-            PositiveInteger of the minimum heap usage, or None if not set
+        The minimum heap usage measured. Unit: byte.
         """
         return self.minimumMemoryConsumption
 
     def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
-        Sets the minimum heap usage measured.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The minimum heap usage to set
-
-        Returns:
-            self for method chaining
+        The minimum heap usage measured. Unit: byte.
+        A None value is a no-op and does not overwrite an existing minimumMemoryConsumption.
         """
         if value is not None:
             self.minimumMemoryConsumption = value
@@ -243,23 +210,14 @@ class MeasuredHeapUsage(HeapUsage):
 
     def getTestPattern(self) -> Optional[String]:
         """
-        Gets the description of the test pattern used to acquire the measured values.
-
-        Returns:
-            String describing the test pattern, or None if not set
+        Description of the test pattern used to acquire the measured values.
         """
         return self.testPattern
 
     def setTestPattern(self, value: Optional[String]) -> MeasuredHeapUsage:
         """
-        Sets the description of the test pattern used to acquire the measured values.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The test pattern description to set
-
-        Returns:
-            self for method chaining
+        Description of the test pattern used to acquire the measured values.
+        A None value is a no-op and does not overwrite an existing testPattern.
         """
         if value is not None:
             self.testPattern = value
@@ -273,19 +231,13 @@ class RoughEstimateHeapUsage(HeapUsage):
 
     # RoughEstimateHeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.16, p.153
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMemoryConsumption         [x] impl  [x] docstring  [x] test
-    # [x] setMemoryConsumption         [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMemoryConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RoughEstimateHeapUsage with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this rough estimate heap usage
-            short_name: The unique short name of this rough estimate heap usage
-        """
         super().__init__(parent, short_name)
 
         # Rough estimate of the heap usage. Unit: byte.
@@ -293,23 +245,14 @@ class RoughEstimateHeapUsage(HeapUsage):
 
     def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the rough estimate of the heap usage.
-
-        Returns:
-            PositiveInteger of the rough estimate heap usage, or None if not set
+        Rough estimate of the heap usage. Unit: byte.
         """
         return self.memoryConsumption
 
     def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> RoughEstimateHeapUsage:
         """
-        Sets the rough estimate of the heap usage.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The rough estimate heap usage to set
-
-        Returns:
-            self for method chaining
+        Rough estimate of the heap usage. Unit: byte.
+        A None value is a no-op and does not overwrite an existing memoryConsumption.
         """
         if value is not None:
             self.memoryConsumption = value
@@ -323,19 +266,13 @@ class WorstCaseHeapUsage(HeapUsage):
 
     # WorstCaseHeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.14, p.152
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMemoryConsumption         [x] impl  [x] docstring  [x] test
-    # [x] setMemoryConsumption         [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMemoryConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the WorstCaseHeapUsage with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this worst case heap usage
-            short_name: The unique short name of this worst case heap usage
-        """
         super().__init__(parent, short_name)
 
         # Worst case heap consumption. Unit: byte.
@@ -343,23 +280,14 @@ class WorstCaseHeapUsage(HeapUsage):
 
     def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the worst case heap consumption.
-
-        Returns:
-            PositiveInteger of the worst case heap usage, or None if not set
+        Worst case heap consumption. Unit: byte.
         """
         return self.memoryConsumption
 
     def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> WorstCaseHeapUsage:
         """
-        Sets the worst case heap consumption.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The worst case heap usage to set
-
-        Returns:
-            self for method chaining
+        Worst case heap consumption. Unit: byte.
+        A None value is a no-op and does not overwrite an existing memoryConsumption.
         """
         if value is not None:
             self.memoryConsumption = value

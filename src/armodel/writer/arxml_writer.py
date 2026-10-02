@@ -120,7 +120,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
@@ -479,6 +479,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
     Identifier,
     Numerical,
     Limit,
@@ -665,7 +666,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     ParameterDataPrototype,
     VariableDataPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
+from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType, ApplicationInterface
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import Field
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
@@ -2450,6 +2451,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeIoHwAbstractionServerAnnotation(self, element: ET.Element, annotation: IoHwAbstractionServerAnnotation):
         child_element = ET.SubElement(element, "IO-HW-ABSTRACTION-SERVER-ANNOTATION")
+        self.setMultidimensionalTime(child_element, "AGE", annotation.getAge())
+        self.setChildElementOptionalRefType(child_element, "ARGUMENT-REF", annotation.getArgumentRef())
+        self.setChildElementOptionalFloatValue(child_element, "BSW-RESOLUTION", annotation.getBswResolution())
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", annotation.getDataElementRef())
+        self.setChildElementOptionalRefType(child_element, "FAILURE-MONITORING-REF", annotation.getFailureMonitoringRef())
         self.setChildElementOptionalLiteral(child_element, "FILTERING-DEBOUNCING", annotation.getFilteringDebouncing())
         self.setChildElementOptionalLiteral(child_element, "PULSE-TEST", annotation.getPulseTest())
         self.setChildElementOptionalRefType(child_element, "TRIGGER-REF", annotation.getTriggerRef())
@@ -3740,6 +3746,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "APPLICATION-VALUE-SPECIFICATION")
             self.writeValueSpecification(child_element, value_spec)
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", value_spec.getCategory())
+            axis_conts = value_spec.getSwAxisCont()
+            if len(axis_conts) > 0:
+                axis_conts_tag = ET.SubElement(child_element, "SW-AXIS-CONTS")
+                for axis_cont in axis_conts:
+                    self.writeRuleBasedAxisCont(axis_conts_tag, axis_cont)
             self.writeSwValueCont(child_element, value_spec.getSwValueCont())
 
     def writeNumericalOrText(self, element: ET.Element, key: str, not_text: NumericalOrText):
@@ -15313,8 +15324,56 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, props)
             self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
 
+    def writeAliasNameAssignment(self, element: ET.Element, assignment: AliasNameAssignment):
+        self.setChildElementOptionalString(element, "SHORT-LABEL", assignment.getShortLabel())
+        self.setMultiLongName(element, "LABEL", assignment.getLabel())
+        self.setChildElementOptionalRefType(element, "IDENTIFIABLE-REF", assignment.getIdentifiableRef())
+        self.setChildElementOptionalRefType(element, "FLAT-INSTANCE-REF", assignment.getFlatInstanceRef())
+
+    def writeAliasNameSet(self, element: ET.Element, alias_set: AliasNameSet):
+        if alias_set is not None:
+            child_element = ET.SubElement(element, "ALIAS-NAME-SET")
+            self.writeIdentifiable(child_element, alias_set)
+            for assignment in alias_set.getAliasNames():
+                assignment_element = ET.SubElement(child_element, "ALIAS-NAME-ASSIGNMENT")
+                self.writeAliasNameAssignment(assignment_element, assignment)
+
+    def writeField(self, element: ET.Element, field: Field):
+        if field is not None:
+            child_element = ET.SubElement(element, "FIELD")
+            self.writeIdentifiable(child_element, field)
+            for tag, getter in (("HAS-GETTER", field.getHasGetter()), ("HAS-NOTIFIER", field.getHasNotifier()), ("HAS-SETTER", field.getHasSetter())):
+                if getter is not None:
+                    value = Boolean()
+                    value.setValue(getter)
+                    self.setChildElementOptionalBooleanValue(child_element, tag, value)
+
+    def writeApplicationInterface(self, element: ET.Element, interface: ApplicationInterface):
+        if interface is not None:
+            child_element = ET.SubElement(element, "APPLICATION-INTERFACE")
+            self.writeIdentifiable(child_element, interface)
+            attributes = interface.getAttributes()
+            if len(attributes) > 0:
+                attributes_tag = ET.SubElement(child_element, "ATTRIBUTES")
+                for field in attributes:
+                    self.writeField(attributes_tag, field)
+            commands = interface.getCommands()
+            if len(commands) > 0:
+                commands_tag = ET.SubElement(child_element, "COMMANDS")
+                for operation in commands:
+                    self.writeClientServerOperation(commands_tag, operation)
+            indications = interface.getIndications()
+            if len(indications) > 0:
+                indications_tag = ET.SubElement(child_element, "INDICATIONS")
+                for indication in indications:
+                    self.writeVariableDataPrototype(indications_tag, indication)
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
-        if isinstance(ar_element, BuildActionManifest):
+        if isinstance(ar_element, AliasNameSet):
+            self.writeAliasNameSet(element, ar_element)
+        elif isinstance(ar_element, ApplicationInterface):
+            self.writeApplicationInterface(element, ar_element)
+        elif isinstance(ar_element, BuildActionManifest):
             self.writeBuildActionManifest(element, ar_element)
         elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)

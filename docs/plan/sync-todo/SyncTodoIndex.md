@@ -1264,7 +1264,7 @@ Status: **0/75** completed
 
 ## Group26
 
-Status: **0/75** completed
+Status: **1/75** completed
 
 | Class Name                                      | Status          | Commit ID  |
 | ----------------------------------------------- | --------------- | ---------- |
@@ -1281,7 +1281,7 @@ Status: **0/75** completed
 | `DiagnosticServiceMappingDiagTarget`            | [ ] Pending*    | 80105a7831 |
 | `DiagnosticSwMapping`                           | [ ] Pending*    | 80105a7831 |
 | `DiagnosticServiceSwMapping`                    | [ ] Pending*    | 0f2a3876e3 |
-| `BswServiceDependencyIdent`                     | [ ] Pending*    | d488a5e4a8 |
+| `BswServiceDependencyIdent`                     | [x] Done        | d488a5e4a8 |
 | `DiagnosticAuthTransmitCertificateMapping`      | [ ] Pending*    | 531da6dd58 |
 | `DiagnosticSecurityEventReportingModeMapping`   | [ ] Pending*    | 531da6dd58 |
 | `DiagnosticEventToTroubleCodeUdsMapping`        | [ ] Pending*    | 664519e02e |

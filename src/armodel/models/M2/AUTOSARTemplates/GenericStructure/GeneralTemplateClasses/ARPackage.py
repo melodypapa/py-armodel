@@ -15,7 +15,8 @@ from abc import ABC
 if TYPE_CHECKING:
     # ApplicationDeferredDataType is bound at runtime by the PEP 562 __getattr__ below
     # (AbstractPlatform closes an import cycle), so it is imported here for typing only.
-    from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
+    from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType, ApplicationInterface
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameSet
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
         Collection,
     )
@@ -2854,6 +2855,22 @@ class ARPackage(CollectableElement, VariationPointCapable):
             collection = Collection(self, short_name)
             self.addElement(collection)
         return self.getElement(short_name, Collection)
+
+    def createApplicationInterface(self, short_name: str) -> ApplicationInterface:
+        from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationInterface
+
+        if not self.IsElementExists(short_name, ApplicationInterface):
+            interface = ApplicationInterface(self, short_name)
+            self.addElement(interface)
+        return self.getElement(short_name, ApplicationInterface)
+
+    def createAliasNameSet(self, short_name: str) -> AliasNameSet:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameSet
+
+        if not self.IsElementExists(short_name, AliasNameSet):
+            alias_name_set = AliasNameSet(self, short_name)
+            self.addElement(alias_name_set)
+        return self.getElement(short_name, AliasNameSet)
 
     def createKeywordSet(self, short_name: str) -> KeywordSet:
 

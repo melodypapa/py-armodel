@@ -549,3 +549,36 @@ audited: 97 | DRIFT 3 | FORMAT-ONLY 70 | REVIEW 24
 ```
 
 </details>
+
+## Re-sync drain (batch 1, 2026-10-02)
+
+Executed on `feature/legacy-checklist-resync` (batch mode, stamps deferred to batch confirmation):
+
+- **84 classes re-synced to the 6-column bar**: stale markers removed, docstrings wiped and rewritten
+  verbatim from the spec `Note`, legacy 4-column checklists converted to the current format with
+  reader/writer/release columns. Tooling: `scripts/legacy_resync_apply.py` (consumes
+  `audit_legacy_checklists.py --dump`).
+- **Real drift repaired (8 classes)**:
+  - `AliasNameAssignment` / `AliasNameSet` — full read/write chains added (were completely
+    unwired) + `ARPackage.createAliasNameSet` factory + ELEMENTS dispatch + round-trip tests.
+  - `ApplicationInterface` — full read/write chain (ATTRIBUTES/FIELD, COMMANDS/CLIENT-SERVER-OPERATION,
+    INDICATIONS/VARIABLE-DATA-PROTOTYPE) + new `writeField` + `ARPackage.createApplicationInterface`
+    factory + dispatch + round-trip tests.
+  - `ApplicationValueSpecification` — SW-AXIS-CONTS reader/writer added (was silently dropped).
+  - `IoHwAbstractionServerAnnotation` — 5 never-modeled members added (age, argumentRef,
+    bswResolution, dataElementRef, failureMonitoringRef) with reader/writer coverage + round-trip test.
+  - `ServiceProviderEnum` — `watchDogManager` literal added (R23-11 Table 13.x / XSD WATCH-DOG-MANAGER).
+- **Deviation noted, arbitration pending**: `ServerArgumentImplPolicyEnum` — R23-11 defines
+  `innerPort`; the model carries `bidirectional`/`firstToSecond`/`secondToFirst` not in the table.
+- **Verification**: battery 15,915 passed / 0 failed; ruff + flake8 clean; black clean except the
+  pre-existing main set.
+- **Remaining inventory: 13 blocks** — the no-spec-table set below, pending per-class arbitration
+  (table-less classes: skip / XSD-only / R4.4-corpus decision). They stay legacy until ruled on.
+
+## Batch 9b stamp wave (2026-10-02, user confirmation)
+
+`# Spec verified: R23-11` written on **83 of the 84 re-synced classes** (battery 15,915/0 at stamping).
+Withheld, pending user decisions:
+- `ServerArgumentImplPolicyEnum` — literal arbitration (R23-11 `innerPort` vs model's
+  `bidirectional`/`firstToSecond`/`secondToFirst`) unresolved.
+- the 13 no-spec-table blocks above — per-class skip / XSD-only / R4.4-corpus ruling unresolved.

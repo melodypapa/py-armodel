@@ -231,58 +231,45 @@ class FlatMap(ARElement):
 class AliasNameAssignment(ARObject, VariationPointCapable):
     """
     This meta-class represents the ability to associate an alternative name to a flat representations or an Identifiable. The usage of this name is defined outside of AUTOSAR. For example this name can be used by MCD tools or as a name for component instances in the ECU extract. Note that flatInstance and identifiable are mutually exclusive.
-
-    [constr_10363] Existence of attribute AliasNameAssignment.shortLabel: For each AliasNameAssignment, the attribute shortLabel shall exist at the time when the configuration of the BSW module is finished.
     """
 
     # AliasNameAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.3, p.175
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getFlatInstanceRef           [x] impl  [x] docstring  [x] test
-    # [x] setFlatInstanceRef           [x] impl  [x] docstring  [x] test
-    # [x] getIdentifiableRef           [x] impl  [x] docstring  [x] test
-    # [x] setIdentifiableRef           [x] impl  [x] docstring  [x] test
-    # [x] getLabel                     [x] impl  [x] docstring  [x] test
-    # [x] setLabel                     [x] impl  [x] docstring  [x] test
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFlatInstanceRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlatInstanceRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLabel                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setLabel                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getShortLabel               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setShortLabel               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Assignment of a unique name to a flat representation.
+        # Assignment of a unique name to a flat representation. Tags: xml.sequenceOffset=60
         self.flatInstanceRef: Optional[RefType] = None
 
-        # Assignment of a unique name to an Identifiable.
+        # Assignment of a unique name to an Identifiable. Tags: xml.sequenceOffset=50
         self.identifiableRef: Optional[RefType] = None
 
-        # This represents an "Alias LongName".
+        # This represents an "Alias LongName". Tags: xml.sequenceOffset=20
         self.label: Optional[MultilanguageLongName] = None
 
-        # This attribute represents the alias name. It is modeled as string because the alias name is used outside of AUTOSAR and therefore no naming conventions can be applied within AUTOSAR.
+        # This attribute represents the alias name. It is modeled as string because the alias name is used outside of AUTOSAR and therefore no naming conventions can be applied within AUTOSAR. Stereotypes: atpIdentityContributor Tags: xml.sequenceOffset=10
         self.shortLabel: Optional[String] = None
 
     def getFlatInstanceRef(self) -> Optional[RefType]:
         """
-        Gets the reference assigning a unique name to a flat representation (DEST: FlatInstanceDescriptor subtypes). Mutually exclusive with identifiableRef.
-
-        Returns:
-            RefType instance, or None if not set
+        Assignment of a unique name to a flat representation. Tags: xml.sequenceOffset=60
         """
         return self.flatInstanceRef
 
     def setFlatInstanceRef(self, value: Optional[RefType]) -> "AliasNameAssignment":
         """
-        Sets the reference assigning a unique name to a flat representation (DEST: FlatInstanceDescriptor subtypes). Mutually exclusive with identifiableRef.
-
+        Assignment of a unique name to a flat representation. Tags: xml.sequenceOffset=60
         A None value is a no-op and does not overwrite an existing flatInstanceRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.flatInstanceRef = value
@@ -290,24 +277,14 @@ class AliasNameAssignment(ARObject, VariationPointCapable):
 
     def getIdentifiableRef(self) -> Optional[RefType]:
         """
-        Gets the reference assigning a unique name to an Identifiable (DEST: Identifiable subtypes). Mutually exclusive with flatInstanceRef.
-
-        Returns:
-            RefType instance, or None if not set
+        Assignment of a unique name to an Identifiable. Tags: xml.sequenceOffset=50
         """
         return self.identifiableRef
 
     def setIdentifiableRef(self, value: Optional[RefType]) -> "AliasNameAssignment":
         """
-        Sets the reference assigning a unique name to an Identifiable (DEST: Identifiable subtypes). Mutually exclusive with flatInstanceRef.
-
+        Assignment of a unique name to an Identifiable. Tags: xml.sequenceOffset=50
         A None value is a no-op and does not overwrite an existing identifiableRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.identifiableRef = value
@@ -315,24 +292,14 @@ class AliasNameAssignment(ARObject, VariationPointCapable):
 
     def getLabel(self) -> Optional[MultilanguageLongName]:
         """
-        Gets the "Alias LongName" (multi-language long name).
-
-        Returns:
-            MultilanguageLongName instance, or None if not set
+        This represents an "Alias LongName". Tags: xml.sequenceOffset=20
         """
         return self.label
 
     def setLabel(self, value: Optional[MultilanguageLongName]) -> "AliasNameAssignment":
         """
-        Sets the "Alias LongName" (multi-language long name).
-
+        This represents an "Alias LongName". Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing label.
-
-        Args:
-            value: The MultilanguageLongName instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.label = value
@@ -340,24 +307,14 @@ class AliasNameAssignment(ARObject, VariationPointCapable):
 
     def getShortLabel(self) -> Optional[String]:
         """
-        Gets the alias name (modeled as String because it is used outside of AUTOSAR).
-
-        Returns:
-            String instance holding the alias name, or None if not set
+        This attribute represents the alias name. It is modeled as string because the alias name is used outside of AUTOSAR and therefore no naming conventions can be applied within AUTOSAR. Stereotypes: atpIdentityContributor Tags: xml.sequenceOffset=10
         """
         return self.shortLabel
 
     def setShortLabel(self, value: Optional[String]) -> "AliasNameAssignment":
         """
-        Sets the alias name (modeled as String because it is used outside of AUTOSAR). [constr_10363] shortLabel shall exist at the time when the configuration of the BSW module is finished.
-
+        This attribute represents the alias name. It is modeled as string because the alias name is used outside of AUTOSAR and therefore no naming conventions can be applied within AUTOSAR. Stereotypes: atpIdentityContributor Tags: xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing shortLabel.
-
-        Args:
-            value: The String instance holding the alias name to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.shortLabel = value
@@ -366,42 +323,27 @@ class AliasNameAssignment(ARObject, VariationPointCapable):
 
 class AliasNameSet(ARElement):
     """
-    This meta-class represents a set of AliasNames. The AliasNameSet can for example be an input to the A2L-Generator.
-
-    [constr_10362] Existence of attribute AliasNameSet.aliasName: For each AliasNameSet, the attribute aliasName shall exist at least once at the time when the configuration of the BSW module is finished.
+    This meta-class represents a set of AliasNames. The AliasNameSet can for example be an input to the A2L-Generator. Tags: atp.recommendedPackage=AliasNameSets
     """
 
     # AliasNameSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.2, p.174
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] addAliasName                 [x] impl  [x] docstring  [x] test
-    # [x] getAliasNames                [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAliasNames               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAliasName                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the AliasNameSet with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this alias name set
-            short_name: The unique short name of this alias name set
-        """
         super().__init__(parent, short_name)
 
-        # AliasNames contained in the AliasNameSet.
+        # AliasNames contained in the AliasNameSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=aliasName.shortLabel, aliasName.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.aliasNames: List[AliasNameAssignment] = []
 
     def addAliasName(self, value: Optional[AliasNameAssignment]) -> "AliasNameSet":
         """
-        Appends an AliasNameAssignment to this set.
-
-        A None value is a no-op and does not append to the list.
-
-        Args:
-            value: The AliasNameAssignment to add
-
-        Returns:
-            self for method chaining
+        AliasNames contained in the AliasNameSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=aliasName.shortLabel, aliasName.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not append to aliasNames.
         """
         if value is not None:
             self.aliasNames.append(value)
@@ -409,9 +351,6 @@ class AliasNameSet(ARElement):
 
     def getAliasNames(self) -> List[AliasNameAssignment]:
         """
-        Gets the AliasNameAssignments contained in this set.
-
-        Returns:
-            List of AliasNameAssignment instances (empty by default)
+        AliasNames contained in the AliasNameSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=aliasName.shortLabel, aliasName.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.aliasNames
