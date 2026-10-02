@@ -13,54 +13,41 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class McGroup(ARElement):
     """
-    Represents a group element to be used as input to support measurement and calibration. It is used to provide selection lists (groups) of calibration parameters, measurement variables, and functions in a hierarchical manner (subGroups).
+    Represents a group element to be used as input to support measurement and calibration. It is used to provide selection lists (groups) of calibration parameters, measurement variables, and functions in a hierarchical manner (subGroups). Tags: atp.recommendedPackage=McFunctions
     """
 
     # McGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.10, p.190
-    # Spec verified: R23-11
-    # [x] __init__                       [x] impl  [x] docstring  [x] test
-    # [x] addMcFunctionRef               [x] impl  [x] docstring  [x] test
-    # [x] getMcFunctionRefs              [x] impl  [x] docstring  [x] test
-    # [x] getRefCalprmSet                [x] impl  [x] docstring  [x] test
-    # [x] setRefCalprmSet                [x] impl  [x] docstring  [x] test
-    # [x] getRefMeasurementSet           [x] impl  [x] docstring  [x] test
-    # [x] setRefMeasurementSet           [x] impl  [x] docstring  [x] test
-    # [x] addSubGroupRef                 [x] impl  [x] docstring  [x] test
-    # [x] getSubGroupRefs                [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMcFunctionRefs           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addMcFunctionRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRefCalprmSet             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRefCalprmSet             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRefMeasurementSet        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRefMeasurementSet        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSubGroupRefs             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addSubGroupRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the McGroup with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this group
-            short_name: The unique short name of this group
-        """
         super().__init__(parent, short_name)
 
-        # A McFunction that is seen as part of the enclosing group. Tags: atp.Splitkey=mcFunction xml.sequenceOffset=40
+        # A McFunction that is seen as part of the enclosing group. Stereotypes: atpSplitable Tags: atp.Splitkey=mcFunction xml.sequenceOffset=40
         self.mcFunctionRefs: List[RefType] = []
 
-        # Refers to the set of adjustable data (= calibration parameters) referred by this McGroup. Tags: atp.Splitkey=refCalprmSet xml.sequenceOffset=20
+        # Refers to the set of adjustable data (= calibration parameters) referred by this McGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=refCalprmSet xml.sequenceOffset=20
         self.refCalprmSet: Optional[McGroupDataRefSet] = None
 
-        # Refers to the set of measurable belonging to this Mc Group. Tags: atp.Splitkey=refMeasurementSet xml.sequenceOffset=30
+        # Refers to the set of measurable belonging to this Mc Group. Stereotypes: atpSplitable Tags: atp.Splitkey=refMeasurementSet xml.sequenceOffset=30
         self.refMeasurementSet: Optional[McGroupDataRefSet] = None
 
-        # A sub-group that is seen as part of the enclosing group. Tags: atp.Splitkey=subGroup xml.sequenceOffset=10
+        # A sub-group that is seen as part of the enclosing group. Stereotypes: atpSplitable Tags: atp.Splitkey=subGroup xml.sequenceOffset=10
         self.subGroupRefs: List[RefType] = []
 
     def addMcFunctionRef(self, value: Optional[RefType]) -> McGroup:
         """
-        Adds a reference to an McFunction that is seen as part of the enclosing group.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The McFunction reference to add
-
-        Returns:
-            self for method chaining
+        A McFunction that is seen as part of the enclosing group. Stereotypes: atpSplitable Tags: atp.Splitkey=mcFunction xml.sequenceOffset=40
+        A None value is a no-op and does not append to mcFunctionRefs.
         """
         if value is not None:
             self.mcFunctionRefs.append(value)
@@ -68,32 +55,20 @@ class McGroup(ARElement):
 
     def getMcFunctionRefs(self) -> List[RefType]:
         """
-        Gets the references to McFunctions that are seen as part of the enclosing group.
-
-        Returns:
-            List of RefType instances referencing McFunction elements
+        A McFunction that is seen as part of the enclosing group. Stereotypes: atpSplitable Tags: atp.Splitkey=mcFunction xml.sequenceOffset=40
         """
         return self.mcFunctionRefs
 
     def getRefCalprmSet(self) -> Optional[McGroupDataRefSet]:
         """
-        Gets the set of adjustable data (= calibration parameters) referred by this McGroup.
-
-        Returns:
-            McGroupDataRefSet instance, or None if not set
+        Refers to the set of adjustable data (= calibration parameters) referred by this McGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=refCalprmSet xml.sequenceOffset=20
         """
         return self.refCalprmSet
 
     def setRefCalprmSet(self, value: Optional[McGroupDataRefSet]) -> McGroup:
         """
-        Sets the set of adjustable data (= calibration parameters) referred by this McGroup.
-        A None value is a no-op and does not overwrite an existing set.
-
-        Args:
-            value: The McGroupDataRefSet to set
-
-        Returns:
-            self for method chaining
+        Refers to the set of adjustable data (= calibration parameters) referred by this McGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=refCalprmSet xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing refCalprmSet.
         """
         if value is not None:
             self.refCalprmSet = value
@@ -101,23 +76,14 @@ class McGroup(ARElement):
 
     def getRefMeasurementSet(self) -> Optional[McGroupDataRefSet]:
         """
-        Gets the set of measurable belonging to this Mc Group.
-
-        Returns:
-            McGroupDataRefSet instance, or None if not set
+        Refers to the set of measurable belonging to this Mc Group. Stereotypes: atpSplitable Tags: atp.Splitkey=refMeasurementSet xml.sequenceOffset=30
         """
         return self.refMeasurementSet
 
     def setRefMeasurementSet(self, value: Optional[McGroupDataRefSet]) -> McGroup:
         """
-        Sets the set of measurable belonging to this Mc Group.
-        A None value is a no-op and does not overwrite an existing set.
-
-        Args:
-            value: The McGroupDataRefSet to set
-
-        Returns:
-            self for method chaining
+        Refers to the set of measurable belonging to this Mc Group. Stereotypes: atpSplitable Tags: atp.Splitkey=refMeasurementSet xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing refMeasurementSet.
         """
         if value is not None:
             self.refMeasurementSet = value
@@ -125,14 +91,8 @@ class McGroup(ARElement):
 
     def addSubGroupRef(self, value: Optional[RefType]) -> McGroup:
         """
-        Adds a reference to a sub-group that is seen as part of the enclosing group.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The sub-group reference to add
-
-        Returns:
-            self for method chaining
+        A sub-group that is seen as part of the enclosing group. Stereotypes: atpSplitable Tags: atp.Splitkey=subGroup xml.sequenceOffset=10
+        A None value is a no-op and does not append to subGroupRefs.
         """
         if value is not None:
             self.subGroupRefs.append(value)
@@ -140,10 +100,7 @@ class McGroup(ARElement):
 
     def getSubGroupRefs(self) -> List[RefType]:
         """
-        Gets the references to sub-groups that are seen as part of the enclosing group.
-
-        Returns:
-            List of RefType instances referencing McGroup elements
+        A sub-group that is seen as part of the enclosing group. Stereotypes: atpSplitable Tags: atp.Splitkey=subGroup xml.sequenceOffset=10
         """
         return self.subGroupRefs
 

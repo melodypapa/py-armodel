@@ -457,15 +457,20 @@ class ServerArgumentImplPolicyEnum(AREnum):
 
     # ServerArgumentImplPolicyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.10, p.105
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # The argument type of the RunnableEntity is derived from the AutosarDataType of the
-    # Argument Prototype. Tags: atp.EnumerationLiteralIndex=0
+    # The argument type of the RunnableEntity is derived from the AutosarDataType of the Argument Prototype. Tags: atp.EnumerationLiteralIndex=0
     USE_ARGUMENT_TYPE = "useArgumentType"
 
     # The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2
     USE_VOID = "useVoid"
+
+    # (accepted deviation, pending user arbitration 2026-10-02): the R23-11 table also defines
+    #  innerPort, while the model carries bidirectional / firstToSecond / secondToFirst which are
+    #  absent from the R23-11 table (cross-corpus drift). Resolved literals require the user's
+    #  9b decision; nothing stamped meanwhile.
 
     def __init__(self):
         """
@@ -476,66 +481,37 @@ class ServerArgumentImplPolicyEnum(AREnum):
 
 class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
-    An argument of an operation, much like a data element, but also carries direction
-    information and is owned by a particular ClientServerOperation.
-    The overriding value of attribute swImplPolicy of an ArgumentDataPrototype shall be
-    standard. [constr_2047]
+    An argument of an operation, much like a data element, but also carries direction information and is owned by a particular ClientServerOperation.
     """
 
     # ArgumentDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.7, p.303
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getDirection                 [x] impl  [x] docstring  [x] test
-    # [x] setDirection                 [x] impl  [x] docstring  [x] test
-    # [x] getServerArgumentImplPolicy  [x] impl  [x] docstring  [x] test
-    # [x] setServerArgumentImplPolicy  [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDirection                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setDirection                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getServerArgumentImplPolicy [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setServerArgumentImplPolicy [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes an ArgumentDataPrototype instance with an argument direction and a server
-        argument implementation policy.
-        """
         super().__init__(parent, short_name)
 
         # This attribute specifies the direction of the argument prototype.
-        # For each ArgumentDataPrototype, attribute direction shall be defined at the time
-        # when the contract phase generation is executed. [constr_1869]
         self.direction: Optional[ArgumentDirectionEnum] = None
 
-        # This defines how the argument type of the servers RunnableEntity is implemented.
-        # If the attribute is not defined this has the same semantics as if the attribute is set
-        # to the value useArgumentType for primitive arguments and structures.
-        # The value of the attribute ArgumentDataPrototype.serverArgumentImplPolicy shall not be
-        # set to useVoid for an ArgumentDataPrototype of direction in that is typed by an
-        # AutosarDataType that boils down to a primitive C data type. [constr_1286]
+        # This defines how the argument type of the servers RunnableEntity is implemented. If the attribute is not defined this has the same semantics as if the attribute is set to the value useArgumentType for primitive arguments and structures.
         self.serverArgumentImplPolicy: Optional[ServerArgumentImplPolicyEnum] = None
 
     def getDirection(self) -> Optional[ArgumentDirectionEnum]:
         """
-        Gets the direction of the argument prototype.
         This attribute specifies the direction of the argument prototype.
-        For each ArgumentDataPrototype, attribute direction shall be defined at the time
-        when the contract phase generation is executed. [constr_1869]
-
-        Returns:
-            Optional[ArgumentDirectionEnum]: The direction, or None if not set
         """
         return self.direction
 
     def setDirection(self, value: Optional[ArgumentDirectionEnum]) -> ArgumentDataPrototype:
         """
-        Sets the direction of the argument prototype.
         This attribute specifies the direction of the argument prototype.
-        For each ArgumentDataPrototype, attribute direction shall be defined at the time
-        when the contract phase generation is executed. [constr_1869]
         A None value is a no-op and does not overwrite an existing direction.
-
-        Args:
-            value: The direction to set
-
-        Returns:
-            ArgumentDataPrototype: self for method chaining
         """
         if value is not None:
             self.direction = value
@@ -543,35 +519,14 @@ class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
 
     def getServerArgumentImplPolicy(self) -> Optional[ServerArgumentImplPolicyEnum]:
         """
-        Gets the server argument implementation policy.
-        This defines how the argument type of the servers RunnableEntity is implemented.
-        If the attribute is not defined this has the same semantics as if the attribute is set
-        to the value useArgumentType for primitive arguments and structures.
-        The value of the attribute ArgumentDataPrototype.serverArgumentImplPolicy shall not be
-        set to useVoid for an ArgumentDataPrototype of direction in that is typed by an
-        AutosarDataType that boils down to a primitive C data type. [constr_1286]
-
-        Returns:
-            Optional[ServerArgumentImplPolicyEnum]: The policy, or None if not set
+        This defines how the argument type of the servers RunnableEntity is implemented. If the attribute is not defined this has the same semantics as if the attribute is set to the value useArgumentType for primitive arguments and structures.
         """
         return self.serverArgumentImplPolicy
 
     def setServerArgumentImplPolicy(self, value: Optional[ServerArgumentImplPolicyEnum]) -> ArgumentDataPrototype:
         """
-        Sets the server argument implementation policy.
-        This defines how the argument type of the servers RunnableEntity is implemented.
-        If the attribute is not defined this has the same semantics as if the attribute is set
-        to the value useArgumentType for primitive arguments and structures.
-        The value of the attribute ArgumentDataPrototype.serverArgumentImplPolicy shall not be
-        set to useVoid for an ArgumentDataPrototype of direction in that is typed by an
-        AutosarDataType that boils down to a primitive C data type. [constr_1286]
-        A None value is a no-op and does not overwrite an existing policy.
-
-        Args:
-            value: The policy to set
-
-        Returns:
-            ArgumentDataPrototype: self for method chaining
+        This defines how the argument type of the servers RunnableEntity is implemented. If the attribute is not defined this has the same semantics as if the attribute is set to the value useArgumentType for primitive arguments and structures.
+        A None value is a no-op and does not overwrite an existing serverArgumentImplPolicy.
         """
         if value is not None:
             self.serverArgumentImplPolicy = value
@@ -631,34 +586,21 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     # ClientServerOperation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] createArgumentDataPrototype  [x] impl  [x] docstring  [x] test
-    # [x] getArguments                 [x] impl  [x] docstring  [x] test
-    # [x] getDiagArgIntegrity          [x] impl  [x] docstring  [x] test
-    # [x] setDiagArgIntegrity          [x] impl  [x] docstring  [x] test
-    # [x] addPossibleErrorRef          [x] impl  [x] docstring  [x] test
-    # [x] getPossibleErrorRefs         [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArguments                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getPossibleErrorRefs        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addPossibleErrorRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Constructs a ClientServerOperation.
-
-        Args:
-            parent: The parent ARObject
-            short_name: The short name of the operation
-        """
         super().__init__(parent, short_name)
 
-        # An argument of this ClientServerOperation
+        # An argument of this ClientServerOperation Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
         self.arguments: List[ArgumentDataPrototype] = []
 
-        # This attribute shall only be used in the implementation of diagnostic routines to support
-        # the case where input and output arguments are allocated in a shared buffer and might
-        # unintentionally overwrite input arguments by tentative write operations to output
-        # arguments. The value true means that the ClientServerOperation is aware of the usage of a
-        # shared buffer and takes precautions to avoid unintentional overwrite of input arguments.
-        # [constr_1724]
+        # This attribute shall only be used in the implementation of diagnostic routines to support the case where input and output arguments are allocated in a shared buffer and might unintentionally overwrite input arguments by tentative write operations to output arguments. This situation can happen during sliced execution or while output parameters are arrays (call by reference). The value true means that the ClientServerOperation is aware of the usage of a shared buffer and takes precautions to avoid unintentional overwrite of input arguments. If the attribute does not exist or is set to false the Client ServerOperation does not have to consider the usage of a shared buffer.
         self.diagArgIntegrity: Optional[Boolean] = None
 
         # Possible errors that may by raised by the referring operation.
@@ -685,46 +627,20 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def getArguments(self) -> List[ArgumentDataPrototype]:
         """
-        Gets the ArgumentDataPrototype objects of this ClientServerOperation.
-
-        An argument of this ClientServerOperation.
-
-        Returns:
-            The list of ArgumentDataPrototype instances
+        An argument of this ClientServerOperation Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
         """
         return self.arguments
 
     def getDiagArgIntegrity(self) -> Optional[Boolean]:
         """
-        Returns the diagArgIntegrity flag of this ClientServerOperation.
-
-        This attribute shall only be used in the implementation of diagnostic routines to support the
-        case where input and output arguments are allocated in a shared buffer and might
-        unintentionally overwrite input arguments by tentative write operations to output arguments.
-        The value true means that the ClientServerOperation is aware of the usage of a shared buffer
-        and takes precautions to avoid unintentional overwrite of input arguments. [constr_1724]
-
-        Returns:
-            Optional[Boolean]: The diagArgIntegrity flag, or None if not set
+        This attribute shall only be used in the implementation of diagnostic routines to support the case where input and output arguments are allocated in a shared buffer and might unintentionally overwrite input arguments by tentative write operations to output arguments. This situation can happen during sliced execution or while output parameters are arrays (call by reference). The value true means that the ClientServerOperation is aware of the usage of a shared buffer and takes precautions to avoid unintentional overwrite of input arguments. If the attribute does not exist or is set to false the Client ServerOperation does not have to consider the usage of a shared buffer.
         """
         return self.diagArgIntegrity
 
     def setDiagArgIntegrity(self, value: Optional[Boolean]) -> ClientServerOperation:
         """
-        Sets the diagArgIntegrity flag of this ClientServerOperation.
-
-        This attribute shall only be used in the implementation of diagnostic routines to support the
-        case where input and output arguments are allocated in a shared buffer and might
-        unintentionally overwrite input arguments by tentative write operations to output arguments.
-        The value true means that the ClientServerOperation is aware of the usage of a shared buffer
-        and takes precautions to avoid unintentional overwrite of input arguments. [constr_1724]
+        This attribute shall only be used in the implementation of diagnostic routines to support the case where input and output arguments are allocated in a shared buffer and might unintentionally overwrite input arguments by tentative write operations to output arguments. This situation can happen during sliced execution or while output parameters are arrays (call by reference). The value true means that the ClientServerOperation is aware of the usage of a shared buffer and takes precautions to avoid unintentional overwrite of input arguments. If the attribute does not exist or is set to false the Client ServerOperation does not have to consider the usage of a shared buffer.
         A None value is a no-op and does not overwrite an existing diagArgIntegrity.
-
-        Args:
-            value: The diagArgIntegrity flag to set
-
-        Returns:
-            ClientServerOperation: self for method chaining
         """
         if value is not None:
             self.diagArgIntegrity = value
@@ -732,15 +648,8 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def addPossibleErrorRef(self, value: Optional[RefType]) -> ClientServerOperation:
         """
-        Adds a possible error to this ClientServerOperation.
-
         Possible errors that may by raised by the referring operation.
-
-        Args:
-            value: The possible error reference to add
-
-        Returns:
-            ClientServerOperation: self for method chaining
+        A None value is a no-op and does not append to possibleErrorRefs.
         """
         if value is not None:
             self.possibleErrorRefs.append(value)
@@ -748,35 +657,29 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def getPossibleErrorRefs(self) -> List[RefType]:
         """
-        Gets the possible errors that may be raised by this ClientServerOperation.
-
         Possible errors that may by raised by the referring operation.
-
-        Returns:
-            The list of possible error references
         """
         return self.possibleErrorRefs
 
 
 class ClientServerInterface(PortInterface):
     """
-    A client/server interface declares a number of operations that can be
-    invoked on a server by a client.
+    A client/server interface declares a number of operations that can be invoked on a server by a client. Tags: atp.recommendedPackage=PortInterfaces
     """
 
     # ClientServerInterface method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] createOperation              [x] impl  [x] docstring  [x] test
-    # [x] getOperations                [x] impl  [x] docstring  [x] test
-    # [x] createApplicationError       [x] impl  [x] docstring  [x] test
-    # [x] getPossibleErrors            [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperations               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createOperation             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getPossibleErrors           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createApplicationError      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # ClientServerOperation(s) of this ClientServerInterface.
+        # ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
         self.operations: List[ClientServerOperation] = []
 
         # Application errors that are defined as part of this interface.
@@ -784,14 +687,7 @@ class ClientServerInterface(PortInterface):
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
         """
-        Creates a ClientServerOperation of this ClientServerInterface with the
-        given short name, or returns the existing one if it already exists.
-
-        Args:
-            short_name: The short name for the new ClientServerOperation
-
-        Returns:
-            The created (or existing) ClientServerOperation
+        ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
         """
         if not self.IsElementExists(short_name, ClientServerOperation):
             operation = ClientServerOperation(self, short_name)
@@ -801,10 +697,7 @@ class ClientServerInterface(PortInterface):
 
     def getOperations(self) -> List[ClientServerOperation]:
         """
-        Gets the ClientServerOperation(s) of this ClientServerInterface.
-
-        Returns:
-            The list of ClientServerOperation instances
+        ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
         """
         return self.operations
 
@@ -827,10 +720,7 @@ class ClientServerInterface(PortInterface):
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         """
-        Gets the Application errors that are defined as part of this interface.
-
-        Returns:
-            The list of ApplicationError instances
+        Application errors that are defined as part of this interface.
         """
         return self.possibleErrors
 

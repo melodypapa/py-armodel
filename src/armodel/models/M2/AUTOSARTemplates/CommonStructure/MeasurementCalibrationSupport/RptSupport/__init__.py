@@ -23,16 +23,17 @@ class RptAccessEnum(AREnum):
 
     # RptAccessEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.25, p.205
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # The related data element is accessible by RP tool. atp.EnumerationLiteralIndex=0
+    # The related data element is accessible by RP tool. Tags: atp.EnumerationLiteralIndex=0
     ENABLED = "enabled"
 
-    # The related data element is not accessible by RP tool. atp.EnumerationLiteralIndex=1
+    # The related data element is not accessible by RP tool. Tags: atp.EnumerationLiteralIndex=1
     NONE = "none"
 
-    # The data element is known to the RP tool however its usage for RP can be restricted. Use case: limitation based on access rights atp.EnumerationLiteralIndex=2
+    # The data element is known to the RP tool however its usage for RP can be restricted. Use case: limitation based on access rights Tags: atp.EnumerationLiteralIndex=2
     PROTECTED = "protected"
 
     def __init__(self):
@@ -52,19 +53,20 @@ class RptEnablerImplTypeEnum(AREnum):
 
     # RptEnablerImplTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.19, p.202
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # No "RP enabler" is implemented. atp.EnumerationLiteralIndex=0
+    # No "RP enabler" is implemented. Tags: atp.EnumerationLiteralIndex=0
     NONE = "none"
 
-    # "RP enabler" is implemented as a RAM variable atp.EnumerationLiteralIndex=1
+    # "RP enabler" is implemented as a RAM variable Tags: atp.EnumerationLiteralIndex=1
     RPT_ENABLER_RAM = "rptEnablerRam"
 
-    # "RP enabler" is implemented as a calibrateable ROM variable. atp.EnumerationLiteralIndex=2
+    # "RP enabler" is implemented as a calibrateable ROM variable. Tags: atp.EnumerationLiteralIndex=2
     RPT_ENABLER_ROM = "rptEnablerRom"
 
-    # The RTE generator implements both the RAM and ROM "RP enabler". atp.EnumerationLiteralIndex=3
+    # The RTE generator implements both the RAM and ROM "RP enabler". Tags: atp.EnumerationLiteralIndex=3
     RPT_ENABLER_RAM_AND_ROM = "rptEnablerRamAndRom"
 
     def __init__(self):
@@ -85,13 +87,14 @@ class RptExecutionControlEnum(AREnum):
 
     # RptExecutionControlEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.22, p.203
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # The ExecutableEntity is only executed when the rapid prototyping disable flag is NOT set. atp.EnumerationLiteralIndex=0
+    # The ExecutableEntity is only executed when the rapid prototyping disable flag is NOT set. Tags: atp.EnumerationLiteralIndex=0
     CONDITIONAL = "conditional"
 
-    # The ExecutableEntity is executed without specific rapid prototyping condition. atp.EnumerationLiteralIndex=1
+    # The ExecutableEntity is executed without specific rapid prototyping condition. Tags: atp.EnumerationLiteralIndex=1
     NONE = "none"
 
     def __init__(self):
@@ -105,24 +108,25 @@ class RptExecutionControlEnum(AREnum):
 
 class RptPreparationEnum(AREnum):
     """
-    Mandates RP preparation level for access to VariableDataPrototype within generated RTE implementation.
+    Determines the RP preparation level for access to VariableDataPrototypes within the generated RTE implementation.
     """
 
     # RptPreparationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.20, p.203
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # No RP preparation for VariableDataPrototype. atp.EnumerationLiteralIndex=0
+    # No RP preparation for VariableDataPrototype. Tags: atp.EnumerationLiteralIndex=0
     NONE = "none"
 
-    # The RTE implementation uses an "RP global buffer" for measurement and post-build hooking purposes. atp.EnumerationLiteralIndex=1
+    # The RTE implementation uses an "RP global buffer" for measurement and post-build hooking purposes. Tags: atp.EnumerationLiteralIndex=1
     RPT_LEVEL_1 = "rptLevel1"
 
-    # As rpLevel1 but the RTE implementation also uses both "RP enabler flag" to permit RP overwrite at run-time. atp.EnumerationLiteralIndex=2
+    # As rpLevel1 but the RTE implementation also uses both "RP enabler flag" to permit RP overwrite at run-time. Tags: atp.EnumerationLiteralIndex=2
     RPT_LEVEL_2 = "rptLevel2"
 
-    # As rpLevel2 but the RTE implementation also uses "RP global measurement buffer" to record the original ECU-generated value in addition to the RP value. atp.EnumerationLiteralIndex=3
+    # As rpLevel2 but the RTE implementation also uses "RP global measurement buffer" to record the original ECU-generated value in addition to the RP value. Tags: atp.EnumerationLiteralIndex=3
     RPT_LEVEL_3 = "rptLevel3"
 
     def __init__(self):
@@ -138,22 +142,15 @@ class RptPreparationEnum(AREnum):
 
 class RptExecutionContext(Identifiable):
     """
-    Defines an environment for the execution of ExecutableEntites which is qualified by • OSTask • communication buffer usage.
+    Defines an environment for the execution of ExecutableEntites which is qualified by • OSTask • communication buffer usage
     """
 
     # RptExecutionContext method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.24, p.205
-    # Spec verified: R23-11
-    # [x] __init__                   [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RptExecutionContext with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this execution context
-            short_name: The unique short name of this execution context
-        """
         super().__init__(parent, short_name)
 
 
@@ -164,22 +161,19 @@ class RptSwPrototypingAccess(ARObject):
 
     # RptSwPrototypingAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.14, p.199
-    # Spec verified: R23-11
-    # [x] __init__                   [x] impl  [x] docstring  [x] test
-    # [x] getRptHookAccess           [x] impl  [x] docstring  [x] test
-    # [x] setRptHookAccess           [x] impl  [x] docstring  [x] test
-    # [x] getRptReadAccess           [x] impl  [x] docstring  [x] test
-    # [x] setRptReadAccess           [x] impl  [x] docstring  [x] test
-    # [x] getRptWriteAccess          [x] impl  [x] docstring  [x] test
-    # [x] setRptWriteAccess          [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRptHookAccess            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptHookAccess            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptReadAccess            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptReadAccess            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptWriteAccess           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptWriteAccess           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RptSwPrototypingAccess.
-        """
         super().__init__()
 
-        # The related data element can be modified using a post-build hooking tool. An ENABLED VariableDataPrototype is implicitly READABLE/WRITABLE.
+        # The related data element can be modified using a post-build hooking tool. An ENABLED VariableData Prototype is implicitly READABLE/WRITABLE.
         self.rptHookAccess: Optional[RptAccessEnum] = None
 
         # The related data element can be used as input for bypass functionality by RP tool. If rptImplPolicy is not specified then RTE generation shall ensure at least suitable MC read points are created.
@@ -190,23 +184,14 @@ class RptSwPrototypingAccess(ARObject):
 
     def getRptHookAccess(self) -> Optional[RptAccessEnum]:
         """
-        Gets whether the related data element can be modified using a post-build hooking tool.
-
-        Returns:
-            RptAccessEnum describing the hook access, or None if not set
+        The related data element can be modified using a post-build hooking tool. An ENABLED VariableData Prototype is implicitly READABLE/WRITABLE.
         """
         return self.rptHookAccess
 
     def setRptHookAccess(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
-        Sets whether the related data element can be modified using a post-build hooking tool.
-        A None value is a no-op and does not overwrite an existing access.
-
-        Args:
-            value: The RptAccessEnum to set
-
-        Returns:
-            self for method chaining
+        The related data element can be modified using a post-build hooking tool. An ENABLED VariableData Prototype is implicitly READABLE/WRITABLE.
+        A None value is a no-op and does not overwrite an existing rptHookAccess.
         """
         if value is not None:
             self.rptHookAccess = value
@@ -214,23 +199,14 @@ class RptSwPrototypingAccess(ARObject):
 
     def getRptReadAccess(self) -> Optional[RptAccessEnum]:
         """
-        Gets whether the related data element can be used as input for bypass functionality by the RP tool.
-
-        Returns:
-            RptAccessEnum describing the read access, or None if not set
+        The related data element can be used as input for bypass functionality by RP tool. If rptImplPolicy is not specified then RTE generation shall ensure at least suitable MC read points are created.
         """
         return self.rptReadAccess
 
     def setRptReadAccess(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
-        Sets whether the related data element can be used as input for bypass functionality by the RP tool.
-        A None value is a no-op and does not overwrite an existing access.
-
-        Args:
-            value: The RptAccessEnum to set
-
-        Returns:
-            self for method chaining
+        The related data element can be used as input for bypass functionality by RP tool. If rptImplPolicy is not specified then RTE generation shall ensure at least suitable MC read points are created.
+        A None value is a no-op and does not overwrite an existing rptReadAccess.
         """
         if value is not None:
             self.rptReadAccess = value
@@ -238,23 +214,14 @@ class RptSwPrototypingAccess(ARObject):
 
     def getRptWriteAccess(self) -> Optional[RptAccessEnum]:
         """
-        Gets whether the related data element can be used as output for bypass functionality by the RP tool.
-
-        Returns:
-            RptAccessEnum describing the write access, or None if not set
+        The related data element can be used as output for bypass functionality by RP tool. The data element shall be prepared to rptLevel2 and related write service points are present.
         """
         return self.rptWriteAccess
 
     def setRptWriteAccess(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
-        Sets whether the related data element can be used as output for bypass functionality by the RP tool.
-        A None value is a no-op and does not overwrite an existing access.
-
-        Args:
-            value: The RptAccessEnum to set
-
-        Returns:
-            self for method chaining
+        The related data element can be used as output for bypass functionality by RP tool. The data element shall be prepared to rptLevel2 and related write service points are present.
+        A None value is a no-op and does not overwrite an existing rptWriteAccess.
         """
         if value is not None:
             self.rptWriteAccess = value
@@ -268,21 +235,14 @@ class RptServicePoint(Identifiable, VariationPointCapable):
 
     # RptServicePoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.26, p.206
-    # Spec verified: R23-11
-    # [x] __init__                   [x] impl  [x] docstring  [x] test
-    # [x] getServiceId               [x] impl  [x] docstring  [x] test
-    # [x] setServiceId               [x] impl  [x] docstring  [x] test
-    # [x] getSymbol                  [x] impl  [x] docstring  [x] test
-    # [x] setSymbol                  [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getServiceId                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setServiceId                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSymbol                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSymbol                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RptServicePoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this service point
-            short_name: The unique short name of this service point
-        """
         super().__init__(parent, short_name)
 
         # Unique ID (Range: 0 ... 65535) representing the service point.
@@ -293,23 +253,14 @@ class RptServicePoint(Identifiable, VariationPointCapable):
 
     def getServiceId(self) -> Optional[PositiveInteger]:
         """
-        Gets the unique ID representing the service point.
-
-        Returns:
-            PositiveInteger representing the service point ID, or None if not set
+        Unique ID (Range: 0 ... 65535) representing the service point.
         """
         return self.serviceId
 
     def setServiceId(self, value: Optional[PositiveInteger]) -> RptServicePoint:
         """
-        Sets the unique ID representing the service point.
-        A None value is a no-op and does not overwrite an existing ID.
-
-        Args:
-            value: The service point ID to set
-
-        Returns:
-            self for method chaining
+        Unique ID (Range: 0 ... 65535) representing the service point.
+        A None value is a no-op and does not overwrite an existing serviceId.
         """
         if value is not None:
             self.serviceId = value
@@ -317,23 +268,14 @@ class RptServicePoint(Identifiable, VariationPointCapable):
 
     def getSymbol(self) -> Optional[CIdentifier]:
         """
-        Gets the complete symbol of the function implementing the service point.
-
-        Returns:
-            CIdentifier representing the symbol, or None if not set
+        Complete symbol of the function implementing the service point. This symbol is used for post-build hooking purposes.
         """
         return self.symbol
 
     def setSymbol(self, value: Optional[CIdentifier]) -> RptServicePoint:
         """
-        Sets the complete symbol of the function implementing the service point.
+        Complete symbol of the function implementing the service point. This symbol is used for post-build hooking purposes.
         A None value is a no-op and does not overwrite an existing symbol.
-
-        Args:
-            value: The CIdentifier symbol to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.symbol = value
@@ -422,37 +364,30 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     # RptExecutableEntityEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.17, p.201
-    # Spec verified: R23-11
-    # [x] __init__                        [x] impl  [x] docstring  [x] test
-    # [x] addExecutionContextRef          [x] impl  [x] docstring  [x] test
-    # [x] getExecutionContextRefs         [x] impl  [x] docstring  [x] test
-    # [x] addMcDataAssignment             [x] impl  [x] docstring  [x] test
-    # [x] getMcDataAssignments            [x] impl  [x] docstring  [x] test
-    # [x] getRptEventId                   [x] impl  [x] docstring  [x] test
-    # [x] setRptEventId                   [x] impl  [x] docstring  [x] test
-    # [x] getRptExecutableEntityProperties [x] impl [x] docstring  [x] test
-    # [x] setRptExecutableEntityProperties [x] impl [x] docstring  [x] test
-    # [x] getRptImplPolicy                [x] impl  [x] docstring  [x] test
-    # [x] setRptImplPolicy                [x] impl  [x] docstring  [x] test
-    # [x] addRptServicePointPostRef       [x] impl  [x] docstring  [x] test
-    # [x] getRptServicePointPostRefs      [x] impl  [x] docstring  [x] test
-    # [x] addRptServicePointPreRef        [x] impl  [x] docstring  [x] test
-    # [x] getRptServicePointPreRefs       [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getExecutionContextRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addExecutionContextRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMcDataAssignments        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addMcDataAssignment         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptEventId               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptEventId               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptExecutableEntityProperties[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptExecutableEntityProperties[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptImplPolicy            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptImplPolicy            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptServicePointPostRefs  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addRptServicePointPostRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptServicePointPreRefs   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addRptServicePointPreRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RptExecutableEntityEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
         # This describes the context in which the event of the executable entity is executed.
         self.executionContextRefs: List[RefType] = []
 
-        # Reference to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag" The possible roles of the RoleBasedMcDataAssignment.role attribute are: • RpRunnableDisablerFlag"
+        # Reference to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag" The possible roles of the RoleBasedMcData Assignment.role attribute are: • RpRunnableDisablerFlag"
         self.mcDataAssignments: List[RoleBasedMcDataAssignment] = []
 
         # RPT event id used for service points call.
@@ -472,14 +407,8 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def addExecutionContextRef(self, value: Optional[RefType]) -> RptExecutableEntityEvent:
         """
-        Adds a reference to the context in which the event of the executable entity is executed.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The reference to a RptExecutionContext
-
-        Returns:
-            self for method chaining
+        This describes the context in which the event of the executable entity is executed.
+        A None value is a no-op and does not append to executionContextRefs.
         """
         if value is not None:
             self.executionContextRefs.append(value)
@@ -487,23 +416,14 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def getExecutionContextRefs(self) -> List[RefType]:
         """
-        Gets the references to the contexts in which the event of the executable entity is executed.
-
-        Returns:
-            List of RefType instances referencing RptExecutionContext elements
+        This describes the context in which the event of the executable entity is executed.
         """
         return self.executionContextRefs
 
     def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> RptExecutableEntityEvent:
         """
-        Adds a reference to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag".
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The role-based MC data assignment to add
-
-        Returns:
-            self for method chaining
+        Reference to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag" The possible roles of the RoleBasedMcData Assignment.role attribute are: • RpRunnableDisablerFlag"
+        A None value is a no-op and does not append to mcDataAssignments.
         """
         if value is not None:
             self.mcDataAssignments.append(value)
@@ -511,32 +431,20 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def getMcDataAssignments(self) -> List[RoleBasedMcDataAssignment]:
         """
-        Gets the references to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag".
-
-        Returns:
-            List of RoleBasedMcDataAssignment instances
+        Reference to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag" The possible roles of the RoleBasedMcData Assignment.role attribute are: • RpRunnableDisablerFlag"
         """
         return self.mcDataAssignments
 
     def getRptEventId(self) -> Optional[PositiveInteger]:
         """
-        Gets the RPT event id used for service points call.
-
-        Returns:
-            PositiveInteger representing the RPT event id, or None if not set
+        RPT event id used for service points call.
         """
         return self.rptEventId
 
     def setRptEventId(self, value: Optional[PositiveInteger]) -> RptExecutableEntityEvent:
         """
-        Sets the RPT event id used for service points call.
-        A None value is a no-op and does not overwrite an existing id.
-
-        Args:
-            value: The RPT event id to set
-
-        Returns:
-            self for method chaining
+        RPT event id used for service points call.
+        A None value is a no-op and does not overwrite an existing rptEventId.
         """
         if value is not None:
             self.rptEventId = value
@@ -544,23 +452,14 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def getRptExecutableEntityProperties(self) -> Optional[RptExecutableEntityProperties]:
         """
-        Gets the implemented code preparation for rapid prototyping at ExecutableEntity invocation.
-
-        Returns:
-            RptExecutableEntityProperties instance, or None if not set
+        Describes the implemented code preparation for rapid prototyping at ExecutableEntity invocation.
         """
         return self.rptExecutableEntityProperties
 
     def setRptExecutableEntityProperties(self, value: Optional[RptExecutableEntityProperties]) -> RptExecutableEntityEvent:
         """
-        Sets the implemented code preparation for rapid prototyping at ExecutableEntity invocation.
-        A None value is a no-op and does not overwrite existing properties.
-
-        Args:
-            value: The RptExecutableEntityProperties to set
-
-        Returns:
-            self for method chaining
+        Describes the implemented code preparation for rapid prototyping at ExecutableEntity invocation.
+        A None value is a no-op and does not overwrite an existing rptExecutableEntityProperties.
         """
         if value is not None:
             self.rptExecutableEntityProperties = value
@@ -568,23 +467,14 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def getRptImplPolicy(self) -> Optional[RptImplPolicy]:
         """
-        Gets the RptImplPolicy of a RptExecutableEvent for service based bypassing.
-
-        Returns:
-            RptImplPolicy instance, or None if not set
+        Describes the RptImplPolicy of a RptExecutableEvent for service based bypassing.
         """
         return self.rptImplPolicy
 
     def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> RptExecutableEntityEvent:
         """
-        Sets the RptImplPolicy of a RptExecutableEvent for service based bypassing.
-        A None value is a no-op and does not overwrite an existing policy.
-
-        Args:
-            value: The RptImplPolicy to set
-
-        Returns:
-            self for method chaining
+        Describes the RptImplPolicy of a RptExecutableEvent for service based bypassing.
+        A None value is a no-op and does not overwrite an existing rptImplPolicy.
         """
         if value is not None:
             self.rptImplPolicy = value
@@ -592,14 +482,8 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def addRptServicePointPostRef(self, value: Optional[RefType]) -> RptExecutableEntityEvent:
         """
-        Adds a reference to an applicable Post Service Point for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The reference to a RptServicePoint
-
-        Returns:
-            self for method chaining
+        This describes the applicable Post Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
+        A None value is a no-op and does not append to rptServicePointPostRefs.
         """
         if value is not None:
             self.rptServicePointPostRefs.append(value)
@@ -607,23 +491,14 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def getRptServicePointPostRefs(self) -> List[RefType]:
         """
-        Gets the references to applicable Post Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
-
-        Returns:
-            List of RefType instances referencing RptServicePoint elements
+        This describes the applicable Post Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
         """
         return self.rptServicePointPostRefs
 
     def addRptServicePointPreRef(self, value: Optional[RefType]) -> RptExecutableEntityEvent:
         """
-        Adds a reference to an applicable Pre Service Point for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The reference to a RptServicePoint
-
-        Returns:
-            self for method chaining
+        This describes the applicable Pre Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
+        A None value is a no-op and does not append to rptServicePointPreRefs.
         """
         if value is not None:
             self.rptServicePointPreRefs.append(value)
@@ -631,10 +506,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
 
     def getRptServicePointPreRefs(self) -> List[RefType]:
         """
-        Gets the references to applicable Pre Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
-
-        Returns:
-            List of RefType instances referencing RptServicePoint elements
+        This describes the applicable Pre Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
         """
         return self.rptServicePointPreRefs
 
@@ -646,34 +518,27 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
 
     # RptExecutableEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.16, p.200
-    # Spec verified: R23-11
-    # [x] __init__                       [x] impl  [x] docstring  [x] test
-    # [x] createRptExecutableEntityEvent [x] impl  [x] docstring  [x] test
-    # [x] getRptExecutableEntityEvents   [x] impl  [x] docstring  [x] test
-    # [x] addRptRead                     [x] impl  [x] docstring  [x] test
-    # [x] getRptReads                    [x] impl  [x] docstring  [x] test
-    # [x] addRptWrite                    [x] impl  [x] docstring  [x] test
-    # [x] getRptWrites                   [x] impl  [x] docstring  [x] test
-    # [x] getSymbol                      [x] impl  [x] docstring  [x] test
-    # [x] setSymbol                      [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRptExecutableEntityEvents[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createRptExecutableEntityEvent[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptReads                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addRptRead                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptWrites                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addRptWrite                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSymbol                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSymbol                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RptExecutableEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this executable entity
-            short_name: The unique short name of this executable entity
-        """
         super().__init__(parent, short_name)
 
-        # ExecutableEntity event instance activation the owning RptExecutableEntity.
+        # ExecutableEntity event instance activation the owning Rpt ExecutableEntity. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntityEvent.shortName, rpt ExecutableEntityEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.rptExecutableEntityEvents: List[RptExecutableEntityEvent] = []
 
-        # read access to a variable
+        # read access to a variable Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptRead, rptRead.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.rptReads: List[RoleBasedMcDataAssignment] = []
 
-        # write access to a variable
+        # write access to a variable Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptWrite, rptWrite.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.rptWrites: List[RoleBasedMcDataAssignment] = []
 
         # The symbol describing this ExecutableEntity's entry point.
@@ -681,14 +546,8 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
 
     def createRptExecutableEntityEvent(self, short_name: str) -> RptExecutableEntityEvent:
         """
-        Creates a RptExecutableEntityEvent and adds it to this executable entity.
-        If an event with the given short name already exists, it is returned instead.
-
-        Args:
-            short_name: The short name for the new executable entity event
-
-        Returns:
-            The created (or existing) RptExecutableEntityEvent
+        ExecutableEntity event instance activation the owning Rpt ExecutableEntity. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntityEvent.shortName, rpt ExecutableEntityEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not overwrite an existing rptExecutableEntityEvents.
         """
         for event in self.rptExecutableEntityEvents:
             if event.short_name == short_name:
@@ -699,23 +558,14 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
 
     def getRptExecutableEntityEvents(self) -> List[RptExecutableEntityEvent]:
         """
-        Gets the executable entity events aggregated by this executable entity.
-
-        Returns:
-            List of RptExecutableEntityEvent instances
+        ExecutableEntity event instance activation the owning Rpt ExecutableEntity. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntityEvent.shortName, rpt ExecutableEntityEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.rptExecutableEntityEvents
 
     def addRptRead(self, value: Optional[RoleBasedMcDataAssignment]) -> RptExecutableEntity:
         """
-        Adds a read access to a variable to this executable entity.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The role-based MC data assignment for the read access
-
-        Returns:
-            self for method chaining
+        read access to a variable Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptRead, rptRead.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not append to rptReads.
         """
         if value is not None:
             self.rptReads.append(value)
@@ -723,23 +573,14 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
 
     def getRptReads(self) -> List[RoleBasedMcDataAssignment]:
         """
-        Gets the read accesses to variables aggregated by this executable entity.
-
-        Returns:
-            List of RoleBasedMcDataAssignment instances
+        read access to a variable Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptRead, rptRead.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.rptReads
 
     def addRptWrite(self, value: Optional[RoleBasedMcDataAssignment]) -> RptExecutableEntity:
         """
-        Adds a write access to a variable to this executable entity.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The role-based MC data assignment for the write access
-
-        Returns:
-            self for method chaining
+        write access to a variable Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptWrite, rptWrite.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not append to rptWrites.
         """
         if value is not None:
             self.rptWrites.append(value)
@@ -747,32 +588,20 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
 
     def getRptWrites(self) -> List[RoleBasedMcDataAssignment]:
         """
-        Gets the write accesses to variables aggregated by this executable entity.
-
-        Returns:
-            List of RoleBasedMcDataAssignment instances
+        write access to a variable Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptWrite, rptWrite.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.rptWrites
 
     def getSymbol(self) -> Optional[CIdentifier]:
         """
-        Gets the symbol describing this ExecutableEntity's entry point.
-
-        Returns:
-            CIdentifier representing the entry point symbol, or None if not set
+        The symbol describing this ExecutableEntity's entry point.
         """
         return self.symbol
 
     def setSymbol(self, value: Optional[CIdentifier]) -> RptExecutableEntity:
         """
-        Sets the symbol describing this ExecutableEntity's entry point.
+        The symbol describing this ExecutableEntity's entry point.
         A None value is a no-op and does not overwrite an existing symbol.
-
-        Args:
-            value: The CIdentifier symbol to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.symbol = value
@@ -786,23 +615,16 @@ class RptComponent(Identifiable, VariationPointCapable):
 
     # RptComponent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.15, p.199
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] addMcDataAssignment          [x] impl  [x] docstring  [x] test
-    # [x] getMcDataAssignments         [x] impl  [x] docstring  [x] test
-    # [x] getRpImplPolicy              [x] impl  [x] docstring  [x] test
-    # [x] setRpImplPolicy              [x] impl  [x] docstring  [x] test
-    # [x] createRptExecutableEntity    [x] impl  [x] docstring  [x] test
-    # [x] getRptExecutableEntities     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMcDataAssignments        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addMcDataAssignment         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRpImplPolicy             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRpImplPolicy             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptExecutableEntities    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createRptExecutableEntity   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RptComponent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this component
-            short_name: The unique short name of this component
-        """
         super().__init__(parent, short_name)
 
         # Reference to related McDataElement describing the implementation of "RP global buffer", "RP global measurement buffer", "RP enabler flag" and the "RP runnable disabler flag".
@@ -811,19 +633,13 @@ class RptComponent(Identifiable, VariationPointCapable):
         # Describes the implemented code preparation for rapid prototyping at data accesses.
         self.rpImplPolicy: Optional[RptImplPolicy] = None
 
-        # ExecutableEntity instance which can be bypassed.
+        # ExecutableEntity instance which can be bypassed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntity.shortName, rpt ExecutableEntity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.rptExecutableEntities: List[RptExecutableEntity] = []
 
     def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> RptComponent:
         """
-        Adds a reference to a related McDataElement describing the implementation of "RP global buffer", "RP global measurement buffer", "RP enabler flag" and the "RP runnable disabler flag".
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The role-based MC data assignment to add
-
-        Returns:
-            self for method chaining
+        Reference to related McDataElement describing the implementation of "RP global buffer", "RP global measurement buffer", "RP enabler flag" and the "RP runnable disabler flag".
+        A None value is a no-op and does not append to mcDataAssignments.
         """
         if value is not None:
             self.mcDataAssignments.append(value)
@@ -831,32 +647,20 @@ class RptComponent(Identifiable, VariationPointCapable):
 
     def getMcDataAssignments(self) -> List[RoleBasedMcDataAssignment]:
         """
-        Gets the references to related McDataElements describing the implementation of "RP global buffer", "RP global measurement buffer", "RP enabler flag" and the "RP runnable disabler flag".
-
-        Returns:
-            List of RoleBasedMcDataAssignment instances
+        Reference to related McDataElement describing the implementation of "RP global buffer", "RP global measurement buffer", "RP enabler flag" and the "RP runnable disabler flag".
         """
         return self.mcDataAssignments
 
     def getRpImplPolicy(self) -> Optional[RptImplPolicy]:
         """
-        Gets the implemented code preparation for rapid prototyping at data accesses.
-
-        Returns:
-            RptImplPolicy instance, or None if not set
+        Describes the implemented code preparation for rapid prototyping at data accesses.
         """
         return self.rpImplPolicy
 
     def setRpImplPolicy(self, value: Optional[RptImplPolicy]) -> RptComponent:
         """
-        Sets the implemented code preparation for rapid prototyping at data accesses.
-        A None value is a no-op and does not overwrite an existing policy.
-
-        Args:
-            value: The RptImplPolicy to set
-
-        Returns:
-            self for method chaining
+        Describes the implemented code preparation for rapid prototyping at data accesses.
+        A None value is a no-op and does not overwrite an existing rpImplPolicy.
         """
         if value is not None:
             self.rpImplPolicy = value
@@ -864,14 +668,7 @@ class RptComponent(Identifiable, VariationPointCapable):
 
     def createRptExecutableEntity(self, short_name: str) -> RptExecutableEntity:
         """
-        Creates a RptExecutableEntity and adds it to this component.
-        If an executable entity with the given short name already exists, it is returned instead.
-
-        Args:
-            short_name: The short name for the new executable entity
-
-        Returns:
-            The created (or existing) RptExecutableEntity
+        ExecutableEntity instance which can be bypassed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntity.shortName, rpt ExecutableEntity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for executable_entity in self.rptExecutableEntities:
             if executable_entity.short_name == short_name:
@@ -882,55 +679,42 @@ class RptComponent(Identifiable, VariationPointCapable):
 
     def getRptExecutableEntities(self) -> List[RptExecutableEntity]:
         """
-        Gets the executable entity instances which can be bypassed.
-
-        Returns:
-            List of RptExecutableEntity instances
+        ExecutableEntity instance which can be bypassed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptExecutableEntity.shortName, rpt ExecutableEntity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.rptExecutableEntities
 
 
 class RptSupportData(ARObject):
     """
-    Root element for rapid prototyping support data related to one Implementation artifact on an ECU, in particular the RTE. The rapid prototyping support data may reference to elements provided for McSupportData.
+    Root element for rapid prototyping support data related to one Implementation artifact on an ECU, in particular the RTE. The rapid prototyping support data may reference to elements provided for Mc SupportData.
     """
 
     # RptSupportData method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.13, p.198
-    # Spec verified: R23-11
-    # [x] __init__                   [x] impl  [x] docstring  [x] test
-    # [x] createExecutionContext     [x] impl  [x] docstring  [x] test
-    # [x] getExecutionContexts       [x] impl  [x] docstring  [x] test
-    # [x] createRptComponent         [x] impl  [x] docstring  [x] test
-    # [x] getRptComponents           [x] impl  [x] docstring  [x] test
-    # [x] createRptServicePoint      [x] impl  [x] docstring  [x] test
-    # [x] getRptServicePoints        [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getExecutionContexts        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createExecutionContext      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptComponents            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createRptComponent          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptServicePoints         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createRptServicePoint       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RptSupportData.
-        """
         super().__init__()
 
-        # Defines an environment for the execution of ExecutableEntites.
+        # Defines an environment for the execution of Executable Entites.
         self.executionContexts: List[RptExecutionContext] = []
 
-        # Description of components for which rapid prototyping support is implemented.
+        # Description of components for which rapid prototyping support is implemented. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptComponent.shortName, rpt Component.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.rptComponents: List[RptComponent] = []
 
-        # This aggregation represents the collection of service points associated with the enclosing RptSuportData
+        # This aggregation represents the collection of service points associated with the enclosing RptSuportData Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptServicePoint.shortName, rptService Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.rptServicePoints: List[RptServicePoint] = []
 
     def createExecutionContext(self, short_name: str) -> RptExecutionContext:
         """
-        Creates a RptExecutionContext and adds it to this support data.
-        If an execution context with the given short name already exists, it is returned instead.
-
-        Args:
-            short_name: The short name for the new execution context
-
-        Returns:
-            The created (or existing) RptExecutionContext
+        Defines an environment for the execution of Executable Entites.
         """
         for context in self.executionContexts:
             if context.short_name == short_name:
@@ -941,23 +725,13 @@ class RptSupportData(ARObject):
 
     def getExecutionContexts(self) -> List[RptExecutionContext]:
         """
-        Gets the execution environments aggregated by this support data.
-
-        Returns:
-            List of RptExecutionContext instances
+        Defines an environment for the execution of Executable Entites.
         """
         return self.executionContexts
 
     def createRptComponent(self, short_name: str) -> RptComponent:
         """
-        Creates a RptComponent and adds it to this support data.
-        If a component with the given short name already exists, it is returned instead.
-
-        Args:
-            short_name: The short name for the new component
-
-        Returns:
-            The created (or existing) RptComponent
+        Description of components for which rapid prototyping support is implemented. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptComponent.shortName, rpt Component.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for component in self.rptComponents:
             if component.short_name == short_name:
@@ -968,23 +742,13 @@ class RptSupportData(ARObject):
 
     def getRptComponents(self) -> List[RptComponent]:
         """
-        Gets the components for which rapid prototyping support is implemented.
-
-        Returns:
-            List of RptComponent instances
+        Description of components for which rapid prototyping support is implemented. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptComponent.shortName, rpt Component.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.rptComponents
 
     def createRptServicePoint(self, short_name: str) -> RptServicePoint:
         """
-        Creates a RptServicePoint and adds it to this support data.
-        If a service point with the given short name already exists, it is returned instead.
-
-        Args:
-            short_name: The short name for the new service point
-
-        Returns:
-            The created (or existing) RptServicePoint
+        This aggregation represents the collection of service points associated with the enclosing RptSuportData Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptServicePoint.shortName, rptService Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         for service_point in self.rptServicePoints:
             if service_point.short_name == short_name:
@@ -995,10 +759,7 @@ class RptSupportData(ARObject):
 
     def getRptServicePoints(self) -> List[RptServicePoint]:
         """
-        Gets the service points associated with this support data.
-
-        Returns:
-            List of RptServicePoint instances
+        This aggregation represents the collection of service points associated with the enclosing RptSuportData Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptServicePoint.shortName, rptService Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.rptServicePoints
 

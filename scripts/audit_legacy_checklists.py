@@ -92,9 +92,30 @@ class SpecTable:
         self.attributes: List[Tuple[str, str, str]] = []  # (name, multiplicity, kind)
         self.name_only_attributes: List[Tuple[str, str, str]] = []
         self._literal_header_seen = False
+        self.attribute_notes: Dict[str, str] = {}
+        self.literal_notes: Dict[str, str] = {}
+        self.table_id: Optional[str] = None
         self.literals: List[str] = []
         self.base_row: Optional[str] = None
         self.note: Optional[str] = None
+
+
+def build_caption_index(names: set) -> Dict[str, List[Tuple[str, str, str]]]:
+    """name -> [(release, md-relative-file, table_id)] from `Table N.M: <Name>` captions."""
+    index: Dict[str, List[Tuple[str, str, str]]] = {}
+    caption_re = re.compile(r"^Table (\d+\.\d+): (.+?)\s*$")
+    for release, corpus in CORPORA:
+        if not corpus.is_dir():
+            continue
+        for md in sorted(corpus.glob("*.md")):
+            for line in md.read_text(encoding="utf-8", errors="replace").splitlines():
+                m = caption_re.match(line.strip())
+                if not m:
+                    continue
+                name = demangle_name(m.group(2))
+                if name in names:
+                    index.setdefault(name, []).append((release, str(md.relative_to(ROOT)), m.group(1)))
+    return index
 
 
 def build_spec_index(names: set) -> Dict[str, List[Tuple[str, int, str]]]:
@@ -120,7 +141,7 @@ MULT_RE = re.compile(r"^(?:\d+\.\.[\d*+]|\*|-)$")
 META_LABELS = {"Package", "Note", "Base", "Aggregated by", "Attribute", "Literal", "Type", "Mult.", "Kind", "Description"}
 
 
-def extract_table(md: Path, line_no: int, kind: str, literal_header_seen: bool = False) -> SpecTable:
+def extract_table(md: Path, line_no: int, kind: str, literal_header_seen: bool = False, table_name: str = "") -> SpecTable:
     """Capture every pipe row between this Class/Enumeration header row and the next
     header row or caption — page-split tables continue without repeating the header
     (trailing-caption layout), so rows are classified by shape, not by an Attribute header."""
@@ -129,9 +150,13 @@ def extract_table(md: Path, line_no: int, kind: str, literal_header_seen: bool =
     table._literal_header_seen = literal_header_seen
     lines = md.read_text(encoding="utf-8", errors="replace").splitlines()
     seen_attribute_header = False
+    caption_re = re.compile(r"^Table (\d+\.\d+): " + re.escape(table_name))
     for line in lines[line_no + 1 :]:
         if not line.startswith("|"):
-            if re.match(r"^Table \d+\.\d+:", line.strip()):
+            m = caption_re.match(line.strip())
+            if m:
+                if table.table_id is None:
+                    table.table_id = m.group(1)
                 break
             continue
         cells = parse_row(line)
@@ -164,11 +189,16 @@ def extract_table(md: Path, line_no: int, kind: str, literal_header_seen: bool =
             if table._literal_header_seen and mult is None and len(cells) >= 2 and name not in table.literals:
                 if (name[0].islower() or name[0] in "-_") and not name.startswith("[") and name != "Abbreviation":
                     table.literals.append(name)
+                    if len(cells) >= 2 and cells[1]:
+                        table.literal_notes[name] = cells[1]
             continue
         row_kind = cells[3].strip() if len(cells) > 3 and cells[3].strip() and MULT_RE.match(mult or "") else ""
+        note_cell = cells[4].strip() if len(cells) > 4 and mult is not None else ""
         if mult is not None:
             if not any(a[0] == name and a[1] == mult for a in table.attributes):
                 table.attributes.append((name, mult, row_kind))
+                if note_cell:
+                    table.attribute_notes[name] = note_cell
         elif name[0].islower():
             # 3-column render (name | type | note): kept separately — page-split
             # continuations of UNRELATED tables also render name-only rows, so these
@@ -193,10 +223,16 @@ def merge_tables(tables: List[SpecTable]) -> SpecTable:
         for lit in t.literals:
             if lit not in merged.literals:
                 merged.literals.append(lit)
+        for name, note in t.attribute_notes.items():
+            merged.attribute_notes.setdefault(name, note)
+        for name, note in t.literal_notes.items():
+            merged.literal_notes.setdefault(name, note)
         if merged.base_row is None:
             merged.base_row = t.base_row
         if merged.note is None:
             merged.note = t.note
+        if merged.table_id is None:
+            merged.table_id = t.table_id
     return merged
 
 
@@ -209,7 +245,7 @@ def locate_spec(index, name) -> Tuple[Optional[SpecTable], Optional[str]]:
         tables = []
         literal_header_seen = False
         for md, line_no, kind in blocks:
-            t = extract_table(md, line_no, kind, literal_header_seen)
+            t = extract_table(md, line_no, kind, literal_header_seen, table_name=name)
             literal_header_seen = t._literal_header_seen
             t.release = release
             t.file = str(md.relative_to(ROOT))
@@ -261,6 +297,28 @@ def annotation_shape(annotation: str) -> str:
     return "plain"
 
 
+def accessor_name(member: str) -> str:
+    return member[:1].upper() + member[1:] if member else member
+
+
+def accessor_variants(member: str) -> List[str]:
+    acc = accessor_name(member)
+    variants = {acc}
+    if acc.endswith("ies"):
+        variants.add(acc[:-3] + "y")
+    if acc.endswith("s"):
+        variants.add(acc[:-1])
+    return sorted(variants)
+
+
+def rw_flags(member: str, methods: set, parser_text: str, writer_text: str):
+    accs = accessor_variants(member)
+    has_accessor = any(f"{p}{a}" in methods for a in accs for p in ("get", "set", "add", "create"))
+    mutator = any(re.search(r"\.(?:set|add|create)%s\b" % re.escape(a), parser_text) for a in accs)
+    getter = any(re.search(r"\.get%s\b" % re.escape(a), writer_text) for a in accs)
+    return has_accessor, mutator, getter
+
+
 def model_name_candidates(name: str, kind: str, mult: str) -> set:
     cands = {name}
     if kind == "ref":
@@ -284,7 +342,75 @@ def expected_shape(mult: str) -> Optional[str]:
     return None
 
 
+def build_dump() -> List[Dict]:
+    """Full per-class data for the Rule 0023 re-sync rewriter."""
+    blocks = collect_legacy_blocks()
+    parser_text = PARSER_PATH.read_text(encoding="utf-8", errors="replace")
+    writer_text = WRITER_PATH.read_text(encoding="utf-8", errors="replace")
+    names = {cls for _, cls, _ in blocks}
+    index = build_spec_index(names)
+    caption_index = build_caption_index(names)
+
+    dump: List[Dict] = []
+    for file_rel, cls, stamp in blocks:
+        info = class_audit(ROOT / file_rel, cls)
+        entry: Dict = {
+            "file": file_rel,
+            "class": cls,
+            "found": info.get("found", False),
+            "stale_marker": stamp,
+            "bases": info.get("bases", []),
+            "members": info.get("members", {}),
+            "methods": sorted(info.get("methods", set())),
+            "is_enum": info.get("is_enum", False),
+            "docstring": info.get("docstring"),
+        }
+        if info["found"] and not info["is_enum"]:
+            entry["enum_literals"] = info["enum_literals"]
+        table, table_file = locate_spec(index, cls)
+        if table is not None:
+            if table.table_id is None:
+                for rel, md_rel, tid in caption_index.get(cls, []):
+                    if rel == table.release:
+                        table.table_id = tid
+                        if md_rel == table.file:
+                            break
+            entry.update(
+                {
+                    "release": table.release,
+                    "md_file": str(table.file),
+                    "table_id": table.table_id,
+                    "kind": table.kind,
+                    "class_note": table.note,
+                    "base_row": table.base_row,
+                    "spec_attributes": [{"name": n, "mult": mult, "kind": kd, "note": table.attribute_notes.get(n, "")} for n, mult, kd in table.attributes],
+                    "spec_literals": [{"name": lit, "note": table.literal_notes.get(lit, "")} for lit in table.literals],
+                }
+            )
+            if not info["is_enum"] and info["found"]:
+                for attr in entry["spec_attributes"]:
+                    name, mult, kd = attr["name"], attr["mult"], attr["kind"]
+                    cands = model_name_candidates(name, kd, mult)
+                    model_member = next((m for m in info["members"] if m in cands), None)
+                    attr["model_member"] = model_member
+                    if model_member:
+                        attr["annotation"] = info["members"][model_member]
+                        _, mut, get = rw_flags(model_member, set(info["methods"]), parser_text, writer_text)
+                        attr["mutator_covered"] = mut
+                        attr["getter_covered"] = get
+        dump.append(entry)
+    return dump
+
+
 def main() -> int:
+    if len(sys.argv) > 2 and sys.argv[1] == "--dump":
+        import json
+
+        data = build_dump()
+        Path(sys.argv[2]).write_text(json.dumps(data, indent=1), encoding="utf-8")
+        print(f"dumped {len(data)} classes to {sys.argv[2]}")
+        return 0
+
     blocks = collect_legacy_blocks()
     parser_text = PARSER_PATH.read_text(encoding="utf-8", errors="replace")
     writer_text = WRITER_PATH.read_text(encoding="utf-8", errors="replace")
@@ -356,9 +482,7 @@ def main() -> int:
                 if want and got != want:
                     findings.append(f"R0022 {member}: mult {mult} wants {want}, model has {got} ({info['members'][member]})")
 
-                has_accessor = any(f"{p}{member}" in info["methods"] for p in ("get", "set", "add", "create"))
-                mutator_covered = bool(re.search(r"\.(?:set|add|create)%s\(" % re.escape(member), parser_text))
-                getter_covered = bool(re.search(r"\.get%s\(" % re.escape(member), writer_text))
+                has_accessor, mutator_covered, getter_covered = rw_flags(member, info["methods"], parser_text, writer_text)
                 if has_accessor and not mutator_covered:
                     findings.append(f"R0001.7 {member}: no reader call of set/add/create{member}")
                 if has_accessor and not getter_covered:

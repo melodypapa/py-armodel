@@ -50,18 +50,19 @@ class ModeAccessPointIdent(IdentCaption):
 
 class RptServicePointEnum(AREnum):
     """
-    Specifies whether the invocation of ExecutableEntitys due to activation of specific RteEvents/BswEvents requires the insertion of Service Points.
+    Specifies whether the invocation of ExecutableEntitys due to activation of specific RteEvents/Bsw Events requires the insertion of Service Points.
     """
 
     # RptServicePointEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.15, p.860
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # Enables generation of service points by the RTE generator. atp.EnumerationLiteralIndex=0
+    # Enables generation of service points by the RTE generator. Tags: atp.EnumerationLiteralIndex=0
     ENABLED = "enabled"
 
-    # No Service Points are requested. atp.EnumerationLiteralIndex=1
+    # No Service Points are requested. Tags: atp.EnumerationLiteralIndex=1
     NONE = "none"
 
     def __init__(self):
@@ -80,44 +81,32 @@ class RptImplPolicy(ARObject):
 
     # RptImplPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.8, p.854
-    # Spec verified: R23-11
-    # [x] __init__                          [x] impl  [x] docstring  [x] test
-    # [x] getRptEnablerImplType             [x] impl  [x] docstring  [x] test
-    # [x] setRptEnablerImplType             [x] impl  [x] docstring  [x] test
-    # [x] getRptPreparationLevel            [x] impl  [x] docstring  [x] test
-    # [x] setRptPreparationLevel            [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRptEnablerImplType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptEnablerImplType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptPreparationLevel      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptPreparationLevel      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RptImplPolicy.
-        """
         super().__init__()
 
         # For Level 2 or Level3 this property determines how the RTE implements the additional "RP enabler" flag.
         self.rptEnablerImplType: Optional[RptEnablerImplTypeEnum] = None
 
-        # Mandates RP preparation level for access to VariableDataPrototype within generated RTE implementation.
+        # Mandates RP preparation level for access to VariableData Prototype within generated RTE implementation.
         self.rptPreparationLevel: Optional[RptPreparationEnum] = None
 
     def getRptEnablerImplType(self) -> Optional[RptEnablerImplTypeEnum]:
         """
-        Gets how the RTE implements the additional "RP enabler" flag for Level 2 or Level 3.
-
-        Returns:
-            RptEnablerImplTypeEnum describing the enabler flag implementation, or None if not set
+        For Level 2 or Level3 this property determines how the RTE implements the additional "RP enabler" flag.
         """
         return self.rptEnablerImplType
 
     def setRptEnablerImplType(self, value: Optional[RptEnablerImplTypeEnum]) -> "RptImplPolicy":
         """
-        Sets how the RTE implements the additional "RP enabler" flag for Level 2 or Level 3.
-        A None value is a no-op and does not overwrite an existing enabler implementation type.
-
-        Args:
-            value: The RptEnablerImplTypeEnum to set
-
-        Returns:
-            self for method chaining
+        For Level 2 or Level3 this property determines how the RTE implements the additional "RP enabler" flag.
+        A None value is a no-op and does not overwrite an existing rptEnablerImplType.
         """
         if value is not None:
             self.rptEnablerImplType = value
@@ -125,23 +114,14 @@ class RptImplPolicy(ARObject):
 
     def getRptPreparationLevel(self) -> Optional[RptPreparationEnum]:
         """
-        Gets the mandated RP preparation level for access to a VariableDataPrototype within the generated RTE implementation.
-
-        Returns:
-            RptPreparationEnum describing the preparation level, or None if not set
+        Mandates RP preparation level for access to VariableData Prototype within generated RTE implementation.
         """
         return self.rptPreparationLevel
 
     def setRptPreparationLevel(self, value: Optional[RptPreparationEnum]) -> "RptImplPolicy":
         """
-        Sets the mandated RP preparation level for access to a VariableDataPrototype within the generated RTE implementation.
-        A None value is a no-op and does not overwrite an existing preparation level.
-
-        Args:
-            value: The RptPreparationEnum to set
-
-        Returns:
-            self for method chaining
+        Mandates RP preparation level for access to VariableData Prototype within generated RTE implementation.
+        A None value is a no-op and does not overwrite an existing rptPreparationLevel.
         """
         if value is not None:
             self.rptPreparationLevel = value
@@ -155,21 +135,18 @@ class RptExecutableEntityProperties(ARObject):
 
     # RptExecutableEntityProperties method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.13, p.859
-    # Spec verified: R23-11
-    # [x] __init__                          [x] impl  [x] docstring  [x] test
-    # [x] getMaxRptEventId                  [x] impl  [x] docstring  [x] test
-    # [x] setMaxRptEventId                  [x] impl  [x] docstring  [x] test
-    # [x] getMinRptEventId                  [x] impl  [x] docstring  [x] test
-    # [x] setMinRptEventId                  [x] impl  [x] docstring  [x] test
-    # [x] getRptExecutionControl           [x] impl  [x] docstring  [x] test
-    # [x] setRptExecutionControl           [x] impl  [x] docstring  [x] test
-    # [x] getRptServicePoint               [x] impl  [x] docstring  [x] test
-    # [x] setRptServicePoint               [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxRptEventId            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxRptEventId            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinRptEventId            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinRptEventId            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptExecutionControl      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptExecutionControl      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRptServicePoint          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRptServicePoint          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RptExecutableEntityProperties.
-        """
         super().__init__()
 
         # Highest RPT event id usable for RTE generated service points. This attribute is relevant, if dedicated id range shall be applied to the ExecutableEntitys of a software component or specific ExecutableEntitys.
@@ -186,23 +163,14 @@ class RptExecutableEntityProperties(ARObject):
 
     def getMaxRptEventId(self) -> Optional[PositiveInteger]:
         """
-        Gets the highest RPT event id usable for RTE generated service points.
-
-        Returns:
-            PositiveInteger representing the highest RPT event id, or None if not set
+        Highest RPT event id usable for RTE generated service points. This attribute is relevant, if dedicated id range shall be applied to the ExecutableEntitys of a software component or specific ExecutableEntitys.
         """
         return self.maxRptEventId
 
     def setMaxRptEventId(self, value: Optional[PositiveInteger]) -> "RptExecutableEntityProperties":
         """
-        Sets the highest RPT event id usable for RTE generated service points.
-        A None value is a no-op and does not overwrite an existing id.
-
-        Args:
-            value: The highest RPT event id to set
-
-        Returns:
-            self for method chaining
+        Highest RPT event id usable for RTE generated service points. This attribute is relevant, if dedicated id range shall be applied to the ExecutableEntitys of a software component or specific ExecutableEntitys.
+        A None value is a no-op and does not overwrite an existing maxRptEventId.
         """
         if value is not None:
             self.maxRptEventId = value
@@ -210,23 +178,14 @@ class RptExecutableEntityProperties(ARObject):
 
     def getMinRptEventId(self) -> Optional[PositiveInteger]:
         """
-        Gets the lowest RPT event id usable for RTE generated service points.
-
-        Returns:
-            PositiveInteger representing the lowest RPT event id, or None if not set
+        Lowest RPT event id usable for RTE generated service points. This attribute is relevant, if dedicated id range shall be applied to the ExecutableEntitys of a software component or specific ExecutableEntitys.
         """
         return self.minRptEventId
 
     def setMinRptEventId(self, value: Optional[PositiveInteger]) -> "RptExecutableEntityProperties":
         """
-        Sets the lowest RPT event id usable for RTE generated service points.
-        A None value is a no-op and does not overwrite an existing id.
-
-        Args:
-            value: The lowest RPT event id to set
-
-        Returns:
-            self for method chaining
+        Lowest RPT event id usable for RTE generated service points. This attribute is relevant, if dedicated id range shall be applied to the ExecutableEntitys of a software component or specific ExecutableEntitys.
+        A None value is a no-op and does not overwrite an existing minRptEventId.
         """
         if value is not None:
             self.minRptEventId = value
@@ -234,23 +193,14 @@ class RptExecutableEntityProperties(ARObject):
 
     def getRptExecutionControl(self) -> Optional[RptExecutionControlEnum]:
         """
-        Gets the rapid prototyping control of the executable.
-
-        Returns:
-            RptExecutionControlEnum describing the rapid prototyping control, or None if not set
+        This attribute specifies the rapid prototyping control of the executable
         """
         return self.rptExecutionControl
 
     def setRptExecutionControl(self, value: Optional[RptExecutionControlEnum]) -> "RptExecutableEntityProperties":
         """
-        Sets the rapid prototyping control of the executable.
-        A None value is a no-op and does not overwrite an existing control.
-
-        Args:
-            value: The RptExecutionControlEnum to set
-
-        Returns:
-            self for method chaining
+        This attribute specifies the rapid prototyping control of the executable
+        A None value is a no-op and does not overwrite an existing rptExecutionControl.
         """
         if value is not None:
             self.rptExecutionControl = value
@@ -258,23 +208,14 @@ class RptExecutableEntityProperties(ARObject):
 
     def getRptServicePoint(self) -> Optional[RptServicePointEnum]:
         """
-        Gets whether generation of service points by the RTE generator is enabled.
-
-        Returns:
-            RptServicePointEnum describing the service point generation, or None if not set
+        Enables generation of service points by the RTE generator.
         """
         return self.rptServicePoint
 
     def setRptServicePoint(self, value: Optional[RptServicePointEnum]) -> "RptExecutableEntityProperties":
         """
-        Sets whether generation of service points by the RTE generator is enabled.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The RptServicePointEnum to set
-
-        Returns:
-            self for method chaining
+        Enables generation of service points by the RTE generator.
+        A None value is a no-op and does not overwrite an existing rptServicePoint.
         """
         if value is not None:
             self.rptServicePoint = value

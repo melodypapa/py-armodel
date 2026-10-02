@@ -116,100 +116,66 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
 
 class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     """
-    Represents values for DataPrototypes typed by ApplicationDataTypes, including compound primitives.
-    For further details refer to ASAM CDF 2.0. This class corresponds to some extent with
-    SW-INSTANCE in ASAM CDF 2.0.
-    Base classes: ARObject, CompositeRuleBasedValueArgument, ValueSpecification
+    This meta-class represents values for DataPrototypes typed by ApplicationDataTypes (this includes in particular compound primitives). For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with SW-INSTANCE in ASAM CDF 2.0.
     """
 
     # ApplicationValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getCategory                  [x] impl  [x] docstring  [x] test
-    # [x] setCategory                  [x] impl  [x] docstring  [x] test
-    # [x] getSwAxisCont                [x] impl  [x] docstring  [x] test
-    # [x] setSwAxisCont                [x] impl  [x] docstring  [x] test
-    # [x] getSwValueCont               [x] impl  [x] docstring  [x] test
-    # [x] setSwValueCont               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.122, p.455
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSwAxisCont               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisCont               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ApplicationValueSpecification with default values.
-        """
         CompositeRuleBasedValueArgument.__init__(self)
         ValueSpecification.__init__(self)
 
-        # Category of this application value specification
+        # Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         self.category: Optional[Identifier] = None
-        # Software axis content for this value specification
+        # This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         self.swAxisCont: List[RuleBasedAxisCont] = []
-        # Software value content for this value specification
+        # This represents the values of a Compound Primitive Data Type.
         self.swValueCont: Optional[RuleBasedValueCont] = None
 
     def getCategory(self):
         """
-        Gets the category of this application value specification.
-
-        Returns:
-            The category
+        Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         """
         return self.category
 
     def setCategory(self, value):
         """
-        Sets the category of this application value specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The category to set
-
-        Returns:
-            self for method chaining
+        Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         """
         self.category = value
         return self
 
     def getSwAxisCont(self):
         """
-        Gets the software axis content for this value specification.
-
-        Returns:
-            The software axis content
+        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         """
         return self.swAxisCont
 
     def setSwAxisCont(self, value):
         """
-        Sets the software axis content for this value specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The software axis content to set
-
-        Returns:
-            self for method chaining
+        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         """
         self.swAxisCont = value
         return self
 
     def getSwValueCont(self):
         """
-        Gets the software value content for this value specification.
-
-        Returns:
-            The software value content
+        This represents the values of a Compound Primitive Data Type.
         """
         return self.swValueCont
 
     def setSwValueCont(self, value):
         """
-        Sets the software value content for this value specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The software value content to set
-
-        Returns:
-            self for method chaining
+        This represents the values of a Compound Primitive Data Type.
         """
         self.swValueCont = value
         return self
@@ -441,66 +407,42 @@ class ConstantReference(ValueSpecification):
 
 class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     """
-    This meta-class represents rule based values for DataPrototypes typed by
-    ApplicationDataTypes (ApplicationArrayDataType or a compound
-    ApplicationPrimitiveDataType which also boils down to an array-nature).
+    This meta-class represents rule based values for DataPrototypes typed by ApplicationDataTypes (ApplicationArrayDataType or a compound ApplicationPrimitiveDataType which also boils down to an array-nature).
     """
 
     # ApplicationRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.302
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getCategory                  [x] impl  [x] docstring  [x] test
-    # [x] setCategory                  [x] impl  [x] docstring  [x] test
-    # [x] addSwAxisCont                [x] impl  [x] docstring  [x] test
-    # [x] getSwAxisConts               [x] impl  [x] docstring  [x] test
-    # [x] getSwValueCont               [x] impl  [x] docstring  [x] test
-    # [x] setSwValueCont               [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSwAxisConts              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addSwAxisCont               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes an ApplicationRuleBasedValueSpecification instance with default values.
-        """
         super().__init__()
 
-        # This represents the category of the RuleBasedValueSpecification.
-        # For each ApplicationRuleBasedValueSpecification, attribute category shall exist
-        # at the time when the RTE is generated. [constr_1922]
+        # This represents the category of the RuleBasedValue Specification Tags: xml.sequenceOffset=-20
         self.category: Optional[Identifier] = None
 
-        # This represents the axis values of a Compound Primitive Data Type (curve or map).
-        # The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
-        # the third swAxisCont describes the z-axis. In addition to this, the axis can be
-        # denoted in swAxisIndex. The value of ApplicationRuleBasedValueSpecification.swAxisCont.category
-        # shall not be set to fixAXIS. [constr_10041]
+        # This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         self.swAxisConts: List[RuleBasedAxisCont] = []
 
-        # This represents the values of an array or Compound Primitive Data Type.
+        # This represents the values of an array or Compound Primitive Data Type. Stereotypes: atpSplitable Tags: atp.Splitkey=swValueCont
         self.swValueCont: Optional[RuleBasedValueCont] = None
 
     def getCategory(self) -> Optional[Identifier]:
         """
-        Gets the category of the RuleBasedValueSpecification.
-        For each ApplicationRuleBasedValueSpecification, attribute category shall exist
-        at the time when the RTE is generated. [constr_1922]
-
-        Returns:
-            Optional[Identifier]: The category, or None if not set
+        This represents the category of the RuleBasedValue Specification Tags: xml.sequenceOffset=-20
         """
         return self.category
 
     def setCategory(self, value: Optional[Identifier]) -> ApplicationRuleBasedValueSpecification:
         """
-        Sets the category of the RuleBasedValueSpecification.
-        For each ApplicationRuleBasedValueSpecification, attribute category shall exist
-        at the time when the RTE is generated. [constr_1922]
+        This represents the category of the RuleBasedValue Specification Tags: xml.sequenceOffset=-20
         A None value is a no-op and does not overwrite an existing category.
-
-        Args:
-            value: The category to set
-
-        Returns:
-            ApplicationRuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.category = value
@@ -508,18 +450,8 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, Va
 
     def addSwAxisCont(self, value: Optional[RuleBasedAxisCont]) -> ApplicationRuleBasedValueSpecification:
         """
-        Adds the axis values of a Compound Primitive Data Type (curve or map).
-        The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
-        the third swAxisCont describes the z-axis. In addition to this, the axis can be
-        denoted in swAxisIndex. The value of ApplicationRuleBasedValueSpecification.swAxisCont.category
-        shall not be set to fixAXIS. [constr_10041]
-        A None value is a no-op and is not appended.
-
-        Args:
-            value: The RuleBasedAxisCont instance to add
-
-        Returns:
-            ApplicationRuleBasedValueSpecification: self for method chaining
+        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
+        A None value is a no-op and does not append to swAxisConts.
         """
         if value is not None:
             self.swAxisConts.append(value)
@@ -527,36 +459,20 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, Va
 
     def getSwAxisConts(self) -> List[RuleBasedAxisCont]:
         """
-        Gets the axis values of this rule-based value specification.
-        The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
-        the third swAxisCont describes the z-axis. In addition to this, the axis can be
-        denoted in swAxisIndex. The value of ApplicationRuleBasedValueSpecification.swAxisCont.category
-        shall not be set to fixAXIS. [constr_10041]
-
-        Returns:
-            List[RuleBasedAxisCont]: The axis values
+        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         """
         return self.swAxisConts
 
     def getSwValueCont(self) -> Optional[RuleBasedValueCont]:
         """
-        Gets the values of an array or Compound Primitive Data Type.
-
-        Returns:
-            Optional[RuleBasedValueCont]: The value content, or None if not set
+        This represents the values of an array or Compound Primitive Data Type. Stereotypes: atpSplitable Tags: atp.Splitkey=swValueCont
         """
         return self.swValueCont
 
     def setSwValueCont(self, value: Optional[RuleBasedValueCont]) -> ApplicationRuleBasedValueSpecification:
         """
-        Sets the values of an array or Compound Primitive Data Type.
-        A None value is a no-op and does not overwrite an existing value content.
-
-        Args:
-            value: The RuleBasedValueCont instance to set
-
-        Returns:
-            ApplicationRuleBasedValueSpecification: self for method chaining
+        This represents the values of an array or Compound Primitive Data Type. Stereotypes: atpSplitable Tags: atp.Splitkey=swValueCont
+        A None value is a no-op and does not overwrite an existing swValueCont.
         """
         if value is not None:
             self.swValueCont = value

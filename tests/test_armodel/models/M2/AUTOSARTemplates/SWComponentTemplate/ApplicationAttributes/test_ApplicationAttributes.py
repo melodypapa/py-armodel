@@ -106,6 +106,11 @@ class TestClientServerAnnotation:
 class TestIoHwAbstractionServerAnnotation:
     def test_initialization(self):
         annotation = IoHwAbstractionServerAnnotation()
+        assert annotation.getAge() is None
+        assert annotation.getArgumentRef() is None
+        assert annotation.getBswResolution() is None
+        assert annotation.getDataElementRef() is None
+        assert annotation.getFailureMonitoringRef() is None
         assert annotation.getFilteringDebouncing() is None
         assert annotation.getPulseTest() is None
         assert annotation.getTriggerRef() is None
