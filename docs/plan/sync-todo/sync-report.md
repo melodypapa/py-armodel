@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 707 | 37.2% |
+| [x] Done | 708 | 37.2% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 281 | 14.8% |
+| [ ] Deferred | 280 | 14.7% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -572,7 +572,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticEventCombinationBehaviorEnum`                | [ ] Deferred| c5c9c65c4b                               | Group23          |
 | `DiagnosticEventCombinationReportingBehaviorEnum`       | [ ] Deferred| d36baa82d6                               | Group23          |
 | `DiagnosticEventDisplacementStrategyEnum`               | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticEventInfoNeeds`                              | [ ] Deferred| 79c639e42a                               | Group14          |
+| `DiagnosticEventInfoNeeds`                              | [x] Done    | 99f3db39c4                               | Group14          |
 | `DiagnosticEventKindEnum`                               | [ ] Created | N/A                                      | Group25          |
 | `DiagnosticEventManagerNeeds`                           | [x] Done    | dc34774429                               | Group4           |
 | `DiagnosticEventNeeds`                                  | [x] Done    | N/A                                      | Group23          |
