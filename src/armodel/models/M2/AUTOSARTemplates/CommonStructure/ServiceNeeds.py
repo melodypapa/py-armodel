@@ -855,7 +855,8 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     """
 
     # DiagnosticCapabilityElement method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.15, p.753
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.15, p.754
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAudiences             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
