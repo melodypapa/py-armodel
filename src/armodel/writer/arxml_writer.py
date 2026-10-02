@@ -1336,6 +1336,13 @@ DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP = {
     "periodicRateSlow": "PERIODIC-RATE-SLOW",
 }
 
+#: Mapping between DiagnosticEventWindowTimeEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-WINDOW-TIME-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP = {
+    "infiniteTimeToResponse": "INFINITE-TIME-TO-RESPONSE",
+    "powerWindowTime": "POWER-WINDOW-TIME",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """

@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
@@ -2045,3 +2046,43 @@ class TestDiagnosticPeriodicRateCategoryEnum:
         enum.setValue(DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW)
 
         assert enum.getValue() == "periodicRateSlow"
+
+
+class TestDiagnosticEventWindowTimeEnum:
+    """
+    Test class for DiagnosticEventWindowTimeEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.104, p.133
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventWindowTimeEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventWindowTimeEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["infiniteTimeToResponse", "powerWindowTime"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventWindowTimeEnum member values.
+        """
+        enum = DiagnosticEventWindowTimeEnum()
+
+        assert DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE == "infiniteTimeToResponse"
+        assert DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME == "powerWindowTime"
+
+        assert enum.validateEnumValue("infiniteTimeToResponse") is True
+        assert enum.validateEnumValue("powerWindowTime") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventWindowTimeEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventWindowTimeEnum()
+        enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
+
+        assert enum.getValue() == "powerWindowTime"

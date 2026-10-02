@@ -849,14 +849,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEventWindowTimeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.104, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): trailing-caption table (body at md l.3983, caption l.3980). Literals in displayed
+      order infiniteTimeToResponse (idx 3, INFINITE-TIME-TO-RESPONSE) / powerWindowTime (idx 4,
+      POWER-WINDOW-TIME); XSD SIMPLE type l.134423 additionally defines idx 0-2
+      (eventWindowCurrentAndFollowingCycle / eventWindowCurrentCycle / eventWindowInfinite) but all three
+      carry atp.Status="removed" and are absent from the R23-11 table → not modeled (Rule 0015).
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP
+      pre-registered in parser/writer for the consuming attribute; consumer tests land with the Table 4.103 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticResponseOnEventActionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.105, p.134

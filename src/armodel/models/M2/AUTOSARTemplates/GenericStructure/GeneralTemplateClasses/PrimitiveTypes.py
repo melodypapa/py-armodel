@@ -1777,7 +1777,29 @@ class DiagnosticEventKindEnum(AREnum):
     pass
 
 class DiagnosticEventWindowTimeEnum(AREnum):
-    pass
+    """
+    This represents the ability to define the semantics of the event window.
+    """
+
+    # DiagnosticEventWindowTimeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.104, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This value specifies that the event window shall stay active for an infinite amount of time (e.g. open window until power off). Tags: atp.EnumerationLiteralIndex=3
+    INFINITE_TIME_TO_RESPONSE = "infiniteTimeToResponse"
+
+    # This enumeration value specifies that the server shall send response on event messages until the server is powered down. The server stops sending response on event messages with the power down and will send no more response on event messages after server is up again. Tags: atp.EnumerationLiteralIndex=4
+    POWER_WINDOW_TIME = "powerWindowTime"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE,
+                DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME,
+            ]
+        )
 
 class DiagnosticHandleDDDIConfigurationEnum(AREnum):
     """
