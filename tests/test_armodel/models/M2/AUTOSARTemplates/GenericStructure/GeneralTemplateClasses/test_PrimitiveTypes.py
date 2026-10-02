@@ -24,10 +24,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
+    DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticInhibitionMaskEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
@@ -2004,3 +2009,234 @@ class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
         enum.setValue(DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY)
 
         assert enum.getValue() == "serviceOnly"
+
+class TestDiagnosticHandleDDDIConfigurationEnum:
+    """
+    Test class for DiagnosticHandleDDDIConfigurationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.95, p.128
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticHandleDDDIConfigurationEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticHandleDDDIConfigurationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["nonVolatile", "volatile"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticHandleDDDIConfigurationEnum member values.
+        """
+        enum = DiagnosticHandleDDDIConfigurationEnum()
+
+        assert DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE == "nonVolatile"
+        assert DiagnosticHandleDDDIConfigurationEnum.VOLATILE == "volatile"
+
+        assert enum.validateEnumValue("nonVolatile") is True
+        assert enum.validateEnumValue("volatile") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticHandleDDDIConfigurationEnum instantiability and getValue.
+        """
+        enum = DiagnosticHandleDDDIConfigurationEnum()
+        enum.setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
+
+        assert enum.getValue() == "nonVolatile"
+
+
+
+class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
+    """
+    Test class for DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.96, p.129
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["clearDynamicallyDefineDataIdentifier", "defineByIdentifier", "defineByMemoryAddress"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum member values.
+        """
+        enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
+
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER == "clearDynamicallyDefineDataIdentifier"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER == "defineByIdentifier"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_MEMORY_ADDRESS == "defineByMemoryAddress"
+
+        assert enum.validateEnumValue("clearDynamicallyDefineDataIdentifier") is True
+        assert enum.validateEnumValue("defineByIdentifier") is True
+        assert enum.validateEnumValue("defineByMemoryAddress") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum instantiability and getValue.
+        """
+        enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
+        enum.setValue(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER)
+
+        assert enum.getValue() == "defineByIdentifier"
+
+
+
+class TestDiagnosticPeriodicRateCategoryEnum:
+    """
+    Test class for DiagnosticPeriodicRateCategoryEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.100, p.131
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticPeriodicRateCategoryEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticPeriodicRateCategoryEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["periodicRateFast", "periodicRateMedium", "periodicRateSlow"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticPeriodicRateCategoryEnum member values.
+        """
+        enum = DiagnosticPeriodicRateCategoryEnum()
+
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST == "periodicRateFast"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM == "periodicRateMedium"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW == "periodicRateSlow"
+
+        assert enum.validateEnumValue("periodicRateFast") is True
+        assert enum.validateEnumValue("periodicRateMedium") is True
+        assert enum.validateEnumValue("periodicRateSlow") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticPeriodicRateCategoryEnum instantiability and getValue.
+        """
+        enum = DiagnosticPeriodicRateCategoryEnum()
+        enum.setValue(DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW)
+
+        assert enum.getValue() == "periodicRateSlow"
+
+
+
+class TestDiagnosticEventWindowTimeEnum:
+    """
+    Test class for DiagnosticEventWindowTimeEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.104, p.133
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventWindowTimeEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventWindowTimeEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["infiniteTimeToResponse", "powerWindowTime"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventWindowTimeEnum member values.
+        """
+        enum = DiagnosticEventWindowTimeEnum()
+
+        assert DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE == "infiniteTimeToResponse"
+        assert DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME == "powerWindowTime"
+
+        assert enum.validateEnumValue("infiniteTimeToResponse") is True
+        assert enum.validateEnumValue("powerWindowTime") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventWindowTimeEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventWindowTimeEnum()
+        enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
+
+        assert enum.getValue() == "powerWindowTime"
+
+
+
+class TestDiagnosticResponseOnEventActionEnum:
+    """
+    Test class for DiagnosticResponseOnEventActionEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.105, p.134
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticResponseOnEventActionEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticResponseOnEventActionEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "clear",
+            "onChangeOfDataIdentifier",
+            "onComparisonOfValues",
+            "onDTCStatusChange",
+            "report",
+            "reportDTCRecordInformationOnDtcStatusChange",
+            "reportMostRecentDtcOnStatusChange",
+            "start",
+            "stop",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticResponseOnEventActionEnum member values.
+        """
+        enum = DiagnosticResponseOnEventActionEnum()
+
+        assert DiagnosticResponseOnEventActionEnum.CLEAR == "clear"
+        assert DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER == "onChangeOfDataIdentifier"
+        assert DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES == "onComparisonOfValues"
+        assert DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE == "onDTCStatusChange"
+        assert DiagnosticResponseOnEventActionEnum.REPORT == "report"
+        assert DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE == "reportDTCRecordInformationOnDtcStatusChange"
+        assert DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE == "reportMostRecentDtcOnStatusChange"
+        assert DiagnosticResponseOnEventActionEnum.START == "start"
+        assert DiagnosticResponseOnEventActionEnum.STOP == "stop"
+
+        assert enum.validateEnumValue("clear") is True
+        assert enum.validateEnumValue("onChangeOfDataIdentifier") is True
+        assert enum.validateEnumValue("onComparisonOfValues") is True
+        assert enum.validateEnumValue("onDTCStatusChange") is True
+        assert enum.validateEnumValue("report") is True
+        assert enum.validateEnumValue("reportDTCRecordInformationOnDtcStatusChange") is True
+        assert enum.validateEnumValue("reportMostRecentDtcOnStatusChange") is True
+        assert enum.validateEnumValue("start") is True
+        assert enum.validateEnumValue("stop") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticResponseOnEventActionEnum instantiability and getValue.
+        """
+        enum = DiagnosticResponseOnEventActionEnum()
+        enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
+
+        assert enum.getValue() == "onChangeOfDataIdentifier"

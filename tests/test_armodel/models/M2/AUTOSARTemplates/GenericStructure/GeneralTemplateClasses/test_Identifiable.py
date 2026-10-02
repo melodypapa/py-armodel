@@ -3,18 +3,25 @@ This module contains comprehensive tests for the Identifiable.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import inspect
 import typing
+
+import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import RoleBasedResourceDependency
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, RoleBasedResourceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRequestRoutineResults,
+    DiagnosticRoutineSubfunction,
+    DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1263,3 +1270,373 @@ class TestRoleBasedResourceDependency:
         obj.setRole(None)
         assert obj.getResourceRef() is ref  # None is a no-op
         assert obj.getRole() is role  # None is a no-op
+
+class TestDiagnosticRoutineSubfunction:
+    """
+    Test class for DiagnosticRoutineSubfunction functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.84, p.121
+    """
+
+    CLASS_NOTE = "This meta-class acts as an abstract base class to routine subfunctions."
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that instantiating the abstract DiagnosticRoutineSubfunction raises TypeError.
+        """
+        with pytest.raises(TypeError, match="DiagnosticRoutineSubfunction is an abstract class."):
+            DiagnosticRoutineSubfunction(AUTOSAR.getInstance(), "Subfunction1")
+
+    def test_subclass_chain(self):
+        """
+        Test that the concrete subfunctions derive from DiagnosticRoutineSubfunction (Identifiable).
+        """
+        assert issubclass(DiagnosticRoutineSubfunction, Identifiable)
+        assert issubclass(DiagnosticStartRoutine, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults_via_subclass(self):
+        """
+        Test that a concrete subclass is initialized with the spec defaults.
+        """
+        obj = DiagnosticStartRoutine(AUTOSAR.getInstance(), "StartRoutine1")
+
+        assert obj.getShortName() == "StartRoutine1"
+        assert obj.getAccessPermission() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRoutineSubfunction.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRoutineSubfunction.__init__.__doc__ is None
+
+    def test_get_set_access_permission(self):
+        """
+        Round-trips accessPermission; None is a no-op.
+        """
+        obj = DiagnosticStartRoutine(AUTOSAR.getInstance(), "StartRoutine1")
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-ACCESS-PERMISSION")
+        value.setValue("/AUTOSAR/DiagnosticAccessPermissions/Level1")
+        result = obj.setAccessPermission(value)
+        assert result is obj  # method chaining
+        assert obj.getAccessPermission() is value
+        assert obj.getAccessPermission().getValue() == "/AUTOSAR/DiagnosticAccessPermissions/Level1"
+        assert obj.getAccessPermission().getDest() == "DIAGNOSTIC-ACCESS-PERMISSION"
+
+        obj.setAccessPermission(None)
+        assert obj.getAccessPermission() is value  # None is a no-op
+
+    def test_get_set_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticRoutineSubfunction.getAccessPermission)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(DiagnosticRoutineSubfunction.setAccessPermission)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DiagnosticRoutineSubfunction
+
+
+
+class TestDiagnosticStartRoutine:
+    """
+    Test class for DiagnosticStartRoutine functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.86, p.124
+    """
+
+    CLASS_NOTE = "This represents the ability to start a diagnostic routine."
+
+    def _make_obj(self) -> DiagnosticStartRoutine:
+        return DiagnosticStartRoutine(AUTOSAR.getInstance(), "StartRoutine1")
+
+    def test_subclass_chain(self):
+        """
+        Test that DiagnosticStartRoutine derives from DiagnosticRoutineSubfunction.
+        """
+        assert issubclass(DiagnosticStartRoutine, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticStartRoutine is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "StartRoutine1"
+        assert obj.getRequest() == []
+        assert obj.getResponse() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticStartRoutine.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStartRoutine.__init__.__doc__ is None
+
+    def test_add_get_request(self):
+        """
+        Appends request parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        first = DiagnosticParameter()
+        result = obj.addRequest(first)
+        assert result is obj  # method chaining
+        second = DiagnosticParameter()
+        obj.addRequest(second)
+        assert obj.getRequest() == [first, second]
+
+        obj.addRequest(None)
+        assert obj.getRequest() == [first, second]  # None is a no-op
+
+    def test_add_get_response(self):
+        """
+        Appends response parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticParameter()
+        result = obj.addResponse(value)
+        assert result is obj  # method chaining
+        assert obj.getResponse() == [value]
+
+        obj.addResponse(None)
+        assert obj.getResponse() == [value]  # None is a no-op
+
+    def test_get_add_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticStartRoutine.getRequest)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticStartRoutine.addRequest)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticStartRoutine
+
+        getter_hints = typing.get_type_hints(DiagnosticStartRoutine.getResponse)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticStartRoutine.addResponse)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticStartRoutine
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticStartRoutine.getRequest.__doc__) == "This represents the request parameters."
+        assert inspect.cleandoc(DiagnosticStartRoutine.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
+        assert inspect.cleandoc(DiagnosticStartRoutine.getResponse.__doc__) == "This represents the response parameters."
+        assert inspect.cleandoc(DiagnosticStartRoutine.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."
+
+
+
+class TestDiagnosticStopRoutine:
+    """
+    Test class for DiagnosticStopRoutine functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.87, p.125
+    """
+
+    CLASS_NOTE = "This represents the ability to stop a diagnostic routine."
+
+    def _make_obj(self) -> DiagnosticStopRoutine:
+        return DiagnosticStopRoutine(AUTOSAR.getInstance(), "StopRoutine1")
+
+    def test_subclass_chain(self):
+        """
+        Test that DiagnosticStopRoutine derives from DiagnosticRoutineSubfunction.
+        """
+        assert issubclass(DiagnosticStopRoutine, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticStopRoutine is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "StopRoutine1"
+        assert obj.getRequest() == []
+        assert obj.getResponse() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticStopRoutine.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStopRoutine.__init__.__doc__ is None
+
+    def test_add_get_request(self):
+        """
+        Appends request parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        first = DiagnosticParameter()
+        result = obj.addRequest(first)
+        assert result is obj  # method chaining
+        second = DiagnosticParameter()
+        obj.addRequest(second)
+        assert obj.getRequest() == [first, second]
+
+        obj.addRequest(None)
+        assert obj.getRequest() == [first, second]  # None is a no-op
+
+    def test_add_get_response(self):
+        """
+        Appends response parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticParameter()
+        result = obj.addResponse(value)
+        assert result is obj  # method chaining
+        assert obj.getResponse() == [value]
+
+        obj.addResponse(None)
+        assert obj.getResponse() == [value]  # None is a no-op
+
+    def test_get_add_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticStopRoutine.getRequest)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticStopRoutine.addRequest)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticStopRoutine
+
+        getter_hints = typing.get_type_hints(DiagnosticStopRoutine.getResponse)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticStopRoutine.addResponse)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticStopRoutine
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticStopRoutine.getRequest.__doc__) == "This represents the request parameters."
+        assert inspect.cleandoc(DiagnosticStopRoutine.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
+        assert inspect.cleandoc(DiagnosticStopRoutine.getResponse.__doc__) == "This represents the response parameters."
+        assert inspect.cleandoc(DiagnosticStopRoutine.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."
+
+
+
+class TestDiagnosticRequestRoutineResults:
+    """
+    Test class for DiagnosticRequestRoutineResults functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.88, p.125
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define the result of a diagnostic routine execution."
+
+    def _make_obj(self) -> DiagnosticRequestRoutineResults:
+        return DiagnosticRequestRoutineResults(AUTOSAR.getInstance(), "RequestResults1")
+
+    def test_subclass_chain(self):
+        """
+        Test that DiagnosticRequestRoutineResults derives from DiagnosticRoutineSubfunction.
+        """
+        assert issubclass(DiagnosticRequestRoutineResults, DiagnosticRoutineSubfunction)
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticRequestRoutineResults is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "RequestResults1"
+        assert obj.getRequest() == []
+        assert obj.getResponse() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestRoutineResults.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestRoutineResults.__init__.__doc__ is None
+
+    def test_add_get_request(self):
+        """
+        Appends request parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        first = DiagnosticParameter()
+        result = obj.addRequest(first)
+        assert result is obj  # method chaining
+        second = DiagnosticParameter()
+        obj.addRequest(second)
+        assert obj.getRequest() == [first, second]
+
+        obj.addRequest(None)
+        assert obj.getRequest() == [first, second]  # None is a no-op
+
+    def test_add_get_response(self):
+        """
+        Appends response parameters; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticParameter()
+        result = obj.addResponse(value)
+        assert result is obj  # method chaining
+        assert obj.getResponse() == [value]
+
+        obj.addResponse(None)
+        assert obj.getResponse() == [value]  # None is a no-op
+
+    def test_get_add_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.getRequest)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.addRequest)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticRequestRoutineResults
+
+        getter_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.getResponse)
+        assert getter_hints.get("return") == typing.List[DiagnosticParameter]
+
+        adder_hints = typing.get_type_hints(DiagnosticRequestRoutineResults.addResponse)
+        assert adder_hints.get("value") == typing.Optional[DiagnosticParameter]
+        assert adder_hints.get("return") is DiagnosticRequestRoutineResults
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.getRequest.__doc__) == "This represents the request parameters."
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.getResponse.__doc__) == "This represents the response parameters."
+        assert inspect.cleandoc(DiagnosticRequestRoutineResults.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."

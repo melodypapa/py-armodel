@@ -281,483 +281,773 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticComControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.66, p.109
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): concrete DiagnosticServiceClass; `*` members in displayed order —
+      allChannels (ref → ALL-CHANNELS-REFS wrapper), allPhysicalChannels (ref →
+      ALL-PHYSICAL-CHANNELS wrapper, xml.namePlural), specificChannel (aggr →
+      SPECIFIC-CHANNELS wrapper), subNodeChannel (aggr → SUB-NODE-CHANNELS wrapper);
+      XSD group l.32568 / complexType l.32642.
+    - note (Step 4): spec-typo "CommunicatuionClusters" kept verbatim (also in XSD);
+      markdown cell-wrap spaces healed ("Communication Clusters" → "CommunicationClusters",
+      "EthernetPhysical Channels" → "EthernetPhysicalChannels"); Tags suffixes dropped
+      (sibling convention from the DiagnosticComControl pass); specificChannel Note's
+      trailing comma is in the spec and kept.
+    - note (Step 6): aggregator dispatch wired — parser tag DIAGNOSTIC-COM-CONTROL-CLASS +
+      writer isinstance entry; wrapper dispatch calls the reusable Specific/SubNodeChannel
+      helpers synced earlier (commits ed6ddee3a-adjacent, c4bee1d35, f0a80d0b5).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `cd8cd8c46`
 
 - [ ] `DiagnosticComControlSubNodeChannel` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.67, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled in ahead of DiagnosticComControlClass (its Table 4.66 subNodeChannel
+      member type) — dependency-first per sync convention. Concrete ARObject (no-arg ctor);
+      attrs subNodeChannel (ref, 0..1) + subNodeNumber (PositiveInteger 0..1) +
+      subNodePhysicalChannel (ref, 0..1); XSD group l.32759 — ref, number, physical-channel order.
+    - note (Step 4): attribute Note "EthernetPhysical Channel" line-break healed to
+      "EthernetPhysicalChannel" (markdown cell-wrap artifact; XSD documentation agrees).
+    - note (Step 6): reusable read/writeDiagnosticComControlSubNodeChannel helpers verified
+      directly (aggregator not synced yet); dispatch wiring rides the DiagnosticComControlClass pass.
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `f0a80d0b5`
 
 - [ ] `DiagnosticControlDTCSetting` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.68, p.111
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled-in dependency DiagnosticControlDTCSettingClass (Table 4.69) synced
+      first (commit 88c545f30). Spec anomaly: Table 4.68 is a minimal 2-row table (Class +
+      dtcSettingClass only — no Package/Note/Base/Aggregated-by rows in the R23-11 markdown
+      or PDF). attr dtcSettingClass (ref → DTC-SETTING-CLASS-REF, DEST
+      DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS--SUBTYPES-ENUM, 0..1); XSD group l.33804 /
+      complexType l.33835.
+    - note (base decision): final base/module differ from the row hint — the class moved
+      from the ArObject.py ARObject stub to ARPackage.py as ARElement. Evidence: R4.3.1
+      Table 5.62 Base chain (ARElement, …, DiagnosticServiceInstance, …) + R23-11 XSD
+      complexType group chain (… AR-ELEMENT, DIAGNOSTIC-COMMON-ELEMENT,
+      DIAGNOSTIC-SERVICE-INSTANCE …); the concrete sibling instance classes with the same
+      chain (DiagnosticComControl Table 4.64, DiagnosticEcuReset) model ARElement.
+      Most-derived per chain would be DiagnosticServiceInstance — sibling-consistent
+      ARElement chosen (its atpSplitable ACCESS-PERMISSION-REF is not modeled on siblings
+      either); stub-registry test updated in the same commit (5ab9e814c pattern).
+    - note (class docstring): Note row absent from the R23-11 table — taken from R4.3.1
+      Table 5.62 ('This represents an instance of the "Control DTC Setting" diagnostic
+      service.', Tags suffix dropped); R23-11 XSD documentation agrees.
+    - note (Step 8): R23-11 XSD marks dtcSettingParameter atp.Status="removed" (absent from
+      the R23-11 table and fixtures carry no DTC-SETTING-PARAMETER) — not modeled, no open
+      deviation.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `a4ebfc734`
 
 - [ ] `DiagnosticControlDTCSettingClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.69, p.111
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled in ahead of DiagnosticControlDTCSetting (its Table 4.68 dtcSettingClass
+      member type) — dependency-first per sync convention. Concrete DiagnosticServiceClass;
+      attr controlOptionRecordPresent (Boolean 0..1); XSD group l.33857 / complexType l.33873.
+    - note (Step 4): markdown cell-wrap "DTCSetting ControlOptionRecord" healed to
+      "DTCSettingControlOptionRecord" (XSD documentation agrees); Tags suffix dropped
+      (sibling convention).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `88c545f30`
 
 - [ ] `DiagnosticReadDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.70, p.112
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.70 (md l.3277, PDF p.112); concrete Class; Base most-derived = `DiagnosticDataByIdentifier` (synced this batch, 06afa0fff). attr `readClass` (DiagnosticReadDataByIdentifierClass, 0..1, ref — markdown cell-wrap "DiagnosticReadDataBy Identifier" healed); XSD group DIAGNOSTIC-READ-DATA-BY-IDENTIFIER (AUTOSAR_00052.xsd l.41139): READ-CLASS-REF only.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByIdentifier` factory + readARPackageElements DIAGNOSTIC-READ-DATA-BY-IDENTIFIER branch + writeARPackageElement isinstance branch; reader/writer delegate the inherited DATA-IDENTIFIER-REF to the Rule 0001.7 helpers readDiagnosticDataByIdentifier/writeDiagnosticDataByIdentifier (XSD sequence: inherited ref before own READ-CLASS-REF).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e21b844ed`
 
 - [ ] `DiagnosticWriteDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.71, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.71 (md l.3289-3305 trailing-caption layout — matched by Class row; PDF p.113); concrete Class; Base most-derived = `DiagnosticDataByIdentifier`. attr `writeClass` (DiagnosticWriteDataByIdentifierClass, 0..1, ref — cell-wrap "DiagnosticWriteDataBy Identifier" healed); XSD group DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER (AUTOSAR_00052.xsd l.47169): WRITE-CLASS-REF only.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticWriteDataByIdentifier` factory + readARPackageElements DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER branch + writeARPackageElement isinstance branch; inherited DATA-IDENTIFIER-REF delegated to the Rule 0001.7 helpers (XSD sequence: inherited ref before own WRITE-CLASS-REF).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `699b75182`
 
 - [ ] `DiagnosticWriteDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.72, p.113
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.72 (md l.3306-3316 trailing-caption layout — matched by Class row; PDF p.113); concrete Class; Base most-derived = `DiagnosticServiceClass`; NO attribute rows (marker class) — XSD group DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS (AUTOSAR_00052.xsd l.47222) is an empty sequence.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticWriteDataByIdentifierClass` factory + readARPackageElements DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS branch + writeARPackageElement isinstance branch; reader/writer read/write the IDENTIFIABLE wrapper only.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `6f777e6bd`
 
 - [ ] `DiagnosticDataByIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.73, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): abstract class ("DiagnosticDataByIdentifier (abstract)"); the table body sits ABOVE its caption in the markdown (page-break artifact — matched by the Class row). Base chain: ARElement, ARObject, CollectableElement, DiagnosticCommonElement, DiagnosticServiceInstance, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived ARElement. Attribute (displayed order): dataIdentifier (DiagnosticAbstractDataIdentifier, 0..1, ref, Note "This represents the linked DiagnosticDataIdentifier."). XSD group DIAGNOSTIC-DATA-BY-IDENTIFIER (AUTOSAR_00052.xsd l.34064): DATA-IDENTIFIER-REF (DEST DIAGNOSTIC-ABSTRACT-DATA-IDENTIFIER--SUBTYPES-ENUM); abstract ⇒ no own XML element — reusable readDiagnosticDataByIdentifier / writeDiagnosticDataByIdentifier helpers for the concrete subclasses (Rule 0001.7 adaptation). Dependencies ARElement and DiagnosticAbstractDataIdentifier (Table 4.4) already synced — no pull-in.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - note (Step 6): reader helper `readDiagnosticDataByIdentifier` / writer helper `writeDiagnosticDataByIdentifier` added (arxml_parser.py after readDiagnosticAbstractDataIdentifier; arxml_writer.py after writeDiagnosticAbstractDataIdentifier) — abstract class, no ARPackage dispatch entry; concrete subclasses call the helpers. Tests exercise them through the stub-subclass DiagnosticReadDataByIdentifier.
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `06afa0fff`
 
 - [ ] `DiagnosticReadDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.74, p.114
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.74 (md l.3339, PDF p.114); concrete Class; Base most-derived = `DiagnosticServiceClass`. attr `maxDidToRead` (PositiveInteger, 0..1, attr — markdown cell-wrap "DiagnosticReadDataBy Identifier" healed); XSD group DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS (AUTOSAR_00052.xsd l.41186): MAX-DID-TO-READ only.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByIdentifierClass` factory + readARPackageElements DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS branch + writeARPackageElement isinstance branch; CommonService.py has no PEP 563 future import so the setter's self-referential return annotation uses the quoted form.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `01e18bd76`
 
 - [ ] `DiagnosticReadScalingDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.78, p.116
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.78 (md l.3417 leading-caption body; PDF p.116); concrete Class; Base most-derived = `DiagnosticDataByIdentifier`. attr `readScalingDataClass` (DiagnosticReadScalingDataByIdentifierClass, 0..1, ref — markdown cell-wraps "readScaling DataClass" / "DiagnosticReadScaling DataByIdentifierClass" healed); XSD group DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER (AUTOSAR_00052.xsd l.41518): READ-SCALING-DATA-CLASS-REF only.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadScalingDataByIdentifier` factory + readARPackageElements DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER branch + writeARPackageElement isinstance branch; inherited DATA-IDENTIFIER-REF delegated to the Rule 0001.7 helpers (XSD sequence: inherited ref before own READ-SCALING-DATA-CLASS-REF).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `d8d4379d1`
 
 - [ ] `DiagnosticReadScalingDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.79, p.116
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): own table = DEXT Table 4.79 (md l.3429-3445 trailing-caption layout — matched by Class row; PDF p.116); concrete Class; Base most-derived = `DiagnosticServiceClass`; NO attribute rows (marker class) — XSD group DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS (AUTOSAR_00052.xsd l.41566) is an empty sequence.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadScalingDataByIdentifierClass` factory + readARPackageElements DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS branch + writeARPackageElement isinstance branch; reader/writer read/write the IDENTIFIABLE wrapper only.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `6c6eadab3`
 
 - [ ] `DiagnosticIOControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.80, p.118
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): member-type dependency `DiagnosticControlEnableMaskBit` (controlEnableMaskBit, `*` aggr) is queued unsynced below — pulled in FIRST as its own pass per the dependency-first rule.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticIOControl` factory + readARPackageElements DIAGNOSTIC-IO-CONTROL branch + writeARPackageElement isinstance branch; the controlEnableMaskBit aggregation is read/written via the CONTROL-ENABLE-MASK-BITS wrapper dispatching to the (pulled-in) read/writeDiagnosticControlEnableMaskBit helpers.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3e204165e`
 
 - [ ] `DiagnosticIoControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.81, p.118
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.81 body matched by Class row (leading caption) — no own attributes (`-` row); XSD group DIAGNOSTIC-IO-CONTROL-CLASS (AUTOSAR_00052.xsd l.38515) is an empty sequence; Aggregated by ARPackage.element.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticIoControlClass` factory (bottom-of-file CommonService import, DiagnosticWriteDataByIdentifierClass precedent) + readARPackageElements DIAGNOSTIC-IO-CONTROL-CLASS branch + writeARPackageElement isinstance branch; empty XSD group — IDENTIFIABLE wrapper only.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `a6a5ff87e`
 
 - [ ] `DiagnosticControlEnableMaskBit` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.83, p.119
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): synced FIRST (pulled in before dependent DiagnosticIOControl); Table 4.83 body matched by Class row (leading caption), XSD group DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT (AUTOSAR_00052.xsd l.33900): BIT-NUMBER, CONTROLLED-DATA-ELEMENT-REFS/CONTROLLED-DATA-ELEMENT-REF.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): reusable read/writeDiagnosticControlEnableMaskBit helper (ARObject pattern — readARObject/writeARObject + own fields); no dispatch of its own — the nested member is aggregated by DiagnosticIOControl and is wired there when that class syncs.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e7a05b899`
 
 - [ ] `DiagnosticRoutineSubfunction` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.84, p.121
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.84 body matched by Class row (leading caption); abstract (Identifiable base, DiagnosticDataByIdentifier guard pattern); single ref accessPermission (DiagnosticAccessPermission 0..1) — XSD group DIAGNOSTIC-ROUTINE-SUBFUNCTION (AUTOSAR_00052.xsd l.43145) = ACCESS-PERMISSION-REF only; NOT ARPackage-aggregated (concrete subfunctions nest only inside DIAGNOSTIC-ROUTINE) — no factory/dispatch, reusable read/write helper for concrete subclasses.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): reusable read/writeDiagnosticRoutineSubfunction helper (DiagnosticDataByIdentifier precedent — helper reads/writes own group only, ACCESS-PERMISSION-REF); no dispatch of its own — concrete subclasses (Start/Stop/RequestResults) call readIdentifiable/writeIdentifiable + the helper when they sync.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `1b16d614c`
 
 - [ ] `DiagnosticRoutine` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.85, p.124
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.85 body matched by Class row (trailing-caption page-break artifact — body renders above the caption l.3655); attrs id (PositiveInteger — XSD ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT), requestResult/start/stop (0..1 aggrs of the pulled-in concrete subfunctions — create/get accessors per the createDataElement Referrable-child idiom), routineInfo (PositiveInteger 0..1); XSD group DIAGNOSTIC-ROUTINE (AUTOSAR_00052.xsd l.42845) order ID, REQUEST-RESULT, ROUTINE-INFO, START, STOP; DIAGNOSTIC-COMMON-ELEMENT base group is an empty sequence (no members to model); Aggregated by ARPackage.element — full 5-place with createDiagnosticRoutine factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticRoutine` factory (alphabetical after createDiagnosticReadScalingDataByIdentifierClass) + readARPackageElements DIAGNOSTIC-ROUTINE branch + writeARPackageElement isinstance branch; requestResult/start/stop serialized as REQUEST-RESULT/START/STOP typed wrappers whose content is written by the concrete subfunction writers (amended to content-writers this pass); id via ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT (readDiagnosticAbstractDataIdentifier idiom).
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `5f356c335`
 
 - [ ] `DiagnosticStartRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.86, p.124
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.86 body matched by Class row (leading caption); concrete (base DiagnosticRoutineSubfunction synced first); own attrs request/response (DiagnosticParameter `*` aggr) — XSD group DIAGNOSTIC-START-ROUTINE (AUTOSAR_00052.xsd l.45520) = REQUESTS/RESPONSES wrappers of DIAGNOSTIC-PARAMETER; Aggregated by DiagnosticRoutine.start (NOT ARPackage) — no factory/dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): synced BEFORE its consumer DiagnosticRoutine (Rule 0016.5 pull-in — Routine's start/stop/requestResult aggrs reference it); read/writeDiagnosticStartRoutine = readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists (findall REQUESTS/DIAGNOSTIC-PARAMETER, DiagnosticParameter() created then readDiagnosticParameter); no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.start).
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `30d5576f7`
 
 - [ ] `DiagnosticStopRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.87, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): PULLED IN ahead of its consumer DiagnosticRoutine (Rule 0016.5 — Routine.stop references it); Table 4.87 body matched by Class row (trailing-caption page-break artifact — body renders above the caption); concrete (base DiagnosticRoutineSubfunction synced first); own attrs request/response (DiagnosticParameter `*` aggr) — XSD group DIAGNOSTIC-STOP-ROUTINE (AUTOSAR_00052.xsd l.45577) = REQUESTS/RESPONSES wrappers; Aggregated by DiagnosticRoutine.stop — no factory/dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): read/writeDiagnosticStopRoutine mirrors the DiagnosticStartRoutine pass — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.stop).
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `35e0590e6`
 
 - [ ] `DiagnosticRequestRoutineResults` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.88, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): PULLED IN ahead of its consumer DiagnosticRoutine (Rule 0016.5 — Routine.requestResult references it); Table 4.88 body matched by Class row (leading caption); concrete (base DiagnosticRoutineSubfunction synced first); own attrs request/response (DiagnosticParameter `*` aggr) — XSD group DIAGNOSTIC-REQUEST-ROUTINE-RESULTS (AUTOSAR_00052.xsd l.42402) = REQUESTS/RESPONSES wrappers; Aggregated by DiagnosticRoutine.requestResult — no factory/dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): read/writeDiagnosticRequestRoutineResults mirrors the Start/Stop passes — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.requestResult). Amended during the DiagnosticRoutine pass: the concrete writer became a content-writer (XSD types REQUEST-RESULT/START/STOP with the concrete complexType — the wrapper tag IS the concrete element; writeDiagnosticMapping precedent); accessor-docstring tests backfilled in the same pass.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `c5c5cddd7`
 
 - [ ] `DiagnosticRoutineControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.89, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.89 body matched by Class row (l.3712, caption above); attrs routine (0..1 ref → Optional[RefType]) and routineControlClass (0..1 ref → Optional[RefType], heal cell-wrap "routineControl Class"/"DiagnosticRoutine ControlClass"); XSD group DIAGNOSTIC-ROUTINE-CONTROL (AUTOSAR_00052.xsd l.42913) XML order ROUTINE-CONTROL-CLASS-REF, ROUTINE-REF — differs from the markdown displayed order (routine first) per Rule 0001.11 (member order = markdown, XML order = XSD); constr_10100 (routine existence at DEXT complete) is a completeness constraint, not a field; Aggregated by ARPackage.element — full 5-place with createDiagnosticRoutineControl factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticRoutineControl` factory (alphabetical after createDiagnosticRoutine) + readARPackageElements DIAGNOSTIC-ROUTINE-CONTROL branch + writeARPackageElement isinstance branch; both refs read via setRoutine/setRoutineControlClass and written via getRoutine/getRoutineControlClass in XSD order.
+  - note (Step 8): no open deviations; routineControlClass references DiagnosticRoutineControlClass (Table 4.90) — synced in this same batch immediately after, per the queued class order.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `b7485f794`
 
 - [ ] `DiagnosticRoutineControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.90, p.126
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.90 body matched by Class row — split across two page-break tables BEFORE the trailing caption (Class/Package/Note l.3724 + Base/AggregatedBy/Attribute l.3735, caption l.3742); Attribute row is `-` (no own attributes — empty marker class, DiagnosticWriteDataByIdentifierClass precedent); XSD group DIAGNOSTIC-ROUTINE-CONTROL-CLASS (AUTOSAR_00052.xsd l.42973) is an empty sequence; Aggregated by ARPackage.element — full 5-place with createDiagnosticRoutineControlClass factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): empty-marker pattern — reader readIdentifiable only; writer emits DIAGNOSTIC-ROUTINE-CONTROL-CLASS + IDENTIFIABLE wrapper content; ARPackage `createDiagnosticRoutineControlClass` factory (alphabetical after createDiagnosticRoutineControl) + both dispatch branches; bottom-of-file CommonService import added to ARPackage.py.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `4605fa843`
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.93, p.127
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.93 body matched by Class row (l.3788, caption above); attrs dataIdentifier (0..1 ref → Optional[RefType], heal cell-wrap "DiagnosticDynamicData Identifier"), dynamicallyDefineDataIdentifierClass (0..1 ref → Optional[RefType], heal cell-wrap "dynamically DefineData IdentifierClass") and maxSourceElement (PositiveInteger 0..1 attr); spec Note typo "DiagnosticDynamicData Identfier." kept verbatim in docstrings; XSD group DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER (AUTOSAR_00052.xsd l.35133) XML order DATA-IDENTIFIER-REF, DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF, MAX-SOURCE-ELEMENT — matches the markdown displayed order; constr_1808 (dataIdentifier existence at DEXT complete) is a completeness constraint, not a field; NO enum pull-in — Table 4.93 references no enum; DiagnosticHandleDDDIConfigurationEnum (Table 4.95) / DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum (Table 4.96) belong to Table 4.94 DiagnosticDynamicallyDefineDataIdentifierClass, a separate queue row; Aggregated by ARPackage.element — full 5-place with createDiagnosticDynamicallyDefineDataIdentifier factory + dispatch.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicallyDefineDataIdentifier` factory (alphabetical after createDiagnosticDynamicDataIdentifier) + readARPackageElements DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch; refs via set/getDataIdentifier + set/getDynamicallyDefineDataIdentifierClass, maxSourceElement via set/getMaxSourceElement, all in XSD order.
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `4988b642d`
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.94, p.128
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.94 body matched by Class row (l.3803, leading caption); concrete
+      DiagnosticServiceClass; attrs in displayed order checkPerSourceId (Boolean 0..1 attr),
+      configurationHandling (DiagnosticHandleDDDIConfigurationEnum 0..1 attr), subfunction
+      (DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum `*` attr); XSD group
+      DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS (AUTOSAR_00052.xsd l.35199) — CHECK-PER-SOURCE-ID,
+      CONFIGURATION-HANDLING, SUBFUNCTIONS wrapper (choice unbounded SUBFUNCTION enum tokens); XSD order
+      matches the markdown displayed order.
+    - note (Step 4): markdown cell-wraps healed ("checkPer SourceId" → "checkPerSourceId",
+      "configuration Handling" → "configurationHandling", "0x F200" → "0xF200" — XSD documentation
+      agrees); spec typo "If set to FALSE." (period instead of comma) kept verbatim; Tags suffix dropped
+      (sibling convention).
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicallyDefineDataIdentifierClass`
+      factory (alphabetical after createDiagnosticDynamicallyDefineDataIdentifier) + readARPackageElements
+      DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS branch + writeARPackageElement isinstance branch;
+      subfunction list read/written via the SUBFUNCTIONS/SUBFUNCTION wrapper (DiagnosticCapabilityElement
+      AUDIENCES/AUDIENCE enum-list precedent); both enum token maps pre-registered by the enum passes
+      (3cde2dacd, aa69f0bd9).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `32e309baa`
 
 - [ ] `DiagnosticHandleDDDIConfigurationEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.95, p.128
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled in FIRST (before dependent Table 4.94 DiagnosticDynamicallyDefineDataIdentifierClass —
+      dependency-first per sync convention). Literals in displayed order nonVolatile (idx 0, NON-VOLATILE) /
+      volatile (idx 1, VOLATILE); Note cell-wrap "DynamicallyDefine DataIdentifiers" healed to
+      "DynamicallyDefineDataIdentifiers" (XSD complexType l.134457 documentation agrees).
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP
+      pre-registered in parser/writer for the consuming attribute (DiagnosticResponseToEcuResetEnum precedent);
+      consumer tests land with the Table 4.94 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3cde2dacd`
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.96, p.129
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled in FIRST (before dependent Table 4.94 DiagnosticDynamicallyDefineDataIdentifierClass —
+      dependency-first per sync convention). Literals in displayed order clearDynamicallyDefineDataIdentifier
+      (idx 0, CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER) / defineByIdentifier (idx 1, DEFINE-BY-IDENTIFIER) /
+      defineByMemoryAddress (idx 2, DEFINE-BY-MEMORY-ADDRESS); XSD SIMPLE type l.134243.
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map
+      DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP pre-registered in parser/writer for the
+      consuming attribute; consumer tests land with the Table 4.94 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `aa69f0bd9`
 
 - [ ] `DiagnosticReadDataByPeriodicID` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.97, p.130
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.97 body matched by Class row — split across the page-break mini-table
+      (Class/Package/Note l.3853, renders above the caption) + main body (Base/AggregatedBy/Attribute
+      l.3866-3871, caption l.3864); concrete Class; Base most-derived = ARElement (XSD complexType
+      l.41268 group chain ends AR-ELEMENT, DIAGNOSTIC-COMMON-ELEMENT, DIAGNOSTIC-SERVICE-INSTANCE;
+      sibling-consistent ARElement per DiagnosticComControl/DiagnosticEcuReset). attr readDataClass
+      (DiagnosticReadDataByPeriodicIDClass, 0..1, ref — cell-wraps "DiagnosticReadDataBy PeriodicIDClass" /
+      "DiagnosticReadDataBy PeriodicID" healed); XSD group DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID
+      (AUTOSAR_00052.xsd l.41230): READ-DATA-CLASS-REF only.
+    - note (Step 8): the XSD group also carries DATA-IDENTIFIER-REF with atp.Status="removed" (absent
+      from the Table 4.97 attribute rows — DiagnosticEcuReset RESPOND-TO-RESET precedent) — not modeled,
+      no open deviation.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByPeriodicID` factory
+      (alphabetical after createDiagnosticReadDataByIdentifierClass) + readARPackageElements
+      DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID branch + writeARPackageElement isinstance branch; ref via
+      set/getReadDataClass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `825e744a0`
 
 - [ ] `DiagnosticReadDataByPeriodicIDClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.98, p.130
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): Table 4.98 body matched by Class row (leading caption l.3873); concrete
+      DiagnosticServiceClass; attrs in displayed order maxPeriodicDidToRead (PositiveInteger 0..1 attr,
+      cell-wrap "maxPeriodicDid ToRead" healed), periodicRate (DiagnosticPeriodicRate `*` aggr),
+      schedulerMaxNumber (PositiveInteger 0..1 attr, cell-wrap "schedulerMax Number" healed); XSD group
+      DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS (AUTOSAR_00052.xsd l.41290) — MAX-PERIODIC-DID-TO-READ,
+      PERIODIC-RATES wrapper (choice unbounded DIAGNOSTIC-PERIODIC-RATE), SCHEDULER-MAX-NUMBER; XSD order
+      matches the markdown displayed order. constr_1338/1810-1812 (1..3 rates, existence at DEXT complete)
+      are completeness constraints, not fields.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByPeriodicIDClass` factory
+      (alphabetical after createDiagnosticReadDataByPeriodicID) + readARPackageElements
+      DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS branch + writeARPackageElement isinstance branch; the
+      periodicRate aggregation dispatches to the pulled-in read/writeDiagnosticPeriodicRate helpers via the
+      PERIODIC-RATES wrapper.
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `d9cdc58eb`
 
 - [ ] `DiagnosticPeriodicRate` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.99, p.131
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled in ahead of its consumer DiagnosticReadDataByPeriodicIDClass (Rule 0016.5 —
+      periodicRate `*` aggr references it); Table 4.99 body matched by Class row (leading caption); concrete
+      ARObject (no-arg ctor); attrs period (TimeValue 0..1 attr) + periodicRateCategory
+      (DiagnosticPeriodicRateCategoryEnum 0..1 attr, cell-wrap "periodicRate Category" /
+      "DiagnosticPeriodicRate CategoryEnum" healed); XSD group DIAGNOSTIC-PERIODIC-RATE
+      (AUTOSAR_00052.xsd l.40879) — PERIOD, PERIODIC-RATE-CATEGORY, matches displayed order.
+    - note (Step 6): reusable read/writeDiagnosticPeriodicRate helper (DiagnosticControlEnableMaskBit
+      ARObject pattern — readARObject/writeARObject + own fields; writer creates its own
+      DIAGNOSTIC-PERIODIC-RATE SubElement); no dispatch of its own — the PERIODIC-RATES wrapper dispatch
+      rides the DiagnosticReadDataByPeriodicIDClass pass; round-trip verified via an ET-level
+      write → re-read cycle (nested ARObject is not document-reachable before its aggregator syncs).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `c3a080fdc`
 
 - [ ] `DiagnosticPeriodicRateCategoryEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.100, p.131
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): pulled in FIRST (before dependent Table 4.99 DiagnosticPeriodicRate, itself pulled in
+      before dependent Table 4.98 DiagnosticReadDataByPeriodicIDClass — dependency-first per sync convention).
+      Literals in displayed order periodicRateFast (idx 0, PERIODIC-RATE-FAST) / periodicRateMedium
+      (idx 1, PERIODIC-RATE-MEDIUM) / periodicRateSlow (idx 2, PERIODIC-RATE-SLOW); XSD SIMPLE type l.134901.
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP
+      pre-registered in parser/writer for the consuming attribute; consumer tests land with the Table 4.99 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `051ec169f`
 
 - [ ] `DiagnosticResponseOnEvent` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.101, p.132
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): trailing-caption table — body at md l.3932 (Class row = DiagnosticResponseOnEvent),
+      caption l.3943; the body at md l.3945 following that caption is Table 4.102's (Class row =
+      DiagnosticResponseOnEventClass). Attrs in displayed order eventWindow (DiagnosticEventWindow `*` aggr,
+      cell-wrap none) / responseOnEventAction (DiagnosticResponseOnEventActionEnum 0..1 attr, cell-wrap
+      "responseOn EventAction" healed) / responseOnEventClass (DiagnosticResponseOnEventClass 0..1 ref —
+      RefType, no pull-in needed). Base chain cell-wrap healed: most-derived ARElement. XSD group
+      DIAGNOSTIC-RESPONSE-ON-EVENT l.42645: EVENTS + STORE-EVENT-SUPPORT carry atp.Status="removed" and are
+      absent from the R23-11 table → not modeled (Rule 0015); XML order EVENT-WINDOWS /
+      RESPONSE-ON-EVENT-ACTION / RESPONSE-ON-EVENT-CLASS-REF.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticResponseOnEvent` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; eventWindow aggregation dispatches to
+      the pulled-in read/writeDiagnosticEventWindow helpers via the EVENT-WINDOWS wrapper; enum via
+      DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP (token map pre-registered in the Table 4.105 pass).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `cd643b2b9`
 
 - [ ] `DiagnosticResponseOnEventClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.102, p.133
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): page-split table — header block (Class/Package/Note/Base/Aggregated by) at md l.3945
+      right after Table 4.101's caption, attributes block at md l.3958, trailing caption l.3967; body matched
+      by Class row cell = DiagnosticResponseOnEventClass. Base cell-wrap "DiagnosticServiceClass Identifiable"
+      healed → most-derived DiagnosticServiceClass. Attrs in displayed order maxNumberOfStoredDTCStatusChangedEvents /
+      maxNumChangeOfDataIdentfierEvents (spec-name typo "Identfier" kept per XSD mmt.qualifiedName) /
+      maxNumComparisionOfValueEvents ("Comparision" kept) / maxSupportedDIDLength / responseOnEventSchedulerRate /
+      storeEventEnabled; Note cell-wraps healed ("onChangeOf DataIdentifier" → onChangeOfDataIdentifier,
+      "on ComparisonOfValues" → onComparisonOfValues, "ResponseOnEvent SchedulerRate" → ResponseOnEventSchedulerRate).
+      XSD group DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS l.42716: INTER-MESSAGE-TIME carries atp.Status="removed" and
+      is absent from the R23-11 table → not modeled (Rule 0015); XML order IDENTFIER-EVENTS / COMPARISION /
+      NUMBER-OF-STORED / DID-LENGTH / SCHEDULER-RATE / STORE-EVENT-ENABLED. markdown "Response OnEvent" kept
+      verbatim in storeEventEnabled docstring (markdown primary; XSD has "ResponseOnEvent").
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticResponseOnEventClass` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; CommonService bottom-import in ARPackage.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e39a10b0d`
 
 - [ ] `DiagnosticEventWindow` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.103, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): leading-caption table (body at md l.3971, caption l.3969). Single attr eventWindowTime
+      (DiagnosticEventWindowTimeEnum 0..1 attr, cell-wrap "eventWindow Time" healed); XSD group
+      DIAGNOSTIC-EVENT-WINDOW l.37131 additionally defines STORAGE-STATE-EVALUATION (BOOLEAN) but it carries
+      atp.Status="removed" and is absent from the R23-11 table → not modeled (Rule 0015).
+    - note (Step 6): reusable read/writeDiagnosticEventWindow helper (DiagnosticPeriodicRate
+      c3a080fdc pattern) placed after the *EnvBswModeElement methods in parser/writer; aggregator dispatch
+      (EVENT-WINDOWS wrapper → DIAGNOSTIC-EVENT-WINDOW children inside DiagnosticResponseOnEvent) is wired
+      with the Table 4.101 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e449ef97a`
 
 - [ ] `DiagnosticEventWindowTimeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.104, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): trailing-caption table (body at md l.3983, caption l.3980). Literals in displayed
+      order infiniteTimeToResponse (idx 3, INFINITE-TIME-TO-RESPONSE) / powerWindowTime (idx 4,
+      POWER-WINDOW-TIME); XSD SIMPLE type l.134423 additionally defines idx 0-2
+      (eventWindowCurrentAndFollowingCycle / eventWindowCurrentCycle / eventWindowInfinite) but all three
+      carry atp.Status="removed" and are absent from the R23-11 table → not modeled (Rule 0015).
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP
+      pre-registered in parser/writer for the consuming attribute; consumer tests land with the Table 4.103 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `2de5f4a01`
 
 - [ ] `DiagnosticResponseOnEventActionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.105, p.134
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): body at md l.3996 (caption l.3992). 9 literals in displayed order — clear (idx 2) /
+      onChangeOfDataIdentifier (idx 6) / onComparisonOfValues (idx 8) / onDTCStatusChange (idx 7) / report
+      (idx 3) / reportDTCRecordInformationOnDtcStatusChange (idx 5) / reportMostRecentDtcOnStatusChange
+      (idx 4) / start (idx 1) / stop (idx 0); XSD SIMPLE type confirms all 9 tokens, none removed
+      (idx order ≠ displayed order — displayed order kept, Rule 0001.11).
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP
+      pre-registered in parser/writer for the consuming attribute; consumer tests land with the Table 4.101 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `96ca41532`
 
 - [ ] `DiagnosticReadDTCInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.106, p.136
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): leading-caption table — caption at md l.4066, body follows (Class row =
+      DiagnosticReadDTCInformation). Single attr readDTCInformationClass (DiagnosticReadDTCInformationClass
+      0..1 ref — RefType, no pull-in needed; cell-wraps "read DTCInformation Class" /
+      "DiagnosticReadDTC InformationClass" healed). Note cell-wrap healed ("DiagnosticRead DTCInformation" →
+      DiagnosticReadDTCInformation). Base chain most-derived ARElement. XSD group
+      DIAGNOSTIC-READ-DTC-INFORMATION l.41350: single element READ-DTC-INFORMATION-CLASS-REF (DEST
+      DIAGNOSTIC-READ-DTC-INFORMATION-CLASS--SUBTYPES-ENUM), no removed elements; XML order
+      READ-DTC-INFORMATION-CLASS-REF only.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDTCInformation` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; single ref via
+      getChildElementOptionalRefType / setChildElementOptionalRefType (DEST preserved).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `9ac51b650`
 
 - [ ] `DiagnosticReadDTCInformationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.107, p.136
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): leading-caption table — caption at md l.4077, body follows (Class row =
+      DiagnosticReadDTCInformationClass). Attribute row is `-` — no own attributes; Base chain most-derived
+      DiagnosticServiceClass. XSD group DIAGNOSTIC-READ-DTC-INFORMATION-CLASS l.41397: empty sequence
+      (<xsd:sequence/>), no removed elements. Aggregated by ARPackage.element → factory + dispatch despite
+      zero own attrs.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDTCInformationClass` factory +
+      bottom CommonService import in ARPackage.py; readARPackageElements / writeARPackageElement dispatch
+      branches; IDENTIFIABLE wrapper only (empty XSD group).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `4b113a2de`
 
 - [ ] `DiagnosticClearDiagnosticInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.108, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): leading-caption table — caption at md l.4100, body follows (Class row =
+      DiagnosticClearDiagnosticInformation). Single attr clearDiagnosticInformationClass
+      (DiagnosticClearDiagnosticInformationClass 0..1 ref — RefType, no pull-in needed; cell-wraps
+      "clearDiagnostic Information Class" / "DiagnosticClear DiagnosticInformation Class" /
+      "DiagnosticClearDiagnostic Information" healed). Base chain most-derived ARElement. XSD group
+      DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION l.32349: single element CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF
+      (DEST DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS--SUBTYPES-ENUM), no removed elements; XML order
+      CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF only. [TPS_DEXT_01022] (category not constrained) is chapter
+      prose, not the class Note — not modeled.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticClearDiagnosticInformation` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; single ref via
+      getChildElementOptionalRefType / setChildElementOptionalRefType (DEST preserved).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3165f8784`
 
 - [ ] `DiagnosticClearDiagnosticInformationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.109, p.137
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): leading-caption table — caption at md l.4111, body follows (Class row =
+      DiagnosticClearDiagnosticInformationClass). Attribute row is `-` — no own attributes; Base chain
+      most-derived DiagnosticServiceClass. XSD group DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS
+      l.32396: empty sequence (<xsd:sequence/>), no removed elements. Aggregated by ARPackage.element →
+      factory + dispatch despite zero own attrs.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticClearDiagnosticInformationClass`
+      factory + bottom CommonService import in ARPackage.py; readARPackageElements /
+      writeARPackageElement dispatch branches; IDENTIFIABLE wrapper only (empty XSD group).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `b797bc651`
 
 - [ ] `DiagnosticMemoryByAddress` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.110, p.139
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.110 body matched by Class row (leading caption, md l.4177); abstract
+    ARElement (no "(abstract)"-free — marked "DiagnosticMemoryByAddress (abstract)"); NO attribute
+    rows (`-` row) — XSD group DIAGNOSTIC-MEMORY-BY-ADDRESS (AUTOSAR_00052.xsd l.39449) is an empty
+    `<xsd:sequence/>`; Aggregated by ARPackage.element but abstract ⇒ no factory/dispatch
+    (DiagnosticDataByIdentifier precedent); no Rule 0001.7 helpers (nothing to read/write).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (abstract; no own XML-bearing attributes — empty XSD group; no dispatch, no Rule 0001.7 helpers)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (same reason; concrete subclasses dispatch under their own tags)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `97eb7a99d`
 
 - [ ] `DiagnosticMemoryAddressableRangeAccess` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.111, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 4.111 body matched by Class row (trailing-caption page-break artifact — body
+    renders above the caption l.4189, caption l.4201); abstract, Base most-derived =
+    DiagnosticMemoryByAddress. Attribute (displayed order): memoryRange (DiagnosticMemoryIdentifier,
+    `*`, ref — cell-wrap "DiagnosticMemory Identifier" healed; a REFS-wrapper multi-ref per XSD group
+    DIAGNOSTIC-MEMORY-ADDRESSABLE-RANGE-ACCESS l.39420: MEMORY-RANGE-REFS/MEMORY-RANGE-REF, DEST
+    DIAGNOSTIC-MEMORY-IDENTIFIER--SUBTYPES-ENUM). Aggregated by ARPackage.element but abstract ⇒ no
+    factory/dispatch; Rule 0001.7 reusable read/writeDiagnosticMemoryAddressableRangeAccess helpers
+    (MEMORY-RANGE-REFS wrapper only; callers do readIdentifiable/writeIdentifiable).
+    Spec anomaly: the class Note is truncated to "This abstract base class" in the R23-11 PDF itself
+    (p.140 text verified) and in R4.3.1 Table 5.35 — kept verbatim.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): abstract base — no factory/dispatch; Rule 0001.7 reusable helpers readDiagnosticMemoryAddressableRangeAccess / writeDiagnosticMemoryAddressableRangeAccess (MEMORY-RANGE-REFS wrapper via getChildElementRefTypeList / SubElement loop) for the concrete subclasses (RequestDownload/RequestUpload/TransferExit/DataTransfer).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations (truncated class Note "This abstract base class" is the spec's own text, kept verbatim).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e6d109972`
 
 - [ ] `DiagnosticMemoryIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.112, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

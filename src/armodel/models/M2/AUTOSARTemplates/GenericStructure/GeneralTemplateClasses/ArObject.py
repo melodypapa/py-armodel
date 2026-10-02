@@ -303,7 +303,80 @@ class DiagnosticComControlSpecificChannel(ARObject):
 
 
 class DiagnosticComControlSubNodeChannel(ARObject):
-    pass
+    """
+    This represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service "communication control".
+    """
+
+    # DiagnosticComControlSubNodeChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.67, p.110
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSubNodeChannel             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubNodeChannel             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubNodeNumber              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubNodeNumber              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubNodePhysicalChannel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubNodePhysicalChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the affected CommunicationCluster in the role subNodeChannel
+        self.subNodeChannel: Optional[RefType] = None
+
+        # This represents the applicable subNode number. The value corresponds to the request message parameter nodeIdentificationNumber of diagnostic service CommunicationControl (0x28).
+        self.subNodeNumber: Optional[PositiveInteger] = None
+
+        # This represents the affected sub-node EthernetPhysicalChannel.
+        self.subNodePhysicalChannel: Optional[RefType] = None
+
+    def getSubNodeChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected CommunicationCluster in the role subNodeChannel
+        """
+        return self.subNodeChannel
+
+    def setSubNodeChannel(self, value: Optional[RefType]) -> DiagnosticComControlSubNodeChannel:
+        """
+        This represents the affected CommunicationCluster in the role subNodeChannel
+
+        A None value is a no-op and does not overwrite an existing subNodeChannel.
+        """
+        if value is not None:
+            self.subNodeChannel = value
+        return self
+
+    def getSubNodeNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the applicable subNode number. The value corresponds to the request message parameter nodeIdentificationNumber of diagnostic service CommunicationControl (0x28).
+        """
+        return self.subNodeNumber
+
+    def setSubNodeNumber(self, value: Optional[PositiveInteger]) -> DiagnosticComControlSubNodeChannel:
+        """
+        This represents the applicable subNode number. The value corresponds to the request message parameter nodeIdentificationNumber of diagnostic service CommunicationControl (0x28).
+
+        A None value is a no-op and does not overwrite an existing subNodeNumber.
+        """
+        if value is not None:
+            self.subNodeNumber = value
+        return self
+
+    def getSubNodePhysicalChannel(self) -> Optional[RefType]:
+        """
+        This represents the affected sub-node EthernetPhysicalChannel.
+        """
+        return self.subNodePhysicalChannel
+
+    def setSubNodePhysicalChannel(self, value: Optional[RefType]) -> DiagnosticComControlSubNodeChannel:
+        """
+        This represents the affected sub-node EthernetPhysicalChannel.
+
+        A None value is a no-op and does not overwrite an existing subNodePhysicalChannel.
+        """
+        if value is not None:
+            self.subNodePhysicalChannel = value
+        return self
 
 
 class DiagnosticCommonProps(ARObject):
@@ -555,12 +628,58 @@ class DiagnosticConnectedIndicator(ARObject):
     pass
 
 
-class DiagnosticControlDTCSetting(ARObject):
-    pass
-
-
 class DiagnosticControlEnableMaskBit(ARObject):
-    pass
+    """This meta-class has the ability to represent one bit in the control enable mask record."""
+
+    # DiagnosticControlEnableMaskBit method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.83, p.119
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitNumber               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitNumber               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addControlledDataElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlledDataElements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the bit number of the bit in the control mask record. Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation.
+        self.bitNumber: Optional[PositiveInteger] = None
+
+        # This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record.
+        self.controlledDataElement: List[RefType] = []
+
+    def getBitNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the bit number of the bit in the control mask record. Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation.
+        """
+        return self.bitNumber
+
+    def setBitNumber(self, value: Optional[PositiveInteger]) -> DiagnosticControlEnableMaskBit:
+        """
+        This attribute represents the bit number of the bit in the control mask record. Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation.
+
+        A None value is a no-op and does not overwrite an existing bitNumber.
+        """
+        if value is not None:
+            self.bitNumber = value
+        return self
+
+    def addControlledDataElement(self, value: Optional[RefType]) -> DiagnosticControlEnableMaskBit:
+        """
+        This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record.
+
+        A None value is a no-op and does not append a controlledDataElement.
+        """
+        if value is not None:
+            self.controlledDataElement.append(value)
+        return self
+
+    def getControlledDataElements(self) -> List[RefType]:
+        """
+        This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record.
+        """
+        return self.controlledDataElement
 
 
 class DiagnosticEnableConditionPortMapping(ARObject):
@@ -572,7 +691,36 @@ class DiagnosticEnvModeCondition(ARObject):
 
 
 class DiagnosticEventWindow(ARObject):
-    pass
+    """This represents the ability to define the characteristics of the applicable event window"""
+
+    # DiagnosticEventWindow method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.103, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventWindowTime   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventWindowTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute clarifies the validity of the eventWindow
+        self.eventWindowTime: Optional[DiagnosticEventWindowTimeEnum] = None
+
+    def getEventWindowTime(self) -> Optional[DiagnosticEventWindowTimeEnum]:
+        """
+        This attribute clarifies the validity of the eventWindow
+        """
+        return self.eventWindowTime
+
+    def setEventWindowTime(self, value: Optional[DiagnosticEventWindowTimeEnum]) -> DiagnosticEventWindow:
+        """
+        This attribute clarifies the validity of the eventWindow
+
+        A None value is a no-op and does not overwrite an existing eventWindowTime.
+        """
+        if value is not None:
+            self.eventWindowTime = value
+        return self
 
 
 class DiagnosticFimFunctionMapping(ARObject):
@@ -661,7 +809,57 @@ class DiagnosticParameterSupportInfo(ARObject):
 
 
 class DiagnosticPeriodicRate(ARObject):
-    pass
+    """This represents the ability to define a periodic rate for the specification of the "read data by periodic ID" diagnostic service."""
+
+    # DiagnosticPeriodicRate method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.99, p.131
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriodicRateCategory      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriodicRateCategory      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the period of the DiagnosticPeriodicRate in seconds.
+        self.period: Optional[TimeValue] = None
+
+        # This attribute represents the category of the periodic rate.
+        self.periodicRateCategory: Optional[DiagnosticPeriodicRateCategoryEnum] = None
+
+    def getPeriod(self) -> Optional[TimeValue]:
+        """
+        This represents the period of the DiagnosticPeriodicRate in seconds.
+        """
+        return self.period
+
+    def setPeriod(self, value: Optional[TimeValue]) -> DiagnosticPeriodicRate:
+        """
+        This represents the period of the DiagnosticPeriodicRate in seconds.
+
+        A None value is a no-op and does not overwrite an existing period.
+        """
+        if value is not None:
+            self.period = value
+        return self
+
+    def getPeriodicRateCategory(self) -> Optional[DiagnosticPeriodicRateCategoryEnum]:
+        """
+        This attribute represents the category of the periodic rate.
+        """
+        return self.periodicRateCategory
+
+    def setPeriodicRateCategory(self, value: Optional[DiagnosticPeriodicRateCategoryEnum]) -> DiagnosticPeriodicRate:
+        """
+        This attribute represents the category of the periodic rate.
+
+        A None value is a no-op and does not overwrite an existing periodicRateCategory.
+        """
+        if value is not None:
+            self.periodicRateCategory = value
+        return self
 
 
 class DiagnosticReadMemoryByAddress(ARObject):
@@ -1245,7 +1443,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
     Identifier,
     PositiveInteger,
     RefType,

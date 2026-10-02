@@ -2,6 +2,7 @@
 Tests for the ARObject class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 6.1).
 """
 
+import inspect
 import typing
 
 import pytest
@@ -11,9 +12,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARObject,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
+    DiagnosticComControlSubNodeChannel,
     DiagnosticCommonProps,
+    DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
+    DiagnosticPeriodicRate,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -22,7 +27,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventWindowTimeEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
     PositiveInteger,
     RefType,
     String,
@@ -552,3 +559,340 @@ class TestDiagnosticComControlSpecificChannel:
         setter_hints = typing.get_type_hints(DiagnosticComControlSpecificChannel.setSubnetNumber)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is DiagnosticComControlSpecificChannel
+
+
+class TestDiagnosticComControlSubNodeChannel:
+    """
+    Test class for DiagnosticComControlSubNodeChannel functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.67, p.110
+    """
+
+    def _create_channel(self) -> DiagnosticComControlSubNodeChannel:
+        return DiagnosticComControlSubNodeChannel()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticComControlSubNodeChannel initializes all attributes to None.
+        """
+        obj = self._create_channel()
+
+        assert obj.getSubNodeChannel() is None
+        assert obj.getSubNodeNumber() is None
+        assert obj.getSubNodePhysicalChannel() is None
+
+    def test_get_set_sub_node_channel(self):
+        """
+        Test getSubNodeChannel and setSubNodeChannel round-trip and None no-op.
+        """
+        obj = self._create_channel()
+
+        ref = RefType()
+        ref.setDest("COMMUNICATION-CLUSTER")
+        ref.setValue("/System/Clusters/Cluster1")
+        result = obj.setSubNodeChannel(ref)
+        assert result is obj  # method chaining
+        assert obj.getSubNodeChannel() is ref
+        assert obj.getSubNodeChannel().getValue() == "/System/Clusters/Cluster1"
+        assert obj.getSubNodeChannel().getDest() == "COMMUNICATION-CLUSTER"
+
+        result = obj.setSubNodeChannel(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSubNodeChannel() is ref  # None is a no-op
+
+    def test_get_set_sub_node_number(self):
+        """
+        Test getSubNodeNumber and setSubNodeNumber round-trip and None no-op.
+        """
+        obj = self._create_channel()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setSubNodeNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getSubNodeNumber() is value
+        assert obj.getSubNodeNumber().getValue() == 7
+
+        result = obj.setSubNodeNumber(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSubNodeNumber() is value  # None is a no-op
+
+    def test_get_set_sub_node_physical_channel(self):
+        """
+        Test getSubNodePhysicalChannel and setSubNodePhysicalChannel round-trip and None no-op.
+        """
+        obj = self._create_channel()
+
+        ref = RefType()
+        ref.setDest("ETHERNET-PHYSICAL-CHANNEL")
+        ref.setValue("/System/EthernetClusters/Cluster1/Vlan2")
+        result = obj.setSubNodePhysicalChannel(ref)
+        assert result is obj  # method chaining
+        assert obj.getSubNodePhysicalChannel() is ref
+        assert obj.getSubNodePhysicalChannel().getValue() == "/System/EthernetClusters/Cluster1/Vlan2"
+        assert obj.getSubNodePhysicalChannel().getDest() == "ETHERNET-PHYSICAL-CHANNEL"
+
+        result = obj.setSubNodePhysicalChannel(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSubNodePhysicalChannel() is ref  # None is a no-op
+
+    def test_get_set_sub_node_channel_type_hints(self):
+        """
+        Pin the subNodeChannel accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticComControlSubNodeChannel.getSubNodeChannel)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(DiagnosticComControlSubNodeChannel.setSubNodeChannel)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DiagnosticComControlSubNodeChannel
+
+    def test_get_set_sub_node_number_type_hints(self):
+        """
+        Pin the subNodeNumber accessor annotations to the spec type (Rule 0003).
+        """
+        getter_hints = typing.get_type_hints(DiagnosticComControlSubNodeChannel.getSubNodeNumber)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(DiagnosticComControlSubNodeChannel.setSubNodeNumber)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is DiagnosticComControlSubNodeChannel
+
+
+class TestDiagnosticControlEnableMaskBit:
+    """
+    Test class for DiagnosticControlEnableMaskBit functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.83, p.119
+    """
+
+    CLASS_NOTE = "This meta-class has the ability to represent one bit in the control enable mask record."
+    BIT_NUMBER_NOTE = (
+        "This attribute represents the bit number of the bit in the control mask record." " Bit number 0 is the most significant bit (MSB) in the first byte of the CEMR in the network presentation."
+    )
+    CONTROLLED_DATA_ELEMENT_NOTE = "This reference represents the collection of DiagnosticDataElements that are controlled by this bit of the control mask record."
+
+    def _create_mask_bit(self) -> DiagnosticControlEnableMaskBit:
+        return DiagnosticControlEnableMaskBit()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticControlEnableMaskBit initializes all attributes to their defaults.
+        """
+        obj = self._create_mask_bit()
+
+        assert obj.getBitNumber() is None
+        assert obj.getControlledDataElements() == []
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticControlEnableMaskBit derives from ARObject (Table 4.83 Base).
+        """
+        assert issubclass(DiagnosticControlEnableMaskBit, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticControlEnableMaskBit.__init__.__doc__ is None
+
+    def test_get_set_bit_number(self):
+        """
+        Test getBitNumber and setBitNumber round-trip and None no-op.
+        """
+        obj = self._create_mask_bit()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setBitNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getBitNumber() is value
+        assert obj.getBitNumber().getValue() == 7
+
+        result = obj.setBitNumber(None)
+        assert result is obj  # method chaining with None
+        assert obj.getBitNumber() is value  # None is a no-op
+
+    def test_add_controlled_data_element(self):
+        """
+        Test addControlledDataElement append and None no-op.
+        """
+        obj = self._create_mask_bit()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-ELEMENT")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifiers/DID1/DataElement1")
+        result = obj.addControlledDataElement(ref)
+        assert result is obj  # method chaining
+        assert obj.getControlledDataElements() == [ref]
+        assert obj.getControlledDataElements()[0].getValue() == "/AUTOSAR/DiagnosticDataIdentifiers/DID1/DataElement1"
+        assert obj.getControlledDataElements()[0].getDest() == "DIAGNOSTIC-DATA-ELEMENT"
+
+        result = obj.addControlledDataElement(None)
+        assert result is obj  # method chaining with None
+        assert obj.getControlledDataElements() == [ref]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.getBitNumber.__doc__) == self.BIT_NUMBER_NOTE
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.setBitNumber.__doc__) == (self.BIT_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing bitNumber.")
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.getControlledDataElements.__doc__) == self.CONTROLLED_DATA_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticControlEnableMaskBit.addControlledDataElement.__doc__) == (
+            self.CONTROLLED_DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not append a controlledDataElement."
+        )
+
+
+class TestDiagnosticPeriodicRate:
+    """
+    Test class for DiagnosticPeriodicRate functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.99, p.131
+    """
+
+    CLASS_NOTE = 'This represents the ability to define a periodic rate for the specification of the "read data by periodic ID" diagnostic service.'
+    PERIOD_NOTE = "This represents the period of the DiagnosticPeriodicRate in seconds."
+    PERIODIC_RATE_CATEGORY_NOTE = "This attribute represents the category of the periodic rate."
+
+    def _create_periodic_rate(self) -> DiagnosticPeriodicRate:
+        return DiagnosticPeriodicRate()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticPeriodicRate initializes all attributes to their defaults.
+        """
+        obj = self._create_periodic_rate()
+
+        assert obj.getPeriod() is None
+        assert obj.getPeriodicRateCategory() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticPeriodicRate derives from ARObject (Table 4.99 Base).
+        """
+        assert issubclass(DiagnosticPeriodicRate, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticPeriodicRate.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticPeriodicRate.__init__.__doc__ is None
+
+    def test_get_set_period(self):
+        """
+        Test getPeriod and setPeriod round-trip and None no-op.
+        """
+        obj = self._create_periodic_rate()
+
+        value = TimeValue().setValue(0.5)
+        result = obj.setPeriod(value)
+        assert result is obj  # method chaining
+        assert obj.getPeriod() is value
+        assert obj.getPeriod().getValue() == 0.5
+
+        result = obj.setPeriod(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPeriod() is value  # None is a no-op
+
+    def test_get_set_periodic_rate_category(self):
+        """
+        Test getPeriodicRateCategory and setPeriodicRateCategory round-trip and None no-op.
+        """
+        obj = self._create_periodic_rate()
+
+        value = DiagnosticPeriodicRateCategoryEnum().setValue(DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM)
+        result = obj.setPeriodicRateCategory(value)
+        assert result is obj  # method chaining
+        assert obj.getPeriodicRateCategory() is value
+        assert obj.getPeriodicRateCategory().getValue() == "periodicRateMedium"
+
+        result = obj.setPeriodicRateCategory(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPeriodicRateCategory() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticPeriodicRate.getPeriod.__doc__) == self.PERIOD_NOTE
+        assert inspect.cleandoc(DiagnosticPeriodicRate.setPeriod.__doc__) == (self.PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing period.")
+        assert inspect.cleandoc(DiagnosticPeriodicRate.getPeriodicRateCategory.__doc__) == self.PERIODIC_RATE_CATEGORY_NOTE
+        assert inspect.cleandoc(DiagnosticPeriodicRate.setPeriodicRateCategory.__doc__) == (
+            self.PERIODIC_RATE_CATEGORY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing periodicRateCategory."
+        )
+
+
+class TestDiagnosticEventWindow:
+    """
+    Test class for DiagnosticEventWindow functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.103, p.133
+    """
+
+    CLASS_NOTE = "This represents the ability to define the characteristics of the applicable event window"
+    EVENT_WINDOW_TIME_NOTE = "This attribute clarifies the validity of the eventWindow"
+
+    def _create_event_window(self) -> DiagnosticEventWindow:
+        return DiagnosticEventWindow()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticEventWindow initializes all attributes to their defaults.
+        """
+        obj = self._create_event_window()
+
+        assert obj.getEventWindowTime() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticEventWindow derives from ARObject (Table 4.103 Base).
+        """
+        assert issubclass(DiagnosticEventWindow, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticEventWindow.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventWindow.__init__.__doc__ is None
+
+    def test_get_set_event_window_time(self):
+        """
+        Test getEventWindowTime and setEventWindowTime round-trip and None no-op.
+        """
+        obj = self._create_event_window()
+
+        value = DiagnosticEventWindowTimeEnum().setValue(DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE)
+        result = obj.setEventWindowTime(value)
+        assert result is obj  # method chaining
+        assert obj.getEventWindowTime() is value
+        assert obj.getEventWindowTime().getValue() == "infiniteTimeToResponse"
+
+        result = obj.setEventWindowTime(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventWindowTime() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticEventWindow.getEventWindowTime.__doc__) == self.EVENT_WINDOW_TIME_NOTE
+        assert inspect.cleandoc(DiagnosticEventWindow.setEventWindowTime.__doc__) == (self.EVENT_WINDOW_TIME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventWindowTime.")
