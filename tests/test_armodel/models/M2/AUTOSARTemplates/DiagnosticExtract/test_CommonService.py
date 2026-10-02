@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
+    DiagnosticReadMemoryByAddressClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -1164,4 +1165,37 @@ class Test_DiagnosticWriteMemoryByAddressClass:
         assert package.getReferrableElement("Wmba1", DiagnosticWriteMemoryByAddressClass) is service_class
 
         duplicate = package.createDiagnosticWriteMemoryByAddressClass("Wmba1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticReadMemoryByAddressClass:
+    """Test cases for DiagnosticReadMemoryByAddressClass class (Table 4.116, p.142)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Read Memory by Address" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticReadMemoryByAddressClass(_pkg(), "MyRmba")
+        assert service_class.getShortName() == "MyRmba"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticReadMemoryByAddressClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticReadMemoryByAddressClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticReadMemoryByAddressClass, ARObject)
+        assert issubclass(DiagnosticReadMemoryByAddressClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadMemoryByAddressClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticReadMemoryByAddressClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_read_memory_by_address_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticReadMemoryByAddressClass("Rmba1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticReadMemoryByAddressClass)
+        assert service_class.getShortName() == "Rmba1"
+        assert package.getReferrableElement("Rmba1", DiagnosticReadMemoryByAddressClass) is service_class
+
+        duplicate = package.createDiagnosticReadMemoryByAddressClass("Rmba1")
         assert duplicate is service_class

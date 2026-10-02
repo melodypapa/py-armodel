@@ -531,7 +531,15 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
 
 
 class DiagnosticReadMemoryByAddressClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Read Memory by Address" diagnostic service."""
+
+    # DiagnosticReadMemoryByAddressClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.116, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticReadScalingDataByIdentifierClass(DiagnosticServiceClass):

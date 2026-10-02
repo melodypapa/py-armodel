@@ -1173,15 +1173,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticReadMemoryByAddressClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.116, p.142
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - note (Step 1): leading-caption table — caption at md l.4276, body follows l.4278-4285 (Class row =
+      DiagnosticReadMemoryByAddressClass). Attribute row is `-` — no own attributes; Base chain most-derived
+      DiagnosticServiceClass (Row Base confirmed: ...DiagnosticCommonElement, DiagnosticServiceClass, Identifiable...).
+      XSD group DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS l.41482: empty sequence (<xsd:sequence/>), complexType
+      l.41491. Aggregated by ARPackage.element → factory + dispatch despite zero own attrs (sibling convention
+      4b113a2de DiagnosticReadDTCInformationClass / 223a5cbba DiagnosticWriteMemoryByAddressClass).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadMemoryByAddressClass` factory +
+      bottom CommonService import in ARPackage.py; readARPackageElementsRest / writeARPackageElementRest dispatch
+      branches (next to the DIAGNOSTIC-READ-DTC-INFORMATION-CLASS entries); IDENTIFIABLE wrapper only (empty
+      XSD group), sibling convention 4b113a2de / 223a5cbba.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    - note (Step 8): no open deviations (markdown table rendered clean — leading-caption layout, no cell-wrap
+      artifacts in Note/Base cells; attribute row is `-`).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1349 passed / 0 failed test_CommonService.py + parser/writer class tests + member-annotations + stub-gate; parser+writer regression 7210 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticTransferExit` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.117, p.143
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

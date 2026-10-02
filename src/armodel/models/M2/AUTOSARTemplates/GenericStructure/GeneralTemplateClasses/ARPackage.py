@@ -988,6 +988,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddress)
 
+    def createDiagnosticReadMemoryByAddressClass(self, short_name: str) -> DiagnosticReadMemoryByAddressClass:
+        """
+        Creates a new DiagnosticReadMemoryByAddressClass with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticReadMemoryByAddressClass contains attributes shared by all
+        instances of the "Read Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadMemoryByAddressClass
+
+        Returns:
+            The newly created or existing DiagnosticReadMemoryByAddressClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadMemoryByAddressClass):
+            read_memory_by_address_class = DiagnosticReadMemoryByAddressClass(self, short_name)
+            self.addReferrableElement(read_memory_by_address_class)
+        return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddressClass)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -4021,6 +4040,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadMemoryByAddressClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByPeriodicIDClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadScalingDataByIdentifierClass  # noqa: E402
