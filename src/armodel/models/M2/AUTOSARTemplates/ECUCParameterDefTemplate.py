@@ -971,24 +971,22 @@ class EcucBooleanParamDef(EcucParameterDef):
 
 
 class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
-    """
-    Common class to gather the attributes for the definition of references.
-    """
+    """Common class to gather the attributes for the definition of references."""
 
     # EcucAbstractReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.26, p.71
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWithAuto      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWithAuto      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractReferenceDef")
 
         super().__init__(parent, short_name)
 
-        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO".
+        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
         self.withAuto: Optional[Boolean] = None
 
     def getWithAuto(self) -> Optional[Boolean]:
@@ -999,30 +997,27 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
     def setWithAuto(self, value: Optional[Boolean]) -> EcucAbstractReferenceDef:
         """
-        Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
+        %s
         A None value is a no-op and does not overwrite an existing withAuto.
         """
         if value is not None:
             self.withAuto = value
         return self
 
-
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    """
-    Common abstract class to gather attributes for internal references (where
-    the destination is located in the Ecu Configuration Description).
-    """
+    """Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description)."""
 
     # EcucAbstractInternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.27, p.72
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractInternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractInternalReferenceDef")
+
         super().__init__(parent, short_name)
 
         # If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108.
@@ -1036,32 +1031,26 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
     def setRequiresSymbolicNameValue(self, value: Optional[Boolean]) -> EcucAbstractInternalReferenceDef:
         """
-        If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108.
+        %s
         A None value is a no-op and does not overwrite an existing requiresSymbolicNameValue.
         """
         if value is not None:
             self.requiresSymbolicNameValue = value
         return self
 
-
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    """
-    Common abstract class to gather attributes for external references (where the
-    destination is not located in the ECU Configuration Description but in an
-    another AUTOSAR Template).
-    """
+    """Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template)."""
 
     # EcucAbstractExternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.28, p.72
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
 
         super().__init__(parent, short_name)
-
 
 class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
     """
@@ -1107,39 +1096,35 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
-    """
-    Specify alternative references where in the ECU Configuration description
-    only one of the specified references will actually be used.
-    """
+    """Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used."""
 
     # EcucChoiceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.30, p.74
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDestinationRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # All the possible parameter containers for the reference are specified.
+        # All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         self.destinationRefs: List[RefType] = []
 
     def getDestinationRefs(self) -> List[RefType]:
         """
-        All the possible parameter containers for the reference are specified.
+        All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         """
         return self.destinationRefs
 
-    def addDestinationRef(self, value: RefType) -> EcucChoiceReferenceDef:
+    def addDestinationRef(self, value: Optional[RefType]) -> EcucChoiceReferenceDef:
         """
-        All the possible parameter containers for the reference are specified.
-        A None value is a no-op and does not overwrite an existing destinationRefs.
+        All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
+        A None value is a no-op and does not append a destinationRef.
         """
         if value is not None:
             self.destinationRefs.append(value)
         return self
-
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     """
@@ -1276,38 +1261,35 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
-    """
-    Specify a reference to an XML description of an entity described in another
-    AUTOSAR template using the INSTANCE REFERENCE semantics.
-    """
+    """Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics."""
 
     # EcucInstanceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.32, p.77
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationContext     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationContext     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationType        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationType        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        # The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         self.destinationContext: Optional[String] = None
 
-        # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        # The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         self.destinationType: Optional[String] = None
 
     def getDestinationContext(self) -> Optional[String]:
         """
-        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         """
         return self.destinationContext
 
     def setDestinationContext(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
-        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationContext.
         """
         if value is not None:
@@ -1316,19 +1298,18 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
     def getDestinationType(self) -> Optional[String]:
         """
-        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         """
         return self.destinationType
 
     def setDestinationType(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
-        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationType.
         """
         if value is not None:
             self.destinationType = value
         return self
-
 
 class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     """Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags: vh.latestBindingTime=codeGenerationTime"""

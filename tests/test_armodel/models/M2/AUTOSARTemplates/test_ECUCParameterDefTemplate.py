@@ -113,8 +113,47 @@ class TestEcucSymbolicNameReferenceDef:
 
 
 class TestEcucChoiceReferenceDef:
+    """
+    Test class for EcucChoiceReferenceDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.30, p.74
+    """
+
+    CLASS_NOTE = "Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used."
+
     def test_instantiation(self):
         assert _instantiate(EcucChoiceReferenceDef, "EcucChoiceReferenceDef").getShortName() == "EcucChoiceReferenceDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucChoiceReferenceDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucChoiceReferenceDef.__init__.__doc__ is None
+
+    def test_add_get_destination_refs(self):
+        obj = EcucChoiceReferenceDef(AUTOSAR.getInstance().createARPackage("Pkg_TCR"), "Ref")
+
+        ref1 = RefType()
+        ref1.setDest("ECUC-PARAM-CONF-CONTAINER-DEF")
+        ref1.setValue("/AUTOSAR/Containers/C1")
+        assert obj.addDestinationRef(ref1) is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("ECUC-PARAM-CONF-CONTAINER-DEF")
+        ref2.setValue("/AUTOSAR/Containers/C2")
+        obj.addDestinationRef(ref2)
+
+        refs = obj.getDestinationRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+
+        obj.addDestinationRef(None)
+        assert len(obj.getDestinationRefs()) == 2  # None is a no-op
+
+    def test_inherits_requires_symbolic_name_value(self):
+        obj = EcucChoiceReferenceDef(AUTOSAR.getInstance().createARPackage("Pkg_TCR"), "Ref")
+
+        assert obj.getRequiresSymbolicNameValue() is None
 
 
 class TestEcucReferenceDef:
@@ -133,8 +172,40 @@ class TestEcucForeignReferenceDef:
 
 
 class TestEcucInstanceReferenceDef:
+    """
+    Test class for EcucInstanceReferenceDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.32, p.77
+    """
+
+    CLASS_NOTE = "Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics."
+
     def test_instantiation(self):
         assert _instantiate(EcucInstanceReferenceDef, "EcucInstanceReferenceDef").getShortName() == "EcucInstanceReferenceDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucInstanceReferenceDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucInstanceReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_destination_context_type(self):
+        obj = EcucInstanceReferenceDef(AUTOSAR.getInstance().createARPackage("Pkg_TIR"), "Ref")
+
+        ctx = String()
+        ctx.setValue("SwComponentType")
+        assert obj.setDestinationContext(ctx) is obj  # method chaining
+        assert obj.getDestinationContext() is ctx
+
+        dtype = String()
+        dtype.setValue("PortInterface")
+        obj.setDestinationType(dtype)
+        assert obj.getDestinationType() is dtype
+
+        obj.setDestinationContext(None)
+        obj.setDestinationType(None)
+        assert obj.getDestinationContext() is ctx  # None is a no-op
+        assert obj.getDestinationType() is dtype  # None is a no-op
 
 
 class TestEcucStringParamDef:
@@ -1537,21 +1608,85 @@ class TestEcucParameterDef:
 
 
 class TestEcucAbstractReferenceDef:
+    """
+    Test class for EcucAbstractReferenceDef functionality (abstract — accessors via concrete subclass).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.26, p.71
+    """
+
+    CLASS_NOTE = "Common class to gather the attributes for the definition of references."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractReferenceDef)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucAbstractReferenceDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_with_auto(self):
+        obj = EcucReferenceDef(AUTOSAR.getInstance().createARPackage("Pkg_TAR"), "Ref")
+
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setWithAuto(value) is obj  # method chaining
+        assert obj.getWithAuto() is value
+
+        obj.setWithAuto(None)
+        assert obj.getWithAuto() is value  # None is a no-op
+
 
 class TestEcucAbstractInternalReferenceDef:
+    """
+    Test class for EcucAbstractInternalReferenceDef functionality (abstract — accessors via concrete subclass).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.27, p.72
+    """
+
+    CLASS_NOTE = "Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description)."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractInternalReferenceDef)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucAbstractInternalReferenceDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractInternalReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_requires_symbolic_name_value(self):
+        obj = EcucReferenceDef(AUTOSAR.getInstance().createARPackage("Pkg_TAI"), "Ref")
+
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setRequiresSymbolicNameValue(value) is obj  # method chaining
+        assert obj.getRequiresSymbolicNameValue() is value
+
+        obj.setRequiresSymbolicNameValue(None)
+        assert obj.getRequiresSymbolicNameValue() is value  # None is a no-op
+
 
 class TestEcucAbstractExternalReferenceDef:
+    """
+    Test class for EcucAbstractExternalReferenceDef functionality (abstract, no own attributes).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.28, p.72
+    """
+
+    CLASS_NOTE = "Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template)."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractExternalReferenceDef)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucAbstractExternalReferenceDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractExternalReferenceDef.__init__.__doc__ is None
 
 
 class TestEcucAbstractStringParamDef:
