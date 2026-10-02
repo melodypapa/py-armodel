@@ -1899,7 +1899,57 @@ class DiagnosticRecordTriggerEnum(AREnum):
     pass
 
 class DiagnosticResponseOnEventActionEnum(AREnum):
-    pass
+    """
+    This meta-class has the ability to define sub-functions of the UDS service ResponseOnEvent.
+    """
+
+    # DiagnosticResponseOnEventActionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.105, p.134
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Clears the configured events. Tags: atp.EnumerationLiteralIndex=2
+    CLEAR = "clear"
+
+    # Reports based on change of data identifier. Tags: atp.EnumerationLiteralIndex=6
+    ON_CHANGE_OF_DATA_IDENTIFIER = "onChangeOfDataIdentifier"
+
+    # Triggered if data condition is met (e.g. RPM over 5000 1/min). Tags: atp.EnumerationLiteralIndex=8
+    ON_COMPARISON_OF_VALUES = "onComparisonOfValues"
+
+    # Reports based on change of DTC status. Tags: atp.EnumerationLiteralIndex=7
+    ON_DTC_STATUS_CHANGE = "onDTCStatusChange"
+
+    # Reports the activated events. Tags: atp.EnumerationLiteralIndex=3
+    REPORT = "report"
+
+    # Reports the DTC record-related information based on a DTC status change. (Subfunction 0x09) Tags: atp.EnumerationLiteralIndex=5
+    REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE = "reportDTCRecordInformationOnDtcStatusChange"
+
+    # Triggers the report of the most recent failed or confirmed DTC (Subfunction 0x08). Tags: atp.EnumerationLiteralIndex=4
+    REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE = "reportMostRecentDtcOnStatusChange"
+
+    # Starts the response on event service. Tags: atp.EnumerationLiteralIndex=1
+    START = "start"
+
+    # Stops the response on event service. Tags: atp.EnumerationLiteralIndex=0
+    STOP = "stop"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticResponseOnEventActionEnum.CLEAR,
+                DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER,
+                DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES,
+                DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE,
+                DiagnosticResponseOnEventActionEnum.REPORT,
+                DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE,
+                DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE,
+                DiagnosticResponseOnEventActionEnum.START,
+                DiagnosticResponseOnEventActionEnum.STOP,
+            ]
+        )
 
 class DiagnosticResponseToEcuResetEnum(AREnum):
     """

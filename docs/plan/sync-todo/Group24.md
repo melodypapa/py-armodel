@@ -868,14 +868,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticResponseOnEventActionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.105, p.134
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): body at md l.3996 (caption l.3992). 9 literals in displayed order — clear (idx 2) /
+      onChangeOfDataIdentifier (idx 6) / onComparisonOfValues (idx 8) / onDTCStatusChange (idx 7) / report
+      (idx 3) / reportDTCRecordInformationOnDtcStatusChange (idx 5) / reportMostRecentDtcOnStatusChange
+      (idx 4) / start (idx 1) / stop (idx 0); XSD SIMPLE type confirms all 9 tokens, none removed
+      (idx order ≠ displayed order — displayed order kept, Rule 0001.11).
+    - note (Step 5/6): N/A — standalone enum, no own XML element. Token map DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP
+      pre-registered in parser/writer for the consuming attribute; consumer tests land with the Table 4.101 pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no own XML element)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadDTCInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.106, p.136

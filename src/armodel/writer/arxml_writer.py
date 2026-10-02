@@ -1343,6 +1343,20 @@ DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP = {
     "powerWindowTime": "POWER-WINDOW-TIME",
 }
 
+#: Mapping between DiagnosticResponseOnEventActionEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RESPONSE-ON-EVENT-ACTION-ENUM--SIMPLE).
+DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
+    "clear": "CLEAR",
+    "onChangeOfDataIdentifier": "ON-CHANGE-OF-DATA-IDENTIFIER",
+    "onComparisonOfValues": "ON-COMPARISON-OF-VALUES",
+    "onDTCStatusChange": "ON-DTC-STATUS-CHANGE",
+    "report": "REPORT",
+    "reportDTCRecordInformationOnDtcStatusChange": "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE",
+    "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
+    "start": "START",
+    "stop": "STOP",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """

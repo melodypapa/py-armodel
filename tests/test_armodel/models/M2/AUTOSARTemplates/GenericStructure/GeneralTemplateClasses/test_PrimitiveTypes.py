@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -2086,3 +2087,67 @@ class TestDiagnosticEventWindowTimeEnum:
         enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
 
         assert enum.getValue() == "powerWindowTime"
+
+
+class TestDiagnosticResponseOnEventActionEnum:
+    """
+    Test class for DiagnosticResponseOnEventActionEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.105, p.134
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticResponseOnEventActionEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticResponseOnEventActionEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "clear",
+            "onChangeOfDataIdentifier",
+            "onComparisonOfValues",
+            "onDTCStatusChange",
+            "report",
+            "reportDTCRecordInformationOnDtcStatusChange",
+            "reportMostRecentDtcOnStatusChange",
+            "start",
+            "stop",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticResponseOnEventActionEnum member values.
+        """
+        enum = DiagnosticResponseOnEventActionEnum()
+
+        assert DiagnosticResponseOnEventActionEnum.CLEAR == "clear"
+        assert DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER == "onChangeOfDataIdentifier"
+        assert DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES == "onComparisonOfValues"
+        assert DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE == "onDTCStatusChange"
+        assert DiagnosticResponseOnEventActionEnum.REPORT == "report"
+        assert DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE == "reportDTCRecordInformationOnDtcStatusChange"
+        assert DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE == "reportMostRecentDtcOnStatusChange"
+        assert DiagnosticResponseOnEventActionEnum.START == "start"
+        assert DiagnosticResponseOnEventActionEnum.STOP == "stop"
+
+        assert enum.validateEnumValue("clear") is True
+        assert enum.validateEnumValue("onChangeOfDataIdentifier") is True
+        assert enum.validateEnumValue("onComparisonOfValues") is True
+        assert enum.validateEnumValue("onDTCStatusChange") is True
+        assert enum.validateEnumValue("report") is True
+        assert enum.validateEnumValue("reportDTCRecordInformationOnDtcStatusChange") is True
+        assert enum.validateEnumValue("reportMostRecentDtcOnStatusChange") is True
+        assert enum.validateEnumValue("start") is True
+        assert enum.validateEnumValue("stop") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticResponseOnEventActionEnum instantiability and getValue.
+        """
+        enum = DiagnosticResponseOnEventActionEnum()
+        enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
+
+        assert enum.getValue() == "onChangeOfDataIdentifier"
