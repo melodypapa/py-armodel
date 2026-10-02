@@ -1711,31 +1711,25 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticEventNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.31, p.258
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getDeferringFidRefs          [x] impl  [x] docstring  [x] test
-    # [x] addDeferringFidRef           [x] impl  [x] docstring  [x] test
-    # [x] getDiagEventDebounceAlgorithm [x] impl  [x] docstring  [x] test
-    # [x] createDiagEventDebounceCounterBased [x] impl  [x] docstring  [x] test
-    # [x] createDiagEventDebounceMonitorInternal [x] impl  [x] docstring  [x] test
-    # [x] createDiagEventDebounceTimeBased [x] impl  [x] docstring  [x] test
-    # [x] getInhibitingFidRef          [x] impl  [x] docstring  [x] test
-    # [x] setInhibitingFidRef          [x] impl  [x] docstring  [x] test
-    # [x] getInhibitingSecondaryFidRefs [x] impl  [x] docstring  [x] test
-    # [x] addInhibitingSecondaryFidRef [x] impl  [x] docstring  [x] test
-    # [x] getPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test
-    # [x] setPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test
-    # [x] getUsesMonitorData           [x] impl  [x] docstring  [x] test
-    # [x] setUsesMonitorData           [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDeferringFidRefs         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addDeferringFidRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDiagEventDebounceAlgorithm[x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDiagEventDebounceCounterBased[x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagEventDebounceMonitorInternal[x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagEventDebounceTimeBased[x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInhibitingFidRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setInhibitingFidRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getInhibitingSecondaryFidRefs[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addInhibitingSecondaryFidRef[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getPrestoredFreezeframeStoredInNvm[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setPrestoredFreezeframeStoredInNvm[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getUsesMonitorData          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setUsesMonitorData          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticEventNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event needs
-            short_name: The unique short name of this diagnostic event needs
-        """
         super().__init__(parent, short_name)
 
         # This reference contains the link to a function identifier within the FiM which is used by the monitor before delivering a result.
@@ -1750,7 +1744,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         # This represents the secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
         self.inhibitingSecondaryFidRefs: List[RefType] = []
 
-        # If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
+        # If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestored FreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
         self.prestoredFreezeframeStoredInNvm: Optional[Boolean] = None
 
         # This attribute defines whether additional monitor data shall be added to the reporting of events.
@@ -1758,23 +1752,14 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def getDeferringFidRefs(self) -> List[RefType]:
         """
-        Gets the references to function identifiers within the FiM which are used by the monitor before delivering a result.
-
-        Returns:
-            List of RefType instances
+        This reference contains the link to a function identifier within the FiM which is used by the monitor before delivering a result.
         """
         return self.deferringFidRefs
 
     def addDeferringFidRef(self, value: Optional[RefType]) -> DiagnosticEventNeeds:
         """
-        Adds a reference to a function identifier within the FiM which is used by the monitor before delivering a result.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The RefType instance to add
-
-        Returns:
-            self for method chaining
+        This reference contains the link to a function identifier within the FiM which is used by the monitor before delivering a result.
+        A None value is a no-op and does not append to deferringFidRefs.
         """
         if value is not None:
             self.deferringFidRefs.append(value)
@@ -1782,10 +1767,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def getDiagEventDebounceAlgorithm(self) -> Optional[DiagEventDebounceAlgorithm]:
         """
-        Gets the abstract need on the Debounce Algorithm applied by the Diagnostic Event Manager.
-
-        Returns:
-            DiagEventDebounceAlgorithm instance, or None if not set
+        Specifies the abstract need on the Debounce Algorithm applied by the Diagnostic Event Manager.
         """
         return self.diagEventDebounceAlgorithm
 
@@ -1839,23 +1821,14 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def getInhibitingFidRef(self) -> Optional[RefType]:
         """
-        Gets the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
-
-        Returns:
-            RefType instance, or None if not set
+        This represents the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
         """
         return self.inhibitingFidRef
 
     def setInhibitingFidRef(self, value: Optional[RefType]) -> DiagnosticEventNeeds:
         """
-        Sets the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
+        This represents the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
         A None value is a no-op and does not overwrite an existing inhibitingFidRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.inhibitingFidRef = value
@@ -1863,23 +1836,14 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def getInhibitingSecondaryFidRefs(self) -> List[RefType]:
         """
-        Gets the secondary Function Inhibition Identifiers used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
-
-        Returns:
-            List of RefType instances
+        This represents the secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
         """
         return self.inhibitingSecondaryFidRefs
 
     def addInhibitingSecondaryFidRef(self, value: Optional[RefType]) -> DiagnosticEventNeeds:
         """
-        Adds a secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The RefType instance to add
-
-        Returns:
-            self for method chaining
+        This represents the secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
+        A None value is a no-op and does not append to inhibitingSecondaryFidRefs.
         """
         if value is not None:
             self.inhibitingSecondaryFidRefs.append(value)
@@ -1887,23 +1851,14 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def getPrestoredFreezeframeStoredInNvm(self) -> Optional[Boolean]:
         """
-        Gets whether the Event requires the data of a prestored freeze-frame to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
-
-        Returns:
-            Boolean instance, or None if not set
+        If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestored FreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
         """
         return self.prestoredFreezeframeStoredInNvm
 
     def setPrestoredFreezeframeStoredInNvm(self, value: Optional[Boolean]) -> DiagnosticEventNeeds:
         """
-        Sets whether the Event requires the data of a prestored freeze-frame to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
+        If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestored FreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
         A None value is a no-op and does not overwrite an existing prestoredFreezeframeStoredInNvm.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.prestoredFreezeframeStoredInNvm = value
@@ -1911,23 +1866,14 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def getUsesMonitorData(self) -> Optional[Boolean]:
         """
-        Gets whether additional monitor data shall be added to the reporting of events.
-
-        Returns:
-            Boolean instance, or None if not set
+        This attribute defines whether additional monitor data shall be added to the reporting of events.
         """
         return self.usesMonitorData
 
     def setUsesMonitorData(self, value: Optional[Boolean]) -> DiagnosticEventNeeds:
         """
-        Sets whether additional monitor data shall be added to the reporting of events.
+        This attribute defines whether additional monitor data shall be added to the reporting of events.
         A None value is a no-op and does not overwrite an existing usesMonitorData.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.usesMonitorData = value
@@ -2080,19 +2026,13 @@ class ComMgrUserNeeds(ServiceNeeds):
 
     # ComMgrUserNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.13, p.235
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMaxCommMode               [x] impl  [x] docstring  [x] test
-    # [x] setMaxCommMode               [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxCommMode              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxCommMode              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ComMgrUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this COM manager user needs
-            short_name: The unique short name of this COM manager user needs
-        """
         super().__init__(parent, short_name)
 
         # Maximum communication mode requested by this ComM user.
@@ -2100,23 +2040,14 @@ class ComMgrUserNeeds(ServiceNeeds):
 
     def getMaxCommMode(self) -> Optional[MaxCommModeEnum]:
         """
-        Gets the maximum communication mode requested by this ComM user.
-
-        Returns:
-            MaxCommModeEnum instance, or None if not set
+        Maximum communication mode requested by this ComM user.
         """
         return self.maxCommMode
 
     def setMaxCommMode(self, value: Optional[MaxCommModeEnum]) -> ComMgrUserNeeds:
         """
-        Sets the maximum communication mode requested by this ComM user.
+        Maximum communication mode requested by this ComM user.
         A None value is a no-op and does not overwrite an existing maxCommMode.
-
-        Args:
-            value: The MaxCommModeEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.maxCommMode = value
@@ -2214,17 +2145,11 @@ class DevelopmentError(TracedFailure):
 
     # DevelopmentError method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.38, p.263
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DevelopmentError with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this development error
-            short_name: The unique short name of this development error
-        """
         super().__init__(parent, short_name)
 
 
@@ -2265,8 +2190,10 @@ class DiagnosticDenominatorConditionEnum(AREnum):
 
     # DiagnosticDenominatorConditionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.52, p.803
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # Condition based on definition of 500miles conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=2 xml.name=-500-MILES
     _500MILES = "-500-MILES"
@@ -2304,19 +2231,13 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticEnableConditionNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.26, p.762
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInitialStatus             [x] impl  [x] docstring  [x] test
-    # [x] setInitialStatus             [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialStatus            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setInitialStatus            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticEnableConditionNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic enable condition needs
-            short_name: The unique short name of this diagnostic enable condition needs
-        """
         super().__init__(parent, short_name)
 
         # Defines the initial status for enable or disable of acceptance of event reports of a diagnostic event.
@@ -2324,22 +2245,14 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
 
     def getInitialStatus(self) -> Optional[EventAcceptanceStatusEnum]:
         """
-        Gets the initial status for enable or disable of acceptance of event reports of a diagnostic event.
-
-        Returns:
-            EventAcceptanceStatusEnum instance, or None if not set
+        Defines the initial status for enable or disable of acceptance of event reports of a diagnostic event.
         """
         return self.initialStatus
 
     def setInitialStatus(self, value: Optional[EventAcceptanceStatusEnum]) -> DiagnosticEnableConditionNeeds:
         """
-        Sets a new initialStatus. A None value is a no-op and does not overwrite an existing initialStatus.
-
-        Args:
-            value: The EventAcceptanceStatusEnum instance to set
-
-        Returns:
-            self for method chaining
+        Defines the initial status for enable or disable of acceptance of event reports of a diagnostic event.
+        A None value is a no-op and does not overwrite an existing initialStatus.
         """
         if value is not None:
             self.initialStatus = value
@@ -2368,58 +2281,43 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticIoControlNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.26, p.248
-    # Spec verified: R23-11
-    # [x] __init__                           [x] impl  [x] docstring  [x] test
-    # [x] getCurrentValueRef                 [x] impl  [x] docstring  [x] test
-    # [x] setCurrentValueRef                 [x] impl  [x] docstring  [x] test
-    # [x] getFreezeCurrentStateSupported     [x] impl  [x] docstring  [x] test
-    # [x] setFreezeCurrentStateSupported     [x] impl  [x] docstring  [x] test
-    # [x] getResetToDefaultSupported         [x] impl  [x] docstring  [x] test
-    # [x] setResetToDefaultSupported         [x] impl  [x] docstring  [x] test
-    # [x] getShortTermAdjustmentSupported    [x] impl  [x] docstring  [x] test
-    # [x] setShortTermAdjustmentSupported    [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCurrentValueRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setCurrentValueRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getFreezeCurrentStateSupported[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setFreezeCurrentStateSupported[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getResetToDefaultSupported  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setResetToDefaultSupported  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getShortTermAdjustmentSupported[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setShortTermAdjustmentSupported[x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticIoControlNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic I/O control needs
-            short_name: The unique short name of this diagnostic I/O control needs
-        """
         super().__init__(parent, short_name)
 
         # Reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
         self.currentValueRef: Optional[RefType] = None
 
-        # This attribute determines, if the referenced port supports temporary freezing of I/O value.
+        # This attribute determines, if the referenced port supports temporary freezing of I/O value. The temporary freeze is not supported if the enclosing DiagnosticIoControlNeeds is aggregated by a Swc ServiceDependency, see [constr_1364].
         self.freezeCurrentStateSupported: Optional[Boolean] = None
 
-        # This represents a flag for the existence of the ResetToDefault operation in the service interface.
+        # This represents a flag for the existence of the ResetTo Default operation in the service interface.
         self.resetToDefaultSupported: Optional[Boolean] = None
 
-        # This attribute determines, if the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
+        # This attribute determines, if the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester. The short term adjustment is not supported if the enclosing DiagnosticIoControlNeeds is aggregated by a SwcServiceDependency, see [constr_1364].
         self.shortTermAdjustmentSupported: Optional[Boolean] = None
 
     def getCurrentValueRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
-
-        Returns:
-            RefType instance, or None if not set
+        Reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
         """
         return self.currentValueRef
 
     def setCurrentValueRef(self, value: Optional[RefType]) -> DiagnosticIoControlNeeds:
         """
-        Sets the reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
+        Reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
         A None value is a no-op and does not overwrite an existing currentValueRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.currentValueRef = value
@@ -2427,23 +2325,14 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     def getFreezeCurrentStateSupported(self) -> Optional[Boolean]:
         """
-        Gets whether the referenced port supports temporary freezing of I/O value.
-
-        Returns:
-            Boolean instance, or None if not set
+        This attribute determines, if the referenced port supports temporary freezing of I/O value. The temporary freeze is not supported if the enclosing DiagnosticIoControlNeeds is aggregated by a Swc ServiceDependency, see [constr_1364].
         """
         return self.freezeCurrentStateSupported
 
     def setFreezeCurrentStateSupported(self, value: Optional[Boolean]) -> DiagnosticIoControlNeeds:
         """
-        Sets whether the referenced port supports temporary freezing of I/O value.
+        This attribute determines, if the referenced port supports temporary freezing of I/O value. The temporary freeze is not supported if the enclosing DiagnosticIoControlNeeds is aggregated by a Swc ServiceDependency, see [constr_1364].
         A None value is a no-op and does not overwrite an existing freezeCurrentStateSupported.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.freezeCurrentStateSupported = value
@@ -2451,23 +2340,14 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     def getResetToDefaultSupported(self) -> Optional[Boolean]:
         """
-        Gets the flag for the existence of the ResetToDefault operation in the service interface.
-
-        Returns:
-            Boolean instance, or None if not set
+        This represents a flag for the existence of the ResetTo Default operation in the service interface.
         """
         return self.resetToDefaultSupported
 
     def setResetToDefaultSupported(self, value: Optional[Boolean]) -> DiagnosticIoControlNeeds:
         """
-        Sets the flag for the existence of the ResetToDefault operation in the service interface.
+        This represents a flag for the existence of the ResetTo Default operation in the service interface.
         A None value is a no-op and does not overwrite an existing resetToDefaultSupported.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.resetToDefaultSupported = value
@@ -2475,23 +2355,14 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     def getShortTermAdjustmentSupported(self) -> Optional[Boolean]:
         """
-        Gets whether the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
-
-        Returns:
-            Boolean instance, or None if not set
+        This attribute determines, if the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester. The short term adjustment is not supported if the enclosing DiagnosticIoControlNeeds is aggregated by a SwcServiceDependency, see [constr_1364].
         """
         return self.shortTermAdjustmentSupported
 
     def setShortTermAdjustmentSupported(self, value: Optional[Boolean]) -> DiagnosticIoControlNeeds:
         """
-        Sets whether the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
+        This attribute determines, if the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester. The short term adjustment is not supported if the enclosing DiagnosticIoControlNeeds is aggregated by a SwcServiceDependency, see [constr_1364].
         A None value is a no-op and does not overwrite an existing shortTermAdjustmentSupported.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.shortTermAdjustmentSupported = value
@@ -2505,8 +2376,10 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
 
     # DiagnosticMonitorUpdateKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.50, p.798
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # The value 'always' configures Dem to accept the call to SetDTR() regardless of the state of the diagnostics. Tags: atp.EnumerationLiteralIndex=0
     ALWAYS = "always"
@@ -2533,19 +2406,13 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticOperationCycleNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.24, p.761
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getOperationCycle            [x] impl  [x] docstring  [x] test
-    # [x] setOperationCycle            [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationCycle           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setOperationCycle           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticOperationCycleNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic operation cycle needs
-            short_name: The unique short name of this diagnostic operation cycle needs
-        """
         super().__init__(parent, short_name)
 
         # Operation cycles types for the Dem to be supported by cycle-state APIs.
@@ -2553,23 +2420,14 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
 
     def getOperationCycle(self) -> Optional[OperationCycleTypeEnum]:
         """
-        Gets the operation cycles types for the Dem to be supported by cycle-state APIs.
-
-        Returns:
-            OperationCycleTypeEnum instance, or None if not set
+        Operation cycles types for the Dem to be supported by cycle-state APIs.
         """
         return self.operationCycle
 
     def setOperationCycle(self, value: Optional[OperationCycleTypeEnum]) -> DiagnosticOperationCycleNeeds:
         """
-        Sets the operation cycles types for the Dem to be supported by cycle-state APIs.
+        Operation cycles types for the Dem to be supported by cycle-state APIs.
         A None value is a no-op and does not overwrite an existing operationCycle.
-
-        Args:
-            value: The OperationCycleTypeEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.operationCycle = value
@@ -2598,19 +2456,13 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticStorageConditionNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.28, p.762
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInitialStatus             [x] impl  [x] docstring  [x] test
-    # [x] setInitialStatus             [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialStatus            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setInitialStatus            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticStorageConditionNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic storage condition needs
-            short_name: The unique short name of this diagnostic storage condition needs
-        """
         super().__init__(parent, short_name)
 
         # Defines the initial status for enable or disable of storage of a diagnostic event.
@@ -2618,22 +2470,14 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
 
     def getInitialStatus(self) -> Optional[StorageConditionStatusEnum]:
         """
-        Gets the initial status for enable or disable of storage of a diagnostic event.
-
-        Returns:
-            StorageConditionStatusEnum instance, or None if not set
+        Defines the initial status for enable or disable of storage of a diagnostic event.
         """
         return self.initialStatus
 
     def setInitialStatus(self, value: Optional[StorageConditionStatusEnum]) -> DiagnosticStorageConditionNeeds:
         """
-        Sets a new initialStatus. A None value is a no-op and does not overwrite an existing initialStatus.
-
-        Args:
-            value: The StorageConditionStatusEnum instance to set
-
-        Returns:
-            self for method chaining
+        Defines the initial status for enable or disable of storage of a diagnostic event.
+        A None value is a no-op and does not overwrite an existing initialStatus.
         """
         if value is not None:
             self.initialStatus = value
@@ -2956,32 +2800,22 @@ class ErrorTracerNeeds(ServiceNeeds):
 
     # ErrorTracerNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.36, p.263
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getTracedFailures            [x] impl  [x] docstring  [x] test
-    # [x] createDevelopmentError       [x] impl  [x] docstring  [x] test
-    # [x] createRuntimeError           [x] impl  [x] docstring  [x] test
-    # [x] createTransientFault         [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTracedFailures           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDevelopmentError      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRuntimeError          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ErrorTracerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this error tracer needs
-            short_name: The unique short name of this error tracer needs
-        """
         super().__init__(parent, short_name)
 
-        # list of traced failures
+        # list of traced failures Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tracedFailure.shortName, traced Failure.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.tracedFailures: List[TracedFailure] = []
 
     def getTracedFailures(self) -> List[TracedFailure]:
         """
-        Gets the list of traced failures.
-
-        Returns:
-            List of TracedFailure instances
+        list of traced failures Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tracedFailure.shortName, traced Failure.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.tracedFailures
 
@@ -3041,10 +2875,14 @@ class EventAcceptanceStatusEnum(AREnum):
 
     # EventAcceptanceStatusEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.27, p.762
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
+    # Acceptance of a diagnostic event is disabled. Tags: atp.EnumerationLiteralIndex=0
     EVENT_ACCEPTANCE_DISABLED = "eventAcceptanceDisabled"
+    # Acceptance of a diagnostic event is enabled. Tags: atp.EnumerationLiteralIndex=1
     EVENT_ACCEPTANCE_ENABLED = "eventAcceptanceEnabled"
 
     def __init__(self):
@@ -3063,43 +2901,28 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
     # FunctionInhibitionAvailabilityNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.13, p.751
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getControlledFidRef          [x] impl  [x] docstring  [x] test
-    # [x] setControlledFidRef          [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getControlledFidRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setControlledFidRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FunctionInhibitionAvailabilityNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this function inhibition availability needs
-            short_name: The unique short name of this function inhibition availability needs
-        """
         super().__init__(parent, short_name)
 
-        # This reference represents the controlled FID.
+        # This reference represents the controlled FID
         self.controlledFidRef: Optional[RefType] = None
 
     def getControlledFidRef(self) -> Optional[RefType]:
         """
-        This reference represents the controlled FID.
-
-        Returns:
-            RefType instance, or None if not set
+        This reference represents the controlled FID
         """
         return self.controlledFidRef
 
     def setControlledFidRef(self, value: Optional[RefType]) -> FunctionInhibitionAvailabilityNeeds:
         """
-        This reference represents the controlled FID.
+        This reference represents the controlled FID
         A None value is a no-op and does not overwrite an existing controlledFidRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.controlledFidRef = value
@@ -3226,13 +3049,15 @@ class IdsMgrNeeds(ServiceNeeds):
 
 class DiagnosticIndicatorTypeEnum(AREnum):
     """
-    Type of an indicator. (Table 13.31, SoftwareComponentTemplate)
+    Type of an indicator.
     """
 
     # DiagnosticIndicatorTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.31, p.766
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # Amber Warning Lamp Tags: atp.EnumerationLiteralIndex=0
     AMBER_WARNING = "amberWarning"
@@ -3271,19 +3096,13 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
     # IndicatorStatusNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.766
-    # Spec verified: R23-11
-    # [x] __init__   [x] impl  [x] docstring  [x] test
-    # [x] getType             [x] impl  [x] docstring  [x] test
-    # [x] setType             [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getType                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setType                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the IndicatorStatusNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this indicator status needs
-            short_name: The unique short name of this indicator status needs
-        """
         super().__init__(parent, short_name)
 
         # Defines the type of the indicator.
@@ -3291,23 +3110,14 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
     def getType(self) -> Optional[DiagnosticIndicatorTypeEnum]:
         """
-        Gets the type of the indicator.
-
-        Returns:
-            DiagnosticIndicatorTypeEnum instance, or None if not set
+        Defines the type of the indicator.
         """
         return self.type
 
     def setType(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> IndicatorStatusNeeds:
         """
-        Sets the type of the indicator.
+        Defines the type of the indicator.
         A None value is a no-op and does not overwrite an existing type.
-
-        Args:
-            value: The DiagnosticIndicatorTypeEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.type = value
@@ -3366,16 +3176,18 @@ class MaxCommModeEnum(AREnum):
 
     # MaxCommModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.6, p.711
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # Full communication is requested. atp.EnumerationLiteralIndex=0
+    # Full communication is requested. Tags: atp.EnumerationLiteralIndex=0
     FULL = "full"
 
-    # No communication is requested. atp.EnumerationLiteralIndex=1
+    # No communication is requested. Tags: atp.EnumerationLiteralIndex=1
     NONE = "none"
 
-    # Silent communication is requested: Only listening but not "talking". atp.EnumerationLiteralIndex=2
+    # Silent communication is requested: Only listening but not "talking". Tags: atp.EnumerationLiteralIndex=2
     SILENT = "silent"
 
     def __init__(self):
@@ -3398,17 +3210,11 @@ class ObdControlServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdControlServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.45, p.796
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ObdControlServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this OBD control service needs
-            short_name: The unique short name of this OBD control service needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3419,17 +3225,11 @@ class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdInfoServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.48, p.797
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ObdInfoServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this OBD info service needs
-            short_name: The unique short name of this OBD info service needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3440,25 +3240,19 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdMonitorServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.49, p.798
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getApplicationDataTypeRef    [x] impl  [x] docstring  [x] test
-    # [x] setApplicationDataTypeRef    [x] impl  [x] docstring  [x] test
-    # [x] getEventNeedsRef             [x] impl  [x] docstring  [x] test
-    # [x] setEventNeedsRef             [x] impl  [x] docstring  [x] test
-    # [x] getUnitAndScalingId          [x] impl  [x] docstring  [x] test
-    # [x] setUnitAndScalingId          [x] impl  [x] docstring  [x] test
-    # [x] getUpdateKind                [x] impl  [x] docstring  [x] test
-    # [x] setUpdateKind                [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationDataTypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setApplicationDataTypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getEventNeedsRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setEventNeedsRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getUnitAndScalingId         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setUnitAndScalingId         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getUpdateKind               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setUpdateKind               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ObdMonitorServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this OBD monitor service needs
-            short_name: The unique short name of this OBD monitor service needs
-        """
         super().__init__(parent, short_name)
 
         # reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
@@ -3470,28 +3264,19 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         # Unit and scaling ID according to ISO 15031-5.
         self.unitAndScalingId: Optional[PositiveInteger] = None
 
-        # This attribute indicates the settings for the acceptance of updates.
+        # This attribute indicates the settings for the acceptance of updates to the Dem.
         self.updateKind: Optional[DiagnosticMonitorUpdateKindEnum] = None
 
     def getApplicationDataTypeRef(self) -> Optional[RefType]:
         """
-        Gets the reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
-
-        Returns:
-            RefType instance, or None if not set
+        reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
         """
         return self.applicationDataTypeRef
 
     def setApplicationDataTypeRef(self, value: Optional[RefType]) -> ObdMonitorServiceNeeds:
         """
-        Sets the reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
+        reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
         A None value is a no-op and does not overwrite an existing applicationDataTypeRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.applicationDataTypeRef = value
@@ -3499,23 +3284,14 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     def getEventNeedsRef(self) -> Optional[RefType]:
         """
-        Gets the reference that identifies the corresponding diagnostic event.
-
-        Returns:
-            RefType instance, or None if not set
+        This reference identifies the corresponding diagnostic event.
         """
         return self.eventNeedsRef
 
     def setEventNeedsRef(self, value: Optional[RefType]) -> ObdMonitorServiceNeeds:
         """
-        Sets the reference that identifies the corresponding diagnostic event.
+        This reference identifies the corresponding diagnostic event.
         A None value is a no-op and does not overwrite an existing eventNeedsRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.eventNeedsRef = value
@@ -3523,23 +3299,14 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     def getUnitAndScalingId(self) -> Optional[PositiveInteger]:
         """
-        Gets the unit and scaling ID according to ISO 15031-5.
-
-        Returns:
-            PositiveInteger instance, or None if not set
+        Unit and scaling ID according to ISO 15031-5.
         """
         return self.unitAndScalingId
 
     def setUnitAndScalingId(self, value: Optional[PositiveInteger]) -> ObdMonitorServiceNeeds:
         """
-        Sets the unit and scaling ID according to ISO 15031-5.
+        Unit and scaling ID according to ISO 15031-5.
         A None value is a no-op and does not overwrite an existing unitAndScalingId.
-
-        Args:
-            value: The PositiveInteger instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.unitAndScalingId = value
@@ -3547,23 +3314,14 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     def getUpdateKind(self) -> Optional[DiagnosticMonitorUpdateKindEnum]:
         """
-        Gets the settings for the acceptance of updates to the Dem.
-
-        Returns:
-            DiagnosticMonitorUpdateKindEnum instance, or None if not set
+        This attribute indicates the settings for the acceptance of updates to the Dem.
         """
         return self.updateKind
 
     def setUpdateKind(self, value: Optional[DiagnosticMonitorUpdateKindEnum]) -> ObdMonitorServiceNeeds:
         """
-        Sets the settings for the acceptance of updates to the Dem.
+        This attribute indicates the settings for the acceptance of updates to the Dem.
         A None value is a no-op and does not overwrite an existing updateKind.
-
-        Args:
-            value: The DiagnosticMonitorUpdateKindEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.updateKind = value
@@ -3577,17 +3335,11 @@ class ObdPidServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdPidServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.47, p.797
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ObdPidServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this OBD PID service needs
-            short_name: The unique short name of this OBD PID service needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3598,8 +3350,10 @@ class ObdRatioConnectionKindEnum(AREnum):
 
     # ObdRatioConnectionKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.46, p.796
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # The IUMPR service (of the DEM) uses an explicit API to connect to the component or module. Tags: atp.EnumerationLiteralIndex=0
     API_USE = "apiUse"
@@ -3766,14 +3520,22 @@ class OperationCycleTypeEnum(AREnum):
 
     # OperationCycleTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.25, p.761
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
+    # Ignition ON / OFF cycle. Tags: atp.EnumerationLiteralIndex=0
     IGNITION = "ignition"
+    # OBD Driving cycle. Tags: atp.EnumerationLiteralIndex=1
     OBD_DCY = "obdDcy"
+    # Further operation cycle. Tags: atp.EnumerationLiteralIndex=2
     OTHER = "other"
+    # Power ON / OFF cycle. Tags: atp.EnumerationLiteralIndex=3
     POWER = "power"
+    # Time based operation cycle. Tags: atp.EnumerationLiteralIndex=4
     TIME = "time"
+    # OBD Warm up cycle. Tags: atp.EnumerationLiteralIndex=5
     WARMUP = "warmup"
 
     def __init__(self):
@@ -3796,17 +3558,11 @@ class RuntimeError(TracedFailure):
 
     # RuntimeError method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.39, p.263
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RuntimeError with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this runtime error
-            short_name: The unique short name of this runtime error
-        """
         super().__init__(parent, short_name)
 
 
@@ -3860,14 +3616,15 @@ class ServiceProviderEnum(AREnum):
 
     # ServiceProviderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.20, p.90
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # This value means that the specific nature is either unknown or it is not important for the given purpose.
-    # This is also the default value for any attribute of type ServiceProviderEnum. Tags: atp.EnumerationLiteralIndex=0
+    # This value means that the specific nature is either unknown or it is not important for the given purpose. This is also the default value for any attribute of type ServiceProviderEnum Tags: atp.EnumerationLiteralIndex=0
     ANY_STANDARDIZED = "anyStandardized"
 
-    # The service relates to the Basic Software Mode Manager (BswM). Tags: atp.EnumerationLiteralIndex=1
+    # The service relates to the Basic Software Mode Manager (BswM) Tags: atp.EnumerationLiteralIndex=1
     BASIC_SOFTWARE_MODE_MANAGER = "basicSoftwareModeManager"
 
     # The service relates to the COM Manager (ComM). Tags: atp.EnumerationLiteralIndex=2
@@ -3879,7 +3636,7 @@ class ServiceProviderEnum(AREnum):
     # The service relates to the Crypto Service Manager (CsM). Tags: atp.EnumerationLiteralIndex=3
     CRYPTO_SERVICE_MANAGER = "cryptoServiceManager"
 
-    # The service relates to the Default Error Tracer (DET). Tags: atp.EnumerationLiteralIndex=4
+    # The service relates to the Default Error Tracer (DET) Tags: atp.EnumerationLiteralIndex=4
     DEFAULT_ERROR_TRACER = "defaultErrorTracer"
 
     # The service relates to the Diagnostic Communication Manager (DCM). Tags: atp.EnumerationLiteralIndex=6
@@ -3933,6 +3690,9 @@ class ServiceProviderEnum(AREnum):
     # This value denotes a vendor-specific service. Tags: atp.EnumerationLiteralIndex=16
     VENDOR_SPECIFIC = "vendorSpecific"
 
+    # The service relates to the Watchdog Manager (WdgM). Tags: atp.EnumerationLiteralIndex=17
+    WATCH_DOG_MANAGER = "watchDogManager"
+
     def __init__(self):
         """
         Initializes a ServiceProviderEnum instance with the spec-defined literals.
@@ -3973,10 +3733,14 @@ class StorageConditionStatusEnum(AREnum):
 
     # StorageConditionStatusEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.29, p.762
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
+    # Storage of a diagnostic event is disabled. Tags: atp.EnumerationLiteralIndex=0
     EVENT_STORAGE_DISABLE = "eventStorageDisabled"
+    # Storage of a diagnostic event is enabled. Tags: atp.EnumerationLiteralIndex=1
     EVENT_STORAGE_ENABLE = "eventStorageEnabled"
 
     def __init__(self):
@@ -4010,73 +3774,58 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     # SupervisedEntityNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.12, p.234
-    # Spec verified: R23-11
-    # [x] __init__                  [x] impl  [x] docstring  [x] test
-    # [x] getActivateAtStart        [x] impl  [x] docstring  [x] test
-    # [x] setActivateAtStart        [x] impl  [x] docstring  [x] test
-    # [x] addCheckpointsRef         [x] impl  [x] docstring  [x] test
-    # [x] getCheckpointsRefs        [x] impl  [x] docstring  [x] test
-    # [x] getEnableDeactivation     [x] impl  [x] docstring  [x] test
-    # [x] setEnableDeactivation     [x] impl  [x] docstring  [x] test
-    # [x] getExpectedAliveCycle     [x] impl  [x] docstring  [x] test
-    # [x] setExpectedAliveCycle     [x] impl  [x] docstring  [x] test
-    # [x] getMaxAliveCycle          [x] impl  [x] docstring  [x] test
-    # [x] setMaxAliveCycle          [x] impl  [x] docstring  [x] test
-    # [x] getMinAliveCycle          [x] impl  [x] docstring  [x] test
-    # [x] setMinAliveCycle          [x] impl  [x] docstring  [x] test
-    # [x] getToleratedFailedCycles  [x] impl  [x] docstring  [x] test
-    # [x] setToleratedFailedCycles  [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActivateAtStart          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setActivateAtStart          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getCheckpointsRefs          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addCheckpointsRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getEnableDeactivation       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setEnableDeactivation       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getExpectedAliveCycle       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setExpectedAliveCycle       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaxAliveCycle            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxAliveCycle            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinAliveCycle            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinAliveCycle            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getToleratedFailedCycles    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setToleratedFailedCycles    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SupervisedEntityNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this supervised entity needs
-            short_name: The unique short name of this supervised entity needs
-        """
         super().__init__(parent, short_name)
 
-        # True/false: supervision activation status of SupervisedEntity shall be enabled/disabled at start.
+        # true/false: supervision activation status of Supervised Entity shall be enabled/disabled at start.
         self.activateAtStart: Optional[Boolean] = None
 
-        # This reference indicates the checkpoints belonging to the Supervised Entity.
+        # This reference indicates the checkpoints belonging to the Supervised Entity. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=checkpoints.supervisedEntityCheckpoint Needs, checkpoints.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.checkpointsRefs: List[RefType] = []
 
-        # True: software-component shall be allowed to deactivate supervision of this SupervisedEntity; false: software-component shall be not allowed to deactivate supervision of this SupervisedEntity
+        # true: software-component shall be allowed to deactivate supervision of this SupervisedEntity false: software-component shall be not allowed to deactivate supervision of this SupervisedEntity
         self.enableDeactivation: Optional[Boolean] = None
 
-        # Expected cycle time of alive trigger of this SupervisedEntity (in seconds).
+        # Expected cycle time of alive trigger of this Supervised Entity (in seconds).
         self.expectedAliveCycle: Optional[TimeValue] = None
 
-        # Maximum cycle time of alive trigger of this SupervisedEntity (in seconds).
+        # Maximum cycle time of alive trigger of this Supervised Entity (in seconds).
         self.maxAliveCycle: Optional[TimeValue] = None
 
-        # Minimum cycle time of alive trigger of this SupervisedEntity (in seconds).
+        # Minimum cycle time of alive trigger of this Supervised Entity (in seconds).
         self.minAliveCycle: Optional[TimeValue] = None
 
-        # Number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status of the SupervisedEntity is set to WDGM_ALIVE_EXPIRED (see SWS WdgM for more details).
+        # Number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status of the SupervisedEntity is set to WDGM_ALIVE_EXPIRED (see SWS WdgM for more details). Note that this value has to be recalculated with respect to the WdgM's own cycle time for ECU configuration.
         self.toleratedFailedCycles: Optional[PositiveInteger] = None
 
     def getActivateAtStart(self) -> Optional[Boolean]:
         """
-        Gets the supervision activation status of the Supervised Entity to be enabled/disabled at start.
-
-        Returns:
-            Boolean instance, or None if not set
+        true/false: supervision activation status of Supervised Entity shall be enabled/disabled at start.
         """
         return self.activateAtStart
 
     def setActivateAtStart(self, value: Optional[Boolean]) -> SupervisedEntityNeeds:
         """
-        Sets the supervision activation status of the Supervised Entity to be enabled/disabled at start.
+        true/false: supervision activation status of Supervised Entity shall be enabled/disabled at start.
         A None value is a no-op and does not overwrite an existing activateAtStart.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.activateAtStart = value
@@ -4084,14 +3833,8 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     def addCheckpointsRef(self, value: Optional[RefType]) -> SupervisedEntityNeeds:
         """
-        Adds a reference indicating a checkpoint belonging to the Supervised Entity.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The checkpoint reference to add
-
-        Returns:
-            self for method chaining
+        This reference indicates the checkpoints belonging to the Supervised Entity. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=checkpoints.supervisedEntityCheckpoint Needs, checkpoints.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not append to checkpointsRefs.
         """
         if value is not None:
             self.checkpointsRefs.append(value)
@@ -4099,32 +3842,20 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     def getCheckpointsRefs(self) -> List[RefType]:
         """
-        Gets the references indicating the checkpoints belonging to the Supervised Entity.
-
-        Returns:
-            List of RefType instances (empty by default)
+        This reference indicates the checkpoints belonging to the Supervised Entity. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=checkpoints.supervisedEntityCheckpoint Needs, checkpoints.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.checkpointsRefs
 
     def getEnableDeactivation(self) -> Optional[Boolean]:
         """
-        Gets whether the software-component shall be allowed to deactivate supervision of this SupervisedEntity.
-
-        Returns:
-            Boolean instance, or None if not set
+        true: software-component shall be allowed to deactivate supervision of this SupervisedEntity false: software-component shall be not allowed to deactivate supervision of this SupervisedEntity
         """
         return self.enableDeactivation
 
     def setEnableDeactivation(self, value: Optional[Boolean]) -> SupervisedEntityNeeds:
         """
-        Sets whether the software-component shall be allowed to deactivate supervision of this SupervisedEntity.
+        true: software-component shall be allowed to deactivate supervision of this SupervisedEntity false: software-component shall be not allowed to deactivate supervision of this SupervisedEntity
         A None value is a no-op and does not overwrite an existing enableDeactivation.
-
-        Args:
-            value: The Boolean instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.enableDeactivation = value
@@ -4132,23 +3863,14 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     def getExpectedAliveCycle(self) -> Optional[TimeValue]:
         """
-        Gets the expected cycle time of the alive trigger of this SupervisedEntity (in seconds).
-
-        Returns:
-            TimeValue instance, or None if not set
+        Expected cycle time of alive trigger of this Supervised Entity (in seconds).
         """
         return self.expectedAliveCycle
 
     def setExpectedAliveCycle(self, value: Optional[TimeValue]) -> SupervisedEntityNeeds:
         """
-        Sets the expected cycle time of the alive trigger of this SupervisedEntity (in seconds).
+        Expected cycle time of alive trigger of this Supervised Entity (in seconds).
         A None value is a no-op and does not overwrite an existing expectedAliveCycle.
-
-        Args:
-            value: The TimeValue instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.expectedAliveCycle = value
@@ -4156,23 +3878,14 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     def getMaxAliveCycle(self) -> Optional[TimeValue]:
         """
-        Gets the maximum cycle time of the alive trigger of this SupervisedEntity (in seconds).
-
-        Returns:
-            TimeValue instance, or None if not set
+        Maximum cycle time of alive trigger of this Supervised Entity (in seconds).
         """
         return self.maxAliveCycle
 
     def setMaxAliveCycle(self, value: Optional[TimeValue]) -> SupervisedEntityNeeds:
         """
-        Sets the maximum cycle time of the alive trigger of this SupervisedEntity (in seconds).
+        Maximum cycle time of alive trigger of this Supervised Entity (in seconds).
         A None value is a no-op and does not overwrite an existing maxAliveCycle.
-
-        Args:
-            value: The TimeValue instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.maxAliveCycle = value
@@ -4180,23 +3893,14 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     def getMinAliveCycle(self) -> Optional[TimeValue]:
         """
-        Gets the minimum cycle time of the alive trigger of this SupervisedEntity (in seconds).
-
-        Returns:
-            TimeValue instance, or None if not set
+        Minimum cycle time of alive trigger of this Supervised Entity (in seconds).
         """
         return self.minAliveCycle
 
     def setMinAliveCycle(self, value: Optional[TimeValue]) -> SupervisedEntityNeeds:
         """
-        Sets the minimum cycle time of the alive trigger of this SupervisedEntity (in seconds).
+        Minimum cycle time of alive trigger of this Supervised Entity (in seconds).
         A None value is a no-op and does not overwrite an existing minAliveCycle.
-
-        Args:
-            value: The TimeValue instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.minAliveCycle = value
@@ -4204,23 +3908,14 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     def getToleratedFailedCycles(self) -> Optional[PositiveInteger]:
         """
-        Gets the number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status is set to WDGM_ALIVE_EXPIRED.
-
-        Returns:
-            PositiveInteger instance, or None if not set
+        Number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status of the SupervisedEntity is set to WDGM_ALIVE_EXPIRED (see SWS WdgM for more details). Note that this value has to be recalculated with respect to the WdgM's own cycle time for ECU configuration.
         """
         return self.toleratedFailedCycles
 
     def setToleratedFailedCycles(self, value: Optional[PositiveInteger]) -> SupervisedEntityNeeds:
         """
-        Sets the number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status is set to WDGM_ALIVE_EXPIRED.
+        Number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status of the SupervisedEntity is set to WDGM_ALIVE_EXPIRED (see SWS WdgM for more details). Note that this value has to be recalculated with respect to the WdgM's own cycle time for ECU configuration.
         A None value is a no-op and does not overwrite an existing toleratedFailedCycles.
-
-        Args:
-            value: The PositiveInteger instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.toleratedFailedCycles = value
@@ -4229,24 +3924,16 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
 class SymbolicNameProps(ImplementationProps):
     """
-    Represents Symbolic Name properties in AUTOSAR models.
     This meta-class can be taken to contribute to the creation of symbolic name values.
-    Inherits symbol handling (SYMBOL, 0..1 C-Identifier) from ImplementationProps.
     """
 
     # SymbolicNameProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.59, p.610
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SymbolicNameProps with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this symbolic name props
-            short_name: The unique short name of this symbolic name props
-        """
         super().__init__(parent, short_name)
 
 
@@ -4320,19 +4007,13 @@ class TransientFault(TracedFailure):
 
     # TransientFault method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.50, p.1009
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] createPossibleErrorReaction  [x] impl  [x] docstring  [x] test
-    # [x] getPossibleErrorReactions    [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPossibleErrorReactions   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createPossibleErrorReaction [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the TransientFault with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this transient fault
-            short_name: The unique short name of this transient fault
-        """
         super().__init__(parent, short_name)
 
         # Describes a possible error reactions for the transient fault handler.
@@ -4340,13 +4021,7 @@ class TransientFault(TracedFailure):
 
     def createPossibleErrorReaction(self, short_name: str) -> PossibleErrorReaction:
         """
-        Creates and adds a possible error reaction for the transient fault handler.
-
-        Args:
-            short_name: The short name for the new possible error reaction
-
-        Returns:
-            The created PossibleErrorReaction instance
+        Describes a possible error reactions for the transient fault handler.
         """
         if not self.IsElementExists(short_name, PossibleErrorReaction):
             reaction = PossibleErrorReaction(self, short_name)
@@ -4356,10 +4031,7 @@ class TransientFault(TracedFailure):
 
     def getPossibleErrorReactions(self) -> List[PossibleErrorReaction]:
         """
-        Gets the possible error reactions for the transient fault handler.
-
-        Returns:
-            List of PossibleErrorReaction instances
+        Describes a possible error reactions for the transient fault handler.
         """
         return self.possibleErrorReactions
 
@@ -4431,8 +4103,10 @@ class VerificationStatusIndicationModeEnum(AREnum):
 
     # VerificationStatusIndicationModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.69, p.824
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # Verification attempts that came out "false" or "true" shall be forwarded to the application software. Tags: atp.EnumerationLiteralIndex=1
     FAILURE_AND_SUCCESS = "failureAndSuccess"

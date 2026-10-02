@@ -19,13 +19,15 @@ class RteApiReturnValueProvisionEnum(AREnum):
 
     # RteApiReturnValueProvisionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.32, p.562
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
-    # The RTE API shall not provide a return value. atp.EnumerationLiteralIndex=1
+    # The RTE API shall not provide a return value. Tags: atp.EnumerationLiteralIndex=1
     NO_RETURN_VALUE_PROVIDED = "noReturnValueProvided"
 
-    # The RTE API shall provide a return value. atp.EnumerationLiteralIndex=0
+    # The RTE API shall provide a return value. Tags: atp.EnumerationLiteralIndex=0
     RETURN_VALUE_PROVIDED = "returnValueProvided"
 
     def __init__(self):
@@ -93,45 +95,33 @@ class AccessCount(ARObject, VariationPointCapable):
 
     # AccessCount method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.23, p.57
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAccessPointRef            [x] impl  [x] docstring  [x] test
-    # [x] setAccessPointRef            [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessPointRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setAccessPointRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getValue                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setValue                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the AccessCount.
-        """
         super().__init__()
 
         # AbstractAccessPoint for which the count value is applicable.
         self.accessPointRef: Optional[RefType] = None
 
-        # This attribute represents the number of determined accesses.
-        # The value shall exist at the time when the configuration of the BSW module is finished (constr_10271).
+        # This attribute represents the number of determined accesses Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         self.value: Optional[PositiveInteger] = None
 
     def getAccessPointRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the AbstractAccessPoint for which the count value is applicable.
-
-        Returns:
-            RefType referencing the access point, or None if not set
+        AbstractAccessPoint for which the count value is applicable.
         """
         return self.accessPointRef
 
     def setAccessPointRef(self, value: Optional[RefType]) -> "AccessCount":
         """
-        Sets the reference to the AbstractAccessPoint for which the count value is applicable.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The access point reference to set
-
-        Returns:
-            self for method chaining
+        AbstractAccessPoint for which the count value is applicable.
+        A None value is a no-op and does not overwrite an existing accessPointRef.
         """
         if value is not None:
             self.accessPointRef = value
@@ -139,24 +129,14 @@ class AccessCount(ARObject, VariationPointCapable):
 
     def getValue(self) -> Optional[PositiveInteger]:
         """
-        Gets the number of determined accesses for the referenced access point.
-
-        Returns:
-            PositiveInteger representing the access count, or None if not set
+        This attribute represents the number of determined accesses Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         """
         return self.value
 
     def setValue(self, value: Optional[PositiveInteger]) -> "AccessCount":
         """
-        Sets the number of determined accesses for the referenced access point.
-        The value shall exist at the time when the configuration of the BSW module is finished (constr_10271).
+        This attribute represents the number of determined accesses Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The access count to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.value = value
@@ -165,42 +145,32 @@ class AccessCount(ARObject, VariationPointCapable):
 
 class AccessCountSet(ARObject, VariationPointCapable):
     """
-    This meta-class provides a set of count values evaluated according to the
-    rules of a specific countProfile.
+    This meta-class provides a set of count values evaluated according to the rules of a specific countProfile.
     """
 
     # AccessCountSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.22, p.57
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] addAccessCount                [x] impl  [x] docstring  [x] test
-    # [x] getAccessCounts              [x] impl  [x] docstring  [x] test
-    # [x] getCountProfile              [x] impl  [x] docstring  [x] test
-    # [x] setCountProfile              [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessCounts             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addAccessCount              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getCountProfile             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setCountProfile             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the AccessCountSet.
-        """
         super().__init__()
 
-        # Count values for the AbstractAccessPoints of an ExecutableEntity.
+        # Count value for a AbstractAccessPoint. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessCount, accessCount.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.accessCounts: List[AccessCount] = []
 
         # This attribute defines the name of the count profile used to determine the AccessCount.value numbers.
-        # The countProfile shall exist at the time when the configuration of the BSW module is finished (constr_10270).
         self.countProfile: Optional[NameToken] = None
 
     def addAccessCount(self, value: Optional[AccessCount]) -> "AccessCountSet":
         """
-        Adds an AccessCount to this access count set.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            value: The access count to add
-
-        Returns:
-            self for method chaining
+        Count value for a AbstractAccessPoint. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessCount, accessCount.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not append to accessCounts.
         """
         if value is not None:
             self.accessCounts.append(value)
@@ -208,33 +178,20 @@ class AccessCountSet(ARObject, VariationPointCapable):
 
     def getAccessCounts(self) -> List[AccessCount]:
         """
-        Gets all AccessCount instances aggregated by this access count set.
-
-        Returns:
-            List of AccessCount instances
+        Count value for a AbstractAccessPoint. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessCount, accessCount.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.accessCounts
 
     def getCountProfile(self) -> Optional[NameToken]:
         """
-        Gets the name of the count profile used to determine the AccessCount.value numbers.
-
-        Returns:
-            NameToken representing the count profile, or None if not set
+        This attribute defines the name of the count profile used to determine the AccessCount.value numbers.
         """
         return self.countProfile
 
     def setCountProfile(self, value: Optional[NameToken]) -> "AccessCountSet":
         """
-        Sets the name of the count profile used to determine the AccessCount.value numbers.
-        The countProfile shall exist at the time when the configuration of the BSW module is finished (constr_10270).
-        A None value is a no-op and does not overwrite an existing profile.
-
-        Args:
-            value: The count profile to set
-
-        Returns:
-            self for method chaining
+        This attribute defines the name of the count profile used to determine the AccessCount.value numbers.
+        A None value is a no-op and does not overwrite an existing countProfile.
         """
         if value is not None:
             self.countProfile = value

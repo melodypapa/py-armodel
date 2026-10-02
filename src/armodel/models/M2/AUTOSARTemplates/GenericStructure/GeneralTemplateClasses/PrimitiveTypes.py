@@ -1162,23 +1162,20 @@ class DiagRequirementIdString(ARLiteral):
 
 class ArgumentDirectionEnum(AREnum):
     """
-    Use cases: • Arguments in ClientServerOperation can have different directions
-    that need to be formally indicated because they have an impact on how the
-    function signature looks like eventually. • Arguments in BswModuleEntry
-    already determine a function signature, but the direction is used to specify
-    the semantics, especially of pointer arguments.
+    Use cases: • Arguments in ClientServerOperation can have different directions that need to be formally indicated because they have an impact on how the function signature looks like eventually. • Arguments in BswModuleEntry already determine a function signature, but the direction is used to specify the semantics, especially of pointer arguments.
     """
 
     # ArgumentDirectionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.9, p.104
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # The argument value is passed to the callee. Tags: atp.EnumerationLiteralIndex=0
     IN = "in"
 
-    # The argument value is passed to the callee but also passed back from the callee
-    # to the caller. Tags: atp.EnumerationLiteralIndex=1
+    # The argument value is passed to the callee but also passed back from the callee to the caller. Tags: atp.EnumerationLiteralIndex=1
     INOUT = "inout"
 
     # The argument value is passed from the callee to the caller. Tags: atp.EnumerationLiteralIndex=2
@@ -1309,8 +1306,10 @@ class ByteOrderEnum(AREnum):
 
     # ByteOrderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods) — serialized as an attribute value on the consuming class
 
     # Most significant byte shall come at the lowest address (also known as BigEndian or as Motorola-Format) Tags: atp.EnumerationLiteralIndex=0
     MOST_SIGNIFICANT_BYTE_FIRST = "mostSignificantByteFirst"

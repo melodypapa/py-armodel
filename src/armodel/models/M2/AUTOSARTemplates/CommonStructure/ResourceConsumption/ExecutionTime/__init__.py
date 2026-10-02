@@ -267,47 +267,33 @@ class MemorySectionLocation(ARObject):
 
     # MemorySectionLocation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.19, p.162
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getProvidedMemoryRef         [x] impl  [x] docstring  [x] test
-    # [x] setProvidedMemoryRef         [x] impl  [x] docstring  [x] test
-    # [x] getSoftwareMemorySectionRef  [x] impl  [x] docstring  [x] test
-    # [x] setSoftwareMemorySectionRef  [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedMemoryRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setProvidedMemoryRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSoftwareMemorySectionRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSoftwareMemorySectionRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the MemorySectionLocation.
-        """
         super().__init__()
 
-        # Reference to the hardware ProvidedMemorySegment. [constr_10318] The reference
-        # in the role providedMemory shall exist at the time when the configuration of
-        # the BSW module is finished.
+        # Reference to the hardware ProvidedMemorySegment.
         self.providedMemoryRef: Optional[RefType] = None
 
-        # Reference to the MemorySection which is mapped on a certain hardware memory
-        # segment. [constr_10319] The reference in the role softwareMemorySection shall
-        # exist at the time when the configuration of the BSW module is finished.
+        # Reference to the MemorySection which is mapped on a certain hardware memory segment.
         self.softwareMemorySectionRef: Optional[RefType] = None
 
     def getProvidedMemoryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the hardware ProvidedMemorySegment.
-
-        Returns:
-            RefType referencing the provided memory segment, or None if not set
+        Reference to the hardware ProvidedMemorySegment.
         """
         return self.providedMemoryRef
 
     def setProvidedMemoryRef(self, value: Optional[RefType]) -> MemorySectionLocation:
         """
-        Sets the reference to the hardware ProvidedMemorySegment.
-
-        Args:
-            value: The provided memory reference to set
-
-        Returns:
-            self for method chaining
+        Reference to the hardware ProvidedMemorySegment.
+        A None value is a no-op and does not overwrite an existing providedMemoryRef.
         """
         if value is not None:
             self.providedMemoryRef = value
@@ -315,22 +301,14 @@ class MemorySectionLocation(ARObject):
 
     def getSoftwareMemorySectionRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the MemorySection which is mapped on a certain hardware memory segment.
-
-        Returns:
-            RefType referencing the software memory section, or None if not set
+        Reference to the MemorySection which is mapped on a certain hardware memory segment.
         """
         return self.softwareMemorySectionRef
 
     def setSoftwareMemorySectionRef(self, value: Optional[RefType]) -> MemorySectionLocation:
         """
-        Sets the reference to the MemorySection which is mapped on a certain hardware memory segment.
-
-        Args:
-            value: The software memory section reference to set
-
-        Returns:
-            self for method chaining
+        Reference to the MemorySection which is mapped on a certain hardware memory segment.
+        A None value is a no-op and does not overwrite an existing softwareMemorySectionRef.
         """
         if value is not None:
             self.softwareMemorySectionRef = value
@@ -339,61 +317,38 @@ class MemorySectionLocation(ARObject):
 
 class AnalyzedExecutionTime(ExecutionTime):
     """
-    AnalyzedExecutionTime provides an analytic method for specifying the best and
-    worst case execution time.
-    [constr_4031] The attribute values of AnalyzedExecutionTime shall fulfill:
-    bestCaseExecutionTime <= worstCaseExecutionTime.
+    AnalyzedExecutionTime provides an analytic method for specifying the best and worst case execution time.
     """
 
     # AnalyzedExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.21, p.164
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBestCaseExecutionTime     [x] impl  [x] docstring  [x] test
-    # [x] setBestCaseExecutionTime     [x] impl  [x] docstring  [x] test
-    # [x] getWorstCaseExecutionTime    [x] impl  [x] docstring  [x] test
-    # [x] setWorstCaseExecutionTime    [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBestCaseExecutionTime    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setBestCaseExecutionTime    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getWorstCaseExecutionTime   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setWorstCaseExecutionTime   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the AnalyzedExecutionTime with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this analyzed execution time
-            short_name: The unique short name of this analyzed execution time
-        """
         super().__init__(parent, short_name)
 
-        # The best case execution time (BCET) defines the minimum amount of time the
-        # related executable entity requires for its execution. [constr_10323] The
-        # attribute shall exist at the time when the configuration of the BSW module is
-        # finished.
+        # The best case execution time (BCET) defines the minimum amount of time the related executable entity requires for its execution.
         self.bestCaseExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The worst case execution time (WCET) defines the maximum amount of time the
-        # related executable entity requires for its execution. [constr_10324] The
-        # attribute shall exist at the time when the configuration of the BSW module is
-        # finished.
+        # The worst case execution time (WCET) defines the maximum amount of time the related executable entity requires for its execution.
         self.worstCaseExecutionTime: Optional[MultidimensionalTime] = None
 
     def getBestCaseExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the best case execution time (BCET).
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The best case execution time (BCET) defines the minimum amount of time the related executable entity requires for its execution.
         """
         return self.bestCaseExecutionTime
 
     def setBestCaseExecutionTime(self, value: Optional[MultidimensionalTime]) -> AnalyzedExecutionTime:
         """
-        Sets the best case execution time (BCET).
-
-        Args:
-            value: The best case execution time to set
-
-        Returns:
-            self for method chaining
+        The best case execution time (BCET) defines the minimum amount of time the related executable entity requires for its execution.
+        A None value is a no-op and does not overwrite an existing bestCaseExecutionTime.
         """
         if value is not None:
             self.bestCaseExecutionTime = value
@@ -401,22 +356,14 @@ class AnalyzedExecutionTime(ExecutionTime):
 
     def getWorstCaseExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the worst case execution time (WCET).
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The worst case execution time (WCET) defines the maximum amount of time the related executable entity requires for its execution.
         """
         return self.worstCaseExecutionTime
 
     def setWorstCaseExecutionTime(self, value: Optional[MultidimensionalTime]) -> AnalyzedExecutionTime:
         """
-        Sets the worst case execution time (WCET).
-
-        Args:
-            value: The worst case execution time to set
-
-        Returns:
-            self for method chaining
+        The worst case execution time (WCET) defines the maximum amount of time the related executable entity requires for its execution.
+        A None value is a no-op and does not overwrite an existing worstCaseExecutionTime.
         """
         if value is not None:
             self.worstCaseExecutionTime = value
@@ -426,61 +373,42 @@ class AnalyzedExecutionTime(ExecutionTime):
 class MeasuredExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using measurement means.
-    [constr_4032] The attribute values of MeasuredExecutionTime shall fulfill:
-    minimumExecutionTime <= nominalExecutionTime <= maximumExecutionTime.
     """
 
     # MeasuredExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.23, p.166
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMaximumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] setMaximumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] getMinimumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] setMinimumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] getNominalExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] setNominalExecutionTime      [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaximumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaximumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinimumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinimumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getNominalExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setNominalExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the MeasuredExecutionTime with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this measured execution time
-            short_name: The unique short name of this measured execution time
-        """
         super().__init__(parent, short_name)
 
-        # The maximum measured execution time. [constr_10325] The attribute shall exist
-        # at the time when the configuration of the BSW module is finished.
+        # The maximum measured execution time.
         self.maximumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The minimum measured execution time. [constr_10326] The attribute shall exist
-        # at the time when the configuration of the BSW module is finished.
+        # The minimum measured execution time.
         self.minimumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The nominal measured execution time. [constr_10327] The attribute shall exist
-        # at the time when the configuration of the BSW module is finished.
+        # The nominal measured execution time.
         self.nominalExecutionTime: Optional[MultidimensionalTime] = None
 
     def getMaximumExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the maximum measured execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The maximum measured execution time.
         """
         return self.maximumExecutionTime
 
     def setMaximumExecutionTime(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
-        Sets the maximum measured execution time.
-
-        Args:
-            value: The maximum execution time to set
-
-        Returns:
-            self for method chaining
+        The maximum measured execution time.
+        A None value is a no-op and does not overwrite an existing maximumExecutionTime.
         """
         if value is not None:
             self.maximumExecutionTime = value
@@ -488,22 +416,14 @@ class MeasuredExecutionTime(ExecutionTime):
 
     def getMinimumExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the minimum measured execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The minimum measured execution time.
         """
         return self.minimumExecutionTime
 
     def setMinimumExecutionTime(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
-        Sets the minimum measured execution time.
-
-        Args:
-            value: The minimum execution time to set
-
-        Returns:
-            self for method chaining
+        The minimum measured execution time.
+        A None value is a no-op and does not overwrite an existing minimumExecutionTime.
         """
         if value is not None:
             self.minimumExecutionTime = value
@@ -511,22 +431,14 @@ class MeasuredExecutionTime(ExecutionTime):
 
     def getNominalExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the nominal measured execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The nominal measured execution time.
         """
         return self.nominalExecutionTime
 
     def setNominalExecutionTime(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
-        Sets the nominal measured execution time.
-
-        Args:
-            value: The nominal execution time to set
-
-        Returns:
-            self for method chaining
+        The nominal measured execution time.
+        A None value is a no-op and does not overwrite an existing nominalExecutionTime.
         """
         if value is not None:
             self.nominalExecutionTime = value
@@ -536,61 +448,42 @@ class MeasuredExecutionTime(ExecutionTime):
 class SimulatedExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using simulation means.
-    [constr_4033] The attribute values of SimulatedExecutionTime shall fulfill:
-    minimumExecutionTime <= nominalExecutionTime <= maximumExecutionTime.
     """
 
     # SimulatedExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.24, p.167
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMaximumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] setMaximumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] getMinimumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] setMinimumExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] getNominalExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] setNominalExecutionTime      [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaximumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaximumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinimumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinimumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getNominalExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setNominalExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SimulatedExecutionTime with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this simulated execution time
-            short_name: The unique short name of this simulated execution time
-        """
         super().__init__(parent, short_name)
 
-        # The maximum simulated execution time. [constr_10331] The attribute shall exist
-        # at the time when the configuration of the BSW module is finished.
+        # The maximum simulated execution time.
         self.maximumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The minimum simulated execution time. [constr_10332] The attribute shall exist
-        # at the time when the configuration of the BSW module is finished.
+        # The minimum simulated execution time.
         self.minimumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The nominal simulated execution time. [constr_10333] The attribute shall exist
-        # at the time when the configuration of the BSW module is finished.
+        # The nominal simulated execution time.
         self.nominalExecutionTime: Optional[MultidimensionalTime] = None
 
     def getMaximumExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the maximum simulated execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The maximum simulated execution time.
         """
         return self.maximumExecutionTime
 
     def setMaximumExecutionTime(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
-        Sets the maximum simulated execution time.
-
-        Args:
-            value: The maximum execution time to set
-
-        Returns:
-            self for method chaining
+        The maximum simulated execution time.
+        A None value is a no-op and does not overwrite an existing maximumExecutionTime.
         """
         if value is not None:
             self.maximumExecutionTime = value
@@ -598,22 +491,14 @@ class SimulatedExecutionTime(ExecutionTime):
 
     def getMinimumExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the minimum simulated execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The minimum simulated execution time.
         """
         return self.minimumExecutionTime
 
     def setMinimumExecutionTime(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
-        Sets the minimum simulated execution time.
-
-        Args:
-            value: The minimum execution time to set
-
-        Returns:
-            self for method chaining
+        The minimum simulated execution time.
+        A None value is a no-op and does not overwrite an existing minimumExecutionTime.
         """
         if value is not None:
             self.minimumExecutionTime = value
@@ -621,22 +506,14 @@ class SimulatedExecutionTime(ExecutionTime):
 
     def getNominalExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the nominal simulated execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The nominal simulated execution time.
         """
         return self.nominalExecutionTime
 
     def setNominalExecutionTime(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
-        Sets the nominal simulated execution time.
-
-        Args:
-            value: The nominal execution time to set
-
-        Returns:
-            self for method chaining
+        The nominal simulated execution time.
+        A None value is a no-op and does not overwrite an existing nominalExecutionTime.
         """
         if value is not None:
             self.nominalExecutionTime = value
@@ -650,50 +527,33 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # RoughEstimateOfExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.25, p.167
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAdditionalInformation     [x] impl  [x] docstring  [x] test
-    # [x] setAdditionalInformation     [x] impl  [x] docstring  [x] test
-    # [x] getEstimatedExecutionTime    [x] impl  [x] docstring  [x] test
-    # [x] setEstimatedExecutionTime    [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAdditionalInformation    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setAdditionalInformation    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getEstimatedExecutionTime   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setEstimatedExecutionTime   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RoughEstimateOfExecutionTime with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this rough estimate of execution time
-            short_name: The unique short name of this rough estimate of execution time
-        """
         super().__init__(parent, short_name)
 
-        # Provides description on the rough estimate of the ExecutionTime. [constr_10334]
-        # The attribute shall exist at the time when the configuration of the BSW module
-        # is finished.
+        # Provides description on the rough estimate of the ExecutionTime.
         self.additionalInformation: Optional[String] = None
 
-        # The estimated execution time. [constr_10335] The attribute shall exist at the
-        # time when the configuration of the BSW module is finished.
+        # The estimated execution time.
         self.estimatedExecutionTime: Optional[MultidimensionalTime] = None
 
     def getAdditionalInformation(self) -> Optional[String]:
         """
-        Gets the description on the rough estimate of the execution time.
-
-        Returns:
-            String containing additional information, or None if not set
+        Provides description on the rough estimate of the ExecutionTime.
         """
         return self.additionalInformation
 
     def setAdditionalInformation(self, value: Optional[String]) -> RoughEstimateOfExecutionTime:
         """
-        Sets the description on the rough estimate of the execution time.
-
-        Args:
-            value: The additional information to set
-
-        Returns:
-            self for method chaining
+        Provides description on the rough estimate of the ExecutionTime.
+        A None value is a no-op and does not overwrite an existing additionalInformation.
         """
         if value is not None:
             self.additionalInformation = value
@@ -701,22 +561,14 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     def getEstimatedExecutionTime(self) -> Optional[MultidimensionalTime]:
         """
-        Gets the estimated execution time.
-
-        Returns:
-            MultidimensionalTime instance, or None if not set
+        The estimated execution time.
         """
         return self.estimatedExecutionTime
 
     def setEstimatedExecutionTime(self, value: Optional[MultidimensionalTime]) -> RoughEstimateOfExecutionTime:
         """
-        Sets the estimated execution time.
-
-        Args:
-            value: The estimated execution time to set
-
-        Returns:
-            self for method chaining
+        The estimated execution time.
+        A None value is a no-op and does not overwrite an existing estimatedExecutionTime.
         """
         if value is not None:
             self.estimatedExecutionTime = value

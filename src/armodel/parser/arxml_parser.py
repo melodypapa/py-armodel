@@ -125,7 +125,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum, ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
@@ -759,7 +759,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     ParameterDataPrototype,
     VariableDataPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
+from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType, ApplicationInterface
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import Field
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
@@ -7405,6 +7405,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readApplicationValueSpecification(self, element: ET.Element, value_spec: ApplicationValueSpecification):
         self.readValueSpecification(element, value_spec)
         value_spec.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        axis_conts = [self.getRuleBasedAxisCont(child_element) for child_element in self.findall(element, "SW-AXIS-CONTS/RULE-BASED-AXIS-CONT")]
+        if len(axis_conts) > 0:
+            value_spec.setSwAxisCont(axis_conts)
         value_spec.setSwValueCont(self.getSwValueCont(element))
 
         self.logger.debug("readApplicationValueSpecification Category %s" % value_spec.category)
@@ -7540,6 +7543,15 @@ class ARXMLParser(AbstractARXMLParser):
             if pulse_test is not None:
                 annotation.setPulseTest(PulseTestEnum().setValue(pulse_test.getValue()))
             annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
+            age_element = self.find(child, "AGE")
+            if age_element is not None:
+                age = MultidimensionalTime()
+                self.readMultidimensionalTime(age_element, age)
+                annotation.setAge(age)
+            annotation.setArgumentRef(self.getChildElementOptionalRefType(child, "ARGUMENT-REF"))
+            annotation.setBswResolution(self.getChildElementOptionalFloatValue(child, "BSW-RESOLUTION"))
+            annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
+            annotation.setFailureMonitoringRef(self.getChildElementOptionalRefType(child, "FAILURE-MONITORING-REF"))
             prototype.addIoHwAbstractionServerAnnotation(annotation)
         for child in self.findall(element, "MODE-PORT-ANNOTATIONS/MODE-PORT-ANNOTATION"):
             annotation = ModePortAnnotation()
@@ -15489,12 +15501,55 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping_set)
         self.readPortInterfaceMappings(element, mapping_set)
 
+    def readApplicationInterface(self, element: ET.Element, interface: ApplicationInterface):
+        self.readIdentifiable(element, interface)
+        fields = []
+        for child_element in self.findall(element, "ATTRIBUTES/FIELD"):
+            field = Field(interface, self.getShortName(child_element))
+            self.readField(child_element, field)
+            fields.append(field)
+        if len(fields) > 0:
+            interface.setAttributes(fields)
+        operations = []
+        for child_element in self.findall(element, "COMMANDS/CLIENT-SERVER-OPERATION"):
+            operation = ClientServerOperation(interface, self.getShortName(child_element))
+            self.readClientServerOperation(child_element, operation)
+            operations.append(operation)
+        if len(operations) > 0:
+            interface.setCommands(operations)
+        indications = []
+        for child_element in self.findall(element, "INDICATIONS/VARIABLE-DATA-PROTOTYPE"):
+            indication = VariableDataPrototype(interface, self.getShortName(child_element))
+            self.readVariableDataPrototype(child_element, indication)
+            indications.append(indication)
+        if len(indications) > 0:
+            interface.setIndications(indications)
+
+    def readAliasNameAssignment(self, element: ET.Element, assignment: AliasNameAssignment):
+        assignment.setShortLabel(self.getChildElementOptionalString(element, "SHORT-LABEL"))
+        assignment.setLabel(self.getMultilanguageLongName(element, "LABEL"))
+        assignment.setIdentifiableRef(self.getChildElementOptionalRefType(element, "IDENTIFIABLE-REF"))
+        assignment.setFlatInstanceRef(self.getChildElementOptionalRefType(element, "FLAT-INSTANCE-REF"))
+
+    def readAliasNameSet(self, element: ET.Element, alias_set: AliasNameSet):
+        self.readIdentifiable(element, alias_set)
+        for child_element in self.findall(element, "ALIAS-NAME-ASSIGNMENT"):
+            assignment = AliasNameAssignment()
+            alias_set.addAliasName(assignment)
+            self.readAliasNameAssignment(child_element, assignment)
+
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COMPOSITION-SW-COMPONENT-TYPE":
                 type = parent.createCompositionSwComponentType(self.getShortName(child_element))
                 self.readCompositionSwComponentType(child_element, type)
+            elif tag_name == "ALIAS-NAME-SET":
+                alias_set = parent.createAliasNameSet(self.getShortName(child_element))
+                self.readAliasNameSet(child_element, alias_set)
+            elif tag_name == "APPLICATION-INTERFACE":
+                interface = parent.createApplicationInterface(self.getShortName(child_element))
+                self.readApplicationInterface(child_element, interface)
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
