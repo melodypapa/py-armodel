@@ -247,685 +247,689 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ParameterSwComponentType` — SwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 2.1, p.41
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note: STUB SYNCED — 3 members (constantMappingRefs/dataTypeMappingRefs `*` ref → CONSTANT/DATA-TYPE-MAPPING-REFS; instantiationDataDefProps `*` aggr → INSTANTIATION-DATA-DEF-PROPSS); ARPackage factory + parser/writer dispatch + file round-trip test; docstring verbatim incl. Tags
 
 - [ ] `SwComponentType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.1, p.65; also FO_TPS_AbstractPlatformSpecification Table 3.5, p.22
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AtomicSwComponentType` — SwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.8, p.70
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.9, p.71; also CP_TPS_DiagnosticExtractTemplate Table 5.8, p.231
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwConnector` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.12, p.80
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PassThroughSwConnector` — SwConnector — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.15, p.83
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `InstantiationTimingEventProps` — InstantiationRTEEventProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.16, p.85
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `InstantiationRTEEventProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.17, p.85
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PortInterface` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.18, p.87; also FO_TPS_AbstractPlatformSpecification Table 3.6, p.27
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServiceProviderEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.20, p.91
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ClientServerInterface` — PortInterface — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.6, p.101; also CP_TPS_DiagnosticExtractTemplate Table 5.13, p.236
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ClientServerOperation` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.7, p.102; also FO_TPS_AbstractPlatformSpecification Table 3.8, p.29
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ArgumentDataPrototype` — AutosarDataPrototype — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.8, p.103; also FO_TPS_AbstractPlatformSpecification Table 3.10, p.29
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServerArgumentImplPolicyEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.10, p.105
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationError` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.11, p.108
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ModeSwitchInterface` — PortInterface — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.16, p.113
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataPrototypeMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.22, p.125
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ModeDeclarationMapping` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.29, p.132
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ImplementationDataTypeSubElementRef` — SubElementRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.34, p.138
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note: STUB SYNCED — implementationDataTypeElement/parameterImplementationDataTypeElement 0..1 aggrs (ArVariableIn/ArParameterInImplementationDataInstanceRef)
 
 - [ ] `ApplicationCompositeDataTypeSubElementRef` — SubElementRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.35, p.138
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MappingDirectionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.37, p.146
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TextTableValuePair` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.38, p.146
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataTransformation` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.39, p.150; also CP_TPS_SystemTemplate Table 7.2, p.763
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataTransformationKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.40, p.150
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SenderReceiverAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.41, p.152
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SenderAnnotation` — SenderReceiverAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.42, p.153
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note: STUB SYNCED — NO own attrs (XSD group SENDER-ANNOTATION empty); docstring verbatim
 
 - [ ] `ReceiverAnnotation` — SenderReceiverAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.43, p.153
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note: STUB SYNCED — signalAge 0..1 aggr (MultidimensionalTime) per XSD group RECEIVER-ANNOTATION (markdown caption-shift resolved by XSD: the signalAge table is ReceiverAnnotation's, not SenderAnnotation's)
 
 - [ ] `ProcessingKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.44, p.153
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataLimitKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.45, p.154
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ClientServerAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.46, p.155
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IoHwAbstractionServerAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.47, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FilterDebouncingEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.48, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PulseTestEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.49, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ParameterPortAnnotation` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.50, p.159
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ModePortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.51, p.159
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TriggerPortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.52, p.160
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NvDataPortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.53, p.160
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DelegatedPortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.54, p.162
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SignalFanEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.55, p.162
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PPortComSpec` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.58, p.166
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RPortComSpec` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.59, p.167
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ReceiverComSpec` — RPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.60, p.172
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `HandleOutOfRangeStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.61, p.172
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NonqueuedReceiverComSpec` — ReceiverComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.62, p.173
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `HandleTimeoutEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.65, p.174
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TimeValue` — ARLiteral — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.66, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SenderComSpec` — PPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.67, p.179
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NonqueuedSenderComSpec` — SenderComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.69, p.179
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransmissionComSpecProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.70, p.180
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransmissionAcknowledgementRequest` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.71, p.180
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `HandleOutOfRangeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.72, p.180; also CP_TPS_SystemTemplate Table 6.11, p.323
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransmissionModeDefinitionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.73, p.181
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ClientComSpec` — RPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.77, p.187
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServerComSpec` — PPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.78, p.188
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ParameterProvideComSpec` — PPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.82, p.192
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransformationComSpecProps` — Describable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.86, p.197
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransformationTechnology` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.87, p.199; also CP_TPS_SystemTemplate Table 7.3, p.764
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — existing suite (legacy + batch-era tests)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — legacy round-trip coverage (existing parser/writer suites; e.g. test_arxml_parser_ecuc_handlers.py-style handler tests + integration fixtures)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (16,942 passed model/parser/writer battery; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
 
