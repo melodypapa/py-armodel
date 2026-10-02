@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 714 | 37.5% |
+| [x] Done | 715 | 37.6% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 274 | 14.4% |
+| [ ] Deferred | 273 | 14.3% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -618,7 +618,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticJ1939Spn`                                    | [ ] Deferred| ad6e53e6fe                               | Group26          |
 | `DiagnosticJ1939SpnMapping`                             | [ ] Deferred| 86bff0a4f2                               | Group26          |
 | `DiagnosticJ1939SwMapping`                              | [ ] Deferred| 86bff0a4f2                               | Group26          |
-| `DiagnosticJumpToBootLoaderEnum`                        | [ ] Deferred| N/A                                      | Group14          |
+| `DiagnosticJumpToBootLoaderEnum`                        | [x] Done    | d901d9ee70                               | Group14          |
 | `DiagnosticLogicalOperatorEnum`                         | [ ] Deferred| N/A                                      | Group14          |
 | `DiagnosticMapping`                                     | [ ] Deferred| fd3e548259                               | Group26          |
 | `DiagnosticMasterToSlaveEventMapping`                   | [ ] Deferred| 531da6dd58                               | Group26          |

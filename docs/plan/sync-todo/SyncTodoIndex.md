@@ -659,7 +659,7 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **20/25** completed
+Status: **21/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
@@ -682,7 +682,7 @@ Status: **20/25** completed
 | `DiagEventDebounceCounterBased`            | [x] Done     | f41b486233 |
 | `SignalServiceTranslationElementProps`     | [x] Done     | 8b6384cb3f |
 | `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
-| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending* | N/A        |
+| `DiagnosticJumpToBootLoaderEnum`           | [x] Done     | d901d9ee70 |
 | `DiagnosticLogicalOperatorEnum`            | [ ] Pending* | N/A        |
 | `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af373 |
 | `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af373 |
