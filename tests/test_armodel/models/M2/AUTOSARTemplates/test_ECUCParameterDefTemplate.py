@@ -55,7 +55,17 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String, UnlimitedInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    Boolean,
+    CIdentifier,
+    PositiveInteger,
+    RefType,
+    RegularExpression,
+    String,
+    UnlimitedInteger,
+    VerbatimString,
+)
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -1337,90 +1347,79 @@ class TestEcucAbstractExternalReferenceDef:
 
 
 class TestEcucAbstractStringParamDef:
+    """
+    Test class for EcucAbstractStringParamDef functionality (abstract — accessors via concrete subclass).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.18, p.63
+    """
+
+    CLASS_NOTE = "Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags: vh.latestBindingTime=codeGenerationTime"
+
+    def _make_obj(self) -> EcucAbstractStringParamDef:
+        return EcucStringParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEAS"), "Param")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractStringParamDef)
 
-    def _make(self):
-        class _Concrete(EcucAbstractStringParamDef):
-            pass
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucAbstractStringParamDef.__doc__) == self.CLASS_NOTE
 
-        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEASPD"), "sn")
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucAbstractStringParamDef.__init__.__doc__ is None
 
-    def test_initialization_defaults(self):
-        obj = self._make()
+    def test_defaults_are_spec_multiplicity(self):
+        """
+        Test that members start with the spec multiplicity defaults.
+        """
+        obj = self._make_obj()
+
         assert obj.getDefaultValue() is None
         assert obj.getMaxLength() is None
         assert obj.getMinLength() is None
         assert obj.getRegularExpression() is None
 
-    def test_get_set_default_value_roundtrip(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+    def test_get_set_string_members(self):
+        """
+        Round-trips defaultValue/maxLength/minLength/regularExpression; None is a no-op.
+        """
+        obj = self._make_obj()
 
-        obj = self._make()
-        value = VerbatimString().setValue("default_value")
-        assert obj.setDefaultValue(value) is obj
-        assert obj.getDefaultValue() == value
+        default_value = VerbatimString()
+        default_value.setValue("default")
+        result = obj.setDefaultValue(default_value)
+        assert result is obj  # method chaining
+        assert obj.getDefaultValue() is default_value
 
-    def test_set_default_value_none_noop(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+        max_length = PositiveInteger()
+        max_length.setValue(32)
+        obj.setMaxLength(max_length)
+        assert obj.getMaxLength() is max_length
 
-        obj = self._make()
-        value = VerbatimString().setValue("default_value")
-        obj.setDefaultValue(value)
+        min_length = PositiveInteger()
+        min_length.setValue(1)
+        obj.setMinLength(min_length)
+        assert obj.getMinLength() is min_length
+
+        regex = RegularExpression()
+        regex.setValue("[a-z]+")
+        obj.setRegularExpression(regex)
+        assert obj.getRegularExpression() is regex
+
         obj.setDefaultValue(None)
-        assert obj.getDefaultValue() == value
-
-    def test_get_set_max_length_roundtrip(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-
-        obj = self._make()
-        value = PositiveInteger().setValue("100")
-        assert obj.setMaxLength(value) is obj
-        assert obj.getMaxLength() == value
-
-    def test_set_max_length_none_noop(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-
-        obj = self._make()
-        value = PositiveInteger().setValue("100")
-        obj.setMaxLength(value)
         obj.setMaxLength(None)
-        assert obj.getMaxLength() == value
-
-    def test_get_set_min_length_roundtrip(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-
-        obj = self._make()
-        value = PositiveInteger().setValue("1")
-        assert obj.setMinLength(value) is obj
-        assert obj.getMinLength() == value
-
-    def test_set_min_length_none_noop(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-
-        obj = self._make()
-        value = PositiveInteger().setValue("1")
-        obj.setMinLength(value)
         obj.setMinLength(None)
-        assert obj.getMinLength() == value
-
-    def test_get_set_regular_expression_roundtrip(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression
-
-        obj = self._make()
-        value = RegularExpression().setValue("[a-zA-Z]*")
-        assert obj.setRegularExpression(value) is obj
-        assert obj.getRegularExpression() == value
-
-    def test_set_regular_expression_none_noop(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression
-
-        obj = self._make()
-        value = RegularExpression().setValue("[a-zA-Z]*")
-        obj.setRegularExpression(value)
         obj.setRegularExpression(None)
-        assert obj.getRegularExpression() == value
+        assert obj.getDefaultValue() is default_value  # None is a no-op
+        assert obj.getMaxLength() is max_length  # None is a no-op
+        assert obj.getMinLength() is min_length  # None is a no-op
+        assert obj.getRegularExpression() is regex  # None is a no-op
 
 
 class TestEcucAbstractConfigurationClass:

@@ -1331,26 +1331,24 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
 
 class EcucAbstractStringParamDef(EcucParameterDef, ABC):
-    """
-    Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags: vh.latestBindingTime=codeGenerationTime
-    """
+    """Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags: vh.latestBindingTime=codeGenerationTime"""
 
     # EcucAbstractStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.18, p.63
-    # Spec verified: R23-11
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxLength              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxLength              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinLength              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinLength              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRegularExpression      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRegularExpression      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractStringParamDef:
-            raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
+            raise TypeError("EcucAbstractStringParamDef is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -1372,10 +1370,9 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
         """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Optional[VerbatimString]):
+    def setDefaultValue(self, value: Optional[VerbatimString]) -> EcucAbstractStringParamDef:
         """
         Default value of the string configuration parameter.
-
         A None value is a no-op and does not overwrite an existing defaultValue.
         """
         if value is not None:
@@ -1388,10 +1385,9 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
         """
         return self.maxLength
 
-    def setMaxLength(self, value: Optional[PositiveInteger]):
+    def setMaxLength(self, value: Optional[PositiveInteger]) -> EcucAbstractStringParamDef:
         """
         Max length allowed for this string.
-
         A None value is a no-op and does not overwrite an existing maxLength.
         """
         if value is not None:
@@ -1404,10 +1400,9 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
         """
         return self.minLength
 
-    def setMinLength(self, value: Optional[PositiveInteger]):
+    def setMinLength(self, value: Optional[PositiveInteger]) -> EcucAbstractStringParamDef:
         """
         Min length allowed for this string.
-
         A None value is a no-op and does not overwrite an existing minLength.
         """
         if value is not None:
@@ -1420,16 +1415,14 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
         """
         return self.regularExpression
 
-    def setRegularExpression(self, value: Optional[RegularExpression]):
+    def setRegularExpression(self, value: Optional[RegularExpression]) -> EcucAbstractStringParamDef:
         """
         This represents the regular expression which shall be used to validate the string parameter value.
-
         A None value is a no-op and does not overwrite an existing regularExpression.
         """
         if value is not None:
             self.regularExpression = value
         return self
-
 
 class EcucStringParamDef(EcucAbstractStringParamDef):
     """
