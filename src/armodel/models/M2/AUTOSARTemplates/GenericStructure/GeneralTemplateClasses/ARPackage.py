@@ -412,6 +412,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     ReferrableSubtypesEnum,
+    String,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
@@ -2935,6 +2936,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticMasterToSlaveEventMapping(self, short_name)
             self.addReferrableElement(element)
         return self.getReferrableElement(short_name, DiagnosticMasterToSlaveEventMapping)
+
+    def createDiagnosticMemoryIdentifier(self, short_name: str) -> DiagnosticMemoryIdentifier:
+        """
+        Creates a new DiagnosticMemoryIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMemoryIdentifier: This meta-class represents the ability to define memory properties from the diagnostics point of view..
+
+        Args:
+            short_name: The short name for the new DiagnosticMemoryIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticMemoryIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticMemoryIdentifier):
+            element = DiagnosticMemoryIdentifier(self, short_name)
+            self.addReferrableElement(element)
+        return self.getReferrableElement(short_name, DiagnosticMemoryIdentifier)
 
     def createDiagnosticDemProvidedDataMapping(self, short_name: str) -> DiagnosticDemProvidedDataMapping:
         """
@@ -6573,7 +6592,141 @@ class DiagnosticMemoryDestinationPrimary(ARElement):
 
 
 class DiagnosticMemoryIdentifier(ARElement):
-    pass
+    """This meta-class represents the ability to define memory properties from the diagnostics point of view. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticMemoryIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.112, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessPermissionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessPermissionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryHighAddress           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryHighAddress           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryHighAddressLabel      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryHighAddressLabel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryLowAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryLowAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryLowAddressLabel       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryLowAddressLabel       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission
+        self.accessPermissionRef: Optional[RefType] = None
+
+        # This represents the identification of the memory segment.
+        self.id: Optional[PositiveInteger] = None
+
+        # This represents the upper bound for addresses of the memory segment.
+        self.memoryHighAddress: Optional[PositiveInteger] = None
+
+        # This represents a symbolic label for the upper bound for addresses of the memory segment.
+        self.memoryHighAddressLabel: Optional[String] = None
+
+        # This represents the lower bound for addresses of the memory segment.
+        self.memoryLowAddress: Optional[PositiveInteger] = None
+
+        # This represents a symbolic label for the lower bound for addresses of the memory segment.
+        self.memoryLowAddressLabel: Optional[String] = None
+
+    def getAccessPermissionRef(self) -> Optional[RefType]:
+        """
+        This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission
+        """
+        return self.accessPermissionRef
+
+    def setAccessPermissionRef(self, value: Optional[RefType]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission
+
+        A None value is a no-op and does not overwrite an existing accessPermissionRef.
+        """
+        if value is not None:
+            self.accessPermissionRef = value
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the identification of the memory segment.
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents the identification of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getMemoryHighAddress(self) -> Optional[PositiveInteger]:
+        """
+        This represents the upper bound for addresses of the memory segment.
+        """
+        return self.memoryHighAddress
+
+    def setMemoryHighAddress(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents the upper bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryHighAddress.
+        """
+        if value is not None:
+            self.memoryHighAddress = value
+        return self
+
+    def getMemoryHighAddressLabel(self) -> Optional[String]:
+        """
+        This represents a symbolic label for the upper bound for addresses of the memory segment.
+        """
+        return self.memoryHighAddressLabel
+
+    def setMemoryHighAddressLabel(self, value: Optional[String]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents a symbolic label for the upper bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryHighAddressLabel.
+        """
+        if value is not None:
+            self.memoryHighAddressLabel = value
+        return self
+
+    def getMemoryLowAddress(self) -> Optional[PositiveInteger]:
+        """
+        This represents the lower bound for addresses of the memory segment.
+        """
+        return self.memoryLowAddress
+
+    def setMemoryLowAddress(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents the lower bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryLowAddress.
+        """
+        if value is not None:
+            self.memoryLowAddress = value
+        return self
+
+    def getMemoryLowAddressLabel(self) -> Optional[String]:
+        """
+        This represents a symbolic label for the lower bound for addresses of the memory segment.
+        """
+        return self.memoryLowAddressLabel
+
+    def setMemoryLowAddressLabel(self, value: Optional[String]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents a symbolic label for the lower bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryLowAddressLabel.
+        """
+        if value is not None:
+            self.memoryLowAddressLabel = value
+        return self
 
 
 class DiagnosticOperationCycle(ARElement):

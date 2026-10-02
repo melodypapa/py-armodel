@@ -69,6 +69,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMasterToSlaveEventMapping,
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryByAddress,
+    DiagnosticMemoryIdentifier,
     DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
     DiagnosticProofOfOwnership,
@@ -116,6 +117,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     ReferrableSubtypesEnum,
     RefType,
+    String,
     TimeValue,
     UriString,
 )
@@ -7329,3 +7331,192 @@ class TestDiagnosticMemoryAddressableRangeAccess:
         """
         assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.getMemoryRanges.__doc__) == self.MEMORY_RANGE_NOTE
         assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.addMemoryRange.__doc__) == (self.MEMORY_RANGE_NOTE + "\n\nA None value is a no-op and does not append a memoryRange.")
+
+
+class TestDiagnosticMemoryIdentifier:
+    """
+    Test class for DiagnosticMemoryIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.112, p.140
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define memory properties from the diagnostics point of view. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"
+    ACCESS_PERMISSION_NOTE = "This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission"
+    ID_NOTE = "This represents the identification of the memory segment."
+    MEMORY_HIGH_ADDRESS_NOTE = "This represents the upper bound for addresses of the memory segment."
+    MEMORY_HIGH_ADDRESS_LABEL_NOTE = "This represents a symbolic label for the upper bound for addresses of the memory segment."
+    MEMORY_LOW_ADDRESS_NOTE = "This represents the lower bound for addresses of the memory segment."
+    MEMORY_LOW_ADDRESS_LABEL_NOTE = "This represents a symbolic label for the lower bound for addresses of the memory segment."
+
+    def _make_obj(self) -> DiagnosticMemoryIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticMemoryIdentifier(ar_root, "TestMemoryIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticMemoryIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMemoryIdentifier"
+        assert isinstance(obj, ARElement)
+        assert obj.getAccessPermissionRef() is None
+        assert obj.getId() is None
+        assert obj.getMemoryHighAddress() is None
+        assert obj.getMemoryHighAddressLabel() is None
+        assert obj.getMemoryLowAddress() is None
+        assert obj.getMemoryLowAddressLabel() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticMemoryIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryIdentifier.__init__.__doc__ is None
+
+    def test_get_set_access_permission_ref(self):
+        """
+        Round-trips the accessPermission ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-ACCESS-PERMISSION")
+        ref.setValue("/AUTOSAR/DiagnosticAccessPermissions/Permission1")
+        result = obj.setAccessPermissionRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAccessPermissionRef() is ref
+        assert obj.getAccessPermissionRef().getValue() == "/AUTOSAR/DiagnosticAccessPermissions/Permission1"
+        assert obj.getAccessPermissionRef().getDest() == "DIAGNOSTIC-ACCESS-PERMISSION"
+
+        result = obj.setAccessPermissionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAccessPermissionRef() is ref  # None is a no-op
+
+    def test_get_set_id(self):
+        """
+        Round-trips id; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("1")
+        result = obj.setId(value)
+        assert result is obj  # method chaining
+        assert obj.getId() is value
+        assert obj.getId().getValue() == 1
+
+        obj.setId(None)
+        assert obj.getId() is value  # None is a no-op
+
+    def test_get_set_memory_high_address(self):
+        """
+        Round-trips memoryHighAddress; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("4096")
+        result = obj.setMemoryHighAddress(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryHighAddress() is value
+        assert obj.getMemoryHighAddress().getValue() == 4096
+
+        obj.setMemoryHighAddress(None)
+        assert obj.getMemoryHighAddress() is value  # None is a no-op
+
+    def test_get_set_memory_high_address_label(self):
+        """
+        Round-trips memoryHighAddressLabel; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = String()
+        value.setValue("0x1000")
+        result = obj.setMemoryHighAddressLabel(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryHighAddressLabel() is value
+        assert obj.getMemoryHighAddressLabel().getValue() == "0x1000"
+
+        obj.setMemoryHighAddressLabel(None)
+        assert obj.getMemoryHighAddressLabel() is value  # None is a no-op
+
+    def test_get_set_memory_low_address(self):
+        """
+        Round-trips memoryLowAddress; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("0")
+        result = obj.setMemoryLowAddress(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryLowAddress() is value
+        assert obj.getMemoryLowAddress().getValue() == 0
+
+        obj.setMemoryLowAddress(None)
+        assert obj.getMemoryLowAddress() is value  # None is a no-op
+
+    def test_get_set_memory_low_address_label(self):
+        """
+        Round-trips memoryLowAddressLabel; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = String()
+        value.setValue("0x0")
+        result = obj.setMemoryLowAddressLabel(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryLowAddressLabel() is value
+        assert obj.getMemoryLowAddressLabel().getValue() == "0x0"
+
+        obj.setMemoryLowAddressLabel(None)
+        assert obj.getMemoryLowAddressLabel() is value  # None is a no-op
+
+    def test_create_diagnostic_memory_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMemoryIdentifiers")
+        element = package.createDiagnosticMemoryIdentifier("Segment1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticMemoryIdentifier)
+        assert element.getShortName() == "Segment1"
+        assert package.getReferrableElement("Segment1", DiagnosticMemoryIdentifier) is element
+
+        duplicate = package.createDiagnosticMemoryIdentifier("Segment1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.getAccessPermissionRef.__doc__) == self.ACCESS_PERMISSION_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.setAccessPermissionRef.__doc__) == (
+            self.ACCESS_PERMISSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing accessPermissionRef."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.getMemoryHighAddress.__doc__) == self.MEMORY_HIGH_ADDRESS_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.setMemoryHighAddress.__doc__) == (
+            self.MEMORY_HIGH_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryHighAddress."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.getMemoryHighAddressLabel.__doc__) == self.MEMORY_HIGH_ADDRESS_LABEL_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.setMemoryHighAddressLabel.__doc__) == (
+            self.MEMORY_HIGH_ADDRESS_LABEL_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryHighAddressLabel."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.getMemoryLowAddress.__doc__) == self.MEMORY_LOW_ADDRESS_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.setMemoryLowAddress.__doc__) == (
+            self.MEMORY_LOW_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryLowAddress."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.getMemoryLowAddressLabel.__doc__) == self.MEMORY_LOW_ADDRESS_LABEL_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryIdentifier.setMemoryLowAddressLabel.__doc__) == (
+            self.MEMORY_LOW_ADDRESS_LABEL_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryLowAddressLabel."
+        )

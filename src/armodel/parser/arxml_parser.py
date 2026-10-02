@@ -558,6 +558,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -11111,6 +11112,16 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "MEMORY-RANGE-REFS/MEMORY-RANGE-REF"):
             range_access.addMemoryRange(ref)
 
+    def readDiagnosticMemoryIdentifier(self, element: ET.Element, identifier: DiagnosticMemoryIdentifier):
+        self.logger.debug("Read DiagnosticMemoryIdentifier <%s>" % identifier.getShortName())
+        self.readIdentifiable(element, identifier)
+        identifier.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
+        identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        identifier.setMemoryHighAddress(self.getChildElementOptionalPositiveInteger(element, "MEMORY-HIGH-ADDRESS"))
+        identifier.setMemoryHighAddressLabel(self.getChildElementOptionalString(element, "MEMORY-HIGH-ADDRESS-LABEL"))
+        identifier.setMemoryLowAddress(self.getChildElementOptionalPositiveInteger(element, "MEMORY-LOW-ADDRESS"))
+        identifier.setMemoryLowAddressLabel(self.getChildElementOptionalString(element, "MEMORY-LOW-ADDRESS-LABEL"))
+
     def readDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
         self.logger.debug("Read DiagnosticClearDiagnosticInformationClass <%s>" % clear_diagnostic_information_class.getShortName())
         self.readIdentifiable(element, clear_diagnostic_information_class)
@@ -16733,6 +16744,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
             verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
             self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+            return True
+        if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
+            identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))
+            self.readDiagnosticMemoryIdentifier(child_element, identifier)
             return True
         return False
 

@@ -431,6 +431,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -14539,6 +14540,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             for memory_range in memory_ranges:
                 self.setChildElementOptionalRefType(child_element, "MEMORY-RANGE-REF", memory_range)
 
+    def writeDiagnosticMemoryIdentifier(self, element: ET.Element, identifier: DiagnosticMemoryIdentifier):
+        self.logger.debug("Write DiagnosticMemoryIdentifier %s" % identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-MEMORY-IDENTIFIER")
+        self.writeIdentifiable(child_element, identifier)
+        self.setChildElementOptionalRefType(child_element, "ACCESS-PERMISSION-REF", identifier.getAccessPermissionRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", identifier.getId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-HIGH-ADDRESS", identifier.getMemoryHighAddress())
+        self.setChildElementOptionalString(child_element, "MEMORY-HIGH-ADDRESS-LABEL", identifier.getMemoryHighAddressLabel())
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-LOW-ADDRESS", identifier.getMemoryLowAddress())
+        self.setChildElementOptionalString(child_element, "MEMORY-LOW-ADDRESS-LABEL", identifier.getMemoryLowAddressLabel())
+
     def writeDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
         self.logger.debug("Write DiagnosticClearDiagnosticInformationClass %s" % clear_diagnostic_information_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS")
@@ -16205,6 +16217,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticMemoryIdentifier):
+            self.writeDiagnosticMemoryIdentifier(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticEnableConditionPortMapping):
             self.writeDiagnosticEnableConditionPortMapping(element, ar_element)

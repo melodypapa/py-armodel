@@ -1051,15 +1051,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMemoryIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.112, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; Base most-derived = ARElement. Attributes (displayed order, l.4203-4215 —
+    trailing-caption page-break artifact, caption l.4217; R4.3.1 counterpart Table 5.36 p.103):
+    accessPermission (DiagnosticAccessPermission, 0..1, ref — cell-wrap "access Permission" healed) →
+    accessPermissionRef (XSD ACCESS-PERMISSION-REF, DEST DIAGNOSTIC-ACCESS-PERMISSION--SUBTYPES-ENUM);
+    id (PositiveInteger, 0..1, attr); memoryHighAddress (PositiveInteger, 0..1, attr — cell-wrap healed);
+    memoryHighAddressLabel (String, 0..1, attr — cell-wrap healed); memoryLowAddress (PositiveInteger, 0..1,
+    attr — cell-wrap healed); memoryLowAddressLabel (String, 0..1, attr — cell-wrap healed).
+    XSD group DIAGNOSTIC-MEMORY-IDENTIFIER (AUTOSAR_00052.xsd l.39770): element order ACCESS-PERMISSION-REF,
+    ID, MEMORY-HIGH-ADDRESS, MEMORY-HIGH-ADDRESS-LABEL, MEMORY-LOW-ADDRESS, MEMORY-LOW-ADDRESS-LABEL —
+    same as markdown displayed order. Aggregated by ARPackage.element ⇒ ARPackage factory
+    createDiagnosticMemoryIdentifier + reader dispatch readDiagnosticPackageElement + writer dispatch
+    writeDiagnosticElement (recent-sibling convention).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): ARPackage factory createDiagnosticMemoryIdentifier; reader readDiagnosticMemoryIdentifier
+    + readDiagnosticPackageElement dispatch (DIAGNOSTIC-MEMORY-IDENTIFIER); writer writeDiagnosticMemoryIdentifier
+    + writeDiagnosticElement dispatch (XSD order ACCESS-PERMISSION-REF, ID, MEMORY-HIGH-ADDRESS,
+    MEMORY-HIGH-ADDRESS-LABEL, MEMORY-LOW-ADDRESS, MEMORY-LOW-ADDRESS-LABEL).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations (markdown cell-wrap artifacts "access Permission"/"memoryHigh Address"/
+    "memoryLow AddressLabel" healed per sibling convention; documented in the Step 1 note).
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1663 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_memory_identifier.py + test_writer_diagnostic_memory_identifier.py; parser+writer regression 7186 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticWriteMemoryByAddress` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.113, p.141
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
