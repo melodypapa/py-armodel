@@ -659,7 +659,7 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **22/25** completed
+Status: **23/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
@@ -685,7 +685,7 @@ Status: **22/25** completed
 | `DiagnosticJumpToBootLoaderEnum`           | [x] Done     | N/A        |
 | `DiagnosticLogicalOperatorEnum`            | [x] Done     | N/A        |
 | `DiagnosticEnvConditionFormulaPart`        | [x] Done     | 66e22b5a41 |
-| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af373 |
+| `DiagnosticEnvConditionFormula`            | [x] Done     | af255af373 |
 | `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af373 |
 | `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |
 

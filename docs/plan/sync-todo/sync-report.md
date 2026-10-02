@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 717 | 37.7% |
+| [x] Done | 718 | 37.7% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 272 | 14.3% |
+| [ ] Deferred | 271 | 14.2% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -559,7 +559,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticEnableConditionPortMapping`                  | [ ] Deferred| 266d4f7aa4                               | Group26          |
 | `DiagnosticEnvBswModeElement`                           | [ ] Deferred| 9b90205857                               | Group23          |
 | `DiagnosticEnvCompareCondition`                         | [ ] Deferred| af255af373                               | Group14          |
-| `DiagnosticEnvConditionFormula`                         | [ ] Deferred| af255af373                               | Group14          |
+| `DiagnosticEnvConditionFormula`                         | [x] Done    | af255af373                               | Group14          |
 | `DiagnosticEnvConditionFormulaPart`                     | [x] Done    | 66e22b5a41                               | Group14          |
 | `DiagnosticEnvDataCondition`                            | [ ] Deferred| 19d7cb9cd6                               | Group23          |
 | `DiagnosticEnvDataElementCondition`                     | [ ] Deferred| 519aca8534                               | Group23          |
