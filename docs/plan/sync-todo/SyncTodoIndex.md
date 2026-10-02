@@ -659,35 +659,35 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **24/25** completed
+Status: **25/25** completed
 
-| Class Name                                 | Status       | Commit ID  |
-| ------------------------------------------ | ------------ | ---------- |
-| `DiagnosticAudienceEnum`                   | [x] Done     | 80d64e8f15 |
-| `DiagnosticClearDtcNotificationEnum`       | [x] Done     | 2415d2157a |
-| `DiagnosticProcessingStyleEnum`            | [x] Done     | d07b0d0144 |
-| `DiagnosticRoutineTypeEnum`                | [x] Done     | N/A        |
-| `DiagnosticServiceRequestCallbackTypeEnum` | [x] Done     | N/A        |
-| `DiagnosticValueAccessEnum`                | [x] Done     | N/A        |
-| `DtcFormatTypeEnum`                        | [x] Done     | N/A        |
-| `DtcKindEnum`                              | [x] Done     | N/A        |
-| `ServiceDiagnosticRelevanceEnum`           | [x] Done     | N/A        |
-| `DiagnosticCapabilityElement`              | [x] Done     | N/A        |
-| `DiagnosticCommunicationManagerNeeds`      | [x] Done     | N/A        |
-| `DiagnosticEventInfoNeeds`                 | [x] Done     | N/A        |
-| `DiagnosticRoutineNeeds`                   | [x] Done     | N/A        |
-| `DiagnosticValueNeeds`                     | [x] Done     | N/A        |
-| `DtcStatusChangeNotificationNeeds`         | [x] Done     | N/A        |
-| `CryptoServiceNeeds`                       | [x] Done     | N/A        |
-| `DiagEventDebounceCounterBased`            | [x] Done     | N/A        |
-| `SignalServiceTranslationElementProps`     | [x] Done     | N/A        |
-| `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
-| `DiagnosticJumpToBootLoaderEnum`           | [x] Done     | N/A        |
-| `DiagnosticLogicalOperatorEnum`            | [x] Done     | N/A        |
-| `DiagnosticEnvConditionFormulaPart`        | [x] Done     | 66e22b5a41 |
-| `DiagnosticEnvConditionFormula`            | [x] Done     | af255af373 |
-| `DiagnosticEnvCompareCondition`            | [x] Done     | af255af373 |
-| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |
+| Class Name                                 | Status    | Commit ID  |
+| ------------------------------------------ | --------- | ---------- |
+| `DiagnosticAudienceEnum`                   | [x] Done  | 80d64e8f15 |
+| `DiagnosticClearDtcNotificationEnum`       | [x] Done  | 2415d2157a |
+| `DiagnosticProcessingStyleEnum`            | [x] Done  | d07b0d0144 |
+| `DiagnosticRoutineTypeEnum`                | [x] Done  | N/A        |
+| `DiagnosticServiceRequestCallbackTypeEnum` | [x] Done  | N/A        |
+| `DiagnosticValueAccessEnum`                | [x] Done  | N/A        |
+| `DtcFormatTypeEnum`                        | [x] Done  | N/A        |
+| `DtcKindEnum`                              | [x] Done  | N/A        |
+| `ServiceDiagnosticRelevanceEnum`           | [x] Done  | N/A        |
+| `DiagnosticCapabilityElement`              | [x] Done  | N/A        |
+| `DiagnosticCommunicationManagerNeeds`      | [x] Done  | N/A        |
+| `DiagnosticEventInfoNeeds`                 | [x] Done  | N/A        |
+| `DiagnosticRoutineNeeds`                   | [x] Done  | N/A        |
+| `DiagnosticValueNeeds`                     | [x] Done  | N/A        |
+| `DtcStatusChangeNotificationNeeds`         | [x] Done  | N/A        |
+| `CryptoServiceNeeds`                       | [x] Done  | N/A        |
+| `DiagEventDebounceCounterBased`            | [x] Done  | N/A        |
+| `SignalServiceTranslationElementProps`     | [x] Done  | N/A        |
+| `DiagnosticServiceClass`                   | [x] Done* | 6b514727f9 |
+| `DiagnosticJumpToBootLoaderEnum`           | [x] Done  | N/A        |
+| `DiagnosticLogicalOperatorEnum`            | [x] Done  | N/A        |
+| `DiagnosticEnvConditionFormulaPart`        | [x] Done  | 66e22b5a41 |
+| `DiagnosticEnvConditionFormula`            | [x] Done  | af255af373 |
+| `DiagnosticEnvCompareCondition`            | [x] Done  | af255af373 |
+| `DiagnosticEnvModeElement`                 | [x] Done  | af255af373 |
 
 ## Group15
 

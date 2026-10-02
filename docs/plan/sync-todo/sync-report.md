@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 719 | 37.8% |
+| [x] Done | 720 | 37.8% |
 | [x] Deferred | 11 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 270 | 14.2% |
+| [ ] Deferred | 269 | 14.1% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -564,7 +564,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticEnvDataCondition`                            | [ ] Deferred| 19d7cb9cd6                               | Group23          |
 | `DiagnosticEnvDataElementCondition`                     | [ ] Deferred| 519aca8534                               | Group23          |
 | `DiagnosticEnvModeCondition`                            | [ ] Deferred| 4e6f0e3039                               | Group23          |
-| `DiagnosticEnvModeElement`                              | [ ] Deferred| af255af373                               | Group14          |
+| `DiagnosticEnvModeElement`                              | [x] Done    | af255af373                               | Group14          |
 | `DiagnosticEnvSwcModeElement`                           | [ ] Deferred| 4e64e33afe                               | Group23          |
 | `DiagnosticEnvironmentalCondition`                      | [x] Done    | 5bbca5f217                               | Group7           |
 | `DiagnosticEvent`                                       | [ ] Created | N/A                                      | Group25          |
