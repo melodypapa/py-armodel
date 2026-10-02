@@ -15945,7 +15945,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticSecurityLevel(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
             self.writeDiagnosticEnvironmentalCondition(element, ar_element)
-        elif isinstance(ar_element, DiagnosticAccessPermission):
+        else:
+            self.writeARPackageElementRest(element, ar_element)
+
+    def writeARPackageElementRest(self, element: ET.Element, ar_element: ARElement):
+        if isinstance(ar_element, DiagnosticAccessPermission):
             self.writeDiagnosticAccessPermission(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthRole):
             self.writeDiagnosticAuthRole(element, ar_element)
@@ -16319,6 +16323,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
             return True
         return False
+
     def writeDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())

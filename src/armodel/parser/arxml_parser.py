@@ -16168,302 +16168,306 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SESSION-CONTROL-CLASS":
                 session_control_class = parent.createDiagnosticSessionControlClass(self.getShortName(child_element))
                 self.readDiagnosticSessionControlClass(child_element, session_control_class)
-            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
-                security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
-                self.readDiagnosticSecurityAccess(child_element, security_access)
-            elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS-CLASS":
-                security_access_class = parent.createDiagnosticSecurityAccessClass(self.getShortName(child_element))
-                self.readDiagnosticSecurityAccessClass(child_element, security_access_class)
-            elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
-                security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
-                self.readDiagnosticSecurityLevel(child_element, security_level)
-            elif tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
-                condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
-                self.readDiagnosticEnvironmentalCondition(child_element, condition)
-            elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
-                permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
-                self.readDiagnosticAccessPermission(child_element, permission)
-            elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
-                auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
-                self.readDiagnosticAuthRole(child_element, auth_role)
-            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
-                authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
-                self.readDiagnosticAuthenticationClass(child_element, authentication_class)
-            elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
-                configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
-                self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
-            elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE":
-                certificate = parent.createDiagnosticAuthTransmitCertificate(self.getShortName(child_element))
-                self.readDiagnosticAuthTransmitCertificate(child_element, certificate)
-            elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
-                de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
-                self.readDiagnosticDeAuthentication(child_element, de_authentication)
-            elif tag_name == "DIAGNOSTIC-COM-CONTROL":
-                com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
-                self.readDiagnosticComControl(child_element, com_control)
-            elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
-                com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
-                self.readDiagnosticComControlClass(child_element, com_control_class)
-            elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING":
-                control_dtc_setting = parent.createDiagnosticControlDTCSetting(self.getShortName(child_element))
-                self.readDiagnosticControlDTCSetting(child_element, control_dtc_setting)
-            elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS":
-                control_dtc_setting_class = parent.createDiagnosticControlDTCSettingClass(self.getShortName(child_element))
-                self.readDiagnosticControlDTCSettingClass(child_element, control_dtc_setting_class)
-            elif tag_name == "DIAGNOSTIC-ECU-RESET":
-                ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
-                self.readDiagnosticEcuReset(child_element, ecu_reset)
-            elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
-                ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
-                self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
-            elif tag_name == "DIAGNOSTIC-IO-CONTROL":
-                io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
-                self.readDiagnosticIOControl(child_element, io_control)
-            elif tag_name == "DIAGNOSTIC-IO-CONTROL-CLASS":
-                io_control_class = parent.createDiagnosticIoControlClass(self.getShortName(child_element))
-                self.readDiagnosticIoControlClass(child_element, io_control_class)
-            elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
-                read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
-                self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
-            elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS":
-                read_data_by_identifier_class = parent.createDiagnosticReadDataByIdentifierClass(self.getShortName(child_element))
-                self.readDiagnosticReadDataByIdentifierClass(child_element, read_data_by_identifier_class)
-            elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID":
-                read_data_by_periodic_id = parent.createDiagnosticReadDataByPeriodicID(self.getShortName(child_element))
-                self.readDiagnosticReadDataByPeriodicID(child_element, read_data_by_periodic_id)
-            elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS":
-                read_data_by_periodic_id_class = parent.createDiagnosticReadDataByPeriodicIDClass(self.getShortName(child_element))
-                self.readDiagnosticReadDataByPeriodicIDClass(child_element, read_data_by_periodic_id_class)
-            elif tag_name == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION":
-                clear_diagnostic_information = parent.createDiagnosticClearDiagnosticInformation(self.getShortName(child_element))
-                self.readDiagnosticClearDiagnosticInformation(child_element, clear_diagnostic_information)
-            elif tag_name == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS":
-                clear_diagnostic_information_class = parent.createDiagnosticClearDiagnosticInformationClass(self.getShortName(child_element))
-                self.readDiagnosticClearDiagnosticInformationClass(child_element, clear_diagnostic_information_class)
-            elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION":
-                read_dtc_information = parent.createDiagnosticReadDTCInformation(self.getShortName(child_element))
-                self.readDiagnosticReadDTCInformation(child_element, read_dtc_information)
-            elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS":
-                read_dtc_information_class = parent.createDiagnosticReadDTCInformationClass(self.getShortName(child_element))
-                self.readDiagnosticReadDTCInformationClass(child_element, read_dtc_information_class)
-            elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
-                write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
-                self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
-            elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER":
-                read_scaling_data_by_identifier = parent.createDiagnosticReadScalingDataByIdentifier(self.getShortName(child_element))
-                self.readDiagnosticReadScalingDataByIdentifier(child_element, read_scaling_data_by_identifier)
-            elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS":
-                write_data_by_identifier_class = parent.createDiagnosticWriteDataByIdentifierClass(self.getShortName(child_element))
-                self.readDiagnosticWriteDataByIdentifierClass(child_element, write_data_by_identifier_class)
-            elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS":
-                read_scaling_data_by_identifier_class = parent.createDiagnosticReadScalingDataByIdentifierClass(self.getShortName(child_element))
-                self.readDiagnosticReadScalingDataByIdentifierClass(child_element, read_scaling_data_by_identifier_class)
-            elif tag_name == "DIAGNOSTIC-RESPONSE-ON-EVENT":
-                response_on_event = parent.createDiagnosticResponseOnEvent(self.getShortName(child_element))
-                self.readDiagnosticResponseOnEvent(child_element, response_on_event)
-            elif tag_name == "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS":
-                response_on_event_class = parent.createDiagnosticResponseOnEventClass(self.getShortName(child_element))
-                self.readDiagnosticResponseOnEventClass(child_element, response_on_event_class)
-            elif tag_name == "DIAGNOSTIC-ROUTINE":
-                routine = parent.createDiagnosticRoutine(self.getShortName(child_element))
-                self.readDiagnosticRoutine(child_element, routine)
-            elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL":
-                routine_control = parent.createDiagnosticRoutineControl(self.getShortName(child_element))
-                self.readDiagnosticRoutineControl(child_element, routine_control)
-            elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL-CLASS":
-                routine_control_class = parent.createDiagnosticRoutineControlClass(self.getShortName(child_element))
-                self.readDiagnosticRoutineControlClass(child_element, routine_control_class)
-            elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
-                proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
-                self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
-            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
-                verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
-                self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
-            elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
-                verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
-                self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
-            elif tag_name.startswith("DIAGNOSTIC-"):
-                if not self.readDiagnosticPackageElement(tag_name, child_element, parent):
-                    self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
-            elif tag_name == "CP-SW-CLUSTER-TO-DIAG-EVENT-MAPPING":
-                mapping = parent.createCpSwClusterToDiagEventMapping(self.getShortName(child_element))
-                self.readCpSwClusterToDiagEventMapping(child_element, mapping)
-            elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-DATA-ELEM-MAPPING":
-                mapping = parent.createCpSwClusterResourceToDiagDataElemMapping(self.getShortName(child_element))
-                self.readCpSwClusterResourceToDiagDataElemMapping(child_element, mapping)
-            elif tag_name == "CP-SW-CLUSTER-TO-DIAG-ROUTINE-SUBFUNCTION-MAPPING":
-                mapping = parent.createCpSwClusterToDiagRoutineSubfunctionMapping(self.getShortName(child_element))
-                self.readCpSwClusterToDiagRoutineSubfunctionMapping(child_element, mapping)
-            elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING":
-                mapping = parent.createCpSwClusterResourceToDiagFunctionIdMapping(self.getShortName(child_element))
-                self.readCpSwClusterResourceToDiagFunctionIdMapping(child_element, mapping)
-            elif tag_name == "DLT-CONTEXT":
-                context = parent.createDltContext(self.getShortName(child_element))
-                self.readDltContext(child_element, context)
-            elif tag_name == "DLT-ECU":
-                ecu = parent.createDltEcu(self.getShortName(child_element))
-                self.readDltEcu(child_element, ecu)
-            elif tag_name == "DOCUMENTATION":
-                documentation = parent.createDocumentation(self.getShortName(child_element))
-                self.readDocumentation(child_element, documentation)
-            elif tag_name == "MULTIPLEXED-I-PDU":
-                i_pdu = parent.createMultiplexedIPdu(self.getShortName(child_element))
-                self.readMultiplexedIPdu(child_element, i_pdu)
-            elif tag_name == "USER-DEFINED-I-PDU":
-                i_pdu = parent.createUserDefinedIPdu(self.getShortName(child_element))
-                self.readUserDefinedIPdu(child_element, i_pdu)
-            elif tag_name == "USER-DEFINED-PDU":
-                pdu = parent.createUserDefinedPdu(self.getShortName(child_element))
-                self.readUserDefinedPdu(child_element, pdu)
-            elif tag_name == "GENERAL-PURPOSE-PDU":
-                pdu = parent.createGeneralPurposePdu(self.getShortName(child_element))
-                self.readGeneralPurposePdu(child_element, pdu)
-            elif tag_name == "GENERAL-PURPOSE-I-PDU":
-                i_pdu = parent.createGeneralPurposeIPdu(self.getShortName(child_element))
-                self.readGeneralPurposeIPdu(child_element, i_pdu)
-            elif tag_name == "SECURE-COMMUNICATION-PROPS-SET":
-                prop_set = parent.createSecureCommunicationPropsSet(self.getShortName(child_element))
-                self.readSecureCommunicationPropsSet(child_element, prop_set)
-            elif tag_name == "CRYPTO-ELLIPTIC-CURVE-PROPS":
-                props = parent.createCryptoEllipticCurveProps(self.getShortName(child_element))
-                self.readCryptoEllipticCurveProps(child_element, props)
-            elif tag_name == "CRYPTO-SIGNATURE-SCHEME":
-                scheme = parent.createCryptoSignatureScheme(self.getShortName(child_element))
-                self.readCryptoSignatureScheme(child_element, scheme)
-            elif tag_name == "CRYPTO-SERVICE-CERTIFICATE":
-                certificate = parent.createCryptoServiceCertificate(self.getShortName(child_element))
-                self.readCryptoServiceCertificate(child_element, certificate)
-            elif tag_name == "IP-SEC-CONFIG-PROPS":
-                props = parent.createIPSecConfigProps(self.getShortName(child_element))
-                self.readIPSecConfigProps(child_element, props)
-            elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
-                primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
-                self.readCryptoServicePrimitive(child_element, primitive)
-            elif tag_name == "SO-AD-ROUTING-GROUP":
-                group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
-                self.readSoAdRoutingGroup(child_element, group)
-            elif tag_name == "TCP-OPTION-FILTER-SET":
-                tcp_option_filter_set = parent.createTcpOptionFilterSet(self.getShortName(child_element))
-                self.readTcpOptionFilterSet(child_element, tcp_option_filter_set)
-            elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
-                config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
-                self.readSomeipSdClientServiceInstanceConfig(child_element, config)
-            elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
-                config = parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element))
-                self.readSomeipSdClientEventGroupTimingConfig(child_element, config)
-            elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
-                config = parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element))
-                self.readSomeipSdServerEventGroupTimingConfig(child_element, config)
-            elif tag_name == "DO-IP-TP-CONFIG":
-                config = parent.createDoIpTpConfig(self.getShortName(child_element))
-                self.readDoIpTpConfig(child_element, config)
-            elif tag_name == "HW-ELEMENT":
-                hw_element = parent.createHwElement(self.getShortName(child_element))
-                self.readHwElement(child_element, hw_element)
-            elif tag_name == "HW-CATEGORY":
-                hw_category = parent.createHwCategory(self.getShortName(child_element))
-                self.readHwCategory(child_element, hw_category)
-            elif tag_name == "HW-TYPE":
-                type = parent.createHwType(self.getShortName(child_element))
-                self.readHwType(child_element, type)
-            elif tag_name == "FLEXRAY-FRAME":
-                frame = parent.createFlexrayFrame(self.getShortName(child_element))
-                self.readFlexrayFrame(child_element, frame)
-            elif tag_name == "FLEXRAY-CLUSTER":
-                cluster = parent.createFlexrayCluster(self.getShortName(child_element))
-                self.readFlexrayCluster(child_element, cluster)
-            elif tag_name == "DATA-TRANSFORMATION-SET":
-                transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
-                self.readDataTransformationSet(child_element, transformation_set)
-            elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
-                props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
-                self.readE2EProfileCompatibilityProps(child_element, props)
-            elif tag_name == "TLV-DATA-ID-DEFINITION-SET":
-                tlv_data_id_definition_set = parent.createTlvDataIdDefinitionSet(self.getShortName(child_element))
-                self.readTlvDataIdDefinitionSet(child_element, tlv_data_id_definition_set)
-            elif tag_name == "COLLECTION":
-                collection = parent.createCollection(self.getShortName(child_element))
-                self.readCollection(child_element, collection)
-            elif tag_name == "KEYWORD-SET":
-                keyword_set = parent.createKeywordSet(self.getShortName(child_element))
-                self.readKeywordSet(child_element, keyword_set)
-            elif tag_name == "PORT-PROTOTYPE-BLUEPRINT":
-                blueprint = parent.createPortPrototypeBlueprint(self.getShortName(child_element))
-                self.readPortPrototypeBlueprint(child_element, blueprint)
-            elif tag_name == "MODE-DECLARATION-MAPPING-SET":
-                mapping_set = parent.createModeDeclarationMappingSet(self.getShortName(child_element))
-                self.readModeDeclarationMappingSet(child_element, mapping_set)
-            elif tag_name == "ECUC-MODULE-DEF":
-                module_def = parent.createEcucModuleDef(self.getShortName(child_element))
-                self.readEcucModuleDef(child_element, module_def)
-            elif tag_name == "ECUC-DEFINITION-COLLECTION":
-                collection = parent.createEcucDefinitionCollection(self.getShortName(child_element))
-                self.readEcucDefinitionCollection(child_element, collection)
-            elif tag_name == "ECUC-DESTINATION-URI-DEF-SET":
-                uri_def_set = parent.createEcucDestinationUriDefSet(self.getShortName(child_element))
-                self.readEcucDestinationUriDefSet(child_element, uri_def_set)
-            elif tag_name == "SW-SYSTEMCONST":
-                system_const = parent.createSwSystemConst(self.getShortName(child_element))
-                self.readSwSystemconst(child_element, system_const)
-            elif tag_name == "SW-SYSTEMCONSTANT-VALUE-SET":
-                value_set = parent.createSwSystemconstantValueSet(self.getShortName(child_element))
-                self.readSwSystemconstantValueSet(child_element, value_set)
-            elif tag_name == "PREDEFINED-VARIANT":
-                variant = parent.createPredefinedVariant(self.getShortName(child_element))
-                self.readPredefinedVariant(child_element, variant)
-            elif tag_name == "EVALUATED-VARIANT-SET":
-                variant_set = parent.createEvaluatedVariantSet(self.getShortName(child_element))
-                self.readEvaluatedVariantSet(child_element, variant_set)
-            elif tag_name == "SDG-DEF":
-                sdg_def = parent.createSdgDef(self.getShortName(child_element))
-                self.readSdgDef(child_element, sdg_def)
-            elif tag_name == "POST-BUILD-VARIANT-CRITERION":
-                criterion = parent.createPostBuildVariantCriterion(self.getShortName(child_element))
-                self.readPostBuildVariantCriterion(child_element, criterion)
-            elif tag_name == "NV-DATA-INTERFACE":
-                interface = parent.createNvDataInterface(self.getShortName(child_element))
-                self.readNvDataInterface(child_element, interface)
-            elif tag_name == "FIREWALL-RULE":
-                rule = parent.createFirewallRule(self.getShortName(child_element))
-                self.readFirewallRule(child_element, rule)
-            elif tag_name == "BLUEPRINT-MAPPING-SET":
-                blueprint_mapping_set = parent.createBlueprintMappingSet(self.getShortName(child_element))
-                self.readBlueprintMappingSet(child_element, blueprint_mapping_set)
-            elif tag_name == "CONSTANT-SPECIFICATION-MAPPING-SET":
-                constant_specification_mapping_set = parent.createConstantSpecificationMappingSet(self.getShortName(child_element))
-                self.readConstantSpecificationMappingSet(child_element, constant_specification_mapping_set)
-            elif tag_name == "STATE-DEPENDENT-FIREWALL":
-                firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
-                self.readStateDependentFirewall(child_element, firewall)
-            elif tag_name == "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION":
-                configuration = parent.createPlatformModuleEthernetEndpointConfiguration(self.getShortName(child_element))
-                self.readPlatformModuleEthernetEndpointConfiguration(child_element, configuration)
-            elif tag_name == "MC-FUNCTION":
-                func = parent.createMcFunction(self.getShortName(child_element))
-                self.readMcFunction(child_element, func)
-            elif tag_name == "MC-GROUP":
-                group = parent.createMcGroup(self.getShortName(child_element))
-                self.readMcGroup(child_element, group)
-            elif tag_name == "ACL-PERMISSION":
-                acl_permission = parent.createAclPermission(self.getShortName(child_element))
-                self.readAclPermission(child_element, acl_permission)
-            elif tag_name == "ACL-OBJECT-SET":
-                acl_object_set = parent.createAclObjectSet(self.getShortName(child_element))
-                self.readAclObjectSet(child_element, acl_object_set)
-            elif tag_name == "ACL-OPERATION":
-                acl_operation = parent.createAclOperation(self.getShortName(child_element))
-                self.readAclOperation(child_element, acl_operation)
-            elif tag_name == "ACL-ROLE":
-                acl_role = parent.createAclRole(self.getShortName(child_element))
-                self.readAclRole(child_element, acl_role)
-            elif tag_name == "LIFE-CYCLE-STATE-DEFINITION-GROUP":
-                group = parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element))
-                self.readLifeCycleStateDefinitionGroup(child_element, group)
-            elif tag_name == "VIEW-MAP-SET":
-                view_map_set = parent.createViewMapSet(self.getShortName(child_element))
-                self.readViewMapSet(child_element, view_map_set)
             else:
+                self.readARPackageElementsRest(tag_name, child_element, parent)
+
+    def readARPackageElementsRest(self, tag_name: str, child_element: ET.Element, parent: ARPackage):
+        if tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
+            security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
+            self.readDiagnosticSecurityAccess(child_element, security_access)
+        elif tag_name == "DIAGNOSTIC-SECURITY-ACCESS-CLASS":
+            security_access_class = parent.createDiagnosticSecurityAccessClass(self.getShortName(child_element))
+            self.readDiagnosticSecurityAccessClass(child_element, security_access_class)
+        elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
+            security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
+            self.readDiagnosticSecurityLevel(child_element, security_level)
+        elif tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
+            condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
+            self.readDiagnosticEnvironmentalCondition(child_element, condition)
+        elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
+            permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
+            self.readDiagnosticAccessPermission(child_element, permission)
+        elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
+            auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
+            self.readDiagnosticAuthRole(child_element, auth_role)
+        elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CLASS":
+            authentication_class = parent.createDiagnosticAuthenticationClass(self.getShortName(child_element))
+            self.readDiagnosticAuthenticationClass(child_element, authentication_class)
+        elif tag_name == "DIAGNOSTIC-AUTHENTICATION-CONFIGURATION":
+            configuration = parent.createDiagnosticAuthenticationConfiguration(self.getShortName(child_element))
+            self.readDiagnosticAuthenticationConfiguration(child_element, configuration)
+        elif tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE":
+            certificate = parent.createDiagnosticAuthTransmitCertificate(self.getShortName(child_element))
+            self.readDiagnosticAuthTransmitCertificate(child_element, certificate)
+        elif tag_name == "DIAGNOSTIC-DE-AUTHENTICATION":
+            de_authentication = parent.createDiagnosticDeAuthentication(self.getShortName(child_element))
+            self.readDiagnosticDeAuthentication(child_element, de_authentication)
+        elif tag_name == "DIAGNOSTIC-COM-CONTROL":
+            com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
+            self.readDiagnosticComControl(child_element, com_control)
+        elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
+            com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
+            self.readDiagnosticComControlClass(child_element, com_control_class)
+        elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING":
+            control_dtc_setting = parent.createDiagnosticControlDTCSetting(self.getShortName(child_element))
+            self.readDiagnosticControlDTCSetting(child_element, control_dtc_setting)
+        elif tag_name == "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS":
+            control_dtc_setting_class = parent.createDiagnosticControlDTCSettingClass(self.getShortName(child_element))
+            self.readDiagnosticControlDTCSettingClass(child_element, control_dtc_setting_class)
+        elif tag_name == "DIAGNOSTIC-ECU-RESET":
+            ecu_reset = parent.createDiagnosticEcuReset(self.getShortName(child_element))
+            self.readDiagnosticEcuReset(child_element, ecu_reset)
+        elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
+            ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
+            self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+        elif tag_name == "DIAGNOSTIC-IO-CONTROL":
+            io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
+            self.readDiagnosticIOControl(child_element, io_control)
+        elif tag_name == "DIAGNOSTIC-IO-CONTROL-CLASS":
+            io_control_class = parent.createDiagnosticIoControlClass(self.getShortName(child_element))
+            self.readDiagnosticIoControlClass(child_element, io_control_class)
+        elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
+            read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
+            self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
+        elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS":
+            read_data_by_identifier_class = parent.createDiagnosticReadDataByIdentifierClass(self.getShortName(child_element))
+            self.readDiagnosticReadDataByIdentifierClass(child_element, read_data_by_identifier_class)
+        elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID":
+            read_data_by_periodic_id = parent.createDiagnosticReadDataByPeriodicID(self.getShortName(child_element))
+            self.readDiagnosticReadDataByPeriodicID(child_element, read_data_by_periodic_id)
+        elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS":
+            read_data_by_periodic_id_class = parent.createDiagnosticReadDataByPeriodicIDClass(self.getShortName(child_element))
+            self.readDiagnosticReadDataByPeriodicIDClass(child_element, read_data_by_periodic_id_class)
+        elif tag_name == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION":
+            clear_diagnostic_information = parent.createDiagnosticClearDiagnosticInformation(self.getShortName(child_element))
+            self.readDiagnosticClearDiagnosticInformation(child_element, clear_diagnostic_information)
+        elif tag_name == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS":
+            clear_diagnostic_information_class = parent.createDiagnosticClearDiagnosticInformationClass(self.getShortName(child_element))
+            self.readDiagnosticClearDiagnosticInformationClass(child_element, clear_diagnostic_information_class)
+        elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION":
+            read_dtc_information = parent.createDiagnosticReadDTCInformation(self.getShortName(child_element))
+            self.readDiagnosticReadDTCInformation(child_element, read_dtc_information)
+        elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS":
+            read_dtc_information_class = parent.createDiagnosticReadDTCInformationClass(self.getShortName(child_element))
+            self.readDiagnosticReadDTCInformationClass(child_element, read_dtc_information_class)
+        elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
+            write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
+            self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
+        elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER":
+            read_scaling_data_by_identifier = parent.createDiagnosticReadScalingDataByIdentifier(self.getShortName(child_element))
+            self.readDiagnosticReadScalingDataByIdentifier(child_element, read_scaling_data_by_identifier)
+        elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS":
+            write_data_by_identifier_class = parent.createDiagnosticWriteDataByIdentifierClass(self.getShortName(child_element))
+            self.readDiagnosticWriteDataByIdentifierClass(child_element, write_data_by_identifier_class)
+        elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS":
+            read_scaling_data_by_identifier_class = parent.createDiagnosticReadScalingDataByIdentifierClass(self.getShortName(child_element))
+            self.readDiagnosticReadScalingDataByIdentifierClass(child_element, read_scaling_data_by_identifier_class)
+        elif tag_name == "DIAGNOSTIC-RESPONSE-ON-EVENT":
+            response_on_event = parent.createDiagnosticResponseOnEvent(self.getShortName(child_element))
+            self.readDiagnosticResponseOnEvent(child_element, response_on_event)
+        elif tag_name == "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS":
+            response_on_event_class = parent.createDiagnosticResponseOnEventClass(self.getShortName(child_element))
+            self.readDiagnosticResponseOnEventClass(child_element, response_on_event_class)
+        elif tag_name == "DIAGNOSTIC-ROUTINE":
+            routine = parent.createDiagnosticRoutine(self.getShortName(child_element))
+            self.readDiagnosticRoutine(child_element, routine)
+        elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL":
+            routine_control = parent.createDiagnosticRoutineControl(self.getShortName(child_element))
+            self.readDiagnosticRoutineControl(child_element, routine_control)
+        elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL-CLASS":
+            routine_control_class = parent.createDiagnosticRoutineControlClass(self.getShortName(child_element))
+            self.readDiagnosticRoutineControlClass(child_element, routine_control_class)
+        elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
+            proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
+            self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
+        elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-BIDIRECTIONAL":
+            verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
+            self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
+        elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
+            verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
+            self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+        elif tag_name.startswith("DIAGNOSTIC-"):
+            if not self.readDiagnosticPackageElement(tag_name, child_element, parent):
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
+        elif tag_name == "CP-SW-CLUSTER-TO-DIAG-EVENT-MAPPING":
+            mapping = parent.createCpSwClusterToDiagEventMapping(self.getShortName(child_element))
+            self.readCpSwClusterToDiagEventMapping(child_element, mapping)
+        elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-DATA-ELEM-MAPPING":
+            mapping = parent.createCpSwClusterResourceToDiagDataElemMapping(self.getShortName(child_element))
+            self.readCpSwClusterResourceToDiagDataElemMapping(child_element, mapping)
+        elif tag_name == "CP-SW-CLUSTER-TO-DIAG-ROUTINE-SUBFUNCTION-MAPPING":
+            mapping = parent.createCpSwClusterToDiagRoutineSubfunctionMapping(self.getShortName(child_element))
+            self.readCpSwClusterToDiagRoutineSubfunctionMapping(child_element, mapping)
+        elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING":
+            mapping = parent.createCpSwClusterResourceToDiagFunctionIdMapping(self.getShortName(child_element))
+            self.readCpSwClusterResourceToDiagFunctionIdMapping(child_element, mapping)
+        elif tag_name == "DLT-CONTEXT":
+            context = parent.createDltContext(self.getShortName(child_element))
+            self.readDltContext(child_element, context)
+        elif tag_name == "DLT-ECU":
+            ecu = parent.createDltEcu(self.getShortName(child_element))
+            self.readDltEcu(child_element, ecu)
+        elif tag_name == "DOCUMENTATION":
+            documentation = parent.createDocumentation(self.getShortName(child_element))
+            self.readDocumentation(child_element, documentation)
+        elif tag_name == "MULTIPLEXED-I-PDU":
+            i_pdu = parent.createMultiplexedIPdu(self.getShortName(child_element))
+            self.readMultiplexedIPdu(child_element, i_pdu)
+        elif tag_name == "USER-DEFINED-I-PDU":
+            i_pdu = parent.createUserDefinedIPdu(self.getShortName(child_element))
+            self.readUserDefinedIPdu(child_element, i_pdu)
+        elif tag_name == "USER-DEFINED-PDU":
+            pdu = parent.createUserDefinedPdu(self.getShortName(child_element))
+            self.readUserDefinedPdu(child_element, pdu)
+        elif tag_name == "GENERAL-PURPOSE-PDU":
+            pdu = parent.createGeneralPurposePdu(self.getShortName(child_element))
+            self.readGeneralPurposePdu(child_element, pdu)
+        elif tag_name == "GENERAL-PURPOSE-I-PDU":
+            i_pdu = parent.createGeneralPurposeIPdu(self.getShortName(child_element))
+            self.readGeneralPurposeIPdu(child_element, i_pdu)
+        elif tag_name == "SECURE-COMMUNICATION-PROPS-SET":
+            prop_set = parent.createSecureCommunicationPropsSet(self.getShortName(child_element))
+            self.readSecureCommunicationPropsSet(child_element, prop_set)
+        elif tag_name == "CRYPTO-ELLIPTIC-CURVE-PROPS":
+            props = parent.createCryptoEllipticCurveProps(self.getShortName(child_element))
+            self.readCryptoEllipticCurveProps(child_element, props)
+        elif tag_name == "CRYPTO-SIGNATURE-SCHEME":
+            scheme = parent.createCryptoSignatureScheme(self.getShortName(child_element))
+            self.readCryptoSignatureScheme(child_element, scheme)
+        elif tag_name == "CRYPTO-SERVICE-CERTIFICATE":
+            certificate = parent.createCryptoServiceCertificate(self.getShortName(child_element))
+            self.readCryptoServiceCertificate(child_element, certificate)
+        elif tag_name == "IP-SEC-CONFIG-PROPS":
+            props = parent.createIPSecConfigProps(self.getShortName(child_element))
+            self.readIPSecConfigProps(child_element, props)
+        elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
+            primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
+            self.readCryptoServicePrimitive(child_element, primitive)
+        elif tag_name == "SO-AD-ROUTING-GROUP":
+            group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
+            self.readSoAdRoutingGroup(child_element, group)
+        elif tag_name == "TCP-OPTION-FILTER-SET":
+            tcp_option_filter_set = parent.createTcpOptionFilterSet(self.getShortName(child_element))
+            self.readTcpOptionFilterSet(child_element, tcp_option_filter_set)
+        elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
+            config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
+            self.readSomeipSdClientServiceInstanceConfig(child_element, config)
+        elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
+            config = parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element))
+            self.readSomeipSdClientEventGroupTimingConfig(child_element, config)
+        elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
+            config = parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element))
+            self.readSomeipSdServerEventGroupTimingConfig(child_element, config)
+        elif tag_name == "DO-IP-TP-CONFIG":
+            config = parent.createDoIpTpConfig(self.getShortName(child_element))
+            self.readDoIpTpConfig(child_element, config)
+        elif tag_name == "HW-ELEMENT":
+            hw_element = parent.createHwElement(self.getShortName(child_element))
+            self.readHwElement(child_element, hw_element)
+        elif tag_name == "HW-CATEGORY":
+            hw_category = parent.createHwCategory(self.getShortName(child_element))
+            self.readHwCategory(child_element, hw_category)
+        elif tag_name == "HW-TYPE":
+            type = parent.createHwType(self.getShortName(child_element))
+            self.readHwType(child_element, type)
+        elif tag_name == "FLEXRAY-FRAME":
+            frame = parent.createFlexrayFrame(self.getShortName(child_element))
+            self.readFlexrayFrame(child_element, frame)
+        elif tag_name == "FLEXRAY-CLUSTER":
+            cluster = parent.createFlexrayCluster(self.getShortName(child_element))
+            self.readFlexrayCluster(child_element, cluster)
+        elif tag_name == "DATA-TRANSFORMATION-SET":
+            transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
+            self.readDataTransformationSet(child_element, transformation_set)
+        elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
+            props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
+            self.readE2EProfileCompatibilityProps(child_element, props)
+        elif tag_name == "TLV-DATA-ID-DEFINITION-SET":
+            tlv_data_id_definition_set = parent.createTlvDataIdDefinitionSet(self.getShortName(child_element))
+            self.readTlvDataIdDefinitionSet(child_element, tlv_data_id_definition_set)
+        elif tag_name == "COLLECTION":
+            collection = parent.createCollection(self.getShortName(child_element))
+            self.readCollection(child_element, collection)
+        elif tag_name == "KEYWORD-SET":
+            keyword_set = parent.createKeywordSet(self.getShortName(child_element))
+            self.readKeywordSet(child_element, keyword_set)
+        elif tag_name == "PORT-PROTOTYPE-BLUEPRINT":
+            blueprint = parent.createPortPrototypeBlueprint(self.getShortName(child_element))
+            self.readPortPrototypeBlueprint(child_element, blueprint)
+        elif tag_name == "MODE-DECLARATION-MAPPING-SET":
+            mapping_set = parent.createModeDeclarationMappingSet(self.getShortName(child_element))
+            self.readModeDeclarationMappingSet(child_element, mapping_set)
+        elif tag_name == "ECUC-MODULE-DEF":
+            module_def = parent.createEcucModuleDef(self.getShortName(child_element))
+            self.readEcucModuleDef(child_element, module_def)
+        elif tag_name == "ECUC-DEFINITION-COLLECTION":
+            collection = parent.createEcucDefinitionCollection(self.getShortName(child_element))
+            self.readEcucDefinitionCollection(child_element, collection)
+        elif tag_name == "ECUC-DESTINATION-URI-DEF-SET":
+            uri_def_set = parent.createEcucDestinationUriDefSet(self.getShortName(child_element))
+            self.readEcucDestinationUriDefSet(child_element, uri_def_set)
+        elif tag_name == "SW-SYSTEMCONST":
+            system_const = parent.createSwSystemConst(self.getShortName(child_element))
+            self.readSwSystemconst(child_element, system_const)
+        elif tag_name == "SW-SYSTEMCONSTANT-VALUE-SET":
+            value_set = parent.createSwSystemconstantValueSet(self.getShortName(child_element))
+            self.readSwSystemconstantValueSet(child_element, value_set)
+        elif tag_name == "PREDEFINED-VARIANT":
+            variant = parent.createPredefinedVariant(self.getShortName(child_element))
+            self.readPredefinedVariant(child_element, variant)
+        elif tag_name == "EVALUATED-VARIANT-SET":
+            variant_set = parent.createEvaluatedVariantSet(self.getShortName(child_element))
+            self.readEvaluatedVariantSet(child_element, variant_set)
+        elif tag_name == "SDG-DEF":
+            sdg_def = parent.createSdgDef(self.getShortName(child_element))
+            self.readSdgDef(child_element, sdg_def)
+        elif tag_name == "POST-BUILD-VARIANT-CRITERION":
+            criterion = parent.createPostBuildVariantCriterion(self.getShortName(child_element))
+            self.readPostBuildVariantCriterion(child_element, criterion)
+        elif tag_name == "NV-DATA-INTERFACE":
+            interface = parent.createNvDataInterface(self.getShortName(child_element))
+            self.readNvDataInterface(child_element, interface)
+        elif tag_name == "FIREWALL-RULE":
+            rule = parent.createFirewallRule(self.getShortName(child_element))
+            self.readFirewallRule(child_element, rule)
+        elif tag_name == "BLUEPRINT-MAPPING-SET":
+            blueprint_mapping_set = parent.createBlueprintMappingSet(self.getShortName(child_element))
+            self.readBlueprintMappingSet(child_element, blueprint_mapping_set)
+        elif tag_name == "CONSTANT-SPECIFICATION-MAPPING-SET":
+            constant_specification_mapping_set = parent.createConstantSpecificationMappingSet(self.getShortName(child_element))
+            self.readConstantSpecificationMappingSet(child_element, constant_specification_mapping_set)
+        elif tag_name == "STATE-DEPENDENT-FIREWALL":
+            firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
+            self.readStateDependentFirewall(child_element, firewall)
+        elif tag_name == "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION":
+            configuration = parent.createPlatformModuleEthernetEndpointConfiguration(self.getShortName(child_element))
+            self.readPlatformModuleEthernetEndpointConfiguration(child_element, configuration)
+        elif tag_name == "MC-FUNCTION":
+            func = parent.createMcFunction(self.getShortName(child_element))
+            self.readMcFunction(child_element, func)
+        elif tag_name == "MC-GROUP":
+            group = parent.createMcGroup(self.getShortName(child_element))
+            self.readMcGroup(child_element, group)
+        elif tag_name == "ACL-PERMISSION":
+            acl_permission = parent.createAclPermission(self.getShortName(child_element))
+            self.readAclPermission(child_element, acl_permission)
+        elif tag_name == "ACL-OBJECT-SET":
+            acl_object_set = parent.createAclObjectSet(self.getShortName(child_element))
+            self.readAclObjectSet(child_element, acl_object_set)
+        elif tag_name == "ACL-OPERATION":
+            acl_operation = parent.createAclOperation(self.getShortName(child_element))
+            self.readAclOperation(child_element, acl_operation)
+        elif tag_name == "ACL-ROLE":
+            acl_role = parent.createAclRole(self.getShortName(child_element))
+            self.readAclRole(child_element, acl_role)
+        elif tag_name == "LIFE-CYCLE-STATE-DEFINITION-GROUP":
+            group = parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element))
+            self.readLifeCycleStateDefinitionGroup(child_element, group)
+        elif tag_name == "VIEW-MAP-SET":
+            view_map_set = parent.createViewMapSet(self.getShortName(child_element))
+            self.readViewMapSet(child_element, view_map_set)
+        else:
+            self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
     def readDiagnosticPackageElement(self, tag_name: str, child_element: ET.Element, parent: ARPackage) -> bool:
         if tag_name == "DIAGNOSTIC-CONNECTION":
@@ -16699,6 +16703,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
             return True
         return False
+
     def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
         if destination_mac is not None:
