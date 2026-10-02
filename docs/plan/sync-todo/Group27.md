@@ -13,15 +13,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucConditionSpecification` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.42, p.100
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered via EcucDefinitionElement/ValidationCondition DERIVATION-family round-trips (shared content shape)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (model files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; docstring verbatim ✓ (markdown "used to to define" double-to kept verbatim); 3 members in markdown order ✓; checklist 6-col; setter params → Optional + named no-op wording
 
 - [ ] `EcucValidationCondition` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.44, p.103
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

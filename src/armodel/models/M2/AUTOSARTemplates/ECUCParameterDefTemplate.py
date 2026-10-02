@@ -19,15 +19,15 @@ class EcucConditionSpecification(ARObject):
 
     # EcucConditionSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.42, p.100
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConditionFormula          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConditionFormula          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -47,10 +47,10 @@ class EcucConditionSpecification(ARObject):
         """
         return self.conditionFormula
 
-    def setConditionFormula(self, value: EcucConditionFormula) -> EcucConditionSpecification:
+    def setConditionFormula(self, value: Optional[EcucConditionFormula]) -> EcucConditionSpecification:
         """
         Definition of the formula used to define existence dependencies.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing conditionFormula.
         """
         if value is not None:
             self.conditionFormula = value
@@ -90,10 +90,10 @@ class EcucConditionSpecification(ARObject):
         """
         return self.informalFormula
 
-    def setInformalFormula(self, value: MlFormula) -> EcucConditionSpecification:
+    def setInformalFormula(self, value: Optional[MlFormula]) -> EcucConditionSpecification:
         """
         Informal description of the condition used to to define existence dependencies.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing informalFormula.
         """
         if value is not None:
             self.informalFormula = value
