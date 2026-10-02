@@ -1757,7 +1757,37 @@ class DiagnosticHandleDDDIConfigurationEnum(AREnum):
     pass
 
 class DiagnosticInhibitionMaskEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to define different kinds of inhibition mask behavior.
+    """
+
+    # DiagnosticInhibitionMaskEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.217, p.216
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This represents the inhibition mask behavior "last failed". Tags: atp.EnumerationLiteralIndex=0
+    LAST_FAILED = "lastFailed"
+
+    # This represents the inhibition mask behavior "not tested". Tags: atp.EnumerationLiteralIndex=1
+    NOT_TESTED = "notTested"
+
+    # This represents the inhibition mask behavior "tested". Tags: atp.EnumerationLiteralIndex=3
+    TESTED = "tested"
+
+    # This represents the inhibition mask behavior "tested and failed". Tags: atp.EnumerationLiteralIndex=2
+    TESTED_AND_FAILED = "testedAndFailed"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticInhibitionMaskEnum.LAST_FAILED,
+                DiagnosticInhibitionMaskEnum.NOT_TESTED,
+                DiagnosticInhibitionMaskEnum.TESTED,
+                DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED,
+            ]
+        )
 
 class DiagnosticIumprKindEnum(AREnum):
     pass
@@ -1840,7 +1870,29 @@ class DiagnosticTestResultUpdateEnum(AREnum):
     pass
 
 class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to further specify a J1939 DTC in terms of its semantics.
+    """
+
+    # DiagnosticTroubleCodeJ1939DtcKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.222, p.221
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # this represents a DTC that is only relevant for service in a garage, reported by e.g. DM53. Tags: atp.EnumerationLiteralIndex=0
+    SERVICE_ONLY = "serviceOnly"
+
+    # This represents a non-specific DTC reported by e.g. DM1. Tags: atp.EnumerationLiteralIndex=1
+    STANDARD = "standard"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY,
+                DiagnosticTroubleCodeJ1939DtcKindEnum.STANDARD,
+            ]
+        )
 
 class DiagnosticTypeOfDtcSupportedEnum(AREnum):
     """

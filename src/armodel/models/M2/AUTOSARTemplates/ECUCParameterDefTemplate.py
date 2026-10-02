@@ -193,64 +193,62 @@ class EcucScopeEnum(AREnum):
 
 
 class EcucDefinitionElement(Identifiable, ABC):
-    """
-    Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory occurrence of the specified element.
-    """
+    """Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory occurrence of the specified element."""
 
     # EcucDefinitionElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.6, p.46
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucValidationConds       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addEcucValidationCond        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLowerMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLowerMultiplicity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRelatedTraceItemRef       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setRelatedTraceItemRef       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getScope                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setScope                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUpperMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpperMultiplicity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUpperMultiplicityInfinite [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setUpperMultiplicityInfinite [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEcucValidationCond        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcucValidationConds       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getLowerMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRelatedTraceItemRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getScope                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUpperMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUpperMultiplicityInfinite [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setLowerMultiplicity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setRelatedTraceItemRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setScope                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setUpperMultiplicity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setUpperMultiplicityInfinite [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucDefinitionElement:
             raise TypeError("EcucDefinitionElement is an abstract class.")
         super().__init__(parent, short_name)
 
-        # If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored.
+        # If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored. Tags: xml.sequenceOffset=100
         self.ecucCond: Optional[EcucConditionSpecification] = None
 
         # Collection of validation conditions which all need to evaluate to true in order to indicate a valid validation condition of the EcucDefinitionElement.
         self.ecucValidationConds: List[EcucValidationCondition] = []
 
-        # The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences.
+        # The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=110
         self.lowerMultiplicity: Optional[PositiveInteger] = None
 
-        # This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId).
+        # This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId). Stereotypes: atpUriDef Tags: xml.sequenceOffset=-10
         self.relatedTraceItemRef: Optional[RefType] = None
 
-        # Specifies the scope of this configuration element.
+        # Specifies the scope of this configuration element. Tags: xml.sequenceOffset=150
         self.scope: Optional[EcucScopeEnum] = None
 
-        # The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used.
+        # The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used. atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=120
         self.upperMultiplicity: Optional[PositiveInteger] = None
 
-        # To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used.
+        # To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used. atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=130
         self.upperMultiplicityInfinite: Optional[Boolean] = None
 
     def getEcucCond(self) -> Optional[EcucConditionSpecification]:
         """
-        If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored.
+        If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored. Tags: xml.sequenceOffset=100
         """
         return self.ecucCond
 
-    def setEcucCond(self, value: Optional[EcucConditionSpecification]):
+    def setEcucCond(self, value: Optional[EcucConditionSpecification]) -> EcucDefinitionElement:
         """
-        If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored.
+        If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored. Tags: xml.sequenceOffset=100
         A None value is a no-op and does not overwrite an existing ecucCond.
         """
         if value is not None:
@@ -274,13 +272,13 @@ class EcucDefinitionElement(Identifiable, ABC):
 
     def getLowerMultiplicity(self) -> Optional[PositiveInteger]:
         """
-        The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences.
+        The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=110
         """
         return self.lowerMultiplicity
 
-    def setLowerMultiplicity(self, value: Optional[PositiveInteger]):
+    def setLowerMultiplicity(self, value: Optional[PositiveInteger]) -> EcucDefinitionElement:
         """
-        The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences.
+        The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=110
         A None value is a no-op and does not overwrite an existing lowerMultiplicity.
         """
         if value is not None:
@@ -289,13 +287,13 @@ class EcucDefinitionElement(Identifiable, ABC):
 
     def getRelatedTraceItemRef(self) -> Optional[RefType]:
         """
-        This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId).
+        This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId). Stereotypes: atpUriDef Tags: xml.sequenceOffset=-10
         """
         return self.relatedTraceItemRef
 
-    def setRelatedTraceItemRef(self, value: Optional[RefType]):
+    def setRelatedTraceItemRef(self, value: Optional[RefType]) -> EcucDefinitionElement:
         """
-        This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId).
+        This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId). Stereotypes: atpUriDef Tags: xml.sequenceOffset=-10
         A None value is a no-op and does not overwrite an existing relatedTraceItemRef.
         """
         if value is not None:
@@ -304,13 +302,13 @@ class EcucDefinitionElement(Identifiable, ABC):
 
     def getScope(self) -> Optional[EcucScopeEnum]:
         """
-        Specifies the scope of this configuration element.
+        Specifies the scope of this configuration element. Tags: xml.sequenceOffset=150
         """
         return self.scope
 
-    def setScope(self, value: Optional[EcucScopeEnum]):
+    def setScope(self, value: Optional[EcucScopeEnum]) -> EcucDefinitionElement:
         """
-        Specifies the scope of this configuration element.
+        Specifies the scope of this configuration element. Tags: xml.sequenceOffset=150
         A None value is a no-op and does not overwrite an existing scope.
         """
         if value is not None:
@@ -319,13 +317,13 @@ class EcucDefinitionElement(Identifiable, ABC):
 
     def getUpperMultiplicity(self) -> Optional[PositiveInteger]:
         """
-        The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used.
+        The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used. atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=120
         """
         return self.upperMultiplicity
 
-    def setUpperMultiplicity(self, value: Optional[PositiveInteger]):
+    def setUpperMultiplicity(self, value: Optional[PositiveInteger]) -> EcucDefinitionElement:
         """
-        The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used.
+        The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used. atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=120
         A None value is a no-op and does not overwrite an existing upperMultiplicity.
         """
         if value is not None:
@@ -334,13 +332,13 @@ class EcucDefinitionElement(Identifiable, ABC):
 
     def getUpperMultiplicityInfinite(self) -> Optional[Boolean]:
         """
-        To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used.
+        To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used. atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=130
         """
         return self.upperMultiplicityInfinite
 
-    def setUpperMultiplicityInfinite(self, value: Optional[Boolean]):
+    def setUpperMultiplicityInfinite(self, value: Optional[Boolean]) -> EcucDefinitionElement:
         """
-        To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used.
+        To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used. atpVariation: [RS_ECUC_00082] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=130
         A None value is a no-op and does not overwrite an existing upperMultiplicityInfinite.
         """
         if value is not None:

@@ -489,9 +489,80 @@ class TestEcucScopeEnum:
 
 
 class TestEcucDefinitionElement:
+    CLASS_NOTE = "Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory occurrence of the specified element."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucDefinitionElement)
+
+    def _make(self):
+        class _Concrete(EcucDefinitionElement):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEDE"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDefinitionElement.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDefinitionElement.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getEcucCond() is None
+        assert obj.getEcucValidationConds() == []
+        assert obj.getLowerMultiplicity() is None
+        assert obj.getRelatedTraceItemRef() is None
+        assert obj.getScope() is None
+        assert obj.getUpperMultiplicity() is None
+        assert obj.getUpperMultiplicityInfinite() is None
+
+    def test_get_set_lower_multiplicity_roundtrip(self):
+        obj = self._make()
+        assert obj.setLowerMultiplicity(1) is obj
+        assert obj.getLowerMultiplicity() == 1
+        obj.setLowerMultiplicity(None)
+        assert obj.getLowerMultiplicity() == 1  # None is a no-op
+
+    def test_get_set_related_trace_item_ref_roundtrip(self):
+        obj = self._make()
+        ref = RefType()
+        ref.setValue("/EcucId/Trace")
+        assert obj.setRelatedTraceItemRef(ref) is obj
+        assert obj.getRelatedTraceItemRef() is ref
+        obj.setRelatedTraceItemRef(None)
+        assert obj.getRelatedTraceItemRef() is ref  # None is a no-op
+
+    def test_get_set_scope_roundtrip(self):
+        obj = self._make()
+        scope = EcucScopeEnum()
+        scope.setValue(EcucScopeEnum.LOCAL)
+        assert obj.setScope(scope) is obj
+        assert obj.getScope() is scope
+        obj.setScope(None)
+        assert obj.getScope() is scope  # None is a no-op
+
+    def test_get_set_upper_multiplicity_roundtrip(self):
+        obj = self._make()
+        assert obj.setUpperMultiplicity(4) is obj
+        assert obj.getUpperMultiplicity() == 4
+        obj.setUpperMultiplicity(None)
+        assert obj.getUpperMultiplicity() == 4  # None is a no-op
+
+    def test_get_set_upper_multiplicity_infinite_roundtrip(self):
+        obj = self._make()
+        assert obj.setUpperMultiplicityInfinite(True) is obj
+        assert obj.getUpperMultiplicityInfinite() is True
+        obj.setUpperMultiplicityInfinite(None)
+        assert obj.getUpperMultiplicityInfinite() is True  # None is a no-op
+
+    def test_add_get_ecuc_validation_conds(self):
+        obj = self._make()
+        cond = EcucValidationCondition(AUTOSAR.getInstance(), "C1")
+        assert obj.addEcucValidationCond(cond) is obj
+        assert obj.getEcucValidationConds() == [cond]
+        obj.addEcucValidationCond(None)
+        assert len(obj.getEcucValidationConds()) == 1  # None is a no-op
 
 
 class TestEcucContainerDef:

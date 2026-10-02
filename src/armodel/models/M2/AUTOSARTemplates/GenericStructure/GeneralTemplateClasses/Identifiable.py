@@ -5,8 +5,8 @@ in the GenericStructure module.
 
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter, RoleBasedResourceDependency
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
@@ -673,8 +673,76 @@ class ConstraintTailoring(DataFormatElementScope):
     pass
 
 
-class CpSoftwareClusterResource(Identifiable, ABC):
-    pass
+class CpSoftwareClusterResource(Identifiable):
+    """Represents a single resource required or provided by a CP Software Cluster. Tags: atp.recommendedPackage=Resources"""
+
+    # CpSoftwareClusterResource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.44, p.271
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDependentResource      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDependentResources     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getGlobalResourceId       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalResourceId       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsMandatory            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsMandatory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Link to a resource which depends on this resource to implement them.
+        self.dependentResources: List[RoleBasedResourceDependency] = []
+
+        # A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        self.globalResourceId: Optional[PositiveInteger] = None
+
+        # This attribute indicates, that the resource is mandatory to operate the Software Cluster. If the resource is not provided on the machine the connection process of any Software Cluster requiring this resource gets aborted.
+        self.isMandatory: Optional[Boolean] = None
+
+    def addDependentResource(self, value: Optional[RoleBasedResourceDependency]) -> CpSoftwareClusterResource:
+        """
+        Link to a resource which depends on this resource to implement them.
+        A None value is a no-op and does not append a dependentResource.
+        """
+        if value is not None:
+            self.dependentResources.append(value)
+        return self
+
+    def getDependentResources(self) -> List[RoleBasedResourceDependency]:
+        """
+        Link to a resource which depends on this resource to implement them.
+        """
+        return self.dependentResources
+
+    def getGlobalResourceId(self) -> Optional[PositiveInteger]:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        """
+        return self.globalResourceId
+
+    def setGlobalResourceId(self, value: Optional[PositiveInteger]) -> CpSoftwareClusterResource:
+        """
+        A unique identifiers per resource used for the connection process. The identifier is required to be unique in the scope of a single machine. If software clusters are designed to be reused on multiple machines the uniqueness requirements applies for all the intended machines.
+        A None value is a no-op and does not overwrite an existing globalResourceId.
+        """
+        if value is not None:
+            self.globalResourceId = value
+        return self
+
+    def getIsMandatory(self) -> Optional[Boolean]:
+        """
+        This attribute indicates, that the resource is mandatory to operate the Software Cluster. If the resource is not provided on the machine the connection process of any Software Cluster requiring this resource gets aborted.
+        """
+        return self.isMandatory
+
+    def setIsMandatory(self, value: Optional[Boolean]) -> CpSoftwareClusterResource:
+        """
+        This attribute indicates, that the resource is mandatory to operate the Software Cluster. If the resource is not provided on the machine the connection process of any Software Cluster requiring this resource gets aborted.
+        A None value is a no-op and does not overwrite an existing isMandatory.
+        """
+        if value is not None:
+            self.isMandatory = value
+        return self
 
 
 class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):

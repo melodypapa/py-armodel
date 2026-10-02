@@ -583,9 +583,6 @@ class DiagnosticFunctionIdentifierInhibit(ARObject):
     pass
 
 
-class DiagnosticInhibitSourceEventMapping(ARObject):
-    pass
-
 
 class DiagnosticIumprGroupIdentifier(ARObject):
     pass
@@ -761,7 +758,55 @@ class RestrictionWithSeverity(ARObject, ABC):
 
 
 class RoleBasedResourceDependency(ARObject):
-    pass
+    """This class specifies a dependency between CpSoftwareClusterResources."""
+
+    # RoleBasedResourceDependency method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.45, p.272
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getResourceRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResourceRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to resource for which the dependency is depicted.
+        self.resourceRef: Optional[RefType] = None
+
+        # This is attributes characterizes the kind of dependency
+        self.role: Optional[Identifier] = None
+
+    def getResourceRef(self) -> Optional[RefType]:
+        """
+        Reference to resource for which the dependency is depicted.
+        """
+        return self.resourceRef
+
+    def setResourceRef(self, value: Optional[RefType]) -> RoleBasedResourceDependency:
+        """
+        Reference to resource for which the dependency is depicted.
+        A None value is a no-op and does not overwrite an existing resourceRef.
+        """
+        if value is not None:
+            self.resourceRef = value
+        return self
+
+    def getRole(self) -> Optional[Identifier]:
+        """
+        This is attributes characterizes the kind of dependency
+        """
+        return self.role
+
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedResourceDependency:
+        """
+        This is attributes characterizes the kind of dependency
+        A None value is a no-op and does not overwrite an existing role.
+        """
+        if value is not None:
+            self.role = value
+        return self
 
 
 class RptHook(ARObject):
@@ -1202,6 +1247,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    Identifier,
     PositiveInteger,
     RefType,
     TimeValue,
