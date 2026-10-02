@@ -3,9 +3,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import I
 
 
 class BswServiceDependencyIdent(IdentCaption):
-    """
-    This meta-class is created to add the ability to become the target of a reference to the non-Referrable BswServiceDependency.
-    """
+    """This meta-class is created to add the ability to become the target of a reference to the non-Referrable BswServiceDependency."""
 
     # BswServiceDependencyIdent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.16, p.240
