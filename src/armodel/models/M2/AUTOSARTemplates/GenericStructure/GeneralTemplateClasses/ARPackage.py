@@ -120,6 +120,7 @@ __all__ = [
     "FMFeature",
     "EvaluatedVariantSet",
     "DiagnosticWriteDataByIdentifier",
+    "DiagnosticWriteMemoryByAddress",
     "DiagnosticVerifyCertificateUnidirectional",
     "DiagnosticVerifyCertificateBidirectional",
     "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
@@ -1098,6 +1099,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             write_data_by_identifier_class = DiagnosticWriteDataByIdentifierClass(self, short_name)
             self.addReferrableElement(write_data_by_identifier_class)
         return self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifierClass)
+
+    def createDiagnosticWriteMemoryByAddress(self, short_name: str) -> DiagnosticWriteMemoryByAddress:
+        """
+        Creates a new DiagnosticWriteMemoryByAddress with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteMemoryByAddress: This represents an instance of the "Write Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteMemoryByAddress
+
+        Returns:
+            The newly created or existing DiagnosticWriteMemoryByAddress instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticWriteMemoryByAddress):
+            element = DiagnosticWriteMemoryByAddress(self, short_name)
+            self.addReferrableElement(element)
+        return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddress)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 
@@ -8155,6 +8174,39 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
         """
         if value is not None:
             self.writeClass = value
+        return self
+
+
+class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
+    """This represents an instance of the "Write Memory by Address" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticWriteMemoryByAddress method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.113, p.141
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWriteClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWriteClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWritememoryByAddress in the given context.
+        self.writeClassRef: Optional[RefType] = None
+
+    def getWriteClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWritememoryByAddress in the given context.
+        """
+        return self.writeClassRef
+
+    def setWriteClassRef(self, value: Optional[RefType]) -> DiagnosticWriteMemoryByAddress:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWritememoryByAddress in the given context.
+
+        A None value is a no-op and does not overwrite an existing writeClassRef.
+        """
+        if value is not None:
+            self.writeClassRef = value
         return self
 
 

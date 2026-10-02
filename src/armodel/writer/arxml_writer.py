@@ -443,6 +443,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticTroubleCodeJ1939,
+    DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
     DiagnosticServiceSwMapping,
@@ -14953,6 +14954,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, verification)
         self.writeDiagnosticAuthentication(child_element, verification)
 
+    def writeDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
+        self.logger.debug("Write DiagnosticWriteMemoryByAddress %s" % write_memory_by_address.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS")
+        self.writeIdentifiable(child_element, write_memory_by_address)
+        self.writeDiagnosticMemoryAddressableRangeAccess(child_element, write_memory_by_address)
+        self.setChildElementOptionalRefType(child_element, "WRITE-CLASS-REF", write_memory_by_address.getWriteClassRef())
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -16220,6 +16228,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticMemoryIdentifier):
             self.writeDiagnosticMemoryIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
+            self.writeDiagnosticWriteMemoryByAddress(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticEnableConditionPortMapping):
             self.writeDiagnosticEnableConditionPortMapping(element, ar_element)

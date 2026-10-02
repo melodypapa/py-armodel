@@ -571,6 +571,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticTroubleCodeJ1939,
+    DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
     DiagnosticServiceSwMapping,
@@ -11465,6 +11466,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, verification)
         self.readDiagnosticAuthentication(element, verification)
 
+    def readDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
+        self.logger.debug("Read DiagnosticWriteMemoryByAddress <%s>" % write_memory_by_address.getShortName())
+        self.readIdentifiable(element, write_memory_by_address)
+        self.readDiagnosticMemoryAddressableRangeAccess(element, write_memory_by_address)
+        write_memory_by_address.setWriteClassRef(self.getChildElementOptionalRefType(element, "WRITE-CLASS-REF"))
+
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
         self.readIdentifiable(element, auth_role)
@@ -16748,6 +16755,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
             identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))
             self.readDiagnosticMemoryIdentifier(child_element, identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS":
+            write_memory_by_address = parent.createDiagnosticWriteMemoryByAddress(self.getShortName(child_element))
+            self.readDiagnosticWriteMemoryByAddress(child_element, write_memory_by_address)
             return True
         return False
 

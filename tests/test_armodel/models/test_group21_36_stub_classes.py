@@ -2006,10 +2006,10 @@ STUBS = [
         "DiagnosticServiceClass",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticWriteMemoryByAddress",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticMemoryAddressableRangeAccess",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",

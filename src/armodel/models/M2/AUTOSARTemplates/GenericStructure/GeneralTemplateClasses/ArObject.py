@@ -910,10 +910,6 @@ class DiagnosticTroubleCodeUds(ARObject):
     pass
 
 
-class DiagnosticWriteMemoryByAddress(ARObject):
-    pass
-
-
 class EventObdReadinessGroup(ARObject):
     pass
 
