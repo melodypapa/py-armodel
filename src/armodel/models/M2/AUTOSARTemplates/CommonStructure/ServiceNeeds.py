@@ -1650,7 +1650,10 @@ class DtcFormatTypeEnum(AREnum):
 
     # DtcFormatTypeEnum method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.770 (R4.3.1)
-    # (no methods)
+    # Spec verified: R4.3.1
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DtcStatusChangeNotificationNeeds.dtcFormatType (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
     # Defines the J1939 DTC format. Tags: atp.EnumerationValue=0
     J1939 = "j1939"
@@ -1658,11 +1661,15 @@ class DtcFormatTypeEnum(AREnum):
     # Defines the OBD DTC format. Tags: atp.EnumerationValue=1
     OBD = "obd"
 
+    # Defines the UDS DTC format. Tags: atp.EnumerationValue=2
+    UDS = "uds"
+
     def __init__(self):
         super().__init__(
             (
                 DtcFormatTypeEnum.J1939,
                 DtcFormatTypeEnum.OBD,
+                DtcFormatTypeEnum.UDS,
             )
         )
 

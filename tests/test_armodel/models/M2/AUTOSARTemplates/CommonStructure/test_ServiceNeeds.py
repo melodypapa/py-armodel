@@ -1742,7 +1742,13 @@ class TestDtcFormatTypeEnum:
         """Test DtcFormatTypeEnum initialization (R4.3.1 Table 13.30 literals)"""
         enum = DtcFormatTypeEnum()
 
-        assert enum.enumValues == ("j1939", "obd")
+        assert enum.enumValues == ("j1939", "obd", "uds")
+
+    def test_values(self):
+        """Test enum values"""
+        assert DtcFormatTypeEnum.J1939 == "j1939"
+        assert DtcFormatTypeEnum.OBD == "obd"
+        assert DtcFormatTypeEnum.UDS == "uds"
 
 
 class TestDtcStatusChangeNotificationNeeds:
