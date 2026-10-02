@@ -1622,10 +1622,10 @@ STUBS = [
         "DiagnosticServiceClass",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestCurrentPowertrainData",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",

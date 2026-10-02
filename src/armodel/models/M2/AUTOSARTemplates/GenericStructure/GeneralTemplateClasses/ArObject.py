@@ -887,10 +887,6 @@ class DiagnosticPeriodicRate(ARObject):
         return self
 
 
-class DiagnosticRequestCurrentPowertrainData(ARObject):
-    pass
-
-
 class DiagnosticRequestEmissionRelatedDTC(ARObject):
     pass
 

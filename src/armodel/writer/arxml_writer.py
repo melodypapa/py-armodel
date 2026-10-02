@@ -448,6 +448,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadMemoryByAddress,
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestUpload,
@@ -15052,6 +15053,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         if parameter_identifier.getSupportInfoByte() is not None:
             self.writeDiagnosticSupportInfoByte(child_element, parameter_identifier.getSupportInfoByte())
 
+    def writeDiagnosticRequestCurrentPowertrainData(self, element: ET.Element, request_current_powertrain_data: DiagnosticRequestCurrentPowertrainData):
+        self.logger.debug("Write DiagnosticRequestCurrentPowertrainData %s" % request_current_powertrain_data.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA")
+        self.writeIdentifiable(child_element, request_current_powertrain_data)
+        self.setChildElementOptionalRefType(child_element, "PID-REF", request_current_powertrain_data.getPidRef())
+        self.setChildElementOptionalRefType(child_element, "REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF", request_current_powertrain_data.getRequestCurrentPowertrainDiagnosticDataClassRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16375,6 +16383,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticParameterIdentifier):
             self.writeDiagnosticParameterIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestCurrentPowertrainData):
+            self.writeDiagnosticRequestCurrentPowertrainData(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

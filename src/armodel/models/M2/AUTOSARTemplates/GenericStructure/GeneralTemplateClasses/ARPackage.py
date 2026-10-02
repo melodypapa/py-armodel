@@ -151,6 +151,7 @@ __all__ = [
     "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
     "DiagnosticRequestDownload",
     "DiagnosticRequestControlOfOnBoardDevice",
+    "DiagnosticRequestCurrentPowertrainData",
     "DiagnosticReadScalingDataByIdentifier",
     "DiagnosticReadDataByPeriodicID",
     "DiagnosticReadDataByIdentifier",
@@ -1210,6 +1211,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             parameter_identifier = DiagnosticParameterIdentifier(self, short_name)
             self.addReferrableElement(parameter_identifier)
         return self.getReferrableElement(short_name, DiagnosticParameterIdentifier)
+
+    def createDiagnosticRequestCurrentPowertrainData(self, short_name: str) -> DiagnosticRequestCurrentPowertrainData:
+        """
+        Creates a new DiagnosticRequestCurrentPowertrainData with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestCurrentPowertrainData represents an instance of the OBD mode 0x01 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestCurrentPowertrainData
+
+        Returns:
+            The newly created or existing DiagnosticRequestCurrentPowertrainData instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestCurrentPowertrainData):
+            request_current_powertrain_data = DiagnosticRequestCurrentPowertrainData(self, short_name)
+            self.addReferrableElement(request_current_powertrain_data)
+        return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainData)
 
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
@@ -5009,6 +5028,60 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
         """
         if value is not None:
             self.customServiceClassRef = value
+        return self
+
+
+class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x01 service. Tags: atp.recommendedPackage=DiagnosticRequestCurrentPowertrainDatas"""
+
+    # DiagnosticRequestCurrentPowertrainData method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.130, p.151
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPidRef                                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPidRef                                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestCurrentPowertrainDiagnosticDataClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestCurrentPowertrainDiagnosticDataClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the PID associated with this instance of the OBD mode 0x01 service.
+        self.pidRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestCurrentPowertrainData in the given context.
+        self.requestCurrentPowertrainDiagnosticDataClassRef: Optional[RefType] = None
+
+    def getPidRef(self) -> Optional[RefType]:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x01 service.
+        """
+        return self.pidRef
+
+    def setPidRef(self, value: Optional[RefType]) -> DiagnosticRequestCurrentPowertrainData:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x01 service.
+
+        A None value is a no-op and does not overwrite an existing pidRef.
+        """
+        if value is not None:
+            self.pidRef = value
+        return self
+
+    def getRequestCurrentPowertrainDiagnosticDataClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestCurrentPowertrainData in the given context.
+        """
+        return self.requestCurrentPowertrainDiagnosticDataClassRef
+
+    def setRequestCurrentPowertrainDiagnosticDataClassRef(self, value: Optional[RefType]) -> DiagnosticRequestCurrentPowertrainData:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestCurrentPowertrainData in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestCurrentPowertrainDiagnosticDataClassRef.
+        """
+        if value is not None:
+            self.requestCurrentPowertrainDiagnosticDataClassRef = value
         return self
 
 

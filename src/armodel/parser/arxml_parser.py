@@ -575,6 +575,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadMemoryByAddress,
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestUpload,
@@ -11545,6 +11546,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
             parameter_identifier.setSupportInfoByte(support_info_byte)
 
+    def readDiagnosticRequestCurrentPowertrainData(self, element: ET.Element, request_current_powertrain_data: DiagnosticRequestCurrentPowertrainData):
+        self.logger.debug("Read DiagnosticRequestCurrentPowertrainData <%s>" % request_current_powertrain_data.getShortName())
+        self.readIdentifiable(element, request_current_powertrain_data)
+        request_current_powertrain_data.setPidRef(self.getChildElementOptionalRefType(element, "PID-REF"))
+        request_current_powertrain_data.setRequestCurrentPowertrainDiagnosticDataClassRef(self.getChildElementOptionalRefType(element, "REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16910,6 +16917,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-PARAMETER-IDENTIFIER":
             parameter_identifier = parent.createDiagnosticParameterIdentifier(self.getShortName(child_element))
             self.readDiagnosticParameterIdentifier(child_element, parameter_identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA":
+            request_current_powertrain_data = parent.createDiagnosticRequestCurrentPowertrainData(self.getShortName(child_element))
+            self.readDiagnosticRequestCurrentPowertrainData(child_element, request_current_powertrain_data)
             return True
         return False
 
