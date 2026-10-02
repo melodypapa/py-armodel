@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 711 | 37.4% |
+| [x] Done | 712 | 37.4% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 277 | 14.6% |
+| [ ] Deferred | 276 | 14.5% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -396,7 +396,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CryptoServiceKey`                                      | [ ] Created | N/A                                      | Group31          |
 | `CryptoServiceKeyGenerationEnum`                        | [ ] Created | N/A                                      | Group31          |
 | `CryptoServiceMapping`                                  | [x] Done    | 757aea1d17                               | Group6           |
-| `CryptoServiceNeeds`                                    | [ ] Deferred| d064592a44                               | Group14          |
+| `CryptoServiceNeeds`                                    | [x] Done    | bea3457ed5                               | Group14          |
 | `CryptoServicePrimitive`                                | [x] Done    | b609d72d59                               | Group6           |
 | `CryptoServiceQueue`                                    | [ ] Created | N/A                                      | Group31          |
 | `CryptoSignatureScheme`                                 | [x] Done    | 1eaeb5800b                               | Group6           |
