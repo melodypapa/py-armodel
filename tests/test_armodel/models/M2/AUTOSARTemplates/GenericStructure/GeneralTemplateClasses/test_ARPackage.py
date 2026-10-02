@@ -84,6 +84,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
+    DiagnosticRequestEmissionRelatedDTC,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
@@ -8538,3 +8539,82 @@ class TestDiagnosticPowertrainFreezeFrame:
         """
         assert inspect.cleandoc(DiagnosticPowertrainFreezeFrame.getPidRefs.__doc__) == self.PID_NOTE
         assert inspect.cleandoc(DiagnosticPowertrainFreezeFrame.addPidRef.__doc__) == (self.PID_NOTE + "\n\nA None value is a no-op and does not append a pidRef.")
+
+
+class TestDiagnosticRequestEmissionRelatedDTC:
+    """
+    Test class for DiagnosticRequestEmissionRelatedDTC functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.135, p.154
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an instance of the OBD mode 0x03/0x07 service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCs"
+    CLASS_REF_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context."
+
+    def _make_obj(self) -> DiagnosticRequestEmissionRelatedDTC:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestEmissionRelatedDTC(ar_root, "TestMode0307")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestEmissionRelatedDTC instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMode0307"
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getRequestEmissionRelatedDtcClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestEmissionRelatedDTC.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestEmissionRelatedDTC.__init__.__doc__ is None
+
+    def test_get_set_request_emission_related_dtc_class_ref(self):
+        """
+        Round-trips the requestEmissionRelatedDtcClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestEmissionRelatedDTCClasses/Class1")
+        result = obj.setRequestEmissionRelatedDtcClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestEmissionRelatedDtcClassRef() is ref
+        assert obj.getRequestEmissionRelatedDtcClassRef().getValue() == "/AUTOSAR/DiagnosticRequestEmissionRelatedDTCClasses/Class1"
+        assert obj.getRequestEmissionRelatedDtcClassRef().getDest() == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS"
+
+        result = obj.setRequestEmissionRelatedDtcClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestEmissionRelatedDtcClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_emission_related_dtc(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("OBDMode0307Services")
+        element = package.createDiagnosticRequestEmissionRelatedDTC("Mode0307Service1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestEmissionRelatedDTC)
+        assert element.getShortName() == "Mode0307Service1"
+        assert package.getReferrableElement("Mode0307Service1", DiagnosticRequestEmissionRelatedDTC) is element
+
+        duplicate = package.createDiagnosticRequestEmissionRelatedDTC("Mode0307Service1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.getRequestEmissionRelatedDtcClassRef.__doc__) == self.CLASS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.setRequestEmissionRelatedDtcClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassRef.")

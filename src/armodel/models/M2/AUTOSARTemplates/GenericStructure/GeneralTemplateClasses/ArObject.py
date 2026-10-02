@@ -887,10 +887,6 @@ class DiagnosticPeriodicRate(ARObject):
         return self
 
 
-class DiagnosticRequestEmissionRelatedDTC(ARObject):
-    pass
-
-
 class DiagnosticRequestOnBoardMonitoringTestResultsClass(ARObject):
     pass
 

@@ -150,6 +150,7 @@ __all__ = [
     "DiagnosticRequestFileTransfer",
     "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
     "DiagnosticRequestDownload",
+    "DiagnosticRequestEmissionRelatedDTC",
     "DiagnosticRequestControlOfOnBoardDevice",
     "DiagnosticRequestCurrentPowertrainData",
     "DiagnosticRequestPowertrainFreezeFrameData",
@@ -1120,6 +1121,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             request_download_class = DiagnosticRequestDownloadClass(self, short_name)
             self.addReferrableElement(request_download_class)
         return self.getReferrableElement(short_name, DiagnosticRequestDownloadClass)
+
+    def createDiagnosticRequestEmissionRelatedDTC(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTC:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTC with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTC represents an instance of the OBD mode 0x03/0x07 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTC
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTC instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTC):
+            request_emission_related_dtc = DiagnosticRequestEmissionRelatedDTC(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc)
+        return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTC)
 
     def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
         """
@@ -5160,6 +5179,39 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         """
         if value is not None:
             self.requestCurrentPowertrainDiagnosticDataClassRef = value
+        return self
+
+
+class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x03/0x07 service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCs"""
+
+    # DiagnosticRequestEmissionRelatedDTC method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.135, p.154
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestEmissionRelatedDtcClassRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestEmissionRelatedDtcClassRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context.
+        self.requestEmissionRelatedDtcClassRef: Optional[RefType] = None
+
+    def getRequestEmissionRelatedDtcClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context.
+        """
+        return self.requestEmissionRelatedDtcClassRef
+
+    def setRequestEmissionRelatedDtcClassRef(self, value: Optional[RefType]) -> DiagnosticRequestEmissionRelatedDTC:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassRef.
+        """
+        if value is not None:
+            self.requestEmissionRelatedDtcClassRef = value
         return self
 
 

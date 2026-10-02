@@ -579,6 +579,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
+    DiagnosticRequestEmissionRelatedDTC,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
@@ -11568,6 +11569,11 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "PID-REFS/PID-REF"):
             powertrain_freeze_frame.addPidRef(ref)
 
+    def readDiagnosticRequestEmissionRelatedDTC(self, element: ET.Element, request_emission_related_dtc: DiagnosticRequestEmissionRelatedDTC):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTC <%s>" % request_emission_related_dtc.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc)
+        request_emission_related_dtc.setRequestEmissionRelatedDtcClassRef(self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16959,6 +16965,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-POWERTRAIN-FREEZE-FRAME":
             powertrain_freeze_frame = parent.createDiagnosticPowertrainFreezeFrame(self.getShortName(child_element))
             self.readDiagnosticPowertrainFreezeFrame(child_element, powertrain_freeze_frame)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC":
+            request_emission_related_dtc = parent.createDiagnosticRequestEmissionRelatedDTC(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTC(child_element, request_emission_related_dtc)
             return True
         return False
 
