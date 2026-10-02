@@ -960,7 +960,8 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     """
 
     # DiagnosticCommunicationManagerNeeds method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.34, p.777
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.34, p.779
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getServiceRequestCallbackType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
