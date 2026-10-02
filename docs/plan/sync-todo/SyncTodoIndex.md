@@ -659,7 +659,7 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **9/25** completed
+Status: **10/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
@@ -670,7 +670,7 @@ Status: **9/25** completed
 | `DiagnosticServiceRequestCallbackTypeEnum` | [x] Done     | 77c7312cc8 |
 | `DiagnosticValueAccessEnum`                | [x] Done     | 85e9c3f3be |
 | `DtcFormatTypeEnum`                        | [x] Done     | f376d8339f |
-| `DtcKindEnum`                              | [ ] Pending* | 28746ce3cc |
+| `DtcKindEnum`                              | [x] Done     | 8b62eec625 |
 | `ServiceDiagnosticRelevanceEnum`           | [ ] Pending* | 28746ce3cc |
 | `DiagnosticCapabilityElement`              | [ ] Pending* | f5ffd3abf2 |
 | `DiagnosticCommunicationManagerNeeds`      | [ ] Pending* | 79c639e42a |

@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 703 | 36.9% |
+| [x] Done | 704 | 37.0% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 285 | 15.0% |
+| [ ] Deferred | 284 | 14.9% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -777,7 +777,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DocumentationBlock`                                    | [x] Done    | N/A                                      | Group21          |
 | `DocumentationContext`                                  | [x] Done    | N/A                                      | Group21          |
 | `DtcFormatTypeEnum`                                     | [x] Done    | f376d8339f                               | Group14          |
-| `DtcKindEnum`                                           | [ ] Deferred| 28746ce3cc                               | Group14          |
+| `DtcKindEnum`                                           | [x] Done    | 8b62eec625                               | Group14          |
 | `DtcStatusChangeNotificationNeeds`                      | [ ] Deferred| 79c639e42a                               | Group14          |
 | `DynamicPart`                                           | [ ] Deferred| 4211085bc4                               | Group15          |
 | `DynamicPartAlternative`                                | [x] Done    | 206cf29517                               | Group5           |
