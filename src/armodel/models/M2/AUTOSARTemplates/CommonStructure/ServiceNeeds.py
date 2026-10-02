@@ -660,7 +660,10 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
 
     # ServiceDiagnosticRelevanceEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.609
-    # (no methods)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ServiceDependency.diagnosticRelevance (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This value indicates that a relevance for diagnostics does not exist. Tags: atp.EnumerationLiteralIndex=0
     IS_NOT_RELEVANT = "isNotRelevant"
