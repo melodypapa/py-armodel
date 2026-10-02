@@ -93,7 +93,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none (dataFilter aggr / ddsQosProfile ref→Ref suffix both per rule)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (12 targeted tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note + 5 attr Notes verbatim, Base = CommConnectorPort, ddsQosProfile→ddsQosProfileRef ref-suffix naming, dataFilter aggr→Optional[DataFilter], handleInvalid typed HandleInvalidEnum, rw covers all 5 attrs in XSD order; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `ISignalIPduGroup` — FibexElement — R23-11 markdown · Table 6.32 (CP_TPS_SystemTemplate), p.351 — commit 1e758bd44
+- [x] `ISignalIPduGroup` — FibexElement — R23-11 markdown · Table 6.32 (CP_TPS_SystemTemplate), p.351 — commit 1e758bd44
   - commit: 1e758bd44 (feat; steps 1-8; verbatim Note incl. Tags, PEP 526 types (Optional[CommunicationDirectionType]/Optional[String]/List[RefType]), None-no-op setters + None-guarded adds; NEW NM-PDUS reader+writer coverage (was dropped — silent round-trip loss); XSD order COMMUNICATION-DIRECTION→COMMUNICATION-MODE→CONTAINED-...-REFS→I-SIGNAL-I-PDUS→NM-PDUS)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 4 failed / 2 passed
@@ -103,7 +103,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — readISignalIPduGroup + writeISignalIPduGroup extended with NM-PDUS wrapper (NM-PDU-REF-CONDITIONAL/NM-PDU-REF)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (538 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (19 targeted tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note (incl. Tags) verbatim, Base = FibexElement, 5 members in displayed order (communicationDirection/communicationMode/containedISignalIPduGroupRefs/iSignalIPduRefs/nmPduRefs) with correct quota shapes, NM-PDUS rw coverage added in prior pass; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `MultiplexedIPdu` — IPdu — R23-11 markdown · Table 6.72 (CP_TPS_SystemTemplate), p.410 — commit eba346cb5
   - commit: eba346cb5 (feat; steps 1-8; verbatim Note + 7 attr notes incl. markdown wrap-spaces ("variation Point"/"short Label" per raw cells), PEP 526 Optional[T] replacing `# type:` comments, triggerMode now typed Optional[TriggerMode]; reader/writer already complete — no change)
