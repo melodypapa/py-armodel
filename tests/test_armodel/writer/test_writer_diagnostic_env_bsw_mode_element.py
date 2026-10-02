@@ -21,6 +21,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
     DiagnosticEnvBswModeElement,
     DiagnosticEnvConditionFormula,
@@ -59,7 +60,6 @@ class TestWriteDiagnosticEnvBswModeElement:
     def test_write_referrable_identity(self):
         """Test that the Referrable identity (SHORT-NAME) is emitted under DIAGNOSTIC-ENV-BSW-MODE-ELEMENT."""
         mode_element = DiagnosticEnvBswModeElement(AUTOSAR.getInstance(), "BswMode1")
-        mode_element.setModeIRef(_ref("MODE-DECLARATION", "/AUTOSAR/BswM/MDGP/Normal"))
 
         parent = ET.Element("MODE-ELEMENTS")
         ARXMLWriter().writeDiagnosticEnvBswModeElement(parent, mode_element)
@@ -68,6 +68,24 @@ class TestWriteDiagnosticEnvBswModeElement:
         assert child is not None
         assert child.find("SHORT-NAME").text == "BswMode1"
         assert child.find("MODE-IREF") is None
+
+    def test_write_mode_iref(self):
+        """Test that a set modeIRef is written as a nested MODE-IREF (MODE-IN-BSW-MODULE-DESCRIPTION-INSTANCE-REF)."""
+        mode_element = DiagnosticEnvBswModeElement(AUTOSAR.getInstance(), "BswMode1")
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        iref.setContextModeDeclarationGroupRef(_ref("BSW-MODE-DECLARATION-GROUP-PROTOTYPE", "/AUTOSAR/BswM/MDGP"))
+        iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/BswM/MDGP/Normal"))
+        mode_element.setModeIRef(iref)
+
+        parent = ET.Element("MODE-ELEMENTS")
+        ARXMLWriter().writeDiagnosticEnvBswModeElement(parent, mode_element)
+
+        child = parent.find("DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
+        assert child is not None
+        mode_iref = child.find("MODE-IREF")
+        assert mode_iref is not None
+        assert mode_iref.find("CONTEXT-MODE-DECLARATION-GROUP-REF").text == "/AUTOSAR/BswM/MDGP"
+        assert mode_iref.find("TARGET-MODE-REF").text == "/AUTOSAR/BswM/MDGP/Normal"
 
     def test_mode_elements_dispatch_writes_element(self):
         """Test that writeDiagnosticEnvironmentalCondition emits the MODE-ELEMENTS wrapper with the DIAGNOSTIC-ENV-BSW-MODE-ELEMENT item."""
@@ -106,7 +124,10 @@ class TestWriteDiagnosticEnvBswModeElement:
         formula.setNrcValue(_positive_integer("49"))
         env_condition.setFormula(formula)
         mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
-        mode_element.setModeIRef(_ref("MODE-DECLARATION", "/AUTOSAR/BswM/MDGP/Normal"))
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        iref.setContextModeDeclarationGroupRef(_ref("BSW-MODE-DECLARATION-GROUP-PROTOTYPE", "/AUTOSAR/BswM/MDGP"))
+        iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/BswM/MDGP/Normal"))
+        mode_element.setModeIRef(iref)
         env_condition.addModeElement(mode_element)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -123,6 +144,10 @@ class TestWriteDiagnosticEnvBswModeElement:
             mode_element_2 = mode_elements[0]
             assert type(mode_element_2).__name__ == "DiagnosticEnvBswModeElement"
             assert mode_element_2.getShortName() == "BswMode1"
+            iref_2 = mode_element_2.getModeIRef()
+            assert iref_2 is not None
+            assert iref_2.getContextModeDeclarationGroupRef().getValue() == "/AUTOSAR/BswM/MDGP"
+            assert iref_2.getTargetModeRef().getValue() == "/AUTOSAR/BswM/MDGP/Normal"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

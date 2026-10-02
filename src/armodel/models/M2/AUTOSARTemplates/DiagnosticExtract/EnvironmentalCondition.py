@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
 
 
 class DiagnosticLogicalOperatorEnum(AREnum):
@@ -209,12 +210,14 @@ class DiagnosticEnvModeElement(Referrable, ABC):
 
     # DiagnosticEnvModeElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.44, p.89
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DiagnosticEnvModeElement:
             raise TypeError("DiagnosticEnvModeElement is an abstract class.")
+
         super().__init__(parent, short_name)
 
 
@@ -284,14 +287,14 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.46, p.90
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (deferred: ModeInBswModuleDescriptionInstanceRef not yet implemented — Rule 0001.10 placeholder RefType)
-    # [x] setModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (ditto)
+    # [x] getModeIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: ModeInBswModuleDescriptionInstanceRef
-        self.modeIRef: Optional[RefType] = None
+        self.modeIRef: Optional[ModeInBswModuleDescriptionInstanceRef] = None
 
     def getModeIRef(self) -> Optional[RefType]:
         """
@@ -501,14 +504,14 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.45, p.89
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (deferred: PModeInSystemInstanceRef not yet implemented — Rule 0001.10 placeholder RefType)
-    # [x] setModeIRef   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11  (ditto)
+    # [x] getModeIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef
-        self.modeIRef: Optional[RefType] = None
+        self.modeIRef: Optional[PModeInSystemInstanceRef] = None
 
     def getModeIRef(self) -> Optional[RefType]:
         """
@@ -528,3 +531,4 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
 
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef  # noqa: E402

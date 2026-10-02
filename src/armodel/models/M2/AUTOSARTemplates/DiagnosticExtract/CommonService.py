@@ -74,6 +74,7 @@ class DiagnosticServiceClass(DiagnosticCommonElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DiagnosticServiceClass:
             raise TypeError("DiagnosticServiceClass is an abstract class.")
+
         super().__init__(parent, short_name)
 
 

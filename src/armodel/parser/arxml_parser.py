@@ -100,6 +100,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
@@ -6089,6 +6090,17 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref.setTargetModeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-REF"))  # NOQA E501
         return instance_ref
 
+    def getPModeInSystemInstanceRef(self, element: ET.Element) -> PModeInSystemInstanceRef:
+        instance_ref = PModeInSystemInstanceRef()
+        self.readARObject(element, instance_ref)
+        instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            instance_ref.addContextComponentRef(ref)
+        instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF"))
+        instance_ref.setContextModeDeclarationGroupRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-REF"))
+        instance_ref.setTargetModeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-REF"))
+        return instance_ref
+
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.readIdentifiable(element, event)
         event.setActivationReasonRepresentationRef(self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF"))
@@ -11031,9 +11043,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticEnvSwcModeElement(self, element: ET.Element, mode_element: DiagnosticEnvSwcModeElement):
         self.readReferrable(element, mode_element)
+        mode_iref_element = self.find(element, "MODE-IREF")
+        if mode_iref_element is not None:
+            mode_element.setModeIRef(self.getPModeInSystemInstanceRef(mode_iref_element))
 
     def readDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
         self.readReferrable(element, mode_element)
+        mode_iref_element = self.find(element, "MODE-IREF")
+        if mode_iref_element is not None:
+            mode_element.setModeIRef(self.getModeInBswModuleDescriptionInstanceRef(mode_iref_element))
 
     def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Read DiagnosticAccessPermission <%s>" % permission.getShortName())

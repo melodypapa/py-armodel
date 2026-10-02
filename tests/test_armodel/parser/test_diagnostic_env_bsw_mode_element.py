@@ -35,17 +35,21 @@ class TestReadDiagnosticEnvBswModeElement:
         mode_element = self._read(parser, inner)
         assert mode_element.getShortName() == "BswMode1"
 
-    def test_mode_iref_deferred(self, parser):
-        """Test that the MODE-IREF element is not read yet (ModeInBswModuleDescriptionInstanceRef not implemented)."""
+    def test_mode_iref_read(self, parser):
+        """Test that the MODE-IREF element is read into a typed ModeInBswModuleDescriptionInstanceRef."""
         inner = (
             "<SHORT-NAME>BswMode1</SHORT-NAME>"
             "<MODE-IREF>"
-            '<CONTEXT-REF DEST="BSW-MODE-DECLARATION-GROUP-PROTOTYPE">/AUTOSAR/BswM/MDGP</CONTEXT-REF>'
+            '<CONTEXT-MODE-DECLARATION-GROUP-REF DEST="BSW-MODE-DECLARATION-GROUP-PROTOTYPE">/AUTOSAR/BswM/MDGP</CONTEXT-MODE-DECLARATION-GROUP-REF>'
             '<TARGET-MODE-REF DEST="MODE-DECLARATION">/AUTOSAR/BswM/MDGP/Normal</TARGET-MODE-REF>'
             "</MODE-IREF>"
         )
         mode_element = self._read(parser, inner)
-        assert mode_element.getModeIRef() is None
+        iref = mode_element.getModeIRef()
+        assert iref is not None
+        assert type(iref).__name__ == "ModeInBswModuleDescriptionInstanceRef"
+        assert iref.getContextModeDeclarationGroupRef().getValue() == "/AUTOSAR/BswM/MDGP"
+        assert iref.getTargetModeRef().getValue() == "/AUTOSAR/BswM/MDGP/Normal"
 
     def test_mode_elements_dispatch_reads_bsw_mode_element(self, parser):
         """Test that the MODE-ELEMENTS choice dispatches DIAGNOSTIC-ENV-BSW-MODE-ELEMENT to a DiagnosticEnvBswModeElement."""
