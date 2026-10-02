@@ -570,15 +570,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note (Step 1): Base most-derived = DiagnosticMapping; attrs: cpSoftwareClusterResourceRef, functionIdentifierRef; XSD own group order CP-SOFTWARE-CLUSTER-RESOURCE-REF → FUNCTION-IDENTIFIER-REF; word-splits joined (DiagnosticFunctionIdentifier)
 - [ ] `EcucDefinitionCollection` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.1, p.25
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (117 passed test_ECUCParameterDefTemplate.py + new parser/writer round-trip files; ruff/flake8 clean, black diff 0 hits in added code); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale `# Spec verified: R23-11` removed (legacy 5-col stamp, no release column); Base row most-derived = AtpBlueprintable (row header "ARElement" was infrastructure-only); member shape already spec-correct (moduleRefs List[RefType] + add/get; MODULE-REFS/MODULE-REF wiring pre-existing both sides); docstrings rewritten verbatim from markdown Note (were "Adds a/Gets the" paraphrases)
 
 - [ ] `EcucModuleDef` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.2, p.32
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

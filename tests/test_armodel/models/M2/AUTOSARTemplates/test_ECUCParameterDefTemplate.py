@@ -172,8 +172,75 @@ class TestEcucAddInfoParamDef:
 
 
 class TestEcucDefinitionCollection:
+    """
+    Test class for EcucDefinitionCollection functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.1, p.25
+    """
+
+    CLASS_NOTE = "This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections"
+
+    def _make_obj(self) -> EcucDefinitionCollection:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return EcucDefinitionCollection(ar_root, "TestDefinitionCollection")
+
     def test_instantiation(self):
         assert _instantiate(EcucDefinitionCollection, "EcucDefinitionCollection").getShortName() == "EcucDefinitionCollection"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucDefinitionCollection.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucDefinitionCollection.__init__.__doc__ is None
+
+    def test_add_get_module_refs(self):
+        """
+        Round-trips the module multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("ECUC-MODULE-DEF")
+        ref1.setValue("/AUTOSAR/EcucModuleDefs/Module1")
+        result = obj.addModuleRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("ECUC-MODULE-DEF")
+        ref2.setValue("/AUTOSAR/EcucModuleDefs/Module2")
+        obj.addModuleRef(ref2)
+
+        refs = obj.getModuleRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/EcucModuleDefs/Module2"
+        assert refs[1].getDest() == "ECUC-MODULE-DEF"
+
+        result = obj.addModuleRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getModuleRefs()) == 2  # None is a no-op
+
+    def test_create_ecuc_definition_collection(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("EcucDefinitionCollections")
+        collection = package.createEcucDefinitionCollection("Collection1")
+
+        assert collection is not None
+        assert isinstance(collection, EcucDefinitionCollection)
+        assert collection.getShortName() == "Collection1"
+        assert package.getReferrableElement("Collection1", EcucDefinitionCollection) is collection
+
+        duplicate = package.createEcucDefinitionCollection("Collection1")
+        assert duplicate is collection  # duplicate short name returns the existing element
 
 
 class TestEcucDestinationUriDef:
