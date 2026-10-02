@@ -867,14 +867,14 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
 
     # EcucParameterDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.14, p.57
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDerivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDerivation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSymbolicNameValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSymbolicNameValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDerivation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDerivation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbolicNameValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbolicNameValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWithAuto            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWithAuto            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucParameterDef:
@@ -911,7 +911,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
         """
         return self.symbolicNameValue
 
-    def setSymbolicNameValue(self, value: Optional[Boolean]):
+    def setSymbolicNameValue(self, value: Optional[Boolean]) -> EcucParameterDef:
         """
         Specifies that this parameter's value is used, together with the aggregating container, to derive a symbolic name definition. See chapter "Representation of Symbolic Names" in Ecuc specification for more details.
         A None value is a no-op and does not overwrite an existing symbolicNameValue.
@@ -926,7 +926,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
         """
         return self.withAuto
 
-    def setWithAuto(self, value: Optional[Boolean]):
+    def setWithAuto(self, value: Optional[Boolean]) -> EcucParameterDef:
         """
         Specifies whether it shall be allowed on the value side to specify this parameter value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective parameter to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective parameter to "true". If withAuto is not present the default is "false".
         A None value is a no-op and does not overwrite an existing withAuto.

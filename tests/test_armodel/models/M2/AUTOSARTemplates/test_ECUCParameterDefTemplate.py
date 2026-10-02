@@ -1185,9 +1185,76 @@ class TestEcucCommonAttributes:
 
 
 class TestEcucParameterDef:
+    """
+    Test class for EcucParameterDef functionality (abstract — accessors via concrete subclass).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.14, p.57
+    """
+
+    CLASS_NOTE = "Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses."
+
+    def _make_obj(self) -> EcucParameterDef:
+        return EcucIntegerParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEPD"), "Param")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucParameterDef)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucParameterDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucParameterDef.__init__.__doc__ is None
+
+    def test_get_set_derivation(self):
+        """
+        Round-trips the derivation aggregation; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        derivation = EcucDerivationSpecification()
+        result = obj.setDerivation(derivation)
+        assert result is obj  # method chaining
+        assert obj.getDerivation() is derivation
+
+        obj.setDerivation(None)
+        assert obj.getDerivation() is derivation  # None is a no-op
+
+    def test_get_set_symbolic_name_value(self):
+        """
+        Round-trips symbolicNameValue; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setSymbolicNameValue(value)
+        assert result is obj  # method chaining
+        assert obj.getSymbolicNameValue() is value
+
+        obj.setSymbolicNameValue(None)
+        assert obj.getSymbolicNameValue() is value  # None is a no-op
+
+    def test_get_set_with_auto(self):
+        """
+        Round-trips withAuto; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue(True)
+        result = obj.setWithAuto(value)
+        assert result is obj  # method chaining
+        assert obj.getWithAuto() is value
+
+        obj.setWithAuto(None)
+        assert obj.getWithAuto() is value  # None is a no-op
 
 
 class TestEcucAbstractReferenceDef:
