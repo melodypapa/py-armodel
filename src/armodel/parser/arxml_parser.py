@@ -393,6 +393,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
     DiagnosticReadMemoryByAddressClass,
+    DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -11484,6 +11485,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
+    def readDiagnosticTransferExitClass(self, element: ET.Element, transfer_exit_class: DiagnosticTransferExitClass):
+        self.logger.debug("Read DiagnosticTransferExitClass <%s>" % transfer_exit_class.getShortName())
+        self.readIdentifiable(element, transfer_exit_class)
 
     def readDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
         self.logger.debug("Read DiagnosticWriteMemoryByAddress <%s>" % write_memory_by_address.getShortName())
@@ -16326,6 +16330,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS":
             read_memory_by_address_class = parent.createDiagnosticReadMemoryByAddressClass(self.getShortName(child_element))
             self.readDiagnosticReadMemoryByAddressClass(child_element, read_memory_by_address_class)
+        elif tag_name == "DIAGNOSTIC-TRANSFER-EXIT-CLASS":
+            transfer_exit_class = parent.createDiagnosticTransferExitClass(self.getShortName(child_element))
+            self.readDiagnosticTransferExitClass(child_element, transfer_exit_class)
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
             write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)

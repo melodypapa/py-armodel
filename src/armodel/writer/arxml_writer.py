@@ -287,6 +287,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
     DiagnosticReadMemoryByAddressClass,
+    DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -14975,6 +14976,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
         self.writeIdentifiable(child_element, read_memory_by_address_class)
+    def writeDiagnosticTransferExitClass(self, element: ET.Element, transfer_exit_class: DiagnosticTransferExitClass):
+        self.logger.debug("Write DiagnosticTransferExitClass %s" % transfer_exit_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TRANSFER-EXIT-CLASS")
+        self.writeIdentifiable(child_element, transfer_exit_class)
 
     def writeDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
         self.logger.debug("Write DiagnosticWriteMemoryByAddress %s" % write_memory_by_address.getShortName())
@@ -16070,6 +16075,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadDTCInformationClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadMemoryByAddressClass):
             self.writeDiagnosticReadMemoryByAddressClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticTransferExitClass):
+            self.writeDiagnosticTransferExitClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEventClass):

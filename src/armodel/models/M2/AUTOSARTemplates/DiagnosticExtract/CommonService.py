@@ -786,7 +786,15 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
 
 
 class DiagnosticTransferExitClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Transfer Exit" diagnostic service."""
+
+    # DiagnosticTransferExitClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.118, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticWriteDataByIdentifierClass(DiagnosticServiceClass):

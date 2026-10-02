@@ -1221,15 +1221,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTransferExitClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.118, p.143
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): Table 4.118 caption directly under TransferExit body (trailing-caption pair, md l.4313); Base
+    cell most-derived = `DiagnosticServiceClass`; attribute row `-` (zero own attrs); XSD group
+    DIAGNOSTIC-TRANSFER-EXIT-CLASS l.46146 = empty sequence. Bare *Class container mirroring twins
+    DiagnosticWriteMemoryByAddressClass (223a5cbba) / DiagnosticReadMemoryByAddressClass (314e86ace): class
+    docstring drops the Tags suffix (sibling convention), `__init__`-only checklist with reader/writer [—],
+    ARPackage `createDiagnosticTransferExitClass` factory + bottom CommonService import, parser
+    `readDiagnosticTransferExitClass` + readARPackageElementsRest elif branch, writer
+    `writeDiagnosticTransferExitClass` + writeARPackageElementRest elif branch, IDENTIFIABLE wrapper only.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1206 passed / 0 failed targeted incl. member-annotations + stub-gate; parser+writer regression 7220 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticDataTransfer` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.119, p.143
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

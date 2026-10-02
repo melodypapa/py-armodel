@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
+    DiagnosticTransferExitClass,
     DiagnosticWriteDataByIdentifierClass,
     DiagnosticWriteMemoryByAddressClass,
 )
@@ -1198,4 +1199,37 @@ class Test_DiagnosticReadMemoryByAddressClass:
         assert package.getReferrableElement("Rmba1", DiagnosticReadMemoryByAddressClass) is service_class
 
         duplicate = package.createDiagnosticReadMemoryByAddressClass("Rmba1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticTransferExitClass:
+    """Test cases for DiagnosticTransferExitClass class (Table 4.118, p.143)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Transfer Exit" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticTransferExitClass(_pkg(), "MyTea")
+        assert service_class.getShortName() == "MyTea"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticTransferExitClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticTransferExitClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticTransferExitClass, ARObject)
+        assert issubclass(DiagnosticTransferExitClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticTransferExitClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticTransferExitClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_transfer_exit_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticTransferExitClass("Tea1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticTransferExitClass)
+        assert service_class.getShortName() == "Tea1"
+        assert package.getReferrableElement("Tea1", DiagnosticTransferExitClass) is service_class
+
+        duplicate = package.createDiagnosticTransferExitClass("Tea1")
         assert duplicate is service_class
