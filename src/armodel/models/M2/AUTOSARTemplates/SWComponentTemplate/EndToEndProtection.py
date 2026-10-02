@@ -409,11 +409,11 @@ class EndToEndProtectionSet(ARElement):
         """
         This is one particular EndToEndProtection.
         """
-        if not self.IsElementExists(short_name, EndToEndProtection):
+        if not self.IsReferrableElementExists(short_name, EndToEndProtection):
             protection = EndToEndProtection(self, short_name)
-            self.addElement(protection)
+            self.addReferrableElement(protection)
             self.endToEndProtections.append(protection)
-        return self.getElement(short_name, EndToEndProtection)
+        return self.getReferrableElement(short_name, EndToEndProtection)
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
         """

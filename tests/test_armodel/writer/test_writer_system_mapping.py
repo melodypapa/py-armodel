@@ -685,7 +685,7 @@ class TestSystemFullRoundTrip:
         document_2.clear()
         ARXMLParser().load(file_path, document_2)
 
-        system_2 = document_2.getARPackages()[0].getElement("FullSystem")
+        system_2 = document_2.getARPackages()[0].getReferrableElement("FullSystem")
         assert system_2 is not None
         chapters = system_2.getSystemDocumentations()
         assert [c.getShortName() for c in chapters] == ["Doc1"]
@@ -810,8 +810,8 @@ class TestFlatInstanceDescriptorRoundTrip:
         document_2.clear()
         ARXMLParser().load(file_path, document_2)
 
-        fm_2 = document_2.getARPackages()[0].getElement("FM")
-        desc_2 = fm_2.getElement("Desc", FlatInstanceDescriptor)
+        fm_2 = document_2.getARPackages()[0].getReferrableElement("FM")
+        desc_2 = fm_2.getReferrableElement("Desc", FlatInstanceDescriptor)
         assert desc_2 is not None
         assert desc_2.getRole() is not None
         assert desc_2.getRole().getValue() == "current"
@@ -848,7 +848,7 @@ class TestFlatMapRoundTrip:
         document_2.clear()
         ARXMLParser().load(file_path, document_2)
 
-        fm_2 = document_2.getARPackages()[0].getElement("FM")
+        fm_2 = document_2.getARPackages()[0].getReferrableElement("FM")
         assert fm_2 is not None
         instances = fm_2.getInstances()
         assert [i.getShortName() for i in instances] == ["Second", "First"]
@@ -876,7 +876,7 @@ class TestFlatMapRoundTrip:
         document_2.clear()
         ARXMLParser().load(file_path, document_2)
 
-        fm_2 = document_2.getARPackages()[0].getElement("FM")
+        fm_2 = document_2.getARPackages()[0].getReferrableElement("FM")
         assert fm_2 is not None
         assert fm_2.getInstances() == []
         assert fm_2.getVariationPoint() is None
@@ -1322,7 +1322,7 @@ class TestWriterJ1939SharedAddressCluster:
         document_2.clear()
         ARXMLParser().load(file_path, document_2)
 
-        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        system_2 = document_2.getARPackages()[0].getReferrableElement("Sys")
         assert system_2 is not None
         clusters = system_2.getJ1939SharedAddressClusters()
         assert len(clusters) == 1
@@ -1422,7 +1422,7 @@ class TestWriterComManagementMapping:
         document_2.clear()
         ARXMLParser().load(file_path, document_2)
 
-        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        system_2 = document_2.getARPackages()[0].getReferrableElement("Sys")
         assert system_2 is not None
         com_mappings = system_2.getMappings()[0].getComManagementMappings()
         assert len(com_mappings) == 1
@@ -1602,7 +1602,7 @@ class TestWriterClientIdDefinitionSet:
         ARXMLParser().load(file_path, document_2)
 
         package_2 = document_2.getARPackages()[0]
-        id_definition_set_2 = package_2.getElement("IDS1", ClientIdDefinitionSet)
+        id_definition_set_2 = package_2.getReferrableElement("IDS1", ClientIdDefinitionSet)
         assert id_definition_set_2 is not None
         definitions = id_definition_set_2.getClientIdDefinitions()
         assert len(definitions) == 1

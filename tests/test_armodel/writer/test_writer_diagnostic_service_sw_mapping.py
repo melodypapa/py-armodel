@@ -33,7 +33,7 @@ class TestWriteDiagnosticServiceSwMapping:
         package.createDiagnosticServiceSwMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticServiceSwMapping(parent, package.getElement("M1", DiagnosticServiceSwMapping))
+        ARXMLWriter().writeDiagnosticServiceSwMapping(parent, package.getReferrableElement("M1", DiagnosticServiceSwMapping))
 
         child = parent.find("DIAGNOSTIC-SERVICE-SW-MAPPING")
         assert child is not None

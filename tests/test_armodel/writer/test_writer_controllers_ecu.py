@@ -1022,7 +1022,7 @@ class TestWriterEcuInstance:
         writer.save(out_file, AUTOSAR.getInstance())
 
         document = _reload(parser, out_file)
-        re_instance = document.find("Pkg").getElement("EcuInst", EcuInstance)
+        re_instance = document.find("Pkg").getReferrableElement("EcuInst", EcuInstance)
         assert re_instance is not None
 
         assert [r.getValue() for r in re_instance.getAssociatedComIPduGroupRefs()] == ["/g0"]

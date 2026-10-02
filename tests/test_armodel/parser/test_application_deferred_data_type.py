@@ -31,7 +31,7 @@ class TestApplicationDeferredDataTypeParser:
         parser.readARPackages(element, document)
 
         ar_package = document.getARPackages()[0]
-        data_type = ar_package.getElement("MyDeferred", ApplicationDeferredDataType)
+        data_type = ar_package.getReferrableElement("MyDeferred", ApplicationDeferredDataType)
         assert data_type is not None
         assert isinstance(data_type, ApplicationDeferredDataType)
         assert data_type.getShortName() == "MyDeferred"
@@ -58,7 +58,7 @@ class TestApplicationDeferredDataTypeParser:
         parser.readARPackages(element, document)
 
         ar_package = document.getARPackages()[0]
-        data_type = ar_package.getElement("MyDeferred", ApplicationDeferredDataType)
+        data_type = ar_package.getReferrableElement("MyDeferred", ApplicationDeferredDataType)
         assert data_type is not None
         assert data_type.getUuid().getValue() == "DCE:f73f677c-1389-4425-83f8-921d567b2ad4"
 
@@ -82,7 +82,7 @@ class TestApplicationDeferredDataTypeParser:
 
             reparsed = AUTOSAR.getInstance()
             ARXMLParser().load(file_path, reparsed)
-            re_data_type = reparsed.getARPackages()[0].getElement("MyDeferred", ApplicationDeferredDataType)
+            re_data_type = reparsed.getARPackages()[0].getReferrableElement("MyDeferred", ApplicationDeferredDataType)
             assert re_data_type is not None
             assert isinstance(re_data_type, ApplicationDeferredDataType)
             assert re_data_type.getShortName() == "MyDeferred"

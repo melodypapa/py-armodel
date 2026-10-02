@@ -155,7 +155,7 @@ class TestWriteImplementationDataTypeElement:
         _save_and_reload()
 
         pkg = AUTOSAR.getInstance().getARPackages()[0]
-        data_type = pkg.getElement("ImplType", ImplementationDataType)
+        data_type = pkg.getReferrableElement("ImplType", ImplementationDataType)
         assert data_type is not None
         element = data_type.getSubElements()[0]
         assert element.getArrayImplPolicy() is not None

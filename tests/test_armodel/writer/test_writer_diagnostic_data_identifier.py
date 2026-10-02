@@ -124,7 +124,7 @@ class TestWriteDiagnosticDataIdentifier:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            did_2 = package_2.getElement("Di", DiagnosticDataIdentifier)
+            did_2 = package_2.getReferrableElement("Di", DiagnosticDataIdentifier)
             assert did_2 is not None
             assert did_2.getId() is not None
             assert did_2.getId().getValue() == 4
@@ -151,7 +151,7 @@ class TestWriteDiagnosticDataIdentifier:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            did_2 = package_2.getElement("Di", DiagnosticDataIdentifier)
+            did_2 = package_2.getReferrableElement("Di", DiagnosticDataIdentifier)
             assert did_2 is not None
             assert did_2.getId() is None
             assert did_2.getDataElements() == []

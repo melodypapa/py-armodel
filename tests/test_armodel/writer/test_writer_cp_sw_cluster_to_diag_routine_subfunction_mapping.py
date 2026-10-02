@@ -33,7 +33,7 @@ class TestWriteCpSwClusterToDiagRoutineSubfunctionMapping:
         package.createCpSwClusterToDiagRoutineSubfunctionMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeCpSwClusterToDiagRoutineSubfunctionMapping(parent, package.getElement("M1", CpSwClusterToDiagRoutineSubfunctionMapping))
+        ARXMLWriter().writeCpSwClusterToDiagRoutineSubfunctionMapping(parent, package.getReferrableElement("M1", CpSwClusterToDiagRoutineSubfunctionMapping))
 
         child = parent.find("CP-SW-CLUSTER-TO-DIAG-ROUTINE-SUBFUNCTION-MAPPING")
         assert child is not None

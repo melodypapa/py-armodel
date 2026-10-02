@@ -33,7 +33,7 @@ class TestWriteDiagnosticAuthTransmitCertificateMapping:
         package.createDiagnosticAuthTransmitCertificateMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticAuthTransmitCertificateMapping(parent, package.getElement("M1", DiagnosticAuthTransmitCertificateMapping))
+        ARXMLWriter().writeDiagnosticAuthTransmitCertificateMapping(parent, package.getReferrableElement("M1", DiagnosticAuthTransmitCertificateMapping))
 
         child = parent.find("DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-MAPPING")
         assert child is not None

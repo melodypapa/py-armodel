@@ -50,7 +50,7 @@ class TestAliasNameSetRoundTrip:
             ARXMLParser().load(file_path, document_2)
 
             parsed_pkg = document_2.getARPackages()[0]
-            parsed_sets = [el for el in parsed_pkg.getElements() if isinstance(el, AliasNameSet)]
+            parsed_sets = [el for el in parsed_pkg.getReferrableElements() if isinstance(el, AliasNameSet)]
             assert len(parsed_sets) == 1
             parsed_set = parsed_sets[0]
             assert parsed_set.getShortName() == "AliasSet1"
@@ -83,7 +83,7 @@ class TestAliasNameSetRoundTrip:
             ARXMLParser().load(file_path, document_2)
 
             parsed_pkg = document_2.getARPackages()[0]
-            parsed_sets = [el for el in parsed_pkg.getElements() if isinstance(el, AliasNameSet)]
+            parsed_sets = [el for el in parsed_pkg.getReferrableElements() if isinstance(el, AliasNameSet)]
             assert len(parsed_sets) == 1
             assert parsed_sets[0].getShortName() == "EmptySet"
             assert parsed_sets[0].getAliasNames() == []

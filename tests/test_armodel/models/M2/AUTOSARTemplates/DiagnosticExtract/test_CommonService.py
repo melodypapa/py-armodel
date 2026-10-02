@@ -203,7 +203,7 @@ class Test_DiagnosticCustomServiceClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticCustomServiceClass)
         assert service_class.getShortName() == "Svc1"
-        assert package.getElement("Svc1", DiagnosticCustomServiceClass) is service_class
+        assert package.getReferrableElement("Svc1", DiagnosticCustomServiceClass) is service_class
 
         duplicate = package.createDiagnosticCustomServiceClass("Svc1")
         assert duplicate is service_class
@@ -263,7 +263,7 @@ class Test_DiagnosticSessionControlClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticSessionControlClass)
         assert service_class.getShortName() == "Sscl1"
-        assert package.getElement("Sscl1", DiagnosticSessionControlClass) is service_class
+        assert package.getReferrableElement("Sscl1", DiagnosticSessionControlClass) is service_class
 
         duplicate = package.createDiagnosticSessionControlClass("Sscl1")
         assert duplicate is service_class
@@ -300,7 +300,7 @@ class Test_DiagnosticSecurityAccessClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticSecurityAccessClass)
         assert service_class.getShortName() == "Ssac1"
-        assert package.getElement("Ssac1", DiagnosticSecurityAccessClass) is service_class
+        assert package.getReferrableElement("Ssac1", DiagnosticSecurityAccessClass) is service_class
 
         duplicate = package.createDiagnosticSecurityAccessClass("Ssac1")
         assert duplicate is service_class
@@ -337,7 +337,7 @@ class Test_DiagnosticAuthenticationClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticAuthenticationClass)
         assert service_class.getShortName() == "Dac1"
-        assert package.getElement("Dac1", DiagnosticAuthenticationClass) is service_class
+        assert package.getReferrableElement("Dac1", DiagnosticAuthenticationClass) is service_class
 
         duplicate = package.createDiagnosticAuthenticationClass("Dac1")
         assert duplicate is service_class
@@ -388,7 +388,7 @@ class Test_DiagnosticEcuResetClass:
         assert service_class is not None
         assert isinstance(service_class, DiagnosticEcuResetClass)
         assert service_class.getShortName() == "Dersc1"
-        assert package.getElement("Dersc1", DiagnosticEcuResetClass) is service_class
+        assert package.getReferrableElement("Dersc1", DiagnosticEcuResetClass) is service_class
 
         duplicate = package.createDiagnosticEcuResetClass("Dersc1")
         assert duplicate is service_class

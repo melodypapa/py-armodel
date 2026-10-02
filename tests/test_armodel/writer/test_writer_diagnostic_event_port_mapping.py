@@ -37,7 +37,7 @@ class TestWriteDiagnosticEventPortMapping:
         package.createDiagnosticEventPortMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventPortMapping(parent, package.getElement("M1", DiagnosticEventPortMapping))
+        ARXMLWriter().writeDiagnosticEventPortMapping(parent, package.getReferrableElement("M1", DiagnosticEventPortMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-PORT-MAPPING")
         assert child is not None

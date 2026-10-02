@@ -277,12 +277,12 @@ class Identifiable(MultilanguageReferrable, ABC):
     # Internal members (no spec counterpart — element-collection infra, cf. the CollectableElement
     # decision in docs/examples/method_deviation_by_class_v2.md). Owned here because some direct
     # subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement:
-    # [x] getTotalElement    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] removeElement      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getElements        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] IsElementExists    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTotalReferrableElement    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] removeReferrableElement      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferrableElements        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addReferrableElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferrableElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] IsReferrableElementExists    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     #
     # Deviation RESOLVED: variationPoint was never a Table 4.4 attribute of
     # Identifiable (the IDENTIFIABLE group carries no VARIATION-POINT in the XSD).
@@ -315,8 +315,8 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.uuid: Optional[String] = None
 
         # Element collection registry (shared infra; kept on Identifiable because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement).
-        self.elements: List[Referrable] = []
-        self.element_mappings: Dict[str, List[Referrable]] = {}
+        self.referrableElements: List[Referrable] = []
+        self.referrableElementMappings: Dict[str, List[Referrable]] = {}
 
     def getAdminData(self) -> Optional[AdminData]:
         """
@@ -411,16 +411,16 @@ class Identifiable(MultilanguageReferrable, ABC):
             self.uuid = value
         return self
 
-    def getTotalElement(self) -> int:
+    def getTotalReferrableElement(self) -> int:
         """
         Gets the total number of elements in this collection.
 
         Returns:
             The count of elements in the collection
         """
-        return len(self.elements)
+        return len(self.referrableElements)
 
-    def removeElement(self, short_name: str, type=None) -> None:
+    def removeReferrableElement(self, short_name: str, type=None) -> None:
         """
         Removes an element from this collection.
 
@@ -428,26 +428,26 @@ class Identifiable(MultilanguageReferrable, ABC):
             short_name: The short name of the element to remove
             type: The type of element to remove (optional)
         """
-        if short_name not in self.element_mappings:
+        if short_name not in self.referrableElementMappings:
             raise KeyError("Invalid key <%s> for removing element" % short_name)
         if type is None:
-            item = self.element_mappings[short_name][0]
+            item = self.referrableElementMappings[short_name][0]
         else:
-            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            item = next(filter(lambda a: isinstance(a, type), self.referrableElementMappings[short_name]))
         if item is not None:
-            self.elements.remove(item)
-            self.element_mappings[short_name].remove(item)
+            self.referrableElements.remove(item)
+            self.referrableElementMappings[short_name].remove(item)
 
-    def getElements(self) -> List[Referrable]:
+    def getReferrableElements(self) -> List[Referrable]:
         """
         Gets the list of elements in this collection.
 
         Returns:
             List of Referrable instances
         """
-        return self.elements
+        return self.referrableElements
 
-    def addElement(self, element: Referrable) -> None:
+    def addReferrableElement(self, element: Referrable) -> None:
         """
         Adds an element to this collection.
 
@@ -455,13 +455,13 @@ class Identifiable(MultilanguageReferrable, ABC):
             element: The element to add
         """
         short_name = element.getShortName()
-        if not self.IsElementExists(short_name, type(element)):
-            self.elements.append(element)
-            if short_name not in self.element_mappings:
-                self.element_mappings[short_name] = []
-            self.element_mappings[short_name].append(element)
+        if not self.IsReferrableElementExists(short_name, type(element)):
+            self.referrableElements.append(element)
+            if short_name not in self.referrableElementMappings:
+                self.referrableElementMappings[short_name] = []
+            self.referrableElementMappings[short_name].append(element)
 
-    def getElement(self, short_name: str, type=None) -> Optional[Referrable]:
+    def getReferrableElement(self, short_name: str, type=None) -> Optional[Referrable]:
         """
         Gets an element from this collection by short name and type.
 
@@ -472,16 +472,16 @@ class Identifiable(MultilanguageReferrable, ABC):
         Returns:
             The found Referrable instance, or None if not found
         """
-        if short_name not in self.element_mappings:
+        if short_name not in self.referrableElementMappings:
             return None
         if type is not None:
-            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            result = list(filter(lambda a: isinstance(a, type), self.referrableElementMappings[short_name]))
             if len(result) == 0:
                 return None
             return result[0]
-        return self.element_mappings[short_name][0]
+        return self.referrableElementMappings[short_name][0]
 
-    def IsElementExists(self, short_name: str, type=None) -> bool:
+    def IsReferrableElementExists(self, short_name: str, type=None) -> bool:
         """
         Checks if an element with the specified short name and type exists in this collection.
 
@@ -493,9 +493,9 @@ class Identifiable(MultilanguageReferrable, ABC):
             True if the element exists, False otherwise
         """
         if type is None:
-            return short_name in self.element_mappings
-        if short_name in self.element_mappings:
-            return any(isinstance(a, type) for a in self.element_mappings[short_name])
+            return short_name in self.referrableElementMappings
+        if short_name in self.referrableElementMappings:
+            return any(isinstance(a, type) for a in self.referrableElementMappings[short_name])
         return False
 
 
@@ -972,11 +972,11 @@ class DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable):
         This collection represents the sub-elements on the next lower level.
         The existing sub element is returned when the short name already exists (no duplicate creation).
         """
-        if not self.IsElementExists(short_name, DiagnosticParameterElement):
+        if not self.IsReferrableElementExists(short_name, DiagnosticParameterElement):
             sub_element = DiagnosticParameterElement(self, short_name)
-            self.addElement(sub_element)
+            self.addReferrableElement(sub_element)
             self.subElements.append(sub_element)
-        return self.getElement(short_name, DiagnosticParameterElement)
+        return self.getReferrableElement(short_name, DiagnosticParameterElement)
 
     def getSubElements(self) -> List[DiagnosticParameterElement]:
         """

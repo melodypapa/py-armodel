@@ -60,7 +60,7 @@ class TestReadDataTransformationSet:
             "</DATA-TRANSFORMATION-SET>"
         )
 
-        elements = package.getElements()
+        elements = package.getReferrableElements()
         assert len(elements) == 1
         data_set = elements[0]
         assert isinstance(data_set, DataTransformationSet)
@@ -81,7 +81,7 @@ class TestReadDataTransformationSet:
             "</DATA-TRANSFORMATION-SET>"
         )
 
-        data_set = package.getElements()[0]
+        data_set = package.getReferrableElements()[0]
         dtf = data_set.getDataTransformations()[0]
         assert dtf.getExecuteDespiteDataUnavailability().getValue() is True
         assert dtf.getTransformerChainRefs()[0].getValue() == "/Transformers/Serializer"
@@ -93,6 +93,6 @@ class TestReadDataTransformationSet:
     def test_read_empty_set(self):
         package = _read_package("<DATA-TRANSFORMATION-SET><SHORT-NAME>Empty</SHORT-NAME></DATA-TRANSFORMATION-SET>")
 
-        data_set = package.getElements()[0]
+        data_set = package.getReferrableElements()[0]
         assert data_set.getDataTransformations() == []
         assert data_set.getTransformationTechnologies() == []

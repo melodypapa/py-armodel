@@ -872,7 +872,7 @@ class TestWritePhysicalChannelHelpers:
         w = _warning_writer()
         pkg = _pkg()
         ch = CanPhysicalChannel(pkg, "Ch")
-        ch.addElement(MagicMock())
+        ch.addReferrableElement(MagicMock())
         parent = _parent()
         w.writePhysicalChannelISignalTriggerings(parent, ch)
         assert len(parent) == 0
@@ -881,7 +881,7 @@ class TestWritePhysicalChannelHelpers:
         w = _warning_writer()
         pkg = _pkg()
         ch = CanPhysicalChannel(pkg, "Ch")
-        ch.addElement(MagicMock())
+        ch.addReferrableElement(MagicMock())
         parent = _parent()
         w.writePhysicalChannelPduTriggerings(parent, ch)
         assert len(parent) == 0
@@ -1949,7 +1949,7 @@ class TestWriteCommunicationCluster:
         w = _warning_writer()
         pkg = _pkg()
         cluster = CanCluster(pkg, "Cluster")
-        cluster.addElement(MagicMock())
+        cluster.addReferrableElement(MagicMock())
         parent = _parent()
         w.writeCommunicationClusterPhysicalChannels(parent, cluster)
         assert len(parent) == 0

@@ -189,7 +189,7 @@ class TestWriterEcucValueCollection:
             ARXMLParser().load(file_path, document_2)
 
             pkg_2 = document_2.getARPackages()[0]
-            collection_2 = pkg_2.getElement("Col", EcucValueCollection)
+            collection_2 = pkg_2.getReferrableElement("Col", EcucValueCollection)
             assert collection_2 is not None
             assert collection_2.getShortName() == "Col"
             assert collection_2.getEcuExtractRef() is not None
@@ -1452,7 +1452,7 @@ class TestModuleConfigurationWrite:
             ARXMLParser().load(file_path, document_2)
 
             pkg_2 = document_2.getARPackages()[0]
-            module_2 = pkg_2.getElement("Os", ModuleConfiguration)
+            module_2 = pkg_2.getReferrableElement("Os", ModuleConfiguration)
             assert module_2 is not None
             assert module_2.getShortName() == "Os"
             assert module_2.getDefinitionRef() is not None

@@ -104,8 +104,8 @@ class KeywordSet(AtpBlueprintable):
         """
         This is one particular keyword in the keyword set.
         """
-        if not self.IsElementExists(short_name, Keyword):
+        if not self.IsReferrableElementExists(short_name, Keyword):
             keyword = Keyword(self, short_name)
-            self.addElement(keyword)
+            self.addReferrableElement(keyword)
             self.keywords.append(keyword)
-        return self.getElement(short_name, Keyword)
+        return self.getReferrableElement(short_name, Keyword)

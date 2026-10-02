@@ -16414,10 +16414,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARPackages(child_element, pkg.getARPackages())
 
     def writeARPackageElements(self, element: ET.Element, pkg: ARPackage):
-        if pkg.getTotalElement() > 0:
+        if pkg.getTotalReferrableElement() > 0:
             elements_tag = ET.SubElement(element, "ELEMENTS")
 
-            for ar_element in pkg.getElements():
+            for ar_element in pkg.getReferrableElements():
                 if not isinstance(ar_element, ARPackage):
                     self.writeARPackageElement(elements_tag, ar_element)
 

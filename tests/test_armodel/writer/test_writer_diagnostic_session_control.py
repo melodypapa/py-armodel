@@ -75,7 +75,7 @@ class TestWriteDiagnosticSessionControl:
         package.createDiagnosticSessionControl("SessionCtrl")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticSessionControl(parent, package.getElement("SessionCtrl", DiagnosticSessionControl))
+        ARXMLWriter().writeDiagnosticSessionControl(parent, package.getReferrableElement("SessionCtrl", DiagnosticSessionControl))
 
         child = parent.find("DIAGNOSTIC-SESSION-CONTROL")
         assert child is not None
@@ -112,7 +112,7 @@ class TestWriteDiagnosticSessionControl:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            session_control_2 = package_2.getElement("SessionCtrl", DiagnosticSessionControl)
+            session_control_2 = package_2.getReferrableElement("SessionCtrl", DiagnosticSessionControl)
             assert session_control_2 is not None
             assert session_control_2.getDiagnosticSessionRef() is not None
             assert session_control_2.getDiagnosticSessionRef().getValue() == "/AUTOSAR/DiagnosticSessions/DefaultSession"
@@ -137,7 +137,7 @@ class TestWriteDiagnosticSessionControl:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            session_control_2 = package_2.getElement("SessionCtrl", DiagnosticSessionControl)
+            session_control_2 = package_2.getReferrableElement("SessionCtrl", DiagnosticSessionControl)
             assert session_control_2 is not None
             assert session_control_2.getDiagnosticSessionRef() is None
             assert session_control_2.getSessionControlClassRef() is None

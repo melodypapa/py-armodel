@@ -111,7 +111,7 @@ def _container(short_name, definition_name, parameters=(), references=(), sub_co
     for reference in references:
         container.addReferenceValue(reference)
     for sub_container in sub_containers:
-        container.addElement(sub_container)
+        container.addReferrableElement(sub_container)
         container.subContainers.append(sub_container)
     return container
 
@@ -167,8 +167,8 @@ def test_generic_ecuc_parser_returns_existing_model_objects():
 
     parser = EcucParser()
     modules = parser.get_modules(document)
-    values = parser.get_parameter_values(document.getARPackages()[0].getElement("Os", ModuleConfiguration).getContainers()[0])
-    references = parser.get_reference_values(document.getARPackages()[0].getElement("Os", ModuleConfiguration).getContainers()[0])
+    values = parser.get_parameter_values(document.getARPackages()[0].getReferrableElement("Os", ModuleConfiguration).getContainers()[0])
+    references = parser.get_reference_values(document.getARPackages()[0].getReferrableElement("Os", ModuleConfiguration).getContainers()[0])
 
     assert isinstance(modules[0], (ModuleConfiguration, EcucModuleConfigurationValues))
     assert isinstance(values[0], (ParameterValue, EcucParameterValue))

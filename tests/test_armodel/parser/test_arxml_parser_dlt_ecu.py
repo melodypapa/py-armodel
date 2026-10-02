@@ -87,7 +87,7 @@ class TestDltEcuDispatch:
         xml = f"<AR-PACKAGE xmlns='{NS}'>" "<SHORT-NAME>TestPkg</SHORT-NAME>" "<ELEMENTS>" "<DLT-ECU><SHORT-NAME>DE1</SHORT-NAME><ECU-ID>ECU9</ECU-ID></DLT-ECU>" "</ELEMENTS>" "</AR-PACKAGE>"
         pkg_element = ET.fromstring(xml)
         parser.readARPackageElements(pkg_element, parent)
-        created = parent.getElement("DE1", DltEcu)
+        created = parent.getReferrableElement("DE1", DltEcu)
         assert created is not None
         assert isinstance(created, DltEcu)
         assert created.getEcuId().getValue() == "ECU9"

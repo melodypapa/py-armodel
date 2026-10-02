@@ -537,7 +537,7 @@ class TestSwcInternalBehavior:
         event = behavior.createAsynchronousServerCallReturnsEvent("TestAsyncReturnsEvent")
         assert event is not None
         assert event.short_name == "TestAsyncReturnsEvent"
-        assert event in behavior.elements
+        assert event in behavior.referrableElements
 
     def test_swc_internal_behavior_get_runnable_entity(self):
         """Test SwcInternalBehavior.getRunnableEntity method (line 472)."""
@@ -560,8 +560,8 @@ class TestSwcInternalBehavior:
 
         var1 = VariableDataPrototype(ar_root, "Var1")
         var2 = VariableDataPrototype(ar_root, "Var2")
-        behavior.addElement(var1)
-        behavior.addElement(var2)
+        behavior.addReferrableElement(var1)
+        behavior.addReferrableElement(var2)
 
         var_prototypes = behavior.getVariableDataPrototypes()
         assert len(list(var_prototypes)) == 2

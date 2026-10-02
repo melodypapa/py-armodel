@@ -160,7 +160,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         Defines properties for a single translated element.
         """
         element = SignalServiceTranslationElementProps(self, short_name)
-        self.addElement(element)
+        self.addReferrableElement(element)
         self.elementProps.append(element)
         return element
 
@@ -320,7 +320,7 @@ class SignalServiceTranslationProps(Identifiable):
         Defines properties for a single translated event.
         """
         element = SignalServiceTranslationEventProps(self, short_name)
-        self.addElement(element)
+        self.addReferrableElement(element)
         self.signalServiceTranslationEventProps.append(element)
         return element
 
@@ -355,7 +355,7 @@ class SignalServiceTranslationPropsSet(Identifiable):
         Collection of SignalServiceTranslationProps.
         """
         element = SignalServiceTranslationProps(self, short_name)
-        self.addElement(element)
+        self.addReferrableElement(element)
         self.signalServiceTranslationProps.append(element)
         return element
 

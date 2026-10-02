@@ -37,7 +37,7 @@ class TestWriteDiagnosticFimEventGroup:
         package.createDiagnosticFimEventGroup("FimGroup1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticFimEventGroup(parent, package.getElement("FimGroup1", DiagnosticFimEventGroup))
+        ARXMLWriter().writeDiagnosticFimEventGroup(parent, package.getReferrableElement("FimGroup1", DiagnosticFimEventGroup))
 
         child = parent.find("DIAGNOSTIC-FIM-EVENT-GROUP")
         assert child is not None

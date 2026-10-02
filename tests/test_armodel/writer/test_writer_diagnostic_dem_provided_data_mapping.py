@@ -33,7 +33,7 @@ class TestWriteDiagnosticDemProvidedDataMapping:
         package.createDiagnosticDemProvidedDataMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticDemProvidedDataMapping(parent, package.getElement("M1", DiagnosticDemProvidedDataMapping))
+        ARXMLWriter().writeDiagnosticDemProvidedDataMapping(parent, package.getReferrableElement("M1", DiagnosticDemProvidedDataMapping))
 
         child = parent.find("DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING")
         assert child is not None

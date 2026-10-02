@@ -93,7 +93,7 @@ class TestDltContextDispatch:
         )
         pkg_element = ET.fromstring(xml)
         parser.readARPackageElements(pkg_element, parent)
-        created = parent.getElement("DC1", DltContext)
+        created = parent.getReferrableElement("DC1", DltContext)
         assert created is not None
         assert isinstance(created, DltContext)
         assert created.getContextId().getValue() == "CTX9"

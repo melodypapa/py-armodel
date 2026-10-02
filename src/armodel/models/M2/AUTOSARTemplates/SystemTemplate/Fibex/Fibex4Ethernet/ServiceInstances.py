@@ -729,11 +729,11 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     def createConsumedEventGroup(self, short_name: str) -> ConsumedEventGroup:
         """Selection of event-groups the consumer wants to subscribe for."""
-        if not self.IsElementExists(short_name, ConsumedEventGroup):
+        if not self.IsReferrableElementExists(short_name, ConsumedEventGroup):
             group = ConsumedEventGroup(self, short_name)
-            self.addElement(group)
+            self.addReferrableElement(group)
             self.consumedEventGroups.append(group)
-        return self.getElement(short_name, ConsumedEventGroup)
+        return self.getReferrableElement(short_name, ConsumedEventGroup)
 
     def getConsumedEventGroups(self) -> List[ConsumedEventGroup]:
         """Selection of event-groups the consumer wants to subscribe for."""
@@ -1549,11 +1549,11 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, event Handler.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if not self.IsElementExists(short_name, EventHandler):
+        if not self.IsReferrableElementExists(short_name, EventHandler):
             instance = EventHandler(self, short_name)
-            self.addElement(instance)
+            self.addReferrableElement(instance)
             self.eventHandlers.append(instance)
-        return self.getElement(short_name, EventHandler)
+        return self.getReferrableElement(short_name, EventHandler)
 
     def getInstanceIdentifier(self):
         """
@@ -1834,11 +1834,11 @@ class SocketAddress(Identifiable, VariationPointCapable):
 
     def createApplicationEndpoint(self, short_name: str) -> ApplicationEndpoint:
         """Application addressing"""
-        if not self.IsElementExists(short_name, ApplicationEndpoint):
+        if not self.IsReferrableElementExists(short_name, ApplicationEndpoint):
             end_point = ApplicationEndpoint(self, short_name)
-            self.addElement(end_point)
+            self.addReferrableElement(end_point)
             self.applicationEndpoint = end_point
-        return self.getElement(short_name, ApplicationEndpoint)
+        return self.getReferrableElement(short_name, ApplicationEndpoint)
 
     def getApplicationEndpoint(self) -> Optional[ApplicationEndpoint]:
         """Application addressing"""

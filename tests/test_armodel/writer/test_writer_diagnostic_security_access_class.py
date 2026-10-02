@@ -43,7 +43,7 @@ class TestWriteDiagnosticSecurityAccessClass:
         package.createDiagnosticSecurityAccessClass("SecAccessClass1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticSecurityAccessClass(parent, package.getElement("SecAccessClass1", DiagnosticSecurityAccessClass))
+        ARXMLWriter().writeDiagnosticSecurityAccessClass(parent, package.getReferrableElement("SecAccessClass1", DiagnosticSecurityAccessClass))
 
         child = parent.find("DIAGNOSTIC-SECURITY-ACCESS-CLASS")
         assert child is not None
@@ -56,7 +56,7 @@ class TestWriteDiagnosticSecurityAccessClass:
         package.createDiagnosticSecurityAccessClass("SecAccessClass1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("SecAccessClass1", DiagnosticSecurityAccessClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("SecAccessClass1", DiagnosticSecurityAccessClass))
 
         child = parent.find("DIAGNOSTIC-SECURITY-ACCESS-CLASS")
         assert child is not None
@@ -75,7 +75,7 @@ class TestWriteDiagnosticSecurityAccessClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            service_class_2 = package_2.getElement("SecAccessClass1", DiagnosticSecurityAccessClass)
+            service_class_2 = package_2.getReferrableElement("SecAccessClass1", DiagnosticSecurityAccessClass)
             assert service_class_2 is not None
             assert service_class_2.getShortName() == "SecAccessClass1"
         finally:

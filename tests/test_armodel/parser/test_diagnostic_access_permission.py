@@ -86,7 +86,7 @@ def test_arpackage_dispatch_reads_element(parser):
     )
     parser.readARPackageElements(ar_package, package)
 
-    permission = package.getElement("Ap1", DiagnosticAccessPermission)
+    permission = package.getReferrableElement("Ap1", DiagnosticAccessPermission)
     assert permission is not None
     assert isinstance(permission, DiagnosticAccessPermission)
     assert permission.getDiagnosticSessionRefs()[0].getValue() == "/Diag/Sessions/S1"

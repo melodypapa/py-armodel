@@ -89,11 +89,11 @@ class TimingExtension(ARElement, ABC):
 
     def createTimingClockSyncAccuracy(self, short_name: str) -> TimingClockSyncAccuracy:
         """A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock."""
-        if not self.IsElementExists(short_name, TimingClockSyncAccuracy):
+        if not self.IsReferrableElementExists(short_name, TimingClockSyncAccuracy):
             accuracy = TimingClockSyncAccuracy(self, short_name)
-            self.addElement(accuracy)
+            self.addReferrableElement(accuracy)
             self.timingClockSyncAccuracies.append(accuracy)
-        return self.getElement(short_name, TimingClockSyncAccuracy)
+        return self.getReferrableElement(short_name, TimingClockSyncAccuracy)
 
     def getTimingClockSyncAccuracies(self) -> List[TimingClockSyncAccuracy]:
         """A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock."""
@@ -101,11 +101,11 @@ class TimingExtension(ARElement, ABC):
 
     def createTimingCondition(self, short_name: str) -> TimingCondition:
         """The timing condition specifies a specific condition."""
-        if not self.IsElementExists(short_name, TimingCondition):
+        if not self.IsReferrableElementExists(short_name, TimingCondition):
             condition = TimingCondition(self, short_name)
-            self.addElement(condition)
+            self.addReferrableElement(condition)
             self.timingConditions.append(condition)
-        return self.getElement(short_name, TimingCondition)
+        return self.getReferrableElement(short_name, TimingCondition)
 
     def getTimingConditions(self) -> List[TimingCondition]:
         """The timing condition specifies a specific condition."""
@@ -114,7 +114,7 @@ class TimingExtension(ARElement, ABC):
     def addTimingDescription(self, value: Optional[TimingDescription]) -> "TimingExtension":
         """The timing descriptions that belong to a specific timing specification. In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation". A None value is a no-op and does not append anything."""
         if value is not None:
-            self.addElement(value)
+            self.addReferrableElement(value)
             self.timingDescriptions.append(value)
         return self
 
@@ -146,7 +146,7 @@ class TimingExtension(ARElement, ABC):
         """The timing resource contains all instance references referred from within a timing condition formula of a timing view."""
         if self.timingResource is None:
             resource = TimingExtensionResource(self, short_name)
-            self.addElement(resource)
+            self.addReferrableElement(resource)
             self.timingResource = resource
         return self.timingResource
 
@@ -155,11 +155,11 @@ class TimingExtension(ARElement, ABC):
         return self.timingResource
 
     def createExecutionOrderConstraint(self, short_name: str) -> ExecutionOrderConstraint:
-        if not self.IsElementExists(short_name, ExecutionOrderConstraint):
+        if not self.IsReferrableElementExists(short_name, ExecutionOrderConstraint):
             constraint = ExecutionOrderConstraint(self, short_name)
-            self.addElement(constraint)
+            self.addReferrableElement(constraint)
             self.timingRequirements.append(constraint)
-        return self.getElement(short_name, ExecutionOrderConstraint)
+        return self.getReferrableElement(short_name, ExecutionOrderConstraint)
 
 
 class SwcTiming(TimingExtension):

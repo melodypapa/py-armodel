@@ -118,7 +118,7 @@ class TestTlvDataIdDefinitionSetWriter:
 
         assert first is second
         assert isinstance(first, TlvDataIdDefinitionSet)
-        assert pkg.getTotalElement() == 1
+        assert pkg.getTotalReferrableElement() == 1
 
     def test_write_reparse_round_trip(self):
         pkg = _make_package()
@@ -129,7 +129,7 @@ class TestTlvDataIdDefinitionSetWriter:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="TlvDataIdDefinitionSets")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        tlv_set = reloaded.getElement("MySet", TlvDataIdDefinitionSet)
+        tlv_set = reloaded.getReferrableElement("MySet", TlvDataIdDefinitionSet)
         assert tlv_set is not None
         assert tlv_set.getShortName() == "MySet"
         definitions = tlv_set.getTlvDataIdDefinitions()

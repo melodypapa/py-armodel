@@ -71,7 +71,7 @@ class TestSWComponents:
 
         assert connector_name_list == set(["a6a18805580c94537a4c82f6c289a4d", "ac681652833fb4b12b920adab33a73b", "ac681652833fb4b12b920adab33a73c"])
 
-        sw_component.removeElement("a6a18805580c94537a4c82f6c289a4d")
+        sw_component.removeReferrableElement("a6a18805580c94537a4c82f6c289a4d")
         assert len(sw_component.getAssemblySwConnectors()) == 2
 
         # remove all the AssemblySwConnector
@@ -625,9 +625,9 @@ class TestSwComponentsWithSameName:
         assert len(document.getARPackages()) == 2
         assert document.getARPackages()[0].getShortName() == "Components"
         assert document.getARPackages()[1].getShortName() == "Implementation"
-        assert len(document.getARPackages()[0].getElements()) == 1
+        assert len(document.getARPackages()[0].getReferrableElements()) == 1
 
-        sw_component: AtomicSwComponentType = document.getARPackages()[0].getElement("DUPLICATE_NAME", AtomicSwComponentType)
+        sw_component: AtomicSwComponentType = document.getARPackages()[0].getReferrableElement("DUPLICATE_NAME", AtomicSwComponentType)
         assert sw_component is not None
         assert sw_component.getShortName() == "DUPLICATE_NAME"
 

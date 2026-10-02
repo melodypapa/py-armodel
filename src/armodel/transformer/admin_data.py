@@ -23,7 +23,7 @@ class AdminDataTransformer(AbstractTransformer):
         self.logger.debug("Remove AdminData of <%s>", pkg.getShortName())
         pkg.removeAdminData()
 
-        for element in pkg.getElements():
+        for element in pkg.getReferrableElements():
             if isinstance(element, Describable):
                 self.logger.debug("Remove AdminData of <%s>", element.getShortName())
                 element.removeAdminData()

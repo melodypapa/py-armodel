@@ -268,11 +268,11 @@ class DiagnosticParameterIdent(IdentCaption):
         This collection represents the subElements on the top level.
         The existing sub element is returned when the short name already exists (no duplicate creation).
         """
-        if not self.IsElementExists(short_name, DiagnosticParameterElement):
+        if not self.IsReferrableElementExists(short_name, DiagnosticParameterElement):
             sub_element = DiagnosticParameterElement(self, short_name)
-            self.addElement(sub_element)
+            self.addReferrableElement(sub_element)
             self.subElements.append(sub_element)
-        return self.getElement(short_name, DiagnosticParameterElement)
+        return self.getReferrableElement(short_name, DiagnosticParameterElement)
 
     def getSubElements(self) -> List[DiagnosticParameterElement]:
         """

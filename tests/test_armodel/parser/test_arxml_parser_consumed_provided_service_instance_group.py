@@ -128,7 +128,7 @@ class TestReadConsumedProvidedServiceInstanceGroup:
         pkg_element = ET.fromstring(xml)
         parser.readARPackageElements(pkg_element, parent)
 
-        groups = [e for e in parent.getElements() if isinstance(e, ConsumedProvidedServiceInstanceGroup)]
+        groups = [e for e in parent.getReferrableElements() if isinstance(e, ConsumedProvidedServiceInstanceGroup)]
         assert len(groups) == 1
         group = groups[0]
         assert group.getShortName() == "Group1"

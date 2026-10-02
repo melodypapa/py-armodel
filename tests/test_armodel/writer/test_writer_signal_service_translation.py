@@ -78,7 +78,7 @@ class TestSignalServiceTranslationWriter:
         reloaded = _reload(tmp_path, document)
 
         pkg = reloaded.getARPackages()[0]
-        props_set = pkg.getElement("propsSet", None)
+        props_set = pkg.getReferrableElement("propsSet", None)
         assert props_set is not None
         props = props_set.getSignalServiceTranslationProps()[0]
         assert props.getShortName() == "props"
@@ -107,7 +107,7 @@ class TestSignalServiceTranslationWriter:
 
         reloaded = _reload(tmp_path, document)
         pkg2 = reloaded.getARPackages()[0]
-        props_set = pkg2.getElement("emptySet", None)
+        props_set = pkg2.getReferrableElement("emptySet", None)
         assert props_set is not None
         assert props_set.getSignalServiceTranslationProps() == []
 

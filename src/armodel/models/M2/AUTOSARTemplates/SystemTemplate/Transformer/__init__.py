@@ -976,11 +976,11 @@ class DataTransformationSet(ARElement):
         return self.dataTransformations
 
     def createDataTransformation(self, short_name: str) -> DataTransformation:
-        if not self.IsElementExists(short_name, DataTransformation):
+        if not self.IsReferrableElementExists(short_name, DataTransformation):
             dfs = DataTransformation(self, short_name)
-            self.addElement(dfs)
+            self.addReferrableElement(dfs)
             self.dataTransformations.append(dfs)
-        return self.getElement(short_name, DataTransformation)
+        return self.getReferrableElement(short_name, DataTransformation)
 
     def getTransformationTechnologies(self) -> List[TransformationTechnology]:
         """
@@ -989,11 +989,11 @@ class DataTransformationSet(ARElement):
         return self.transformationTechnologies
 
     def createTransformationTechnology(self, short_name: str) -> TransformationTechnology:
-        if not self.IsElementExists(short_name, TransformationTechnology):
+        if not self.IsReferrableElementExists(short_name, TransformationTechnology):
             tech = TransformationTechnology(self, short_name)
-            self.addElement(tech)
+            self.addReferrableElement(tech)
             self.transformationTechnologies.append(tech)
-        return self.getElement(short_name, TransformationTechnology)
+        return self.getReferrableElement(short_name, TransformationTechnology)
 
 
 class CSTransformerErrorReactionEnum(AREnum):

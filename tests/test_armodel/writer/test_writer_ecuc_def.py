@@ -301,9 +301,9 @@ class TestWriterEcucBooleanParamDef:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
-            reloaded_param = reloaded_container.getElement("P", EcucBooleanParamDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucBooleanParamDef)
             assert reloaded_param is not None
             assert reloaded_param.getDefaultValue() is not None
             assert reloaded_param.getDefaultValue().getValue() is True
@@ -406,9 +406,9 @@ class TestWriterEcucFloatParamDef:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
-            reloaded_param = reloaded_container.getElement("P", EcucFloatParamDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucFloatParamDef)
             assert reloaded_param is not None
             assert reloaded_param.getDefaultValue() is not None
             assert reloaded_param.getDefaultValue().getValue() == 1.5
@@ -746,9 +746,9 @@ class TestWriterEcucForeignReferenceDef:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
-            reloaded_ref = reloaded_container.getElement("F", EcucForeignReferenceDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("F", EcucForeignReferenceDef)
             assert reloaded_ref is not None
             assert reloaded_ref.getDestinationType() is not None
             assert reloaded_ref.getDestinationType().getValue() == "Frame"
@@ -989,7 +989,7 @@ class TestEcucDestinationUriPolicyWriter:
             uri_def.setDestinationUriPolicy(policy)
 
         reloaded_pkg = self._round_trip(build)
-        uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        uri_def_set = reloaded_pkg.getReferrableElement("UriDefSet", EcucDestinationUriDefSet)
         assert uri_def_set is not None
         uri_def = uri_def_set.getDestinationUriDefs()[0]
         assert uri_def.getShortName() == "Uri1"
@@ -1016,7 +1016,7 @@ class TestEcucDestinationUriPolicyWriter:
             uri_def.setDestinationUriPolicy(policy)
 
         reloaded_pkg = self._round_trip(build)
-        uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        uri_def_set = reloaded_pkg.getReferrableElement("UriDefSet", EcucDestinationUriDefSet)
         uri_def = uri_def_set.getDestinationUriDefs()[0]
         policy = uri_def.getDestinationUriPolicy()
         assert policy is not None
@@ -1035,7 +1035,7 @@ class TestEcucDestinationUriPolicyWriter:
             uri_def_set.createEcucDestinationUriDef("Uri3")
 
         reloaded_pkg = self._round_trip(build)
-        uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        uri_def_set = reloaded_pkg.getReferrableElement("UriDefSet", EcucDestinationUriDefSet)
         uri_def = uri_def_set.getDestinationUriDefs()[0]
         assert uri_def.getDestinationUriPolicy() is None
 
@@ -1115,9 +1115,9 @@ class TestWriterEcucDerivationSpecification:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
-            reloaded_param = reloaded_container.getElement("P", EcucBooleanParamDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucBooleanParamDef)
             reloaded_derivation = reloaded_param.getDerivation()
             assert reloaded_derivation is not None
             reloaded_calc = reloaded_derivation.getCalculationFormula()
@@ -1293,8 +1293,8 @@ class TestWriterEcucValidationCondition:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
             reloaded_conds = reloaded_container.getEcucValidationConds()
             assert len(reloaded_conds) == 1
             assert reloaded_conds[0].getShortName() == "VC1"
@@ -1329,8 +1329,8 @@ class TestWriterEcucAddInfoParamDef:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
             params = reloaded_container.getParameters()
             assert len(params) == 1
             rt = params[0]
@@ -1394,9 +1394,9 @@ class TestWriterEcucLinkerSymbolDef:
             AUTOSAR.getInstance().setARRelease("R23-11")
             ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
-            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
-            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
-            reloaded_param = reloaded_container.getElement("Sym", EcucLinkerSymbolDef)
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("Sym", EcucLinkerSymbolDef)
             assert reloaded_param is not None
             assert reloaded_param.getDefaultValue() is not None
             assert reloaded_param.getDefaultValue().getValue() == "Os_LinkSymbol"

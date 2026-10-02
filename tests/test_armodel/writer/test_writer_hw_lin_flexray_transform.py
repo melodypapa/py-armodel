@@ -298,7 +298,7 @@ class TestLinCommunicationControllerRoundTrip:
     def test_round_trip_protocol_version(self, tmp_path):
         reload = self._round_trip(tmp_path)
         reloaded_pkg = reload.getARPackages()[0]
-        reloaded_instance = reloaded_pkg.getElement("EcuInst", None)
+        reloaded_instance = reloaded_pkg.getReferrableElement("EcuInst", None)
         controllers = reloaded_instance.getCommControllers()
         assert len(controllers) == 1
         master = controllers[0]
@@ -1022,7 +1022,7 @@ class TestE2EProfileCompatibilityPropsRoundTrip:
         AUTOSAR.getInstance().setARRelease("R23-11")
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
-        pkg.addElement(props)
+        pkg.addReferrableElement(props)
         out_file = tmp_path / "e2e_compat.arxml"
         writer = ARXMLWriter()
         writer.save(str(out_file), autosar)
@@ -1040,7 +1040,7 @@ class TestE2EProfileCompatibilityPropsRoundTrip:
         props.setTransitToInvalidExtended(flag)
         reload = self._round_trip(props, tmp_path)
         reloaded_pkg = reload.getARPackages()[0]
-        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        reloaded_props = reloaded_pkg.getReferrableElement("Props", E2EProfileCompatibilityProps)
         assert reloaded_props is not None
         assert reloaded_props.getTransitToInvalidExtended() is not None
         assert reloaded_props.getTransitToInvalidExtended().getValue() is True
@@ -1053,7 +1053,7 @@ class TestE2EProfileCompatibilityPropsRoundTrip:
         props.setTransitToInvalidExtended(flag)
         reload = self._round_trip(props, tmp_path)
         reloaded_pkg = reload.getARPackages()[0]
-        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        reloaded_props = reloaded_pkg.getReferrableElement("Props", E2EProfileCompatibilityProps)
         assert reloaded_props is not None
         assert reloaded_props.getTransitToInvalidExtended() is not None
         assert reloaded_props.getTransitToInvalidExtended().getValue() is False
@@ -1064,7 +1064,7 @@ class TestE2EProfileCompatibilityPropsRoundTrip:
         assert props.getTransitToInvalidExtended() is None
         reload = self._round_trip(props, tmp_path)
         reloaded_pkg = reload.getARPackages()[0]
-        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        reloaded_props = reloaded_pkg.getReferrableElement("Props", E2EProfileCompatibilityProps)
         assert reloaded_props is not None
         assert reloaded_props.getTransitToInvalidExtended() is None
 
@@ -1116,7 +1116,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         return reload
 
     def _reload_desc(self, reload):
-        dtf_set = reload.getARPackages()[0].getElement("DtfSet", DataTransformationSet)
+        dtf_set = reload.getARPackages()[0].getReferrableElement("DtfSet", DataTransformationSet)
         tech = None
         for t in dtf_set.getTransformationTechnologies():
             if t.getShortName() == "Tech":

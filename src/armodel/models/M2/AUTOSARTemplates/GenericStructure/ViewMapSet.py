@@ -160,11 +160,11 @@ class ViewMapSet(Identifiable):
         Returns:
             The created (or existing) ViewMap
         """
-        if not self.IsElementExists(short_name, ViewMap):
+        if not self.IsReferrableElementExists(short_name, ViewMap):
             view_map = ViewMap(self, short_name)
-            self.addElement(view_map)
+            self.addReferrableElement(view_map)
             self.viewMaps.append(view_map)
-        return self.getElement(short_name, ViewMap)
+        return self.getReferrableElement(short_name, ViewMap)
 
     def getViewMaps(self) -> List[ViewMap]:
         """

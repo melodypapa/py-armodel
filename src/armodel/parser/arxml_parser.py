@@ -3690,7 +3690,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
-            extension.addElement(event)
+            extension.addReferrableElement(event)
             extension.addTimingDescription(event)
 
     def readTDEventVfb(self, element: ET.Element, event: TDEventVfb):
@@ -9222,7 +9222,7 @@ class ARXMLParser(AbstractARXMLParser):
         else:
             self.raiseError("Unsupported timing requirement <%s>" % tag_name)
             return
-        extension.addElement(constraint)
+        extension.addReferrableElement(constraint)
         if key == "TIMING-GUARANTEES":
             extension.addTimingGuarantee(constraint)
         else:
@@ -9234,7 +9234,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "TDLET-ZONE-CLOCK":
                 clock = TDLETZoneClock(extension, self.getShortName(child_element))
                 self.readTDLETZoneClock(child_element, clock)
-                extension.addElement(clock)
+                extension.addReferrableElement(clock)
                 extension.addTimingClock(clock)
             else:
                 self.notImplemented("Unsupported TIMING-CLOCKS item <%s>" % tag_name)

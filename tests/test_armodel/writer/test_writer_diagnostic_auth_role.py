@@ -72,7 +72,7 @@ class TestWriteDiagnosticAuthRole:
         package.createDiagnosticAuthRole("Role1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticAuthRole(parent, package.getElement("Role1", DiagnosticAuthRole))
+        ARXMLWriter().writeDiagnosticAuthRole(parent, package.getReferrableElement("Role1", DiagnosticAuthRole))
 
         child = parent.find("DIAGNOSTIC-AUTH-ROLE")
         assert child is not None
@@ -109,7 +109,7 @@ class TestWriteDiagnosticAuthRole:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            auth_role_2 = package_2.getElement("Role1", DiagnosticAuthRole)
+            auth_role_2 = package_2.getReferrableElement("Role1", DiagnosticAuthRole)
             assert auth_role_2 is not None
             assert auth_role_2.getBitPosition() is not None
             assert auth_role_2.getBitPosition().getValue() == 7
@@ -132,7 +132,7 @@ class TestWriteDiagnosticAuthRole:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            auth_role_2 = package_2.getElement("Role1", DiagnosticAuthRole)
+            auth_role_2 = package_2.getReferrableElement("Role1", DiagnosticAuthRole)
             assert auth_role_2 is not None
             assert auth_role_2.getBitPosition() is None
             assert auth_role_2.getIsDefault() is None

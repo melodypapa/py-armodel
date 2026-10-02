@@ -151,7 +151,7 @@ class TestWriteDiagnosticCommonProps:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            contribution_set_2 = package_2.getElement("Dcs", DiagnosticContributionSet)
+            contribution_set_2 = package_2.getReferrableElement("Dcs", DiagnosticContributionSet)
             assert contribution_set_2 is not None
             common_props_2 = contribution_set_2.getCommonProperties()
             assert common_props_2 is not None
@@ -187,7 +187,7 @@ class TestWriteDiagnosticCommonProps:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            contribution_set_2 = package_2.getElement("Dcs", DiagnosticContributionSet)
+            contribution_set_2 = package_2.getReferrableElement("Dcs", DiagnosticContributionSet)
             assert contribution_set_2 is not None
             common_props_2 = contribution_set_2.getCommonProperties()
             assert common_props_2 is not None

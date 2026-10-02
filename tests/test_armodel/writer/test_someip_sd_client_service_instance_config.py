@@ -84,7 +84,7 @@ class TestSomeipSdClientServiceInstanceConfigRoundTrip:
         document.setARRelease("R23-11")
         parser.load(out_file, document)
 
-        re_config = document.find("Pkg").getElement("MySdConfig", SomeipSdClientServiceInstanceConfig)
+        re_config = document.find("Pkg").getReferrableElement("MySdConfig", SomeipSdClientServiceInstanceConfig)
         assert re_config is not None
         assert re_config.getPriority().getValue() == 5
         assert re_config.getServiceFindTimeToLive().getValue() == 60

@@ -119,11 +119,11 @@ class SwComponentType(AtpType, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import ConsistencyNeeds
 
-        if not self.IsElementExists(short_name, ConsistencyNeeds):
+        if not self.IsReferrableElementExists(short_name, ConsistencyNeeds):
             consistency_needs = ConsistencyNeeds(self, short_name)
-            self.addElement(consistency_needs)
+            self.addReferrableElement(consistency_needs)
             self.consistencyNeeds.append(consistency_needs)
-        return self.getElement(short_name, ConsistencyNeeds)
+        return self.getReferrableElement(short_name, ConsistencyNeeds)
 
     def getConsistencyNeeds(self) -> List[ConsistencyNeeds]:
         """
@@ -145,11 +145,11 @@ class SwComponentType(AtpType, ABC):
         Returns:
             The created or existing PPortPrototype
         """
-        if not self.IsElementExists(short_name, PPortPrototype):
+        if not self.IsReferrableElementExists(short_name, PPortPrototype):
             prototype = PPortPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.ports.append(prototype)
-        return self.getElement(short_name, PPortPrototype)
+        return self.getReferrableElement(short_name, PPortPrototype)
 
     def createRPortPrototype(self, short_name: str) -> RPortPrototype:
         """
@@ -162,11 +162,11 @@ class SwComponentType(AtpType, ABC):
         Returns:
             The created or existing RPortPrototype
         """
-        if not self.IsElementExists(short_name, RPortPrototype):
+        if not self.IsReferrableElementExists(short_name, RPortPrototype):
             prototype = RPortPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.ports.append(prototype)
-        return self.getElement(short_name, RPortPrototype)
+        return self.getReferrableElement(short_name, RPortPrototype)
 
     def createPRPortPrototype(self, short_name: str) -> PRPortPrototype:
         """
@@ -179,11 +179,11 @@ class SwComponentType(AtpType, ABC):
         Returns:
             The created or existing PRPortPrototype
         """
-        if not self.IsElementExists(short_name, PRPortPrototype):
+        if not self.IsReferrableElementExists(short_name, PRPortPrototype):
             prototype = PRPortPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.ports.append(prototype)
-        return self.getElement(short_name, PRPortPrototype)
+        return self.getReferrableElement(short_name, PRPortPrototype)
 
     def getPorts(self) -> List[PortPrototype]:
         """
@@ -241,11 +241,11 @@ class SwComponentType(AtpType, ABC):
         Returns:
             The created or existing PortGroup
         """
-        if not self.IsElementExists(short_name, PortGroup):
+        if not self.IsReferrableElementExists(short_name, PortGroup):
             port_group = PortGroup(self, short_name)
-            self.addElement(port_group)
+            self.addReferrableElement(port_group)
             self.portGroups.append(port_group)
-        return self.getElement(short_name, PortGroup)
+        return self.getReferrableElement(short_name, PortGroup)
 
     def getPortGroups(self) -> List[PortGroup]:
         """
@@ -997,11 +997,11 @@ class AtomicSwComponentType(SwComponentType, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 
-        if not self.IsElementExists(short_name, SwcInternalBehavior):
+        if not self.IsReferrableElementExists(short_name, SwcInternalBehavior):
             behavior = SwcInternalBehavior(self, short_name)
-            self.addElement(behavior)
+            self.addReferrableElement(behavior)
             self.internalBehavior = behavior
-        return self.getElement(short_name, SwcInternalBehavior)
+        return self.getReferrableElement(short_name, SwcInternalBehavior)
 
     def getSymbolProps(self) -> Optional[SymbolProps]:
         """
@@ -1024,11 +1024,11 @@ class AtomicSwComponentType(SwComponentType, ABC):
         Returns:
             The created (or existing) SymbolProps
         """
-        if not self.IsElementExists(short_name, SymbolProps):
+        if not self.IsReferrableElementExists(short_name, SymbolProps):
             symbol_props = SymbolProps(self, short_name)
-            self.addElement(symbol_props)
+            self.addReferrableElement(symbol_props)
             self.symbolProps = symbol_props
-        return self.getElement(short_name, SymbolProps)
+        return self.getReferrableElement(short_name, SymbolProps)
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
@@ -1182,11 +1182,11 @@ class NvBlockSwComponentType(AtomicSwComponentType):
         Returns:
             The created or existing BulkNvDataDescriptor
         """
-        if not self.IsElementExists(short_name, BulkNvDataDescriptor):
+        if not self.IsReferrableElementExists(short_name, BulkNvDataDescriptor):
             descriptor = BulkNvDataDescriptor(self, short_name)
-            self.addElement(descriptor)
+            self.addReferrableElement(descriptor)
             self.bulkNvDataDescriptors.append(descriptor)
-        return self.getElement(short_name, BulkNvDataDescriptor)
+        return self.getReferrableElement(short_name, BulkNvDataDescriptor)
 
     def getNvBlockDescriptors(self) -> List[NvBlockDescriptor]:
         """
@@ -1212,11 +1212,11 @@ class NvBlockSwComponentType(AtomicSwComponentType):
         Returns:
             The created or existing NvBlockDescriptor
         """
-        if not self.IsElementExists(short_name, NvBlockDescriptor):
+        if not self.IsReferrableElementExists(short_name, NvBlockDescriptor):
             descriptor = NvBlockDescriptor(self, short_name)
-            self.addElement(descriptor)
+            self.addReferrableElement(descriptor)
             self.nvBlockDescriptors.append(descriptor)
-        return self.getElement(short_name, NvBlockDescriptor)
+        return self.getReferrableElement(short_name, NvBlockDescriptor)
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):

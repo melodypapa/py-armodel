@@ -48,7 +48,7 @@ class TestCryptoServicePrimitiveParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        created = pkg.getElement("Primitive", CryptoServicePrimitive)
+        created = pkg.getReferrableElement("Primitive", CryptoServicePrimitive)
         assert created is not None
         assert isinstance(created, CryptoServicePrimitive)
         assert created.getShortName() == "Primitive"
@@ -58,7 +58,7 @@ class TestCryptoServicePrimitiveParser:
         pkg_element = ET.fromstring(_fragment())
         ARXMLParser().readARPackageElements(pkg_element, pkg)
 
-        primitive = pkg.getElement("Primitive", CryptoServicePrimitive)
+        primitive = pkg.getReferrableElement("Primitive", CryptoServicePrimitive)
         assert primitive.getAlgorithmFamily().getValue() == "AES"
         assert primitive.getAlgorithmMode().getValue() == "CMAC"
         assert primitive.getAlgorithmSecondaryFamily().getValue() == "SHA2"
@@ -75,7 +75,7 @@ class TestCryptoServicePrimitiveParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoPrimitives")
         ARXMLParser().readARPackageElements(ET.fromstring(xml), pkg)
 
-        primitive = pkg.getElement("Empty", CryptoServicePrimitive)
+        primitive = pkg.getReferrableElement("Empty", CryptoServicePrimitive)
         assert primitive.getAlgorithmFamily() is None
         assert primitive.getAlgorithmMode() is None
         assert primitive.getAlgorithmSecondaryFamily() is None
@@ -94,7 +94,7 @@ class TestCryptoServicePrimitiveParser:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoPrimitives")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        primitive = reloaded.getElement("Primitive", CryptoServicePrimitive)
+        primitive = reloaded.getReferrableElement("Primitive", CryptoServicePrimitive)
         assert primitive is not None
         assert primitive.getAlgorithmFamily().getValue() == "AES"
         assert primitive.getAlgorithmMode().getValue() == "CMAC"

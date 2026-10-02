@@ -217,6 +217,6 @@ class Test_OsTaskProxy:
         pkg = AUTOSAR.getInstance().createARPackage("OsTaskProxyPkg")
         proxy = pkg.createOsTaskProxy("TaskProxy1")
         assert isinstance(proxy, OsTaskProxy)
-        assert pkg.getElement("TaskProxy1", OsTaskProxy) is proxy
+        assert pkg.getReferrableElement("TaskProxy1", OsTaskProxy) is proxy
         again = pkg.createOsTaskProxy("TaskProxy1")
         assert again is proxy

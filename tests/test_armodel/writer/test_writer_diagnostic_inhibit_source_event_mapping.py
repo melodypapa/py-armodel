@@ -33,7 +33,7 @@ class TestWriteDiagnosticInhibitSourceEventMapping:
         package.createDiagnosticInhibitSourceEventMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticInhibitSourceEventMapping(parent, package.getElement("M1", DiagnosticInhibitSourceEventMapping))
+        ARXMLWriter().writeDiagnosticInhibitSourceEventMapping(parent, package.getReferrableElement("M1", DiagnosticInhibitSourceEventMapping))
 
         child = parent.find("DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING")
         assert child is not None

@@ -164,16 +164,16 @@ class NvDataInterface(DataInterface):
 
     def createNvData(self, short_name: str) -> VariableDataPrototype:
         """The VariableDataPrototype of this nv data interface."""
-        if self.IsElementExists(short_name, VariableDataPrototype):
-            return self.getElement(short_name, VariableDataPrototype)
+        if self.IsReferrableElementExists(short_name, VariableDataPrototype):
+            return self.getReferrableElement(short_name, VariableDataPrototype)
         prototype = VariableDataPrototype(self, short_name)
-        self.addElement(prototype)
+        self.addReferrableElement(prototype)
         self.nvDatas.append(prototype)
         return prototype
 
     def getNvData(self, short_name: str) -> VariableDataPrototype:
         """The VariableDataPrototype of this nv data interface."""
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
 
 class ParameterInterface(DataInterface):
@@ -199,10 +199,10 @@ class ParameterInterface(DataInterface):
 
     def createParameterDataPrototype(self, short_name: str) -> ParameterDataPrototype:
         """The ParameterDataPrototype of this ParameterInterface."""
-        if self.IsElementExists(short_name, ParameterDataPrototype):
-            return self.getElement(short_name, ParameterDataPrototype)
+        if self.IsReferrableElementExists(short_name, ParameterDataPrototype):
+            return self.getReferrableElement(short_name, ParameterDataPrototype)
         prototype = ParameterDataPrototype(self, short_name)
-        self.addElement(prototype)
+        self.addReferrableElement(prototype)
         self.parameters.append(prototype)
         return prototype
 
@@ -395,11 +395,11 @@ class SenderReceiverInterface(DataInterface):
         """
         The data elements of this SenderReceiverInterface.
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             data_element = VariableDataPrototype(self, short_name)
-            self.addElement(data_element)
+            self.addReferrableElement(data_element)
             self.dataElements.append(data_element)
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getDataElements(self) -> List[VariableDataPrototype]:
         """
@@ -411,7 +411,7 @@ class SenderReceiverInterface(DataInterface):
         """
         The data elements of this SenderReceiverInterface.
         """
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def addInvalidationPolicy(self, value: InvalidationPolicy) -> SenderReceiverInterface:
         """
@@ -621,11 +621,11 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
         Returns:
             The created (or existing) ArgumentDataPrototype
         """
-        if not self.IsElementExists(short_name, ArgumentDataPrototype):
+        if not self.IsReferrableElementExists(short_name, ArgumentDataPrototype):
             prototype = ArgumentDataPrototype(self, short_name)
-            self.addElement(prototype)
+            self.addReferrableElement(prototype)
             self.arguments.append(prototype)
-        return self.getElement(short_name, ArgumentDataPrototype)
+        return self.getReferrableElement(short_name, ArgumentDataPrototype)
 
     def getArguments(self) -> List[ArgumentDataPrototype]:
         """
@@ -692,11 +692,11 @@ class ClientServerInterface(PortInterface):
         """
         ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
         """
-        if not self.IsElementExists(short_name, ClientServerOperation):
+        if not self.IsReferrableElementExists(short_name, ClientServerOperation):
             operation = ClientServerOperation(self, short_name)
-            self.addElement(operation)
+            self.addReferrableElement(operation)
             self.operations.append(operation)
-        return self.getElement(short_name, ClientServerOperation)
+        return self.getReferrableElement(short_name, ClientServerOperation)
 
     def getOperations(self) -> List[ClientServerOperation]:
         """
@@ -715,11 +715,11 @@ class ClientServerInterface(PortInterface):
         Returns:
             The created (or existing) ApplicationError
         """
-        if not self.IsElementExists(short_name, ApplicationError):
+        if not self.IsReferrableElementExists(short_name, ApplicationError):
             error = ApplicationError(self, short_name)
-            self.addElement(error)
+            self.addReferrableElement(error)
             self.possibleErrors.append(error)
-        return self.getElement(short_name, ApplicationError)
+        return self.getReferrableElement(short_name, ApplicationError)
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         """
@@ -747,11 +747,11 @@ class TriggerInterface(PortInterface):
 
     def createTrigger(self, short_name: str) -> Trigger:
         """The Trigger of this trigger interface."""
-        if not self.IsElementExists(short_name, Trigger):
+        if not self.IsReferrableElementExists(short_name, Trigger):
             trigger = Trigger(self, short_name)
-            self.addElement(trigger)
+            self.addReferrableElement(trigger)
             self.triggers.append(trigger)
-        return self.getElement(short_name, Trigger)
+        return self.getReferrableElement(short_name, Trigger)
 
     def getTriggers(self) -> List[Trigger]:
         """The Trigger of this trigger interface."""
@@ -790,10 +790,10 @@ class ModeSwitchInterface(PortInterface):
         Returns:
             The created or existing ModeDeclarationGroupPrototype
         """
-        if not self.IsElementExists(short_name, ModeDeclarationGroupPrototype):
+        if not self.IsReferrableElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
-            self.addElement(prototype)
-        mode_group = self.getElement(short_name, ModeDeclarationGroupPrototype)
+            self.addReferrableElement(prototype)
+        mode_group = self.getReferrableElement(short_name, ModeDeclarationGroupPrototype)
         self.modeGroup = mode_group
         return mode_group
 
@@ -1713,11 +1713,11 @@ class ModeDeclarationMappingSet(AtpType):
 
         A duplicate short name with the same type returns the existing ModeDeclarationMapping.
         """
-        if not self.IsElementExists(short_name, ModeDeclarationMapping):
+        if not self.IsReferrableElementExists(short_name, ModeDeclarationMapping):
             mapping = ModeDeclarationMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.modeDeclarationMappings.append(mapping)
-        return self.getElement(short_name, ModeDeclarationMapping)
+        return self.getReferrableElement(short_name, ModeDeclarationMapping)
 
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement  # noqa: E402
@@ -1755,41 +1755,41 @@ class PortInterfaceMappingSet(ARElement):
         """
         Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
         """
-        if not self.IsElementExists(short_name, VariableAndParameterInterfaceMapping):
+        if not self.IsReferrableElementExists(short_name, VariableAndParameterInterfaceMapping):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name, VariableAndParameterInterfaceMapping)
+        return self.getReferrableElement(short_name, VariableAndParameterInterfaceMapping)
 
     def createClientServerInterfaceMapping(self, short_name: str) -> ClientServerInterfaceMapping:
         """
         Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
         """
-        if not self.IsElementExists(short_name, ClientServerInterfaceMapping):
+        if not self.IsReferrableElementExists(short_name, ClientServerInterfaceMapping):
             mapping = ClientServerInterfaceMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name, ClientServerInterfaceMapping)
+        return self.getReferrableElement(short_name, ClientServerInterfaceMapping)
 
     def createModeInterfaceMapping(self, short_name: str) -> ModeInterfaceMapping:
         """
         Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
         """
-        if not self.IsElementExists(short_name, ModeInterfaceMapping):
+        if not self.IsReferrableElementExists(short_name, ModeInterfaceMapping):
             mapping = ModeInterfaceMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name, ModeInterfaceMapping)
+        return self.getReferrableElement(short_name, ModeInterfaceMapping)
 
     def createTriggerInterfaceMapping(self, short_name: str) -> TriggerInterfaceMapping:
         """
         Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
         """
-        if not self.IsElementExists(short_name, TriggerInterfaceMapping):
+        if not self.IsReferrableElementExists(short_name, TriggerInterfaceMapping):
             mapping = TriggerInterfaceMapping(self, short_name)
-            self.addElement(mapping)
+            self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name, TriggerInterfaceMapping)
+        return self.getReferrableElement(short_name, TriggerInterfaceMapping)
 
 
 class ImplementationDataTypeSubElementRef(SubElementRef):

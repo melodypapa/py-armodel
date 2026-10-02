@@ -60,7 +60,7 @@ class TestReadEvaluatedVariantSet:
             parser.load(file_path, document)
 
             pkg = document.getARPackages()[0]
-            variant_set = pkg.getElement("MyEvaluatedVariantSet")
+            variant_set = pkg.getReferrableElement("MyEvaluatedVariantSet")
             assert variant_set is not None
             assert variant_set.getApprovalStatus().getValue() == "APPROVED"
             assert len(variant_set.getEvaluatedElementRefs()) == 1

@@ -346,7 +346,7 @@ class TestWritePostBuildVariantCriterionRoundTrip:
         parser.load(out_file, document)
 
         re_pkg = document.find("Pkg")
-        re_criterion = re_pkg.getElement("MyCriterion", PostBuildVariantCriterion)
+        re_criterion = re_pkg.getReferrableElement("MyCriterion", PostBuildVariantCriterion)
         assert re_criterion is not None
         assert re_criterion.getCompuMethodRef().getValue() == "/Pkg/CompuMethods/MyCompuMethod"
 

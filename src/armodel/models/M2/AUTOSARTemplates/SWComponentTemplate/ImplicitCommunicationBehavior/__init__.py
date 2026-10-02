@@ -250,11 +250,11 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
         Returns:
             DataPrototypeGroup: The created or existing DataPrototypeGroup
         """
-        if not self.IsElementExists(short_name, DataPrototypeGroup):
+        if not self.IsReferrableElementExists(short_name, DataPrototypeGroup):
             data_group = DataPrototypeGroup(self, short_name)
-            self.addElement(data_group)
+            self.addReferrableElement(data_group)
             self.dpgDoesNotRequireCoherency.append(data_group)
-        return self.getElement(short_name, DataPrototypeGroup)
+        return self.getReferrableElement(short_name, DataPrototypeGroup)
 
     def getDpgDoesNotRequireCoherencys(self) -> List[DataPrototypeGroup]:
         """
@@ -282,11 +282,11 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
         Returns:
             DataPrototypeGroup: The created or existing DataPrototypeGroup
         """
-        if not self.IsElementExists(short_name, DataPrototypeGroup):
+        if not self.IsReferrableElementExists(short_name, DataPrototypeGroup):
             data_group = DataPrototypeGroup(self, short_name)
-            self.addElement(data_group)
+            self.addReferrableElement(data_group)
             self.dpgRequiresCoherency.append(data_group)
-        return self.getElement(short_name, DataPrototypeGroup)
+        return self.getReferrableElement(short_name, DataPrototypeGroup)
 
     def getDpgRequiresCoherencys(self) -> List[DataPrototypeGroup]:
         """
@@ -314,11 +314,11 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
         Returns:
             RunnableEntityGroup: The created or existing RunnableEntityGroup
         """
-        if not self.IsElementExists(short_name, RunnableEntityGroup):
+        if not self.IsReferrableElementExists(short_name, RunnableEntityGroup):
             runnable_group = RunnableEntityGroup(self, short_name)
-            self.addElement(runnable_group)
+            self.addReferrableElement(runnable_group)
             self.regDoesNotRequireStability.append(runnable_group)
-        return self.getElement(short_name, RunnableEntityGroup)
+        return self.getReferrableElement(short_name, RunnableEntityGroup)
 
     def getRegDoesNotRequireStabilitys(self) -> List[RunnableEntityGroup]:
         """
@@ -346,11 +346,11 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
         Returns:
             RunnableEntityGroup: The created or existing RunnableEntityGroup
         """
-        if not self.IsElementExists(short_name, RunnableEntityGroup):
+        if not self.IsReferrableElementExists(short_name, RunnableEntityGroup):
             runnable_group = RunnableEntityGroup(self, short_name)
-            self.addElement(runnable_group)
+            self.addReferrableElement(runnable_group)
             self.regRequiresStability.append(runnable_group)
-        return self.getElement(short_name, RunnableEntityGroup)
+        return self.getReferrableElement(short_name, RunnableEntityGroup)
 
     def getRegRequiresStabilitys(self) -> List[RunnableEntityGroup]:
         """

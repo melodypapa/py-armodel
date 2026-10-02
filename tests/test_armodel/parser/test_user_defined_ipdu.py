@@ -47,7 +47,7 @@ class TestUserDefinedIPduParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(ET.fromstring(_fragment()), pkg)
 
-        created = pkg.getElement("UDIPdu", UserDefinedIPdu)
+        created = pkg.getReferrableElement("UDIPdu", UserDefinedIPdu)
         assert created is not None
         assert isinstance(created, UserDefinedIPdu)
         assert created.getShortName() == "UDIPdu"
@@ -56,7 +56,7 @@ class TestUserDefinedIPduParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(ET.fromstring(_fragment()), pkg)
 
-        ipdu = pkg.getElement("UDIPdu", UserDefinedIPdu)
+        ipdu = pkg.getReferrableElement("UDIPdu", UserDefinedIPdu)
         assert ipdu.getLength().getValue() == 8
         assert ipdu.getCddType().getValue() == "ComplexDriverCdd"
 
@@ -64,7 +64,7 @@ class TestUserDefinedIPduParser:
         pkg = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(ET.fromstring(_fragment(with_cdd_type=False)), pkg)
 
-        ipdu = pkg.getElement("UDIPdu", UserDefinedIPdu)
+        ipdu = pkg.getReferrableElement("UDIPdu", UserDefinedIPdu)
         assert ipdu.getCddType() is None
         assert ipdu.getLength().getValue() == 8
 
@@ -81,7 +81,7 @@ class TestUserDefinedIPduParser:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="Pdus")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        ipdu = reloaded.getElement("UDIPdu", UserDefinedIPdu)
+        ipdu = reloaded.getReferrableElement("UDIPdu", UserDefinedIPdu)
         assert ipdu is not None
         assert ipdu.getLength().getValue() == 8
         assert ipdu.getCddType().getValue() == "ComplexDriverCdd"

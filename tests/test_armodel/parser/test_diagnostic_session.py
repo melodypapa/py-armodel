@@ -63,7 +63,7 @@ def test_arpackage_dispatch_reads_element(parser):
     )
     parser.readARPackageElements(ar_package, package)
 
-    session = package.getElement("Sess1", DiagnosticSession)
+    session = package.getReferrableElement("Sess1", DiagnosticSession)
     assert session is not None
     assert isinstance(session, DiagnosticSession)
     assert session.getId().getValue() == 3

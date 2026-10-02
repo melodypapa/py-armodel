@@ -1817,7 +1817,7 @@ class TestEcucDestinationUriPolicyRoundTrip:
         pkg_element = ET.fromstring(arxml)
         pkg = AUTOSAR.getInstance().createARPackage("UriDefSetPkg")
         parser.readARPackage(pkg_element, pkg)
-        return pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        return pkg.getReferrableElement("UriDefSet", EcucDestinationUriDefSet)
 
     def test_read_full_policy(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (

@@ -113,7 +113,7 @@ class TestWriteConsumedProvidedServiceInstanceGroup:
         parser.load(filename, AUTOSAR.getInstance())
 
         pkg = AUTOSAR.getInstance().find("ServiceInstances")
-        groups = [e for e in pkg.getElements() if isinstance(e, ConsumedProvidedServiceInstanceGroup)]
+        groups = [e for e in pkg.getReferrableElements() if isinstance(e, ConsumedProvidedServiceInstanceGroup)]
         assert len(groups) == 1
         reloaded = groups[0]
         assert reloaded.getShortName() == "Group1"

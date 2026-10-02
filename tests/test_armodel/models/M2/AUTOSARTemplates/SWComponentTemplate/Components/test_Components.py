@@ -501,15 +501,15 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         delegation_connector = composition_sw_component.createDelegationSwConnector("TestDelegation")
 
         # Test removeAllAssemblySwConnector
-        assert assembly_connector in composition_sw_component.elements
+        assert assembly_connector in composition_sw_component.referrableElements
         composition_sw_component.removeAllAssemblySwConnector()
-        assert assembly_connector not in composition_sw_component.elements
+        assert assembly_connector not in composition_sw_component.referrableElements
 
         # Recreate and test removeAllDelegationSwConnector
         assembly_connector = composition_sw_component.createAssemblySwConnector("TestAssembly2")
-        assert delegation_connector in composition_sw_component.elements
+        assert delegation_connector in composition_sw_component.referrableElements
         composition_sw_component.removeAllDelegationSwConnector()
-        assert delegation_connector not in composition_sw_component.elements
+        assert delegation_connector not in composition_sw_component.referrableElements
 
     def test_comspec_refs_are_optional_but_dest_is_checked_when_present(self):
         document = AUTOSAR.getInstance()
@@ -610,14 +610,14 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert swc.getInternalBehavior() == behavior
         assert swc.createSwcInternalBehavior("TestBehavior") == behavior
         assert behavior.short_name == "TestBehavior"
-        assert behavior in swc.elements
+        assert behavior in swc.referrableElements
 
         # Test symbol props creation returns the existing element on re-create
         symbol_props = swc.createSymbolProps("TestSymbolProps")
         assert swc.getSymbolProps() == symbol_props
         assert swc.createSymbolProps("TestSymbolProps") == symbol_props
         assert symbol_props.short_name == "TestSymbolProps"
-        assert symbol_props in swc.elements
+        assert symbol_props in swc.referrableElements
 
     def test_AtomicSwComponentType_base_properties(self):
         """Test AtomicSwComponentType abstract base accessors through a concrete subclass."""

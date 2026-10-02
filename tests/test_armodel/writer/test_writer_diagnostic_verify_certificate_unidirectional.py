@@ -46,7 +46,7 @@ class TestWriteDiagnosticVerifyCertificateUnidirectional:
         package.createDiagnosticVerifyCertificateUnidirectional("VerifyUnidir1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticVerifyCertificateUnidirectional(parent, package.getElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional))
+        ARXMLWriter().writeDiagnosticVerifyCertificateUnidirectional(parent, package.getReferrableElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional))
 
         child = parent.find("DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL")
         assert child is not None
@@ -78,7 +78,7 @@ class TestWriteDiagnosticVerifyCertificateUnidirectional:
         package.createDiagnosticVerifyCertificateUnidirectional("VerifyUnidir1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional))
 
         child = parent.find("DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL")
         assert child is not None
@@ -101,7 +101,7 @@ class TestWriteDiagnosticVerifyCertificateUnidirectional:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            verification_2 = package_2.getElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional)
+            verification_2 = package_2.getReferrableElement("VerifyUnidir1", DiagnosticVerifyCertificateUnidirectional)
             assert verification_2 is not None
             assert verification_2.getShortName() == "VerifyUnidir1"
             ref_2 = verification_2.getAuthenticationClass()

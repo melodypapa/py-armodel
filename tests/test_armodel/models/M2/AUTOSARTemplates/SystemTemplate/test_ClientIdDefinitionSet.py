@@ -59,7 +59,7 @@ class TestClientIdDefinitionSet:
         assert isinstance(created, ClientIdDefinition)
         assert created.getShortName() == "CID1"
         assert id_definition_set.getClientIdDefinitions() == [created]
-        assert id_definition_set.getElement("CID1", ClientIdDefinition) is created
+        assert id_definition_set.getReferrableElement("CID1", ClientIdDefinition) is created
 
         duplicate = id_definition_set.createClientIdDefinition("CID1")
         assert duplicate is created

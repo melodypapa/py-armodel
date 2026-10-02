@@ -131,10 +131,10 @@ def test_round_trip_full(writer, parser, tmp_path):
     re_pkg = document.find("Pkg")
     assert re_pkg is not None
 
-    re_instance = re_pkg.getElement("EcuInst", EcuInstance)
+    re_instance = re_pkg.getReferrableElement("EcuInst", EcuInstance)
     assert re_instance is not None
 
-    re_master = re_instance.getElement("LinMaster", LinMaster)
+    re_master = re_instance.getReferrableElement("LinMaster", LinMaster)
     assert re_master is not None
     assert isinstance(re_master, LinMaster)
     assert re_master.getProtocolVersion().getValue() == "2.1"
@@ -167,8 +167,8 @@ def test_round_trip_empty_wrapper_list(writer, parser, tmp_path):
     writer.save(out_file, AUTOSAR.getInstance())
 
     document = _reload(parser, out_file)
-    re_instance = document.find("Pkg").getElement("EcuInst", EcuInstance)
-    re_master = re_instance.getElement("EmptyMaster", LinMaster)
+    re_instance = document.find("Pkg").getReferrableElement("EcuInst", EcuInstance)
+    re_master = re_instance.getReferrableElement("EmptyMaster", LinMaster)
     assert re_master is not None
     assert re_master.getLinSlaves() == []
     assert re_master.getTimeBase() is None

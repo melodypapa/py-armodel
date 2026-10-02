@@ -126,7 +126,7 @@ class TestWriteDiagnosticAuthTransmitCertificateEvaluation:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            certificate_2 = package_2.getElement("Certificate1", DiagnosticAuthTransmitCertificate)
+            certificate_2 = package_2.getReferrableElement("Certificate1", DiagnosticAuthTransmitCertificate)
             evaluations_2 = certificate_2.getCertificateEvaluations()
             assert [item.getShortName() for item in evaluations_2] == ["Eval1"]
             evaluation_2 = evaluations_2[0]

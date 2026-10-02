@@ -93,12 +93,12 @@ class AbstractAUTOSAR(ARObject):
     # [x] reload                       [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] full_name                    [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] clear                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] removeElement                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getElements                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getTotalElement              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] IsElementExists              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferrableElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addReferrableElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] removeReferrableElement                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferrableElements                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTotalReferrableElement              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] IsReferrableElementExists              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] find                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestType                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] findAtomicSwComponentType    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -128,7 +128,7 @@ class AbstractAUTOSAR(ARObject):
     #
     # Heritage (Rule 0001.2): spec Base = ARObject (Table E.1). The code was
     # AbstractAUTOSAR(CollectableElement); restructured to ARObject and the
-    # element-collection registry (elements/element_mappings, addElement/
+    # element-collection registry (elements/referrableElementMappings, addElement/
     # getElement/removeElement/IsElementExists/getElements/getTotalElement) was
     # reimplemented on the root so the framework keeps working without the
     # CollectableElement base. This is a documented deviation (framework layer
@@ -144,7 +144,7 @@ class AbstractAUTOSAR(ARObject):
 
     def __init__(self):
         # Spec Base = ARObject (AUTOSAR_FO_TPS_GenericStructureTemplate, Table E.1, p.421, R23-11).
-        # The element-collection registry (hierarchical `elements`/`element_mappings`)
+        # The element-collection registry (hierarchical `elements`/`referrableElementMappings`)
         # is reimplemented below because the root no longer derives from CollectableElement.
         super().__init__()
 
@@ -257,49 +257,49 @@ class AbstractAUTOSAR(ARObject):
 
         # Reimplemented hierarchical element-collection registry (was provided by
         # CollectableElement before the restructure to ARObject).
-        self.elements: List[Referrable] = []
-        self.element_mappings: Dict[str, List[Referrable]] = {}
+        self.referrableElements: List[Referrable] = []
+        self.referrableElementMappings: Dict[str, List[Referrable]] = {}
 
-    def getElement(self, short_name: str, type=None) -> Referrable:
+    def getReferrableElement(self, short_name: str, type=None) -> Referrable:
         if (type is ARPackage or type is None) and short_name in self._ar_package_index:
             return self._ar_package_index[short_name]
-        if short_name not in self.element_mappings:
+        if short_name not in self.referrableElementMappings:
             return None
         if type is not None:
-            result = [a for a in self.element_mappings[short_name] if isinstance(a, type)]
+            result = [a for a in self.referrableElementMappings[short_name] if isinstance(a, type)]
             return result[0] if result else None
-        return self.element_mappings[short_name][0]
+        return self.referrableElementMappings[short_name][0]
 
-    def addElement(self, element: Referrable) -> None:
+    def addReferrableElement(self, element: Referrable) -> None:
         short_name = element.getShortName()
-        if not self.IsElementExists(short_name, type(element)):
-            self.elements.append(element)
-            if short_name not in self.element_mappings:
-                self.element_mappings[short_name] = []
-            self.element_mappings[short_name].append(element)
+        if not self.IsReferrableElementExists(short_name, type(element)):
+            self.referrableElements.append(element)
+            if short_name not in self.referrableElementMappings:
+                self.referrableElementMappings[short_name] = []
+            self.referrableElementMappings[short_name].append(element)
 
-    def removeElement(self, short_name: str, type=None) -> None:
-        if short_name not in self.element_mappings:
+    def removeReferrableElement(self, short_name: str, type=None) -> None:
+        if short_name not in self.referrableElementMappings:
             raise KeyError("Invalid key <%s> for removing element" % short_name)
         if type is None:
-            item = self.element_mappings[short_name][0]
+            item = self.referrableElementMappings[short_name][0]
         else:
-            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            item = next(filter(lambda a: isinstance(a, type), self.referrableElementMappings[short_name]))
         if item is not None:
-            self.elements.remove(item)
-            self.element_mappings[short_name].remove(item)
+            self.referrableElements.remove(item)
+            self.referrableElementMappings[short_name].remove(item)
 
-    def getElements(self) -> List[Referrable]:
-        return self.elements
+    def getReferrableElements(self) -> List[Referrable]:
+        return self.referrableElements
 
-    def getTotalElement(self) -> int:
-        return len(self.elements)
+    def getTotalReferrableElement(self) -> int:
+        return len(self.referrableElements)
 
-    def IsElementExists(self, short_name: str, type=None) -> bool:
+    def IsReferrableElementExists(self, short_name: str, type=None) -> bool:
         if type is None:
-            return short_name in self.element_mappings
-        if short_name in self.element_mappings:
-            return any(isinstance(a, type) for a in self.element_mappings[short_name])
+            return short_name in self.referrableElementMappings
+        if short_name in self.referrableElementMappings:
+            return any(isinstance(a, type) for a in self.referrableElementMappings[short_name])
         return False
 
     def find(self, referred) -> Referrable:
@@ -315,7 +315,7 @@ class AbstractAUTOSAR(ARObject):
         for short_name in short_name_list:
             if short_name == "":
                 continue
-            element = element.getElement(short_name)
+            element = element.getReferrableElement(short_name)
             if element is None:
                 return element
 

@@ -45,7 +45,7 @@ class TestWriteDiagnosticComControl:
         package.createDiagnosticComControl("ComControl1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticComControl(parent, package.getElement("ComControl1", DiagnosticComControl))
+        ARXMLWriter().writeDiagnosticComControl(parent, package.getReferrableElement("ComControl1", DiagnosticComControl))
 
         child = parent.find("DIAGNOSTIC-COM-CONTROL")
         assert child is not None
@@ -113,7 +113,7 @@ class TestWriteDiagnosticComControl:
         package.createDiagnosticComControl("ComControl1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("ComControl1", DiagnosticComControl))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("ComControl1", DiagnosticComControl))
 
         child = parent.find("DIAGNOSTIC-COM-CONTROL")
         assert child is not None
@@ -139,7 +139,7 @@ class TestWriteDiagnosticComControl:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            com_control_2 = package_2.getElement("ComControl1", DiagnosticComControl)
+            com_control_2 = package_2.getReferrableElement("ComControl1", DiagnosticComControl)
             assert com_control_2 is not None
             assert com_control_2.getShortName() == "ComControl1"
             ref_2 = com_control_2.getComControlClass()

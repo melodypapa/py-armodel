@@ -68,7 +68,7 @@ class TestAdminDataTransformer:
         mock_element = MagicMock()
         mock_element.getShortName.return_value = "test_element"
 
-        with patch.object(pkg, "getElements", return_value=[mock_element]), patch("armodel.transformer.admin_data.isinstance") as mock_isinstance, patch.object(transformer.logger, "debug"):
+        with patch.object(pkg, "getReferrableElements", return_value=[mock_element]), patch("armodel.transformer.admin_data.isinstance") as mock_isinstance, patch.object(transformer.logger, "debug"):
             # Mock isinstance to return True for Describable check, False for Identifiable
             def mock_isinstance_func(obj, class_info):
                 if class_info == Describable:
@@ -93,7 +93,7 @@ class TestAdminDataTransformer:
         mock_element = MagicMock()
         mock_element.getShortName.return_value = "test_element"
 
-        with patch.object(pkg, "getElements", return_value=[mock_element]), patch("armodel.transformer.admin_data.isinstance") as mock_isinstance, patch.object(transformer.logger, "debug"):
+        with patch.object(pkg, "getReferrableElements", return_value=[mock_element]), patch("armodel.transformer.admin_data.isinstance") as mock_isinstance, patch.object(transformer.logger, "debug"):
             # Mock isinstance to return False for Describable check, True for Identifiable
             def mock_isinstance_func(obj, class_info):
                 if class_info == Describable:

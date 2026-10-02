@@ -169,11 +169,11 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
         """
         This aggregation represents the actual bulk NVBlock.
         """
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             block = VariableDataPrototype(self, short_name)
-            self.addElement(block)
+            self.addReferrableElement(block)
             self.bulkNvBlock = block
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getBulkNvBlock(self) -> Optional[VariableDataPrototype]:
         """
@@ -337,11 +337,11 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
 
     def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
         """Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSwComponentType by the RTE. Please note that the attributes nDataSets and nRomBlocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense."""
-        if not self.IsElementExists(short_name, NvBlockNeeds):
+        if not self.IsReferrableElementExists(short_name, NvBlockNeeds):
             element = NvBlockNeeds(self, short_name)
-            self.addElement(element)
+            self.addReferrableElement(element)
             self.nvBlockNeeds = element
-        return self.getElement(short_name, NvBlockNeeds)
+        return self.getReferrableElement(short_name, NvBlockNeeds)
 
     def getRamBlock(self) -> Optional[VariableDataPrototype]:
         """Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType."""
@@ -349,11 +349,11 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
 
     def createRamBlock(self, short_name: str) -> VariableDataPrototype:
         """Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType."""
-        if not self.IsElementExists(short_name, VariableDataPrototype):
+        if not self.IsReferrableElementExists(short_name, VariableDataPrototype):
             element = VariableDataPrototype(self, short_name)
-            self.addElement(element)
+            self.addReferrableElement(element)
             self.ramBlock = element
-        return self.getElement(short_name, VariableDataPrototype)
+        return self.getReferrableElement(short_name, VariableDataPrototype)
 
     def getRomBlock(self) -> Optional[ParameterDataPrototype]:
         """Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType."""
@@ -361,11 +361,11 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
 
     def createRomBlock(self, short_name: str) -> ParameterDataPrototype:
         """Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType."""
-        if not self.IsElementExists(short_name, ParameterDataPrototype):
+        if not self.IsReferrableElementExists(short_name, ParameterDataPrototype):
             element = ParameterDataPrototype(self, short_name)
-            self.addElement(element)
+            self.addReferrableElement(element)
             self.romBlock = element
-        return self.getElement(short_name, ParameterDataPrototype)
+        return self.getReferrableElement(short_name, ParameterDataPrototype)
 
     def getSupportDirtyFlag(self) -> Optional[Boolean]:
         """Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE."""

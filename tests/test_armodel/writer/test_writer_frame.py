@@ -50,7 +50,7 @@ def test_round_trip_frame(writer, tmp_path):
     parser.load(out_file, document)
 
     re_pkg = document.find("Pkg")
-    re_frame = re_pkg.getElement("MyFrame", CanFrame)
+    re_frame = re_pkg.getReferrableElement("MyFrame", CanFrame)
     assert re_frame is not None
     assert isinstance(re_frame.getFrameLength(), Integer)
     assert re_frame.getFrameLength().getValue() == 100

@@ -102,12 +102,12 @@ class TestSoAdRoutingGroupRoundTrip:
         parser.load(str(path), loaded)
         loaded_pkg = loaded.getARPackages()[0]
 
-        parsed = loaded_pkg.getElement("RG1", SoAdRoutingGroup)
+        parsed = loaded_pkg.getReferrableElement("RG1", SoAdRoutingGroup)
         assert parsed is not None
         control_type = parsed.getEventGroupControlType()
         assert isinstance(control_type, EventGroupControlTypeEnum)
         assert control_type.getValue() == "activationAndTriggerUnicast"
 
-        empty = loaded_pkg.getElement("RG2", SoAdRoutingGroup)
+        empty = loaded_pkg.getReferrableElement("RG2", SoAdRoutingGroup)
         assert empty is not None
         assert empty.getEventGroupControlType() is None

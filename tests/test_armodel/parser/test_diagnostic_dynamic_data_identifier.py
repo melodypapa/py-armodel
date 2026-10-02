@@ -69,7 +69,7 @@ def test_arpackage_dispatch_reads_diagnostic_dynamic_data_identifier(parser):
     )
     parser.readARPackageElements(ar_package, package)
 
-    did = package.getElement("Ddi", DiagnosticDynamicDataIdentifier)
+    did = package.getReferrableElement("Ddi", DiagnosticDynamicDataIdentifier)
     assert did is not None
     assert isinstance(did, DiagnosticDynamicDataIdentifier)
     assert did.getId() is not None

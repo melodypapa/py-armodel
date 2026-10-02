@@ -49,7 +49,7 @@ class TestWriteDiagnosticEcuResetClass:
         package.createDiagnosticEcuResetClass("EcuResetClass1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEcuResetClass(parent, package.getElement("EcuResetClass1", DiagnosticEcuResetClass))
+        ARXMLWriter().writeDiagnosticEcuResetClass(parent, package.getReferrableElement("EcuResetClass1", DiagnosticEcuResetClass))
 
         child = parent.find("DIAGNOSTIC-ECU-RESET-CLASS")
         assert child is not None
@@ -77,7 +77,7 @@ class TestWriteDiagnosticEcuResetClass:
         package.createDiagnosticEcuResetClass("EcuResetClass1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("EcuResetClass1", DiagnosticEcuResetClass))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("EcuResetClass1", DiagnosticEcuResetClass))
 
         child = parent.find("DIAGNOSTIC-ECU-RESET-CLASS")
         assert child is not None
@@ -96,7 +96,7 @@ class TestWriteDiagnosticEcuResetClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            ecu_reset_class_2 = package_2.getElement("EcuResetClass1", DiagnosticEcuResetClass)
+            ecu_reset_class_2 = package_2.getReferrableElement("EcuResetClass1", DiagnosticEcuResetClass)
             assert ecu_reset_class_2 is not None
             assert ecu_reset_class_2.getShortName() == "EcuResetClass1"
             assert ecu_reset_class_2.getRespondToReset() is None
@@ -118,7 +118,7 @@ class TestWriteDiagnosticEcuResetClass:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            ecu_reset_class_2 = package_2.getElement("EcuResetClass1", DiagnosticEcuResetClass)
+            ecu_reset_class_2 = package_2.getReferrableElement("EcuResetClass1", DiagnosticEcuResetClass)
             assert ecu_reset_class_2 is not None
             respond_to_reset = ecu_reset_class_2.getRespondToReset()
             assert respond_to_reset is not None

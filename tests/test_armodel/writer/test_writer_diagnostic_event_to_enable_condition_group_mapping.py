@@ -37,7 +37,7 @@ class TestWriteDiagnosticEventToEnableConditionGroupMapping:
         package.createDiagnosticEventToEnableConditionGroupMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToEnableConditionGroupMapping(parent, package.getElement("M1", DiagnosticEventToEnableConditionGroupMapping))
+        ARXMLWriter().writeDiagnosticEventToEnableConditionGroupMapping(parent, package.getReferrableElement("M1", DiagnosticEventToEnableConditionGroupMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-ENABLE-CONDITION-GROUP-MAPPING")
         assert child is not None

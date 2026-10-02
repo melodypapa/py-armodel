@@ -268,11 +268,11 @@ class BswModuleEntry(AtpBlueprintable):
         Returns:
             The created SwServiceArg instance
         """
-        if not self.IsElementExists(short_name, SwServiceArg):
+        if not self.IsReferrableElementExists(short_name, SwServiceArg):
             arg = SwServiceArg(self, short_name)
-            self.addElement(arg)
+            self.addReferrableElement(arg)
             self.arguments.append(arg)
-        return self.getElement(short_name, SwServiceArg)
+        return self.getReferrableElement(short_name, SwServiceArg)
 
     def getBswEntryKind(self) -> Optional[BswEntryKindEnum]:
         """
@@ -380,11 +380,11 @@ class BswModuleEntry(AtpBlueprintable):
         Returns:
             The created SwServiceArg instance
         """
-        if not self.IsElementExists(short_name, SwServiceArg):
+        if not self.IsReferrableElementExists(short_name, SwServiceArg):
             arg = SwServiceArg(self, short_name)
-            self.addElement(arg)
+            self.addReferrableElement(arg)
             self.returnType = arg
-        return self.getElement(short_name, SwServiceArg)
+        return self.getReferrableElement(short_name, SwServiceArg)
 
     def getRole(self) -> Optional[Identifier]:
         """

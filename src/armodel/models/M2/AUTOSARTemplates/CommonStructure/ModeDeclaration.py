@@ -313,10 +313,10 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             The created ModeDeclaration instance
         """
-        if not self.IsElementExists(short_name, ModeDeclaration):
+        if not self.IsReferrableElementExists(short_name, ModeDeclaration):
             spec = ModeDeclaration(self, short_name)
-            self.addElement(spec)
-        return self.getElement(short_name, ModeDeclaration)
+            self.addReferrableElement(spec)
+        return self.getReferrableElement(short_name, ModeDeclaration)
 
     def getModeDeclarations(self) -> List[ModeDeclaration]:
         """
@@ -325,7 +325,7 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             List of ModeDeclaration instances
         """
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.referrableElements), key=lambda o: o.short_name))
 
     def setInitialModeRef(self, ref: Optional[RefType]) -> ModeDeclarationGroup:
         """
@@ -385,11 +385,11 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             The created ModeTransition instance
         """
-        if not self.IsElementExists(short_name, ModeTransition):
+        if not self.IsReferrableElementExists(short_name, ModeTransition):
             spec = ModeTransition(self, short_name)
-            self.addElement(spec)
+            self.addReferrableElement(spec)
             self.modeTransitions.append(spec)
-        return self.getElement(short_name, ModeTransition)
+        return self.getReferrableElement(short_name, ModeTransition)
 
     def getModeTransitions(self) -> List[ModeTransition]:
         """

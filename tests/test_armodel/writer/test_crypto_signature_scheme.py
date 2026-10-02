@@ -64,7 +64,7 @@ class TestCryptoSignatureSchemeWriter:
         pkg = AUTOSAR.getInstance().createARPackage("CryptoSignatureScheme")
         pkg.createCryptoSignatureScheme("Empty")
         parent = ET.Element("ELEMENTS")
-        ARXMLWriter().writeARPackageElement(parent, pkg.getElement("Empty", CryptoSignatureScheme))
+        ARXMLWriter().writeARPackageElement(parent, pkg.getReferrableElement("Empty", CryptoSignatureScheme))
 
         child = parent.find("CRYPTO-SIGNATURE-SCHEME")
         assert child is not None
@@ -91,7 +91,7 @@ class TestCryptoSignatureSchemeWriter:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoSignatureScheme")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        re_scheme = reloaded.getElement("SigScheme", CryptoSignatureScheme)
+        re_scheme = reloaded.getReferrableElement("SigScheme", CryptoSignatureScheme)
         assert re_scheme is not None
         assert isinstance(re_scheme, CryptoSignatureScheme)
         assert re_scheme.getSignatureSchemeId().getValue() == 7

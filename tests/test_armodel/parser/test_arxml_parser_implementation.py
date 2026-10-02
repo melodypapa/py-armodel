@@ -118,7 +118,7 @@ class TestReadSwcImplementation:
         element = __import__("xml.etree.ElementTree", fromlist=["fromstring"]).fromstring(xml)
         parser.readARPackages(element, document)
         pkg = document.getARPackages()[0]
-        impl = pkg.getElement("Impl1", SwcImplementation)
+        impl = pkg.getReferrableElement("Impl1", SwcImplementation)
         assert impl is not None
         self._assert_fields(impl)
 
@@ -229,4 +229,4 @@ def _parse_impl(parser):
     document = AUTOSARDoc()
     parser.readARPackages(element, document)
     pkg = document.getARPackages()[0]
-    return pkg.getElement("Impl1", SwcImplementation)
+    return pkg.getReferrableElement("Impl1", SwcImplementation)

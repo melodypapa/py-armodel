@@ -719,11 +719,11 @@ class CanTpConfig(TpConfig):
 
     def createCanTpAddress(self, short_name: str) -> CanTpAddress:
         """Collection of TP Addresses."""
-        if not self.IsElementExists(short_name, CanTpAddress):
+        if not self.IsReferrableElementExists(short_name, CanTpAddress):
             address = CanTpAddress(self, short_name)
-            self.addElement(address)
+            self.addReferrableElement(address)
             self.tpAddresses.append(address)
-        return self.getElement(short_name, CanTpAddress)
+        return self.getReferrableElement(short_name, CanTpAddress)
 
     def getTpChannels(self) -> List[CanTpChannel]:
         """Configuration of CAN TP channels."""
@@ -731,11 +731,11 @@ class CanTpConfig(TpConfig):
 
     def createCanTpChannel(self, short_name: str) -> CanTpChannel:
         """Configuration of CAN TP channels."""
-        if not self.IsElementExists(short_name, CanTpChannel):
+        if not self.IsReferrableElementExists(short_name, CanTpChannel):
             channel = CanTpChannel(self, short_name)
-            self.addElement(channel)
+            self.addReferrableElement(channel)
             self.tpChannels.append(channel)
-        return self.getElement(short_name, CanTpChannel)
+        return self.getReferrableElement(short_name, CanTpChannel)
 
     def getTpConnections(self) -> List[CanTpConnection]:
         """Senders and receivers of CAN TP messages."""
@@ -769,11 +769,11 @@ class CanTpConfig(TpConfig):
 
     def createCanTpNode(self, short_name: str) -> CanTpNode:
         """Senders and receivers of Can TP messages."""
-        if not self.IsElementExists(short_name, CanTpNode):
+        if not self.IsReferrableElementExists(short_name, CanTpNode):
             node = CanTpNode(self, short_name)
-            self.addElement(node)
+            self.addReferrableElement(node)
             self.tpNodes.append(node)
-        return self.getElement(short_name, CanTpNode)
+        return self.getReferrableElement(short_name, CanTpNode)
 
 
 class DoIpLogicAddress(Identifiable):
@@ -932,11 +932,11 @@ class DoIpTpConfig(TpConfig):
         """
         Collection of logical DoIP Addresses.
         """
-        if not self.IsElementExists(short_name, DoIpLogicAddress):
+        if not self.IsReferrableElementExists(short_name, DoIpLogicAddress):
             address = DoIpLogicAddress(self, short_name)
-            self.addElement(address)
+            self.addReferrableElement(address)
             self.doIpLogicAddresses.append(address)
-        return self.getElement(short_name, DoIpLogicAddress)
+        return self.getReferrableElement(short_name, DoIpLogicAddress)
 
     def getTpConnections(self) -> List[DoIpTpConnection]:
         """
@@ -1344,11 +1344,11 @@ class LinTpConfig(TpConfig):
         return self.tpAddresses
 
     def createTpAddress(self, short_name: str):
-        if not self.IsElementExists(short_name, TpAddress):
+        if not self.IsReferrableElementExists(short_name, TpAddress):
             address = TpAddress(self, short_name)
-            self.addElement(address)
+            self.addReferrableElement(address)
             self.tpAddresses.append(address)
-        return self.getElement(short_name, TpAddress)
+        return self.getReferrableElement(short_name, TpAddress)
 
     def getTpConnections(self):
         return self.tpConnections
@@ -1362,8 +1362,8 @@ class LinTpConfig(TpConfig):
         return self.tpNodes
 
     def createLinTpNode(self, short_name: str):
-        if not self.IsElementExists(short_name, LinTpNode):
+        if not self.IsReferrableElementExists(short_name, LinTpNode):
             address = LinTpNode(self, short_name)
-            self.addElement(address)
+            self.addReferrableElement(address)
             self.tpNodes.append(address)
-        return self.getElement(short_name, LinTpNode)
+        return self.getReferrableElement(short_name, LinTpNode)

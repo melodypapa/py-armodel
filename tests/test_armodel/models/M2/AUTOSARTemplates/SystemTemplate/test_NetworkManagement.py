@@ -755,7 +755,7 @@ class Test_NetworkManagement:
         cluster = config.createCanNmCluster("TestCanCluster")
         assert cluster is not None
         assert cluster.short_name == "TestCanCluster"
-        assert cluster in config.elements
+        assert cluster in config.referrableElements
 
         # Test that creating the same cluster again returns the existing one
         cluster2 = config.createCanNmCluster("TestCanCluster")
@@ -769,7 +769,7 @@ class Test_NetworkManagement:
         cluster = config.createUdpNmCluster("TestUdpCluster")
         assert cluster is not None
         assert cluster.short_name == "TestUdpCluster"
-        assert cluster in config.elements
+        assert cluster in config.referrableElements
 
         # Test that creating the same cluster again returns the existing one
         cluster2 = config.createUdpNmCluster("TestUdpCluster")
@@ -833,7 +833,7 @@ class Test_NetworkManagement:
         ecu = config.createNmEcu("TestNmEcu")
         assert ecu is not None
         assert ecu.short_name == "TestNmEcu"
-        assert ecu in config.elements
+        assert ecu in config.referrableElements
         assert ecu in config.getNmIfEcus()
 
         # Test that creating the same ECU again returns the existing one
@@ -848,7 +848,7 @@ class Test_NetworkManagement:
         node = cluster.createCanNmNode("TestCanNode")
         assert node is not None
         assert node.short_name == "TestCanNode"
-        assert node in cluster.elements
+        assert node in cluster.referrableElements
         assert node in cluster.getNmNodes()
 
         # Test that creating the same node again returns the existing one
@@ -863,7 +863,7 @@ class Test_NetworkManagement:
         node = cluster.createUdpNmNode("TestUdpNode")
         assert node is not None
         assert node.short_name == "TestUdpNode"
-        assert node in cluster.elements
+        assert node in cluster.referrableElements
         assert node in cluster.getNmNodes()
 
         # Test that reading the same node again returns the existing one

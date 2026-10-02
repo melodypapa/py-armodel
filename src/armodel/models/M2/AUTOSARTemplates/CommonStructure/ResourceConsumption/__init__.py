@@ -231,11 +231,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created AnalyzedExecutionTime instance
         """
-        if not self.IsElementExists(short_name, AnalyzedExecutionTime):
+        if not self.IsReferrableElementExists(short_name, AnalyzedExecutionTime):
             execution_time = AnalyzedExecutionTime(self, short_name)
-            self.addElement(execution_time)
+            self.addReferrableElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name, AnalyzedExecutionTime)
+        return self.getReferrableElement(short_name, AnalyzedExecutionTime)
 
     def createMeasuredExecutionTime(self, short_name: str) -> MeasuredExecutionTime:
         """
@@ -247,11 +247,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MeasuredExecutionTime instance
         """
-        if not self.IsElementExists(short_name, MeasuredExecutionTime):
+        if not self.IsReferrableElementExists(short_name, MeasuredExecutionTime):
             execution_time = MeasuredExecutionTime(self, short_name)
-            self.addElement(execution_time)
+            self.addReferrableElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name, MeasuredExecutionTime)
+        return self.getReferrableElement(short_name, MeasuredExecutionTime)
 
     def createRoughEstimateOfExecutionTime(self, short_name: str) -> RoughEstimateOfExecutionTime:
         """
@@ -263,11 +263,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created RoughEstimateOfExecutionTime instance
         """
-        if not self.IsElementExists(short_name, RoughEstimateOfExecutionTime):
+        if not self.IsReferrableElementExists(short_name, RoughEstimateOfExecutionTime):
             execution_time = RoughEstimateOfExecutionTime(self, short_name)
-            self.addElement(execution_time)
+            self.addReferrableElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name, RoughEstimateOfExecutionTime)
+        return self.getReferrableElement(short_name, RoughEstimateOfExecutionTime)
 
     def createSimulatedExecutionTime(self, short_name: str) -> SimulatedExecutionTime:
         """
@@ -279,11 +279,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created SimulatedExecutionTime instance
         """
-        if not self.IsElementExists(short_name, SimulatedExecutionTime):
+        if not self.IsReferrableElementExists(short_name, SimulatedExecutionTime):
             execution_time = SimulatedExecutionTime(self, short_name)
-            self.addElement(execution_time)
+            self.addReferrableElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name, SimulatedExecutionTime)
+        return self.getReferrableElement(short_name, SimulatedExecutionTime)
 
     def getExecutionTimes(self) -> List[ExecutionTime]:
         """Collection of the execution time descriptions for this implementation. The aggregation of executionTime is subject to variability with the purpose to support the conditional existence of runnable entities."""
@@ -299,11 +299,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MeasuredHeapUsage instance
         """
-        if not self.IsElementExists(short_name, MeasuredHeapUsage):
+        if not self.IsReferrableElementExists(short_name, MeasuredHeapUsage):
             heap_usage = MeasuredHeapUsage(self, short_name)
-            self.addElement(heap_usage)
+            self.addReferrableElement(heap_usage)
             self.heapUsages.append(heap_usage)
-        return self.getElement(short_name, MeasuredHeapUsage)
+        return self.getReferrableElement(short_name, MeasuredHeapUsage)
 
     def createRoughEstimateHeapUsage(self, short_name: str) -> RoughEstimateHeapUsage:
         """
@@ -315,11 +315,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created RoughEstimateHeapUsage instance
         """
-        if not self.IsElementExists(short_name, RoughEstimateHeapUsage):
+        if not self.IsReferrableElementExists(short_name, RoughEstimateHeapUsage):
             heap_usage = RoughEstimateHeapUsage(self, short_name)
-            self.addElement(heap_usage)
+            self.addReferrableElement(heap_usage)
             self.heapUsages.append(heap_usage)
-        return self.getElement(short_name, RoughEstimateHeapUsage)
+        return self.getReferrableElement(short_name, RoughEstimateHeapUsage)
 
     def createWorstCaseHeapUsage(self, short_name: str) -> WorstCaseHeapUsage:
         """
@@ -331,11 +331,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created WorstCaseHeapUsage instance
         """
-        if not self.IsElementExists(short_name, WorstCaseHeapUsage):
+        if not self.IsReferrableElementExists(short_name, WorstCaseHeapUsage):
             heap_usage = WorstCaseHeapUsage(self, short_name)
-            self.addElement(heap_usage)
+            self.addReferrableElement(heap_usage)
             self.heapUsages.append(heap_usage)
-        return self.getElement(short_name, WorstCaseHeapUsage)
+        return self.getReferrableElement(short_name, WorstCaseHeapUsage)
 
     def getHeapUsages(self) -> List[HeapUsage]:
         """Collection of the heap memory allocated by this implementation."""
@@ -351,11 +351,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MemorySection instance
         """
-        if not self.IsElementExists(short_name, MemorySection):
+        if not self.IsReferrableElementExists(short_name, MemorySection):
             section = MemorySection(self, short_name)
-            self.addElement(section)
+            self.addReferrableElement(section)
             self.memorySections.append(section)
-        return self.getElement(short_name, MemorySection)
+        return self.getReferrableElement(short_name, MemorySection)
 
     def getMemorySections(self) -> List[MemorySection]:
         """An abstract memory section required by this Implementation."""
@@ -371,7 +371,7 @@ class ResourceConsumption(Identifiable):
         Returns:
             MemorySection instance with the specified short name, or None if not found
         """
-        return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements), None)
+        return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.referrableElements), None)
 
     def createSectionNamePrefix(self, short_name: str) -> SectionNamePrefix:
         """
@@ -383,11 +383,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created SectionNamePrefix instance
         """
-        if not self.IsElementExists(short_name, SectionNamePrefix):
+        if not self.IsReferrableElementExists(short_name, SectionNamePrefix):
             prefix = SectionNamePrefix(self, short_name)
-            self.addElement(prefix)
+            self.addReferrableElement(prefix)
             self.sectionNamePrefixes.append(prefix)
-        return self.getElement(short_name, SectionNamePrefix)
+        return self.getReferrableElement(short_name, SectionNamePrefix)
 
     def getSectionNamePrefixes(self) -> List[SectionNamePrefix]:
         """A prefix to be used for the memory section symbol in the code."""
@@ -403,11 +403,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MeasuredStackUsage instance
         """
-        if not self.IsElementExists(short_name, MeasuredStackUsage):
+        if not self.IsReferrableElementExists(short_name, MeasuredStackUsage):
             section = MeasuredStackUsage(self, short_name)
-            self.addElement(section)
+            self.addReferrableElement(section)
             self.stackUsages.append(section)
-        return self.getElement(short_name, MeasuredStackUsage)
+        return self.getReferrableElement(short_name, MeasuredStackUsage)
 
     def createRoughEstimateStackUsage(self, short_name: str) -> RoughEstimateStackUsage:
         """
@@ -419,11 +419,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created RoughEstimateStackUsage instance
         """
-        if not self.IsElementExists(short_name, RoughEstimateStackUsage):
+        if not self.IsReferrableElementExists(short_name, RoughEstimateStackUsage):
             section = RoughEstimateStackUsage(self, short_name)
-            self.addElement(section)
+            self.addReferrableElement(section)
             self.stackUsages.append(section)
-        return self.getElement(short_name, RoughEstimateStackUsage)
+        return self.getReferrableElement(short_name, RoughEstimateStackUsage)
 
     def createWorstCaseStackUsage(self, short_name: str) -> WorstCaseStackUsage:
         """
@@ -435,11 +435,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created WorstCaseStackUsage instance
         """
-        if not self.IsElementExists(short_name, WorstCaseStackUsage):
+        if not self.IsReferrableElementExists(short_name, WorstCaseStackUsage):
             section = WorstCaseStackUsage(self, short_name)
-            self.addElement(section)
+            self.addReferrableElement(section)
             self.stackUsages.append(section)
-        return self.getElement(short_name, WorstCaseStackUsage)
+        return self.getReferrableElement(short_name, WorstCaseStackUsage)
 
     def getStackUsages(self) -> List[StackUsage]:
         """Collection of the stack memory usage for each runnable entity of this implementation. The aggregation of Stack Usage is subject to variability with the purpose to support the conditional existence of runnable entities."""

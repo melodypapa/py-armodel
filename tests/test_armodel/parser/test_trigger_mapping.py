@@ -102,7 +102,7 @@ class TestReadTriggerMapping:
             ARXMLParser().load(file_path, document_2)
 
             pkg_2 = document_2.getARPackages()[0].getARPackages()[0]
-            pims_2 = pkg_2.getElement("Pims")
+            pims_2 = pkg_2.getReferrableElement("Pims")
             assert pims_2 is not None
 
             tim_2 = pims_2.getPortInterfaceMappings()[0]

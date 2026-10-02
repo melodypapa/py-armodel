@@ -96,7 +96,7 @@ class TestReadSdgDef:
             parser.load(file_path, document)
 
             pkg = document.getARPackages()[0]
-            sdg_def = pkg.getElement("MySdgDef")
+            sdg_def = pkg.getReferrableElement("MySdgDef")
             assert sdg_def is not None
 
             sdg_classes = sdg_def.getSdgClasses()

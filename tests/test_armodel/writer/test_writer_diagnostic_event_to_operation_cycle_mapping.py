@@ -37,7 +37,7 @@ class TestWriteDiagnosticEventToOperationCycleMapping:
         package.createDiagnosticEventToOperationCycleMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToOperationCycleMapping(parent, package.getElement("M1", DiagnosticEventToOperationCycleMapping))
+        ARXMLWriter().writeDiagnosticEventToOperationCycleMapping(parent, package.getReferrableElement("M1", DiagnosticEventToOperationCycleMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-OPERATION-CYCLE-MAPPING")
         assert child is not None

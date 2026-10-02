@@ -813,7 +813,7 @@ class TestParameterAccessRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             pa_2 = behavior_2.getRunnableEntities()[0].getParameterAccesses()[0]
             assert pa_2.getShortName() == "pa1"
@@ -849,7 +849,7 @@ class TestParameterAccessRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             pa_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getParameterAccesses()[0]
             assert pa_2.getShortName() == "pa1"
             assert pa_2.getAccessedParameter() is None
@@ -888,7 +888,7 @@ class TestVariableAccessRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             va_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getDataReadAccesses()[0]
             assert va_2.getShortName() == "va1"
             assert va_2.getAccessedVariable() is not None
@@ -923,7 +923,7 @@ class TestVariableAccessRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             va_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getDataReadAccesses()[0]
             assert va_2.getShortName() == "va1"
             assert va_2.getAccessedVariable() is None
@@ -1010,7 +1010,7 @@ class TestInternalTriggeringPointRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             itp_2 = list(app_2.getInternalBehavior().getRunnableEntities()[0].getInternalTriggeringPoints())[0]
             assert itp_2.getShortName() == "itp1"
             policy = itp_2.getSwImplPolicy()
@@ -1045,7 +1045,7 @@ class TestInternalTriggeringPointRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             itp_2 = list(app_2.getInternalBehavior().getRunnableEntities()[0].getInternalTriggeringPoints())[0]
             assert itp_2.getShortName() == "itp1"
             assert itp_2.getSwImplPolicy() is None
@@ -2707,7 +2707,7 @@ class TestAsynchronousServerCallReturnsEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ascr1")
             assert isinstance(event_2, AsynchronousServerCallReturnsEvent)
@@ -2748,7 +2748,7 @@ class TestAsynchronousServerCallReturnsEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ascr1")
             assert event_2.getEventSourceRef() is None
@@ -2784,7 +2784,7 @@ class TestDataReceiveErrorEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dree1")
             assert isinstance(event_2, DataReceiveErrorEvent)
@@ -2827,7 +2827,7 @@ class TestDataReceiveErrorEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dree1")
             assert event_2.getDataIRef() is None
@@ -2863,7 +2863,7 @@ class TestDataReceivedEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dre1")
             assert isinstance(event_2, DataReceivedEvent)
@@ -2906,7 +2906,7 @@ class TestDataReceivedEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dre1")
             assert event_2.getDataIRef() is None
@@ -2939,7 +2939,7 @@ class TestDataSendCompletedEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dsc1")
             assert isinstance(event_2, DataSendCompletedEvent)
@@ -2980,7 +2980,7 @@ class TestDataSendCompletedEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dsc1")
             assert event_2.getEventSourceRef() is None
@@ -3013,7 +3013,7 @@ class TestDataWriteCompletedEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dwc1")
             assert isinstance(event_2, DataWriteCompletedEvent)
@@ -3054,7 +3054,7 @@ class TestDataWriteCompletedEventRoundTrip:
             document.clear()
             ARXMLParser().load(file_path, document)
             package = document.getARPackages()[0]
-            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dwc1")
             assert event_2.getEventSourceRef() is None

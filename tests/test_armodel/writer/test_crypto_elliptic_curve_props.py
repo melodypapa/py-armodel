@@ -64,7 +64,7 @@ class TestCryptoEllipticCurvePropsWriter:
         pkg = AUTOSAR.getInstance().createARPackage("CryptoEllipticCurveProps")
         pkg.createCryptoEllipticCurveProps("Empty")
         parent = ET.Element("ELEMENTS")
-        ARXMLWriter().writeARPackageElement(parent, pkg.getElement("Empty", CryptoEllipticCurveProps))
+        ARXMLWriter().writeARPackageElement(parent, pkg.getReferrableElement("Empty", CryptoEllipticCurveProps))
 
         child = parent.find("CRYPTO-ELLIPTIC-CURVE-PROPS")
         assert child is not None
@@ -91,7 +91,7 @@ class TestCryptoEllipticCurvePropsWriter:
         reloaded = ARPackage(parent=AUTOSAR.getInstance(), short_name="CryptoEllipticCurveProps")
         ARXMLParser().readARPackageElements(reparsed, reloaded)
 
-        re_props = reloaded.getElement("Curve", CryptoEllipticCurveProps)
+        re_props = reloaded.getReferrableElement("Curve", CryptoEllipticCurveProps)
         assert re_props is not None
         assert isinstance(re_props, CryptoEllipticCurveProps)
         assert re_props.getNamedCurveId().getValue() == 23

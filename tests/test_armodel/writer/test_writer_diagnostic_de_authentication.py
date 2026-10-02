@@ -46,7 +46,7 @@ class TestWriteDiagnosticDeAuthentication:
         package.createDiagnosticDeAuthentication("DeAuth1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticDeAuthentication(parent, package.getElement("DeAuth1", DiagnosticDeAuthentication))
+        ARXMLWriter().writeDiagnosticDeAuthentication(parent, package.getReferrableElement("DeAuth1", DiagnosticDeAuthentication))
 
         child = parent.find("DIAGNOSTIC-DE-AUTHENTICATION")
         assert child is not None
@@ -78,7 +78,7 @@ class TestWriteDiagnosticDeAuthentication:
         package.createDiagnosticDeAuthentication("DeAuth1")
 
         parent = ET.Element("AR-PACKAGE")
-        ARXMLWriter().writeARPackageElement(parent, package.getElement("DeAuth1", DiagnosticDeAuthentication))
+        ARXMLWriter().writeARPackageElement(parent, package.getReferrableElement("DeAuth1", DiagnosticDeAuthentication))
 
         child = parent.find("DIAGNOSTIC-DE-AUTHENTICATION")
         assert child is not None
@@ -101,7 +101,7 @@ class TestWriteDiagnosticDeAuthentication:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            de_authentication_2 = package_2.getElement("DeAuth1", DiagnosticDeAuthentication)
+            de_authentication_2 = package_2.getReferrableElement("DeAuth1", DiagnosticDeAuthentication)
             assert de_authentication_2 is not None
             assert de_authentication_2.getShortName() == "DeAuth1"
             ref_2 = de_authentication_2.getAuthenticationClass()

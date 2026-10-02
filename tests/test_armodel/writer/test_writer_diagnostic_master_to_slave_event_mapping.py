@@ -33,7 +33,7 @@ class TestWriteDiagnosticMasterToSlaveEventMapping:
         package.createDiagnosticMasterToSlaveEventMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticMasterToSlaveEventMapping(parent, package.getElement("M1", DiagnosticMasterToSlaveEventMapping))
+        ARXMLWriter().writeDiagnosticMasterToSlaveEventMapping(parent, package.getReferrableElement("M1", DiagnosticMasterToSlaveEventMapping))
 
         child = parent.find("DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING")
         assert child is not None

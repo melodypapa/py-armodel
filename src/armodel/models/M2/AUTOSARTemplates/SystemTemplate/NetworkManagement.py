@@ -1268,32 +1268,32 @@ class NmConfig(FibexElement):
         return self.nmClusters
 
     def createCanNmCluster(self, short_name: str) -> CanNmCluster:
-        if not self.IsElementExists(short_name, CanNmCluster):
+        if not self.IsReferrableElementExists(short_name, CanNmCluster):
             cluster = CanNmCluster(self, short_name)
-            self.addElement(cluster)
+            self.addReferrableElement(cluster)
             self.nmClusters.append(cluster)
-        return self.getElement(short_name, CanNmCluster)
+        return self.getReferrableElement(short_name, CanNmCluster)
 
     def createUdpNmCluster(self, short_name: str) -> UdpNmCluster:
-        if not self.IsElementExists(short_name, UdpNmCluster):
+        if not self.IsReferrableElementExists(short_name, UdpNmCluster):
             cluster = UdpNmCluster(self, short_name)
-            self.addElement(cluster)
+            self.addReferrableElement(cluster)
             self.nmClusters.append(cluster)
-        return self.getElement(short_name, UdpNmCluster)
+        return self.getReferrableElement(short_name, UdpNmCluster)
 
     def createFlexrayNmCluster(self, short_name: str) -> FlexrayNmCluster:
-        if not self.IsElementExists(short_name, FlexrayNmCluster):
+        if not self.IsReferrableElementExists(short_name, FlexrayNmCluster):
             cluster = FlexrayNmCluster(self, short_name)
-            self.addElement(cluster)
+            self.addReferrableElement(cluster)
             self.nmClusters.append(cluster)
-        return self.getElement(short_name, FlexrayNmCluster)
+        return self.getReferrableElement(short_name, FlexrayNmCluster)
 
     def createJ1939NmCluster(self, short_name: str) -> J1939NmCluster:
-        if not self.IsElementExists(short_name, J1939NmCluster):
+        if not self.IsReferrableElementExists(short_name, J1939NmCluster):
             cluster = J1939NmCluster(self, short_name)
-            self.addElement(cluster)
+            self.addReferrableElement(cluster)
             self.nmClusters.append(cluster)
-        return self.getElement(short_name, J1939NmCluster)
+        return self.getReferrableElement(short_name, J1939NmCluster)
 
     def getCanNmClusters(self) -> List[CanNmCluster]:
         return [cluster for cluster in self.nmClusters if isinstance(cluster, CanNmCluster)]
@@ -1323,11 +1323,11 @@ class NmConfig(FibexElement):
         return self.nmIfEcus
 
     def createNmEcu(self, short_name: str) -> NmEcu:
-        if not self.IsElementExists(short_name, NmEcu):
+        if not self.IsReferrableElementExists(short_name, NmEcu):
             cluster = NmEcu(self, short_name)
-            self.addElement(cluster)
+            self.addReferrableElement(cluster)
             self.nmIfEcus.append(cluster)
-        return self.getElement(short_name, NmEcu)
+        return self.getReferrableElement(short_name, NmEcu)
 
 
 class NmCluster(Identifiable, VariationPointCapable, ABC):
@@ -1432,32 +1432,32 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         return self
 
     def createCanNmNode(self, short_name: str) -> CanNmNode:
-        if not self.IsElementExists(short_name, CanNmNode):
+        if not self.IsReferrableElementExists(short_name, CanNmNode):
             node = CanNmNode(self, short_name)
-            self.addElement(node)
+            self.addReferrableElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name, CanNmNode)
+        return self.getReferrableElement(short_name, CanNmNode)
 
     def createUdpNmNode(self, short_name: str) -> UdpNmNode:
-        if not self.IsElementExists(short_name, UdpNmNode):
+        if not self.IsReferrableElementExists(short_name, UdpNmNode):
             node = UdpNmNode(self, short_name)
-            self.addElement(node)
+            self.addReferrableElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name, UdpNmNode)
+        return self.getReferrableElement(short_name, UdpNmNode)
 
     def createFlexrayNmNode(self, short_name: str) -> FlexrayNmNode:
-        if not self.IsElementExists(short_name, FlexrayNmNode):
+        if not self.IsReferrableElementExists(short_name, FlexrayNmNode):
             node = FlexrayNmNode(self, short_name)
-            self.addElement(node)
+            self.addReferrableElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name, FlexrayNmNode)
+        return self.getReferrableElement(short_name, FlexrayNmNode)
 
     def createJ1939NmNode(self, short_name: str) -> J1939NmNode:
-        if not self.IsElementExists(short_name, J1939NmNode):
+        if not self.IsReferrableElementExists(short_name, J1939NmNode):
             node = J1939NmNode(self, short_name)
-            self.addElement(node)
+            self.addReferrableElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name, J1939NmNode)
+        return self.getReferrableElement(short_name, J1939NmNode)
 
     def getCanNmNodes(self) -> List[CanNmNode]:
         return [node for node in self.nmNodes if isinstance(node, CanNmNode)]

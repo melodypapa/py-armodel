@@ -33,7 +33,7 @@ class TestWriteDiagnosticFimAliasEventMapping:
         package.createDiagnosticFimAliasEventMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticFimAliasEventMapping(parent, package.getElement("M1", DiagnosticFimAliasEventMapping))
+        ARXMLWriter().writeDiagnosticFimAliasEventMapping(parent, package.getReferrableElement("M1", DiagnosticFimAliasEventMapping))
 
         child = parent.find("DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING")
         assert child is not None

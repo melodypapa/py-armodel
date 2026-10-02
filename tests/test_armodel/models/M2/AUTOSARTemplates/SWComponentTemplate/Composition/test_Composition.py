@@ -379,7 +379,7 @@ class TestCompositionSwComponentType:
         assembly = composition.createAssemblySwConnector("AsmConn")
         composition.createDelegationSwConnector("DelConn")
 
-        composition.removeElement("AsmConn")
+        composition.removeReferrableElement("AsmConn")
         assert assembly not in composition.getSwConnectors()
         assert len(composition.getSwConnectors()) == 1
 

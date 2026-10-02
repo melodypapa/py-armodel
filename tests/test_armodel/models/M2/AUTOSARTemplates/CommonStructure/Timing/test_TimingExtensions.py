@@ -55,7 +55,7 @@ class TestTimingExtension:
         parent = _ar_package()
         extension = ConcreteTimingExtension(parent, "Ext1")
         clock = TDLETZoneClock(extension, "Clock1")
-        extension.addElement(clock)
+        extension.addReferrableElement(clock)
         assert extension.addTimingClock(clock) is extension
         assert len(extension.getTimingClocks()) == 1
         assert extension.getTimingClocks()[0] is clock
@@ -104,7 +104,7 @@ class TestTimingExtension:
         parent = _ar_package()
         extension = ConcreteTimingExtension(parent, "Ext1")
         constraint = ExecutionTimeConstraint(extension, "Guarantee1")
-        extension.addElement(constraint)
+        extension.addReferrableElement(constraint)
         assert extension.addTimingGuarantee(constraint) is extension
         assert len(extension.getTimingGuarantees()) == 1
         assert extension.getTimingGuarantees()[0] is constraint
@@ -119,7 +119,7 @@ class TestTimingExtension:
         parent = _ar_package()
         extension = ConcreteTimingExtension(parent, "Ext1")
         constraint = ExecutionOrderConstraint(extension, "Req1")
-        extension.addElement(constraint)
+        extension.addReferrableElement(constraint)
         assert extension.addTimingRequirement(constraint) is extension
         assert len(extension.getTimingRequirements()) == 1
         assert extension.getTimingRequirements()[0] is constraint

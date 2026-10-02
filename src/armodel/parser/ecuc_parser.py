@@ -88,7 +88,7 @@ class EcucParser:
         return result
 
     def get_collect_modules(self, package: ARPackage, modules: List[EcucModule]) -> None:
-        for element in package.getElements():
+        for element in package.getReferrableElements():
             if isinstance(element, (ModuleConfiguration, EcucModuleConfigurationValues)):
                 modules.append(element)
         for sub_package in package.getARPackages():

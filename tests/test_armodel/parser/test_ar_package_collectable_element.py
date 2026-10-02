@@ -88,19 +88,19 @@ class TestReadCollectableElementPath:
         """
         package = _read_package(parser)
 
-        sub_package = package.getElement("SubPackage")
+        sub_package = package.getReferrableElement("SubPackage")
         assert isinstance(sub_package, ARPackage)
         assert sub_package.getShortName() == "SubPackage"
-        assert package.getElement("SubPackage", ARPackage) is sub_package
+        assert package.getReferrableElement("SubPackage", ARPackage) is sub_package
 
-        base_type = package.getElement("MyBaseType")
+        base_type = package.getReferrableElement("MyBaseType")
         assert isinstance(base_type, SwBaseType)
-        assert package.getElement("MyBaseType", SwBaseType) is base_type
-        assert package.getElement("MyBaseType", ARPackage) is None
+        assert package.getReferrableElement("MyBaseType", SwBaseType) is base_type
+        assert package.getReferrableElement("MyBaseType", ARPackage) is None
 
-        assert package.getElement("MissingElement") is None
-        assert package.IsElementExists("MyBaseType") is True
-        assert package.IsElementExists("MissingElement") is False
+        assert package.getReferrableElement("MissingElement") is None
+        assert package.IsReferrableElementExists("MyBaseType") is True
+        assert package.IsReferrableElementExists("MissingElement") is False
 
     def test_read_element_registry_contents(self, parser):
         """
@@ -109,8 +109,8 @@ class TestReadCollectableElementPath:
         """
         package = _read_package(parser)
 
-        assert package.getTotalElement() == 1
-        assert package.getElements() == [package.getElement("MyBaseType")]
+        assert package.getTotalReferrableElement() == 1
+        assert package.getReferrableElements() == [package.getReferrableElement("MyBaseType")]
 
     def test_read_root_element_lookup(self, parser):
         """
@@ -119,5 +119,5 @@ class TestReadCollectableElementPath:
         _read_package(parser)
 
         root = AUTOSAR.getInstance()
-        assert root.getElement("AUTOSAR") is root.getARPackages()[0]
-        assert root.getElement("MissingPackage") is None
+        assert root.getReferrableElement("AUTOSAR") is root.getARPackages()[0]
+        assert root.getReferrableElement("MissingPackage") is None

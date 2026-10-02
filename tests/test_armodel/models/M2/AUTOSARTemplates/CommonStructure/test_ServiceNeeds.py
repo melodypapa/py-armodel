@@ -3119,7 +3119,7 @@ class TestObdMonitorServiceNeedsRoundTrip:
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
-            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdMonitorServiceNeeds()[0]
             assert needs_2.getShortName() == "ObdMonitorNeeds"
             assert isinstance(needs_2, ObdMonitorServiceNeeds)
@@ -3217,7 +3217,7 @@ class TestObdControlServiceNeedsRoundTrip:
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
-            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdControlServiceNeeds()[0]
             assert needs_2.getShortName() == "ObdControlNeeds"
             assert isinstance(needs_2, ObdControlServiceNeeds)
@@ -3754,7 +3754,7 @@ class TestNewServiceNeedsSwcRoundTrip:
             document_2 = AUTOSAR.getInstance()
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
-            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             return needs_2
         finally:

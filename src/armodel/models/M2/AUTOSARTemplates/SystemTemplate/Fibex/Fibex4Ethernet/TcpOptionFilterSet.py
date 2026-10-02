@@ -66,11 +66,11 @@ class TcpOptionFilterSet(ARElement):
         Creates and appends a new TcpOptionFilterList; an existing list with the same
         short name is returned unchanged.
         """
-        if not self.IsElementExists(short_name, TcpOptionFilterList):
+        if not self.IsReferrableElementExists(short_name, TcpOptionFilterList):
             tcp_filter_list = TcpOptionFilterList(self, short_name)
-            self.addElement(tcp_filter_list)
+            self.addReferrableElement(tcp_filter_list)
             self.tcpOptionFilterLists.append(tcp_filter_list)
-        return self.getElement(short_name, TcpOptionFilterList)
+        return self.getReferrableElement(short_name, TcpOptionFilterList)
 
     def getTcpOptionFilterLists(self) -> List[TcpOptionFilterList]:
         """Collection of permitted lists for the filtering of TCP options."""

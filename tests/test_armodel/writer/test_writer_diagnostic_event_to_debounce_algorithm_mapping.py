@@ -37,7 +37,7 @@ class TestWriteDiagnosticEventToDebounceAlgorithmMapping:
         package.createDiagnosticEventToDebounceAlgorithmMapping("M1")
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticEventToDebounceAlgorithmMapping(parent, package.getElement("M1", DiagnosticEventToDebounceAlgorithmMapping))
+        ARXMLWriter().writeDiagnosticEventToDebounceAlgorithmMapping(parent, package.getReferrableElement("M1", DiagnosticEventToDebounceAlgorithmMapping))
 
         child = parent.find("DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING")
         assert child is not None

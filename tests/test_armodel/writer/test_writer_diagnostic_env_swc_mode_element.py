@@ -116,7 +116,7 @@ class TestWriteDiagnosticEnvSwcModeElement:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             package_2 = document_2.getARPackages()[0]
-            env_condition_2 = package_2.getElement("Env1", type(env_condition))
+            env_condition_2 = package_2.getReferrableElement("Env1", type(env_condition))
             assert env_condition_2 is not None
             mode_elements = env_condition_2.getModeElements()
             assert len(mode_elements) == 1

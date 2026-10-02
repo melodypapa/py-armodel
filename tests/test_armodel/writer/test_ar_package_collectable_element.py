@@ -99,7 +99,7 @@ class TestWriteCollectableElementPath:
             ARXMLParser().load(file_path, document_2)
 
             ar_root_2 = document_2.getARPackages()[0]
-            package_2 = ar_root_2.getElement("TestPackage", ARPackage)
+            package_2 = ar_root_2.getReferrableElement("TestPackage", ARPackage)
             assert package_2 is not None
             assert package_2.getShortName() == "TestPackage"
             assert package_2.getUuid() is not None
@@ -107,14 +107,14 @@ class TestWriteCollectableElementPath:
             assert package_2.getCategory() is not None
             assert package_2.getCategory().getValue() == "STANDARD"
 
-            sub_package_2 = package_2.getElement("SubPackage", ARPackage)
+            sub_package_2 = package_2.getReferrableElement("SubPackage", ARPackage)
             assert sub_package_2 is not None
             assert sub_package_2.getShortName() == "SubPackage"
 
-            base_type_2 = package_2.getElement("MyBaseType", SwBaseType)
+            base_type_2 = package_2.getReferrableElement("MyBaseType", SwBaseType)
             assert base_type_2 is not None
             assert base_type_2.getShortName() == "MyBaseType"
-            assert package_2.getTotalElement() == 1
-            assert package_2.getElements() == [base_type_2]
+            assert package_2.getTotalReferrableElement() == 1
+            assert package_2.getReferrableElements() == [base_type_2]
         finally:
             os.remove(file_path)
