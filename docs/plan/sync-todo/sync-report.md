@@ -10,8 +10,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 720 | 37.8% |
-| [x] Deferred | 11 | 0.6% |
+| [x] Done | 721 | 37.9% |
+| [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 269 | 14.1% |
 | [ ] Implemented | 429 | 22.5% |
@@ -696,7 +696,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticSecurityAccessClass`                         | [ ] Deferred| 17ef969f39                               | Group24          |
 | `DiagnosticSecurityEventReportingModeMapping`           | [ ] Deferred| 531da6dd58                               | Group26          |
 | `DiagnosticSecurityLevel`                               | [x] Done    | f2da1338fc                               | Group7           |
-| `DiagnosticServiceClass`                                | [x] Deferred| 6b514727f9                               | Group14          |
+| `DiagnosticServiceClass`                                | [x] Done    | d19685ff4f                               | Group14          |
 | `DiagnosticServiceDataMapping`                          | [ ] Deferred| 80105a7831                               | Group26          |
 | `DiagnosticServiceInstance`                             | [x] Done    | 6b514727f9                               | Group7           |
 | `DiagnosticServiceMappingDiagTarget`                    | [ ] Deferred| 80105a7831                               | Group26          |
