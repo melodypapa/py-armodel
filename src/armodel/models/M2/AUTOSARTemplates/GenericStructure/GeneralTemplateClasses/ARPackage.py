@@ -153,6 +153,7 @@ __all__ = [
     "DiagnosticRequestControlOfOnBoardDevice",
     "DiagnosticRequestCurrentPowertrainData",
     "DiagnosticRequestPowertrainFreezeFrameData",
+    "DiagnosticPowertrainFreezeFrame",
     "DiagnosticReadScalingDataByIdentifier",
     "DiagnosticReadDataByPeriodicID",
     "DiagnosticReadDataByIdentifier",
@@ -1286,6 +1287,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             request_powertrain_freeze_frame_data_class = DiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name)
             self.addReferrableElement(request_powertrain_freeze_frame_data_class)
         return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass)
+
+    def createDiagnosticPowertrainFreezeFrame(self, short_name: str) -> DiagnosticPowertrainFreezeFrame:
+        """
+        Creates a new DiagnosticPowertrainFreezeFrame with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticPowertrainFreezeFrame represents a powertrain-related freeze-frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticPowertrainFreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticPowertrainFreezeFrame instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticPowertrainFreezeFrame):
+            powertrain_freeze_frame = DiagnosticPowertrainFreezeFrame(self, short_name)
+            self.addReferrableElement(powertrain_freeze_frame)
+        return self.getReferrableElement(short_name, DiagnosticPowertrainFreezeFrame)
 
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
@@ -7350,7 +7369,36 @@ class DiagnosticParameterIdentifier(ARElement):
 
 
 class DiagnosticPowertrainFreezeFrame(ARElement):
-    pass
+    """This meta-class represents a powertrain-related freeze-frame. In theory, this meta-class would need an additional id attribute. However, legal regulations requires only a single value for this attribute anyway. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames"""
+
+    # DiagnosticPowertrainFreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.134, p.153
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPidRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPidRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the PID associated with this instance of the OBD mode 0x02 service.
+        self.pidRefs: List[RefType] = []
+
+    def getPidRefs(self) -> List[RefType]:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x02 service.
+        """
+        return self.pidRefs
+
+    def addPidRef(self, value: Optional[RefType]) -> DiagnosticPowertrainFreezeFrame:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x02 service.
+
+        A None value is a no-op and does not append a pidRef.
+        """
+        if value is not None:
+            self.pidRefs.append(value)
+        return self
 
 
 class DiagnosticProofOfOwnership(DiagnosticAuthentication):

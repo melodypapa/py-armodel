@@ -74,6 +74,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
     DiagnosticParameterIdentifier,
+    DiagnosticPowertrainFreezeFrame,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
@@ -8458,3 +8459,82 @@ class TestDiagnosticRequestPowertrainFreezeFrameData:
         assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setFreezeFrameRef.__doc__) == (self.FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing freezeFrameRef.")
         assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.getRequestPowertrainFreezeFrameDataRef.__doc__) == self.CLASS_REF_NOTE
         assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setRequestPowertrainFreezeFrameDataRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestPowertrainFreezeFrameDataRef.")
+
+
+class TestDiagnosticPowertrainFreezeFrame:
+    """
+    Test class for DiagnosticPowertrainFreezeFrame functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.134, p.153
+    """
+
+    CLASS_NOTE = "This meta-class represents a powertrain-related freeze-frame. In theory, this meta-class would need an additional id attribute. However, legal regulations requires only a single value for this attribute anyway. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames"
+    PID_NOTE = "This represents the PID associated with this instance of the OBD mode 0x02 service."
+
+    def _make_obj(self) -> DiagnosticPowertrainFreezeFrame:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticPowertrainFreezeFrame(ar_root, "TestFreezeFrame")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticPowertrainFreezeFrame instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFreezeFrame"
+        assert isinstance(obj, ARElement)
+        assert obj.getPidRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticPowertrainFreezeFrame.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticPowertrainFreezeFrame.__init__.__doc__ is None
+
+    def test_add_get_pid_refs(self):
+        """
+        Appends pid refs; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-PARAMETER-IDENTIFIER")
+        ref.setValue("/AUTOSAR/DiagnosticParameterIdentifiers/Pid1")
+        result = obj.addPidRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getPidRefs() == [ref]
+        assert obj.getPidRefs()[0].getValue() == "/AUTOSAR/DiagnosticParameterIdentifiers/Pid1"
+        assert obj.getPidRefs()[0].getDest() == "DIAGNOSTIC-PARAMETER-IDENTIFIER"
+
+        result = obj.addPidRef(None)
+        assert result is obj  # None is a no-op
+        assert obj.getPidRefs() == [ref]
+
+    def test_create_diagnostic_powertrain_freeze_frame(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticPowertrainFreezeFrames")
+        element = package.createDiagnosticPowertrainFreezeFrame("FreezeFrame1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticPowertrainFreezeFrame)
+        assert element.getShortName() == "FreezeFrame1"
+        assert package.getReferrableElement("FreezeFrame1", DiagnosticPowertrainFreezeFrame) is element
+
+        duplicate = package.createDiagnosticPowertrainFreezeFrame("FreezeFrame1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticPowertrainFreezeFrame.getPidRefs.__doc__) == self.PID_NOTE
+        assert inspect.cleandoc(DiagnosticPowertrainFreezeFrame.addPidRef.__doc__) == (self.PID_NOTE + "\n\nA None value is a no-op and does not append a pidRef.")
