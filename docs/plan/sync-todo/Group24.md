@@ -1275,15 +1275,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestDownload` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.121, p.144
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; spec Base chain (md l.4364) lists DiagnosticMemoryAddressableRangeAccess (cell-wrap healed) ⇒
+    most-derived base per Rule 0001.2 — the existing ARPackage.py stub base is already correct, no relocation (twin 8d1719c7a).
+    Attribute (displayed order, table body md l.4360-4367 — trailing-caption layout, caption l.4369; PDF p.144 via pdf_page.py):
+    requestDownloadClass (DiagnosticRequestDownloadClass, 0..1, ref — cell-wrap healed) → requestDownloadClassRef (XSD
+    REQUEST-DOWNLOAD-CLASS-REF, DEST DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS--SUBTYPES-ENUM; Note per the XSD documentation — the
+    markdown renders it as one paragraph). XSD group DIAGNOSTIC-REQUEST-DOWNLOAD (AUTOSAR_00052.xsd l.41794, complexType
+    l.41819): single element REQUEST-DOWNLOAD-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+    createDiagnosticRequestDownload + memory-family dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1695 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_download.py + test_writer_diagnostic_request_download.py; parser+writer regression 7235 passed / 0 failed; npm run lint clean; black pre-existing branch state unchanged, new files clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestDownloadClass` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.122, p.145
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

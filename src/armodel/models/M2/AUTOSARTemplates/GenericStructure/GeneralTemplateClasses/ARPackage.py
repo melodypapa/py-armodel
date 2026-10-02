@@ -1081,6 +1081,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(data_transfer_class)
         return self.getReferrableElement(short_name, DiagnosticDataTransferClass)
 
+    def createDiagnosticRequestDownload(self, short_name: str) -> DiagnosticRequestDownload:
+        """
+        Creates a new DiagnosticRequestDownload with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestDownload represents an instance of the "Request Download" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestDownload
+
+        Returns:
+            The newly created or existing DiagnosticRequestDownload instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestDownload):
+            request_download = DiagnosticRequestDownload(self, short_name)
+            self.addReferrableElement(request_download)
+        return self.getReferrableElement(short_name, DiagnosticRequestDownload)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -7262,7 +7280,36 @@ class DiagnosticRequestControlOfOnBoardDevice(ARElement):
 
 
 class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
-    pass
+    """This represents an instance of the "Request Download" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticRequestDownload method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.121, p.144
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestDownloadClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestDownloadClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestDownload in the given context.
+        self.requestDownloadClassRef: Optional[RefType] = None
+
+    def getRequestDownloadClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestDownload in the given context.
+        """
+        return self.requestDownloadClassRef
+
+    def setRequestDownloadClassRef(self, value: Optional[RefType]) -> DiagnosticRequestDownload:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestDownload in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestDownloadClassRef.
+        """
+        if value is not None:
+            self.requestDownloadClassRef = value
+        return self
 
 
 class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
