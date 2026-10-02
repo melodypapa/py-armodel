@@ -1524,7 +1524,10 @@ class DtcKindEnum(AREnum):
 
     # DtcKindEnum method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.16, p.760 (R4.3.1)
-    # (no methods)
+    # Spec verified: R4.3.1
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DiagnosticEventInfoNeeds.dtcKind (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
     # This indicates that the monitor reports a OBD-relevant malfunction. Tags: atp.EnumerationValue=0
     EMISSION_RELATED_DTC = "emissionRelatedDtc"
