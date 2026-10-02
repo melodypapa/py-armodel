@@ -395,6 +395,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadMemoryByAddressClass,
     DiagnosticDataTransferClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestFileTransferClass,
     DiagnosticRequestUploadClass,
     DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
@@ -11528,6 +11529,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestUploadClass <%s>" % request_upload_class.getShortName())
         self.readIdentifiable(element, request_upload_class)
 
+    def readDiagnosticRequestFileTransferClass(self, element: ET.Element, request_file_transfer_class: DiagnosticRequestFileTransferClass):
+        self.logger.debug("Read DiagnosticRequestFileTransferClass <%s>" % request_file_transfer_class.getShortName())
+        self.readIdentifiable(element, request_file_transfer_class)
+
     def readDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
         self.logger.debug("Read DiagnosticWriteMemoryByAddress <%s>" % write_memory_by_address.getShortName())
         self.readIdentifiable(element, write_memory_by_address)
@@ -16381,6 +16386,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS":
             request_upload_class = parent.createDiagnosticRequestUploadClass(self.getShortName(child_element))
             self.readDiagnosticRequestUploadClass(child_element, request_upload_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS":
+            request_file_transfer_class = parent.createDiagnosticRequestFileTransferClass(self.getShortName(child_element))
+            self.readDiagnosticRequestFileTransferClass(child_element, request_file_transfer_class)
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
             write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)

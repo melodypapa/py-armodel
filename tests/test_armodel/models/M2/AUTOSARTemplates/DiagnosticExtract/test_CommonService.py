@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadMemoryByAddressClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestFileTransferClass,
     DiagnosticRequestUploadClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -1334,4 +1335,37 @@ class Test_DiagnosticRequestUploadClass:
         assert package.getReferrableElement("Rqu1", DiagnosticRequestUploadClass) is service_class
 
         duplicate = package.createDiagnosticRequestUploadClass("Rqu1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestFileTransferClass:
+    """Test cases for DiagnosticRequestFileTransferClass class (Table 4.126, p.147)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Request File transfer" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestFileTransferClass(_pkg(), "MyRqf")
+        assert service_class.getShortName() == "MyRqf"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestFileTransferClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestFileTransferClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestFileTransferClass, ARObject)
+        assert issubclass(DiagnosticRequestFileTransferClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestFileTransferClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestFileTransferClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_file_transfer_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestFileTransferClass("Rqf1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestFileTransferClass)
+        assert service_class.getShortName() == "Rqf1"
+        assert package.getReferrableElement("Rqf1", DiagnosticRequestFileTransferClass) is service_class
+
+        duplicate = package.createDiagnosticRequestFileTransferClass("Rqf1")
         assert duplicate is service_class

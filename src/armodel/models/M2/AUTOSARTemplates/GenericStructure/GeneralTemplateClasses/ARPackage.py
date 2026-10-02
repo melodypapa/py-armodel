@@ -1173,6 +1173,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_file_transfer)
         return self.getReferrableElement(short_name, DiagnosticRequestFileTransfer)
 
+    def createDiagnosticRequestFileTransferClass(self, short_name: str) -> DiagnosticRequestFileTransferClass:
+        """
+        Creates a new DiagnosticRequestFileTransferClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestFileTransferClass contains attributes shared by all
+        instances of the "Request File transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestFileTransferClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestFileTransferClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransferClass):
+            request_file_transfer_class = DiagnosticRequestFileTransferClass(self, short_name)
+            self.addReferrableElement(request_file_transfer_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestFileTransferClass)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -4208,6 +4227,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDataTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestFileTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestUploadClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadMemoryByAddressClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticTransferExitClass  # noqa: E402

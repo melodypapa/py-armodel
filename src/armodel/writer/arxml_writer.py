@@ -288,6 +288,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDTCInformationClass,
     DiagnosticDataTransferClass,
     DiagnosticRequestDownloadClass,
+    DiagnosticRequestFileTransferClass,
     DiagnosticRequestUploadClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticTransferExitClass,
@@ -15000,6 +15001,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-UPLOAD-CLASS")
         self.writeIdentifiable(child_element, request_upload_class)
 
+    def writeDiagnosticRequestFileTransferClass(self, element: ET.Element, request_file_transfer_class: DiagnosticRequestFileTransferClass):
+        self.logger.debug("Write DiagnosticRequestFileTransferClass %s" % request_file_transfer_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS")
+        self.writeIdentifiable(child_element, request_file_transfer_class)
+
     def writeDiagnosticRequestDownload(self, element: ET.Element, request_download: DiagnosticRequestDownload):
         self.logger.debug("Write DiagnosticRequestDownload %s" % request_download.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD")
@@ -16129,6 +16135,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRequestDownloadClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestUploadClass):
             self.writeDiagnosticRequestUploadClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestFileTransferClass):
+            self.writeDiagnosticRequestFileTransferClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEventClass):
