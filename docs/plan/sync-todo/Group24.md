@@ -1401,19 +1401,53 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticParameterIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.127, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; spec Base chain (md l.4523) = ARElement , ARObject , CollectableElement ,
+    DiagnosticCommonElement , Identifiable , MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base
+    ARElement per Rule 0001.2 (XSD complexType DIAGNOSTIC-PARAMETER-IDENTIFIER l.40810: AR-OBJECT → ... → AR-ELEMENT →
+    DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-PARAMETER-IDENTIFIER) — the existing ARPackage.py stub base is already correct,
+    no relocation. Table body md l.4519-4529 (caption l.4517; PDF p.149 via pdf_page.py; Package row CommonDiagnostics —
+    hosted in ARPackage.py per the confirmed queue row, ARElement package-element convention). Note (md l.4522):
+    "This meta-class represents the ability to model a diagnostic parameter identifier (PID) for the purpose of executing
+    on-board diagnostics (OBD). Tags: atp.recommendedPackage=DiagnosticParameterIdentifiers". Attributes (displayed order):
+    1. dataElement (DiagnosticParameter, *, aggr — singular spec name ⇒ plural py list) → dataElements + addDataElement/
+       getDataElements (DiagnosticParameter is ARObject-based, NOT Referrable ⇒ add/get shape per Rule 0001.6); wrapper
+       element DATA-ELEMENTS (0..1) with unbounded DIAGNOSTIC-PARAMETER items (XSD group l.40783) — wrapper emitted only when
+       non-empty; Note cell-wraps healed per the XSD appinfo ("data Element.ident.shortName" → dataElement.ident.shortName,
+       "variation Point.shortLabel" → variationPoint.shortLabel).
+    2. id (PositiveInteger, 0..1, attr) → setId/getId (getChildElementOptionalPositiveInteger / setChildElementOptional…).
+    3. pidSize (PositiveInteger, 0..1, attr) → setPidSize/getPidSize.
+    4. supportInfoByte (DiagnosticSupportInfoByte, 0..1, aggr — cell-wrap healed) → setSupportInfoByte/getSupportInfoByte
+       (ARObject child ⇒ set/get); DiagnosticSupportInfoByte is a queued pass-stub (Table 4.129, later row) — referenced as
+       the real class per Rule 0001.10, stub sync reported at Step 8. XSD element order: DATA-ELEMENTS, ID, PID-SIZE,
+       SUPPORT-INFO-BYTE. Aggregated by ARPackage.element ⇒ ARPackage factory createDiagnosticParameterIdentifier +
+       memory-family dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (pending per Rule 0001.10, reported: DiagnosticSupportInfoByte is a queued pass-stub (Table
+    4.129, later row) — referenced as the real class; its SUPPORT-INFO-BYTE element is identity-only serialized (empty
+    element) until that row's sync lands; id/pidSize PositiveInteger values written as text, round-trip asserted)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1717 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7266 passed / 0 failed; npm run lint clean after one ruff I001 import-sort fix in the new writer test; black clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticParameterSupportInfo` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.128, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
+  - note (Step 1): nested container; row's Base=ARObject verified (md l.4539; XSD complexType
+    DIAGNOSTIC-PARAMETER-SUPPORT-INFO chains AR-OBJECT only) — stub already in ArObject.py, NO relocation, NO ARPackage
+    factory. Aggregated by DiagnosticParameter.supportInfo (md l.4540; XSD group DIAGNOSTIC-PARAMETER l.40589 element
+    SUPPORT-INFO type DIAGNOSTIC-PARAMETER-SUPPORT-INFO, 0..1) ⇒ wired via the PARENT's reader/writer
+    readDiagnosticParameter/writeDiagnosticParameter, replacing the identity-only placeholder (reader constructed an empty
+    DiagnosticParameterSupportInfo(); writer emitted a bare SUPPORT-INFO element) with named reusable helpers
+    readDiagnosticParameterSupportInfo/writeDiagnosticParameterSupportInfo (Rule 0001.7 identity-only-debt clause).
+    Table body md l.4535-4542 (caption l.4533; PDF p.149 via pdf_page.py). Note (md l.4538): "This represents a way to
+    define which bit of the supportInfo is representing this part of the PID" (no Tags). Attribute: supportInfoBit
+    (PositiveInteger, 0..1, attr; XSD SUPPORT-INFO-BIT) → setSupportInfoBit/getSupportInfoBit. Parent DiagnosticParameter is
+    already synced (Table 4.5) with supportInfo field + accessors — no parent model change needed, parent reader/writer
+    call sites updated only.
+  - [x] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)

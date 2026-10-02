@@ -586,6 +586,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
+    DiagnosticParameterIdentifier,
     DiagnosticServiceDataMapping,
     DiagnosticServiceSwMapping,
     DiagnosticEventPortMapping,
@@ -11514,6 +11515,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_file_transfer)
         request_file_transfer.setRequestFileTransferClassRef(self.getChildElementOptionalRefType(element, "REQUEST-FILE-TRANSFER-CLASS-REF"))
 
+    def readDiagnosticParameterIdentifier(self, element: ET.Element, parameter_identifier: DiagnosticParameterIdentifier):
+        self.logger.debug("Read DiagnosticParameterIdentifier <%s>" % parameter_identifier.getShortName())
+        self.readIdentifiable(element, parameter_identifier)
+        data_elements_element = self.find(element, "DATA-ELEMENTS")
+        if data_elements_element is not None:
+            for child_element in self.findall(data_elements_element, "DIAGNOSTIC-PARAMETER"):
+                data_element = DiagnosticParameter()
+                self.readDiagnosticParameter(child_element, data_element)
+                parameter_identifier.addDataElement(data_element)
+        parameter_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        parameter_identifier.setPidSize(self.getChildElementOptionalPositiveInteger(element, "PID-SIZE"))
+        if self.find(element, "SUPPORT-INFO-BYTE") is not None:
+            parameter_identifier.setSupportInfoByte(DiagnosticSupportInfoByte())
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16875,6 +16890,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER":
             request_file_transfer = parent.createDiagnosticRequestFileTransfer(self.getShortName(child_element))
             self.readDiagnosticRequestFileTransfer(child_element, request_file_transfer)
+            return True
+        if tag_name == "DIAGNOSTIC-PARAMETER-IDENTIFIER":
+            parameter_identifier = parent.createDiagnosticParameterIdentifier(self.getShortName(child_element))
+            self.readDiagnosticParameterIdentifier(child_element, parameter_identifier)
             return True
         return False
 

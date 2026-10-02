@@ -1192,6 +1192,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_file_transfer_class)
         return self.getReferrableElement(short_name, DiagnosticRequestFileTransferClass)
 
+    def createDiagnosticParameterIdentifier(self, short_name: str) -> DiagnosticParameterIdentifier:
+        """
+        Creates a new DiagnosticParameterIdentifier with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticParameterIdentifier represents the ability to model a diagnostic
+        parameter identifier (PID) for the purpose of executing on-board diagnostics (OBD).
+
+        Args:
+            short_name: The short name for the new DiagnosticParameterIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticParameterIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticParameterIdentifier):
+            parameter_identifier = DiagnosticParameterIdentifier(self, short_name)
+            self.addReferrableElement(parameter_identifier)
+        return self.getReferrableElement(short_name, DiagnosticParameterIdentifier)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -7103,7 +7122,99 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
 
 
 class DiagnosticParameterIdentifier(ARElement):
-    pass
+    """This meta-class represents the ability to model a diagnostic parameter identifier (PID) for the purpose of executing on-board diagnostics (OBD). Tags: atp.recommendedPackage=DiagnosticParameterIdentifiers"""
+
+    # DiagnosticParameterIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.127, p.149
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElements         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataElement          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPidSize              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPidSize              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportInfoByte      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportInfoByte      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.dataElements: List[DiagnosticParameter] = []
+
+        # This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA).
+        self.id: Optional[PositiveInteger] = None
+
+        # The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte.
+        self.pidSize: Optional[PositiveInteger] = None
+
+        # This represents the supported information associated with the DiagnosticParameterIdentifier.
+        self.supportInfoByte: Optional[DiagnosticSupportInfoByte] = None
+
+    def getDataElements(self) -> List[DiagnosticParameter]:
+        """
+        This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.dataElements
+
+    def addDataElement(self, value: Optional[DiagnosticParameter]) -> DiagnosticParameterIdentifier:
+        """
+        This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append a dataElement.
+        """
+        if value is not None:
+            self.dataElements.append(value)
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA).
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticParameterIdentifier:
+        """
+        This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA).
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getPidSize(self) -> Optional[PositiveInteger]:
+        """
+        The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte.
+        """
+        return self.pidSize
+
+    def setPidSize(self, value: Optional[PositiveInteger]) -> DiagnosticParameterIdentifier:
+        """
+        The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing pidSize.
+        """
+        if value is not None:
+            self.pidSize = value
+        return self
+
+    def getSupportInfoByte(self) -> Optional[DiagnosticSupportInfoByte]:
+        """
+        This represents the supported information associated with the DiagnosticParameterIdentifier.
+        """
+        return self.supportInfoByte
+
+    def setSupportInfoByte(self, value: Optional[DiagnosticSupportInfoByte]) -> DiagnosticParameterIdentifier:
+        """
+        This represents the supported information associated with the DiagnosticParameterIdentifier.
+
+        A None value is a no-op and does not overwrite an existing supportInfoByte.
+        """
+        if value is not None:
+            self.supportInfoByte = value
+        return self
 
 
 class DiagnosticPowertrainFreezeFrame(ARElement):

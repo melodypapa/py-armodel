@@ -458,6 +458,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
+    DiagnosticParameterIdentifier,
     DiagnosticServiceDataMapping,
     DiagnosticServiceSwMapping,
     DiagnosticEventPortMapping,
@@ -15024,6 +15025,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, request_file_transfer)
         self.setChildElementOptionalRefType(child_element, "REQUEST-FILE-TRANSFER-CLASS-REF", request_file_transfer.getRequestFileTransferClassRef())
 
+    def writeDiagnosticParameterIdentifier(self, element: ET.Element, parameter_identifier: DiagnosticParameterIdentifier):
+        self.logger.debug("Write DiagnosticParameterIdentifier %s" % parameter_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER-IDENTIFIER")
+        self.writeIdentifiable(child_element, parameter_identifier)
+        data_elements = parameter_identifier.getDataElements()
+        if len(data_elements) > 0:
+            data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
+            for data_element in data_elements:
+                self.writeDiagnosticParameter(data_elements_tag, data_element)
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", parameter_identifier.getId())
+        self.setChildElementOptionalPositiveInteger(child_element, "PID-SIZE", parameter_identifier.getPidSize())
+        if parameter_identifier.getSupportInfoByte() is not None:
+            ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16344,6 +16359,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestFileTransfer):
             self.writeDiagnosticRequestFileTransfer(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticParameterIdentifier):
+            self.writeDiagnosticParameterIdentifier(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

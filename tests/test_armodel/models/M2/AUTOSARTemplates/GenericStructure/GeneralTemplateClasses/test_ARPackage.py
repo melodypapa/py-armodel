@@ -73,6 +73,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryIdentifier,
     DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
+    DiagnosticParameterIdentifier,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
@@ -8115,3 +8116,139 @@ class TestDiagnosticRequestFileTransfer:
         """
         assert inspect.cleandoc(DiagnosticRequestFileTransfer.getRequestFileTransferClassRef.__doc__) == self.REQUEST_FILE_TRANSFER_CLASS_NOTE
         assert inspect.cleandoc(DiagnosticRequestFileTransfer.setRequestFileTransferClassRef.__doc__) == (self.REQUEST_FILE_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestFileTransferClassRef.")
+
+
+class TestDiagnosticParameterIdentifier:
+    """
+    Test class for DiagnosticParameterIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.127, p.149
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a diagnostic parameter identifier (PID) for the purpose of executing on-board diagnostics (OBD). Tags: atp.recommendedPackage=DiagnosticParameterIdentifiers"
+    DATA_ELEMENT_NOTE = "This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ID_NOTE = "This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA)."
+    PID_SIZE_NOTE = "The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte."
+    SUPPORT_INFO_BYTE_NOTE = "This represents the supported information associated with the DiagnosticParameterIdentifier."
+
+    def _make_obj(self) -> DiagnosticParameterIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticParameterIdentifier(ar_root, "TestParameterIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticParameterIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestParameterIdentifier"
+        assert isinstance(obj, ARElement)
+        assert obj.getDataElements() == []
+        assert obj.getId() is None
+        assert obj.getPidSize() is None
+        assert obj.getSupportInfoByte() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticParameterIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticParameterIdentifier.__init__.__doc__ is None
+
+    def test_add_get_data_elements(self):
+        """
+        Appends DiagnosticParameter data elements; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        data_element = DiagnosticParameter()
+        result = obj.addDataElement(data_element)
+        assert result is obj  # method chaining
+        assert obj.getDataElements() == [data_element]
+
+        result = obj.addDataElement(None)
+        assert result is obj  # None is a no-op
+        assert obj.getDataElements() == [data_element]
+
+    def test_get_set_id(self):
+        """
+        Round-trips the id; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        id_value = PositiveInteger()
+        id_value.setValue("4")
+        result = obj.setId(id_value)
+        assert result is obj  # method chaining
+        assert obj.getId() is id_value
+        assert obj.getId().getValue() == 4
+
+        result = obj.setId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getId() is id_value  # None is a no-op
+
+    def test_get_set_pid_size(self):
+        """
+        Round-trips the pidSize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        pid_size = PositiveInteger()
+        pid_size.setValue("6")
+        result = obj.setPidSize(pid_size)
+        assert result is obj  # method chaining
+        assert obj.getPidSize() is pid_size
+        assert obj.getPidSize().getValue() == 6
+
+        result = obj.setPidSize(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPidSize() is pid_size  # None is a no-op
+
+    def test_get_set_support_info_byte(self):
+        """
+        Round-trips the supportInfoByte; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        support_info_byte = DiagnosticSupportInfoByte()
+        result = obj.setSupportInfoByte(support_info_byte)
+        assert result is obj  # method chaining
+        assert obj.getSupportInfoByte() is support_info_byte
+
+        result = obj.setSupportInfoByte(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSupportInfoByte() is support_info_byte  # None is a no-op
+
+    def test_create_diagnostic_parameter_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticParameterIdentifiers")
+        element = package.createDiagnosticParameterIdentifier("ParameterIdentifier1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticParameterIdentifier)
+        assert element.getShortName() == "ParameterIdentifier1"
+        assert package.getReferrableElement("ParameterIdentifier1", DiagnosticParameterIdentifier) is element
+
+        duplicate = package.createDiagnosticParameterIdentifier("ParameterIdentifier1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.getDataElements.__doc__) == self.DATA_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.addDataElement.__doc__) == (self.DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not append a dataElement.")
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.getPidSize.__doc__) == self.PID_SIZE_NOTE
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.setPidSize.__doc__) == (self.PID_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pidSize.")
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.getSupportInfoByte.__doc__) == self.SUPPORT_INFO_BYTE_NOTE
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.setSupportInfoByte.__doc__) == (self.SUPPORT_INFO_BYTE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing supportInfoByte.")
