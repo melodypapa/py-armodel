@@ -20,12 +20,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
+    CpSwClusterResourceToDiagDataElemMapping,
+    CpSwClusterResourceToDiagFunctionIdMapping,
     CpSwClusterToDiagEventMapping,
+    CpSwClusterToDiagRoutineSubfunctionMapping,
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthRole,
     DiagnosticAuthTransmitCertificate,
+    DiagnosticAuthTransmitCertificateMapping,
     DiagnosticClearDiagnosticInformation,
     DiagnosticComControl,
     DiagnosticContributionSet,
@@ -34,13 +38,39 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
+    DiagnosticDemProvidedDataMapping,
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticEnableConditionPortMapping,
+    DiagnosticEventPortMapping,
+    DiagnosticEventToDebounceAlgorithmMapping,
+    DiagnosticEventToEnableConditionGroupMapping,
+    DiagnosticEventToOperationCycleMapping,
+    DiagnosticEventToSecurityEventMapping,
+    DiagnosticEventToStorageConditionGroupMapping,
+    DiagnosticEventToTroubleCodeJ1939Mapping,
+    DiagnosticEventToTroubleCodeUdsMapping,
+    DiagnosticFimAliasEventGroup,
+    DiagnosticFimAliasEventGroupMapping,
+    DiagnosticFimAliasEventMapping,
+    DiagnosticFimEventGroup,
+    DiagnosticFimFunctionMapping,
+    DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
+    DiagnosticIumprToFunctionIdentifierMapping,
+    DiagnosticJ1939ExpandedFreezeFrame,
+    DiagnosticJ1939FreezeFrame,
+    DiagnosticJ1939Node,
+    DiagnosticJ1939Spn,
+    DiagnosticJ1939SpnMapping,
+    DiagnosticJ1939SwMapping,
     DiagnosticMapping,
+    DiagnosticMasterToSlaveEventMapping,
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryByAddress,
+    DiagnosticOperationCyclePortMapping,
+    DiagnosticParameterElementAccess,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
@@ -51,8 +81,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
+    DiagnosticSecurityEventReportingModeMapping,
+    DiagnosticServiceDataMapping,
+    DiagnosticServiceMappingDiagTarget,
+    DiagnosticServiceSwMapping,
     DiagnosticSessionControl,
+    DiagnosticStorageConditionPortMapping,
+    DiagnosticSwMapping,
     DiagnosticTransferExit,
+    DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
     DiagnosticWriteDataByIdentifier,
@@ -73,6 +110,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AclScopeEnum,
     Boolean,
     DiagnosticResponseOnEventActionEnum,
+    DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -3020,6 +3058,2758 @@ class TestDiagnosticComControl:
         assert duplicate is com_control  # duplicate short name returns the existing element
 
 
+class TestDiagnosticFimEventGroup:
+    """
+    Test class for DiagnosticFimEventGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.218, p.217
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a Fim event group, also known as a summary event in Fim terminology. This represents a group of single diagnostic events. Tags: atp.recommendedPackage=DiagnosticFimEventGroups"
+
+    def _make_obj(self) -> DiagnosticFimEventGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimEventGroup(ar_root, "TestFimEventGroup")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimEventGroup instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimEventGroup"
+        assert obj.getEventRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimEventGroup.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimEventGroup.__init__.__doc__ is None
+
+    def test_add_get_event_refs(self):
+        """
+        Round-trips the event multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-EVENT")
+        ref1.setValue("/AUTOSAR/DiagEvents/Evt1")
+        result = obj.addEventRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-EVENT")
+        ref2.setValue("/AUTOSAR/DiagEvents/Evt2")
+        obj.addEventRef(ref2)
+
+        refs = obj.getEventRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/DiagEvents/Evt2"
+        assert refs[1].getDest() == "DIAGNOSTIC-EVENT"
+
+        result = obj.addEventRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getEventRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_fim_event_group(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticFimEventGroups")
+        fim_event_group = package.createDiagnosticFimEventGroup("FimGroup1")
+
+        assert fim_event_group is not None
+        assert isinstance(fim_event_group, DiagnosticFimEventGroup)
+        assert fim_event_group.getShortName() == "FimGroup1"
+        assert package.getElement("FimGroup1", DiagnosticFimEventGroup) is fim_event_group
+
+        duplicate = package.createDiagnosticFimEventGroup("FimGroup1")
+        assert duplicate is fim_event_group  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939Spn:
+    """
+    Test class for DiagnosticJ1939Spn functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.219, p.219
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a J1939 Suspect Parameter Number (SPN). Tags: atp.recommendedPackage=DiagnosticJ1939Spns"
+
+    def _make_obj(self) -> DiagnosticJ1939Spn:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939Spn(ar_root, "TestSpn")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939Spn instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestSpn"
+        assert obj.getSpn() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939Spn.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939Spn.__init__.__doc__ is None
+
+    def test_get_set_spn(self):
+        """
+        Round-trips the spn attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("19000")
+        result = obj.setSpn(value)
+        assert result is obj  # method chaining
+        assert obj.getSpn() is value
+        assert obj.getSpn().getValue() == 19000
+
+        result = obj.setSpn(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSpn() is value  # None is a no-op
+
+    def test_create_diagnostic_j1939_spn(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticJ1939Spns")
+        spn = package.createDiagnosticJ1939Spn("Spn1")
+
+        assert spn is not None
+        assert isinstance(spn, DiagnosticJ1939Spn)
+        assert spn.getShortName() == "Spn1"
+        assert package.getElement("Spn1", DiagnosticJ1939Spn) is spn
+
+        duplicate = package.createDiagnosticJ1939Spn("Spn1")
+        assert duplicate is spn  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939FreezeFrame:
+    """
+    Test class for DiagnosticJ1939FreezeFrame functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.220, p.220
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939FreezeFrames"
+
+    def _make_obj(self) -> DiagnosticJ1939FreezeFrame:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939FreezeFrame(ar_root, "TestFreezeFrame")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939FreezeFrame instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFreezeFrame"
+        assert obj.getNodeRef() is None
+        assert obj.getSpnRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939FreezeFrame.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939FreezeFrame.__init__.__doc__ is None
+
+    def test_get_set_node_ref(self):
+        """
+        Round-trips the node reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-J-1939-NODE")
+        ref.setValue("/AUTOSAR/J1939Nodes/Node1")
+        result = obj.setNodeRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getNodeRef() is ref
+        assert obj.getNodeRef().getValue() == "/AUTOSAR/J1939Nodes/Node1"
+
+        result = obj.setNodeRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getNodeRef() is ref  # None is a no-op
+
+    def test_add_get_spn_refs(self):
+        """
+        Round-trips the spn multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref1.setValue("/AUTOSAR/Spns/Spn1")
+        result = obj.addSpnRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref2.setValue("/AUTOSAR/Spns/Spn2")
+        obj.addSpnRef(ref2)
+
+        refs = obj.getSpnRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/Spns/Spn2"
+
+        result = obj.addSpnRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getSpnRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_j1939_freeze_frame(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticJ1939FreezeFrames")
+        freeze_frame = package.createDiagnosticJ1939FreezeFrame("FreezeFrame1")
+
+        assert freeze_frame is not None
+        assert isinstance(freeze_frame, DiagnosticJ1939FreezeFrame)
+        assert freeze_frame.getShortName() == "FreezeFrame1"
+        assert package.getElement("FreezeFrame1", DiagnosticJ1939FreezeFrame) is freeze_frame
+
+        duplicate = package.createDiagnosticJ1939FreezeFrame("FreezeFrame1")
+        assert duplicate is freeze_frame  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939ExpandedFreezeFrame:
+    """
+    Test class for DiagnosticJ1939ExpandedFreezeFrame functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.221, p.221
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an expanded J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939ExpandedFreezeFrames"
+
+    def _make_obj(self) -> DiagnosticJ1939ExpandedFreezeFrame:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939ExpandedFreezeFrame(ar_root, "TestExpandedFreezeFrame")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939ExpandedFreezeFrame instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestExpandedFreezeFrame"
+        assert obj.getNodeRef() is None
+        assert obj.getSpnRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939ExpandedFreezeFrame.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939ExpandedFreezeFrame.__init__.__doc__ is None
+
+    def test_get_set_node_ref(self):
+        """
+        Round-trips the node reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-J-1939-NODE")
+        ref.setValue("/AUTOSAR/J1939Nodes/Node1")
+        result = obj.setNodeRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getNodeRef() is ref
+
+        result = obj.setNodeRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getNodeRef() is ref  # None is a no-op
+
+    def test_add_get_spn_refs(self):
+        """
+        Round-trips the spn multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref1.setValue("/AUTOSAR/Spns/Spn1")
+        result = obj.addSpnRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-J-1939-SPN")
+        ref2.setValue("/AUTOSAR/Spns/Spn2")
+        obj.addSpnRef(ref2)
+
+        refs = obj.getSpnRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/Spns/Spn2"
+
+        result = obj.addSpnRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getSpnRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_j1939_expanded_freeze_frame(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticJ1939ExpandedFreezeFrames")
+        expanded_freeze_frame = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
+
+        assert expanded_freeze_frame is not None
+        assert isinstance(expanded_freeze_frame, DiagnosticJ1939ExpandedFreezeFrame)
+        assert expanded_freeze_frame.getShortName() == "ExpandedFreezeFrame1"
+        assert package.getElement("ExpandedFreezeFrame1", DiagnosticJ1939ExpandedFreezeFrame) is expanded_freeze_frame
+
+        duplicate = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
+        assert duplicate is expanded_freeze_frame  # duplicate short name returns the existing element
+
+
+class TestDiagnosticTroubleCodeJ1939:
+    """
+    Test class for DiagnosticTroubleCodeJ1939 functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.223, p.222
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model specific trouble-code related properties for J1939. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"
+
+    def _make_obj(self) -> DiagnosticTroubleCodeJ1939:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTroubleCodeJ1939(ar_root, "TestDtc")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticTroubleCodeJ1939 instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestDtc"
+        assert obj.getDtcPropsRef() is None
+        assert obj.getFmi() is None
+        assert obj.getKind() is None
+        assert obj.getNodeRef() is None
+        assert obj.getSpnRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticTroubleCodeJ1939.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeJ1939.__init__.__doc__ is None
+
+    def test_get_set_fmi(self):
+        """
+        Round-trips the fmi attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("9")
+        result = obj.setFmi(value)
+        assert result is obj  # method chaining
+        assert obj.getFmi() is value
+        assert obj.getFmi().getValue() == 9
+
+        result = obj.setFmi(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFmi() is value  # None is a no-op
+
+    def test_get_set_kind(self):
+        """
+        Round-trips the kind enum attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        kind = DiagnosticTroubleCodeJ1939DtcKindEnum()
+        kind.setValue(DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY)
+        result = obj.setKind(kind)
+        assert result is obj  # method chaining
+        assert obj.getKind() is kind
+        assert obj.getKind().getValue() == "serviceOnly"
+
+        result = obj.setKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getKind() is kind  # None is a no-op
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the dtcProps/node/spn references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        dtc_props_ref = RefType().setValue("/AUTOSAR/DtcProps/Props1").setDest("DIAGNOSTIC-TROUBLE-CODE-PROPS")
+        node_ref = RefType().setValue("/AUTOSAR/J1939Nodes/Node1").setDest("DIAGNOSTIC-J-1939-NODE")
+        spn_ref = RefType().setValue("/AUTOSAR/Spns/Spn1").setDest("DIAGNOSTIC-J-1939-SPN")
+        obj.setDtcPropsRef(dtc_props_ref)
+        obj.setNodeRef(node_ref)
+        obj.setSpnRef(spn_ref)
+
+        assert obj.getDtcPropsRef() is dtc_props_ref
+        assert obj.getNodeRef() is node_ref
+        assert obj.getSpnRef() is spn_ref
+
+        obj.setDtcPropsRef(None)
+        obj.setNodeRef(None)
+        obj.setSpnRef(None)
+        assert obj.getDtcPropsRef() is dtc_props_ref  # None is a no-op
+        assert obj.getNodeRef() is node_ref  # None is a no-op
+        assert obj.getSpnRef() is spn_ref  # None is a no-op
+
+    def test_create_diagnostic_trouble_code_j1939(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticTroubleCodes")
+        trouble_code = package.createDiagnosticTroubleCodeJ1939("Dtc1")
+
+        assert trouble_code is not None
+        assert isinstance(trouble_code, DiagnosticTroubleCodeJ1939)
+        assert trouble_code.getShortName() == "Dtc1"
+        assert package.getElement("Dtc1", DiagnosticTroubleCodeJ1939) is trouble_code
+
+        duplicate = package.createDiagnosticTroubleCodeJ1939("Dtc1")
+        assert duplicate is trouble_code  # duplicate short name returns the existing element
+
+
+class TestDiagnosticSwMapping:
+    """
+    Test class for DiagnosticSwMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.14, p.238
+    """
+
+    CLASS_NOTE = "This represents the ability to define a mapping between a diagnostic information (at this point there is no way to become more specific about the semantics) to a software-component."
+
+    def test_is_abstract(self):
+        """
+        Test that DiagnosticSwMapping is abstract and cannot be instantiated.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticSwMapping(AUTOSAR.getInstance(), "SwMapping")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticSwMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticSwMapping.__init__.__doc__ is None
+
+    def test_concrete_subclass_instantiates(self):
+        """
+        Test that a concrete subclass inherits the DiagnosticMapping base accessors.
+        """
+
+        class DummySwMapping(DiagnosticSwMapping):
+            pass
+
+        package = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = DummySwMapping(package, "Dummy")
+
+        assert obj.getShortName() == "Dummy"
+        assert obj.getProviderSoftwareClusterRef() is None
+        assert obj.getRequesterSoftwareClusterRef() is None
+
+
+class TestDiagnosticParameterElementAccess:
+    """
+    Test class for DiagnosticParameterElementAccess functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.5, p.229
+    """
+
+    CLASS_NOTE = "This meta-class acts as a single point for defining structured references to a specific DiagnosticParameterElement."
+
+    def _make_obj(self) -> DiagnosticParameterElementAccess:
+        return DiagnosticParameterElementAccess()
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticParameterElementAccess instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj is not None
+        assert obj.getContextElementRefs() == []
+        assert obj.getTargetElementRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticParameterElementAccess.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticParameterElementAccess.__init__.__doc__ is None
+
+    def test_add_get_context_element_refs(self):
+        """
+        Round-trips the contextElement multi-reference; None is a no-op on add.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-PARAMETER-ELEMENT")
+        ref1.setValue("/AUTOSAR/ParamElements/Ctx1")
+        result = obj.addContextElementRef(ref1)
+        assert result is obj  # method chaining
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-PARAMETER-ELEMENT")
+        ref2.setValue("/AUTOSAR/ParamElements/Ctx2")
+        obj.addContextElementRef(ref2)
+
+        refs = obj.getContextElementRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/AUTOSAR/ParamElements/Ctx2"
+
+        result = obj.addContextElementRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getContextElementRefs()) == 2  # None is a no-op
+
+    def test_get_set_target_element_ref(self):
+        """
+        Round-trips the targetElement reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-PARAMETER-ELEMENT")
+        ref.setValue("/AUTOSAR/ParamElements/Target")
+        result = obj.setTargetElementRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getTargetElementRef() is ref
+
+        result = obj.setTargetElementRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTargetElementRef() is ref  # None is a no-op
+
+
+class TestDiagnosticServiceDataMapping:
+    """
+    Test class for DiagnosticServiceDataMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.4, p.228
+    """
+
+    CLASS_NOTE = "This represents the ability to define a mapping of a diagnostic service to a software-component. This kind of service mapping is applicable for the usage of SenderReceiverInterfaces or event/notifier semantics in ServiceInterfaces on the adaptive platform. Tags: atp.recommendedPackage=DiagnosticServiceMappings"
+
+    def _make_obj(self) -> DiagnosticServiceDataMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticServiceDataMapping(ar_root, "TestServiceDataMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticServiceDataMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestServiceDataMapping"
+        assert obj.getDiagnosticDataElementRef() is None
+        assert obj.getDiagnosticParameterRef() is None
+        assert obj.getMappedDataElementIRef() is None
+        assert obj.getParameterElementAccess() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticServiceDataMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticServiceDataMapping.__init__.__doc__ is None
+
+    def test_get_set_refs_and_aggregation(self):
+        """
+        Round-trips the references and the parameterElementAccess aggregation; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        data_ref = RefType().setValue("/AUTOSAR/DataElements/Did1").setDest("DIAGNOSTIC-DATA-ELEMENT")
+        param_ref = RefType().setValue("/AUTOSAR/ParamIdents/Ident1").setDest("DIAGNOSTIC-PARAMETER-IDENT")
+        iref = RefType().setValue("/AUTOSAR/SwDataDefs/Proto1")
+        pea = DiagnosticParameterElementAccess()
+        obj.setDiagnosticDataElementRef(data_ref)
+        obj.setDiagnosticParameterRef(param_ref)
+        obj.setMappedDataElementIRef(iref)
+        obj.setParameterElementAccess(pea)
+
+        assert obj.getDiagnosticDataElementRef() is data_ref
+        assert obj.getDiagnosticParameterRef() is param_ref
+        assert obj.getMappedDataElementIRef() is iref
+        assert obj.getParameterElementAccess() is pea
+
+        obj.setDiagnosticDataElementRef(None)
+        obj.setDiagnosticParameterRef(None)
+        obj.setMappedDataElementIRef(None)
+        obj.setParameterElementAccess(None)
+        assert obj.getDiagnosticDataElementRef() is data_ref  # None is a no-op
+        assert obj.getDiagnosticParameterRef() is param_ref  # None is a no-op
+        assert obj.getMappedDataElementIRef() is iref  # None is a no-op
+        assert obj.getParameterElementAccess() is pea  # None is a no-op
+
+    def test_create_diagnostic_service_data_mapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticServiceMappings")
+        service_data_mapping = package.createDiagnosticServiceDataMapping("Mapping1")
+
+        assert service_data_mapping is not None
+        assert isinstance(service_data_mapping, DiagnosticServiceDataMapping)
+        assert service_data_mapping.getShortName() == "Mapping1"
+        assert package.getElement("Mapping1", DiagnosticServiceDataMapping) is service_data_mapping
+
+        duplicate = package.createDiagnosticServiceDataMapping("Mapping1")
+        assert duplicate is service_data_mapping  # duplicate short name returns the existing element
+
+
+class TestDiagnosticServiceMappingDiagTarget:
+    """
+    Test class for DiagnosticServiceMappingDiagTarget functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.12, p.234
+    """
+
+    CLASS_NOTE = "This meta-class serves as a base class for diagnostics-related targets of subclasses of DiagnosticSwMapping."
+
+    def test_is_abstract(self):
+        """
+        Test that DiagnosticServiceMappingDiagTarget is abstract and cannot be instantiated.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticServiceMappingDiagTarget()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticServiceMappingDiagTarget.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticServiceMappingDiagTarget.__init__.__doc__ is None
+
+class TestDiagnosticEventToDebounceAlgorithmMapping:
+    """
+    Test class for DiagnosticEventToDebounceAlgorithmMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.21, p.246
+    """
+
+    CLASS_NOTE = "Defines which Debounce Algorithm is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToDebounceAlgorithmMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToDebounceAlgorithmMapping(ar_root, "TestEventToDebounceAlgorithmMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToDebounceAlgorithmMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToDebounceAlgorithmMapping"
+        assert obj.getDebounceAlgorithmRef() is None
+        assert obj.getDiagnosticEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToDebounceAlgorithmMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToDebounceAlgorithmMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDebounceAlgorithmRef(RefType().setValue("/AUTOSAR/DebounceAlgorithm1").setDest("DEST"))
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1").setDest("DEST"))
+
+        assert obj.getDebounceAlgorithmRef() is not None
+        assert obj.getDiagnosticEventRef() is not None
+
+        obj.setDebounceAlgorithmRef(None)
+        obj.setDiagnosticEventRef(None)
+        assert obj.getDebounceAlgorithmRef().getValue() == "/AUTOSAR/DebounceAlgorithm1"  # None is a no-op
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+
+    def test_create_diagnosticEventToDebounceAlgorithmMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToDebounceAlgorithmMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToDebounceAlgorithmMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToDebounceAlgorithmMapping) is element
+
+        duplicate = package.createDiagnosticEventToDebounceAlgorithmMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEventToEnableConditionGroupMapping:
+    """
+    Test class for DiagnosticEventToEnableConditionGroupMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.22, p.247
+    """
+
+    CLASS_NOTE = "Defines which EnableConditionGroup is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToEnableConditionGroupMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToEnableConditionGroupMapping(ar_root, "TestEventToEnableConditionGroupMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToEnableConditionGroupMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToEnableConditionGroupMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getEnableConditionGroupRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToEnableConditionGroupMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToEnableConditionGroupMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1").setDest("DEST"))
+        obj.setEnableConditionGroupRef(RefType().setValue("/AUTOSAR/EnableConditionGroup1").setDest("DEST"))
+
+        assert obj.getDiagnosticEventRef() is not None
+        assert obj.getEnableConditionGroupRef() is not None
+
+        obj.setDiagnosticEventRef(None)
+        obj.setEnableConditionGroupRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getEnableConditionGroupRef().getValue() == "/AUTOSAR/EnableConditionGroup1"  # None is a no-op
+
+    def test_create_diagnosticEventToEnableConditionGroupMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToEnableConditionGroupMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToEnableConditionGroupMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToEnableConditionGroupMapping) is element
+
+        duplicate = package.createDiagnosticEventToEnableConditionGroupMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEventToOperationCycleMapping:
+    """
+    Test class for DiagnosticEventToOperationCycleMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.20, p.245
+    """
+
+    CLASS_NOTE = "Defines which OperationCycle is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToOperationCycleMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToOperationCycleMapping(ar_root, "TestEventToOperationCycleMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToOperationCycleMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToOperationCycleMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getOperationCycleRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToOperationCycleMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToOperationCycleMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1").setDest("DEST"))
+        obj.setOperationCycleRef(RefType().setValue("/AUTOSAR/OperationCycle1").setDest("DEST"))
+
+        assert obj.getDiagnosticEventRef() is not None
+        assert obj.getOperationCycleRef() is not None
+
+        obj.setDiagnosticEventRef(None)
+        obj.setOperationCycleRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getOperationCycleRef().getValue() == "/AUTOSAR/OperationCycle1"  # None is a no-op
+
+    def test_create_diagnosticEventToOperationCycleMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToOperationCycleMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToOperationCycleMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToOperationCycleMapping) is element
+
+        duplicate = package.createDiagnosticEventToOperationCycleMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEventToStorageConditionGroupMapping:
+    """
+    Test class for DiagnosticEventToStorageConditionGroupMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.23, p.248
+    """
+
+    CLASS_NOTE = "Defines which StorageConditionGroup is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToStorageConditionGroupMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToStorageConditionGroupMapping(ar_root, "TestEventToStorageConditionGroupMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToStorageConditionGroupMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToStorageConditionGroupMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getStorageConditionGroupRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToStorageConditionGroupMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToStorageConditionGroupMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1").setDest("DEST"))
+        obj.setStorageConditionGroupRef(RefType().setValue("/AUTOSAR/StorageConditionGroup1").setDest("DEST"))
+
+        assert obj.getDiagnosticEventRef() is not None
+        assert obj.getStorageConditionGroupRef() is not None
+
+        obj.setDiagnosticEventRef(None)
+        obj.setStorageConditionGroupRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getStorageConditionGroupRef().getValue() == "/AUTOSAR/StorageConditionGroup1"  # None is a no-op
+
+    def test_create_diagnosticEventToStorageConditionGroupMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToStorageConditionGroupMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToStorageConditionGroupMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToStorageConditionGroupMapping) is element
+
+        duplicate = package.createDiagnosticEventToStorageConditionGroupMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEventToTroubleCodeUdsMapping:
+    """
+    Test class for DiagnosticEventToTroubleCodeUdsMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.19, p.245
+    """
+
+    CLASS_NOTE = "Defines which UDS Diagnostic Trouble Code is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToTroubleCodeUdsMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToTroubleCodeUdsMapping(ar_root, "TestEventToTroubleCodeUdsMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToTroubleCodeUdsMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToTroubleCodeUdsMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getTroubleCodeUdsRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToTroubleCodeUdsMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToTroubleCodeUdsMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1").setDest("DEST"))
+        obj.setTroubleCodeUdsRef(RefType().setValue("/AUTOSAR/TroubleCodeUds1").setDest("DEST"))
+
+        assert obj.getDiagnosticEventRef() is not None
+        assert obj.getTroubleCodeUdsRef() is not None
+
+        obj.setDiagnosticEventRef(None)
+        obj.setTroubleCodeUdsRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getTroubleCodeUdsRef().getValue() == "/AUTOSAR/TroubleCodeUds1"  # None is a no-op
+
+    def test_create_diagnosticEventToTroubleCodeUdsMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToTroubleCodeUdsMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToTroubleCodeUdsMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToTroubleCodeUdsMapping) is element
+
+        duplicate = package.createDiagnosticEventToTroubleCodeUdsMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticEventPortMapping:
+    """
+    Test class for DiagnosticEventPortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.24, p.249
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports the DiagnosticEvent is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventPortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventPortMapping(ar_root, "TestEventPortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventPortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventPortMapping"
+        assert obj.getBswServiceDependencyRef() is None
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventPortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventPortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setBswServiceDependencyRef(RefType().setValue("/AUTOSAR/BswServiceDependency1"))
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getBswServiceDependencyRef() is not None
+        assert obj.getDiagnosticEventRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setBswServiceDependencyRef(None)
+        obj.setDiagnosticEventRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getBswServiceDependencyRef().getValue() == "/AUTOSAR/BswServiceDependency1"  # None is a no-op
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticEventPortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventPortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventPortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventPortMapping) is element
+
+        duplicate = package.createDiagnosticEventPortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticOperationCyclePortMapping:
+    """
+    Test class for DiagnosticOperationCyclePortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.25, p.250
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports the DiagnosticOperationCycle is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticOperationCyclePortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticOperationCyclePortMapping(ar_root, "TestOperationCyclePortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticOperationCyclePortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestOperationCyclePortMapping"
+        assert obj.getOperationCycleRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticOperationCyclePortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticOperationCyclePortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setOperationCycleRef(RefType().setValue("/AUTOSAR/OperationCycle1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getOperationCycleRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setOperationCycleRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getOperationCycleRef().getValue() == "/AUTOSAR/OperationCycle1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticOperationCyclePortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticOperationCyclePortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticOperationCyclePortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticOperationCyclePortMapping) is element
+
+        duplicate = package.createDiagnosticOperationCyclePortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEnableConditionPortMapping:
+    """
+    Test class for DiagnosticEnableConditionPortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.26, p.252
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports the DiagnosticEnableCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEnableConditionPortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEnableConditionPortMapping(ar_root, "TestEnableConditionPortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEnableConditionPortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEnableConditionPortMapping"
+        assert obj.getEnableConditionRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEnableConditionPortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEnableConditionPortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setEnableConditionRef(RefType().setValue("/AUTOSAR/EnableCondition1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getEnableConditionRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setEnableConditionRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getEnableConditionRef().getValue() == "/AUTOSAR/EnableCondition1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticEnableConditionPortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEnableConditionPortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEnableConditionPortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEnableConditionPortMapping) is element
+
+        duplicate = package.createDiagnosticEnableConditionPortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticStorageConditionPortMapping:
+    """
+    Test class for DiagnosticStorageConditionPortMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.27, p.253
+    """
+
+    CLASS_NOTE = "Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorageCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticStorageConditionPortMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticStorageConditionPortMapping(ar_root, "TestStorageConditionPortMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticStorageConditionPortMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestStorageConditionPortMapping"
+        assert obj.getDiagnosticStorageConditionRef() is None
+        assert obj.getSwcFlatServiceDependencyRef() is None
+        assert obj.getSwcServiceDependencyInSystemIRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticStorageConditionPortMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStorageConditionPortMapping.__init__.__doc__ is None
+
+    def test_get_set_refs(self):
+        """
+        Round-trips the references; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticStorageConditionRef(RefType().setValue("/AUTOSAR/DiagnosticStorageCondition1"))
+        obj.setSwcFlatServiceDependencyRef(RefType().setValue("/AUTOSAR/SwcFlatServiceDependency1"))
+        obj.setSwcServiceDependencyInSystemIRef(RefType().setValue("/AUTOSAR/SwcServiceDependencyInSystem1"))
+
+        assert obj.getDiagnosticStorageConditionRef() is not None
+        assert obj.getSwcFlatServiceDependencyRef() is not None
+        assert obj.getSwcServiceDependencyInSystemIRef() is not None
+
+        obj.setDiagnosticStorageConditionRef(None)
+        obj.setSwcFlatServiceDependencyRef(None)
+        obj.setSwcServiceDependencyInSystemIRef(None)
+        assert obj.getDiagnosticStorageConditionRef().getValue() == "/AUTOSAR/DiagnosticStorageCondition1"  # None is a no-op
+        assert obj.getSwcFlatServiceDependencyRef().getValue() == "/AUTOSAR/SwcFlatServiceDependency1"  # None is a no-op
+        assert obj.getSwcServiceDependencyInSystemIRef().getValue() == "/AUTOSAR/SwcServiceDependencyInSystem1"  # None is a no-op
+
+    def test_create_diagnosticStorageConditionPortMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticStorageConditionPortMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticStorageConditionPortMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticStorageConditionPortMapping) is element
+
+        duplicate = package.createDiagnosticStorageConditionPortMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticAuthTransmitCertificateMapping:
+    """
+    Test class for DiagnosticAuthTransmitCertificateMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.17, p.242
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CryptoServiceCertificate with a DiagnosticAuthCertificateEvaluation with the purpose to configure the evaluation of the certificate. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticAuthTransmitCertificateMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticAuthTransmitCertificateMapping(ar_root, "TestAuthTransmitCertificateMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticAuthTransmitCertificateMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestAuthTransmitCertificateMapping"
+        assert obj.getCryptoServiceCertificateRefs() == []
+        assert obj.getServiceInstanceRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAuthTransmitCertificateMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAuthTransmitCertificateMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.addCryptoServiceCertificateRef(RefType().setValue("/AUTOSAR/CryptoServiceCertificate1"))
+        obj.setServiceInstanceRef(RefType().setValue("/AUTOSAR/ServiceInstance1"))
+
+        assert obj.getCryptoServiceCertificateRefs()[0].getValue() == "/AUTOSAR/CryptoServiceCertificate1"
+        assert obj.getServiceInstanceRef().getValue() == "/AUTOSAR/ServiceInstance1"
+
+        obj.addCryptoServiceCertificateRef(None)
+        obj.setServiceInstanceRef(None)
+        assert len(obj.getCryptoServiceCertificateRefs()) == 1  # None is a no-op
+        assert obj.getServiceInstanceRef().getValue() == "/AUTOSAR/ServiceInstance1"  # None is a no-op
+
+    def test_create_diagnosticAuthTransmitCertificateMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticAuthTransmitCertificateMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticAuthTransmitCertificateMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticAuthTransmitCertificateMapping) is element
+
+        duplicate = package.createDiagnosticAuthTransmitCertificateMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticSecurityEventReportingModeMapping:
+    """
+    Test class for DiagnosticSecurityEventReportingModeMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.18, p.243
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a location in a DID with a security event. The purpose of this mapping is that the location in the DID contains the setting of the reporting mode for the specific security event. This means that the reporting mode of the security event can be set via the diagnostic service WriteDataByIdentifier. Tags: atp.Status=candidate atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticSecurityEventReportingModeMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticSecurityEventReportingModeMapping(ar_root, "TestSecurityEventReportingModeMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticSecurityEventReportingModeMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestSecurityEventReportingModeMapping"
+        assert obj.getDataElementRef() is None
+        assert obj.getSecurityEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticSecurityEventReportingModeMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticSecurityEventReportingModeMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDataElementRef(RefType().setValue("/AUTOSAR/DataElement1"))
+        obj.setSecurityEventRef(RefType().setValue("/AUTOSAR/SecurityEvent1"))
+
+        assert obj.getDataElementRef().getValue() == "/AUTOSAR/DataElement1"
+        assert obj.getSecurityEventRef().getValue() == "/AUTOSAR/SecurityEvent1"
+
+        obj.setDataElementRef(None)
+        obj.setSecurityEventRef(None)
+        assert obj.getDataElementRef().getValue() == "/AUTOSAR/DataElement1"  # None is a no-op
+        assert obj.getSecurityEventRef().getValue() == "/AUTOSAR/SecurityEvent1"  # None is a no-op
+
+    def test_create_diagnosticSecurityEventReportingModeMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticSecurityEventReportingModeMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticSecurityEventReportingModeMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticSecurityEventReportingModeMapping) is element
+
+        duplicate = package.createDiagnosticSecurityEventReportingModeMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticDemProvidedDataMapping:
+    """
+    Test class for DiagnosticDemProvidedDataMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.28, p.255
+    """
+
+    CLASS_NOTE = "This represents the ability to define the nature of a data access for a DiagnosticDataElement in the Dem. Tags: atp.recommendedPackage=DiagnosticServiceMappings"
+
+    def _make_obj(self) -> DiagnosticDemProvidedDataMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDemProvidedDataMapping(ar_root, "TestDemProvidedDataMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticDemProvidedDataMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestDemProvidedDataMapping"
+        assert obj.getDataElementRef() is None
+        assert obj.getDataProvider() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticDemProvidedDataMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDemProvidedDataMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDataElementRef(RefType().setValue("/AUTOSAR/DataElement1"))
+        obj.setDataProvider(NameToken().setValue("provider"))
+
+        assert obj.getDataElementRef().getValue() == "/AUTOSAR/DataElement1"
+        assert obj.getDataProvider().getValue() == "provider"
+
+        obj.setDataElementRef(None)
+        obj.setDataProvider(None)
+        assert obj.getDataElementRef().getValue() == "/AUTOSAR/DataElement1"  # None is a no-op
+        assert obj.getDataProvider().getValue() == "provider"  # None is a no-op
+
+    def test_create_diagnosticDemProvidedDataMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticDemProvidedDataMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticDemProvidedDataMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticDemProvidedDataMapping) is element
+
+        duplicate = package.createDiagnosticDemProvidedDataMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticMasterToSlaveEventMapping:
+    """
+    Test class for DiagnosticMasterToSlaveEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.29, p.256
+    """
+
+    CLASS_NOTE = "This meta-class provides the ability to map a master diagnostic event with a slave diagnostic event such that reporting of the master event with a given value also reports the slave event with the same value Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticMasterToSlaveEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticMasterToSlaveEventMapping(ar_root, "TestMasterToSlaveEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticMasterToSlaveEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMasterToSlaveEventMapping"
+        assert obj.getMasterEventRef() is None
+        assert obj.getSlaveEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticMasterToSlaveEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMasterToSlaveEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setMasterEventRef(RefType().setValue("/AUTOSAR/MasterEvent1"))
+        obj.setSlaveEventRef(RefType().setValue("/AUTOSAR/SlaveEvent1"))
+
+        assert obj.getMasterEventRef().getValue() == "/AUTOSAR/MasterEvent1"
+        assert obj.getSlaveEventRef().getValue() == "/AUTOSAR/SlaveEvent1"
+
+        obj.setMasterEventRef(None)
+        obj.setSlaveEventRef(None)
+        assert obj.getMasterEventRef().getValue() == "/AUTOSAR/MasterEvent1"  # None is a no-op
+        assert obj.getSlaveEventRef().getValue() == "/AUTOSAR/SlaveEvent1"  # None is a no-op
+
+    def test_create_diagnosticMasterToSlaveEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticMasterToSlaveEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticMasterToSlaveEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticMasterToSlaveEventMapping) is element
+
+        duplicate = package.createDiagnosticMasterToSlaveEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEventToSecurityEventMapping:
+    """
+    Test class for DiagnosticEventToSecurityEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.30, p.257
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to map a security event that is defined in the context of the Security Extract to a diagnostic event defined on the context of the DiagnosticExtract. Tags: atp.Status=candidate atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToSecurityEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToSecurityEventMapping(ar_root, "TestEventToSecurityEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToSecurityEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToSecurityEventMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getSecurityEventPropsRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToSecurityEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToSecurityEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+        obj.setSecurityEventPropsRef(RefType().setValue("/AUTOSAR/SecurityEventProps1"))
+
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"
+        assert obj.getSecurityEventPropsRef().getValue() == "/AUTOSAR/SecurityEventProps1"
+
+        obj.setDiagnosticEventRef(None)
+        obj.setSecurityEventPropsRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getSecurityEventPropsRef().getValue() == "/AUTOSAR/SecurityEventProps1"  # None is a no-op
+
+    def test_create_diagnosticEventToSecurityEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToSecurityEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToSecurityEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToSecurityEventMapping) is element
+
+        duplicate = package.createDiagnosticEventToSecurityEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticInhibitSourceEventMapping:
+    """
+    Test class for DiagnosticInhibitSourceEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.33, p.261
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created. Tags: atp.recommendedPackage=DiagnosticInhibitSourceEventMappings"
+
+    def _make_obj(self) -> DiagnosticInhibitSourceEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticInhibitSourceEventMapping(ar_root, "TestInhibitSourceEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticInhibitSourceEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestInhibitSourceEventMapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getEventGroupRef() is None
+        assert obj.getInhibitionSourceRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticInhibitSourceEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticInhibitSourceEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+        obj.setEventGroupRef(RefType().setValue("/AUTOSAR/EventGroup1"))
+        obj.setInhibitionSourceRef(RefType().setValue("/AUTOSAR/InhibitionSource1"))
+
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"
+        assert obj.getEventGroupRef().getValue() == "/AUTOSAR/EventGroup1"
+        assert obj.getInhibitionSourceRef().getValue() == "/AUTOSAR/InhibitionSource1"
+
+        obj.setDiagnosticEventRef(None)
+        obj.setEventGroupRef(None)
+        obj.setInhibitionSourceRef(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getEventGroupRef().getValue() == "/AUTOSAR/EventGroup1"  # None is a no-op
+        assert obj.getInhibitionSourceRef().getValue() == "/AUTOSAR/InhibitionSource1"  # None is a no-op
+
+    def test_create_diagnosticInhibitSourceEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticInhibitSourceEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticInhibitSourceEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticInhibitSourceEventMapping) is element
+
+        duplicate = package.createDiagnosticInhibitSourceEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimAliasEventMapping:
+    """
+    Test class for DiagnosticFimAliasEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.34, p.262
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the \"preliminary\" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings"
+
+    def _make_obj(self) -> DiagnosticFimAliasEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventMapping(ar_root, "TestFimAliasEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimAliasEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEventMapping"
+        assert obj.getActualEventRef() is None
+        assert obj.getAliasEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setActualEventRef(RefType().setValue("/AUTOSAR/ActualEvent1"))
+        obj.setAliasEventRef(RefType().setValue("/AUTOSAR/AliasEvent1"))
+
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"
+
+        obj.setActualEventRef(None)
+        obj.setAliasEventRef(None)
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"  # None is a no-op
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"  # None is a no-op
+
+    def test_create_diagnosticFimAliasEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimAliasEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimAliasEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimAliasEventMapping) is element
+
+        duplicate = package.createDiagnosticFimAliasEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimAliasEventGroup:
+    """
+    Test class for DiagnosticFimAliasEventGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.35, p.263
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroups"
+
+    def _make_obj(self) -> DiagnosticFimAliasEventGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventGroup(ar_root, "TestFimAliasEventGroup")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimAliasEventGroup instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEventGroup"
+        assert obj.getGroupedAliasEventRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEventGroup.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEventGroup.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.addGroupedAliasEventRef(RefType().setValue("/AUTOSAR/GroupedAliasEvent1"))
+
+        assert obj.getGroupedAliasEventRefs()[0].getValue() == "/AUTOSAR/GroupedAliasEvent1"
+
+        obj.addGroupedAliasEventRef(None)
+        assert len(obj.getGroupedAliasEventRefs()) == 1  # None is a no-op
+
+    def test_create_diagnosticFimAliasEventGroup(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimAliasEventGroup("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimAliasEventGroup)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimAliasEventGroup) is element
+
+        duplicate = package.createDiagnosticFimAliasEventGroup("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimAliasEventGroupMapping:
+    """
+    Test class for DiagnosticFimAliasEventGroupMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.36, p.263
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the \"preliminary\" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings"
+
+    def _make_obj(self) -> DiagnosticFimAliasEventGroupMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventGroupMapping(ar_root, "TestFimAliasEventGroupMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimAliasEventGroupMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEventGroupMapping"
+        assert obj.getActualEventRef() is None
+        assert obj.getAliasEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEventGroupMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEventGroupMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setActualEventRef(RefType().setValue("/AUTOSAR/ActualEvent1"))
+        obj.setAliasEventRef(RefType().setValue("/AUTOSAR/AliasEvent1"))
+
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"
+
+        obj.setActualEventRef(None)
+        obj.setAliasEventRef(None)
+        assert obj.getActualEventRef().getValue() == "/AUTOSAR/ActualEvent1"  # None is a no-op
+        assert obj.getAliasEventRef().getValue() == "/AUTOSAR/AliasEvent1"  # None is a no-op
+
+    def test_create_diagnosticFimAliasEventGroupMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimAliasEventGroupMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimAliasEventGroupMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimAliasEventGroupMapping) is element
+
+        duplicate = package.createDiagnosticFimAliasEventGroupMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticEventToTroubleCodeJ1939Mapping:
+    """
+    Test class for DiagnosticEventToTroubleCodeJ1939Mapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.43, p.269
+    """
+
+    CLASS_NOTE = "By means of this meta-class it is possible to associate a DiagnosticEvent to a DiagnosticTroubleCodeJ1939. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEventToTroubleCodeJ1939Mapping(ar_root, "TestEventToTroubleCodeJ1939Mapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticEventToTroubleCodeJ1939Mapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEventToTroubleCodeJ1939Mapping"
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getTroubleCodeJ1939Ref() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticEventToTroubleCodeJ1939Mapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEventToTroubleCodeJ1939Mapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+        obj.setTroubleCodeJ1939Ref(RefType().setValue("/AUTOSAR/TroubleCodeJ19391"))
+
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"
+        assert obj.getTroubleCodeJ1939Ref().getValue() == "/AUTOSAR/TroubleCodeJ19391"
+
+        obj.setDiagnosticEventRef(None)
+        obj.setTroubleCodeJ1939Ref(None)
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+        assert obj.getTroubleCodeJ1939Ref().getValue() == "/AUTOSAR/TroubleCodeJ19391"  # None is a no-op
+
+    def test_create_diagnosticEventToTroubleCodeJ1939Mapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticEventToTroubleCodeJ1939Mapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEventToTroubleCodeJ1939Mapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticEventToTroubleCodeJ1939Mapping) is element
+
+        duplicate = package.createDiagnosticEventToTroubleCodeJ1939Mapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticIumprToFunctionIdentifierMapping:
+    """
+    Test class for DiagnosticIumprToFunctionIdentifierMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.39, p.265
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a DiagnosticFunctionIdentifier with a DiagnosticIumpr. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticIumprToFunctionIdentifierMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticIumprToFunctionIdentifierMapping(ar_root, "TestIumprToFunctionIdentifierMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticIumprToFunctionIdentifierMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestIumprToFunctionIdentifierMapping"
+        assert obj.getFunctionIdentifierRef() is None
+        assert obj.getIumprRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticIumprToFunctionIdentifierMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIumprToFunctionIdentifierMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setFunctionIdentifierRef(RefType().setValue("/AUTOSAR/FunctionIdentifier1"))
+        obj.setIumprRef(RefType().setValue("/AUTOSAR/Iumpr1"))
+
+        assert obj.getFunctionIdentifierRef().getValue() == "/AUTOSAR/FunctionIdentifier1"
+        assert obj.getIumprRef().getValue() == "/AUTOSAR/Iumpr1"
+
+        obj.setFunctionIdentifierRef(None)
+        obj.setIumprRef(None)
+        assert obj.getFunctionIdentifierRef().getValue() == "/AUTOSAR/FunctionIdentifier1"  # None is a no-op
+        assert obj.getIumprRef().getValue() == "/AUTOSAR/Iumpr1"  # None is a no-op
+
+    def test_create_diagnosticIumprToFunctionIdentifierMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticIumprToFunctionIdentifierMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticIumprToFunctionIdentifierMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticIumprToFunctionIdentifierMapping) is element
+
+        duplicate = package.createDiagnosticIumprToFunctionIdentifierMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939SpnMapping:
+    """
+    Test class for DiagnosticJ1939SpnMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.40, p.267
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define a mapping between an SPN and a SystemSignal. The existence of a mapping means that neither the SPN nor the SystemSignal need to be updated if the relation between the two changes. Tags: atp.recommendedPackage=DiagnosticJ1939SpnMappings"
+
+    def _make_obj(self) -> DiagnosticJ1939SpnMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939SpnMapping(ar_root, "TestJ1939SpnMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939SpnMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestJ1939SpnMapping"
+        assert obj.getSendingNodeRefs() == []
+        assert obj.getSpnRef() is None
+        assert obj.getSystemSignalRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939SpnMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939SpnMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.addSendingNodeRef(RefType().setValue("/AUTOSAR/SendingNode1"))
+        obj.setSpnRef(RefType().setValue("/AUTOSAR/Spn1"))
+        obj.setSystemSignalRef(RefType().setValue("/AUTOSAR/SystemSignal1"))
+
+        assert obj.getSendingNodeRefs()[0].getValue() == "/AUTOSAR/SendingNode1"
+        assert obj.getSpnRef().getValue() == "/AUTOSAR/Spn1"
+        assert obj.getSystemSignalRef().getValue() == "/AUTOSAR/SystemSignal1"
+
+        obj.addSendingNodeRef(None)
+        obj.setSpnRef(None)
+        obj.setSystemSignalRef(None)
+        assert len(obj.getSendingNodeRefs()) == 1  # None is a no-op
+        assert obj.getSpnRef().getValue() == "/AUTOSAR/Spn1"  # None is a no-op
+        assert obj.getSystemSignalRef().getValue() == "/AUTOSAR/SystemSignal1"  # None is a no-op
+
+    def test_create_diagnosticJ1939SpnMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticJ1939SpnMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticJ1939SpnMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticJ1939SpnMapping) is element
+
+        duplicate = package.createDiagnosticJ1939SpnMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939Node:
+    """
+    Test class for DiagnosticJ1939Node functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.41, p.267
+    """
+
+    CLASS_NOTE = "This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a \"virtual Ecu\" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes"
+
+    def _make_obj(self) -> DiagnosticJ1939Node:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939Node(ar_root, "TestJ1939Node")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939Node instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestJ1939Node"
+        assert obj.getNmNodeRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939Node.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939Node.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setNmNodeRef(RefType().setValue("/AUTOSAR/NmNode1"))
+
+        assert obj.getNmNodeRef().getValue() == "/AUTOSAR/NmNode1"
+
+        obj.setNmNodeRef(None)
+        assert obj.getNmNodeRef().getValue() == "/AUTOSAR/NmNode1"  # None is a no-op
+
+    def test_create_diagnosticJ1939Node(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticJ1939Node("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticJ1939Node)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticJ1939Node) is element
+
+        duplicate = package.createDiagnosticJ1939Node("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticJ1939SwMapping:
+    """
+    Test class for DiagnosticJ1939SwMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.42, p.268
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to map a piece of application software to a J1939DiagnosticNode. By this means the diagnostic configuration can be associated with the application software. Tags: atp.recommendedPackage=DiagnosticJ1939SwMappings"
+
+    def _make_obj(self) -> DiagnosticJ1939SwMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticJ1939SwMapping(ar_root, "TestJ1939SwMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticJ1939SwMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestJ1939SwMapping"
+        assert obj.getNodeRef() is None
+        assert obj.getSwComponentPrototypeRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticJ1939SwMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticJ1939SwMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setNodeRef(RefType().setValue("/AUTOSAR/Node1"))
+        obj.setSwComponentPrototypeRef(RefType().setValue("/AUTOSAR/SwComponentPrototype1"))
+
+        assert obj.getNodeRef().getValue() == "/AUTOSAR/Node1"
+        assert obj.getSwComponentPrototypeRef().getValue() == "/AUTOSAR/SwComponentPrototype1"
+
+        obj.setNodeRef(None)
+        obj.setSwComponentPrototypeRef(None)
+        assert obj.getNodeRef().getValue() == "/AUTOSAR/Node1"  # None is a no-op
+        assert obj.getSwComponentPrototypeRef().getValue() == "/AUTOSAR/SwComponentPrototype1"  # None is a no-op
+
+    def test_create_diagnosticJ1939SwMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticJ1939SwMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticJ1939SwMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticJ1939SwMapping) is element
+
+        duplicate = package.createDiagnosticJ1939SwMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticFimFunctionMapping:
+    """
+    Test class for DiagnosticFimFunctionMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.37, p.265
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define a mapping between a function identifier (FID) and the corresponding SwcServiceDependency in the application software resp. basic software. Tags: atp.recommendedPackage=DiagnosticFimFunctionMappings"
+
+    def _make_obj(self) -> DiagnosticFimFunctionMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimFunctionMapping(ar_root, "TestFimFunctionMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticFimFunctionMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimFunctionMapping"
+        assert obj.getMappedBswServiceDependencyRef() is None
+        assert obj.getMappedFlatSwcServiceDependencyRef() is None
+        assert obj.getMappedFunctionRef() is None
+        assert obj.getMappedSwcServiceDependencyRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimFunctionMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimFunctionMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setMappedBswServiceDependencyRef(RefType().setValue("/AUTOSAR/MappedBswServiceDependency1"))
+        obj.setMappedFlatSwcServiceDependencyRef(RefType().setValue("/AUTOSAR/MappedFlatSwcServiceDependency1"))
+        obj.setMappedFunctionRef(RefType().setValue("/AUTOSAR/MappedFunction1"))
+        obj.setMappedSwcServiceDependencyRef(RefType().setValue("/AUTOSAR/MappedSwcServiceDependency1"))
+
+        assert obj.getMappedBswServiceDependencyRef().getValue() == "/AUTOSAR/MappedBswServiceDependency1"
+        assert obj.getMappedFlatSwcServiceDependencyRef().getValue() == "/AUTOSAR/MappedFlatSwcServiceDependency1"
+        assert obj.getMappedFunctionRef().getValue() == "/AUTOSAR/MappedFunction1"
+        assert obj.getMappedSwcServiceDependencyRef().getValue() == "/AUTOSAR/MappedSwcServiceDependency1"
+
+        obj.setMappedBswServiceDependencyRef(None)
+        obj.setMappedFlatSwcServiceDependencyRef(None)
+        obj.setMappedFunctionRef(None)
+        obj.setMappedSwcServiceDependencyRef(None)
+        assert obj.getMappedBswServiceDependencyRef().getValue() == "/AUTOSAR/MappedBswServiceDependency1"  # None is a no-op
+        assert obj.getMappedFlatSwcServiceDependencyRef().getValue() == "/AUTOSAR/MappedFlatSwcServiceDependency1"  # None is a no-op
+        assert obj.getMappedFunctionRef().getValue() == "/AUTOSAR/MappedFunction1"  # None is a no-op
+        assert obj.getMappedSwcServiceDependencyRef().getValue() == "/AUTOSAR/MappedSwcServiceDependency1"  # None is a no-op
+
+    def test_create_diagnosticFimFunctionMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticFimFunctionMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticFimFunctionMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", DiagnosticFimFunctionMapping) is element
+
+        duplicate = package.createDiagnosticFimFunctionMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestCpSwClusterToDiagEventMapping:
+    """
+    Test class for CpSwClusterToDiagEventMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.46, p.272
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticEvent. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterToDiagEventMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterToDiagEventMapping(ar_root, "TestCpSwClusterToDiagEventMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterToDiagEventMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterToDiagEventMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getDiagnosticEventRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterToDiagEventMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterToDiagEventMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setDiagnosticEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setDiagnosticEventRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getDiagnosticEventRef().getValue() == "/AUTOSAR/DiagnosticEvent1"  # None is a no-op
+
+    def test_create_cpSwClusterToDiagEventMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterToDiagEventMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterToDiagEventMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterToDiagEventMapping) is element
+
+        duplicate = package.createCpSwClusterToDiagEventMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestCpSwClusterResourceToDiagDataElemMapping:
+    """
+    Test class for CpSwClusterResourceToDiagDataElemMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.47, p.273
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticDataElement. This allows for indicating that the CpSoftwareClusterResource is used to convey the DiagnosticDataElement. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterResourceToDiagDataElemMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterResourceToDiagDataElemMapping(ar_root, "TestCpSwClusterResourceToDiagDataElemMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterResourceToDiagDataElemMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterResourceToDiagDataElemMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getDiagnosticDataElementRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterResourceToDiagDataElemMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterResourceToDiagDataElemMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setDiagnosticDataElementRef(RefType().setValue("/AUTOSAR/DiagnosticDataElement1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getDiagnosticDataElementRef().getValue() == "/AUTOSAR/DiagnosticDataElement1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setDiagnosticDataElementRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getDiagnosticDataElementRef().getValue() == "/AUTOSAR/DiagnosticDataElement1"  # None is a no-op
+
+    def test_create_cpSwClusterResourceToDiagDataElemMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterResourceToDiagDataElemMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterResourceToDiagDataElemMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterResourceToDiagDataElemMapping) is element
+
+        duplicate = package.createCpSwClusterResourceToDiagDataElemMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestCpSwClusterToDiagRoutineSubfunctionMapping:
+    """
+    Test class for CpSwClusterToDiagRoutineSubfunctionMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.48, p.274
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterToDiagRoutineSubfunctionMapping(ar_root, "TestCpSwClusterToDiagRoutineSubfunctionMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterToDiagRoutineSubfunctionMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterToDiagRoutineSubfunctionMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getRoutineSubfunctionRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterToDiagRoutineSubfunctionMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterToDiagRoutineSubfunctionMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setRoutineSubfunctionRef(RefType().setValue("/AUTOSAR/RoutineSubfunction1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getRoutineSubfunctionRef().getValue() == "/AUTOSAR/RoutineSubfunction1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setRoutineSubfunctionRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getRoutineSubfunctionRef().getValue() == "/AUTOSAR/RoutineSubfunction1"  # None is a no-op
+
+    def test_create_cpSwClusterToDiagRoutineSubfunctionMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterToDiagRoutineSubfunctionMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterToDiagRoutineSubfunctionMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterToDiagRoutineSubfunctionMapping) is element
+
+        duplicate = package.createCpSwClusterToDiagRoutineSubfunctionMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestCpSwClusterResourceToDiagFunctionIdMapping:
+    """
+    Test class for CpSwClusterResourceToDiagFunctionIdMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.49, p.275
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"
+
+    def _make_obj(self) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return CpSwClusterResourceToDiagFunctionIdMapping(ar_root, "TestCpSwClusterResourceToDiagFunctionIdMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete CpSwClusterResourceToDiagFunctionIdMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCpSwClusterResourceToDiagFunctionIdMapping"
+        assert obj.getCpSoftwareClusterResourceRef() is None
+        assert obj.getFunctionIdentifierRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert CpSwClusterResourceToDiagFunctionIdMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CpSwClusterResourceToDiagFunctionIdMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setCpSoftwareClusterResourceRef(RefType().setValue("/AUTOSAR/CpSoftwareClusterResource1"))
+        obj.setFunctionIdentifierRef(RefType().setValue("/AUTOSAR/FunctionIdentifier1"))
+
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"
+        assert obj.getFunctionIdentifierRef().getValue() == "/AUTOSAR/FunctionIdentifier1"
+
+        obj.setCpSoftwareClusterResourceRef(None)
+        obj.setFunctionIdentifierRef(None)
+        assert obj.getCpSoftwareClusterResourceRef().getValue() == "/AUTOSAR/CpSoftwareClusterResource1"  # None is a no-op
+        assert obj.getFunctionIdentifierRef().getValue() == "/AUTOSAR/FunctionIdentifier1"  # None is a no-op
+
+    def test_create_cpSwClusterResourceToDiagFunctionIdMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, CpSwClusterResourceToDiagFunctionIdMapping)
+        assert element.getShortName() == "M1"
+        assert package.getElement("M1", CpSwClusterResourceToDiagFunctionIdMapping) is element
+
+        duplicate = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticServiceSwMapping:
+    """
+    Test class for DiagnosticServiceSwMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.15, p.239
+    """
+
+    CLASS_NOTE = "This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module. If the former is used then this kind of service mapping is applicable for the usage of ClientServerInterfaces. Tags: atp.recommendedPackage=DiagnosticServiceMappings"
+
+    def _make_obj(self) -> DiagnosticServiceSwMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticServiceSwMapping(ar_root, "TestServiceSwMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticServiceSwMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestServiceSwMapping"
+        assert obj.getAccessedDataPrototypeIRef() is None
+        assert obj.getDiagnosticDataElementRef() is None
+        assert obj.getDiagnosticParameterRef() is None
+        assert obj.getMappedBswServiceDependencyRef() is None
+        assert obj.getMappedFlatSwcServiceDependencyRef() is None
+        assert obj.getMappedSwcServiceDependencyInSystemIRef() is None
+        assert obj.getParameterElementAccess() is None
+        assert obj.getServiceInstanceRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticServiceSwMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticServiceSwMapping.__init__.__doc__ is None
+
+    def test_get_set_refs_and_aggregation(self):
+        """
+        Round-trips the references and the parameterElementAccess aggregation; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        iref1 = RefType().setValue("/AUTOSAR/Interfaces/Op1")
+        data_ref = RefType().setValue("/AUTOSAR/DataElements/Did1")
+        param_ref = RefType().setValue("/AUTOSAR/ParamIdents/Ident1")
+        bsw_ref = RefType().setValue("/AUTOSAR/BswDeps/Dep1")
+        flat_ref = RefType().setValue("/AUTOSAR/SwcDeps/Dep2")
+        iref2 = RefType().setValue("/AUTOSAR/System/SwcDep3")
+        pea = DiagnosticParameterElementAccess()
+        si_ref = RefType().setValue("/AUTOSAR/Services/Svc1")
+
+        obj.setAccessedDataPrototypeIRef(iref1)
+        obj.setDiagnosticDataElementRef(data_ref)
+        obj.setDiagnosticParameterRef(param_ref)
+        obj.setMappedBswServiceDependencyRef(bsw_ref)
+        obj.setMappedFlatSwcServiceDependencyRef(flat_ref)
+        obj.setMappedSwcServiceDependencyInSystemIRef(iref2)
+        obj.setParameterElementAccess(pea)
+        obj.setServiceInstanceRef(si_ref)
+
+        assert obj.getAccessedDataPrototypeIRef() is iref1
+        assert obj.getDiagnosticDataElementRef() is data_ref
+        assert obj.getDiagnosticParameterRef() is param_ref
+        assert obj.getMappedBswServiceDependencyRef() is bsw_ref
+        assert obj.getMappedFlatSwcServiceDependencyRef() is flat_ref
+        assert obj.getMappedSwcServiceDependencyInSystemIRef() is iref2
+        assert obj.getParameterElementAccess() is pea
+        assert obj.getServiceInstanceRef() is si_ref
+
+        obj.setAccessedDataPrototypeIRef(None)
+        obj.setDiagnosticDataElementRef(None)
+        obj.setDiagnosticParameterRef(None)
+        obj.setMappedBswServiceDependencyRef(None)
+        obj.setMappedFlatSwcServiceDependencyRef(None)
+        obj.setMappedSwcServiceDependencyInSystemIRef(None)
+        obj.setParameterElementAccess(None)
+        obj.setServiceInstanceRef(None)
+
+        assert obj.getAccessedDataPrototypeIRef() is iref1  # None is a no-op
+        assert obj.getDiagnosticDataElementRef() is data_ref  # None is a no-op
+        assert obj.getDiagnosticParameterRef() is param_ref  # None is a no-op
+        assert obj.getMappedBswServiceDependencyRef() is bsw_ref  # None is a no-op
+        assert obj.getMappedFlatSwcServiceDependencyRef() is flat_ref  # None is a no-op
+        assert obj.getMappedSwcServiceDependencyInSystemIRef() is iref2  # None is a no-op
+        assert obj.getParameterElementAccess() is pea  # None is a no-op
+        assert obj.getServiceInstanceRef() is si_ref  # None is a no-op
+
+    def test_create_diagnostic_service_sw_mapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticServiceMappings")
+        element = package.createDiagnosticServiceSwMapping("Mapping1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticServiceSwMapping)
+        assert element.getShortName() == "Mapping1"
+        assert package.getElement("Mapping1", DiagnosticServiceSwMapping) is element
+
+        duplicate = package.createDiagnosticServiceSwMapping("Mapping1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
 class TestDiagnosticControlDTCSetting:
     """
     Test class for DiagnosticControlDTCSetting functionality.
@@ -3103,6 +5893,7 @@ class TestDiagnosticControlDTCSetting:
         assert duplicate is control_dtc_setting
 
 
+
 class TestDiagnosticDataByIdentifier:
     """
     Test class for DiagnosticDataByIdentifier functionality.
@@ -3174,6 +5965,7 @@ class TestDiagnosticDataByIdentifier:
         """
         assert inspect.cleandoc(DiagnosticDataByIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
         assert inspect.cleandoc(DiagnosticDataByIdentifier.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")
+
 
 
 class TestDiagnosticReadDataByIdentifier:
@@ -3260,6 +6052,7 @@ class TestDiagnosticReadDataByIdentifier:
         assert duplicate is read_did  # duplicate short name returns the existing element
 
 
+
 class TestDiagnosticWriteDataByIdentifier:
     """
     Test class for DiagnosticWriteDataByIdentifier functionality.
@@ -3342,6 +6135,7 @@ class TestDiagnosticWriteDataByIdentifier:
 
         duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
         assert duplicate is write_did  # duplicate short name returns the existing element
+
 
 
 class TestDiagnosticReadScalingDataByIdentifier:
@@ -3428,6 +6222,7 @@ class TestDiagnosticReadScalingDataByIdentifier:
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
         assert duplicate is read_scaling  # duplicate short name returns the existing element
+
 
 
 class TestDiagnosticIOControl:
@@ -3623,6 +6418,7 @@ class TestDiagnosticIOControl:
         assert duplicate is io_control  # duplicate short name returns the existing element
 
 
+
 class TestDiagnosticRoutine:
     """
     Test class for DiagnosticRoutine functionality.
@@ -3782,6 +6578,7 @@ class TestDiagnosticRoutine:
         assert duplicate is routine  # duplicate short name returns the existing element
 
 
+
 class TestDiagnosticRoutineControl:
     """
     Test class for DiagnosticRoutineControl functionality.
@@ -3883,6 +6680,7 @@ class TestDiagnosticRoutineControl:
 
         duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
         assert duplicate is routine_control  # duplicate short name returns the existing element
+
 
 
 class TestDiagnosticDynamicallyDefineDataIdentifier:
@@ -4012,6 +6810,7 @@ class TestDiagnosticDynamicallyDefineDataIdentifier:
         assert duplicate is dddi  # duplicate short name returns the existing element
 
 
+
 class TestDiagnosticReadDataByPeriodicID:
     """
     Test class for DiagnosticReadDataByPeriodicID functionality.
@@ -4092,6 +6891,7 @@ class TestDiagnosticReadDataByPeriodicID:
 
         duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
         assert duplicate is obj  # duplicate short name returns the existing element
+
 
 
 class TestDiagnosticResponseOnEvent:
@@ -4223,6 +7023,7 @@ class TestDiagnosticResponseOnEvent:
         assert duplicate is response_on_event  # duplicate short name returns the existing element
 
 
+
 class TestDiagnosticReadDTCInformation:
     """
     Test class for DiagnosticReadDTCInformation functionality.
@@ -4309,6 +7110,7 @@ class TestDiagnosticReadDTCInformation:
 
         duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
         assert duplicate is read_dtc_information  # duplicate short name returns the existing element
+
 
 
 class TestDiagnosticClearDiagnosticInformation:
@@ -4399,6 +7201,7 @@ class TestDiagnosticClearDiagnosticInformation:
         assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element
 
 
+
 class TestDiagnosticMemoryByAddress:
     """
     Test class for DiagnosticMemoryByAddress functionality.
@@ -4445,10 +7248,12 @@ class TestDiagnosticMemoryByAddress:
         assert DiagnosticMemoryByAddress.__init__.__doc__ is None
 
 
+
 class _MemoryAddressableRangeAccessStub(DiagnosticMemoryAddressableRangeAccess):
     """Concrete test stub for the abstract DiagnosticMemoryAddressableRangeAccess."""
 
     pass
+
 
 
 class TestDiagnosticMemoryAddressableRangeAccess:

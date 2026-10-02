@@ -15,28 +15,15 @@ from abc import ABC
 if TYPE_CHECKING:
     # ApplicationDeferredDataType is bound at runtime by the PEP 562 __getattr__ below
     # (AbstractPlatform closes an import cycle), so it is imported here for typing only.
-    from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
+    from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType, ApplicationInterface
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameSet
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
         Collection,
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-    DiagnosticCommonProps,
-    DiagnosticControlEnableMaskBit,
-    DiagnosticEventWindow,
-    DiagnosticParameter,
-    DiagnosticSupportInfoByte,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    DiagnosticAuthTransmitCertificateEvaluation,
-    DiagnosticRequestRoutineResults,
-    DiagnosticStartRoutine,
-    DiagnosticStopRoutine,
-    Identifiable,
-    Referrable,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticCommonProps, DiagnosticControlEnableMaskBit, DiagnosticEventWindow, DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, DiagnosticRequestRoutineResults, DiagnosticStartRoutine, DiagnosticStopRoutine, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -123,6 +110,7 @@ __all__ = [
     "DiagnosticVerifyCertificateBidirectional",
     "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
     "DiagnosticTroubleCodeGroup",
+    "DiagnosticTroubleCodeJ1939",
     "DiagnosticTroubleCode",
     "DiagnosticTransferExit",
     "DiagnosticTestRoutineIdentifier",
@@ -132,6 +120,9 @@ __all__ = [
     "DiagnosticStorageCondition",
     "DiagnosticSessionControl",
     "DiagnosticServiceDataMapping",
+    "DiagnosticServiceMappingDiagTarget",
+    "DiagnosticServiceSwMapping",
+    "DiagnosticParameterElementAccess",
     "DiagnosticSecurityEventReportingModeMapping",
     "DiagnosticSecurityAccess",
     "DiagnosticRoutineControl",
@@ -170,12 +161,14 @@ __all__ = [
     "DiagnosticIumprGroup",
     "DiagnosticIumprDenominatorGroup",
     "DiagnosticIumpr",
+    "DiagnosticInhibitSourceEventMapping",
     "DiagnosticInfoType",
     "DiagnosticIndicator",
     "DiagnosticIOControl",
     "DiagnosticFunctionIdentifier",
     "DiagnosticFreezeFrame",
     "DiagnosticFimEventGroup",
+    "DiagnosticJ1939Spn",
     "DiagnosticFimAliasEventMapping",
     "DiagnosticFimAliasEventGroupMapping",
     "DiagnosticFimAliasEventGroup",
@@ -188,6 +181,7 @@ __all__ = [
     "DiagnosticEventToOperationCycleMapping",
     "DiagnosticEventToEnableConditionGroupMapping",
     "DiagnosticEventToDebounceAlgorithmMapping",
+    "DiagnosticEnableConditionPortMapping",
     "DiagnosticEventPortMapping",
     "DiagnosticSwMapping",
     "DiagnosticEvent",
@@ -205,8 +199,8 @@ __all__ = [
     "DiagnosticDataIdentifier",
     "DiagnosticDataByIdentifier",
     "DiagnosticCustomServiceInstance",
-    "DiagnosticControlDTCSetting",
     "DiagnosticConditionGroup",
+    "DiagnosticControlDTCSetting",
     "DiagnosticContributionSet",
     "DiagnosticCondition",
     "DiagnosticComControl",
@@ -225,6 +219,7 @@ __all__ = [
     "CpSwClusterResourceToDiagFunctionIdMapping",
     "CpSwClusterResourceToDiagDataElemMapping",
     "DiagnosticMapping",
+    "DiagnosticFimEventGroup",
     "CalibrationParameterValueSet",
     "AclRole",
     "AclPermission",
@@ -397,6 +392,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     DiagnosticResponseOnEventActionEnum,
+    DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -636,6 +632,457 @@ class ARPackage(CollectableElement, VariationPointCapable):
                 if ar_package.short_name == short_name:
                     return ar_package
         return Identifiable.getElement(self, short_name, type)
+
+    def createDiagnosticClearDiagnosticInformation(self, short_name: str) -> DiagnosticClearDiagnosticInformation:
+        """
+        Creates a new DiagnosticClearDiagnosticInformation with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticClearDiagnosticInformation represents an instance of the
+        "Clear Diagnostic Information" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearDiagnosticInformation
+
+        Returns:
+            The newly created or existing DiagnosticClearDiagnosticInformation instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformation):
+            clear_diagnostic_information = DiagnosticClearDiagnosticInformation(self, short_name)
+            self.addElement(clear_diagnostic_information)
+        return self.getElement(short_name, DiagnosticClearDiagnosticInformation)
+
+    def createDiagnosticClearDiagnosticInformationClass(self, short_name: str) -> DiagnosticClearDiagnosticInformationClass:
+        """
+        Creates a new DiagnosticClearDiagnosticInformationClass with the given
+        short name, or returns an existing one if it already exists in this package.
+
+        DiagnosticClearDiagnosticInformationClass contains attributes shared by all
+        instances of the "Clear Diagnostic Information" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearDiagnosticInformationClass
+
+        Returns:
+            The newly created or existing DiagnosticClearDiagnosticInformationClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformationClass):
+            clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
+            self.addElement(clear_diagnostic_information_class)
+        return self.getElement(short_name, DiagnosticClearDiagnosticInformationClass)
+
+    def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
+        """
+        Creates a new DiagnosticComControlClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticComControlClass contains attributes shared by all
+        instances of the "Communication Control" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticComControlClass
+
+        Returns:
+            The newly created or existing DiagnosticComControlClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticComControlClass):
+            com_control_class = DiagnosticComControlClass(self, short_name)
+            self.addElement(com_control_class)
+        return self.getElement(short_name, DiagnosticComControlClass)
+
+    def createDiagnosticControlDTCSetting(self, short_name: str) -> DiagnosticControlDTCSetting:
+        """
+        Creates a new DiagnosticControlDTCSetting with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticControlDTCSetting represents an instance of the "Control DTC Setting" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticControlDTCSetting
+
+        Returns:
+            The newly created or existing DiagnosticControlDTCSetting instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticControlDTCSetting):
+            control_dtc_setting = DiagnosticControlDTCSetting(self, short_name)
+            self.addElement(control_dtc_setting)
+        return self.getElement(short_name, DiagnosticControlDTCSetting)
+
+    def createDiagnosticControlDTCSettingClass(self, short_name: str) -> DiagnosticControlDTCSettingClass:
+        """
+        Creates a new DiagnosticControlDTCSettingClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticControlDTCSettingClass contains attributes shared by all
+        instances of the "Control DTC Setting" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticControlDTCSettingClass
+
+        Returns:
+            The newly created or existing DiagnosticControlDTCSettingClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticControlDTCSettingClass):
+            control_dtc_setting_class = DiagnosticControlDTCSettingClass(self, short_name)
+            self.addElement(control_dtc_setting_class)
+        return self.getElement(short_name, DiagnosticControlDTCSettingClass)
+
+    def createDiagnosticDynamicallyDefineDataIdentifier(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifier:
+        """
+        Creates a new DiagnosticDynamicallyDefineDataIdentifier with the given
+        short name, or returns an existing one if it already exists in this package.
+
+        DiagnosticDynamicallyDefineDataIdentifier represents an instance of the
+        "Dynamically Define Data Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDynamicallyDefineDataIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticDynamicallyDefineDataIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifier):
+            dddi = DiagnosticDynamicallyDefineDataIdentifier(self, short_name)
+            self.addElement(dddi)
+        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
+
+    def createDiagnosticDynamicallyDefineDataIdentifierClass(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifierClass:
+        """
+        Creates a new DiagnosticDynamicallyDefineDataIdentifierClass with the given
+        short name, or returns an existing one if it already exists in this package.
+
+        DiagnosticDynamicallyDefineDataIdentifierClass contains attributes shared by all
+        instances of the "Dynamically Define Data Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDynamicallyDefineDataIdentifierClass
+
+        Returns:
+            The newly created or existing DiagnosticDynamicallyDefineDataIdentifierClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifierClass):
+            dddi_class = DiagnosticDynamicallyDefineDataIdentifierClass(self, short_name)
+            self.addElement(dddi_class)
+        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass)
+
+    def createDiagnosticIOControl(self, short_name: str) -> DiagnosticIOControl:
+        """
+        Creates a new DiagnosticIOControl with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIOControl represents an instance of the "I/O Control"
+        diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticIOControl
+
+        Returns:
+            The newly created or existing DiagnosticIOControl instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticIOControl):
+            io_control = DiagnosticIOControl(self, short_name)
+            self.addElement(io_control)
+        return self.getElement(short_name, DiagnosticIOControl)
+
+    def createDiagnosticIoControlClass(self, short_name: str) -> DiagnosticIoControlClass:
+        """
+        Creates a new DiagnosticIoControlClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIoControlClass contains attributes shared by all
+        instances of the "IO Control" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticIoControlClass
+
+        Returns:
+            The newly created or existing DiagnosticIoControlClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticIoControlClass):
+            io_control_class = DiagnosticIoControlClass(self, short_name)
+            self.addElement(io_control_class)
+        return self.getElement(short_name, DiagnosticIoControlClass)
+
+    def createDiagnosticReadDTCInformation(self, short_name: str) -> DiagnosticReadDTCInformation:
+        """
+        Creates a new DiagnosticReadDTCInformation with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDTCInformation represents an instance of the
+        "Read DTC Information" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDTCInformation
+
+        Returns:
+            The newly created or existing DiagnosticReadDTCInformation instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDTCInformation):
+            read_dtc_information = DiagnosticReadDTCInformation(self, short_name)
+            self.addElement(read_dtc_information)
+        return self.getElement(short_name, DiagnosticReadDTCInformation)
+
+    def createDiagnosticReadDTCInformationClass(self, short_name: str) -> DiagnosticReadDTCInformationClass:
+        """
+        Creates a new DiagnosticReadDTCInformationClass with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDTCInformationClass contains attributes shared by all
+        instances of the "ReadDTCInformation" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDTCInformationClass
+
+        Returns:
+            The newly created or existing DiagnosticReadDTCInformationClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDTCInformationClass):
+            read_dtc_information_class = DiagnosticReadDTCInformationClass(self, short_name)
+            self.addElement(read_dtc_information_class)
+        return self.getElement(short_name, DiagnosticReadDTCInformationClass)
+
+    def createDiagnosticReadDataByIdentifier(self, short_name: str) -> DiagnosticReadDataByIdentifier:
+        """
+        Creates a new DiagnosticReadDataByIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDataByIdentifier represents an instance of the "Read Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDataByIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticReadDataByIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDataByIdentifier):
+            read_data_by_identifier = DiagnosticReadDataByIdentifier(self, short_name)
+            self.addElement(read_data_by_identifier)
+        return self.getElement(short_name, DiagnosticReadDataByIdentifier)
+
+    def createDiagnosticReadDataByIdentifierClass(self, short_name: str) -> DiagnosticReadDataByIdentifierClass:
+        """
+        Creates a new DiagnosticReadDataByIdentifierClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDataByIdentifierClass contains attributes shared by all
+        instances of the "Read Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDataByIdentifierClass
+
+        Returns:
+            The newly created or existing DiagnosticReadDataByIdentifierClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDataByIdentifierClass):
+            read_data_by_identifier_class = DiagnosticReadDataByIdentifierClass(self, short_name)
+            self.addElement(read_data_by_identifier_class)
+        return self.getElement(short_name, DiagnosticReadDataByIdentifierClass)
+
+    def createDiagnosticReadDataByPeriodicID(self, short_name: str) -> DiagnosticReadDataByPeriodicID:
+        """
+        Creates a new DiagnosticReadDataByPeriodicID with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDataByPeriodicID represents an instance of the
+        "Read Data by periodic Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDataByPeriodicID
+
+        Returns:
+            The newly created or existing DiagnosticReadDataByPeriodicID instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicID):
+            read_data_by_periodic_id = DiagnosticReadDataByPeriodicID(self, short_name)
+            self.addElement(read_data_by_periodic_id)
+        return self.getElement(short_name, DiagnosticReadDataByPeriodicID)
+
+    def createDiagnosticReadDataByPeriodicIDClass(self, short_name: str) -> DiagnosticReadDataByPeriodicIDClass:
+        """
+        Creates a new DiagnosticReadDataByPeriodicIDClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDataByPeriodicIDClass contains attributes shared by all
+        instances of the "Read Data by periodic Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDataByPeriodicIDClass
+
+        Returns:
+            The newly created or existing DiagnosticReadDataByPeriodicIDClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicIDClass):
+            read_data_by_periodic_id_class = DiagnosticReadDataByPeriodicIDClass(self, short_name)
+            self.addElement(read_data_by_periodic_id_class)
+        return self.getElement(short_name, DiagnosticReadDataByPeriodicIDClass)
+
+    def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
+        """
+        Creates a new DiagnosticReadScalingDataByIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadScalingDataByIdentifier represents an instance of the "Read Scaling Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadScalingDataByIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticReadScalingDataByIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifier):
+            read_scaling_data_by_identifier = DiagnosticReadScalingDataByIdentifier(self, short_name)
+            self.addElement(read_scaling_data_by_identifier)
+        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifier)
+
+    def createDiagnosticReadScalingDataByIdentifierClass(self, short_name: str) -> DiagnosticReadScalingDataByIdentifierClass:
+        """
+        Creates a new DiagnosticReadScalingDataByIdentifierClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadScalingDataByIdentifierClass contains attributes shared by all
+        instances of the "Read Scaling Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadScalingDataByIdentifierClass
+
+        Returns:
+            The newly created or existing DiagnosticReadScalingDataByIdentifierClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifierClass):
+            read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
+            self.addElement(read_scaling_data_by_identifier_class)
+        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
+
+    def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
+        """
+        Creates a new DiagnosticResponseOnEvent with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticResponseOnEvent represents an instance of the
+        "Response on Event" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticResponseOnEvent
+
+        Returns:
+            The newly created or existing DiagnosticResponseOnEvent instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticResponseOnEvent):
+            response_on_event = DiagnosticResponseOnEvent(self, short_name)
+            self.addElement(response_on_event)
+        return self.getElement(short_name, DiagnosticResponseOnEvent)
+
+    def createDiagnosticResponseOnEventClass(self, short_name: str) -> DiagnosticResponseOnEventClass:
+        """
+        Creates a new DiagnosticResponseOnEventClass with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticResponseOnEventClass contains attributes shared by all
+        instances of the "Response on Event" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticResponseOnEventClass
+
+        Returns:
+            The newly created or existing DiagnosticResponseOnEventClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticResponseOnEventClass):
+            response_on_event_class = DiagnosticResponseOnEventClass(self, short_name)
+            self.addElement(response_on_event_class)
+        return self.getElement(short_name, DiagnosticResponseOnEventClass)
+
+    def createDiagnosticRoutine(self, short_name: str) -> DiagnosticRoutine:
+        """
+        Creates a new DiagnosticRoutine with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRoutine represents the ability to define a diagnostic routine.
+
+        Args:
+            short_name: The short name for the new DiagnosticRoutine
+
+        Returns:
+            The newly created or existing DiagnosticRoutine instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticRoutine):
+            routine = DiagnosticRoutine(self, short_name)
+            self.addElement(routine)
+        return self.getElement(short_name, DiagnosticRoutine)
+
+    def createDiagnosticRoutineControl(self, short_name: str) -> DiagnosticRoutineControl:
+        """
+        Creates a new DiagnosticRoutineControl with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRoutineControl represents an instance of the "Routine Control"
+        diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRoutineControl
+
+        Returns:
+            The newly created or existing DiagnosticRoutineControl instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticRoutineControl):
+            routine_control = DiagnosticRoutineControl(self, short_name)
+            self.addElement(routine_control)
+        return self.getElement(short_name, DiagnosticRoutineControl)
+
+    def createDiagnosticRoutineControlClass(self, short_name: str) -> DiagnosticRoutineControlClass:
+        """
+        Creates a new DiagnosticRoutineControlClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRoutineControlClass contains attributes shared by all
+        instances of the "Routine Control" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRoutineControlClass
+
+        Returns:
+            The newly created or existing DiagnosticRoutineControlClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticRoutineControlClass):
+            routine_control_class = DiagnosticRoutineControlClass(self, short_name)
+            self.addElement(routine_control_class)
+        return self.getElement(short_name, DiagnosticRoutineControlClass)
+
+    def createDiagnosticWriteDataByIdentifier(self, short_name: str) -> DiagnosticWriteDataByIdentifier:
+        """
+        Creates a new DiagnosticWriteDataByIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteDataByIdentifier represents an instance of the "Write Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteDataByIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticWriteDataByIdentifier instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifier):
+            write_data_by_identifier = DiagnosticWriteDataByIdentifier(self, short_name)
+            self.addElement(write_data_by_identifier)
+        return self.getElement(short_name, DiagnosticWriteDataByIdentifier)
+
+    def createDiagnosticWriteDataByIdentifierClass(self, short_name: str) -> DiagnosticWriteDataByIdentifierClass:
+        """
+        Creates a new DiagnosticWriteDataByIdentifierClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteDataByIdentifierClass contains attributes shared by all
+        instances of the "Write Data by Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteDataByIdentifierClass
+
+        Returns:
+            The newly created or existing DiagnosticWriteDataByIdentifierClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifierClass):
+            write_data_by_identifier_class = DiagnosticWriteDataByIdentifierClass(self, short_name)
+            self.addElement(write_data_by_identifier_class)
+        return self.getElement(short_name, DiagnosticWriteDataByIdentifierClass)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 
@@ -1705,44 +2152,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(verification)
         return self.getElement(short_name, DiagnosticVerifyCertificateUnidirectional)
 
-    def createDiagnosticClearDiagnosticInformation(self, short_name: str) -> DiagnosticClearDiagnosticInformation:
-        """
-        Creates a new DiagnosticClearDiagnosticInformation with the given short
-        name, or returns an existing one if it already exists in this package.
-
-        DiagnosticClearDiagnosticInformation represents an instance of the
-        "Clear Diagnostic Information" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticClearDiagnosticInformation
-
-        Returns:
-            The newly created or existing DiagnosticClearDiagnosticInformation instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformation):
-            clear_diagnostic_information = DiagnosticClearDiagnosticInformation(self, short_name)
-            self.addElement(clear_diagnostic_information)
-        return self.getElement(short_name, DiagnosticClearDiagnosticInformation)
-
-    def createDiagnosticClearDiagnosticInformationClass(self, short_name: str) -> DiagnosticClearDiagnosticInformationClass:
-        """
-        Creates a new DiagnosticClearDiagnosticInformationClass with the given
-        short name, or returns an existing one if it already exists in this package.
-
-        DiagnosticClearDiagnosticInformationClass contains attributes shared by all
-        instances of the "Clear Diagnostic Information" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticClearDiagnosticInformationClass
-
-        Returns:
-            The newly created or existing DiagnosticClearDiagnosticInformationClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformationClass):
-            clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
-            self.addElement(clear_diagnostic_information_class)
-        return self.getElement(short_name, DiagnosticClearDiagnosticInformationClass)
-
     def createDiagnosticComControl(self, short_name: str) -> DiagnosticComControl:
         """
         Creates a new DiagnosticComControl with the given short name,
@@ -1760,44 +2169,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             com_control = DiagnosticComControl(self, short_name)
             self.addElement(com_control)
         return self.getElement(short_name, DiagnosticComControl)
-
-    def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
-        """
-        Creates a new DiagnosticComControlClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticComControlClass contains attributes shared by all
-        instances of the "Communication Control" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticComControlClass
-
-        Returns:
-            The newly created or existing DiagnosticComControlClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticComControlClass):
-            com_control_class = DiagnosticComControlClass(self, short_name)
-            self.addElement(com_control_class)
-        return self.getElement(short_name, DiagnosticComControlClass)
-
-    def createDiagnosticControlDTCSettingClass(self, short_name: str) -> DiagnosticControlDTCSettingClass:
-        """
-        Creates a new DiagnosticControlDTCSettingClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticControlDTCSettingClass contains attributes shared by all
-        instances of the "Control DTC Setting" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticControlDTCSettingClass
-
-        Returns:
-            The newly created or existing DiagnosticControlDTCSettingClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticControlDTCSettingClass):
-            control_dtc_setting_class = DiagnosticControlDTCSettingClass(self, short_name)
-            self.addElement(control_dtc_setting_class)
-        return self.getElement(short_name, DiagnosticControlDTCSettingClass)
 
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
@@ -1824,24 +2195,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             contribution_set = DiagnosticContributionSet(self, short_name)
             self.addElement(contribution_set)
         return self.getElement(short_name, DiagnosticContributionSet)
-
-    def createDiagnosticControlDTCSetting(self, short_name: str) -> DiagnosticControlDTCSetting:
-        """
-        Creates a new DiagnosticControlDTCSetting with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticControlDTCSetting represents an instance of the "Control DTC Setting" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticControlDTCSetting
-
-        Returns:
-            The newly created or existing DiagnosticControlDTCSetting instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticControlDTCSetting):
-            control_dtc_setting = DiagnosticControlDTCSetting(self, short_name)
-            self.addElement(control_dtc_setting)
-        return self.getElement(short_name, DiagnosticControlDTCSetting)
 
     def createDiagnosticCustomServiceClass(self, short_name: str) -> DiagnosticCustomServiceClass:
         """
@@ -1899,287 +2252,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             protocol = DiagnosticProtocol(self, short_name)
             self.addElement(protocol)
         return self.getElement(short_name, DiagnosticProtocol)
-
-    def createDiagnosticReadDataByIdentifier(self, short_name: str) -> DiagnosticReadDataByIdentifier:
-        """
-        Creates a new DiagnosticReadDataByIdentifier with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadDataByIdentifier represents an instance of the "Read Data by Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadDataByIdentifier
-
-        Returns:
-            The newly created or existing DiagnosticReadDataByIdentifier instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByIdentifier):
-            read_data_by_identifier = DiagnosticReadDataByIdentifier(self, short_name)
-            self.addElement(read_data_by_identifier)
-        return self.getElement(short_name, DiagnosticReadDataByIdentifier)
-
-    def createDiagnosticWriteDataByIdentifier(self, short_name: str) -> DiagnosticWriteDataByIdentifier:
-        """
-        Creates a new DiagnosticWriteDataByIdentifier with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticWriteDataByIdentifier represents an instance of the "Write Data by Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticWriteDataByIdentifier
-
-        Returns:
-            The newly created or existing DiagnosticWriteDataByIdentifier instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifier):
-            write_data_by_identifier = DiagnosticWriteDataByIdentifier(self, short_name)
-            self.addElement(write_data_by_identifier)
-        return self.getElement(short_name, DiagnosticWriteDataByIdentifier)
-
-    def createDiagnosticWriteDataByIdentifierClass(self, short_name: str) -> DiagnosticWriteDataByIdentifierClass:
-        """
-        Creates a new DiagnosticWriteDataByIdentifierClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticWriteDataByIdentifierClass contains attributes shared by all
-        instances of the "Write Data by Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticWriteDataByIdentifierClass
-
-        Returns:
-            The newly created or existing DiagnosticWriteDataByIdentifierClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticWriteDataByIdentifierClass):
-            write_data_by_identifier_class = DiagnosticWriteDataByIdentifierClass(self, short_name)
-            self.addElement(write_data_by_identifier_class)
-        return self.getElement(short_name, DiagnosticWriteDataByIdentifierClass)
-
-    def createDiagnosticReadDataByIdentifierClass(self, short_name: str) -> DiagnosticReadDataByIdentifierClass:
-        """
-        Creates a new DiagnosticReadDataByIdentifierClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadDataByIdentifierClass contains attributes shared by all
-        instances of the "Read Data by Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadDataByIdentifierClass
-
-        Returns:
-            The newly created or existing DiagnosticReadDataByIdentifierClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByIdentifierClass):
-            read_data_by_identifier_class = DiagnosticReadDataByIdentifierClass(self, short_name)
-            self.addElement(read_data_by_identifier_class)
-        return self.getElement(short_name, DiagnosticReadDataByIdentifierClass)
-
-    def createDiagnosticReadDataByPeriodicID(self, short_name: str) -> DiagnosticReadDataByPeriodicID:
-        """
-        Creates a new DiagnosticReadDataByPeriodicID with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadDataByPeriodicID represents an instance of the
-        "Read Data by periodic Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadDataByPeriodicID
-
-        Returns:
-            The newly created or existing DiagnosticReadDataByPeriodicID instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicID):
-            read_data_by_periodic_id = DiagnosticReadDataByPeriodicID(self, short_name)
-            self.addElement(read_data_by_periodic_id)
-        return self.getElement(short_name, DiagnosticReadDataByPeriodicID)
-
-    def createDiagnosticReadDataByPeriodicIDClass(self, short_name: str) -> DiagnosticReadDataByPeriodicIDClass:
-        """
-        Creates a new DiagnosticReadDataByPeriodicIDClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadDataByPeriodicIDClass contains attributes shared by all
-        instances of the "Read Data by periodic Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadDataByPeriodicIDClass
-
-        Returns:
-            The newly created or existing DiagnosticReadDataByPeriodicIDClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicIDClass):
-            read_data_by_periodic_id_class = DiagnosticReadDataByPeriodicIDClass(self, short_name)
-            self.addElement(read_data_by_periodic_id_class)
-        return self.getElement(short_name, DiagnosticReadDataByPeriodicIDClass)
-
-    def createDiagnosticReadDTCInformation(self, short_name: str) -> DiagnosticReadDTCInformation:
-        """
-        Creates a new DiagnosticReadDTCInformation with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadDTCInformation represents an instance of the
-        "Read DTC Information" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadDTCInformation
-
-        Returns:
-            The newly created or existing DiagnosticReadDTCInformation instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadDTCInformation):
-            read_dtc_information = DiagnosticReadDTCInformation(self, short_name)
-            self.addElement(read_dtc_information)
-        return self.getElement(short_name, DiagnosticReadDTCInformation)
-
-    def createDiagnosticReadDTCInformationClass(self, short_name: str) -> DiagnosticReadDTCInformationClass:
-        """
-        Creates a new DiagnosticReadDTCInformationClass with the given short
-        name, or returns an existing one if it already exists in this package.
-
-        DiagnosticReadDTCInformationClass contains attributes shared by all
-        instances of the "ReadDTCInformation" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadDTCInformationClass
-
-        Returns:
-            The newly created or existing DiagnosticReadDTCInformationClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadDTCInformationClass):
-            read_dtc_information_class = DiagnosticReadDTCInformationClass(self, short_name)
-            self.addElement(read_dtc_information_class)
-        return self.getElement(short_name, DiagnosticReadDTCInformationClass)
-
-    def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
-        """
-        Creates a new DiagnosticReadScalingDataByIdentifier with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadScalingDataByIdentifier represents an instance of the "Read Scaling Data by Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadScalingDataByIdentifier
-
-        Returns:
-            The newly created or existing DiagnosticReadScalingDataByIdentifier instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifier):
-            read_scaling_data_by_identifier = DiagnosticReadScalingDataByIdentifier(self, short_name)
-            self.addElement(read_scaling_data_by_identifier)
-        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifier)
-
-    def createDiagnosticReadScalingDataByIdentifierClass(self, short_name: str) -> DiagnosticReadScalingDataByIdentifierClass:
-        """
-        Creates a new DiagnosticReadScalingDataByIdentifierClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticReadScalingDataByIdentifierClass contains attributes shared by all
-        instances of the "Read Scaling Data by Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticReadScalingDataByIdentifierClass
-
-        Returns:
-            The newly created or existing DiagnosticReadScalingDataByIdentifierClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticReadScalingDataByIdentifierClass):
-            read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
-            self.addElement(read_scaling_data_by_identifier_class)
-        return self.getElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
-
-    def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
-        """
-        Creates a new DiagnosticResponseOnEvent with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticResponseOnEvent represents an instance of the
-        "Response on Event" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticResponseOnEvent
-
-        Returns:
-            The newly created or existing DiagnosticResponseOnEvent instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticResponseOnEvent):
-            response_on_event = DiagnosticResponseOnEvent(self, short_name)
-            self.addElement(response_on_event)
-        return self.getElement(short_name, DiagnosticResponseOnEvent)
-
-    def createDiagnosticResponseOnEventClass(self, short_name: str) -> DiagnosticResponseOnEventClass:
-        """
-        Creates a new DiagnosticResponseOnEventClass with the given short
-        name, or returns an existing one if it already exists in this package.
-
-        DiagnosticResponseOnEventClass contains attributes shared by all
-        instances of the "Response on Event" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticResponseOnEventClass
-
-        Returns:
-            The newly created or existing DiagnosticResponseOnEventClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticResponseOnEventClass):
-            response_on_event_class = DiagnosticResponseOnEventClass(self, short_name)
-            self.addElement(response_on_event_class)
-        return self.getElement(short_name, DiagnosticResponseOnEventClass)
-
-    def createDiagnosticRoutine(self, short_name: str) -> DiagnosticRoutine:
-        """
-        Creates a new DiagnosticRoutine with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticRoutine represents the ability to define a diagnostic routine.
-
-        Args:
-            short_name: The short name for the new DiagnosticRoutine
-
-        Returns:
-            The newly created or existing DiagnosticRoutine instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticRoutine):
-            routine = DiagnosticRoutine(self, short_name)
-            self.addElement(routine)
-        return self.getElement(short_name, DiagnosticRoutine)
-
-    def createDiagnosticRoutineControl(self, short_name: str) -> DiagnosticRoutineControl:
-        """
-        Creates a new DiagnosticRoutineControl with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticRoutineControl represents an instance of the "Routine Control"
-        diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticRoutineControl
-
-        Returns:
-            The newly created or existing DiagnosticRoutineControl instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticRoutineControl):
-            routine_control = DiagnosticRoutineControl(self, short_name)
-            self.addElement(routine_control)
-        return self.getElement(short_name, DiagnosticRoutineControl)
-
-    def createDiagnosticRoutineControlClass(self, short_name: str) -> DiagnosticRoutineControlClass:
-        """
-        Creates a new DiagnosticRoutineControlClass with the given short name,
-        or returns an existing one if it already exists in this package.
-
-        DiagnosticRoutineControlClass contains attributes shared by all
-        instances of the "Routine Control" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticRoutineControlClass
-
-        Returns:
-            The newly created or existing DiagnosticRoutineControlClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticRoutineControlClass):
-            routine_control_class = DiagnosticRoutineControlClass(self, short_name)
-            self.addElement(routine_control_class)
-        return self.getElement(short_name, DiagnosticRoutineControlClass)
 
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
@@ -2356,44 +2428,6 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(did)
         return self.getElement(short_name, DiagnosticDynamicDataIdentifier)
 
-    def createDiagnosticDynamicallyDefineDataIdentifier(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifier:
-        """
-        Creates a new DiagnosticDynamicallyDefineDataIdentifier with the given
-        short name, or returns an existing one if it already exists in this package.
-
-        DiagnosticDynamicallyDefineDataIdentifier represents an instance of the
-        "Dynamically Define Data Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticDynamicallyDefineDataIdentifier
-
-        Returns:
-            The newly created or existing DiagnosticDynamicallyDefineDataIdentifier instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifier):
-            dddi = DiagnosticDynamicallyDefineDataIdentifier(self, short_name)
-            self.addElement(dddi)
-        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
-
-    def createDiagnosticDynamicallyDefineDataIdentifierClass(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifierClass:
-        """
-        Creates a new DiagnosticDynamicallyDefineDataIdentifierClass with the given
-        short name, or returns an existing one if it already exists in this package.
-
-        DiagnosticDynamicallyDefineDataIdentifierClass contains attributes shared by all
-        instances of the "Dynamically Define Data Identifier" diagnostic service.
-
-        Args:
-            short_name: The short name for the new DiagnosticDynamicallyDefineDataIdentifierClass
-
-        Returns:
-            The newly created or existing DiagnosticDynamicallyDefineDataIdentifierClass instance
-        """
-        if not self.IsElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifierClass):
-            dddi_class = DiagnosticDynamicallyDefineDataIdentifierClass(self, short_name)
-            self.addElement(dddi_class)
-        return self.getElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass)
-
     def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
         """
         Creates a new DiagnosticEcuReset with the given short name,
@@ -2451,43 +2485,640 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(condition)
         return self.getElement(short_name, DiagnosticEnvironmentalCondition)
 
-    def createDiagnosticIOControl(self, short_name: str) -> DiagnosticIOControl:
+    def createDiagnosticFimEventGroup(self, short_name: str) -> DiagnosticFimEventGroup:
         """
-        Creates a new DiagnosticIOControl with the given short name,
+        Creates a new DiagnosticFimEventGroup with the given short name,
         or returns an existing one if it already exists in this package.
 
-        DiagnosticIOControl represents an instance of the "I/O Control"
-        diagnostic service.
+        DiagnosticFimEventGroup represents the ability to model a Fim event
+        group, also known as a summary event in Fim terminology.
 
         Args:
-            short_name: The short name for the new DiagnosticIOControl
+            short_name: The short name for the new DiagnosticFimEventGroup
 
         Returns:
-            The newly created or existing DiagnosticIOControl instance
+            The newly created or existing DiagnosticFimEventGroup instance
         """
-        if not self.IsElementExists(short_name, DiagnosticIOControl):
-            io_control = DiagnosticIOControl(self, short_name)
-            self.addElement(io_control)
-        return self.getElement(short_name, DiagnosticIOControl)
+        if not self.IsElementExists(short_name, DiagnosticFimEventGroup):
+            fim_event_group = DiagnosticFimEventGroup(self, short_name)
+            self.addElement(fim_event_group)
+        return self.getElement(short_name, DiagnosticFimEventGroup)
 
-    def createDiagnosticIoControlClass(self, short_name: str) -> DiagnosticIoControlClass:
+    def createDiagnosticJ1939Spn(self, short_name: str) -> DiagnosticJ1939Spn:
         """
-        Creates a new DiagnosticIoControlClass with the given short name,
+        Creates a new DiagnosticJ1939Spn with the given short name,
         or returns an existing one if it already exists in this package.
 
-        DiagnosticIoControlClass contains attributes shared by all
-        instances of the "IO Control" diagnostic service.
+        DiagnosticJ1939Spn represents the ability to model a J1939 Suspect
+        Parameter Number (SPN).
 
         Args:
-            short_name: The short name for the new DiagnosticIoControlClass
+            short_name: The short name for the new DiagnosticJ1939Spn
 
         Returns:
-            The newly created or existing DiagnosticIoControlClass instance
+            The newly created or existing DiagnosticJ1939Spn instance
         """
-        if not self.IsElementExists(short_name, DiagnosticIoControlClass):
-            io_control_class = DiagnosticIoControlClass(self, short_name)
-            self.addElement(io_control_class)
-        return self.getElement(short_name, DiagnosticIoControlClass)
+        if not self.IsElementExists(short_name, DiagnosticJ1939Spn):
+            j1939_spn = DiagnosticJ1939Spn(self, short_name)
+            self.addElement(j1939_spn)
+        return self.getElement(short_name, DiagnosticJ1939Spn)
+
+    def createDiagnosticJ1939ExpandedFreezeFrame(self, short_name: str) -> DiagnosticJ1939ExpandedFreezeFrame:
+        """
+        Creates a new DiagnosticJ1939ExpandedFreezeFrame with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939ExpandedFreezeFrame represents the ability to model an
+        expanded J1939 Freeze Frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939ExpandedFreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticJ1939ExpandedFreezeFrame instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939ExpandedFreezeFrame):
+            expanded_freeze_frame = DiagnosticJ1939ExpandedFreezeFrame(self, short_name)
+            self.addElement(expanded_freeze_frame)
+        return self.getElement(short_name, DiagnosticJ1939ExpandedFreezeFrame)
+
+    def createDiagnosticJ1939FreezeFrame(self, short_name: str) -> DiagnosticJ1939FreezeFrame:
+        """
+        Creates a new DiagnosticJ1939FreezeFrame with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939FreezeFrame represents the ability to model a J1939 Freeze Frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939FreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticJ1939FreezeFrame instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939FreezeFrame):
+            freeze_frame = DiagnosticJ1939FreezeFrame(self, short_name)
+            self.addElement(freeze_frame)
+        return self.getElement(short_name, DiagnosticJ1939FreezeFrame)
+
+    def createDiagnosticTroubleCodeJ1939(self, short_name: str) -> DiagnosticTroubleCodeJ1939:
+        """
+        Creates a new DiagnosticTroubleCodeJ1939 with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCodeJ1939 represents the ability to model specific
+        trouble-code related properties for J1939.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCodeJ1939
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCodeJ1939 instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticTroubleCodeJ1939):
+            trouble_code = DiagnosticTroubleCodeJ1939(self, short_name)
+            self.addElement(trouble_code)
+        return self.getElement(short_name, DiagnosticTroubleCodeJ1939)
+
+    def createDiagnosticServiceDataMapping(self, short_name: str) -> DiagnosticServiceDataMapping:
+        """
+        Creates a new DiagnosticServiceDataMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticServiceDataMapping represents the ability to define a mapping
+        of a diagnostic service to a software-component.
+
+        Args:
+            short_name: The short name for the new DiagnosticServiceDataMapping
+
+        Returns:
+            The newly created or existing DiagnosticServiceDataMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticServiceDataMapping):
+            service_data_mapping = DiagnosticServiceDataMapping(self, short_name)
+            self.addElement(service_data_mapping)
+        return self.getElement(short_name, DiagnosticServiceDataMapping)
+
+    def createDiagnosticStorageConditionPortMapping(self, short_name: str) -> DiagnosticStorageConditionPortMapping:
+        """
+        Creates a new DiagnosticStorageConditionPortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticStorageConditionPortMapping: Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorageCondition is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticStorageConditionPortMapping
+
+        Returns:
+            The newly created or existing DiagnosticStorageConditionPortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticStorageConditionPortMapping):
+            element = DiagnosticStorageConditionPortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticStorageConditionPortMapping)
+
+    def createDiagnosticEventToSecurityEventMapping(self, short_name: str) -> DiagnosticEventToSecurityEventMapping:
+        """
+        Creates a new DiagnosticEventToSecurityEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToSecurityEventMapping: This meta-class represents the ability to map a security event that is defined in the context of the Security Extract to a diagnostic event defined on the context of the DiagnosticExtract..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToSecurityEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToSecurityEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToSecurityEventMapping):
+            element = DiagnosticEventToSecurityEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToSecurityEventMapping)
+
+    def createDiagnosticFimAliasEventGroupMapping(self, short_name: str) -> DiagnosticFimAliasEventGroupMapping:
+        """
+        Creates a new DiagnosticFimAliasEventGroupMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEventGroupMapping: This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the "preliminary" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEventGroupMapping
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEventGroupMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimAliasEventGroupMapping):
+            element = DiagnosticFimAliasEventGroupMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimAliasEventGroupMapping)
+
+    def createDiagnosticFimFunctionMapping(self, short_name: str) -> DiagnosticFimFunctionMapping:
+        """
+        Creates a new DiagnosticFimFunctionMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimFunctionMapping: This meta-class represents the ability to define a mapping between a function identifier (FID) and the corresponding SwcServiceDependency in the application software resp. basic software..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimFunctionMapping
+
+        Returns:
+            The newly created or existing DiagnosticFimFunctionMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimFunctionMapping):
+            element = DiagnosticFimFunctionMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimFunctionMapping)
+
+    def createDiagnosticJ1939SwMapping(self, short_name: str) -> DiagnosticJ1939SwMapping:
+        """
+        Creates a new DiagnosticJ1939SwMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939SwMapping: This meta-class represents the ability to map a piece of application software to a J1939DiagnosticNode. By this means the diagnostic configuration can be associated with the application software..
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939SwMapping
+
+        Returns:
+            The newly created or existing DiagnosticJ1939SwMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939SwMapping):
+            element = DiagnosticJ1939SwMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticJ1939SwMapping)
+
+    def createDiagnosticJ1939Node(self, short_name: str) -> DiagnosticJ1939Node:
+        """
+        Creates a new DiagnosticJ1939Node with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939Node: This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a "virtual Ecu" on the J1939 communication bus..
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939Node
+
+        Returns:
+            The newly created or existing DiagnosticJ1939Node instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939Node):
+            element = DiagnosticJ1939Node(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticJ1939Node)
+
+    def createDiagnosticJ1939SpnMapping(self, short_name: str) -> DiagnosticJ1939SpnMapping:
+        """
+        Creates a new DiagnosticJ1939SpnMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticJ1939SpnMapping: This meta-class represents the ability to define a mapping between an SPN and a SystemSignal. The existence of a mapping means that neither the SPN nor the SystemSignal need to be updated if the relation between the two changes..
+
+        Args:
+            short_name: The short name for the new DiagnosticJ1939SpnMapping
+
+        Returns:
+            The newly created or existing DiagnosticJ1939SpnMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticJ1939SpnMapping):
+            element = DiagnosticJ1939SpnMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticJ1939SpnMapping)
+
+    def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
+        """
+        Creates a new DiagnosticIumprToFunctionIdentifierMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumprToFunctionIdentifierMapping: This meta-class represents the ability to associate a DiagnosticFunctionIdentifier with a DiagnosticIumpr..
+
+        Args:
+            short_name: The short name for the new DiagnosticIumprToFunctionIdentifierMapping
+
+        Returns:
+            The newly created or existing DiagnosticIumprToFunctionIdentifierMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticIumprToFunctionIdentifierMapping):
+            element = DiagnosticIumprToFunctionIdentifierMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticIumprToFunctionIdentifierMapping)
+
+    def createDiagnosticEventToTroubleCodeJ1939Mapping(self, short_name: str) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        """
+        Creates a new DiagnosticEventToTroubleCodeJ1939Mapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToTroubleCodeJ1939Mapping: By means of this meta-class it is possible to associate a DiagnosticEvent to a DiagnosticTroubleCodeJ1939..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToTroubleCodeJ1939Mapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToTroubleCodeJ1939Mapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToTroubleCodeJ1939Mapping):
+            element = DiagnosticEventToTroubleCodeJ1939Mapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToTroubleCodeJ1939Mapping)
+
+    def createDiagnosticServiceSwMapping(self, short_name: str) -> DiagnosticServiceSwMapping:
+        """
+        Creates a new DiagnosticServiceSwMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticServiceSwMapping: This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module.
+
+        Args:
+            short_name: The short name for the new DiagnosticServiceSwMapping
+
+        Returns:
+            The newly created or existing DiagnosticServiceSwMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticServiceSwMapping):
+            element = DiagnosticServiceSwMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticServiceSwMapping)
+
+    def createCpSwClusterResourceToDiagFunctionIdMapping(self, short_name: str) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        """
+        Creates a new CpSwClusterResourceToDiagFunctionIdMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterResourceToDiagFunctionIdMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier..
+
+        Args:
+            short_name: The short name for the new CpSwClusterResourceToDiagFunctionIdMapping
+
+        Returns:
+            The newly created or existing CpSwClusterResourceToDiagFunctionIdMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterResourceToDiagFunctionIdMapping):
+            element = CpSwClusterResourceToDiagFunctionIdMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterResourceToDiagFunctionIdMapping)
+
+    def createCpSwClusterToDiagRoutineSubfunctionMapping(self, short_name: str) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        """
+        Creates a new CpSwClusterToDiagRoutineSubfunctionMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterToDiagRoutineSubfunctionMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine..
+
+        Args:
+            short_name: The short name for the new CpSwClusterToDiagRoutineSubfunctionMapping
+
+        Returns:
+            The newly created or existing CpSwClusterToDiagRoutineSubfunctionMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterToDiagRoutineSubfunctionMapping):
+            element = CpSwClusterToDiagRoutineSubfunctionMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterToDiagRoutineSubfunctionMapping)
+
+    def createCpSwClusterResourceToDiagDataElemMapping(self, short_name: str) -> CpSwClusterResourceToDiagDataElemMapping:
+        """
+        Creates a new CpSwClusterResourceToDiagDataElemMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterResourceToDiagDataElemMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticDataElement. This allows for indicating that the CpSoftwareClusterResource is used to convey the DiagnosticDataElement..
+
+        Args:
+            short_name: The short name for the new CpSwClusterResourceToDiagDataElemMapping
+
+        Returns:
+            The newly created or existing CpSwClusterResourceToDiagDataElemMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterResourceToDiagDataElemMapping):
+            element = CpSwClusterResourceToDiagDataElemMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterResourceToDiagDataElemMapping)
+
+    def createCpSwClusterToDiagEventMapping(self, short_name: str) -> CpSwClusterToDiagEventMapping:
+        """
+        Creates a new CpSwClusterToDiagEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        CpSwClusterToDiagEventMapping: This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticEvent. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new CpSwClusterToDiagEventMapping
+
+        Returns:
+            The newly created or existing CpSwClusterToDiagEventMapping instance
+        """
+        if not self.IsElementExists(short_name, CpSwClusterToDiagEventMapping):
+            element = CpSwClusterToDiagEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, CpSwClusterToDiagEventMapping)
+
+    def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
+        """
+        Creates a new DiagnosticFimAliasEventGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEventGroup: This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEventGroup
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEventGroup instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimAliasEventGroup):
+            element = DiagnosticFimAliasEventGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimAliasEventGroup)
+
+    def createDiagnosticFimAliasEventMapping(self, short_name: str) -> DiagnosticFimAliasEventMapping:
+        """
+        Creates a new DiagnosticFimAliasEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEventMapping: This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the "preliminary" modeling by way of a DiagnosticAliasEvent is further substantiated..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticFimAliasEventMapping):
+            element = DiagnosticFimAliasEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticFimAliasEventMapping)
+
+    def createDiagnosticInhibitSourceEventMapping(self, short_name: str) -> DiagnosticInhibitSourceEventMapping:
+        """
+        Creates a new DiagnosticInhibitSourceEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticInhibitSourceEventMapping: This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created..
+
+        Args:
+            short_name: The short name for the new DiagnosticInhibitSourceEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticInhibitSourceEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticInhibitSourceEventMapping):
+            element = DiagnosticInhibitSourceEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticInhibitSourceEventMapping)
+
+    def createDiagnosticMasterToSlaveEventMapping(self, short_name: str) -> DiagnosticMasterToSlaveEventMapping:
+        """
+        Creates a new DiagnosticMasterToSlaveEventMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMasterToSlaveEventMapping: This meta-class provides the ability to map a master diagnostic event with a slave diagnostic event such that reporting of the master event with a given value also reports the slave event with the same value.
+
+        Args:
+            short_name: The short name for the new DiagnosticMasterToSlaveEventMapping
+
+        Returns:
+            The newly created or existing DiagnosticMasterToSlaveEventMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticMasterToSlaveEventMapping):
+            element = DiagnosticMasterToSlaveEventMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticMasterToSlaveEventMapping)
+
+    def createDiagnosticDemProvidedDataMapping(self, short_name: str) -> DiagnosticDemProvidedDataMapping:
+        """
+        Creates a new DiagnosticDemProvidedDataMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDemProvidedDataMapping: This represents the ability to define the nature of a data access for a DiagnosticDataElement in the Dem..
+
+        Args:
+            short_name: The short name for the new DiagnosticDemProvidedDataMapping
+
+        Returns:
+            The newly created or existing DiagnosticDemProvidedDataMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticDemProvidedDataMapping):
+            element = DiagnosticDemProvidedDataMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticDemProvidedDataMapping)
+
+    def createDiagnosticSecurityEventReportingModeMapping(self, short_name: str) -> DiagnosticSecurityEventReportingModeMapping:
+        """
+        Creates a new DiagnosticSecurityEventReportingModeMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSecurityEventReportingModeMapping: This meta-class represents the ability to associate a location in a DID with a security event. The purpose of this mapping is that the location in the DID contains the setting of the reporting mode for the specific security event. This means that the reporting mode of the security event can be set via the diagnostic service WriteDataByIdentifier..
+
+        Args:
+            short_name: The short name for the new DiagnosticSecurityEventReportingModeMapping
+
+        Returns:
+            The newly created or existing DiagnosticSecurityEventReportingModeMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSecurityEventReportingModeMapping):
+            element = DiagnosticSecurityEventReportingModeMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticSecurityEventReportingModeMapping)
+
+    def createDiagnosticAuthTransmitCertificateMapping(self, short_name: str) -> DiagnosticAuthTransmitCertificateMapping:
+        """
+        Creates a new DiagnosticAuthTransmitCertificateMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAuthTransmitCertificateMapping: This meta-class represents the ability to associate a CryptoServiceCertificate with a DiagnosticAuthCertificateEvaluation with the purpose to configure the evaluation of the certificate..
+
+        Args:
+            short_name: The short name for the new DiagnosticAuthTransmitCertificateMapping
+
+        Returns:
+            The newly created or existing DiagnosticAuthTransmitCertificateMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAuthTransmitCertificateMapping):
+            element = DiagnosticAuthTransmitCertificateMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticAuthTransmitCertificateMapping)
+
+    def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
+        """
+        Creates a new DiagnosticEnableConditionPortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEnableConditionPortMapping: Defines to which SWC service ports the DiagnosticEnableCondition is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticEnableConditionPortMapping
+
+        Returns:
+            The newly created or existing DiagnosticEnableConditionPortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEnableConditionPortMapping):
+            element = DiagnosticEnableConditionPortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEnableConditionPortMapping)
+
+    def createDiagnosticOperationCyclePortMapping(self, short_name: str) -> DiagnosticOperationCyclePortMapping:
+        """
+        Creates a new DiagnosticOperationCyclePortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticOperationCyclePortMapping: Defines to which SWC service ports the DiagnosticOperationCycle is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticOperationCyclePortMapping
+
+        Returns:
+            The newly created or existing DiagnosticOperationCyclePortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticOperationCyclePortMapping):
+            element = DiagnosticOperationCyclePortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticOperationCyclePortMapping)
+
+    def createDiagnosticEventPortMapping(self, short_name: str) -> DiagnosticEventPortMapping:
+        """
+        Creates a new DiagnosticEventPortMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventPortMapping: Defines to which SWC service ports the DiagnosticEvent is mapped..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventPortMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventPortMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventPortMapping):
+            element = DiagnosticEventPortMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventPortMapping)
+
+    def createDiagnosticEventToTroubleCodeUdsMapping(self, short_name: str) -> DiagnosticEventToTroubleCodeUdsMapping:
+        """
+        Creates a new DiagnosticEventToTroubleCodeUdsMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToTroubleCodeUdsMapping: Defines which UDS Diagnostic Trouble Code is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToTroubleCodeUdsMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToTroubleCodeUdsMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToTroubleCodeUdsMapping):
+            element = DiagnosticEventToTroubleCodeUdsMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToTroubleCodeUdsMapping)
+
+    def createDiagnosticEventToStorageConditionGroupMapping(self, short_name: str) -> DiagnosticEventToStorageConditionGroupMapping:
+        """
+        Creates a new DiagnosticEventToStorageConditionGroupMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToStorageConditionGroupMapping: Defines which StorageConditionGroup is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToStorageConditionGroupMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToStorageConditionGroupMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToStorageConditionGroupMapping):
+            element = DiagnosticEventToStorageConditionGroupMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToStorageConditionGroupMapping)
+
+    def createDiagnosticEventToOperationCycleMapping(self, short_name: str) -> DiagnosticEventToOperationCycleMapping:
+        """
+        Creates a new DiagnosticEventToOperationCycleMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToOperationCycleMapping: Defines which OperationCycle is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToOperationCycleMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToOperationCycleMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToOperationCycleMapping):
+            element = DiagnosticEventToOperationCycleMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToOperationCycleMapping)
+
+    def createDiagnosticEventToEnableConditionGroupMapping(self, short_name: str) -> DiagnosticEventToEnableConditionGroupMapping:
+        """
+        Creates a new DiagnosticEventToEnableConditionGroupMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToEnableConditionGroupMapping: Defines which EnableConditionGroup is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToEnableConditionGroupMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToEnableConditionGroupMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToEnableConditionGroupMapping):
+            element = DiagnosticEventToEnableConditionGroupMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToEnableConditionGroupMapping)
+
+    def createDiagnosticEventToDebounceAlgorithmMapping(self, short_name: str) -> DiagnosticEventToDebounceAlgorithmMapping:
+        """
+        Creates a new DiagnosticEventToDebounceAlgorithmMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEventToDebounceAlgorithmMapping: Defines which Debounce Algorithm is applicable for a DiagnosticEvent..
+
+        Args:
+            short_name: The short name for the new DiagnosticEventToDebounceAlgorithmMapping
+
+        Returns:
+            The newly created or existing DiagnosticEventToDebounceAlgorithmMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventToDebounceAlgorithmMapping):
+            element = DiagnosticEventToDebounceAlgorithmMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticEventToDebounceAlgorithmMapping)
 
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
@@ -2677,6 +3308,22 @@ class ARPackage(CollectableElement, VariationPointCapable):
             collection = Collection(self, short_name)
             self.addElement(collection)
         return self.getElement(short_name, Collection)
+
+    def createApplicationInterface(self, short_name: str) -> ApplicationInterface:
+        from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationInterface
+
+        if not self.IsElementExists(short_name, ApplicationInterface):
+            interface = ApplicationInterface(self, short_name)
+            self.addElement(interface)
+        return self.getElement(short_name, ApplicationInterface)
+
+    def createAliasNameSet(self, short_name: str) -> AliasNameSet:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameSet
+
+        if not self.IsElementExists(short_name, AliasNameSet):
+            alias_name_set = AliasNameSet(self, short_name)
+            self.addElement(alias_name_set)
+        return self.getElement(short_name, AliasNameSet)
 
     def createKeywordSet(self, short_name: str) -> KeywordSet:
 
@@ -3105,21 +3752,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByPeriodicIDClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadScalingDataByIdentifierClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticResponseOnEventClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRoutineControlClass  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteDataByIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticSecurityAccessClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (  # noqa: E402
     EcucModuleConfigurationValues,
@@ -3289,6 +3925,18 @@ AclRole.__bases__ = (ARElement,)
 ViewMapSet.__bases__ = (ARElement,)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByPeriodicIDClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadScalingDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticResponseOnEventClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRoutineControlClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteDataByIdentifierClass  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
 
@@ -3355,19 +4003,211 @@ class DiagnosticMapping(ARElement, ABC):
 
 
 class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticDataElement. This allows for indicating that the CpSoftwareClusterResource is used to convey the DiagnosticDataElement. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterResourceToDiagDataElemMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.47, p.273
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference represents the affected DiagnosticDataElement. Tags: atp.Status=draft
+        self.diagnosticDataElementRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagDataElemMapping:
+        """
+        This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getDiagnosticDataElementRef(self) -> Optional[RefType]:
+        """
+        This reference represents the affected DiagnosticDataElement. Tags: atp.Status=draft
+        """
+        return self.diagnosticDataElementRef
+
+    def setDiagnosticDataElementRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagDataElemMapping:
+        """
+        This reference represents the affected DiagnosticDataElement. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing diagnosticDataElementRef.
+        """
+        if value is not None:
+            self.diagnosticDataElementRef = value
+        return self
 
 
 class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterResourceToDiagFunctionIdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.49, p.275
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference identifies the mapped DiagnosticFunctionIdentifier. Tags: atp.Status=draft
+        self.functionIdentifierRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getFunctionIdentifierRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped DiagnosticFunctionIdentifier. Tags: atp.Status=draft
+        """
+        return self.functionIdentifierRef
+
+    def setFunctionIdentifierRef(self, value: Optional[RefType]) -> CpSwClusterResourceToDiagFunctionIdMapping:
+        """
+        This reference identifies the mapped DiagnosticFunctionIdentifier. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing functionIdentifierRef.
+        """
+        if value is not None:
+            self.functionIdentifierRef = value
+        return self
 
 
 class CpSwClusterToDiagEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticEvent. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterToDiagEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.46, p.272
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference identifies the mapped DiagnosticEvent. Tags: atp.Status=draft
+        self.diagnosticEventRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterToDiagEventMapping:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped DiagnosticEvent. Tags: atp.Status=draft
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> CpSwClusterToDiagEventMapping:
+        """
+        This reference identifies the mapped DiagnosticEvent. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
 
 
 class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine. Tags: atp.Status=draft atp.recommendedPackage=CpSoftwareClusterToDiagMappings"""
+
+    # CpSwClusterToDiagRoutineSubfunctionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.48, p.274
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCpSoftwareClusterResourceRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutineSubfunctionRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutineSubfunctionRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        self.cpSoftwareClusterResourceRef: Optional[RefType] = None
+
+        # This reference identifies the mapped subfunction of a DiagnosticRoutine. Tags: atp.Status=draft
+        self.routineSubfunctionRef: Optional[RefType] = None
+
+    def getCpSoftwareClusterResourceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        """
+        return self.cpSoftwareClusterResourceRef
+
+    def setCpSoftwareClusterResourceRef(self, value: Optional[RefType]) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        """
+        This reference identifies the mapped CpSoftwareClusterResource. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing cpSoftwareClusterResourceRef.
+        """
+        if value is not None:
+            self.cpSoftwareClusterResourceRef = value
+        return self
+
+    def getRoutineSubfunctionRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped subfunction of a DiagnosticRoutine. Tags: atp.Status=draft
+        """
+        return self.routineSubfunctionRef
+
+    def setRoutineSubfunctionRef(self, value: Optional[RefType]) -> CpSwClusterToDiagRoutineSubfunctionMapping:
+        """
+        This reference identifies the mapped subfunction of a DiagnosticRoutine. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing routineSubfunctionRef.
+        """
+        if value is not None:
+            self.routineSubfunctionRef = value
+        return self
 
 
 class DataExchangePoint(ARElement):
@@ -3545,7 +4385,55 @@ class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
 
 
 class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a CryptoServiceCertificate with a DiagnosticAuthCertificateEvaluation with the purpose to configure the evaluation of the certificate. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticAuthTransmitCertificateMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.17, p.242
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCryptoServiceCertificateRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoServiceCertificateRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the description of the applicable crypto certificate.
+        self.cryptoServiceCertificateRefs: List[RefType] = []
+
+        # This reference identifies the applicable DiagnosticAuthTransmitCertificate service instance (via the aggregation in the role certificateEvaluation).
+        self.serviceInstanceRef: Optional[RefType] = None
+
+    def addCryptoServiceCertificateRef(self, value: Optional[RefType]) -> DiagnosticAuthTransmitCertificateMapping:
+        """
+        This reference identifies the description of the applicable crypto certificate.
+        A None value is a no-op and does not append a cryptoServiceCertificateRef.
+        """
+        if value is not None:
+            self.cryptoServiceCertificateRefs.append(value)
+        return self
+
+    def getCryptoServiceCertificateRefs(self) -> List[RefType]:
+        """
+        This reference identifies the description of the applicable crypto certificate.
+        """
+        return self.cryptoServiceCertificateRefs
+
+    def getServiceInstanceRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable DiagnosticAuthTransmitCertificate service instance (via the aggregation in the role certificateEvaluation).
+        """
+        return self.serviceInstanceRef
+
+    def setServiceInstanceRef(self, value: Optional[RefType]) -> DiagnosticAuthTransmitCertificateMapping:
+        """
+        This reference identifies the applicable DiagnosticAuthTransmitCertificate service instance (via the aggregation in the role certificateEvaluation).
+        A None value is a no-op and does not overwrite an existing serviceInstanceRef.
+        """
+        if value is not None:
+            self.serviceInstanceRef = value
+        return self
 
 
 class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
@@ -3970,7 +4858,55 @@ class DiagnosticDeAuthentication(DiagnosticAuthentication):
 
 
 class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
-    pass
+    """This represents the ability to define the nature of a data access for a DiagnosticDataElement in the Dem. Tags: atp.recommendedPackage=DiagnosticServiceMappings"""
+
+    # DiagnosticDemProvidedDataMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.28, p.255
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataProvider                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataProvider                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the DiagnosticDataElement for which the access is further qualified by the DiagnosticDemProvidedDataMapping.
+        self.dataElementRef: Optional[RefType] = None
+
+        # This represents the ability to further specify the access within the Dem.
+        self.dataProvider: Optional[NameToken] = None
+
+    def getDataElementRef(self) -> Optional[RefType]:
+        """
+        This represents the DiagnosticDataElement for which the access is further qualified by the DiagnosticDemProvidedDataMapping.
+        """
+        return self.dataElementRef
+
+    def setDataElementRef(self, value: Optional[RefType]) -> DiagnosticDemProvidedDataMapping:
+        """
+        This represents the DiagnosticDataElement for which the access is further qualified by the DiagnosticDemProvidedDataMapping.
+        A None value is a no-op and does not overwrite an existing dataElementRef.
+        """
+        if value is not None:
+            self.dataElementRef = value
+        return self
+
+    def getDataProvider(self) -> Optional[NameToken]:
+        """
+        This represents the ability to further specify the access within the Dem.
+        """
+        return self.dataProvider
+
+    def setDataProvider(self, value: Optional[NameToken]) -> DiagnosticDemProvidedDataMapping:
+        """
+        This represents the ability to further specify the access within the Dem.
+        A None value is a no-op and does not overwrite an existing dataProvider.
+        """
+        if value is not None:
+            self.dataProvider = value
+        return self
 
 
 class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
@@ -4134,39 +5070,546 @@ class DiagnosticEvent(ARElement):
 
 
 class DiagnosticSwMapping(DiagnosticMapping, ABC):
-    pass
+    """This represents the ability to define a mapping between a diagnostic information (at this point there is no way to become more specific about the semantics) to a software-component."""
+
+    # DiagnosticSwMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.14, p.238
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticSwMapping:
+            raise TypeError("DiagnosticSwMapping is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
+    """Defines to which SWC service ports the DiagnosticEnableCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEnableConditionPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.26, p.252
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnableConditionRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableConditionRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the EnableCondition which is mapped to a SWC service port.
+        self.enableConditionRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can be used in early stages of the development in order to identify the SwcServiceDependency without a full System Context.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getEnableConditionRef(self) -> Optional[RefType]:
+        """
+        Reference to the EnableCondition which is mapped to a SWC service port.
+        """
+        return self.enableConditionRef
+
+    def setEnableConditionRef(self, value: Optional[RefType]) -> DiagnosticEnableConditionPortMapping:
+        """
+        Reference to the EnableCondition which is mapped to a SWC service port.
+        A None value is a no-op and does not overwrite an existing enableConditionRef.
+        """
+        if value is not None:
+            self.enableConditionRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can be used in early stages of the development in order to identify the SwcServiceDependency without a full System Context.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticEnableConditionPortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can be used in early stages of the development in order to identify the SwcServiceDependency without a full System Context.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticEnableConditionPortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticEventPortMapping(DiagnosticSwMapping):
-    pass
+    """Defines to which SWC service ports the DiagnosticEvent is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.24, p.249
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswServiceDependencyRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswServiceDependencyRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a BswServiceDependency that links ServiceNeeds to BswModuleEntries.
+        self.bswServiceDependencyRef: Optional[RefType] = None
+
+        # Reference to the DiagnosticEvent that is assigned to SWC service ports.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getBswServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a BswServiceDependency that links ServiceNeeds to BswModuleEntries.
+        """
+        return self.bswServiceDependencyRef
+
+    def setBswServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Reference to a BswServiceDependency that links ServiceNeeds to BswModuleEntries.
+        A None value is a no-op and does not overwrite an existing bswServiceDependencyRef.
+        """
+        if value is not None:
+            self.bswServiceDependencyRef = value
+        return self
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to the DiagnosticEvent that is assigned to SWC service ports.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Reference to the DiagnosticEvent that is assigned to SWC service ports.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticEventPortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
-    pass
+    """Defines which Debounce Algorithm is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToDebounceAlgorithmMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.21, p.246
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDebounceAlgorithmRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDebounceAlgorithmRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DebounceAlgorithm assigned to a DiagnosticEvent.
+        self.debounceAlgorithmRef: Optional[RefType] = None
+
+        # Reference to a DiagnosticEvent to which a DebounceAlgorithm is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+    def getDebounceAlgorithmRef(self) -> Optional[RefType]:
+        """
+        Reference to a DebounceAlgorithm assigned to a DiagnosticEvent.
+        """
+        return self.debounceAlgorithmRef
+
+    def setDebounceAlgorithmRef(self, value: Optional[RefType]) -> DiagnosticEventToDebounceAlgorithmMapping:
+        """
+        Reference to a DebounceAlgorithm assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing debounceAlgorithmRef.
+        """
+        if value is not None:
+            self.debounceAlgorithmRef = value
+        return self
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a DebounceAlgorithm is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToDebounceAlgorithmMapping:
+        """
+        Reference to a DiagnosticEvent to which a DebounceAlgorithm is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
 
 
 class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
-    pass
+    """Defines which EnableConditionGroup is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToEnableConditionGroupMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.22, p.247
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnableConditionGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableConditionGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which an EnableConditionGroup is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to an EnableConditionGroup assigned to a DiagnosticEvent.
+        self.enableConditionGroupRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which an EnableConditionGroup is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToEnableConditionGroupMapping:
+        """
+        Reference to a DiagnosticEvent to which an EnableConditionGroup is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getEnableConditionGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to an EnableConditionGroup assigned to a DiagnosticEvent.
+        """
+        return self.enableConditionGroupRef
+
+    def setEnableConditionGroupRef(self, value: Optional[RefType]) -> DiagnosticEventToEnableConditionGroupMapping:
+        """
+        Reference to an EnableConditionGroup assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing enableConditionGroupRef.
+        """
+        if value is not None:
+            self.enableConditionGroupRef = value
+        return self
 
 
 class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
-    pass
+    """Defines which OperationCycle is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToOperationCycleMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.20, p.245
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationCycleRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationCycleRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which an OperationCycle is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to an OperationCycle assigned to a DiagnosticEvent.
+        self.operationCycleRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which an OperationCycle is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToOperationCycleMapping:
+        """
+        Reference to a DiagnosticEvent to which an OperationCycle is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getOperationCycleRef(self) -> Optional[RefType]:
+        """
+        Reference to an OperationCycle assigned to a DiagnosticEvent.
+        """
+        return self.operationCycleRef
+
+    def setOperationCycleRef(self, value: Optional[RefType]) -> DiagnosticEventToOperationCycleMapping:
+        """
+        Reference to an OperationCycle assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing operationCycleRef.
+        """
+        if value is not None:
+            self.operationCycleRef = value
+        return self
 
 
 class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to map a security event that is defined in the context of the Security Extract to a diagnostic event defined on the context of the DiagnosticExtract. Tags: atp.Status=candidate atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToSecurityEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.30, p.257
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventPropsRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventPropsRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the applicable diagnostic event. Tags: atp.Status=candidate
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # This reference identifies the qualification of the applicable security event Tags: atp.Status=candidate
+        self.securityEventPropsRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable diagnostic event. Tags: atp.Status=candidate
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToSecurityEventMapping:
+        """
+        This reference identifies the applicable diagnostic event. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getSecurityEventPropsRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the qualification of the applicable security event Tags: atp.Status=candidate
+        """
+        return self.securityEventPropsRef
+
+    def setSecurityEventPropsRef(self, value: Optional[RefType]) -> DiagnosticEventToSecurityEventMapping:
+        """
+        This reference identifies the qualification of the applicable security event Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing securityEventPropsRef.
+        """
+        if value is not None:
+            self.securityEventPropsRef = value
+        return self
 
 
 class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
-    pass
+    """Defines which StorageConditionGroup is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToStorageConditionGroupMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.23, p.248
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStorageConditionGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStorageConditionGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which a StorageConditionGroup is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to a StorageConditionGroup assigned to a DiagnosticEvent.
+        self.storageConditionGroupRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a StorageConditionGroup is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToStorageConditionGroupMapping:
+        """
+        Reference to a DiagnosticEvent to which a StorageConditionGroup is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getStorageConditionGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to a StorageConditionGroup assigned to a DiagnosticEvent.
+        """
+        return self.storageConditionGroupRef
+
+    def setStorageConditionGroupRef(self, value: Optional[RefType]) -> DiagnosticEventToStorageConditionGroupMapping:
+        """
+        Reference to a StorageConditionGroup assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing storageConditionGroupRef.
+        """
+        if value is not None:
+            self.storageConditionGroupRef = value
+        return self
 
 
 class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
-    pass
+    """By means of this meta-class it is possible to associate a DiagnosticEvent to a DiagnosticTroubleCodeJ1939. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToTroubleCodeJ1939Mapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.43, p.269
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTroubleCodeJ1939Ref                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeJ1939Ref                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which a J1939 Diagnostic Trouble Code is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned.
+        self.troubleCodeJ1939Ref: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a J1939 Diagnostic Trouble Code is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        """
+        Reference to a DiagnosticEvent to which a J1939 Diagnostic Trouble Code is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getTroubleCodeJ1939Ref(self) -> Optional[RefType]:
+        """
+        Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned.
+        """
+        return self.troubleCodeJ1939Ref
+
+    def setTroubleCodeJ1939Ref(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeJ1939Mapping:
+        """
+        Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned.
+        A None value is a no-op and does not overwrite an existing troubleCodeJ1939Ref.
+        """
+        if value is not None:
+            self.troubleCodeJ1939Ref = value
+        return self
 
 
 class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
-    pass
+    """Defines which UDS Diagnostic Trouble Code is applicable for a DiagnosticEvent. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticEventToTroubleCodeUdsMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.19, p.245
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTroubleCodeUdsRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeUdsRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to a DiagnosticEvent to which a UDS Diagnostic Trouble Code is assigned.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # Reference to an UDS Diagnostic Trouble Code assigned to a DiagnosticEvent.
+        self.troubleCodeUdsRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        Reference to a DiagnosticEvent to which a UDS Diagnostic Trouble Code is assigned.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeUdsMapping:
+        """
+        Reference to a DiagnosticEvent to which a UDS Diagnostic Trouble Code is assigned.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getTroubleCodeUdsRef(self) -> Optional[RefType]:
+        """
+        Reference to an UDS Diagnostic Trouble Code assigned to a DiagnosticEvent.
+        """
+        return self.troubleCodeUdsRef
+
+    def setTroubleCodeUdsRef(self, value: Optional[RefType]) -> DiagnosticEventToTroubleCodeUdsMapping:
+        """
+        Reference to an UDS Diagnostic Trouble Code assigned to a DiagnosticEvent.
+        A None value is a no-op and does not overwrite an existing troubleCodeUdsRef.
+        """
+        if value is not None:
+            self.troubleCodeUdsRef = value
+        return self
 
 
 class DiagnosticExtendedDataRecord(ARElement):
@@ -4178,19 +5621,243 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
 
 
 class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
-    pass
+    """This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroups"""
+
+    # DiagnosticFimAliasEventGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.35, p.263
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addGroupedAliasEventRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGroupedAliasEventRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # By means of this reference the grouping of DiagnosticAliasEvents within the DiagnosticFimSummaryEvent can be specified.
+        self.groupedAliasEventRefs: List[RefType] = []
+
+    def addGroupedAliasEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventGroup:
+        """
+        By means of this reference the grouping of DiagnosticAliasEvents within the DiagnosticFimSummaryEvent can be specified.
+        A None value is a no-op and does not append a groupedAliasEventRef.
+        """
+        if value is not None:
+            self.groupedAliasEventRefs.append(value)
+        return self
+
+    def getGroupedAliasEventRefs(self) -> List[RefType]:
+        """
+        By means of this reference the grouping of DiagnosticAliasEvents within the DiagnosticFimSummaryEvent can be specified.
+        """
+        return self.groupedAliasEventRefs
+
+
+class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
+    """This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created. Tags: atp.recommendedPackage=DiagnosticInhibitSourceEventMappings"""
+
+    # DiagnosticInhibitSourceEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.33, p.261
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventGroupRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventGroupRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInhibitionSourceRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInhibitionSourceRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the diagnostic event.
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # This represents the reference to the event group
+        self.eventGroupRef: Optional[RefType] = None
+
+        # This represents the reference to the inhibition source.
+        self.inhibitionSourceRef: Optional[RefType] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the diagnostic event.
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticInhibitSourceEventMapping:
+        """
+        This represents the reference to the diagnostic event.
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getEventGroupRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the event group
+        """
+        return self.eventGroupRef
+
+    def setEventGroupRef(self, value: Optional[RefType]) -> DiagnosticInhibitSourceEventMapping:
+        """
+        This represents the reference to the event group
+        A None value is a no-op and does not overwrite an existing eventGroupRef.
+        """
+        if value is not None:
+            self.eventGroupRef = value
+        return self
+
+    def getInhibitionSourceRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the inhibition source.
+        """
+        return self.inhibitionSourceRef
+
+    def setInhibitionSourceRef(self, value: Optional[RefType]) -> DiagnosticInhibitSourceEventMapping:
+        """
+        This represents the reference to the inhibition source.
+        A None value is a no-op and does not overwrite an existing inhibitionSourceRef.
+        """
+        if value is not None:
+            self.inhibitionSourceRef = value
+        return self
 
 
 class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEventGroup. By this means the "preliminary" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimAliasEventGroupMappings"""
+
+    # DiagnosticFimAliasEventGroupMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.36, p.263
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActualEventRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActualEventRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAliasEventRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAliasEventRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the actual summary event.
+        self.actualEventRef: Optional[RefType] = None
+
+        # This represents the reference to the alias summary event.
+        self.aliasEventRef: Optional[RefType] = None
+
+    def getActualEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the actual summary event.
+        """
+        return self.actualEventRef
+
+    def setActualEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventGroupMapping:
+        """
+        This represents the reference to the actual summary event.
+        A None value is a no-op and does not overwrite an existing actualEventRef.
+        """
+        if value is not None:
+            self.actualEventRef = value
+        return self
+
+    def getAliasEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the alias summary event.
+        """
+        return self.aliasEventRef
+
+    def setAliasEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventGroupMapping:
+        """
+        This represents the reference to the alias summary event.
+        A None value is a no-op and does not overwrite an existing aliasEventRef.
+        """
+        if value is not None:
+            self.aliasEventRef = value
+        return self
 
 
 class DiagnosticFimAliasEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAliasEvent. By this means the "preliminary" modeling by way of a DiagnosticAliasEvent is further substantiated. Tags: atp.recommendedPackage=DiagnosticFimEventMappings"""
+
+    # DiagnosticFimAliasEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.34, p.262
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActualEventRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActualEventRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAliasEventRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAliasEventRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the actual diagnostic event.
+        self.actualEventRef: Optional[RefType] = None
+
+        # This represents the reference to the alias event.
+        self.aliasEventRef: Optional[RefType] = None
+
+    def getActualEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the actual diagnostic event.
+        """
+        return self.actualEventRef
+
+    def setActualEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventMapping:
+        """
+        This represents the reference to the actual diagnostic event.
+        A None value is a no-op and does not overwrite an existing actualEventRef.
+        """
+        if value is not None:
+            self.actualEventRef = value
+        return self
+
+    def getAliasEventRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the alias event.
+        """
+        return self.aliasEventRef
+
+    def setAliasEventRef(self, value: Optional[RefType]) -> DiagnosticFimAliasEventMapping:
+        """
+        This represents the reference to the alias event.
+        A None value is a no-op and does not overwrite an existing aliasEventRef.
+        """
+        if value is not None:
+            self.aliasEventRef = value
+        return self
 
 
-class DiagnosticFimEventGroup(ARElement):
-    pass
+class DiagnosticFimEventGroup(DiagnosticCommonElement):
+    """This meta-class represents the ability to model a Fim event group, also known as a summary event in Fim terminology. This represents a group of single diagnostic events. Tags: atp.recommendedPackage=DiagnosticFimEventGroups"""
+
+    # DiagnosticFimEventGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.218, p.217
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEventRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference represents the way of grouping diagnostic events into a summary event in the context of the Fim.
+        self.eventRefs: List[RefType] = []
+
+    def addEventRef(self, value: Optional[RefType]) -> DiagnosticFimEventGroup:
+        """
+        This reference represents the way of grouping diagnostic events into a summary event in the context of the Fim.
+        A None value is a no-op and does not append an eventRef.
+        """
+        if value is not None:
+            self.eventRefs.append(value)
+        return self
+
+    def getEventRefs(self) -> List[RefType]:
+        """
+        This reference represents the way of grouping diagnostic events into a summary event in the context of the Fim.
+        """
+        return self.eventRefs
 
 
 class DiagnosticFreezeFrame(ARElement):
@@ -4360,35 +6027,491 @@ class DiagnosticIumprGroup(ARElement):
 
 
 class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a DiagnosticFunctionIdentifier with a DiagnosticIumpr. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticIumprToFunctionIdentifierMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.39, p.265
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionIdentifierRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIumprRef                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIumprRef                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the applicable DiagnosticFunctionIdentifier.
+        self.functionIdentifierRef: Optional[RefType] = None
+
+        # This reference identifies the applicable DiagnosticIumpr.
+        self.iumprRef: Optional[RefType] = None
+
+    def getFunctionIdentifierRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable DiagnosticFunctionIdentifier.
+        """
+        return self.functionIdentifierRef
+
+    def setFunctionIdentifierRef(self, value: Optional[RefType]) -> DiagnosticIumprToFunctionIdentifierMapping:
+        """
+        This reference identifies the applicable DiagnosticFunctionIdentifier.
+        A None value is a no-op and does not overwrite an existing functionIdentifierRef.
+        """
+        if value is not None:
+            self.functionIdentifierRef = value
+        return self
+
+    def getIumprRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the applicable DiagnosticIumpr.
+        """
+        return self.iumprRef
+
+    def setIumprRef(self, value: Optional[RefType]) -> DiagnosticIumprToFunctionIdentifierMapping:
+        """
+        This reference identifies the applicable DiagnosticIumpr.
+        A None value is a no-op and does not overwrite an existing iumprRef.
+        """
+        if value is not None:
+            self.iumprRef = value
+        return self
 
 
-class DiagnosticJ1939ExpandedFreezeFrame(ARElement):
-    pass
+class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
+    """This meta-class represents the ability to model an expanded J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939ExpandedFreezeFrames"""
+
+    # DiagnosticJ1939ExpandedFreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.221, p.221
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSpnRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpnRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNodeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the DiagnosticJ1939Node to which the J1939 expanded freeze frame is associated.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the collection of SPNs that make the expanded J1939 Freeze Frame.
+        self.spnRefs: List[RefType] = []
+
+    def addSpnRef(self, value: Optional[RefType]) -> DiagnosticJ1939ExpandedFreezeFrame:
+        """
+        This represents the collection of SPNs that make the expanded J1939 Freeze Frame.
+        A None value is a no-op and does not append an spnRef.
+        """
+        if value is not None:
+            self.spnRefs.append(value)
+        return self
+
+    def getSpnRefs(self) -> List[RefType]:
+        """
+        This represents the collection of SPNs that make the expanded J1939 Freeze Frame.
+        """
+        return self.spnRefs
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 expanded freeze frame is associated.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939ExpandedFreezeFrame:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 expanded freeze frame is associated.
+        A None value is a no-op and does not overwrite an existing node reference.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
 
 
-class DiagnosticJ1939FreezeFrame(ARElement):
-    pass
+class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
+    """This meta-class represents the ability to model a J1939 Freeze Frame. Tags: atp.recommendedPackage=DiagnosticJ1939FreezeFrames"""
+
+    # DiagnosticJ1939FreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.220, p.220
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSpnRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpnRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNodeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the DiagnosticJ1939Node to which the J1939 freeze frame is associated.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the collection of SPNs that make the J1939 Freeze Frame.
+        self.spnRefs: List[RefType] = []
+
+    def addSpnRef(self, value: Optional[RefType]) -> DiagnosticJ1939FreezeFrame:
+        """
+        This represents the collection of SPNs that make the J1939 Freeze Frame.
+        A None value is a no-op and does not append an spnRef.
+        """
+        if value is not None:
+            self.spnRefs.append(value)
+        return self
+
+    def getSpnRefs(self) -> List[RefType]:
+        """
+        This represents the collection of SPNs that make the J1939 Freeze Frame.
+        """
+        return self.spnRefs
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 freeze frame is associated.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939FreezeFrame:
+        """
+        This represents the DiagnosticJ1939Node to which the J1939 freeze frame is associated.
+        A None value is a no-op and does not overwrite an existing node reference.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
 
 
-class DiagnosticJ1939Node(ARElement):
-    pass
+class DiagnosticJ1939Node(DiagnosticCommonElement):
+    """This meta-class represents the diagnostic configuration of a J1939 Nm node, which in turn represents a "virtual Ecu" on the J1939 communication bus. Tags: atp.recommendedPackage=DiagnosticJ1939Nodes"""
+
+    # DiagnosticJ1939Node method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.41, p.267
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmNodeRef                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the reference to the "virtual Ecu" to which the enclosing DiagnosticJ1939Node is associated.
+        self.nmNodeRef: Optional[RefType] = None
+
+    def getNmNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the reference to the "virtual Ecu" to which the enclosing DiagnosticJ1939Node is associated.
+        """
+        return self.nmNodeRef
+
+    def setNmNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939Node:
+        """
+        This represents the reference to the "virtual Ecu" to which the enclosing DiagnosticJ1939Node is associated.
+        A None value is a no-op and does not overwrite an existing nmNodeRef.
+        """
+        if value is not None:
+            self.nmNodeRef = value
+        return self
 
 
-class DiagnosticJ1939Spn(ARElement):
-    pass
+class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
+    """This meta-class represents the ability to define a mapping between a function identifier (FID) and the corresponding SwcServiceDependency in the application software resp. basic software. Tags: atp.recommendedPackage=DiagnosticFimFunctionMappings"""
+
+    # DiagnosticFimFunctionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.37, p.265
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedFunctionRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedFunctionRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedSwcServiceDependencyRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedSwcServiceDependencyRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        self.mappedBswServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        self.mappedFlatSwcServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the mapped FID.
+        self.mappedFunctionRef: Optional[RefType] = None
+
+        # This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition). InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.mappedSwcServiceDependencyRef: Optional[RefType] = None
+
+    def getMappedBswServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        """
+        return self.mappedBswServiceDependencyRef
+
+    def setMappedBswServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        A None value is a no-op and does not overwrite an existing mappedBswServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedBswServiceDependencyRef = value
+        return self
+
+    def getMappedFlatSwcServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        """
+        return self.mappedFlatSwcServiceDependencyRef
+
+    def setMappedFlatSwcServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        A None value is a no-op and does not overwrite an existing mappedFlatSwcServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedFlatSwcServiceDependencyRef = value
+        return self
+
+    def getMappedFunctionRef(self) -> Optional[RefType]:
+        """
+        This represents the mapped FID.
+        """
+        return self.mappedFunctionRef
+
+    def setMappedFunctionRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This represents the mapped FID.
+        A None value is a no-op and does not overwrite an existing mappedFunctionRef.
+        """
+        if value is not None:
+            self.mappedFunctionRef = value
+        return self
+
+    def getMappedSwcServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition). InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.mappedSwcServiceDependencyRef
+
+    def setMappedSwcServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticFimFunctionMapping:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition). InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing mappedSwcServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedSwcServiceDependencyRef = value
+        return self
+
+
+class DiagnosticJ1939Spn(DiagnosticCommonElement):
+    """This meta-class represents the ability to model a J1939 Suspect Parameter Number (SPN). Tags: atp.recommendedPackage=DiagnosticJ1939Spns"""
+
+    # DiagnosticJ1939Spn method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.219, p.219
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSpn       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpn       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the concrete numerical identification for the enclosing SPN.
+        self.spn: Optional[PositiveInteger] = None
+
+    def getSpn(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the concrete numerical identification for the enclosing SPN.
+        """
+        return self.spn
+
+    def setSpn(self, value: Optional[PositiveInteger]) -> DiagnosticJ1939Spn:
+        """
+        This attribute represents the concrete numerical identification for the enclosing SPN.
+        A None value is a no-op and does not overwrite an existing spn.
+        """
+        if value is not None:
+            self.spn = value
+        return self
 
 
 class DiagnosticJ1939SpnMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to define a mapping between an SPN and a SystemSignal. The existence of a mapping means that neither the SPN nor the SystemSignal need to be updated if the relation between the two changes. Tags: atp.recommendedPackage=DiagnosticJ1939SpnMappings"""
+
+    # DiagnosticJ1939SpnMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.40, p.267
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSendingNodeRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendingNodeRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSpnRef                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpnRef                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This additional reference has a supporting role in that it identifies all sending nodes of a given SPN. It is positively possible that a given SPN is sent by more than one node. Even tough the reference targets the DiagnosticJ1939Node the semantics of the reference is bound to the J1939NmNode that is in turn referenced by the DiagnosticJ1939Node.
+        self.sendingNodeRefs: List[RefType] = []
+
+        # This reference goes to the SPN that shall be associated with a SystemSignal.
+        self.spnRef: Optional[RefType] = None
+
+        # This reference goes to the SystemSignal that shall be associated with an SPN.
+        self.systemSignalRef: Optional[RefType] = None
+
+    def addSendingNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939SpnMapping:
+        """
+        This additional reference has a supporting role in that it identifies all sending nodes of a given SPN. It is positively possible that a given SPN is sent by more than one node. Even tough the reference targets the DiagnosticJ1939Node the semantics of the reference is bound to the J1939NmNode that is in turn referenced by the DiagnosticJ1939Node.
+        A None value is a no-op and does not append a sendingNodeRef.
+        """
+        if value is not None:
+            self.sendingNodeRefs.append(value)
+        return self
+
+    def getSendingNodeRefs(self) -> List[RefType]:
+        """
+        This additional reference has a supporting role in that it identifies all sending nodes of a given SPN. It is positively possible that a given SPN is sent by more than one node. Even tough the reference targets the DiagnosticJ1939Node the semantics of the reference is bound to the J1939NmNode that is in turn referenced by the DiagnosticJ1939Node.
+        """
+        return self.sendingNodeRefs
+
+    def getSpnRef(self) -> Optional[RefType]:
+        """
+        This reference goes to the SPN that shall be associated with a SystemSignal.
+        """
+        return self.spnRef
+
+    def setSpnRef(self, value: Optional[RefType]) -> DiagnosticJ1939SpnMapping:
+        """
+        This reference goes to the SPN that shall be associated with a SystemSignal.
+        A None value is a no-op and does not overwrite an existing spnRef.
+        """
+        if value is not None:
+            self.spnRef = value
+        return self
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        This reference goes to the SystemSignal that shall be associated with an SPN.
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> DiagnosticJ1939SpnMapping:
+        """
+        This reference goes to the SystemSignal that shall be associated with an SPN.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self
 
 
 class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
-    pass
+    """This meta-class represents the ability to map a piece of application software to a J1939DiagnosticNode. By this means the diagnostic configuration can be associated with the application software. Tags: atp.recommendedPackage=DiagnosticJ1939SwMappings"""
+
+    # DiagnosticJ1939SwMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.42, p.268
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNodeRef                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComponentPrototypeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentPrototypeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the mapped DiagnosticJ1939Node.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the mapped SwComponentPrototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        self.swComponentPrototypeRef: Optional[RefType] = None
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the mapped DiagnosticJ1939Node.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticJ1939SwMapping:
+        """
+        This represents the mapped DiagnosticJ1939Node.
+        A None value is a no-op and does not overwrite an existing nodeRef.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
+
+    def getSwComponentPrototypeRef(self) -> Optional[RefType]:
+        """
+        This represents the mapped SwComponentPrototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        """
+        return self.swComponentPrototypeRef
+
+    def setSwComponentPrototypeRef(self, value: Optional[RefType]) -> DiagnosticJ1939SwMapping:
+        """
+        This represents the mapped SwComponentPrototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        A None value is a no-op and does not overwrite an existing swComponentPrototypeRef.
+        """
+        if value is not None:
+            self.swComponentPrototypeRef = value
+        return self
 
 
 class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
-    pass
+    """This meta-class provides the ability to map a master diagnostic event with a slave diagnostic event such that reporting of the master event with a given value also reports the slave event with the same value Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticMasterToSlaveEventMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.29, p.256
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMasterEventRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMasterEventRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveEventRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveEventRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the master diagnostic event.
+        self.masterEventRef: Optional[RefType] = None
+
+        # This represents the slave diagnostic event.
+        self.slaveEventRef: Optional[RefType] = None
+
+    def getMasterEventRef(self) -> Optional[RefType]:
+        """
+        This represents the master diagnostic event.
+        """
+        return self.masterEventRef
+
+    def setMasterEventRef(self, value: Optional[RefType]) -> DiagnosticMasterToSlaveEventMapping:
+        """
+        This represents the master diagnostic event.
+        A None value is a no-op and does not overwrite an existing masterEventRef.
+        """
+        if value is not None:
+            self.masterEventRef = value
+        return self
+
+    def getSlaveEventRef(self) -> Optional[RefType]:
+        """
+        This represents the slave diagnostic event.
+        """
+        return self.slaveEventRef
+
+    def setSlaveEventRef(self, value: Optional[RefType]) -> DiagnosticMasterToSlaveEventMapping:
+        """
+        This represents the slave diagnostic event.
+        A None value is a no-op and does not overwrite an existing slaveEventRef.
+        """
+        if value is not None:
+            self.slaveEventRef = value
+        return self
 
 
 class DiagnosticMeasurementIdentifier(ARElement):
@@ -4444,7 +6567,75 @@ class DiagnosticOperationCycle(ARElement):
 
 
 class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
-    pass
+    """Defines to which SWC service ports the DiagnosticOperationCycle is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticOperationCyclePortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.25, p.250
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationCycleRef                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationCycleRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the DiagnosticOperationCycle that is assigned to SWC service ports.
+        self.operationCycleRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getOperationCycleRef(self) -> Optional[RefType]:
+        """
+        Reference to the DiagnosticOperationCycle that is assigned to SWC service ports.
+        """
+        return self.operationCycleRef
+
+    def setOperationCycleRef(self, value: Optional[RefType]) -> DiagnosticOperationCyclePortMapping:
+        """
+        Reference to the DiagnosticOperationCycle that is assigned to SWC service ports.
+        A None value is a no-op and does not overwrite an existing operationCycleRef.
+        """
+        if value is not None:
+            self.operationCycleRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticOperationCyclePortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticOperationCyclePortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticParameterIdentifier(ARElement):
@@ -5091,11 +7282,386 @@ class DiagnosticSecurityAccess(ARElement):
 
 
 class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a location in a DID with a security event. The purpose of this mapping is that the location in the DID contains the setting of the reporting mode for the specific security event. This means that the reporting mode of the security event can be set via the diagnostic service WriteDataByIdentifier. Tags: atp.Status=candidate atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticSecurityEventReportingModeMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.18, p.243
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityEventRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityEventRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the data element that carries the information about the reporting mode. Tags: atp.Status=candidate
+        self.dataElementRef: Optional[RefType] = None
+
+        # This reference identifies the mapped security event. Tags: atp.Status=candidate
+        self.securityEventRef: Optional[RefType] = None
+
+    def getDataElementRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the data element that carries the information about the reporting mode. Tags: atp.Status=candidate
+        """
+        return self.dataElementRef
+
+    def setDataElementRef(self, value: Optional[RefType]) -> DiagnosticSecurityEventReportingModeMapping:
+        """
+        This reference identifies the data element that carries the information about the reporting mode. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing dataElementRef.
+        """
+        if value is not None:
+            self.dataElementRef = value
+        return self
+
+    def getSecurityEventRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the mapped security event. Tags: atp.Status=candidate
+        """
+        return self.securityEventRef
+
+    def setSecurityEventRef(self, value: Optional[RefType]) -> DiagnosticSecurityEventReportingModeMapping:
+        """
+        This reference identifies the mapped security event. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing securityEventRef.
+        """
+        if value is not None:
+            self.securityEventRef = value
+        return self
+
+
+class DiagnosticParameterElementAccess(ARObject):
+    """This meta-class acts as a single point for defining structured references to a specific DiagnosticParameterElement."""
+
+    # DiagnosticParameterElementAccess method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.5, p.229
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContextElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTargetElementRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=10
+        self.contextElementRefs: List[RefType] = []
+
+        # This represents the target reference of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        self.targetElementRef: Optional[RefType] = None
+
+    def addContextElementRef(self, value: Optional[RefType]) -> DiagnosticParameterElementAccess:
+        """
+        This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not append a contextElementRef.
+        """
+        if value is not None:
+            self.contextElementRefs.append(value)
+        return self
+
+    def getContextElementRefs(self) -> List[RefType]:
+        """
+        This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=10
+        """
+        return self.contextElementRefs
+
+    def getTargetElementRef(self) -> Optional[RefType]:
+        """
+        This represents the target reference of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        """
+        return self.targetElementRef
+
+    def setTargetElementRef(self, value: Optional[RefType]) -> DiagnosticParameterElementAccess:
+        """
+        This represents the target reference of an applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing targetElementRef.
+        """
+        if value is not None:
+            self.targetElementRef = value
+        return self
 
 
 class DiagnosticServiceDataMapping(DiagnosticSwMapping):
-    pass
+    """This represents the ability to define a mapping of a diagnostic service to a software-component. This kind of service mapping is applicable for the usage of SenderReceiverInterfaces or event/notifier semantics in ServiceInterfaces on the adaptive platform. Tags: atp.recommendedPackage=DiagnosticServiceMappings"""
+
+    # DiagnosticServiceDataMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.4, p.228
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticDataElementRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticDataElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticParameterRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticParameterRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedDataElementIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedDataElementIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterElementAccess       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterElementAccess       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement or (in case of a usage on the adaptive platform) mappedApDataElement.
+        self.diagnosticDataElementRef: Optional[RefType] = None
+
+        # This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        self.diagnosticParameterRef: Optional[RefType] = None
+
+        # This represents the dataElement in the application software that is accessed for diagnostic purpose. This role is applicable on the classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        self.mappedDataElementIRef: Optional[RefType] = None
+
+        # This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        self.parameterElementAccess: Optional[DiagnosticParameterElementAccess] = None
+
+    def getDiagnosticDataElementRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement or (in case of a usage on the adaptive platform) mappedApDataElement.
+        """
+        return self.diagnosticDataElementRef
+
+    def setDiagnosticDataElementRef(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement or (in case of a usage on the adaptive platform) mappedApDataElement.
+        A None value is a no-op and does not overwrite an existing diagnosticDataElementRef.
+        """
+        if value is not None:
+            self.diagnosticDataElementRef = value
+        return self
+
+    def getDiagnosticParameterRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        """
+        return self.diagnosticParameterRef
+
+    def setDiagnosticParameterRef(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing diagnosticParameterRef.
+        """
+        if value is not None:
+            self.diagnosticParameterRef = value
+        return self
+
+    def getMappedDataElementIRef(self) -> Optional[RefType]:
+        """
+        This represents the dataElement in the application software that is accessed for diagnostic purpose. This role is applicable on the classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        """
+        return self.mappedDataElementIRef
+
+    def setMappedDataElementIRef(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
+        """
+        This represents the dataElement in the application software that is accessed for diagnostic purpose. This role is applicable on the classic platform. InstanceRef implemented by: DataPrototypeInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing mappedDataElementIRef.
+        """
+        if value is not None:
+            self.mappedDataElementIRef = value
+        return self
+
+    def getParameterElementAccess(self) -> Optional[DiagnosticParameterElementAccess]:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        """
+        return self.parameterElementAccess
+
+    def setParameterElementAccess(self, value: Optional[DiagnosticParameterElementAccess]) -> DiagnosticServiceDataMapping:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        A None value is a no-op and does not overwrite an existing parameterElementAccess.
+        """
+        if value is not None:
+            self.parameterElementAccess = value
+        return self
+
+
+class DiagnosticServiceMappingDiagTarget(ARObject):
+    """This meta-class serves as a base class for diagnostics-related targets of subclasses of DiagnosticSwMapping."""
+
+    # DiagnosticServiceMappingDiagTarget method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.12, p.234
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is DiagnosticServiceMappingDiagTarget:
+            raise TypeError("DiagnosticServiceMappingDiagTarget is an abstract class.")
+
+        super().__init__()
+
+
+class DiagnosticServiceSwMapping(DiagnosticSwMapping):
+    """This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module. If the former is used then this kind of service mapping is applicable for the usage of ClientServerInterfaces. Tags: atp.recommendedPackage=DiagnosticServiceMappings"""
+
+    # DiagnosticServiceSwMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.15, p.239
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessedDataPrototypeIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessedDataPrototypeIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticParameterRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedSwcServiceDependencyInSystemIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedSwcServiceDependencyInSystemIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterElementAccess             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterElementAccess             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Thi instanceRef identifies the DataPrototype that is supposed to be accessed in the context of the operation argument. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        self.accessedDataPrototypeIRef: Optional[RefType] = None
+
+        # This represents a DiagnosticDataElement required to execute the respective diagnostic service in the context of the diagnostic service mapping,
+        self.diagnosticDataElementRef: Optional[RefType] = None
+
+        # This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement.
+        self.diagnosticParameterRef: Optional[RefType] = None
+
+        # This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        self.mappedBswServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        self.mappedFlatSwcServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition) InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.mappedSwcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+        # This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        self.parameterElementAccess: Optional[DiagnosticParameterElementAccess] = None
+
+        # This represents the service instance that needs to be considered in this diagnostics service mapping.
+        self.serviceInstanceRef: Optional[RefType] = None
+
+    def getAccessedDataPrototypeIRef(self) -> Optional[RefType]:
+        """
+        Thi instanceRef identifies the DataPrototype that is supposed to be accessed in the context of the operation argument. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        """
+        return self.accessedDataPrototypeIRef
+
+    def setAccessedDataPrototypeIRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        Thi instanceRef identifies the DataPrototype that is supposed to be accessed in the context of the operation argument. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        A None value is a no-op and does not overwrite an existing accessedDataPrototypeIRef.
+        """
+        if value is not None:
+            self.accessedDataPrototypeIRef = value
+        return self
+
+    def getDiagnosticDataElementRef(self) -> Optional[RefType]:
+        """
+        This represents a DiagnosticDataElement required to execute the respective diagnostic service in the context of the diagnostic service mapping,
+        """
+        return self.diagnosticDataElementRef
+
+    def setDiagnosticDataElementRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents a DiagnosticDataElement required to execute the respective diagnostic service in the context of the diagnostic service mapping,
+        A None value is a no-op and does not overwrite an existing diagnosticDataElementRef.
+        """
+        if value is not None:
+            self.diagnosticDataElementRef = value
+        return self
+
+    def getDiagnosticParameterRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement.
+        """
+        return self.diagnosticParameterRef
+
+    def setDiagnosticParameterRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement.
+        A None value is a no-op and does not overwrite an existing diagnosticParameterRef.
+        """
+        if value is not None:
+            self.diagnosticParameterRef = value
+        return self
+
+    def getMappedBswServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        """
+        return self.mappedBswServiceDependencyRef
+
+    def setMappedBswServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        A None value is a no-op and does not overwrite an existing mappedBswServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedBswServiceDependencyRef = value
+        return self
+
+    def getMappedFlatSwcServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        """
+        return self.mappedFlatSwcServiceDependencyRef
+
+    def setMappedFlatSwcServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        A None value is a no-op and does not overwrite an existing mappedFlatSwcServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedFlatSwcServiceDependencyRef = value
+        return self
+
+    def getMappedSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition) InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.mappedSwcServiceDependencyInSystemIRef
+
+    def setMappedSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition) InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing mappedSwcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.mappedSwcServiceDependencyInSystemIRef = value
+        return self
+
+    def getParameterElementAccess(self) -> Optional[DiagnosticParameterElementAccess]:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        """
+        return self.parameterElementAccess
+
+    def setParameterElementAccess(self, value: Optional[DiagnosticParameterElementAccess]) -> DiagnosticServiceSwMapping:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        A None value is a no-op and does not overwrite an existing parameterElementAccess.
+        """
+        if value is not None:
+            self.parameterElementAccess = value
+        return self
+
+    def getServiceInstanceRef(self) -> Optional[RefType]:
+        """
+        This represents the service instance that needs to be considered in this diagnostics service mapping.
+        """
+        return self.serviceInstanceRef
+
+    def setServiceInstanceRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the service instance that needs to be considered in this diagnostics service mapping.
+        A None value is a no-op and does not overwrite an existing serviceInstanceRef.
+        """
+        if value is not None:
+            self.serviceInstanceRef = value
+        return self
 
 
 class DiagnosticSessionControl(ARElement):
@@ -5161,7 +7727,75 @@ class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
 
 
 class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
-    pass
+    """Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorageCondition is mapped. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticStorageConditionPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.27, p.253
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticStorageConditionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticStorageConditionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcFlatServiceDependencyRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcServiceDependencyInSystemIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageConditionNeeds.
+        self.diagnosticStorageConditionRef: Optional[RefType] = None
+
+        # Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        self.swcFlatServiceDependencyRef: Optional[RefType] = None
+
+        # Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.swcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+    def getDiagnosticStorageConditionRef(self) -> Optional[RefType]:
+        """
+        Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageConditionNeeds.
+        """
+        return self.diagnosticStorageConditionRef
+
+    def setDiagnosticStorageConditionRef(self, value: Optional[RefType]) -> DiagnosticStorageConditionPortMapping:
+        """
+        Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageConditionNeeds.
+        A None value is a no-op and does not overwrite an existing diagnosticStorageConditionRef.
+        """
+        if value is not None:
+            self.diagnosticStorageConditionRef = value
+        return self
+
+    def getSwcFlatServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        """
+        return self.swcFlatServiceDependencyRef
+
+    def setSwcFlatServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticStorageConditionPortMapping:
+        """
+        Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports.
+        A None value is a no-op and does not overwrite an existing swcFlatServiceDependencyRef.
+        """
+        if value is not None:
+            self.swcFlatServiceDependencyRef = value
+        return self
+
+    def getSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.swcServiceDependencyInSystemIRef
+
+    def setSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticStorageConditionPortMapping:
+        """
+        Instance reference to a SwcServiceDependency that links ServiceNeeds to SWC service ports. InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing swcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.swcServiceDependencyInSystemIRef = value
+        return self
 
 
 class DiagnosticTestResult(ARElement):
@@ -5182,6 +7816,118 @@ class DiagnosticTroubleCode(ARElement, ABC):
 
 class DiagnosticTroubleCodeGroup(ARElement):
     pass
+
+
+class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
+    """This meta-class represents the ability to model specific trouble-code related properties for J1939. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"""
+
+    # DiagnosticTroubleCodeJ1939 method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.223, p.222
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcPropsRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDtcPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFmi            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFmi            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNodeRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNodeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSpnRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSpnRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defined properties associated with the J1939 DTC.
+        self.dtcPropsRef: Optional[RefType] = None
+
+        # This attribute represents the behavior of the Failure Mode Indicator.
+        self.fmi: Optional[PositiveInteger] = None
+
+        # This attribute further specifies the DTC in terms of its semantics.
+        self.kind: Optional[DiagnosticTroubleCodeJ1939DtcKindEnum] = None
+
+        # This represents the related DiagnosticJ1939Node.
+        self.nodeRef: Optional[RefType] = None
+
+        # This represents the releated SPN.
+        self.spnRef: Optional[RefType] = None
+
+    def getDtcPropsRef(self) -> Optional[RefType]:
+        """
+        Defined properties associated with the J1939 DTC.
+        """
+        return self.dtcPropsRef
+
+    def setDtcPropsRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeJ1939:
+        """
+        Defined properties associated with the J1939 DTC.
+        A None value is a no-op and does not overwrite an existing dtcProps reference.
+        """
+        if value is not None:
+            self.dtcPropsRef = value
+        return self
+
+    def getFmi(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the behavior of the Failure Mode Indicator.
+        """
+        return self.fmi
+
+    def setFmi(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This attribute represents the behavior of the Failure Mode Indicator.
+        A None value is a no-op and does not overwrite an existing fmi.
+        """
+        if value is not None:
+            self.fmi = value
+        return self
+
+    def getKind(self) -> Optional[DiagnosticTroubleCodeJ1939DtcKindEnum]:
+        """
+        This attribute further specifies the DTC in terms of its semantics.
+        """
+        return self.kind
+
+    def setKind(self, value: Optional[DiagnosticTroubleCodeJ1939DtcKindEnum]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This attribute further specifies the DTC in terms of its semantics.
+        A None value is a no-op and does not overwrite an existing kind.
+        """
+        if value is not None:
+            self.kind = value
+        return self
+
+    def getNodeRef(self) -> Optional[RefType]:
+        """
+        This represents the related DiagnosticJ1939Node.
+        """
+        return self.nodeRef
+
+    def setNodeRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This represents the related DiagnosticJ1939Node.
+        A None value is a no-op and does not overwrite an existing node reference.
+        """
+        if value is not None:
+            self.nodeRef = value
+        return self
+
+    def getSpnRef(self) -> Optional[RefType]:
+        """
+        This represents the releated SPN.
+        """
+        return self.spnRef
+
+    def setSpnRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeJ1939:
+        """
+        This represents the releated SPN.
+        A None value is a no-op and does not overwrite an existing spn reference.
+        """
+        if value is not None:
+            self.spnRef = value
+        return self
 
 
 class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
@@ -5316,6 +8062,7 @@ class PostBuildVariantCriterionValueSet(ARElement):
 
 class RapidPrototypingScenario(ARElement):
     pass
+
 
 
 class SecurityEventContextMappingApplication(ARElement):

@@ -722,7 +722,7 @@ Status: **0/24** completed
 
 ## Group16
 
-Status: **0/29** completed
+Status: **2/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -736,8 +736,8 @@ Status: **0/29** completed
 | `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
 | `TimeSyncServerConfiguration`           | [ ] Pending* | b1e4750b14 |
 | `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
-| `CouplingPortAsynchronousTrafficShaper` | [ ] Pending  | N/A        |
-| `CouplingPortCreditBasedShaper`         | [ ] Pending  | N/A        |
+| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | d419973456 |
+| `CouplingPortCreditBasedShaper`         | [x] Done     | c5cfd1dc4e |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
 | `IPSecConfig`                           | [ ] Pending* | 6c97ddc108 |
 | `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
@@ -815,26 +815,26 @@ Status: **0/17** completed
 
 ## Group19
 
-Status: **3/16** completed
+Status: **6/16** completed
 
-| Class Name                       | Status          | Commit ID |
-| -------------------------------- | --------------- | --------- |
-| `ConfigReferenceValue`           | [ ] Pending*    | N/A       |
-| `EcucValueCollection`            | [ ] Pending*    | N/A       |
-| `ModuleConfiguration`            | [ ] Pending*    | N/A       |
-| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A       |
-| `EcucScopeEnum`                  | [ ] Pending*    | N/A       |
-| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
-| `EcucBooleanParamDef`            | [ ] Pending*    | N/A       |
-| `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
-| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A       |
-| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A       |
-| `EcucReferenceDef`               | [ ] Implemented | N/A       |
-| `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
-| `EcucUriReferenceDef`            | [ ] Implemented | N/A       |
-| `EcucConditionFormula`           | [x] Done        | N/A       |
-| `EcucParameterDerivationFormula` | [x] Done        | N/A       |
-| `EcucQueryExpression`            | [x] Done        | N/A       |
+| Class Name                       | Status          | Commit ID  |
+| -------------------------------- | --------------- | ---------- |
+| `ConfigReferenceValue`           | [ ] Pending*    | N/A        |
+| `EcucValueCollection`            | [ ] Pending*    | N/A        |
+| `ModuleConfiguration`            | [ ] Pending*    | N/A        |
+| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A        |
+| `EcucScopeEnum`                  | [ ] Pending*    | N/A        |
+| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A        |
+| `EcucBooleanParamDef`            | [ ] Pending*    | N/A        |
+| `EcucFloatParamDef`              | [ ] Pending*    | N/A        |
+| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A        |
+| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A        |
+| `EcucReferenceDef`               | [x] Done        | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done        | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done        | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done        | N/A        |
+| `EcucParameterDerivationFormula` | [x] Done        | N/A        |
+| `EcucQueryExpression`            | [x] Done        | N/A        |
 
 ## Group20
 
@@ -1264,60 +1264,60 @@ Status: **0/75** completed
 
 ## Group26
 
-Status: **0/75** completed
+Status: **1/75** completed
 
 | Class Name                                      | Status          | Commit ID  |
 | ----------------------------------------------- | --------------- | ---------- |
-| `DiagnosticInhibitionMaskEnum`                  | [ ] Created     | N/A        |
-| `DiagnosticFimEventGroup`                       | [ ] Created     | N/A        |
-| `DiagnosticJ1939Spn`                            | [ ] Created     | N/A        |
-| `DiagnosticJ1939FreezeFrame`                    | [ ] Created     | N/A        |
-| `DiagnosticJ1939ExpandedFreezeFrame`            | [ ] Created     | N/A        |
-| `DiagnosticTroubleCodeJ1939DtcKindEnum`         | [ ] Created     | N/A        |
-| `DiagnosticTroubleCodeJ1939`                    | [ ] Created     | N/A        |
+| `DiagnosticInhibitionMaskEnum`                  | [ ] Pending*    | N/A        |
+| `DiagnosticFimEventGroup`                       | [ ] Pending*    | N/A        |
+| `DiagnosticJ1939Spn`                            | [ ] Pending*    | ad6e53e6fe |
+| `DiagnosticJ1939FreezeFrame`                    | [ ] Pending*    | 0314338bf5 |
+| `DiagnosticJ1939ExpandedFreezeFrame`            | [ ] Pending*    | 0314338bf5 |
+| `DiagnosticTroubleCodeJ1939DtcKindEnum`         | [ ] Pending*    | e51e632f04 |
+| `DiagnosticTroubleCodeJ1939`                    | [ ] Pending*    | e51e632f04 |
 | `DiagnosticMapping`                             | [ ] Pending*    | fd3e548259 |
-| `DiagnosticServiceDataMapping`                  | [ ] Created     | N/A        |
-| `DiagnosticParameterElementAccess`              | [ ] Created     | N/A        |
-| `DiagnosticServiceMappingDiagTarget`            | [ ] Created     | N/A        |
-| `DiagnosticSwMapping`                           | [ ] Created     | N/A        |
-| `DiagnosticServiceSwMapping`                    | [ ] Created     | N/A        |
-| `BswServiceDependencyIdent`                     | [ ] Implemented | N/A        |
-| `DiagnosticAuthTransmitCertificateMapping`      | [ ] Created     | N/A        |
-| `DiagnosticSecurityEventReportingModeMapping`   | [ ] Created     | N/A        |
-| `DiagnosticEventToTroubleCodeUdsMapping`        | [ ] Created     | N/A        |
-| `DiagnosticEventToOperationCycleMapping`        | [ ] Created     | N/A        |
-| `DiagnosticEventToDebounceAlgorithmMapping`     | [ ] Created     | N/A        |
-| `DiagnosticEventToEnableConditionGroupMapping`  | [ ] Created     | N/A        |
-| `DiagnosticEventToStorageConditionGroupMapping` | [ ] Created     | N/A        |
-| `DiagnosticEventPortMapping`                    | [ ] Created     | N/A        |
-| `DiagnosticOperationCyclePortMapping`           | [ ] Created     | N/A        |
-| `DiagnosticEnableConditionPortMapping`          | [ ] Created     | N/A        |
-| `DiagnosticStorageConditionPortMapping`         | [ ] Created     | N/A        |
-| `DiagnosticDemProvidedDataMapping`              | [ ] Created     | N/A        |
-| `DiagnosticMasterToSlaveEventMapping`           | [ ] Created     | N/A        |
-| `DiagnosticEventToSecurityEventMapping`         | [ ] Created     | N/A        |
-| `DiagnosticInhibitSourceEventMapping`           | [ ] Created     | N/A        |
-| `DiagnosticFimAliasEventMapping`                | [ ] Created     | N/A        |
-| `DiagnosticFimAliasEventGroup`                  | [ ] Created     | N/A        |
-| `DiagnosticFimAliasEventGroupMapping`           | [ ] Created     | N/A        |
-| `DiagnosticFimFunctionMapping`                  | [ ] Created     | N/A        |
-| `DiagnosticIumprToFunctionIdentifierMapping`    | [ ] Created     | N/A        |
-| `DiagnosticJ1939SpnMapping`                     | [ ] Created     | N/A        |
-| `DiagnosticJ1939Node`                           | [ ] Created     | N/A        |
-| `DiagnosticJ1939SwMapping`                      | [ ] Created     | N/A        |
-| `DiagnosticEventToTroubleCodeJ1939Mapping`      | [ ] Created     | N/A        |
-| `CpSoftwareClusterResource`                     | [ ] Created     | N/A        |
-| `RoleBasedResourceDependency`                   | [ ] Created     | N/A        |
-| `CpSwClusterToDiagEventMapping`                 | [ ] Created     | N/A        |
-| `CpSwClusterResourceToDiagDataElemMapping`      | [ ] Created     | N/A        |
-| `CpSwClusterToDiagRoutineSubfunctionMapping`    | [ ] Created     | N/A        |
-| `CpSwClusterResourceToDiagFunctionIdMapping`    | [ ] Created     | N/A        |
+| `DiagnosticServiceDataMapping`                  | [ ] Pending*    | 80105a7831 |
+| `DiagnosticParameterElementAccess`              | [ ] Pending*    | 80105a7831 |
+| `DiagnosticServiceMappingDiagTarget`            | [ ] Pending*    | 80105a7831 |
+| `DiagnosticSwMapping`                           | [ ] Pending*    | 80105a7831 |
+| `DiagnosticServiceSwMapping`                    | [ ] Pending*    | 0f2a3876e3 |
+| `BswServiceDependencyIdent`                     | [x] Done        | d488a5e4a8 |
+| `DiagnosticAuthTransmitCertificateMapping`      | [ ] Pending*    | 531da6dd58 |
+| `DiagnosticSecurityEventReportingModeMapping`   | [ ] Pending*    | 531da6dd58 |
+| `DiagnosticEventToTroubleCodeUdsMapping`        | [ ] Pending*    | 664519e02e |
+| `DiagnosticEventToOperationCycleMapping`        | [ ] Pending*    | 664519e02e |
+| `DiagnosticEventToDebounceAlgorithmMapping`     | [ ] Pending*    | 664519e02e |
+| `DiagnosticEventToEnableConditionGroupMapping`  | [ ] Pending*    | 664519e02e |
+| `DiagnosticEventToStorageConditionGroupMapping` | [ ] Pending*    | 664519e02e |
+| `DiagnosticEventPortMapping`                    | [ ] Pending*    | 266d4f7aa4 |
+| `DiagnosticOperationCyclePortMapping`           | [ ] Pending*    | 266d4f7aa4 |
+| `DiagnosticEnableConditionPortMapping`          | [ ] Pending*    | 266d4f7aa4 |
+| `DiagnosticStorageConditionPortMapping`         | [ ] Pending*    | 266d4f7aa4 |
+| `DiagnosticDemProvidedDataMapping`              | [ ] Pending*    | 531da6dd58 |
+| `DiagnosticMasterToSlaveEventMapping`           | [ ] Pending*    | 531da6dd58 |
+| `DiagnosticEventToSecurityEventMapping`         | [ ] Pending*    | 531da6dd58 |
+| `DiagnosticInhibitSourceEventMapping`           | [ ] Pending*    | d488a5e4a8 |
+| `DiagnosticFimAliasEventMapping`                | [ ] Pending*    | d488a5e4a8 |
+| `DiagnosticFimAliasEventGroup`                  | [ ] Pending*    | d488a5e4a8 |
+| `DiagnosticFimAliasEventGroupMapping`           | [ ] Pending*    | d488a5e4a8 |
+| `DiagnosticFimFunctionMapping`                  | [ ] Pending*    | 86bff0a4f2 |
+| `DiagnosticIumprToFunctionIdentifierMapping`    | [ ] Pending*    | 86bff0a4f2 |
+| `DiagnosticJ1939SpnMapping`                     | [ ] Pending*    | 86bff0a4f2 |
+| `DiagnosticJ1939Node`                           | [ ] Pending*    | 86bff0a4f2 |
+| `DiagnosticJ1939SwMapping`                      | [ ] Pending*    | 86bff0a4f2 |
+| `DiagnosticEventToTroubleCodeJ1939Mapping`      | [ ] Pending*    | 86bff0a4f2 |
+| `CpSoftwareClusterResource`                     | [ ] Pending*    | 9c0046237b |
+| `RoleBasedResourceDependency`                   | [ ] Pending*    | 9c0046237b |
+| `CpSwClusterToDiagEventMapping`                 | [ ] Pending*    | 9c0046237b |
+| `CpSwClusterResourceToDiagDataElemMapping`      | [ ] Pending*    | 9c0046237b |
+| `CpSwClusterToDiagRoutineSubfunctionMapping`    | [ ] Pending*    | 9c0046237b |
+| `CpSwClusterResourceToDiagFunctionIdMapping`    | [ ] Pending*    | 9c0046237b |
 | `EcucDefinitionCollection`                      | [ ] Implemented | N/A        |
 | `EcucModuleDef`                                 | [ ] Implemented | N/A        |
 | `EcucContainerDef`                              | [ ] Implemented | N/A        |
 | `EcucParamConfContainerDef`                     | [ ] Implemented | N/A        |
 | `EcucChoiceContainerDef`                        | [ ] Implemented | N/A        |
-| `EcucDefinitionElement`                         | [ ] Implemented | N/A        |
+| `EcucDefinitionElement`                         | [ ] Pending*    | ac47ae89f3 |
 | `EcucCommonAttributes`                          | [ ] Implemented | N/A        |
 | `EcucAbstractConfigurationClass`                | [ ] Implemented | N/A        |
 | `EcucValueConfigurationClass`                   | [ ] Implemented | N/A        |

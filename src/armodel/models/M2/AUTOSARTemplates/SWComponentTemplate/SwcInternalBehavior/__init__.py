@@ -660,56 +660,53 @@ class RunnableEntity(ExecutableEntity, VariationPointCapable):
 
 class SwcExclusiveAreaPolicy(ARObject, VariationPointCapable):
     """
-    Options how to generate the ExclusiveArea related APIs. If no
-    SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values
-    apply.
+    Options how to generate the ExclusiveArea related APIs. If no SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values apply.
     """
 
     # SwcExclusiveAreaPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.28, p.556
-    # Spec verified: R23-11
-    # [x] __init__             [x] impl  [x] docstring  [x] test
-    # [x] getApiPrinciple      [x] impl  [x] docstring  [x] test
-    # [x] setApiPrinciple      [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaRef  [x] impl  [x] docstring  [x] test
-    # [x] setExclusiveAreaRef  [x] impl  [x] docstring  [x] test
+# Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApiPrinciple             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setApiPrinciple             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getExclusiveAreaRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setExclusiveAreaRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Specifies for this ExclusiveArea if either one common set of Enter
-        # and Exit APIs for the whole software component is requested from the
-        # Rte or if the set of Enter and Exit APIs is expected per
-        # RunnableEntity. The default value is "common".
+        # Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole software component is requested from the Rte or if the set of Enter and Exit APIs is expected per RunnableEntity. The default value is "common".
         self.apiPrinciple: Optional[ApiPrincipleEnum] = None
 
-        # This reference represents the ExclusiveArea for which the policy
-        # applies.
+        # This reference represents the ExclusiveArea for which the policy applies.
         self.exclusiveAreaRef: Optional[RefType] = None
 
     def getApiPrinciple(self) -> Optional[ApiPrincipleEnum]:
-        """Gets the apiPrinciple (common vs per-RunnableEntity API generation) for this policy."""
+        """
+        Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole software component is requested from the Rte or if the set of Enter and Exit APIs is expected per RunnableEntity. The default value is "common".
+        """
         return self.apiPrinciple
 
     def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> "SwcExclusiveAreaPolicy":
         """
-        Sets the apiPrinciple (common vs per-RunnableEntity API generation) for
-        this policy. A None value is a no-op and does not overwrite an existing
-        apiPrinciple.
+        Specifies for this ExclusiveArea if either one common set of Enter and Exit APIs for the whole software component is requested from the Rte or if the set of Enter and Exit APIs is expected per RunnableEntity. The default value is "common".
+        A None value is a no-op and does not overwrite an existing apiPrinciple.
         """
         if value is not None:
             self.apiPrinciple = value
         return self
 
     def getExclusiveAreaRef(self) -> Optional[RefType]:
-        """Gets the reference to the ExclusiveArea for which this policy applies."""
+        """
+        This reference represents the ExclusiveArea for which the policy applies.
+        """
         return self.exclusiveAreaRef
 
     def setExclusiveAreaRef(self, value: Optional[RefType]) -> "SwcExclusiveAreaPolicy":
         """
-        Sets the reference to the ExclusiveArea for which this policy applies.
-        A None value is a no-op and does not overwrite an existing
-        exclusiveAreaRef.
+        This reference represents the ExclusiveArea for which the policy applies.
+        A None value is a no-op and does not overwrite an existing exclusiveAreaRef.
         """
         if value is not None:
             self.exclusiveAreaRef = value

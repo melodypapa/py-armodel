@@ -29,10 +29,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
+    DiagnosticInhibitionMaskEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
+    DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
     DisplayFormatString,
@@ -1925,6 +1927,89 @@ class TestDiagnosticResponseToEcuResetEnum:
         assert enum.getValue() == "respondBeforeReset"
 
 
+class TestDiagnosticInhibitionMaskEnum:
+    """
+    Test class for DiagnosticInhibitionMaskEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.217, p.216
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticInhibitionMaskEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticInhibitionMaskEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["lastFailed", "notTested", "tested", "testedAndFailed"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticInhibitionMaskEnum member values.
+        """
+        enum = DiagnosticInhibitionMaskEnum()
+
+        assert DiagnosticInhibitionMaskEnum.LAST_FAILED == "lastFailed"
+        assert DiagnosticInhibitionMaskEnum.NOT_TESTED == "notTested"
+        assert DiagnosticInhibitionMaskEnum.TESTED == "tested"
+        assert DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED == "testedAndFailed"
+
+        assert enum.validateEnumValue("lastFailed") is True
+        assert enum.validateEnumValue("notTested") is True
+        assert enum.validateEnumValue("tested") is True
+        assert enum.validateEnumValue("testedAndFailed") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticInhibitionMaskEnum instantiability and getValue.
+        """
+        enum = DiagnosticInhibitionMaskEnum()
+        enum.setValue(DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED)
+
+        assert enum.getValue() == "testedAndFailed"
+
+
+class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
+    """
+    Test class for DiagnosticTroubleCodeJ1939DtcKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.222, p.221
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticTroubleCodeJ1939DtcKindEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticTroubleCodeJ1939DtcKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["serviceOnly", "standard"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticTroubleCodeJ1939DtcKindEnum member values.
+        """
+        enum = DiagnosticTroubleCodeJ1939DtcKindEnum()
+
+        assert DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY == "serviceOnly"
+        assert DiagnosticTroubleCodeJ1939DtcKindEnum.STANDARD == "standard"
+
+        assert enum.validateEnumValue("serviceOnly") is True
+        assert enum.validateEnumValue("standard") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticTroubleCodeJ1939DtcKindEnum instantiability and getValue.
+        """
+        enum = DiagnosticTroubleCodeJ1939DtcKindEnum()
+        enum.setValue(DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY)
+
+        assert enum.getValue() == "serviceOnly"
+
 class TestDiagnosticHandleDDDIConfigurationEnum:
     """
     Test class for DiagnosticHandleDDDIConfigurationEnum functionality.
@@ -1963,6 +2048,7 @@ class TestDiagnosticHandleDDDIConfigurationEnum:
         enum.setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
 
         assert enum.getValue() == "nonVolatile"
+
 
 
 class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
@@ -2007,6 +2093,7 @@ class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
         assert enum.getValue() == "defineByIdentifier"
 
 
+
 class TestDiagnosticPeriodicRateCategoryEnum:
     """
     Test class for DiagnosticPeriodicRateCategoryEnum functionality.
@@ -2049,6 +2136,7 @@ class TestDiagnosticPeriodicRateCategoryEnum:
         assert enum.getValue() == "periodicRateSlow"
 
 
+
 class TestDiagnosticEventWindowTimeEnum:
     """
     Test class for DiagnosticEventWindowTimeEnum functionality.
@@ -2087,6 +2175,7 @@ class TestDiagnosticEventWindowTimeEnum:
         enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
 
         assert enum.getValue() == "powerWindowTime"
+
 
 
 class TestDiagnosticResponseOnEventActionEnum:
