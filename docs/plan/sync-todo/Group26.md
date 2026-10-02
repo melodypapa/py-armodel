@@ -596,15 +596,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucContainerDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.3, p.37
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (129 passed test_ECUCParameterDefTemplate.py + new parser/writer round-trip files; ruff/flake8 clean, black diff 0 hits in added code); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale `# Spec verified: R23-11` removed (legacy 5-col stamp); abstract (ABC + guard) ✓; Base most-derived = EcucDefinitionElement; markdown Table 2.3 is a PAGE-SPLIT render (header block l.874, attribute continuation + caption l.895) — Note/Base/5 attrs recovered from both halves; XSD group has POST-BUILD-CHANGEABLE with atp.Status="removed" → correctly NOT modeled (Rule 0015); destinationUri Note gained " Stereotypes: atpUriDef" suffix + multiplicityConfigClass docstrings extended to full Note (was first-sentence-only truncation) + no-op wording named; member order = markdown order, writer XML order = XSD verified; destinationUriRefs hold EcucDestinationUriDefRefType (writer isinstance-gates them; BASE attrib per XSD)
 
 - [ ] `EcucParamConfContainerDef` — EcucContainerDef — R23-11 CP_TPS_ECUConfiguration Table 2.4, p.39
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
