@@ -659,7 +659,7 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **23/25** completed
+Status: **24/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
@@ -686,7 +686,7 @@ Status: **23/25** completed
 | `DiagnosticLogicalOperatorEnum`            | [x] Done     | N/A        |
 | `DiagnosticEnvConditionFormulaPart`        | [x] Done     | 66e22b5a41 |
 | `DiagnosticEnvConditionFormula`            | [x] Done     | af255af373 |
-| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af373 |
+| `DiagnosticEnvCompareCondition`            | [x] Done     | af255af373 |
 | `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |
 
 ## Group15
