@@ -26,135 +26,146 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucValidationCondition` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.44, p.103
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; docstring verbatim ✓; 2 members (ecucQueries `*` / validationFormula 0..1) in order ✓
 
 - [ ] `EcucIndexableValue` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.46, p.110
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; Base = ARObject ✓; 1 attr (index PositiveInteger 0..1, xml.sequenceOffset=-5) ✓
 
 - [ ] `EcucModuleConfigurationValues` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.47, p.111
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; 6 members verified (definitionRef/moduleDescriptionRef refs, ecucDefEdition, implementationConfigVariant, postBuildVariantUsed, containers aggr)
 
 - [ ] `EcucContainerValue` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.48, p.119
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; Base most-derived = EcucIndexableValue; 4 members (definitionRef 0..1 ref, parameterValue/referenceValue/subContainer `*` aggr, atpVariation Notes) in markdown order ✓
 
 - [ ] `EcucParameterValue` — EcucIndexableValue — R23-11 CP_TPS_ECUConfiguration Table 2.49, p.125
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; Base = EcucIndexableValue; annotation/definition/isAutoValue members ✓
 
 - [ ] `EcucTextualParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.50, p.127
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; Base chain → EcucParameterValue; 1 attr (value VerbatimString 0..1) ✓
 
 - [ ] `EcucNumericalParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.51, p.128
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; 1 attr (value Numerical 0..1, atpVariation Note) ✓
 
 - [ ] `EcucAddInfoParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.52, p.129
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; 1 attr (value DocumentationBlock 0..1 aggr) ✓
 
 - [ ] `EcucAbstractReferenceValue` — EcucIndexableValue — R23-11 CP_TPS_ECUConfiguration Table 2.53, p.131
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; abstract; annotation/definitionRef/isAutoValue ✓
 
 - [ ] `EcucReferenceValue` — EcucAbstractReferenceValue — R23-11 CP_TPS_ECUConfiguration Table 2.54, p.132
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; value 0..1 ref → valueRef (Ref suffix) ✓
 
 - [ ] `EcucInstanceReferenceValue` — EcucAbstractReferenceValue — R23-11 CP_TPS_ECUConfiguration Table 2.55, p.134
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — handler round-trip coverage in tests/test_armodel/parser/test_arxml_parser_ecuc_handlers.py (122 member references across the family) + subpackage unit tests
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (463 passed ECUC test files incl. subpackage suites; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed, checklist 6-col; value 0..1 IREF → valueIRef (IRef suffix) ✓
 
 - [ ] `HwDescriptionEntity` — Referrable — R23-11 CP_TPS_ECUResourceTemplate Table 2.1, p.15
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py

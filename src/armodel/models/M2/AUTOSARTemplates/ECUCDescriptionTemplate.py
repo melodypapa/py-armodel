@@ -80,11 +80,11 @@ class EcucIndexableValue(ARObject, ABC):
 
     # EcucIndexableValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.46, p.110
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucIndexableValue:
@@ -119,15 +119,15 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
 
     # EcucParameterValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.49, p.125
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucParameterValue:
@@ -182,11 +182,11 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # EcucAddInfoParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.52, p.129
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -212,11 +212,11 @@ class EcucTextualParamValue(EcucParameterValue):
 
     # EcucTextualParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.50, p.127
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -242,11 +242,11 @@ class EcucNumericalParamValue(EcucParameterValue):
 
     # EcucNumericalParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.51, p.128
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -272,15 +272,15 @@ class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC)
 
     # EcucAbstractReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.53, p.131
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsAutoValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsAutoValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsAutoValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsAutoValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucAbstractReferenceValue:
@@ -335,11 +335,11 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # EcucInstanceReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.55, p.134
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -365,11 +365,11 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
     # EcucReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.54, p.132
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -395,17 +395,17 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
 
     # EcucContainerValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.48, p.119
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameterValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferenceValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReferenceValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addParameterValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferenceValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReferenceValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         EcucIndexableValue.__init__(self)
@@ -471,21 +471,21 @@ class EcucModuleConfigurationValues(ARElement):
 
     # EcucModuleConfigurationValues method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.47, p.111
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefinitionRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucDefEdition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucDefEdition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefinitionRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucDefEdition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucDefEdition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

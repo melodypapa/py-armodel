@@ -107,13 +107,13 @@ class EcucValidationCondition(Identifiable):
 
     # EcucValidationCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.44, p.103
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValidationFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValidationFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1133,11 +1133,11 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.29, p.73
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDestinationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setDestinationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1176,11 +1176,11 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucUriReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.33, p.81
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDestinationUriRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setDestinationUriRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
     # Aggregated by dispatch: reader readEcucContainerDefReferences +
     # readEcucDestinationUriPolicyReferences ECUC-URI-REFERENCE-DEF branches +
     # writer isinstance branches both present; createEcucUriReferenceDef
@@ -1983,13 +1983,13 @@ class EcucConditionFormula(FormulaExpression):
 
     # EcucConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.43, p.100
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2305,12 +2305,12 @@ class EcucParameterDerivationFormula(FormulaExpression):
 
     # EcucParameterDerivationFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.39, p.88
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2393,12 +2393,12 @@ class EcucQueryExpression(ARObject):
 
     # EcucQueryExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41, p.90
-    # Spec verified: R23-11
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
