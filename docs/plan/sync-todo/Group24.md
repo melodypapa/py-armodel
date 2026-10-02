@@ -303,7 +303,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `cd8cd8c46`
 
 - [ ] `DiagnosticComControlSubNodeChannel` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.67, p.110
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -324,7 +324,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `f0a80d0b5`
 
 - [ ] `DiagnosticControlDTCSetting` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.68, p.111
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -357,7 +357,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `a4ebfc734`
 
 - [ ] `DiagnosticControlDTCSettingClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.69, p.111
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -376,7 +376,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `88c545f30`
 
 - [ ] `DiagnosticReadDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.70, p.112
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -391,7 +391,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e21b844ed`
 
 - [ ] `DiagnosticWriteDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.71, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -406,7 +406,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `699b75182`
 
 - [ ] `DiagnosticWriteDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.72, p.113
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -421,7 +421,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `6f777e6bd`
 
 - [ ] `DiagnosticDataByIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.73, p.113
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -436,7 +436,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note (Step 6): reader helper `readDiagnosticDataByIdentifier` / writer helper `writeDiagnosticDataByIdentifier` added (arxml_parser.py after readDiagnosticAbstractDataIdentifier; arxml_writer.py after writeDiagnosticAbstractDataIdentifier) — abstract class, no ARPackage dispatch entry; concrete subclasses call the helpers. Tests exercise them through the stub-subclass DiagnosticReadDataByIdentifier.
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `06afa0fff`
 
 - [ ] `DiagnosticReadDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.74, p.114
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -451,7 +451,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `01e18bd76`
 
 - [ ] `DiagnosticReadScalingDataByIdentifier` — DiagnosticDataByIdentifier — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.78, p.116
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -466,7 +466,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `d8d4379d1`
 
 - [ ] `DiagnosticReadScalingDataByIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.79, p.116
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -481,7 +481,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `6c6eadab3`
 
 - [ ] `DiagnosticIOControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.80, p.118
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -496,7 +496,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticIOControl` factory + readARPackageElements DIAGNOSTIC-IO-CONTROL branch + writeARPackageElement isinstance branch; the controlEnableMaskBit aggregation is read/written via the CONTROL-ENABLE-MASK-BITS wrapper dispatching to the (pulled-in) read/writeDiagnosticControlEnableMaskBit helpers.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3e204165e`
 
 - [ ] `DiagnosticIoControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.81, p.118
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -511,7 +511,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticIoControlClass` factory (bottom-of-file CommonService import, DiagnosticWriteDataByIdentifierClass precedent) + readARPackageElements DIAGNOSTIC-IO-CONTROL-CLASS branch + writeARPackageElement isinstance branch; empty XSD group — IDENTIFIABLE wrapper only.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `a6a5ff87e`
 
 - [ ] `DiagnosticControlEnableMaskBit` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.83, p.119
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -526,7 +526,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): reusable read/writeDiagnosticControlEnableMaskBit helper (ARObject pattern — readARObject/writeARObject + own fields); no dispatch of its own — the nested member is aggregated by DiagnosticIOControl and is wired there when that class syncs.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e7a05b899`
 
 - [ ] `DiagnosticRoutineSubfunction` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.84, p.121
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -541,7 +541,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): reusable read/writeDiagnosticRoutineSubfunction helper (DiagnosticDataByIdentifier precedent — helper reads/writes own group only, ACCESS-PERMISSION-REF); no dispatch of its own — concrete subclasses (Start/Stop/RequestResults) call readIdentifiable/writeIdentifiable + the helper when they sync.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `1b16d614c`
 
 - [ ] `DiagnosticRoutine` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.85, p.124
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -556,7 +556,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticRoutine` factory (alphabetical after createDiagnosticReadScalingDataByIdentifierClass) + readARPackageElements DIAGNOSTIC-ROUTINE branch + writeARPackageElement isinstance branch; requestResult/start/stop serialized as REQUEST-RESULT/START/STOP typed wrappers whose content is written by the concrete subfunction writers (amended to content-writers this pass); id via ID/POSITIVE-INTEGER-VALUE-VARIATION-POINT (readDiagnosticAbstractDataIdentifier idiom).
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `5f356c335`
 
 - [ ] `DiagnosticStartRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.86, p.124
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -571,7 +571,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): synced BEFORE its consumer DiagnosticRoutine (Rule 0016.5 pull-in — Routine's start/stop/requestResult aggrs reference it); read/writeDiagnosticStartRoutine = readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists (findall REQUESTS/DIAGNOSTIC-PARAMETER, DiagnosticParameter() created then readDiagnosticParameter); no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.start).
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `30d5576f7`
 
 - [ ] `DiagnosticStopRoutine` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.87, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -586,7 +586,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): read/writeDiagnosticStopRoutine mirrors the DiagnosticStartRoutine pass — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.stop).
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `35e0590e6`
 
 - [ ] `DiagnosticRequestRoutineResults` — DiagnosticRoutineSubfunction — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.88, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -601,7 +601,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): read/writeDiagnosticRequestRoutineResults mirrors the Start/Stop passes — readIdentifiable/writeIdentifiable + Rule 0001.7 base helper + REQUESTS/RESPONSES wrapper lists; no ARPackage factory/dispatch (Aggregated by DiagnosticRoutine.requestResult). Amended during the DiagnosticRoutine pass: the concrete writer became a content-writer (XSD types REQUEST-RESULT/START/STOP with the concrete complexType — the wrapper tag IS the concrete element; writeDiagnosticMapping precedent); accessor-docstring tests backfilled in the same pass.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `c5c5cddd7`
 
 - [ ] `DiagnosticRoutineControl` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.89, p.125
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -616,7 +616,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticRoutineControl` factory (alphabetical after createDiagnosticRoutine) + readARPackageElements DIAGNOSTIC-ROUTINE-CONTROL branch + writeARPackageElement isinstance branch; both refs read via setRoutine/setRoutineControlClass and written via getRoutine/getRoutineControlClass in XSD order.
   - note (Step 8): no open deviations; routineControlClass references DiagnosticRoutineControlClass (Table 4.90) — synced in this same batch immediately after, per the queued class order.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `b7485f794`
 
 - [ ] `DiagnosticRoutineControlClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.90, p.126
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -631,7 +631,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): empty-marker pattern — reader readIdentifiable only; writer emits DIAGNOSTIC-ROUTINE-CONTROL-CLASS + IDENTIFIABLE wrapper content; ARPackage `createDiagnosticRoutineControlClass` factory (alphabetical after createDiagnosticRoutineControl) + both dispatch branches; bottom-of-file CommonService import added to ARPackage.py.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `4605fa843`
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.93, p.127
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -646,7 +646,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticDynamicallyDefineDataIdentifier` factory (alphabetical after createDiagnosticDynamicDataIdentifier) + readARPackageElements DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER branch + writeARPackageElement isinstance branch; refs via set/getDataIdentifier + set/getDynamicallyDefineDataIdentifierClass, maxSourceElement via set/getMaxSourceElement, all in XSD order.
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `4988b642d`
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.94, p.128
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -676,7 +676,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `32e309baa`
 
 - [ ] `DiagnosticHandleDDDIConfigurationEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.95, p.128
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -695,7 +695,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3cde2dacd`
 
 - [ ] `DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.96, p.129
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -714,7 +714,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `aa69f0bd9`
 
 - [ ] `DiagnosticReadDataByPeriodicID` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.97, p.130
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -741,7 +741,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `825e744a0`
 
 - [ ] `DiagnosticReadDataByPeriodicIDClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.98, p.130
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -767,7 +767,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `d9cdc58eb`
 
 - [ ] `DiagnosticPeriodicRate` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.99, p.131
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -791,7 +791,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `c3a080fdc`
 
 - [ ] `DiagnosticPeriodicRateCategoryEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.100, p.131
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -809,7 +809,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `051ec169f`
 
 - [ ] `DiagnosticResponseOnEvent` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.101, p.132
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -834,7 +834,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `cd643b2b9`
 
 - [ ] `DiagnosticResponseOnEventClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.102, p.133
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -860,7 +860,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e39a10b0d`
 
 - [ ] `DiagnosticEventWindow` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.103, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -880,7 +880,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e449ef97a`
 
 - [ ] `DiagnosticEventWindowTimeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.104, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -899,7 +899,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `2de5f4a01`
 
 - [ ] `DiagnosticResponseOnEventActionEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.105, p.134
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -918,7 +918,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A (token map pre-registered; consumer pass wires the calls)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `96ca41532`
 
 - [ ] `DiagnosticReadDTCInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.106, p.136
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -941,7 +941,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `9ac51b650`
 
 - [ ] `DiagnosticReadDTCInformationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.107, p.136
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -961,7 +961,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `4b113a2de`
 
 - [ ] `DiagnosticClearDiagnosticInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.108, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -985,7 +985,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3165f8784`
 
 - [ ] `DiagnosticClearDiagnosticInformationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.109, p.137
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1005,7 +1005,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `b797bc651`
 
 - [ ] `DiagnosticMemoryByAddress` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.110, p.139
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1023,7 +1023,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations.
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `97eb7a99d`
 
 - [ ] `DiagnosticMemoryAddressableRangeAccess` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.111, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1047,7 +1047,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations (truncated class Note "This abstract base class" is the spec's own text, kept verbatim).
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer + gate tests green; black 24.8.0 + ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e6d109972`
 
 - [ ] `DiagnosticMemoryIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.112, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
