@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 733 | 38.5% |
+| [x] Done | 734 | 38.6% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 297 | 15.6% |
+| [ ] Deferred | 296 | 15.6% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 434 | 22.8% |
 | [ ] Pending | 0 | 0.0% |
@@ -1728,7 +1728,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SynchronousServerCallPoint`                            | [x] Done    | 9182987d97                               | Group2           |
 | `System`                                                | [x] Done    | ccfb528daf                               | Group5           |
 | `SystemMapping`                                         | [ ] Implemented| N/A                                      | Group30          |
-| `SystemSignal`                                          | [ ] Deferred| 7c5d9e9d81                               | Group15          |
+| `SystemSignal`                                          | [x] Done    | 7c5d9e9d81                               | Group15          |
 | `SystemSignalGroup`                                     | [ ] Implemented| N/A                                      | Group31          |
 | `SystemSignalGroupToCommunicationResourceMapping`       | [ ] Created | N/A                                      | Group31          |
 | `SystemSignalToCommunicationResourceMapping`            | [ ] Created | N/A                                      | Group31          |

@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **12/24** completed
+Status: **13/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -708,7 +708,7 @@ Status: **12/24** completed
 | `SecuredPduHeaderEnum`        | [x] Done     | 2c2e102933 |
 | `UserDefinedIPdu`             | [x] Done     | 2c2e102933 |
 | `UserDefinedPdu`              | [x] Done     | 2c2e102933 |
-| `SystemSignal`                | [ ] Pending* | 7c5d9e9d81 |
+| `SystemSignal`                | [x] Done     | 7c5d9e9d81 |
 | `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
 | `TimeRangeTypeTolerance`      | [ ] Pending* | dcbc6abdb3 |
 | `TransmissionModeCondition`   | [ ] Pending* | dcbc6abdb3 |
