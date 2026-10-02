@@ -13,9 +13,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 690 | 36.3% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 291 | 15.3% |
-| [ ] Implemented | 433 | 22.8% |
-| [ ] Created | 475 | 25.0% |
+| [ ] Deferred | 293 | 15.4% |
+| [ ] Implemented | 432 | 22.7% |
+| [ ] Created | 474 | 24.9% |
 | [ ] Pending | 2 | 0.1% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -701,7 +701,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticServiceInstance`                             | [x] Done    | 6b514727f9                               | Group7           |
 | `DiagnosticServiceMappingDiagTarget`                    | [ ] Deferred| 80105a7831                               | Group26          |
 | `DiagnosticServiceRequestCallbackTypeEnum`              | [ ] Deferred| 28746ce3cc                               | Group14          |
-| `DiagnosticServiceSwMapping`                            | [ ] Created | N/A                                      | Group26          |
+| `DiagnosticServiceSwMapping`                            | [ ] Deferred| 0f2a3876e3                               | Group26          |
 | `DiagnosticServiceTable`                                | [x] Done    | 9bd6fadae5                               | Group7           |
 | `DiagnosticSession`                                     | [x] Done    | 06d4e49a26                               | Group7           |
 | `DiagnosticSessionControl`                              | [ ] Deferred| a68f0804fd                               | Group23          |
@@ -814,7 +814,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucContainerDef`                                      | [ ] Implemented| N/A                                      | Group26          |
 | `EcucContainerValue`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `EcucDefinitionCollection`                              | [ ] Implemented| N/A                                      | Group26          |
-| `EcucDefinitionElement`                                 | [ ] Implemented| N/A                                      | Group26          |
+| `EcucDefinitionElement`                                 | [ ] Deferred| ac47ae89f3                               | Group26          |
 | `EcucDerivationSpecification`                           | [ ] Implemented| N/A                                      | Group26          |
 | `EcucDestinationUriDef`                                 | [ ] Implemented| N/A                                      | Group26          |
 | `EcucDestinationUriDefRefType`                          | [ ] Implemented| N/A                                      | Group19          |

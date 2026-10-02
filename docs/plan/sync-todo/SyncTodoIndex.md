@@ -1280,7 +1280,7 @@ Status: **0/75** completed
 | `DiagnosticParameterElementAccess`              | [ ] Pending*    | 80105a7831 |
 | `DiagnosticServiceMappingDiagTarget`            | [ ] Pending*    | 80105a7831 |
 | `DiagnosticSwMapping`                           | [ ] Pending*    | 80105a7831 |
-| `DiagnosticServiceSwMapping`                    | [ ] Created     | N/A        |
+| `DiagnosticServiceSwMapping`                    | [ ] Pending*    | 0f2a3876e3 |
 | `BswServiceDependencyIdent`                     | [ ] Pending*    | d488a5e4a8 |
 | `DiagnosticAuthTransmitCertificateMapping`      | [ ] Pending*    | 531da6dd58 |
 | `DiagnosticSecurityEventReportingModeMapping`   | [ ] Pending*    | 531da6dd58 |
@@ -1317,7 +1317,7 @@ Status: **0/75** completed
 | `EcucContainerDef`                              | [ ] Implemented | N/A        |
 | `EcucParamConfContainerDef`                     | [ ] Implemented | N/A        |
 | `EcucChoiceContainerDef`                        | [ ] Implemented | N/A        |
-| `EcucDefinitionElement`                         | [ ] Implemented | N/A        |
+| `EcucDefinitionElement`                         | [ ] Pending*    | ac47ae89f3 |
 | `EcucCommonAttributes`                          | [ ] Implemented | N/A        |
 | `EcucAbstractConfigurationClass`                | [ ] Implemented | N/A        |
 | `EcucValueConfigurationClass`                   | [ ] Implemented | N/A        |
