@@ -81,6 +81,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadMemoryByAddress,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestDownload,
+    DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -7955,3 +7956,82 @@ class TestDiagnosticRequestDownload:
         """
         assert inspect.cleandoc(DiagnosticRequestDownload.getRequestDownloadClassRef.__doc__) == self.REQUEST_DOWNLOAD_CLASS_NOTE
         assert inspect.cleandoc(DiagnosticRequestDownload.setRequestDownloadClassRef.__doc__) == (self.REQUEST_DOWNLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDownloadClassRef.")
+
+
+class TestDiagnosticRequestUpload:
+    """
+    Test class for DiagnosticRequestUpload functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.123, p.145
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Request Upload" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss'
+    REQUEST_UPLOAD_CLASS_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context."
+
+    def _make_obj(self) -> DiagnosticRequestUpload:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestUpload(ar_root, "TestRequestUpload")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestUpload instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestRequestUpload"
+        assert isinstance(obj, DiagnosticMemoryAddressableRangeAccess)
+        assert obj.getRequestUploadClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestUpload.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestUpload.__init__.__doc__ is None
+
+    def test_get_set_request_upload_class_ref(self):
+        """
+        Round-trips the requestUploadClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-UPLOAD-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestUploadClasses/Class1")
+        result = obj.setRequestUploadClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestUploadClassRef() is ref
+        assert obj.getRequestUploadClassRef().getValue() == "/AUTOSAR/DiagnosticRequestUploadClasses/Class1"
+        assert obj.getRequestUploadClassRef().getDest() == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS"
+
+        result = obj.setRequestUploadClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestUploadClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_upload(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticRequestUploadServices")
+        element = package.createDiagnosticRequestUpload("RequestUploadService1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestUpload)
+        assert element.getShortName() == "RequestUploadService1"
+        assert package.getReferrableElement("RequestUploadService1", DiagnosticRequestUpload) is element
+
+        duplicate = package.createDiagnosticRequestUpload("RequestUploadService1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestUpload.getRequestUploadClassRef.__doc__) == self.REQUEST_UPLOAD_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticRequestUpload.setRequestUploadClassRef.__doc__) == (self.REQUEST_UPLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestUploadClassRef.")

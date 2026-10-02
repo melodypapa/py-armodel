@@ -1118,6 +1118,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_download_class)
         return self.getReferrableElement(short_name, DiagnosticRequestDownloadClass)
 
+    def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
+        """
+        Creates a new DiagnosticRequestUpload with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestUpload represents an instance of the "Request Upload" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestUpload
+
+        Returns:
+            The newly created or existing DiagnosticRequestUpload instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestUpload):
+            request_upload = DiagnosticRequestUpload(self, short_name)
+            self.addReferrableElement(request_upload)
+        return self.getReferrableElement(short_name, DiagnosticRequestUpload)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -7349,7 +7367,36 @@ class DiagnosticRequestPowertrainFreezeFrameData(ARElement):
 
 
 class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
-    pass
+    """This represents an instance of the "Request Upload" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticRequestUpload method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.123, p.145
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestUploadClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestUploadClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context.
+        self.requestUploadClassRef: Optional[RefType] = None
+
+    def getRequestUploadClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context.
+        """
+        return self.requestUploadClassRef
+
+    def setRequestUploadClassRef(self, value: Optional[RefType]) -> DiagnosticRequestUpload:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestUploadClassRef.
+        """
+        if value is not None:
+            self.requestUploadClassRef = value
+        return self
 
 
 class DiagnosticRequestVehicleInfo(ARElement):

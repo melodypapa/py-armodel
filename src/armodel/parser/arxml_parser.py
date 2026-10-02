@@ -574,6 +574,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticRequestDownload,
+    DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -11500,6 +11501,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_download)
         request_download.setRequestDownloadClassRef(self.getChildElementOptionalRefType(element, "REQUEST-DOWNLOAD-CLASS-REF"))
 
+    def readDiagnosticRequestUpload(self, element: ET.Element, request_upload: DiagnosticRequestUpload):
+        self.logger.debug("Read DiagnosticRequestUpload <%s>" % request_upload.getShortName())
+        self.readIdentifiable(element, request_upload)
+        request_upload.setRequestUploadClassRef(self.getChildElementOptionalRefType(element, "REQUEST-UPLOAD-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16839,6 +16845,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-DOWNLOAD":
             request_download = parent.createDiagnosticRequestDownload(self.getShortName(child_element))
             self.readDiagnosticRequestDownload(child_element, request_download)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-UPLOAD":
+            request_upload = parent.createDiagnosticRequestUpload(self.getShortName(child_element))
+            self.readDiagnosticRequestUpload(child_element, request_upload)
             return True
         return False
 

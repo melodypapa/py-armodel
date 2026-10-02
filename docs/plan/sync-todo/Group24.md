@@ -1316,15 +1316,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestUpload` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.123, p.145
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; spec Base chain (md l.4409) lists DiagnosticMemoryAddressableRangeAccess (cell-wrap healed) ⇒
+    most-derived base per Rule 0001.2 — the existing ARPackage.py stub base is already correct, no relocation (twin b24aedab4).
+    Attribute (displayed order, table body md l.4405-4412 — caption l.4403; PDF p.145 via pdf_page.py):
+    requestUploadClass (DiagnosticRequestUploadClass, 0..1, ref — cell-wrap healed) → requestUploadClassRef (XSD
+    REQUEST-UPLOAD-CLASS-REF, DEST DIAGNOSTIC-REQUEST-UPLOAD-CLASS--SUBTYPES-ENUM; Note per the XSD documentation — the
+    markdown renders it as one paragraph). XSD group DIAGNOSTIC-REQUEST-UPLOAD (AUTOSAR_00052.xsd l.42454, complexType
+    l.42471): single element REQUEST-UPLOAD-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+    createDiagnosticRequestUpload + memory-family dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1701 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_upload.py + test_writer_diagnostic_request_upload.py; parser+writer regression 7245 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestUploadClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.124, p.146
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
