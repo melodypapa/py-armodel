@@ -55,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -137,8 +137,69 @@ class TestEcucFunctionNameDef:
 
 
 class TestEcucIntegerParamDef:
+    """
+    Test class for EcucIntegerParamDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.16, p.60
+    """
+
+    CLASS_NOTE = "Configuration parameter type for Integer."
+
     def test_instantiation(self):
         assert _instantiate(EcucIntegerParamDef, "EcucIntegerParamDef").getShortName() == "EcucIntegerParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucIntegerParamDef.__doc__) == self.CLASS_NOTE
+
+    def test_defaults_are_spec_multiplicity(self):
+        """
+        Test that members start with the spec multiplicity defaults.
+        """
+        obj = EcucIntegerParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEI"), "Param")
+
+        assert obj.getDefaultValue() is None
+        assert obj.getMax() is None
+        assert obj.getMin() is None
+
+    def test_get_set_default_value(self):
+        """
+        Round-trips defaultValue; None is a no-op.
+        """
+        obj = EcucIntegerParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEI"), "Param")
+
+        value = UnlimitedInteger()
+        value.setValue(10)
+        result = obj.setDefaultValue(value)
+        assert result is obj  # method chaining
+        assert obj.getDefaultValue() is value
+
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() is value  # None is a no-op
+
+    def test_get_set_max_min(self):
+        """
+        Round-trips max and min; None is a no-op.
+        """
+        obj = EcucIntegerParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TEI"), "Param")
+
+        max_value = UnlimitedInteger()
+        max_value.setValue(100)
+        result = obj.setMax(max_value)
+        assert result is obj  # method chaining
+        assert obj.getMax() is max_value
+
+        min_value = UnlimitedInteger()
+        min_value.setValue(1)
+        obj.setMin(min_value)
+        assert obj.getMin() is min_value
+
+        obj.setMax(None)
+        obj.setMin(None)
+        assert obj.getMax() is max_value  # None is a no-op
+        assert obj.getMin() is min_value  # None is a no-op
 
 
 class TestEcucEnumerationLiteralDef:

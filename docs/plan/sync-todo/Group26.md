@@ -726,15 +726,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucIntegerParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.16, p.60
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer round-trip files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale stamp state rebuilt; concrete; Base most-derived = EcucParameterDef; 3 attrs (defaultValue/max/min, UnlimitedInteger 0..1) QUOTA-SHAPE FIXED: bare annotations + non-Optional getters → Optional[UnlimitedInteger] + Optional returns per 0..1 multiplicity (0022); docstrings EMPTY → verbatim Notes incl. atpVariation/Stereotypes/Tags suffixes; member order = markdown order (defaultValue, max, min) = writer XSD order (DEFAULT-VALUE, MAX, MIN)
 
 - [ ] `EcucAbstractStringParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.18, p.63
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
