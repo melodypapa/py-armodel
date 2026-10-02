@@ -629,15 +629,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucDefinitionElement` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.6, p.46
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (351 passed ECUCParameterDefTemplate + ecuc handler/def tests + new round-trip files; member-annotation gate 3 passed; ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `ac47ae89f`
+  - note (Step 1): ECUC ARBITRATION VERDICT (user-directed 2026-10-02): NO re-parenting needed — spec T2.8 Base includes EcucDefinitionElement and its Subclasses row lists EcucAbstractReferenceDef + EcucParameterDef, so the implemented chain EcucParameterDef(EcucCommonAttributes(EcucDefinitionElement(Identifiable))) matches the spec; the queue row's base claims (ARObject/ARElement) were alphabetical-first generation artifacts. Real work = Rule 0023-style re-sync: stale 5-col stamps (no release column) removed, reader/writer coverage gaps closed (EcucDefinitionElement had RELATED-TRACE-ITEM-REF + UPPER-MULTIPLICITY-INFINITE silently dropped; writer order fixed to XSD group order l.51829), docstrings extended to verbatim cells incl. atpVariation/Stereotypes/Tags tails
 
 - [ ] `EcucCommonAttributes` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.8, p.49
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
