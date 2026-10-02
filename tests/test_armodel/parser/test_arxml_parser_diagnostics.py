@@ -355,3 +355,48 @@ class TestDiagnosticCapabilityElementHandlers:
         assert parsed.getAudiences() == []
         assert parsed.getDiagRequirement() is None
         assert parsed.getSecurityAccessLevel() is None
+
+
+class TestDtcStatusChangeNotificationNeedsHandlers:
+    """Round-trip the notification-time enum value form (DiagnosticClearDtcNotificationEnum, Table 13.33)."""
+
+    def test_notification_time_round_trip(self):
+        import xml.etree.cElementTree as ET
+
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+            DiagnosticClearDtcNotificationEnum,
+            DtcStatusChangeNotificationNeeds,
+        )
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        needs = DtcStatusChangeNotificationNeeds(parent=_autosar_root(), short_name="dtcNeeds")
+        needs.setNotificationTime(DiagnosticClearDtcNotificationEnum().setValue("finish"))
+
+        parent = ET.Element("ROOT")
+        ARXMLWriter().writeDtcStatusChangeNotificationNeeds(parent, needs)
+        assert parent.find("DTC-STATUS-CHANGE-NOTIFICATION-NEEDS/NOTIFICATION-TIME").text == "FINISH"
+
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = DtcStatusChangeNotificationNeeds(parent=_autosar_root(), short_name="dtcNeeds2")
+        ARXMLParser().readDtcStatusChangeNotificationNeeds(reloaded.find("{http://autosar.org/schema/r4.0}DTC-STATUS-CHANGE-NOTIFICATION-NEEDS"), parsed)
+        assert parsed.getNotificationTime().getValue() == "finish"
+
+    def test_notification_time_absent(self):
+        import xml.etree.cElementTree as ET
+
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        needs = DtcStatusChangeNotificationNeeds(parent=_autosar_root(), short_name="dtcNeeds")
+        parent = ET.Element("ROOT")
+        ARXMLWriter().writeDtcStatusChangeNotificationNeeds(parent, needs)
+        assert parent.find("DTC-STATUS-CHANGE-NOTIFICATION-NEEDS/NOTIFICATION-TIME") is None
+
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = DtcStatusChangeNotificationNeeds(parent=_autosar_root(), short_name="dtcNeeds2")
+        ARXMLParser().readDtcStatusChangeNotificationNeeds(reloaded.find("{http://autosar.org/schema/r4.0}DTC-STATUS-CHANGE-NOTIFICATION-NEEDS"), parsed)
+        assert parsed.getNotificationTime() is None

@@ -1611,19 +1611,22 @@ class DiagnosticClearDtcNotificationEnum(AREnum):
 
     # DiagnosticClearDtcNotificationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.33, p.776
-    # (no methods)
-
-    # The ClearDtcCallback shall be executed when the DTC operation starts. Tags: atp.EnumerationLiteralIndex=0
-    START = "start"
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DtcStatusChangeNotificationNeeds.notificationTime (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The ClearDtcCallback shall be executed when the DTC operation finishes. Tags: atp.EnumerationLiteralIndex=1
     FINISH = "finish"
 
+    # The ClearDtcCallback shall be executed when the DTC operation starts. Tags: atp.EnumerationLiteralIndex=0
+    START = "start"
+
     def __init__(self):
         super().__init__(
             (
-                DiagnosticClearDtcNotificationEnum.START,
                 DiagnosticClearDtcNotificationEnum.FINISH,
+                DiagnosticClearDtcNotificationEnum.START,
             )
         )
 

@@ -1729,7 +1729,12 @@ class TestDiagnosticClearDtcNotificationEnum:
         """Test DiagnosticClearDtcNotificationEnum initialization (Table 13.33 literals)"""
         enum = DiagnosticClearDtcNotificationEnum()
 
-        assert enum.enumValues == ("start", "finish")
+        assert enum.enumValues == ("finish", "start")
+
+    def test_values(self):
+        """Test enum values (Table 13.33)"""
+        assert DiagnosticClearDtcNotificationEnum.FINISH == "finish"
+        assert DiagnosticClearDtcNotificationEnum.START == "start"
 
 
 class TestDtcFormatTypeEnum:
