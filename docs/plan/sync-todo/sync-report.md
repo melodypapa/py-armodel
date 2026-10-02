@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 710 | 37.3% |
+| [x] Done | 711 | 37.4% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 278 | 14.6% |
+| [ ] Deferred | 277 | 14.6% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -778,7 +778,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DocumentationContext`                                  | [x] Done    | N/A                                      | Group21          |
 | `DtcFormatTypeEnum`                                     | [x] Done    | f376d8339f                               | Group14          |
 | `DtcKindEnum`                                           | [x] Done    | 8b62eec625                               | Group14          |
-| `DtcStatusChangeNotificationNeeds`                      | [ ] Deferred| 79c639e42a                               | Group14          |
+| `DtcStatusChangeNotificationNeeds`                      | [x] Done    | 89407b6f0f                               | Group14          |
 | `DynamicPart`                                           | [ ] Deferred| 4211085bc4                               | Group15          |
 | `DynamicPartAlternative`                                | [x] Done    | 206cf29517                               | Group5           |
 | `E2EProfileCompatibilityProps`                          | [ ] Implemented| N/A                                      | Group28          |
