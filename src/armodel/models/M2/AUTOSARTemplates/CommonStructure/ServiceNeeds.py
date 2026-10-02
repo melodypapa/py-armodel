@@ -1248,6 +1248,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
 
     # DiagEventDebounceCounterBased method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.33, p.260
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCounterBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
