@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 695 | 36.5% |
+| [x] Done | 696 | 36.6% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 293 | 15.4% |
+| [ ] Deferred | 292 | 15.3% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -497,7 +497,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticAbstractParameter`                           | [ ] Deferred| 6665fb7d71                               | Group23          |
 | `DiagnosticAccessPermission`                            | [x] Done    | 9cbb4e26e7                               | Group7           |
 | `DiagnosticAging`                                       | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticAudienceEnum`                                | [ ] Deferred| 5685ad743e                               | Group14          |
+| `DiagnosticAudienceEnum`                                | [x] Done    | 80d64e8f15                               | Group14          |
 | `DiagnosticAuthRole`                                    | [ ] Deferred| 16e3c0c30d                               | Group23          |
 | `DiagnosticAuthRoleProxy`                               | [x] Done    | 4579b43f0d                               | Group7           |
 | `DiagnosticAuthTransmitCertificate`                     | [ ] Deferred| 94a9c9715c                               | Group24          |

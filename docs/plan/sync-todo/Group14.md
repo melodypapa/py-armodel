@@ -17,7 +17,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `DiagnosticAudienceEnum` — AREnum — R23-11 markdown · Table 13.17 (CP_TPS_SoftwareComponentTemplate), p.754
+- [x] `DiagnosticAudienceEnum` — AREnum — R23-11 markdown · Table 13.17 (CP_TPS_SoftwareComponentTemplate), p.754 — commit 80d64e8f1 (stamped 2026-10-02, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note (Step 1): Note = "The possible values of the intended audience for a diagnostic object." 5 literals in displayed order: aftermarket(1), afterSales(2), development(3), manufacturing(4), supplier(5). XSD --SIMPLE tokens UPPERCASE-KEBAB (AFTER-SALES, AFTERMAKET[typo variant], AFTERMARKET, DEVELOPMENT, MANUFACTURING, SUPPLIER) — for the consuming class rw (token map). Drift: fabricated class docstring + literal comments, __init__ docstring, old checklist.
   - [x] Step 1 — Sync members & description from spec

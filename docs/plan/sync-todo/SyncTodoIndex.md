@@ -659,11 +659,11 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **2/25** completed
+Status: **3/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
-| `DiagnosticAudienceEnum`                   | [ ] Pending* | 5685ad743e |
+| `DiagnosticAudienceEnum`                   | [x] Done     | 80d64e8f15 |
 | `DiagnosticClearDtcNotificationEnum`       | [ ] Pending* | 28746ce3cc |
 | `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3cc |
 | `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3cc |
