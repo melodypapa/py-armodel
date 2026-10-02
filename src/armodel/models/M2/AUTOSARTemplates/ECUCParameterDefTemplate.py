@@ -1725,25 +1725,28 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     # EcucParamConfContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucAddInfoParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucBooleanParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucStringParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucIntegerParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucFloatParamDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucEnumerationParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucFunctionNameDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucMultilineStringParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucChoiceReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucInstanceReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucChoiceContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getParameters                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucAddInfoParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucBooleanParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucStringParamDef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucIntegerParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFloatParamDef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucEnumerationParamDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFunctionNameDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucMultilineStringParamDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucLinkerSymbolDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferences                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucReferenceDef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucUriReferenceDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucChoiceReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucInstanceReferenceDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucForeignReferenceDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucChoiceContainerDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

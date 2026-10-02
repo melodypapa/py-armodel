@@ -162,8 +162,64 @@ class TestEcucChoiceContainerDef:
 
 
 class TestEcucParamConfContainerDef:
+    """
+    Test class for EcucParamConfContainerDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
+    """
+
+    CLASS_NOTE = "Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions."
+
+    def _make_obj(self) -> EcucParamConfContainerDef:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return EcucParamConfContainerDef(ar_root, "TestParamConfContainer")
+
     def test_instantiation(self):
         assert _instantiate(EcucParamConfContainerDef, "EcucParamConfContainerDef").getShortName() == "EcucParamConfContainerDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucParamConfContainerDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucParamConfContainerDef.__init__.__doc__ is None
+
+    def test_defaults_are_spec_multiplicity(self):
+        """
+        Test that members start with the spec multiplicity defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getParameters() == []
+        assert obj.getReferences() == []
+        assert obj.getSubContainers() == []
+
+    def test_create_factories_append_to_typed_lists(self):
+        """
+        Test that the create factories append to the parameters/references/subContainers typed lists.
+        """
+        obj = self._make_obj()
+
+        param = obj.createEcucBooleanParamDef("Param1")
+        assert isinstance(param, EcucBooleanParamDef)
+        reference = obj.createEcucReferenceDef("Ref1")
+        assert isinstance(reference, EcucReferenceDef)
+        sub_container = obj.createEcucParamConfContainerDef("Sub1")
+        assert isinstance(sub_container, EcucParamConfContainerDef)
+
+        assert obj.getParameters() == [param]
+        assert obj.getReferences() == [reference]
+        assert obj.getSubContainers() == [sub_container]
+
+        duplicate = obj.createEcucBooleanParamDef("Param1")
+        assert duplicate is param  # duplicate short name returns the existing element
+        assert len(obj.getParameters()) == 1  # duplicate does not append
 
 
 class TestEcucAddInfoParamDef:
