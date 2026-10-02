@@ -1208,6 +1208,56 @@ class TestEcucAbstractStringParamDef:
 
 
 class TestEcucAbstractConfigurationClass:
+    """
+    Test class for EcucAbstractConfigurationClass functionality (abstract — accessors via concrete subclass).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.9, p.51
+    """
+
+    CLASS_NOTE = "Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             EcucAbstractConfigurationClass()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucAbstractConfigurationClass.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucAbstractConfigurationClass.__init__.__doc__ is None
+
+    def test_get_set_config_class(self):
+        """
+        Round-trips configClass; None is a no-op.
+        """
+        obj = EcucMultiplicityConfigurationClass()
+
+        value = EcucConfigurationClassEnum()
+        value.setValue(EcucConfigurationClassEnum.POST_BUILD)
+        result = obj.setConfigClass(value)
+        assert result is obj  # method chaining
+        assert obj.getConfigClass() is value
+
+        obj.setConfigClass(None)
+        assert obj.getConfigClass() is value  # None is a no-op
+
+    def test_get_set_config_variant(self):
+        """
+        Round-trips configVariant; None is a no-op.
+        """
+        obj = EcucMultiplicityConfigurationClass()
+
+        value = EcucConfigurationVariantEnum()
+        value.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        result = obj.setConfigVariant(value)
+        assert result is obj  # method chaining
+        assert obj.getConfigVariant() is value
+
+        obj.setConfigVariant(None)
+        assert obj.getConfigVariant() is value  # None is a no-op

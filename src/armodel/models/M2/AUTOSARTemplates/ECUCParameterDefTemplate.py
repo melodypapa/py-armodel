@@ -434,12 +434,12 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
 
     # EcucAbstractConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.9, p.51
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigClass               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigClass               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConfigVariant             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigVariant             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfigClass   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfigVariant [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigVariant [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucAbstractConfigurationClass:
@@ -458,7 +458,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
         """
         return self.configClass
 
-    def setConfigClass(self, value: Optional[EcucConfigurationClassEnum]):
+    def setConfigClass(self, value: Optional[EcucConfigurationClassEnum]) -> EcucAbstractConfigurationClass:
         """
         Specifies the ConfigurationClass for the given ConfigurationVariant.
         A None value is a no-op and does not overwrite an existing configClass.
@@ -473,7 +473,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
         """
         return self.configVariant
 
-    def setConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]):
+    def setConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> EcucAbstractConfigurationClass:
         """
         Specifies the ConfigurationVariant the ConfigurationClass is specified for.
         A None value is a no-op and does not overwrite an existing configVariant.
