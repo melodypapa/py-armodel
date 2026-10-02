@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 704 | 37.0% |
+| [x] Done | 705 | 37.0% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 284 | 14.9% |
+| [ ] Deferred | 283 | 14.9% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1582,7 +1582,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ServerCallPoint`                                       | [x] Done    | 774620a3b1                               | Group2           |
 | `ServerComSpec`                                         | [ ] Implemented| N/A                                      | Group27          |
 | `ServiceDependency`                                     | [x] Done    | N/A                                      | Group23          |
-| `ServiceDiagnosticRelevanceEnum`                        | [ ] Deferred| 28746ce3cc                               | Group14          |
+| `ServiceDiagnosticRelevanceEnum`                        | [x] Done    | da3a2d3532                               | Group14          |
 | `ServiceInstanceCollectionSet`                          | [ ] Created | N/A                                      | Group32          |
 | `ServiceNeeds`                                          | [x] Done    | 5fd6271d70                               | Group4           |
 | `ServiceProviderEnum`                                   | [ ] Implemented| N/A                                      | Group27          |
