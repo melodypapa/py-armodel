@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
@@ -31,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARObject,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
+    DiagnosticPeriodicRate,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -854,4 +856,81 @@ class Test_DiagnosticDynamicallyDefineDataIdentifierClass:
         assert package.getElement("Dddic1", DiagnosticDynamicallyDefineDataIdentifierClass) is service_class
 
         duplicate = package.createDiagnosticDynamicallyDefineDataIdentifierClass("Dddic1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticReadDataByPeriodicIDClass:
+    """Test cases for DiagnosticReadDataByPeriodicIDClass class (Table 4.98, p.130)."""
+
+    RDBPIDC_CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Read Data by periodic Identifier" diagnostic service.'
+    MAX_PERIODIC_DID_TO_READ_NOTE = "This represents the maximum number of data identifiers that can be included in one request."
+    PERIODIC_RATE_NOTE = "This represents the description of a collection of periodic rates in which the service can be executed."
+    SCHEDULER_MAX_NUMBER_NOTE = "This represents the maximum number of periodic data identifiers that can be scheduled in parallel."
+
+    def test_is_concrete(self):
+        service_class = DiagnosticReadDataByPeriodicIDClass(_pkg(), "MyRdbpidc")
+        assert service_class.getShortName() == "MyRdbpidc"
+        assert service_class.getMaxPeriodicDidToRead() is None
+        assert service_class.getPeriodicRates() == []
+        assert service_class.getSchedulerMaxNumber() is None
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticReadDataByPeriodicIDClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticReadDataByPeriodicIDClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticReadDataByPeriodicIDClass, ARObject)
+        assert issubclass(DiagnosticReadDataByPeriodicIDClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.__doc__) == self.RDBPIDC_CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticReadDataByPeriodicIDClass.__init__.__doc__ is None
+
+    def test_get_set_max_periodic_did_to_read(self):
+        service_class = DiagnosticReadDataByPeriodicIDClass(_pkg(), "MyRdbpidc")
+        value = PositiveInteger().setValue("42")
+        assert service_class.setMaxPeriodicDidToRead(value) is service_class
+        assert service_class.getMaxPeriodicDidToRead() is value
+        assert service_class.getMaxPeriodicDidToRead().getValue() == 42
+        service_class.setMaxPeriodicDidToRead(None)
+        assert service_class.getMaxPeriodicDidToRead() is value  # None is a no-op
+
+    def test_add_get_periodic_rate(self):
+        service_class = DiagnosticReadDataByPeriodicIDClass(_pkg(), "MyRdbpidc")
+        value = DiagnosticPeriodicRate()
+        assert service_class.addPeriodicRate(value) is service_class
+        assert service_class.getPeriodicRates() == [value]
+        service_class.addPeriodicRate(None)
+        assert service_class.getPeriodicRates() == [value]  # None is a no-op
+
+    def test_get_set_scheduler_max_number(self):
+        service_class = DiagnosticReadDataByPeriodicIDClass(_pkg(), "MyRdbpidc")
+        value = PositiveInteger().setValue("3")
+        assert service_class.setSchedulerMaxNumber(value) is service_class
+        assert service_class.getSchedulerMaxNumber() is value
+        assert service_class.getSchedulerMaxNumber().getValue() == 3
+        service_class.setSchedulerMaxNumber(None)
+        assert service_class.getSchedulerMaxNumber() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.getMaxPeriodicDidToRead.__doc__) == self.MAX_PERIODIC_DID_TO_READ_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.setMaxPeriodicDidToRead.__doc__) == (
+            self.MAX_PERIODIC_DID_TO_READ_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxPeriodicDidToRead."
+        )
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.getPeriodicRates.__doc__) == self.PERIODIC_RATE_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.addPeriodicRate.__doc__) == (self.PERIODIC_RATE_NOTE + "\n\nA None value is a no-op and does not append a periodicRate.")
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.getSchedulerMaxNumber.__doc__) == self.SCHEDULER_MAX_NUMBER_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicIDClass.setSchedulerMaxNumber.__doc__) == (
+            self.SCHEDULER_MAX_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing schedulerMaxNumber."
+        )
+
+    def test_create_diagnostic_read_data_by_periodic_id_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticReadDataByPeriodicIDClass("Rdbpidc1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticReadDataByPeriodicIDClass)
+        assert service_class.getShortName() == "Rdbpidc1"
+        assert package.getElement("Rdbpidc1", DiagnosticReadDataByPeriodicIDClass) is service_class
+
+        duplicate = package.createDiagnosticReadDataByPeriodicIDClass("Rdbpidc1")
         assert duplicate is service_class

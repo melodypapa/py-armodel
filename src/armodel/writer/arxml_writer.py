@@ -282,6 +282,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
@@ -14162,6 +14163,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, read_data_by_periodic_id)
         self.setChildElementOptionalRefType(child_element, "READ-DATA-CLASS-REF", read_data_by_periodic_id.getReadDataClass())
 
+    def writeDiagnosticReadDataByPeriodicIDClass(self, element: ET.Element, read_data_by_periodic_id_class: DiagnosticReadDataByPeriodicIDClass):
+        self.logger.debug("Write DiagnosticReadDataByPeriodicIDClass %s" % read_data_by_periodic_id_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS")
+        self.writeIdentifiable(child_element, read_data_by_periodic_id_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-PERIODIC-DID-TO-READ", read_data_by_periodic_id_class.getMaxPeriodicDidToRead())
+        periodic_rates = read_data_by_periodic_id_class.getPeriodicRates()
+        if len(periodic_rates) > 0:
+            periodic_rates_tag = ET.SubElement(child_element, "PERIODIC-RATES")
+            for periodic_rate in periodic_rates:
+                self.writeDiagnosticPeriodicRate(periodic_rates_tag, periodic_rate)
+        self.setChildElementOptionalPositiveInteger(child_element, "SCHEDULER-MAX-NUMBER", read_data_by_periodic_id_class.getSchedulerMaxNumber())
+
     def writeDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
         self.logger.debug("Write DiagnosticWriteDataByIdentifierClass %s" % write_data_by_identifier_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
@@ -15441,6 +15454,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadDataByIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByPeriodicID):
             self.writeDiagnosticReadDataByPeriodicID(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByPeriodicIDClass):
+            self.writeDiagnosticReadDataByPeriodicIDClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifier):
             self.writeDiagnosticWriteDataByIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifier):

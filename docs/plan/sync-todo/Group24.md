@@ -745,14 +745,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticReadDataByPeriodicIDClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.98, p.130
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): Table 4.98 body matched by Class row (leading caption l.3873); concrete
+      DiagnosticServiceClass; attrs in displayed order maxPeriodicDidToRead (PositiveInteger 0..1 attr,
+      cell-wrap "maxPeriodicDid ToRead" healed), periodicRate (DiagnosticPeriodicRate `*` aggr),
+      schedulerMaxNumber (PositiveInteger 0..1 attr, cell-wrap "schedulerMax Number" healed); XSD group
+      DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS (AUTOSAR_00052.xsd l.41290) — MAX-PERIODIC-DID-TO-READ,
+      PERIODIC-RATES wrapper (choice unbounded DIAGNOSTIC-PERIODIC-RATE), SCHEDULER-MAX-NUMBER; XSD order
+      matches the markdown displayed order. constr_1338/1810-1812 (1..3 rates, existence at DEXT complete)
+      are completeness constraints, not fields.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDataByPeriodicIDClass` factory
+      (alphabetical after createDiagnosticReadDataByPeriodicID) + readARPackageElements
+      DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS branch + writeARPackageElement isinstance branch; the
+      periodicRate aggregation dispatches to the pulled-in read/writeDiagnosticPeriodicRate helpers via the
+      PERIODIC-RATES wrapper.
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticPeriodicRate` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.99, p.131

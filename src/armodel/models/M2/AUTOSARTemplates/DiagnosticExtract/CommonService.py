@@ -2,7 +2,12 @@ from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticComControlSpecificChannel, DiagnosticComControlSubNodeChannel
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    DiagnosticComControlSpecificChannel,
+    DiagnosticComControlSubNodeChannel,
+    DiagnosticPeriodicRate,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
@@ -433,7 +438,78 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
 
 
 class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Read Data by periodic Identifier" diagnostic service."""
+
+    # DiagnosticReadDataByPeriodicIDClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.98, p.130
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxPeriodicDidToRead        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPeriodicDidToRead        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPeriodicRate                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriodicRates               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSchedulerMaxNumber          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSchedulerMaxNumber          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the maximum number of data identifiers that can be included in one request.
+        self.maxPeriodicDidToRead: Optional[PositiveInteger] = None
+
+        # This represents the description of a collection of periodic rates in which the service can be executed.
+        self.periodicRate: List[DiagnosticPeriodicRate] = []
+
+        # This represents the maximum number of periodic data identifiers that can be scheduled in parallel.
+        self.schedulerMaxNumber: Optional[PositiveInteger] = None
+
+    def getMaxPeriodicDidToRead(self) -> Optional[PositiveInteger]:
+        """
+        This represents the maximum number of data identifiers that can be included in one request.
+        """
+        return self.maxPeriodicDidToRead
+
+    def setMaxPeriodicDidToRead(self, value: Optional[PositiveInteger]) -> "DiagnosticReadDataByPeriodicIDClass":
+        """
+        This represents the maximum number of data identifiers that can be included in one request.
+
+        A None value is a no-op and does not overwrite an existing maxPeriodicDidToRead.
+        """
+        if value is not None:
+            self.maxPeriodicDidToRead = value
+        return self
+
+    def addPeriodicRate(self, value: Optional[DiagnosticPeriodicRate]) -> "DiagnosticReadDataByPeriodicIDClass":
+        """
+        This represents the description of a collection of periodic rates in which the service can be executed.
+
+        A None value is a no-op and does not append a periodicRate.
+        """
+        if value is not None:
+            self.periodicRate.append(value)
+        return self
+
+    def getPeriodicRates(self) -> List[DiagnosticPeriodicRate]:
+        """
+        This represents the description of a collection of periodic rates in which the service can be executed.
+        """
+        return self.periodicRate
+
+    def getSchedulerMaxNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the maximum number of periodic data identifiers that can be scheduled in parallel.
+        """
+        return self.schedulerMaxNumber
+
+    def setSchedulerMaxNumber(self, value: Optional[PositiveInteger]) -> "DiagnosticReadDataByPeriodicIDClass":
+        """
+        This represents the maximum number of periodic data identifiers that can be scheduled in parallel.
+
+        A None value is a no-op and does not overwrite an existing schedulerMaxNumber.
+        """
+        if value is not None:
+            self.schedulerMaxNumber = value
+        return self
 
 
 class DiagnosticReadMemoryByAddressClass(DiagnosticServiceClass):

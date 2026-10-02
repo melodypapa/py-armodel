@@ -1946,6 +1946,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(read_data_by_periodic_id)
         return self.getElement(short_name, DiagnosticReadDataByPeriodicID)
 
+    def createDiagnosticReadDataByPeriodicIDClass(self, short_name: str) -> DiagnosticReadDataByPeriodicIDClass:
+        """
+        Creates a new DiagnosticReadDataByPeriodicIDClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDataByPeriodicIDClass contains attributes shared by all
+        instances of the "Read Data by periodic Identifier" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDataByPeriodicIDClass
+
+        Returns:
+            The newly created or existing DiagnosticReadDataByPeriodicIDClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDataByPeriodicIDClass):
+            read_data_by_periodic_id_class = DiagnosticReadDataByPeriodicIDClass(self, short_name)
+            self.addElement(read_data_by_periodic_id_class)
+        return self.getElement(short_name, DiagnosticReadDataByPeriodicIDClass)
+
     def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
         """
         Creates a new DiagnosticReadScalingDataByIdentifier with the given short name,
@@ -2970,6 +2989,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByPeriodicIDClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadScalingDataByIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRoutineControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteDataByIdentifierClass  # noqa: E402

@@ -388,6 +388,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
@@ -10838,6 +10839,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, read_data_by_periodic_id)
         read_data_by_periodic_id.setReadDataClass(self.getChildElementOptionalRefType(element, "READ-DATA-CLASS-REF"))
 
+    def readDiagnosticReadDataByPeriodicIDClass(self, element: ET.Element, read_data_by_periodic_id_class: DiagnosticReadDataByPeriodicIDClass):
+        self.logger.debug("Read DiagnosticReadDataByPeriodicIDClass <%s>" % read_data_by_periodic_id_class.getShortName())
+        self.readIdentifiable(element, read_data_by_periodic_id_class)
+        read_data_by_periodic_id_class.setMaxPeriodicDidToRead(self.getChildElementOptionalPositiveInteger(element, "MAX-PERIODIC-DID-TO-READ"))
+        for child_element in self.findall(element, "PERIODIC-RATES/DIAGNOSTIC-PERIODIC-RATE"):
+            rate = DiagnosticPeriodicRate()
+            self.readDiagnosticPeriodicRate(child_element, rate)
+            read_data_by_periodic_id_class.addPeriodicRate(rate)
+        read_data_by_periodic_id_class.setSchedulerMaxNumber(self.getChildElementOptionalPositiveInteger(element, "SCHEDULER-MAX-NUMBER"))
+
     def readDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
         self.logger.debug("Read DiagnosticWriteDataByIdentifierClass <%s>" % write_data_by_identifier_class.getShortName())
         self.readIdentifiable(element, write_data_by_identifier_class)
@@ -15787,6 +15798,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID":
                 read_data_by_periodic_id = parent.createDiagnosticReadDataByPeriodicID(self.getShortName(child_element))
                 self.readDiagnosticReadDataByPeriodicID(child_element, read_data_by_periodic_id)
+            elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS":
+                read_data_by_periodic_id_class = parent.createDiagnosticReadDataByPeriodicIDClass(self.getShortName(child_element))
+                self.readDiagnosticReadDataByPeriodicIDClass(child_element, read_data_by_periodic_id_class)
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
                 write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
