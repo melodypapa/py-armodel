@@ -787,7 +787,10 @@ class DiagnosticAudienceEnum(AREnum):
 
     # DiagnosticAudienceEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.17, p.754
-    # (no methods)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DiagnosticCapabilityElement.audience (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The object is for free aftermarket service organizations. Tags: atp.EnumerationLiteralIndex=1
     AFTER_MARKET = "aftermarket"

@@ -28,9 +28,23 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
+  - note (Step 7): corrected 2026-10-02 at 9a — the set-based checklist↔methods gate
+    failed (no `# [x] __init__` row ⇒ checklist { } vs methods {__init__}); checklist
+    upgraded to the stamped-AREnum 6-col shape (Columns line + `(no methods) — enum
+    value form serialized on DiagnosticCapabilityElement.audience` + `__init__` row).
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — literal values match spec; existing tests pin values/order
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12331 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 9): 9a passed 2026-10-02 (16300 passed; flake8+ruff clean; black-check clean
+    after the repo-wide reformat `eeeea5768`; member-annotation gate clean; set-based script
+    clean after the Step 7 fix). ONE pre-existing HEAD failure outside this class:
+    `test_roundtrip_all_files` (8 `custom_files/*_SystemMapping.arxml` fail the byte-level
+    file compare only — model compare passes; reproduced at clean HEAD with this class's
+    change stashed) — recorded, not fixed (user arbitration: black fixed, SystemMapping left).
+    9b confirmed 2026-10-02 (user) — verbatim class Note + all 5 literal comments diffed
+    True, markdown displayed order, XSD `AFTERMAKET` (atp.Status=removed) correctly omitted,
+    enum value form rw covered both directions on DiagnosticCapabilityElement.audience →
+    stamped `# Spec verified: R23-11`.
 - [ ] `DiagnosticClearDtcNotificationEnum` — AREnum — R23-11 markdown · Table 13.33 (CP_TPS_SoftwareComponentTemplate), p.776
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note (Step 1): Note = "This enumeration supports the specification of the time when the ClearDtcNotification callback is supposed to be executed." Literals: start(0), finish(1). src was an EMPTY stub (super().__init__([]), fabricated docstring) — literals added; empty-pinning test updated to spec.
