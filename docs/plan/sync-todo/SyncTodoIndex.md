@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **19/24** completed
+Status: **20/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -714,7 +714,7 @@ Status: **19/24** completed
 | `TransmissionModeCondition`   | [x] Done     | 7a7ff3c5af |
 | `TriggerIPduSendCondition`    | [x] Done     | d2dbe59bf6 |
 | `CyclicTiming`                | [x] Done     | 7aa197e046 |
-| `EventControlledTiming`       | [ ] Pending* | dcbc6abdb3 |
+| `EventControlledTiming`       | [x] Done     | dcbc6abdb3 |
 | `FlexrayChannelName`          | [ ] Pending* | 7c137656f6 |
 | `PncGatewayTypeEnum`          | [ ] Pending* | 7c137656f6 |
 | `TransmissionModeTiming`      | [ ] Pending* | dcbc6abdb3 |

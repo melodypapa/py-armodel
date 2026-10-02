@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 740 | 38.9% |
+| [x] Done | 741 | 38.9% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 290 | 15.2% |
+| [ ] Deferred | 289 | 15.2% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 432 | 22.7% |
 | [ ] Pending | 0 | 0.0% |
@@ -890,7 +890,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthernetWakeupSleepOnDatalineConfigSet`                | [ ] Created | N/A                                      | Group30          |
 | `EvaluatedVariantSet`                                   | [ ] Deferred| N/A                                      | Group21          |
 | `EventAcceptanceStatusEnum`                             | [ ] Implemented| N/A                                      | Group29          |
-| `EventControlledTiming`                                 | [ ] Deferred| dcbc6abdb3                               | Group15          |
+| `EventControlledTiming`                                 | [x] Done    | dcbc6abdb3                               | Group15          |
 | `EventGroupControlTypeEnum`                             | [ ] Implemented| N/A                                      | Group32          |
 | `EventHandler`                                          | [ ] Implemented| N/A                                      | Group32          |
 | `EventObdReadinessGroup`                                | [ ] Created | N/A                                      | Group25          |

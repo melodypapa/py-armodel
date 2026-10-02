@@ -268,7 +268,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see below
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — 9b user-confirmed 2026-10-02; `# Spec verified: R23-11`/`# XSD verified: AUTOSAR_00052.xsd` written in source (re-verified 2026-10-02: 9a re-run green)
 
-- [ ] `EventControlledTiming` — Describable — R23-11 markdown · Table 6.66 (CP_TPS_SystemTemplate), p.397 — commit dcbc6abdb
+- [x] `EventControlledTiming` — Describable — R23-11 markdown · Table 6.66 (CP_TPS_SystemTemplate), p.397 — commit dcbc6abdb
   - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — note kept "a event driven" per table verbatim
   - [x] Step 1 — Sync members & description from spec
@@ -279,8 +279,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see below
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (1137 Fibex tests passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note ('a event driven' kept per table) verbatim, Base = Describable, numberOfRepetitions/repetitionPeriod 0..1 Optional with Notes verbatim, Spec page corrected p.409→p.397 per pdf_page; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 - [ ] `FlexrayChannelName` — AREnum — R23-11 markdown · Table 3.35 (CP_TPS_SystemTemplate), p.89 — commit 7c137656f
   - commit: 7c137656f (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — literal renamed channel_B → CHANNEL_B (case fix, no external usages)
