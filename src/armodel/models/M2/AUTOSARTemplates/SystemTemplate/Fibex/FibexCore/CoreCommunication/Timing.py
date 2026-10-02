@@ -48,7 +48,8 @@ class TransmissionModeCondition(ARObject):
     """
 
     # TransmissionModeCondition method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.60, p.393 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.60, p.392 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataFilter          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -171,7 +172,7 @@ class CyclicTiming(Describable):
     """
 
     # CyclicTiming method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.65, p.408 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.65, p.396 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTimeOffset          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -225,7 +226,7 @@ class EventControlledTiming(Describable):
     """
 
     # EventControlledTiming method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.66, p.409 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.66, p.397 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNumberOfRepetitions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -279,7 +280,7 @@ class TransmissionModeTiming(ARObject):
     """
 
     # TransmissionModeTiming method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.62, p.394 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.62, p.393 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCyclicTiming        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
