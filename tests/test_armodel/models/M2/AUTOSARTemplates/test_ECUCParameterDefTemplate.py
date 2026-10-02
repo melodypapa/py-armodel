@@ -157,8 +157,48 @@ class TestEcucFloatParamDef:
 
 
 class TestEcucChoiceContainerDef:
+    """
+    Test class for EcucChoiceContainerDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.5, p.41
+    """
+
+    CLASS_NOTE = "Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Values only one instance from the choice list will be present."
+
+    def _make_obj(self) -> EcucChoiceContainerDef:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return EcucChoiceContainerDef(ar_root, "TestChoiceContainer")
+
     def test_instantiation(self):
         assert _instantiate(EcucChoiceContainerDef, "EcucChoiceContainerDef").getShortName() == "EcucChoiceContainerDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucChoiceContainerDef.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucChoiceContainerDef.__init__.__doc__ is None
+
+    def test_create_factories_append_to_choices(self):
+        """
+        Test that the create factory appends to the choices typed list.
+        """
+        obj = self._make_obj()
+
+        choice1 = obj.createEcucParamConfContainerDef("Choice1")
+        assert isinstance(choice1, EcucParamConfContainerDef)
+        choice2 = obj.createEcucParamConfContainerDef("Choice2")
+        assert obj.getChoices() == [choice1, choice2]
+
+        duplicate = obj.createEcucParamConfContainerDef("Choice1")
+        assert duplicate is choice1  # duplicate short name returns the existing element
+        assert len(obj.getChoices()) == 2  # duplicate does not append
 
 
 class TestEcucParamConfContainerDef:
