@@ -314,6 +314,16 @@ No deviations — all three Table 12.34 attributes (`timeBasedFdcThresholdStorag
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
+## `DiagnosticEventInfoNeeds`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf` (R23-11)  | **page:** 761  | **table:** Table 13.23
+- **Legacy corpus:** `AUTOSAR_TPS_SoftwareComponentTemplate.pdf` (R4.3.1)  | **page:** 767  | **table:** Table 13.22
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `dtcKind` | `Optional[DtcKindEnum]` | `dtcKind` | `DtcKindEnum` | attr | **accepted legacy** — `dtcKind` is documented in R4.3.1 Table 13.22 (p.767) but removed from the R23-11 Table 13.23; modeled as optional member with full reader/writer coverage (DTC-KIND, DtcKindEnum tokens), per Rule 0019 combine-case pattern |
+
 ## `DiagnosticUploadDownloadNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
