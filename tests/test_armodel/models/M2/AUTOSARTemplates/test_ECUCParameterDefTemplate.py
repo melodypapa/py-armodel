@@ -565,13 +565,61 @@ class TestEcucConfigurationVariantEnum:
 
 
 class TestEcucMultiplicityConfigurationClass:
+    """
+    Test class for EcucMultiplicityConfigurationClass functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.11, p.52
+    """
+
+    CLASS_NOTE = "Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."
+
     def test_instantiation(self):
         assert isinstance(EcucMultiplicityConfigurationClass(), EcucMultiplicityConfigurationClass)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucMultiplicityConfigurationClass.__doc__) == self.CLASS_NOTE
+
+    def test_inherits_abstract_accessors(self):
+        """
+        Test that the concrete class exposes the inherited configClass/configVariant accessors.
+        """
+        obj = EcucMultiplicityConfigurationClass()
+        value = EcucConfigurationVariantEnum()
+        value.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        obj.setConfigVariant(value)
+        assert obj.getConfigVariant() is value
+
 
 class TestEcucValueConfigurationClass:
+    """
+    Test class for EcucValueConfigurationClass functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.10, p.52
+    """
+
+    CLASS_NOTE = "Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef."
+
     def test_instantiation(self):
         assert isinstance(EcucValueConfigurationClass(), EcucValueConfigurationClass)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucValueConfigurationClass.__doc__) == self.CLASS_NOTE
+
+    def test_inherits_abstract_accessors(self):
+        """
+        Test that the concrete class exposes the inherited configClass/configVariant accessors.
+        """
+        obj = EcucValueConfigurationClass()
+        value = EcucConfigurationClassEnum()
+        value.setValue(EcucConfigurationClassEnum.POST_BUILD)
+        obj.setConfigClass(value)
+        assert obj.getConfigClass() is value
 
 
 class TestEcucDerivationSpecification:
