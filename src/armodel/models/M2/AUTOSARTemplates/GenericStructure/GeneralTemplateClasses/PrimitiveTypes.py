@@ -1692,7 +1692,33 @@ class DiagnosticDebounceBehaviorEnum(AREnum):
     pass
 
 class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
-    pass
+    """
+    This meta-class contains a list of possible subfunctions for the UDS service 0x2C.
+    """
+
+    # DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.96, p.129
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Clear the specified dynamic data identifier. Tags: atp.EnumerationLiteralIndex=0
+    CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER = "clearDynamicallyDefineDataIdentifier"
+
+    # The definition of dynamic data identifier shall be done via a reference to a diagnostic data identifier. Tags: atp.EnumerationLiteralIndex=1
+    DEFINE_BY_IDENTIFIER = "defineByIdentifier"
+
+    # The definition of dynamic data identifier shall be done via a reference to a memory address. Tags: atp.EnumerationLiteralIndex=2
+    DEFINE_BY_MEMORY_ADDRESS = "defineByMemoryAddress"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER,
+                DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER,
+                DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_MEMORY_ADDRESS,
+            ]
+        )
 
 class DiagnosticEventClearAllowedEnum(AREnum):
     pass
@@ -1750,10 +1776,54 @@ class DiagnosticEventKindEnum(AREnum):
     pass
 
 class DiagnosticEventWindowTimeEnum(AREnum):
-    pass
+    """
+    This represents the ability to define the semantics of the event window.
+    """
+
+    # DiagnosticEventWindowTimeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.104, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This value specifies that the event window shall stay active for an infinite amount of time (e.g. open window until power off). Tags: atp.EnumerationLiteralIndex=3
+    INFINITE_TIME_TO_RESPONSE = "infiniteTimeToResponse"
+
+    # This enumeration value specifies that the server shall send response on event messages until the server is powered down. The server stops sending response on event messages with the power down and will send no more response on event messages after server is up again. Tags: atp.EnumerationLiteralIndex=4
+    POWER_WINDOW_TIME = "powerWindowTime"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE,
+                DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME,
+            ]
+        )
 
 class DiagnosticHandleDDDIConfigurationEnum(AREnum):
-    pass
+    """
+    This meta-class represents the options for controlling how the configuration of the DynamicallyDefineDataIdentifiers is done in the given context.
+    """
+
+    # DiagnosticHandleDDDIConfigurationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.95, p.128
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This indicates that the configuration of DynamicallyDefineDataIdentifier shall be stored as non-volatile data. Tags: atp.EnumerationLiteralIndex=0
+    NON_VOLATILE = "nonVolatile"
+
+    # This indicates that the configuration of DynamicallyDefineDataIdentifier shall be handled as volatile data. Tags: atp.EnumerationLiteralIndex=1
+    VOLATILE = "volatile"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE,
+                DiagnosticHandleDDDIConfigurationEnum.VOLATILE,
+            ]
+        )
 
 class DiagnosticInhibitionMaskEnum(AREnum):
     """
@@ -1826,13 +1896,89 @@ class DiagnosticOperationCycleTypeEnum(AREnum):
     pass
 
 class DiagnosticPeriodicRateCategoryEnum(AREnum):
-    pass
+    """
+    This meta-class provides possible values for the setting of the periodic rate.
+    """
+
+    # DiagnosticPeriodicRateCategoryEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.100, p.131
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This value represents a fast periodic rate. Tags: atp.EnumerationLiteralIndex=0
+    PERIODIC_RATE_FAST = "periodicRateFast"
+
+    # This value represents a medium periodic rate. Tags: atp.EnumerationLiteralIndex=1
+    PERIODIC_RATE_MEDIUM = "periodicRateMedium"
+
+    # This value represents a slow periodic rate. Tags: atp.EnumerationLiteralIndex=2
+    PERIODIC_RATE_SLOW = "periodicRateSlow"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST,
+                DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM,
+                DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW,
+            ]
+        )
 
 class DiagnosticRecordTriggerEnum(AREnum):
     pass
 
 class DiagnosticResponseOnEventActionEnum(AREnum):
-    pass
+    """
+    This meta-class has the ability to define sub-functions of the UDS service ResponseOnEvent.
+    """
+
+    # DiagnosticResponseOnEventActionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.105, p.134
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Clears the configured events. Tags: atp.EnumerationLiteralIndex=2
+    CLEAR = "clear"
+
+    # Reports based on change of data identifier. Tags: atp.EnumerationLiteralIndex=6
+    ON_CHANGE_OF_DATA_IDENTIFIER = "onChangeOfDataIdentifier"
+
+    # Triggered if data condition is met (e.g. RPM over 5000 1/min). Tags: atp.EnumerationLiteralIndex=8
+    ON_COMPARISON_OF_VALUES = "onComparisonOfValues"
+
+    # Reports based on change of DTC status. Tags: atp.EnumerationLiteralIndex=7
+    ON_DTC_STATUS_CHANGE = "onDTCStatusChange"
+
+    # Reports the activated events. Tags: atp.EnumerationLiteralIndex=3
+    REPORT = "report"
+
+    # Reports the DTC record-related information based on a DTC status change. (Subfunction 0x09) Tags: atp.EnumerationLiteralIndex=5
+    REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE = "reportDTCRecordInformationOnDtcStatusChange"
+
+    # Triggers the report of the most recent failed or confirmed DTC (Subfunction 0x08). Tags: atp.EnumerationLiteralIndex=4
+    REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE = "reportMostRecentDtcOnStatusChange"
+
+    # Starts the response on event service. Tags: atp.EnumerationLiteralIndex=1
+    START = "start"
+
+    # Stops the response on event service. Tags: atp.EnumerationLiteralIndex=0
+    STOP = "stop"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticResponseOnEventActionEnum.CLEAR,
+                DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER,
+                DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES,
+                DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE,
+                DiagnosticResponseOnEventActionEnum.REPORT,
+                DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE,
+                DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE,
+                DiagnosticResponseOnEventActionEnum.START,
+                DiagnosticResponseOnEventActionEnum.STOP,
+            ]
+        )
 
 class DiagnosticResponseToEcuResetEnum(AREnum):
     """

@@ -10,7 +10,13 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps, DiagnosticParameter, DiagnosticSupportInfoByte
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    DiagnosticCommonProps,
+    DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
+    DiagnosticParameter,
+    DiagnosticSupportInfoByte,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
@@ -24,12 +30,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthRole,
     DiagnosticAuthTransmitCertificate,
     DiagnosticAuthTransmitCertificateMapping,
+    DiagnosticClearDiagnosticInformation,
     DiagnosticComControl,
     DiagnosticContributionSet,
+    DiagnosticControlDTCSetting,
     DiagnosticCustomServiceInstance,
+    DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDemProvidedDataMapping,
+    DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticEnableConditionPortMapping,
@@ -47,6 +57,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimEventGroup,
     DiagnosticFimFunctionMapping,
     DiagnosticInhibitSourceEventMapping,
+    DiagnosticIOControl,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -56,10 +67,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939SwMapping,
     DiagnosticMapping,
     DiagnosticMasterToSlaveEventMapping,
+    DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryByAddress,
     DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
+    DiagnosticReadDataByIdentifier,
+    DiagnosticReadDataByPeriodicID,
+    DiagnosticReadDTCInformation,
+    DiagnosticReadScalingDataByIdentifier,
+    DiagnosticResponseOnEvent,
+    DiagnosticRoutine,
+    DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSecurityEventReportingModeMapping,
     DiagnosticServiceDataMapping,
@@ -68,19 +88,28 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
+    DiagnosticTransferExit,
     DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
+    DiagnosticWriteDataByIdentifier,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
     ReferenceBase,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    DiagnosticAuthTransmitCertificateEvaluation,
+    DiagnosticRequestRoutineResults,
+    DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
+    Identifiable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
+    DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
     NameToken,
@@ -5780,3 +5809,1530 @@ class TestDiagnosticServiceSwMapping:
 
         duplicate = package.createDiagnosticServiceSwMapping("Mapping1")
         assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticControlDTCSetting:
+    """
+    Test class for DiagnosticControlDTCSetting functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.68, p.111
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Control DTC Setting" diagnostic service.'
+    DTC_SETTING_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. "
+        "Thereby, the reference represents the ability to access shared attributes among all DiagnosticControlDTCSetting in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticControlDTCSetting:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticControlDTCSetting(ar_root, "TestControlDTCSetting")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticControlDTCSetting instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestControlDTCSetting"
+        assert obj.getDtcSettingClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticControlDTCSetting.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticControlDTCSetting.__init__.__doc__ is None
+
+    def test_get_set_dtc_setting_class(self):
+        """
+        Round-trips the dtcSettingClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticControlDtcSettings/ControlDTCSettingClass")
+        result = obj.setDtcSettingClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getDtcSettingClass() is ref
+        assert obj.getDtcSettingClass().getValue() == "/AUTOSAR/DiagnosticControlDtcSettings/ControlDTCSettingClass"
+        assert obj.getDtcSettingClass().getDest() == "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS"
+
+        result = obj.setDtcSettingClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcSettingClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticControlDTCSetting.getDtcSettingClass.__doc__) == self.DTC_SETTING_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticControlDTCSetting.setDtcSettingClass.__doc__) == (
+            self.DTC_SETTING_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcSettingClass."
+        )
+
+    def test_create_diagnostic_control_dtc_setting(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticControlDtcSettings")
+        control_dtc_setting = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
+
+        assert control_dtc_setting is not None
+        assert isinstance(control_dtc_setting, DiagnosticControlDTCSetting)
+        assert control_dtc_setting.getShortName() == "ControlDTCSetting1"
+        assert package.getElement("ControlDTCSetting1", DiagnosticControlDTCSetting) is control_dtc_setting
+
+        duplicate = package.createDiagnosticControlDTCSetting("ControlDTCSetting1")
+        assert duplicate is control_dtc_setting
+
+
+
+class TestDiagnosticDataByIdentifier:
+    """
+    Test class for DiagnosticDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.73, p.113
+    (abstract base; exercised through the concrete subclass DiagnosticReadDataByIdentifier)
+    """
+
+    CLASS_NOTE = "This represents an abstract base class for all diagnostic services that access data by identifier."
+    DATA_IDENTIFIER_NOTE = "This represents the linked DiagnosticDataIdentifier."
+
+    def _make_obj(self) -> DiagnosticReadDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDataByIdentifier(ar_root, "TestReadDataByIdentifier")
+
+    def test_initialization(self):
+        """
+        Test that the abstract DiagnosticDataByIdentifier is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticDataByIdentifier cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticDataByIdentifier(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_data_identifier(self):
+        """
+        Round-trips the dataIdentifier ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID")
+        result = obj.setDataIdentifier(ref)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifier() is ref
+        assert obj.getDataIdentifier().getValue() == "/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID"
+        assert obj.getDataIdentifier().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER"
+
+        result = obj.setDataIdentifier(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataIdentifier() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticDataByIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticDataByIdentifier.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")
+
+
+
+class TestDiagnosticReadDataByIdentifier:
+    """
+    Test class for DiagnosticReadDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.70, p.112
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Data by Identifier" diagnostic service.'
+    READ_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByIdentifier in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDataByIdentifier(ar_root, "TestReadDataByIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadDataByIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getReadClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_read_class(self):
+        """
+        Round-trips the readClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticReadDataByIdentifierClasses/ReadClass")
+        result = obj.setReadClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadClass() is ref
+        assert obj.getReadClass().getValue() == "/AUTOSAR/DiagnosticReadDataByIdentifierClasses/ReadClass"
+        assert obj.getReadClass().getDest() == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS"
+
+        result = obj.setReadClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifier.getReadClass.__doc__) == self.READ_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByIdentifier.setReadClass.__doc__) == (self.READ_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readClass.")
+
+    def test_create_diagnostic_read_data_by_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDataByIdentifiers")
+        read_did = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
+
+        assert read_did is not None
+        assert isinstance(read_did, DiagnosticReadDataByIdentifier)
+        assert read_did.getShortName() == "ReadDataByIdentifier1"
+        assert package.getElement("ReadDataByIdentifier1", DiagnosticReadDataByIdentifier) is read_did
+
+        duplicate = package.createDiagnosticReadDataByIdentifier("ReadDataByIdentifier1")
+        assert duplicate is read_did  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticWriteDataByIdentifier:
+    """
+    Test class for DiagnosticWriteDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.71, p.113
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Write Data by Identifier" diagnostic service.'
+    WRITE_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticWriteDataByIdentifier in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticWriteDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticWriteDataByIdentifier(ar_root, "TestWriteDataByIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticWriteDataByIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestWriteDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getWriteClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticWriteDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticWriteDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_write_class(self):
+        """
+        Round-trips the writeClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticWriteDataByIdentifierClasses/WriteClass")
+        result = obj.setWriteClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getWriteClass() is ref
+        assert obj.getWriteClass().getValue() == "/AUTOSAR/DiagnosticWriteDataByIdentifierClasses/WriteClass"
+        assert obj.getWriteClass().getDest() == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS"
+
+        result = obj.setWriteClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getWriteClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticWriteDataByIdentifier.getWriteClass.__doc__) == self.WRITE_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticWriteDataByIdentifier.setWriteClass.__doc__) == (self.WRITE_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing writeClass.")
+
+    def test_create_diagnostic_write_data_by_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticWriteDataByIdentifiers")
+        write_did = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
+
+        assert write_did is not None
+        assert isinstance(write_did, DiagnosticWriteDataByIdentifier)
+        assert write_did.getShortName() == "WriteDataByIdentifier1"
+        assert package.getElement("WriteDataByIdentifier1", DiagnosticWriteDataByIdentifier) is write_did
+
+        duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
+        assert duplicate is write_did  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticReadScalingDataByIdentifier:
+    """
+    Test class for DiagnosticReadScalingDataByIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.78, p.116
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Scaling Data by Identifier" diagnostic service.'
+    READ_SCALING_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadScalingDataByIdentifier in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadScalingDataByIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadScalingDataByIdentifier(ar_root, "TestReadScalingDataByIdentifier")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadScalingDataByIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadScalingDataByIdentifier"
+        assert isinstance(obj, DiagnosticDataByIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getReadScalingDataClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadScalingDataByIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadScalingDataByIdentifier.__init__.__doc__ is None
+
+    def test_get_set_read_scaling_data_class(self):
+        """
+        Round-trips the readScalingDataClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticReadScalingDataByIdentifierClasses/ReadScalingClass")
+        result = obj.setReadScalingDataClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadScalingDataClass() is ref
+        assert obj.getReadScalingDataClass().getValue() == "/AUTOSAR/DiagnosticReadScalingDataByIdentifierClasses/ReadScalingClass"
+        assert obj.getReadScalingDataClass().getDest() == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS"
+
+        result = obj.setReadScalingDataClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadScalingDataClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadScalingDataByIdentifier.getReadScalingDataClass.__doc__) == self.READ_SCALING_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadScalingDataByIdentifier.setReadScalingDataClass.__doc__) == (
+            self.READ_SCALING_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readScalingDataClass."
+        )
+
+    def test_create_diagnostic_read_scaling_data_by_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadScalingDataByIdentifiers")
+        read_scaling = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
+
+        assert read_scaling is not None
+        assert isinstance(read_scaling, DiagnosticReadScalingDataByIdentifier)
+        assert read_scaling.getShortName() == "ReadScalingDataByIdentifier1"
+        assert package.getElement("ReadScalingDataByIdentifier1", DiagnosticReadScalingDataByIdentifier) is read_scaling
+
+        duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
+        assert duplicate is read_scaling  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticIOControl:
+    """
+    Test class for DiagnosticIOControl functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.80, p.118
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "I/O Control" diagnostic service.'
+    CONTROL_ENABLE_MASK_BIT_NOTE = "This aggregation represents the control mask record consisting of single bits."
+    DATA_IDENTIFIER_NOTE = "This represents the corresponding DiagnosticData Identifier"
+    FREEZE_CURRENT_STATE_NOTE = "Setting this attribute to true represents the ability of the Dcm to execute a freezeCurrentState."
+    IO_CONTROL_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticIOControl in the given context."
+    )
+    RESET_TO_DEFAULT_NOTE = "Setting this attribute to true represents the ability of the Dcm to execute a resetToDefault."
+    SHORT_TERM_ADJUSTMENT_NOTE = "Setting this attribute to true represents the ability of the Dcm to execute a shortTermAdjustment."
+
+    def _make_obj(self) -> DiagnosticIOControl:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticIOControl(ar_root, "TestIOControl")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticIOControl instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestIOControl"
+        assert isinstance(obj, ARElement)
+        assert obj.getControlEnableMaskBits() == []
+        assert obj.getDataIdentifier() is None
+        assert obj.getFreezeCurrentState() is None
+        assert obj.getIoControlClass() is None
+        assert obj.getResetToDefault() is None
+        assert obj.getShortTermAdjustment() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticIOControl.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIOControl.__init__.__doc__ is None
+
+    def test_add_control_enable_mask_bit(self):
+        """
+        Test addControlEnableMaskBit append and None no-op.
+        """
+        obj = self._make_obj()
+
+        mask_bit = DiagnosticControlEnableMaskBit()
+        result = obj.addControlEnableMaskBit(mask_bit)
+        assert result is obj  # method chaining
+        assert obj.getControlEnableMaskBits() == [mask_bit]
+
+        result = obj.addControlEnableMaskBit(None)
+        assert result is obj  # method chaining with None
+        assert obj.getControlEnableMaskBits() == [mask_bit]  # None is a no-op
+
+    def test_get_set_data_identifier(self):
+        """
+        Round-trips the dataIdentifier ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-DATA-IDENTIFIER", "/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID")
+        result = obj.setDataIdentifier(ref)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifier() is ref
+        assert obj.getDataIdentifier().getValue() == "/AUTOSAR/DiagnosticDataIdentifiers/VIN_DID"
+        assert obj.getDataIdentifier().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER"
+
+        result = obj.setDataIdentifier(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataIdentifier() is ref  # None is a no-op
+
+    def test_get_set_freeze_current_state(self):
+        """
+        Round-trips the freezeCurrentState boolean; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue("true")
+        result = obj.setFreezeCurrentState(value)
+        assert result is obj  # method chaining
+        assert obj.getFreezeCurrentState() is value
+        assert obj.getFreezeCurrentState().getValue() is True
+
+        result = obj.setFreezeCurrentState(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFreezeCurrentState() is value  # None is a no-op
+
+    def test_get_set_io_control_class(self):
+        """
+        Round-trips the ioControlClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-IO-CONTROL-CLASS", "/AUTOSAR/DiagnosticIoControlClasses/IoControlClass")
+        result = obj.setIoControlClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getIoControlClass() is ref
+        assert obj.getIoControlClass().getValue() == "/AUTOSAR/DiagnosticIoControlClasses/IoControlClass"
+        assert obj.getIoControlClass().getDest() == "DIAGNOSTIC-IO-CONTROL-CLASS"
+
+        result = obj.setIoControlClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIoControlClass() is ref  # None is a no-op
+
+    def test_get_set_reset_to_default(self):
+        """
+        Round-trips the resetToDefault boolean; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue("true")
+        result = obj.setResetToDefault(value)
+        assert result is obj  # method chaining
+        assert obj.getResetToDefault() is value
+        assert obj.getResetToDefault().getValue() is True
+
+        result = obj.setResetToDefault(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResetToDefault() is value  # None is a no-op
+
+    def test_get_set_short_term_adjustment(self):
+        """
+        Round-trips the shortTermAdjustment boolean; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean()
+        value.setValue("true")
+        result = obj.setShortTermAdjustment(value)
+        assert result is obj  # method chaining
+        assert obj.getShortTermAdjustment() is value
+        assert obj.getShortTermAdjustment().getValue() is True
+
+        result = obj.setShortTermAdjustment(None)
+        assert result is obj  # method chaining with None
+        assert obj.getShortTermAdjustment() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticIOControl.getControlEnableMaskBits.__doc__) == self.CONTROL_ENABLE_MASK_BIT_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.addControlEnableMaskBit.__doc__) == (self.CONTROL_ENABLE_MASK_BIT_NOTE + "\n\nA None value is a no-op and does not append a controlEnableMaskBit.")
+        assert inspect.cleandoc(DiagnosticIOControl.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")
+        assert inspect.cleandoc(DiagnosticIOControl.getFreezeCurrentState.__doc__) == self.FREEZE_CURRENT_STATE_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setFreezeCurrentState.__doc__) == (
+            self.FREEZE_CURRENT_STATE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing freezeCurrentState."
+        )
+        assert inspect.cleandoc(DiagnosticIOControl.getIoControlClass.__doc__) == self.IO_CONTROL_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setIoControlClass.__doc__) == (self.IO_CONTROL_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ioControlClass.")
+        assert inspect.cleandoc(DiagnosticIOControl.getResetToDefault.__doc__) == self.RESET_TO_DEFAULT_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setResetToDefault.__doc__) == (self.RESET_TO_DEFAULT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing resetToDefault.")
+        assert inspect.cleandoc(DiagnosticIOControl.getShortTermAdjustment.__doc__) == self.SHORT_TERM_ADJUSTMENT_NOTE
+        assert inspect.cleandoc(DiagnosticIOControl.setShortTermAdjustment.__doc__) == (
+            self.SHORT_TERM_ADJUSTMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing shortTermAdjustment."
+        )
+
+    def test_create_diagnostic_io_control(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticIoControls")
+        io_control = package.createDiagnosticIOControl("IOControl1")
+
+        assert io_control is not None
+        assert isinstance(io_control, DiagnosticIOControl)
+        assert io_control.getShortName() == "IOControl1"
+        assert package.getElement("IOControl1", DiagnosticIOControl) is io_control
+
+        duplicate = package.createDiagnosticIOControl("IOControl1")
+        assert duplicate is io_control  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticRoutine:
+    """
+    Test class for DiagnosticRoutine functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.85, p.124
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define a diagnostic routine."
+    ID_NOTE = "This is the numerical identifier used to identify the DiagnosticRoutine in the scope of diagnostic workflow"
+    REQUEST_RESULT_NOTE = "This represents the ability to request the result of a running routine."
+    ROUTINE_INFO_NOTE = (
+        "This represents the routine info byte. The info byte contains a manufacturer-specific value"
+        " (for the identification of record identifiers) that is reported to the tester."
+        " Other use cases for this attribute are mentioned in ISO 27145 and ISO 26021."
+    )
+    START_NOTE = "This represents the ability to start a routine"
+    STOP_NOTE = "This represents the ability to stop a running routine."
+
+    def _make_obj(self) -> DiagnosticRoutine:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRoutine(ar_root, "Routine1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRoutine instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Routine1"
+        assert isinstance(obj, ARElement)
+        assert obj.getId() is None
+        assert obj.getRequestResult() is None
+        assert obj.getRoutineInfo() is None
+        assert obj.getStart() is None
+        assert obj.getStop() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRoutine.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRoutine.__init__.__doc__ is None
+
+    def test_get_set_id(self):
+        """
+        Round-trips the id; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("5")
+        result = obj.setId(value)
+        assert result is obj  # method chaining
+        assert obj.getId() is value
+        assert obj.getId().getValue() == 5
+
+        obj.setId(None)
+        assert obj.getId() is value  # None is a no-op
+
+    def test_create_get_request_result(self):
+        """
+        Test createRequestResult creation and duplicate reuse.
+        """
+        obj = self._make_obj()
+
+        request_result = obj.createRequestResult("RequestResults1")
+        assert isinstance(request_result, DiagnosticRequestRoutineResults)
+        assert request_result.getShortName() == "RequestResults1"
+        assert request_result.getParent() is obj
+        assert obj.getRequestResult() is request_result
+
+        duplicate = obj.createRequestResult("RequestResults1")
+        assert duplicate is request_result  # existing element returned (no duplicate creation)
+
+    def test_get_set_routine_info(self):
+        """
+        Round-trips the routineInfo; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setRoutineInfo(value)
+        assert result is obj  # method chaining
+        assert obj.getRoutineInfo() is value
+        assert obj.getRoutineInfo().getValue() == 7
+
+        obj.setRoutineInfo(None)
+        assert obj.getRoutineInfo() is value  # None is a no-op
+
+    def test_create_get_start(self):
+        """
+        Test createStart creation and duplicate reuse.
+        """
+        obj = self._make_obj()
+
+        start = obj.createStart("Start1")
+        assert isinstance(start, DiagnosticStartRoutine)
+        assert start.getShortName() == "Start1"
+        assert start.getParent() is obj
+        assert obj.getStart() is start
+
+        duplicate = obj.createStart("Start1")
+        assert duplicate is start  # existing element returned (no duplicate creation)
+
+    def test_create_get_stop(self):
+        """
+        Test createStop creation and duplicate reuse.
+        """
+        obj = self._make_obj()
+
+        stop = obj.createStop("Stop1")
+        assert isinstance(stop, DiagnosticStopRoutine)
+        assert stop.getShortName() == "Stop1"
+        assert stop.getParent() is obj
+        assert obj.getStop() is stop
+
+        duplicate = obj.createStop("Stop1")
+        assert duplicate is stop  # existing element returned (no duplicate creation)
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRoutine.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticRoutine.getRequestResult.__doc__) == self.REQUEST_RESULT_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.createRequestResult.__doc__) == (
+            self.REQUEST_RESULT_NOTE + "\n\nThe existing requestResult is returned when the short name already exists (no duplicate creation)."
+        )
+        assert inspect.cleandoc(DiagnosticRoutine.getRoutineInfo.__doc__) == self.ROUTINE_INFO_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.setRoutineInfo.__doc__) == (self.ROUTINE_INFO_NOTE + "\n\nA None value is a no-op and does not overwrite an existing routineInfo.")
+        assert inspect.cleandoc(DiagnosticRoutine.getStart.__doc__) == self.START_NOTE
+        assert inspect.cleandoc(DiagnosticRoutine.createStart.__doc__) == (self.START_NOTE + "\n\nThe existing start is returned when the short name already exists (no duplicate creation).")
+        assert inspect.cleandoc(DiagnosticRoutine.getStop.__doc__) == (self.STOP_NOTE)
+        assert inspect.cleandoc(DiagnosticRoutine.createStop.__doc__) == (self.STOP_NOTE + "\n\nThe existing stop is returned when the short name already exists (no duplicate creation).")
+
+    def test_create_diagnostic_routine(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticRoutines")
+        routine = package.createDiagnosticRoutine("Routine1")
+
+        assert routine is not None
+        assert isinstance(routine, DiagnosticRoutine)
+        assert routine.getShortName() == "Routine1"
+        assert package.getElement("Routine1", DiagnosticRoutine) is routine
+
+        duplicate = package.createDiagnosticRoutine("Routine1")
+        assert duplicate is routine  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticRoutineControl:
+    """
+    Test class for DiagnosticRoutineControl functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.89, p.125
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Routine Control" diagnostic service.'
+    ROUTINE_NOTE = "This refers to the applicable DiagnosticRoutine."
+    ROUTINE_CONTROL_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticRoutineControl in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticRoutineControl:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRoutineControl(ar_root, "RoutineControl1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRoutineControl instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "RoutineControl1"
+        assert isinstance(obj, ARElement)
+        assert obj.getRoutine() is None
+        assert obj.getRoutineControlClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRoutineControl.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRoutineControl.__init__.__doc__ is None
+
+    def test_get_set_routine(self):
+        """
+        Round-trips the routine reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-ROUTINE")
+        value.setValue("/AUTOSAR/DiagnosticRoutines/Routine1")
+        result = obj.setRoutine(value)
+        assert result is obj  # method chaining
+        assert obj.getRoutine() is value
+        assert obj.getRoutine().getValue() == "/AUTOSAR/DiagnosticRoutines/Routine1"
+
+        obj.setRoutine(None)
+        assert obj.getRoutine() is value  # None is a no-op
+
+    def test_get_set_routine_control_class(self):
+        """
+        Round-trips the routineControlClass reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-ROUTINE-CONTROL-CLASS")
+        value.setValue("/AUTOSAR/DiagnosticRoutineControls/ControlClass1")
+        result = obj.setRoutineControlClass(value)
+        assert result is obj  # method chaining
+        assert obj.getRoutineControlClass() is value
+        assert obj.getRoutineControlClass().getValue() == "/AUTOSAR/DiagnosticRoutineControls/ControlClass1"
+
+        obj.setRoutineControlClass(None)
+        assert obj.getRoutineControlClass() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRoutineControl.getRoutine.__doc__) == self.ROUTINE_NOTE
+        assert inspect.cleandoc(DiagnosticRoutineControl.setRoutine.__doc__) == (self.ROUTINE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing routine.")
+        assert inspect.cleandoc(DiagnosticRoutineControl.getRoutineControlClass.__doc__) == self.ROUTINE_CONTROL_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticRoutineControl.setRoutineControlClass.__doc__) == (
+            self.ROUTINE_CONTROL_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing routineControlClass."
+        )
+
+    def test_create_diagnostic_routine_control(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticRoutineControls")
+        routine_control = package.createDiagnosticRoutineControl("RoutineControl1")
+
+        assert routine_control is not None
+        assert isinstance(routine_control, DiagnosticRoutineControl)
+        assert routine_control.getShortName() == "RoutineControl1"
+        assert package.getElement("RoutineControl1", DiagnosticRoutineControl) is routine_control
+
+        duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
+        assert duplicate is routine_control  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticDynamicallyDefineDataIdentifier:
+    """
+    Test class for DiagnosticDynamicallyDefineDataIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.93, p.127
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Dynamically Define Data Identifier" diagnostic service.'
+    DATA_IDENTIFIER_NOTE = "This represents the applicable DiagnosticDynamicData Identfier."
+    DYNAMICALLY_DEFINE_DATA_IDENTIFIER_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticDynamicallyDefineDataIdentifier in the given context."
+    )
+    MAX_SOURCE_ELEMENT_NOTE = "This represents the maximum number of source elements of the dynamically created DID."
+
+    def _make_obj(self) -> DiagnosticDynamicallyDefineDataIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDynamicallyDefineDataIdentifier(ar_root, "Dddi1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticDynamicallyDefineDataIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Dddi1"
+        assert isinstance(obj, ARElement)
+        assert obj.getDataIdentifier() is None
+        assert obj.getDynamicallyDefineDataIdentifierClass() is None
+        assert obj.getMaxSourceElement() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticDynamicallyDefineDataIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDynamicallyDefineDataIdentifier.__init__.__doc__ is None
+
+    def test_get_set_data_identifier(self):
+        """
+        Round-trips the dataIdentifier reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER")
+        value.setValue("/AUTOSAR/DiagnosticDynamicDataIdentifiers/Did1")
+        result = obj.setDataIdentifier(value)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifier() is value
+        assert obj.getDataIdentifier().getValue() == "/AUTOSAR/DiagnosticDynamicDataIdentifiers/Did1"
+
+        obj.setDataIdentifier(None)
+        assert obj.getDataIdentifier() is value  # None is a no-op
+
+    def test_get_set_dynamically_define_data_identifier_class(self):
+        """
+        Round-trips the dynamicallyDefineDataIdentifierClass reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS")
+        value.setValue("/AUTOSAR/DiagnosticDynamicallyDefineDataIdentifiers/Class1")
+        result = obj.setDynamicallyDefineDataIdentifierClass(value)
+        assert result is obj  # method chaining
+        assert obj.getDynamicallyDefineDataIdentifierClass() is value
+        assert obj.getDynamicallyDefineDataIdentifierClass().getValue() == "/AUTOSAR/DiagnosticDynamicallyDefineDataIdentifiers/Class1"
+
+        obj.setDynamicallyDefineDataIdentifierClass(None)
+        assert obj.getDynamicallyDefineDataIdentifierClass() is value  # None is a no-op
+
+    def test_get_set_max_source_element(self):
+        """
+        Round-trips the maxSourceElement; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger()
+        value.setValue("9")
+        result = obj.setMaxSourceElement(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxSourceElement() is value
+        assert obj.getMaxSourceElement().getValue() == 9
+
+        obj.setMaxSourceElement(None)
+        assert obj.getMaxSourceElement() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.setDataIdentifier.__doc__) == (
+            self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier."
+        )
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.getDynamicallyDefineDataIdentifierClass.__doc__) == self.DYNAMICALLY_DEFINE_DATA_IDENTIFIER_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.setDynamicallyDefineDataIdentifierClass.__doc__) == (
+            self.DYNAMICALLY_DEFINE_DATA_IDENTIFIER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dynamicallyDefineDataIdentifierClass."
+        )
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.getMaxSourceElement.__doc__) == self.MAX_SOURCE_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticDynamicallyDefineDataIdentifier.setMaxSourceElement.__doc__) == (
+            self.MAX_SOURCE_ELEMENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxSourceElement."
+        )
+
+    def test_create_diagnostic_dynamically_define_data_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticDynamicallyDefineDataIdentifiers")
+        dddi = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
+
+        assert dddi is not None
+        assert isinstance(dddi, DiagnosticDynamicallyDefineDataIdentifier)
+        assert dddi.getShortName() == "Dddi1"
+        assert package.getElement("Dddi1", DiagnosticDynamicallyDefineDataIdentifier) is dddi
+
+        duplicate = package.createDiagnosticDynamicallyDefineDataIdentifier("Dddi1")
+        assert duplicate is dddi  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticReadDataByPeriodicID:
+    """
+    Test class for DiagnosticReadDataByPeriodicID functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.97, p.130
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read Data by periodic Identifier" diagnostic service.'
+    READ_DATA_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDataByPeriodicID in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadDataByPeriodicID:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDataByPeriodicID(ar_root, "Rdbpid1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadDataByPeriodicID instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Rdbpid1"
+        assert isinstance(obj, ARElement)
+        assert obj.getReadDataClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadDataByPeriodicID.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadDataByPeriodicID.__init__.__doc__ is None
+
+    def test_get_set_read_data_class(self):
+        """
+        Round-trips the readDataClass reference; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType()
+        value.setDest("DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS")
+        value.setValue("/AUTOSAR/DiagnosticReadDataByPeriodicIds/Class1")
+        result = obj.setReadDataClass(value)
+        assert result is obj  # method chaining
+        assert obj.getReadDataClass() is value
+        assert obj.getReadDataClass().getValue() == "/AUTOSAR/DiagnosticReadDataByPeriodicIds/Class1"
+
+        obj.setReadDataClass(None)
+        assert obj.getReadDataClass() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicID.getReadDataClass.__doc__) == self.READ_DATA_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadDataByPeriodicID.setReadDataClass.__doc__) == (
+            self.READ_DATA_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readDataClass."
+        )
+
+    def test_create_diagnostic_read_data_by_periodic_id(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDataByPeriodicIds")
+        obj = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
+
+        assert obj is not None
+        assert isinstance(obj, DiagnosticReadDataByPeriodicID)
+        assert obj.getShortName() == "Rdbpid1"
+        assert package.getElement("Rdbpid1", DiagnosticReadDataByPeriodicID) is obj
+
+        duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
+        assert duplicate is obj  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticResponseOnEvent:
+    """
+    Test class for DiagnosticResponseOnEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.101, p.132
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Response on Event" diagnostic service.'
+    EVENT_WINDOW_NOTE = "This represents the applicable DiagnosticEventWindows"
+    RESPONSE_ON_EVENT_ACTION_NOTE = "Defines sub-functions of the service ResponseOnEvent."
+    RESPONSE_ON_EVENT_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticResponseOnEvent in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticResponseOnEvent:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticResponseOnEvent(ar_root, "TestResponseOnEvent")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticResponseOnEvent instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestResponseOnEvent"
+        assert isinstance(obj, ARElement)
+        assert obj.getEventWindows() == []
+        assert obj.getResponseOnEventAction() is None
+        assert obj.getResponseOnEventClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticResponseOnEvent.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticResponseOnEvent.__init__.__doc__ is None
+
+    def test_add_event_window(self):
+        """
+        Test addEventWindow append and None no-op.
+        """
+        obj = self._make_obj()
+
+        event_window = DiagnosticEventWindow()
+        result = obj.addEventWindow(event_window)
+        assert result is obj  # method chaining
+        assert obj.getEventWindows() == [event_window]
+
+        result = obj.addEventWindow(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventWindows() == [event_window]  # None is a no-op
+
+    def test_get_set_response_on_event_action(self):
+        """
+        Round-trips the responseOnEventAction enum; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticResponseOnEventActionEnum().setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
+        result = obj.setResponseOnEventAction(value)
+        assert result is obj  # method chaining
+        assert obj.getResponseOnEventAction() is value
+        assert obj.getResponseOnEventAction().getValue() == "onChangeOfDataIdentifier"
+
+        result = obj.setResponseOnEventAction(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseOnEventAction() is value  # None is a no-op
+
+    def test_get_set_response_on_event_class(self):
+        """
+        Round-trips the responseOnEventClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS", "/AUTOSAR/DiagnosticResponseOnEventClasses/ResponseOnEventClass")
+        result = obj.setResponseOnEventClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getResponseOnEventClass() is ref
+        assert obj.getResponseOnEventClass().getValue() == "/AUTOSAR/DiagnosticResponseOnEventClasses/ResponseOnEventClass"
+        assert obj.getResponseOnEventClass().getDest() == "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS"
+
+        result = obj.setResponseOnEventClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseOnEventClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.getEventWindows.__doc__) == self.EVENT_WINDOW_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.addEventWindow.__doc__) == (self.EVENT_WINDOW_NOTE + "\n\nA None value is a no-op and does not append an eventWindow.")
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.getResponseOnEventAction.__doc__) == self.RESPONSE_ON_EVENT_ACTION_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.setResponseOnEventAction.__doc__) == (
+            self.RESPONSE_ON_EVENT_ACTION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseOnEventAction."
+        )
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.getResponseOnEventClass.__doc__) == self.RESPONSE_ON_EVENT_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticResponseOnEvent.setResponseOnEventClass.__doc__) == (
+            self.RESPONSE_ON_EVENT_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseOnEventClass."
+        )
+
+    def test_create_diagnostic_response_on_event(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticResponseOnEvents")
+        response_on_event = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
+
+        assert response_on_event is not None
+        assert isinstance(response_on_event, DiagnosticResponseOnEvent)
+        assert response_on_event.getShortName() == "ResponseOnEvent1"
+        assert package.getElement("ResponseOnEvent1", DiagnosticResponseOnEvent) is response_on_event
+
+        duplicate = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
+        assert duplicate is response_on_event  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticReadDTCInformation:
+    """
+    Test class for DiagnosticReadDTCInformation functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.106, p.136
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read DTC Information" diagnostic service.'
+    READ_DTC_INFORMATION_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDTCInformation in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadDTCInformation:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDTCInformation(ar_root, "TestReadDTCInformation")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadDTCInformation instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadDTCInformation"
+        assert isinstance(obj, ARElement)
+        assert obj.getReadDTCInformationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadDTCInformation.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadDTCInformation.__init__.__doc__ is None
+
+    def test_get_set_read_dtc_information_class(self):
+        """
+        Round-trips the readDTCInformationClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-READ-DTC-INFORMATION-CLASS", "/AUTOSAR/DiagnosticReadDtcInformations/ReadDTCInformationClass")
+        result = obj.setReadDTCInformationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadDTCInformationClass() is ref
+        assert obj.getReadDTCInformationClass().getValue() == "/AUTOSAR/DiagnosticReadDtcInformations/ReadDTCInformationClass"
+        assert obj.getReadDTCInformationClass().getDest() == "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS"
+
+        result = obj.setReadDTCInformationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadDTCInformationClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadDTCInformation.getReadDTCInformationClass.__doc__) == self.READ_DTC_INFORMATION_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadDTCInformation.setReadDTCInformationClass.__doc__) == (
+            self.READ_DTC_INFORMATION_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readDTCInformationClass."
+        )
+
+    def test_create_diagnostic_read_dtc_information(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDtcInformations")
+        read_dtc_information = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
+
+        assert read_dtc_information is not None
+        assert isinstance(read_dtc_information, DiagnosticReadDTCInformation)
+        assert read_dtc_information.getShortName() == "ReadDTCInformation1"
+        assert package.getElement("ReadDTCInformation1", DiagnosticReadDTCInformation) is read_dtc_information
+
+        duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
+        assert duplicate is read_dtc_information  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticClearDiagnosticInformation:
+    """
+    Test class for DiagnosticClearDiagnosticInformation functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.108, p.137
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Clear Diagnostic Information" diagnostic service.'
+    CLEAR_DIAGNOSTIC_INFORMATION_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearDiagnosticInformation in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticClearDiagnosticInformation:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticClearDiagnosticInformation(ar_root, "TestClearDiagnosticInformation")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticClearDiagnosticInformation instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestClearDiagnosticInformation"
+        assert isinstance(obj, ARElement)
+        assert obj.getClearDiagnosticInformationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticClearDiagnosticInformation.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticClearDiagnosticInformation.__init__.__doc__ is None
+
+    def test_get_set_clear_diagnostic_information_class(self):
+        """
+        Round-trips the clearDiagnosticInformationClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS", "/AUTOSAR/DiagnosticClearDiagnosticInformations/ClearDiagnosticInformationClass")
+        result = obj.setClearDiagnosticInformationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getClearDiagnosticInformationClass() is ref
+        assert obj.getClearDiagnosticInformationClass().getValue() == "/AUTOSAR/DiagnosticClearDiagnosticInformations/ClearDiagnosticInformationClass"
+        assert obj.getClearDiagnosticInformationClass().getDest() == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS"
+
+        result = obj.setClearDiagnosticInformationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getClearDiagnosticInformationClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticClearDiagnosticInformation.getClearDiagnosticInformationClass.__doc__) == self.CLEAR_DIAGNOSTIC_INFORMATION_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticClearDiagnosticInformation.setClearDiagnosticInformationClass.__doc__) == (
+            self.CLEAR_DIAGNOSTIC_INFORMATION_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearDiagnosticInformationClass."
+        )
+
+    def test_create_diagnostic_clear_diagnostic_information(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticClearDiagnosticInformations")
+        clear_diagnostic_information = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
+
+        assert clear_diagnostic_information is not None
+        assert isinstance(clear_diagnostic_information, DiagnosticClearDiagnosticInformation)
+        assert clear_diagnostic_information.getShortName() == "ClearDiagnosticInformation1"
+        assert package.getElement("ClearDiagnosticInformation1", DiagnosticClearDiagnosticInformation) is clear_diagnostic_information
+
+        duplicate = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
+        assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element
+
+
+
+class TestDiagnosticMemoryByAddress:
+    """
+    Test class for DiagnosticMemoryByAddress functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.110, p.139
+    (abstract base with no own attributes; exercised through the concrete
+    subclass DiagnosticTransferExit)
+    """
+
+    CLASS_NOTE = "This represents an abstract base class for diagnostic services that deal with accessing memory by address."
+
+    def _make_obj(self) -> DiagnosticTransferExit:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTransferExit(ar_root, "TestTransferExit")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass of the abstract DiagnosticMemoryByAddress is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestTransferExit"
+        assert isinstance(obj, DiagnosticMemoryByAddress)
+        assert isinstance(obj, ARElement)
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticMemoryByAddress cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMemoryByAddress(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticMemoryByAddress.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryByAddress.__init__.__doc__ is None
+
+
+
+class _MemoryAddressableRangeAccessStub(DiagnosticMemoryAddressableRangeAccess):
+    """Concrete test stub for the abstract DiagnosticMemoryAddressableRangeAccess."""
+
+    pass
+
+
+
+class TestDiagnosticMemoryAddressableRangeAccess:
+    """
+    Test class for DiagnosticMemoryAddressableRangeAccess functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.111, p.140
+    (abstract base; exercised through the test stub subclass
+    _MemoryAddressableRangeAccessStub until a concrete sibling syncs)
+    """
+
+    CLASS_NOTE = "This abstract base class"
+    MEMORY_RANGE_NOTE = "This represents the formal description of the memory segment to which the DiagnosticMemoryByAddress applies."
+
+    def _make_obj(self) -> _MemoryAddressableRangeAccessStub:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return _MemoryAddressableRangeAccessStub(ar_root, "TestRangeAccess")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass of the abstract DiagnosticMemoryAddressableRangeAccess is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestRangeAccess"
+        assert isinstance(obj, DiagnosticMemoryAddressableRangeAccess)
+        assert isinstance(obj, DiagnosticMemoryByAddress)
+        assert isinstance(obj, ARElement)
+        assert obj.getMemoryRanges() == []
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticMemoryAddressableRangeAccess cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMemoryAddressableRangeAccess(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticMemoryAddressableRangeAccess.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryAddressableRangeAccess.__init__.__doc__ is None
+
+    def test_add_get_memory_ranges(self):
+        """
+        Appends memoryRange refs; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType()
+        ref1.setDest("DIAGNOSTIC-MEMORY-IDENTIFIER")
+        ref1.setValue("/AUTOSAR/DiagnosticMemoryIdentifiers/Segment1")
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-MEMORY-IDENTIFIER")
+        ref2.setValue("/AUTOSAR/DiagnosticMemoryIdentifiers/Segment2")
+
+        result = obj.addMemoryRange(ref1)
+        assert result is obj  # method chaining
+        result = obj.addMemoryRange(ref2)
+        assert result is obj  # method chaining
+        assert obj.getMemoryRanges() == [ref1, ref2]
+        assert obj.getMemoryRanges()[0].getValue() == "/AUTOSAR/DiagnosticMemoryIdentifiers/Segment1"
+        assert obj.getMemoryRanges()[0].getDest() == "DIAGNOSTIC-MEMORY-IDENTIFIER"
+        assert obj.getMemoryRanges()[1].getValue() == "/AUTOSAR/DiagnosticMemoryIdentifiers/Segment2"
+
+        result = obj.addMemoryRange(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMemoryRanges() == [ref1, ref2]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.getMemoryRanges.__doc__) == self.MEMORY_RANGE_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.addMemoryRange.__doc__) == (self.MEMORY_RANGE_NOTE + "\n\nA None value is a no-op and does not append a memoryRange.")

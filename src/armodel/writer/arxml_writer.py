@@ -275,11 +275,23 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticClearDiagnosticInformationClass,
+    DiagnosticComControlClass,
+    DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
+    DiagnosticDynamicallyDefineDataIdentifierClass,
     DiagnosticEcuResetClass,
+    DiagnosticIoControlClass,
+    DiagnosticReadDataByIdentifierClass,
+    DiagnosticReadDataByPeriodicIDClass,
+    DiagnosticReadDTCInformationClass,
+    DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticResponseOnEventClass,
+    DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
+    DiagnosticWriteDataByIdentifierClass,
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -402,18 +414,31 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthTransmitCertificate,
+    DiagnosticClearDiagnosticInformation,
     DiagnosticComControl,
     DiagnosticContributionSet,
+    DiagnosticControlDTCSetting,
+    DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
     DiagnosticEcuReset,
+    DiagnosticIOControl,
+    DiagnosticMemoryAddressableRangeAccess,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
+    DiagnosticReadDataByIdentifier,
+    DiagnosticReadDataByPeriodicID,
+    DiagnosticReadDTCInformation,
+    DiagnosticReadScalingDataByIdentifier,
+    DiagnosticResponseOnEvent,
+    DiagnosticRoutine,
+    DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticTroubleCodeJ1939,
     DiagnosticParameterElementAccess,
@@ -450,13 +475,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
+    DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
+    DiagnosticComControlSubNodeChannel,
+    DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
     DiagnosticParameter,
+    DiagnosticPeriodicRate,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -468,6 +498,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticParameterElement,
+    DiagnosticRequestRoutineResults,
+    DiagnosticRoutineSubfunction,
+    DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1334,6 +1368,50 @@ DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP = {
 #: (AR:DIAGNOSTIC-EVENT-COMBINATION-REPORTING-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP = {
     "reportingInChronlogicalOrderOldestFirst": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
+}
+
+#: Mapping between DiagnosticHandleDDDIConfigurationEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-HANDLE-DDDI-CONFIGURATION-ENUM--SIMPLE).
+DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP = {
+    "nonVolatile": "NON-VOLATILE",
+    "volatile": "VOLATILE",
+}
+
+#: Mapping between DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-SUBFUNCTION-ENUM--SIMPLE).
+DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP = {
+    "clearDynamicallyDefineDataIdentifier": "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER",
+    "defineByIdentifier": "DEFINE-BY-IDENTIFIER",
+    "defineByMemoryAddress": "DEFINE-BY-MEMORY-ADDRESS",
+}
+
+#: Mapping between DiagnosticPeriodicRateCategoryEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-PERIODIC-RATE-CATEGORY-ENUM--SIMPLE).
+DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP = {
+    "periodicRateFast": "PERIODIC-RATE-FAST",
+    "periodicRateMedium": "PERIODIC-RATE-MEDIUM",
+    "periodicRateSlow": "PERIODIC-RATE-SLOW",
+}
+
+#: Mapping between DiagnosticEventWindowTimeEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-WINDOW-TIME-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP = {
+    "infiniteTimeToResponse": "INFINITE-TIME-TO-RESPONSE",
+    "powerWindowTime": "POWER-WINDOW-TIME",
+}
+
+#: Mapping between DiagnosticResponseOnEventActionEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RESPONSE-ON-EVENT-ACTION-ENUM--SIMPLE).
+DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
+    "clear": "CLEAR",
+    "onChangeOfDataIdentifier": "ON-CHANGE-OF-DATA-IDENTIFIER",
+    "onComparisonOfValues": "ON-COMPARISON-OF-VALUES",
+    "onDTCStatusChange": "ON-DTC-STATUS-CHANGE",
+    "report": "REPORT",
+    "reportDTCRecordInformationOnDtcStatusChange": "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE",
+    "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
+    "start": "START",
+    "stop": "STOP",
 }
 
 
@@ -14224,6 +14302,113 @@ class ARXMLWriter(AbstractARXMLWriter):
             elif id_value._value is not None:
                 avp_element.text = str(id_value._value)
 
+    def writeDiagnosticDataByIdentifier(self, element: ET.Element, data_by_identifier: DiagnosticDataByIdentifier):
+        self.setChildElementOptionalRefType(element, "DATA-IDENTIFIER-REF", data_by_identifier.getDataIdentifier())
+
+    def writeDiagnosticReadDataByIdentifier(self, element: ET.Element, read_data_by_identifier: DiagnosticReadDataByIdentifier):
+        self.logger.debug("Write DiagnosticReadDataByIdentifier %s" % read_data_by_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER")
+        self.writeIdentifiable(child_element, read_data_by_identifier)
+        self.writeDiagnosticDataByIdentifier(child_element, read_data_by_identifier)
+        self.setChildElementOptionalRefType(child_element, "READ-CLASS-REF", read_data_by_identifier.getReadClass())
+
+    def writeDiagnosticWriteDataByIdentifier(self, element: ET.Element, write_data_by_identifier: DiagnosticWriteDataByIdentifier):
+        self.logger.debug("Write DiagnosticWriteDataByIdentifier %s" % write_data_by_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER")
+        self.writeIdentifiable(child_element, write_data_by_identifier)
+        self.writeDiagnosticDataByIdentifier(child_element, write_data_by_identifier)
+        self.setChildElementOptionalRefType(child_element, "WRITE-CLASS-REF", write_data_by_identifier.getWriteClass())
+
+    def writeDiagnosticReadScalingDataByIdentifier(self, element: ET.Element, read_scaling_data_by_identifier: DiagnosticReadScalingDataByIdentifier):
+        self.logger.debug("Write DiagnosticReadScalingDataByIdentifier %s" % read_scaling_data_by_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER")
+        self.writeIdentifiable(child_element, read_scaling_data_by_identifier)
+        self.writeDiagnosticDataByIdentifier(child_element, read_scaling_data_by_identifier)
+        self.setChildElementOptionalRefType(child_element, "READ-SCALING-DATA-CLASS-REF", read_scaling_data_by_identifier.getReadScalingDataClass())
+
+    def writeDiagnosticRoutineSubfunction(self, element: ET.Element, routine_subfunction: DiagnosticRoutineSubfunction):
+        self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", routine_subfunction.getAccessPermission())
+
+    def writeDiagnosticStartRoutine(self, element: ET.Element, start_routine: DiagnosticStartRoutine):
+        self.logger.debug("Write DiagnosticStartRoutine %s" % start_routine.getShortName())
+        self.writeIdentifiable(element, start_routine)
+        self.writeDiagnosticRoutineSubfunction(element, start_routine)
+        requests = start_routine.getRequest()
+        if len(requests) > 0:
+            requests_tag = ET.SubElement(element, "REQUESTS")
+            for request in requests:
+                self.writeDiagnosticParameter(requests_tag, request)
+        responses = start_routine.getResponse()
+        if len(responses) > 0:
+            responses_tag = ET.SubElement(element, "RESPONSES")
+            for response in responses:
+                self.writeDiagnosticParameter(responses_tag, response)
+
+    def writeDiagnosticStopRoutine(self, element: ET.Element, stop_routine: DiagnosticStopRoutine):
+        self.logger.debug("Write DiagnosticStopRoutine %s" % stop_routine.getShortName())
+        self.writeIdentifiable(element, stop_routine)
+        self.writeDiagnosticRoutineSubfunction(element, stop_routine)
+        requests = stop_routine.getRequest()
+        if len(requests) > 0:
+            requests_tag = ET.SubElement(element, "REQUESTS")
+            for request in requests:
+                self.writeDiagnosticParameter(requests_tag, request)
+        responses = stop_routine.getResponse()
+        if len(responses) > 0:
+            responses_tag = ET.SubElement(element, "RESPONSES")
+            for response in responses:
+                self.writeDiagnosticParameter(responses_tag, response)
+
+    def writeDiagnosticRequestRoutineResults(self, element: ET.Element, request_results: DiagnosticRequestRoutineResults):
+        self.logger.debug("Write DiagnosticRequestRoutineResults %s" % request_results.getShortName())
+        self.writeIdentifiable(element, request_results)
+        self.writeDiagnosticRoutineSubfunction(element, request_results)
+        requests = request_results.getRequest()
+        if len(requests) > 0:
+            requests_tag = ET.SubElement(element, "REQUESTS")
+            for request in requests:
+                self.writeDiagnosticParameter(requests_tag, request)
+        responses = request_results.getResponse()
+        if len(responses) > 0:
+            responses_tag = ET.SubElement(element, "RESPONSES")
+            for response in responses:
+                self.writeDiagnosticParameter(responses_tag, response)
+
+    def writeDiagnosticRoutine(self, element: ET.Element, routine: DiagnosticRoutine):
+        self.logger.debug("Write DiagnosticRoutine %s" % routine.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE")
+        self.writeIdentifiable(child_element, routine)
+        id_value = routine.getId()
+        if id_value is not None:
+            id_element = ET.SubElement(child_element, "ID")
+            avp_element = ET.SubElement(id_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if id_value._text is not None:
+                avp_element.text = id_value._text
+            elif id_value._value is not None:
+                avp_element.text = str(id_value._value)
+        if routine.getRequestResult() is not None:
+            request_result_element = ET.SubElement(child_element, "REQUEST-RESULT")
+            self.writeDiagnosticRequestRoutineResults(request_result_element, routine.getRequestResult())
+        self.setChildElementOptionalPositiveInteger(child_element, "ROUTINE-INFO", routine.getRoutineInfo())
+        if routine.getStart() is not None:
+            start_element = ET.SubElement(child_element, "START")
+            self.writeDiagnosticStartRoutine(start_element, routine.getStart())
+        if routine.getStop() is not None:
+            stop_element = ET.SubElement(child_element, "STOP")
+            self.writeDiagnosticStopRoutine(stop_element, routine.getStop())
+
+    def writeDiagnosticRoutineControl(self, element: ET.Element, routine_control: DiagnosticRoutineControl):
+        self.logger.debug("Write DiagnosticRoutineControl %s" % routine_control.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-CONTROL")
+        self.writeIdentifiable(child_element, routine_control)
+        self.setChildElementOptionalRefType(child_element, "ROUTINE-CONTROL-CLASS-REF", routine_control.getRoutineControlClass())
+        self.setChildElementOptionalRefType(child_element, "ROUTINE-REF", routine_control.getRoutine())
+
+    def writeDiagnosticRoutineControlClass(self, element: ET.Element, routine_control_class: DiagnosticRoutineControlClass):
+        self.logger.debug("Write DiagnosticRoutineControlClass %s" % routine_control_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, routine_control_class)
+
     def writeDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.logger.debug("Write DiagnosticDataIdentifier %s" % did.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-IDENTIFIER")
@@ -14294,12 +14479,55 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER")
         self.writeDiagnosticAbstractDataIdentifier(child_element, did)
 
+    def writeDiagnosticDynamicallyDefineDataIdentifier(self, element: ET.Element, dddi: DiagnosticDynamicallyDefineDataIdentifier):
+        self.logger.debug("Write DiagnosticDynamicallyDefineDataIdentifier %s" % dddi.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER")
+        self.writeIdentifiable(child_element, dddi)
+        self.setChildElementOptionalRefType(child_element, "DATA-IDENTIFIER-REF", dddi.getDataIdentifier())
+        self.setChildElementOptionalRefType(child_element, "DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF", dddi.getDynamicallyDefineDataIdentifierClass())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SOURCE-ELEMENT", dddi.getMaxSourceElement())
+
+    def writeDiagnosticDynamicallyDefineDataIdentifierClass(self, element: ET.Element, dddi_class: DiagnosticDynamicallyDefineDataIdentifierClass):
+        self.logger.debug("Write DiagnosticDynamicallyDefineDataIdentifierClass %s" % dddi_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, dddi_class)
+        self.setChildElementOptionalBooleanValue(child_element, "CHECK-PER-SOURCE-ID", dddi_class.getCheckPerSourceId())
+        self._writeEnumToken(child_element, "CONFIGURATION-HANDLING", dddi_class.getConfigurationHandling(), DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP)
+        subfunctions = dddi_class.getSubfunctions()
+        if len(subfunctions) > 0:
+            subfunctions_tag = ET.SubElement(child_element, "SUBFUNCTIONS")
+            for subfunction in subfunctions:
+                token = DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP.get(subfunction.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported SUBFUNCTION <%s>" % subfunction.getValue())
+                else:
+                    subfunction_element = ET.SubElement(subfunctions_tag, "SUBFUNCTION")
+                    subfunction_element.text = token
+
     def writeDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Write DiagnosticEcuReset %s" % ecu_reset.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET")
         self.writeIdentifiable(child_element, ecu_reset)
         self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", ecu_reset.getCustomSubFunctionNumber())
         self.setChildElementOptionalRefType(child_element, "ECU-RESET-CLASS-REF", ecu_reset.getEcuResetClass())
+
+    def writeDiagnosticClearDiagnosticInformation(self, element: ET.Element, clear_diagnostic_information: DiagnosticClearDiagnosticInformation):
+        self.logger.debug("Write DiagnosticClearDiagnosticInformation %s" % clear_diagnostic_information.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION")
+        self.writeIdentifiable(child_element, clear_diagnostic_information)
+        self.setChildElementOptionalRefType(child_element, "CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF", clear_diagnostic_information.getClearDiagnosticInformationClass())
+
+    def writeDiagnosticMemoryAddressableRangeAccess(self, element: ET.Element, range_access: DiagnosticMemoryAddressableRangeAccess):
+        memory_ranges = range_access.getMemoryRanges()
+        if len(memory_ranges) > 0:
+            child_element = ET.SubElement(element, "MEMORY-RANGE-REFS")
+            for memory_range in memory_ranges:
+                self.setChildElementOptionalRefType(child_element, "MEMORY-RANGE-REF", memory_range)
+
+    def writeDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
+        self.logger.debug("Write DiagnosticClearDiagnosticInformationClass %s" % clear_diagnostic_information_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS")
+        self.writeIdentifiable(child_element, clear_diagnostic_information_class)
 
     def writeDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Write DiagnosticComControl %s" % com_control.getShortName())
@@ -14308,6 +14536,43 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "COM-CONTROL-CLASS-REF", com_control.getComControlClass())
         self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", com_control.getCustomSubFunctionNumber())
 
+    def writeDiagnosticComControlClass(self, element: ET.Element, com_control_class: DiagnosticComControlClass):
+        self.logger.debug("Write DiagnosticComControlClass %s" % com_control_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, com_control_class)
+        all_channels = com_control_class.getAllChannels()
+        if len(all_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "ALL-CHANNELS-REFS")
+            for ref in all_channels:
+                self.setChildElementOptionalRefType(channels_tag, "ALL-CHANNELS-REF", ref)
+        all_physical_channels = com_control_class.getAllPhysicalChannels()
+        if len(all_physical_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "ALL-PHYSICAL-CHANNELS")
+            for ref in all_physical_channels:
+                self.setChildElementOptionalRefType(channels_tag, "ALL-PHYSICAL-CHANNELS-REF", ref)
+        specific_channels = com_control_class.getSpecificChannels()
+        if len(specific_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "SPECIFIC-CHANNELS")
+            for channel in specific_channels:
+                self.writeDiagnosticComControlSpecificChannel(channels_tag, channel)
+        sub_node_channels = com_control_class.getSubNodeChannels()
+        if len(sub_node_channels) > 0:
+            channels_tag = ET.SubElement(child_element, "SUB-NODE-CHANNELS")
+            for channel in sub_node_channels:
+                self.writeDiagnosticComControlSubNodeChannel(channels_tag, channel)
+
+    def writeDiagnosticControlDTCSetting(self, element: ET.Element, control_dtc_setting: DiagnosticControlDTCSetting):
+        self.logger.debug("Write DiagnosticControlDTCSetting %s" % control_dtc_setting.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-DTC-SETTING")
+        self.writeIdentifiable(child_element, control_dtc_setting)
+        self.setChildElementOptionalRefType(child_element, "DTC-SETTING-CLASS-REF", control_dtc_setting.getDtcSettingClass())
+
+    def writeDiagnosticControlDTCSettingClass(self, element: ET.Element, control_dtc_setting_class: DiagnosticControlDTCSettingClass):
+        self.logger.debug("Write DiagnosticControlDTCSettingClass %s" % control_dtc_setting_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-DTC-SETTING-CLASS")
+        self.writeIdentifiable(child_element, control_dtc_setting_class)
+        self.setChildElementOptionalBooleanValue(child_element, "CONTROL-OPTION-RECORD-PRESENT", control_dtc_setting_class.getControlOptionRecordPresent())
+
     def writeDiagnosticComControlSpecificChannel(self, element: ET.Element, channel: DiagnosticComControlSpecificChannel):
         self.logger.debug("Write DiagnosticComControlSpecificChannel")
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-SPECIFIC-CHANNEL")
@@ -14315,11 +14580,124 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "SPECIFIC-PHYSICAL-CHANNEL-REF", channel.getSpecificPhysicalChannel())
         self.setChildElementOptionalPositiveInteger(child_element, "SUBNET-NUMBER", channel.getSubnetNumber())
 
+    def writeDiagnosticComControlSubNodeChannel(self, element: ET.Element, channel: DiagnosticComControlSubNodeChannel):
+        self.logger.debug("Write DiagnosticComControlSubNodeChannel")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-SUB-NODE-CHANNEL")
+        self.setChildElementOptionalRefType(child_element, "SUB-NODE-CHANNEL-REF", channel.getSubNodeChannel())
+        self.setChildElementOptionalPositiveInteger(child_element, "SUB-NODE-NUMBER", channel.getSubNodeNumber())
+        self.setChildElementOptionalRefType(child_element, "SUB-NODE-PHYSICAL-CHANNEL-REF", channel.getSubNodePhysicalChannel())
+
     def writeDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
         self.logger.debug("Write DiagnosticEcuResetClass %s" % ecu_reset_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET-CLASS")
         self.writeIdentifiable(child_element, ecu_reset_class)
         self._writeEnumToken(child_element, "RESPOND-TO-RESET", ecu_reset_class.getRespondToReset(), DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP)
+
+    def writeDiagnosticReadDataByIdentifierClass(self, element: ET.Element, read_data_by_identifier_class: DiagnosticReadDataByIdentifierClass):
+        self.logger.debug("Write DiagnosticReadDataByIdentifierClass %s" % read_data_by_identifier_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, read_data_by_identifier_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", read_data_by_identifier_class.getMaxDidToRead())
+
+    def writeDiagnosticPeriodicRate(self, element: ET.Element, rate: DiagnosticPeriodicRate):
+        self.logger.debug("Write DiagnosticPeriodicRate")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-PERIODIC-RATE")
+        self.writeARObject(child_element, rate)
+        self.setChildElementOptionalTimeValue(child_element, "PERIOD", rate.getPeriod())
+        self._writeEnumToken(child_element, "PERIODIC-RATE-CATEGORY", rate.getPeriodicRateCategory(), DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP)
+
+    def writeDiagnosticReadDataByPeriodicID(self, element: ET.Element, read_data_by_periodic_id: DiagnosticReadDataByPeriodicID):
+        self.logger.debug("Write DiagnosticReadDataByPeriodicID %s" % read_data_by_periodic_id.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID")
+        self.writeIdentifiable(child_element, read_data_by_periodic_id)
+        self.setChildElementOptionalRefType(child_element, "READ-DATA-CLASS-REF", read_data_by_periodic_id.getReadDataClass())
+
+    def writeDiagnosticReadDataByPeriodicIDClass(self, element: ET.Element, read_data_by_periodic_id_class: DiagnosticReadDataByPeriodicIDClass):
+        self.logger.debug("Write DiagnosticReadDataByPeriodicIDClass %s" % read_data_by_periodic_id_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS")
+        self.writeIdentifiable(child_element, read_data_by_periodic_id_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-PERIODIC-DID-TO-READ", read_data_by_periodic_id_class.getMaxPeriodicDidToRead())
+        periodic_rates = read_data_by_periodic_id_class.getPeriodicRates()
+        if len(periodic_rates) > 0:
+            periodic_rates_tag = ET.SubElement(child_element, "PERIODIC-RATES")
+            for periodic_rate in periodic_rates:
+                self.writeDiagnosticPeriodicRate(periodic_rates_tag, periodic_rate)
+        self.setChildElementOptionalPositiveInteger(child_element, "SCHEDULER-MAX-NUMBER", read_data_by_periodic_id_class.getSchedulerMaxNumber())
+
+    def writeDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
+        self.logger.debug("Write DiagnosticWriteDataByIdentifierClass %s" % write_data_by_identifier_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, write_data_by_identifier_class)
+
+    def writeDiagnosticReadScalingDataByIdentifierClass(self, element: ET.Element, read_scaling_data_by_identifier_class: DiagnosticReadScalingDataByIdentifierClass):
+        self.logger.debug("Write DiagnosticReadScalingDataByIdentifierClass %s" % read_scaling_data_by_identifier_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
+        self.writeIdentifiable(child_element, read_scaling_data_by_identifier_class)
+
+    def writeDiagnosticReadDTCInformation(self, element: ET.Element, read_dtc_information: DiagnosticReadDTCInformation):
+        self.logger.debug("Write DiagnosticReadDTCInformation %s" % read_dtc_information.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DTC-INFORMATION")
+        self.writeIdentifiable(child_element, read_dtc_information)
+        self.setChildElementOptionalRefType(child_element, "READ-DTC-INFORMATION-CLASS-REF", read_dtc_information.getReadDTCInformationClass())
+
+    def writeDiagnosticReadDTCInformationClass(self, element: ET.Element, read_dtc_information_class: DiagnosticReadDTCInformationClass):
+        self.logger.debug("Write DiagnosticReadDTCInformationClass %s" % read_dtc_information_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS")
+        self.writeIdentifiable(child_element, read_dtc_information_class)
+
+    def writeDiagnosticResponseOnEvent(self, element: ET.Element, response_on_event: DiagnosticResponseOnEvent):
+        self.logger.debug("Write DiagnosticResponseOnEvent %s" % response_on_event.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT")
+        self.writeIdentifiable(child_element, response_on_event)
+        event_windows = response_on_event.getEventWindows()
+        if len(event_windows) > 0:
+            event_windows_tag = ET.SubElement(child_element, "EVENT-WINDOWS")
+            for event_window in event_windows:
+                self.writeDiagnosticEventWindow(event_windows_tag, event_window)
+        self._writeEnumToken(child_element, "RESPONSE-ON-EVENT-ACTION", response_on_event.getResponseOnEventAction(), DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP)
+        self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-CLASS-REF", response_on_event.getResponseOnEventClass())
+
+    def writeDiagnosticResponseOnEventClass(self, element: ET.Element, response_on_event_class: DiagnosticResponseOnEventClass):
+        self.logger.debug("Write DiagnosticResponseOnEventClass %s" % response_on_event_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS")
+        self.writeIdentifiable(child_element, response_on_event_class)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-CHANGE-OF-DATA-IDENTFIER-EVENTS", response_on_event_class.getMaxNumChangeOfDataIdentfierEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-COMPARISION-OF-VALUE-EVENTS", response_on_event_class.getMaxNumComparisionOfValueEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-STORED-DTC-STATUS-CHANGED-EVENTS", response_on_event_class.getMaxNumberOfStoredDTCStatusChangedEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SUPPORTED-DID-LENGTH", response_on_event_class.getMaxSupportedDIDLength())
+        self.setChildElementOptionalTimeValue(child_element, "RESPONSE-ON-EVENT-SCHEDULER-RATE", response_on_event_class.getResponseOnEventSchedulerRate())
+        self.setChildElementOptionalBooleanValue(child_element, "STORE-EVENT-ENABLED", response_on_event_class.getStoreEventEnabled())
+
+    def writeDiagnosticControlEnableMaskBit(self, element: ET.Element, mask_bit: DiagnosticControlEnableMaskBit):
+        self.logger.debug("Write DiagnosticControlEnableMaskBit")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT")
+        self.writeARObject(child_element, mask_bit)
+        self.setChildElementOptionalPositiveInteger(child_element, "BIT-NUMBER", mask_bit.getBitNumber())
+        controlled_data_elements = mask_bit.getControlledDataElements()
+        if len(controlled_data_elements) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROLLED-DATA-ELEMENT-REFS")
+            for ref in controlled_data_elements:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROLLED-DATA-ELEMENT-REF", ref)
+
+    def writeDiagnosticIOControl(self, element: ET.Element, io_control: DiagnosticIOControl):
+        self.logger.debug("Write DiagnosticIOControl %s" % io_control.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IO-CONTROL")
+        self.writeIdentifiable(child_element, io_control)
+        mask_bits = io_control.getControlEnableMaskBits()
+        if len(mask_bits) > 0:
+            mask_bits_tag = ET.SubElement(child_element, "CONTROL-ENABLE-MASK-BITS")
+            for mask_bit in mask_bits:
+                self.writeDiagnosticControlEnableMaskBit(mask_bits_tag, mask_bit)
+        self.setChildElementOptionalRefType(child_element, "DATA-IDENTIFIER-REF", io_control.getDataIdentifier())
+        self.setChildElementOptionalBooleanValue(child_element, "FREEZE-CURRENT-STATE", io_control.getFreezeCurrentState())
+        self.setChildElementOptionalRefType(child_element, "IO-CONTROL-CLASS-REF", io_control.getIoControlClass())
+        self.setChildElementOptionalBooleanValue(child_element, "RESET-TO-DEFAULT", io_control.getResetToDefault())
+        self.setChildElementOptionalBooleanValue(child_element, "SHORT-TERM-ADJUSTMENT", io_control.getShortTermAdjustment())
+
+    def writeDiagnosticIoControlClass(self, element: ET.Element, io_control_class: DiagnosticIoControlClass):
+        self.logger.debug("Write DiagnosticIoControlClass %s" % io_control_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IO-CONTROL-CLASS")
+        self.writeIdentifiable(child_element, io_control_class)
 
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
@@ -14462,6 +14840,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticEnvBswModeElement")
         child_element = ET.SubElement(element, "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT")
         self.writeReferrable(child_element, mode_element)
+
+    def writeDiagnosticEventWindow(self, element: ET.Element, event_window: DiagnosticEventWindow):
+        self.logger.debug("Write DiagnosticEventWindow")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-WINDOW")
+        self.writeARObject(child_element, event_window)
+        self._writeEnumToken(child_element, "EVENT-WINDOW-TIME", event_window.getEventWindowTime(), DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP)
 
     def writeDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
         self.logger.debug("Write DiagnosticAccessPermission %s" % permission.getShortName())
@@ -15527,6 +15911,112 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignalIPduGroup(element, ar_element)
         elif isinstance(ar_element, PdurIPduGroup):
             self.writePdurIPduGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticConnection):
+            self.writeDiagnosticConnection(element, ar_element)
+        elif isinstance(ar_element, DiagnosticContributionSet):
+            self.writeDiagnosticContributionSet(element, ar_element)
+        elif isinstance(ar_element, DiagnosticCustomServiceClass):
+            self.writeDiagnosticCustomServiceClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticCustomServiceInstance):
+            self.writeDiagnosticCustomServiceInstance(element, ar_element)
+        elif isinstance(ar_element, DiagnosticProtocol):
+            self.writeDiagnosticProtocol(element, ar_element)
+        elif isinstance(ar_element, DiagnosticServiceTable):
+            self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDataIdentifier):
+            self.writeDiagnosticDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDynamicDataIdentifier):
+            self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifier):
+            self.writeDiagnosticDynamicallyDefineDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifierClass):
+            self.writeDiagnosticDynamicallyDefineDataIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSession):
+            self.writeDiagnosticSession(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSessionControl):
+            self.writeDiagnosticSessionControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSessionControlClass):
+            self.writeDiagnosticSessionControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityAccessClass):
+            self.writeDiagnosticSecurityAccessClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityAccess):
+            self.writeDiagnosticSecurityAccess(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityLevel):
+            self.writeDiagnosticSecurityLevel(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
+            self.writeDiagnosticEnvironmentalCondition(element, ar_element)
+        else:
+            self.writeARPackageElementRest(element, ar_element)
+
+    def writeARPackageElementRest(self, element: ET.Element, ar_element: ARElement):
+        if isinstance(ar_element, DiagnosticAccessPermission):
+            self.writeDiagnosticAccessPermission(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthRole):
+            self.writeDiagnosticAuthRole(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthenticationClass):
+            self.writeDiagnosticAuthenticationClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthenticationConfiguration):
+            self.writeDiagnosticAuthenticationConfiguration(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAuthTransmitCertificate):
+            self.writeDiagnosticAuthTransmitCertificate(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDeAuthentication):
+            self.writeDiagnosticDeAuthentication(element, ar_element)
+        elif isinstance(ar_element, DiagnosticClearDiagnosticInformation):
+            self.writeDiagnosticClearDiagnosticInformation(element, ar_element)
+        elif isinstance(ar_element, DiagnosticClearDiagnosticInformationClass):
+            self.writeDiagnosticClearDiagnosticInformationClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticComControl):
+            self.writeDiagnosticComControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticComControlClass):
+            self.writeDiagnosticComControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticControlDTCSetting):
+            self.writeDiagnosticControlDTCSetting(element, ar_element)
+        elif isinstance(ar_element, DiagnosticControlDTCSettingClass):
+            self.writeDiagnosticControlDTCSettingClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEcuReset):
+            self.writeDiagnosticEcuReset(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEcuResetClass):
+            self.writeDiagnosticEcuResetClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIOControl):
+            self.writeDiagnosticIOControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIoControlClass):
+            self.writeDiagnosticIoControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
+            self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
+            self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifierClass):
+            self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDTCInformation):
+            self.writeDiagnosticReadDTCInformation(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDTCInformationClass):
+            self.writeDiagnosticReadDTCInformationClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticResponseOnEvent):
+            self.writeDiagnosticResponseOnEvent(element, ar_element)
+        elif isinstance(ar_element, DiagnosticResponseOnEventClass):
+            self.writeDiagnosticResponseOnEventClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRoutine):
+            self.writeDiagnosticRoutine(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRoutineControl):
+            self.writeDiagnosticRoutineControl(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRoutineControlClass):
+            self.writeDiagnosticRoutineControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticProofOfOwnership):
+            self.writeDiagnosticProofOfOwnership(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
+            self.writeDiagnosticReadDataByIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByPeriodicID):
+            self.writeDiagnosticReadDataByPeriodicID(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDataByPeriodicIDClass):
+            self.writeDiagnosticReadDataByPeriodicIDClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticWriteDataByIdentifier):
+            self.writeDiagnosticWriteDataByIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifier):
+            self.writeDiagnosticReadScalingDataByIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
+            self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)
+        elif isinstance(ar_element, DiagnosticVerifyCertificateUnidirectional):
+            self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
         elif ar_element.__class__.__name__.startswith("Diagnostic"):
             if not self.writeDiagnosticElement(element, ar_element):
                 self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
@@ -15833,6 +16323,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticVerifyCertificateUnidirectional(element, ar_element)
             return True
         return False
+
     def writeDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
