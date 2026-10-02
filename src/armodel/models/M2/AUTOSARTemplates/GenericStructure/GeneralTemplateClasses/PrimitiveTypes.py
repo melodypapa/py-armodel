@@ -1167,6 +1167,7 @@ class ArgumentDirectionEnum(AREnum):
 
     # ArgumentDirectionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.9, p.104
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -1305,6 +1306,7 @@ class ByteOrderEnum(AREnum):
 
     # ByteOrderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class

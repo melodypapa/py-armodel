@@ -19,6 +19,7 @@ class RteApiReturnValueProvisionEnum(AREnum):
 
     # RteApiReturnValueProvisionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.32, p.562
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -94,6 +95,7 @@ class AccessCount(ARObject, VariationPointCapable):
 
     # AccessCount method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.23, p.57
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessPointRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -148,6 +150,7 @@ class AccessCountSet(ARObject, VariationPointCapable):
 
     # AccessCountSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.22, p.57
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessCounts             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

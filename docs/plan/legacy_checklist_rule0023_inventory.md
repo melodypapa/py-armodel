@@ -574,3 +574,11 @@ Executed on `feature/legacy-checklist-resync` (batch mode, stamps deferred to ba
   pre-existing main set.
 - **Remaining inventory: 13 blocks** — the no-spec-table set below, pending per-class arbitration
   (table-less classes: skip / XSD-only / R4.4-corpus decision). They stay legacy until ruled on.
+
+## Batch 9b stamp wave (2026-10-02, user confirmation)
+
+`# Spec verified: R23-11` written on **83 of the 84 re-synced classes** (battery 15,915/0 at stamping).
+Withheld, pending user decisions:
+- `ServerArgumentImplPolicyEnum` — literal arbitration (R23-11 `innerPort` vs model's
+  `bidirectional`/`firstToSecond`/`secondToFirst`) unresolved.
+- the 13 no-spec-table blocks above — per-class skip / XSD-only / R4.4-corpus ruling unresolved.

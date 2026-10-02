@@ -267,6 +267,7 @@ class MemorySectionLocation(ARObject):
 
     # MemorySectionLocation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.19, p.162
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getProvidedMemoryRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -321,6 +322,7 @@ class AnalyzedExecutionTime(ExecutionTime):
 
     # AnalyzedExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.21, p.164
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBestCaseExecutionTime    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -375,6 +377,7 @@ class MeasuredExecutionTime(ExecutionTime):
 
     # MeasuredExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.23, p.166
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMaximumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -449,6 +452,7 @@ class SimulatedExecutionTime(ExecutionTime):
 
     # SimulatedExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.24, p.167
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMaximumExecutionTime     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -523,6 +527,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # RoughEstimateOfExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.25, p.167
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAdditionalInformation    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

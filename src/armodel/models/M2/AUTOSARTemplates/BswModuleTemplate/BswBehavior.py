@@ -2008,6 +2008,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject, VariationPointCapable):
 
     # RoleBasedBswModuleEntryAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.3, p.226
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAssignedEntryRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -2062,6 +2063,7 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
 
     # BswServiceDependency method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.2, p.225
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAssignedData             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

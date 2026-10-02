@@ -163,6 +163,7 @@ class McDataAccessDetails(ARObject):
 
     # McDataAccessDetails method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.12, p.195
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRteEventIRefs            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -217,6 +218,7 @@ class McParameterElementGroup(ARObject):
 
     # McParameterElementGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.6, p.181
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRamLocationRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -291,6 +293,7 @@ class McSwEmulationMethodSupport(ARObject, VariationPointCapable):
 
     # McSwEmulationMethodSupport method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.5, p.180
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseReferenceRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -405,6 +408,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
 
     # ImplementationElementInParameterInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.7, p.184
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -459,6 +463,7 @@ class McFunction(Identifiable):
 
     # McFunction method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.8, p.186
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefCalprmSet             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -593,6 +598,7 @@ class RoleBasedMcDataAssignment(ARObject, VariationPointCapable):
 
     # RoleBasedMcDataAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.55, p.329
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getExecutionContextRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -667,6 +673,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
 
     # McDataInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.4, p.177
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getArraySize                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -923,6 +930,7 @@ class McSupportData(ARObject):
 
     # McSupportData method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.1, p.172
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEmulationSupports        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

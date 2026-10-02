@@ -486,6 +486,7 @@ class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
 
     # ArgumentDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.7, p.303
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDirection                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -586,6 +587,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     # ClientServerOperation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getArguments                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -669,6 +671,7 @@ class ClientServerInterface(PortInterface):
 
     # ClientServerInterface method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getOperations               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

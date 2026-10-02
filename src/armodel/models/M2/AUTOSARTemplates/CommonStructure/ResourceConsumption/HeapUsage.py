@@ -136,6 +136,7 @@ class MeasuredHeapUsage(HeapUsage):
 
     # MeasuredHeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.15, p.152
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAverageMemoryConsumption [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -230,6 +231,7 @@ class RoughEstimateHeapUsage(HeapUsage):
 
     # RoughEstimateHeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.16, p.153
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMemoryConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -264,6 +266,7 @@ class WorstCaseHeapUsage(HeapUsage):
 
     # WorstCaseHeapUsage method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.14, p.152
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMemoryConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

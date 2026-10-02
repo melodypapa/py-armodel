@@ -283,6 +283,7 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ClientServerAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.46, p.155
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getOperationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -317,6 +318,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     # IoHwAbstractionServerAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.47, p.157
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAge                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -491,6 +493,7 @@ class ModePortAnnotation(GeneralAnnotation):
 
     # ModePortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.51, p.159
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -525,6 +528,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
 
     # NvDataPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.53, p.160
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getVariableRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -559,6 +563,7 @@ class ParameterPortAnnotation(GeneralAnnotation):
 
     # ParameterPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.50, p.159
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -593,6 +598,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
 
     # TriggerPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.52, p.160
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -627,6 +633,7 @@ class DelegatedPortAnnotation(GeneralAnnotation):
 
     # DelegatedPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.54, p.162
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSignalFan                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

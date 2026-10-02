@@ -55,6 +55,7 @@ class RptServicePointEnum(AREnum):
 
     # RptServicePointEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.15, p.860
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -81,6 +82,7 @@ class RptImplPolicy(ARObject):
 
     # RptImplPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.8, p.854
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRptEnablerImplType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -135,6 +137,7 @@ class RptExecutableEntityProperties(ARObject):
 
     # RptExecutableEntityProperties method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.13, p.859
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMaxRptEventId            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

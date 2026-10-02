@@ -121,6 +121,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
 
     # ApplicationValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.122, p.455
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -412,6 +413,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, Va
 
     # ApplicationRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.302
+# Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
