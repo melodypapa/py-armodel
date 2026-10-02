@@ -30,7 +30,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none new
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (212 passed / 0 failed targeted, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TransferPropertyEnum` — AREnum — R23-11 markdown · Table 6.15 (CP_TPS_SystemTemplate), p.327 — commit e6baac031
+- [x] `TransferPropertyEnum` — AREnum — R23-11 markdown · Table 6.15 (CP_TPS_SystemTemplate), p.327 — **finished, stamped `# Spec verified: R23-11`** (sync commit f3a9dc08d; steps 1-8 commit e6baac031)
   - commit: e6baac031 (feat; steps 1-8; class body already spec-faithful — added mirror test + 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — class already conformant; mirror test green on first run
@@ -40,7 +40,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (206 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (1128 Fibex tests passed incl. dedicated TestTransferPropertyEnum, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note + 5 literals verbatim in displayed order (de-split 'triggeredOnChange WithoutRepetition'), 6-col AREnum checklist canonical; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `MultiplexedPart` — ARObject — R23-11 markdown · Table 6.76 (CP_TPS_SystemTemplate), p.411 — commit 66512d060
   - commit: 66512d060 (feat; steps 1-8; verbatim Note + constr_9181, PEP 526 typed list, typed accessors, 6-col checklist; abstract guard kept)

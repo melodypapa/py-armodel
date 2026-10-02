@@ -691,12 +691,12 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **0/24** completed
+Status: **1/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
 | `CommunicationDirectionType`  | [ ] Pending* | 3378eb6247 |
-| `TransferPropertyEnum`        | [ ] Pending* | e6baac031c |
+| `TransferPropertyEnum`        | [x] Done     | f3a9dc08dd |
 | `MultiplexedPart`             | [ ] Pending* | 66512d0602 |
 | `DynamicPart`                 | [ ] Pending* | 4211085bc4 |
 | `SegmentPosition`             | [ ] Pending* | 9546cf291b |

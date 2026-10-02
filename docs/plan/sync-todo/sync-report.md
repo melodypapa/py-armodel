@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 721 | 37.9% |
+| [x] Done | 722 | 37.9% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 309 | 16.2% |
+| [ ] Deferred | 308 | 16.2% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 434 | 22.8% |
 | [ ] Pending | 0 | 0.0% |
@@ -1825,7 +1825,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TraceableTable`                                        | [x] Done    | fa79c73df5                               | Group3           |
 | `TraceableText`                                         | [x] Done    | 9e80479bda                               | Group1           |
 | `TracedFailure`                                         | [x] Done    | N/A                                      | Group23          |
-| `TransferPropertyEnum`                                  | [ ] Deferred| e6baac031c                               | Group15          |
+| `TransferPropertyEnum`                                  | [x] Done    | f3a9dc08dd                               | Group15          |
 | `TransformationComSpecProps`                            | [ ] Implemented| N/A                                      | Group27          |
 | `TransformationDescription`                             | [ ] Implemented| N/A                                      | Group28          |
 | `TransformationISignalProps`                            | [x] Done    | 757aea1d17                               | Group6           |
