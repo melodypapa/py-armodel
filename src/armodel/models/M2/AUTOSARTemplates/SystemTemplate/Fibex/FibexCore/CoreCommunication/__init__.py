@@ -497,6 +497,7 @@ class ISignalIPduGroup(FibexElement):
 
     # ISignalIPduGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.32, p.351 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommunicationDirection        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -945,6 +946,7 @@ class SecuredPduHeaderEnum(AREnum):
 
     # SecuredPduHeaderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.43, p.369 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on SecuredIPdu.useSecuredPduHeader
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -972,6 +974,7 @@ class SecuredIPdu(IPdu):
 
     # SecuredIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.42, p.368 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAuthenticationPropsRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1126,6 +1129,7 @@ class TransferPropertyEnum(AREnum):
 
     # TransferPropertyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on ISignalToIPduMapping.transferProperty
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -2090,6 +2094,7 @@ class SystemSignal(ARElement):
 
     # SystemSignal method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.23, p.218 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDynamicLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2271,6 +2276,7 @@ class SegmentPosition(ARObject):
 
     # SegmentPosition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.77, p.412 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSegmentByteOrder [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2347,6 +2353,7 @@ class MultiplexedPart(ARObject, ABC):
 
     # MultiplexedPart method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.76, p.411 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSegmentPositions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2502,6 +2509,7 @@ class DynamicPart(MultiplexedPart, VariationPointCapable):
 
     # DynamicPart method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.74, p.410 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDynamicPartAlternatives  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2536,6 +2544,7 @@ class TriggerMode(AREnum):
 
     # TriggerMode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.71, p.408 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on MultiplexedIPdu.triggerMode
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -2564,6 +2573,7 @@ class MultiplexedIPdu(IPdu):
 
     # MultiplexedIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.72, p.410 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDynamicPart         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2833,6 +2843,7 @@ class UserDefinedPdu(Pdu):
 
     # UserDefinedPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.27, p.345 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2867,6 +2878,7 @@ class UserDefinedIPdu(IPdu):
 
     # UserDefinedIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.28, p.346 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3057,6 +3069,7 @@ class CommunicationDirectionType(AREnum):
 
     # CommunicationDirectionType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.33, p.351 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CommConnectorPort.communicationDirection, IEEE1722TpConnection.communicationDirection, IPSecRule.direction, ISignalIPduGroup.communicationDirection
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -3214,6 +3227,7 @@ class ISignalPort(CommConnectorPort):
 
     # ISignalPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.5, p.306 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataFilter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

@@ -1196,6 +1196,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     CyclicTiming,
     EventControlledTiming,
     ModeDrivenTransmissionModeCondition,
+    AbsoluteTolerance,
+    RelativeTolerance,
     TimeRangeType,
     TransmissionModeCondition,
     TransmissionModeDeclaration,
@@ -14887,6 +14889,18 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             time_range = TimeRangeType()
+            tolerance_element = self.find(child_element, "TOLERANCE")
+            if tolerance_element is not None:
+                absolute_element = self.find(tolerance_element, "ABSOLUTE-TOLERANCE")
+                relative_element = self.find(tolerance_element, "RELATIVE-TOLERANCE")
+                if absolute_element is not None:
+                    tolerance = AbsoluteTolerance()
+                    tolerance.setAbsolute(self.getChildElementOptionalTimeValue(absolute_element, "ABSOLUTE"))
+                    time_range.setTolerance(tolerance)
+                elif relative_element is not None:
+                    tolerance = RelativeTolerance()
+                    tolerance.setRelative(self.getChildElementOptionalIntegerValue(relative_element, "RELATIVE"))
+                    time_range.setTolerance(tolerance)
             time_range.setValue(self.getChildElementOptionalTimeValue(child_element, "VALUE"))
         return time_range
 

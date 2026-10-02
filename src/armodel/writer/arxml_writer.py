@@ -1056,6 +1056,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     CyclicTiming,
     EventControlledTiming,
     ModeDrivenTransmissionModeCondition,
+    AbsoluteTolerance,
+    RelativeTolerance,
     TimeRangeType,
     TransmissionModeCondition,
     TransmissionModeDeclaration,
@@ -15476,6 +15478,15 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTimeRangeType(self, element: ET.Element, key: str, time_range: TimeRangeType):
         if time_range is not None:
             child_element = ET.SubElement(element, key)
+            tolerance = time_range.getTolerance()
+            if isinstance(tolerance, AbsoluteTolerance):
+                tolerance_element = ET.SubElement(child_element, "TOLERANCE")
+                absolute_element = ET.SubElement(tolerance_element, "ABSOLUTE-TOLERANCE")
+                self.setChildElementOptionalTimeValue(absolute_element, "ABSOLUTE", tolerance.getAbsolute())
+            elif isinstance(tolerance, RelativeTolerance):
+                tolerance_element = ET.SubElement(child_element, "TOLERANCE")
+                relative_element = ET.SubElement(tolerance_element, "RELATIVE-TOLERANCE")
+                self.setChildElementOptionalIntegerValue(relative_element, "RELATIVE", tolerance.getRelative())
             self.setChildElementOptionalTimeValue(child_element, "VALUE", time_range.getValue())
 
     def setEventControlledTiming(self, element: ET.Element, key: str, timing: EventControlledTiming):
