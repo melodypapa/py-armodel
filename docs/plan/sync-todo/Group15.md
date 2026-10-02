@@ -42,7 +42,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (1128 Fibex tests passed incl. dedicated TestTransferPropertyEnum, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note + 5 literals verbatim in displayed order (de-split 'triggeredOnChange WithoutRepetition'), 6-col AREnum checklist canonical; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
-- [ ] `MultiplexedPart` — ARObject — R23-11 markdown · Table 6.76 (CP_TPS_SystemTemplate), p.411 — commit 66512d060
+- [x] `MultiplexedPart` — ARObject — R23-11 markdown · Table 6.76 (CP_TPS_SystemTemplate), p.411 — **finished, stamped `# Spec verified: R23-11`** (sync commit 9ed9d7878; steps 1-8 commit 66512d060)
   - commit: 66512d060 (feat; steps 1-8; verbatim Note + constr_9181, PEP 526 typed list, typed accessors, 6-col checklist; abstract guard kept)
   - note: v2 tracker entry (line 1447) is about StaticPart — informational only
   - [x] Step 1 — Sync members & description from spec
@@ -53,7 +53,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — helpers already complete (readMultiplexedPart/writeMultiplexedPart)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none (abstract per table)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (256 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (51 targeted passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 — Note + constr_9181 verbatim, Base = ARObject, abstract guard, segmentPosition *→List[SegmentPosition] with Note verbatim, rw via concrete subclasses; no deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `DynamicPart` — MultiplexedPart — R23-11 markdown · Table 6.74 (CP_TPS_SystemTemplate), p.410 — commit 4211085bc
   - commit: 4211085bc (feat; steps 1-8; verbatim Note, PEP 526 typed list, typed accessors, 6-col checklist)

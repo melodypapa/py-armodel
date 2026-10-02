@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 722 | 37.9% |
+| [x] Done | 723 | 38.0% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 308 | 16.2% |
+| [ ] Deferred | 307 | 16.1% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 434 | 22.8% |
 | [ ] Pending | 0 | 0.0% |
@@ -1305,7 +1305,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MultilanguageLongName`                                 | [x] Done    | 87855dea47                               | Group3           |
 | `MultilanguageReferrable`                               | [x] Done    | 7c7157a02b                               | Group1           |
 | `MultiplexedIPdu`                                       | [ ] Deferred| eba346cb51                               | Group15          |
-| `MultiplexedPart`                                       | [ ] Deferred| 66512d0602                               | Group15          |
+| `MultiplexedPart`                                       | [x] Done    | 9ed9d78782                               | Group15          |
 | `MultiplicityRestrictionWithSeverity`                   | [ ] Created | N/A                                      | Group36          |
 | `NPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
 | `NameTokens`                                            | [x] Done    | c8a3ff507d                               | Group3           |
