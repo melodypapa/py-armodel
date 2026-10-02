@@ -648,15 +648,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucCommonAttributes` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.8, p.49
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + parser/writer round-trip files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale `# Spec verified: R23-11` removed (legacy 5-col stamp); abstract (ABC + guard); Base most-derived = EcucDefinitionElement (row header "ARObject" was infrastructure-only); ARBITRATION NOTE for 9b: markdown Table 2.8 lists only postBuildVariantMultiplicity + postBuildVariantValue, but the class carries 6 members — these mirror the XSD group ECUC-COMMON-ATTRIBUTES (AUTOSAR_00052.xsd l.51349) exactly (multiplicityConfigClass/origin/postBuildVariantMultiplicity/postBuildVariantValue/requiresIndex/valueConfigClass; group's configurationClassAffection + implementationConfigClass atp.Status="removed" → correctly NOT modeled); the other 4 attrs are documented in the PDF in Table 2.3 (container presentation) — no conflict, PDF presentation split; writer XML order = XSD group order verified
 
 - [ ] `EcucAbstractConfigurationClass` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.9, p.51
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

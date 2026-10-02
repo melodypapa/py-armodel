@@ -634,20 +634,20 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
     # EcucCommonAttributes method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.8, p.49
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiresIndex             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresIndex             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValueConfigClasses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addValueConfigClass          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMultiplicityConfigClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMultiplicityConfigClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOrigin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantValue        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPostBuildVariantValue        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiresIndex                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiresIndex                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValueConfigClasses           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addValueConfigClass             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucCommonAttributes:

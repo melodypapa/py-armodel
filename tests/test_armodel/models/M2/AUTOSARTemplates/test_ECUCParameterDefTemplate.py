@@ -990,9 +990,29 @@ class TestEcucContainerDef:
 
 
 class TestEcucCommonAttributes:
+    """
+    Test class for EcucCommonAttributes functionality (abstract — accessors via local concrete subclass).
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.8, p.49
+    """
+
+    CLASS_NOTE = "Attributes used by Configuration Parameters as well as References."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucCommonAttributes)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EcucCommonAttributes.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EcucCommonAttributes.__init__.__doc__ is None
 
     def _make(self):
         class _Concrete(EcucCommonAttributes):
