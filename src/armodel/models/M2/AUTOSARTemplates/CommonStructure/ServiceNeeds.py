@@ -1692,7 +1692,8 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
 
     # DtcStatusChangeNotificationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.32, p.776 (R23-11)
-    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.29, p.769 (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDtcFormatType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
