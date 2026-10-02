@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 705 | 37.0% |
+| [x] Done | 706 | 37.1% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 283 | 14.9% |
+| [ ] Deferred | 282 | 14.8% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -506,7 +506,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticAuthentication`                              | [ ] Deferred| 13ac1a6b3d                               | Group24          |
 | `DiagnosticAuthenticationClass`                         | [ ] Deferred| 50e51bce63                               | Group24          |
 | `DiagnosticAuthenticationConfiguration`                 | [ ] Deferred| 3d83a383d7                               | Group24          |
-| `DiagnosticCapabilityElement`                           | [ ] Deferred| f5ffd3abf2                               | Group14          |
+| `DiagnosticCapabilityElement`                           | [x] Done    | caf7dc3419                               | Group14          |
 | `DiagnosticClearDiagnosticInformation`                  | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticClearDiagnosticInformationClass`             | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticClearDtcLimitationEnum`                      | [ ] Created | N/A                                      | Group25          |
