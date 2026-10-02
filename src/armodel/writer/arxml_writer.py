@@ -452,6 +452,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestFileTransfer,
+    DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -15066,6 +15067,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "PID-REF", request_current_powertrain_data.getPidRef())
         self.setChildElementOptionalRefType(child_element, "REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF", request_current_powertrain_data.getRequestCurrentPowertrainDiagnosticDataClassRef())
 
+    def writeDiagnosticRequestPowertrainFreezeFrameData(self, element: ET.Element, request_powertrain_freeze_frame_data: DiagnosticRequestPowertrainFreezeFrameData):
+        self.logger.debug("Write DiagnosticRequestPowertrainFreezeFrameData %s" % request_powertrain_freeze_frame_data.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA")
+        self.writeIdentifiable(child_element, request_powertrain_freeze_frame_data)
+        self.setChildElementOptionalRefType(child_element, "FREEZE-FRAME-REF", request_powertrain_freeze_frame_data.getFreezeFrameRef())
+        self.setChildElementOptionalRefType(child_element, "REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-REF", request_powertrain_freeze_frame_data.getRequestPowertrainFreezeFrameDataRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16394,6 +16402,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestCurrentPowertrainData):
             self.writeDiagnosticRequestCurrentPowertrainData(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestPowertrainFreezeFrameData):
+            self.writeDiagnosticRequestPowertrainFreezeFrameData(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

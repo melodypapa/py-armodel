@@ -84,6 +84,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestFileTransfer,
+    DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -8355,3 +8356,105 @@ class TestDiagnosticRequestCurrentPowertrainData:
         assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.setPidRef.__doc__) == (self.PID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pidRef.")
         assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.getRequestCurrentPowertrainDiagnosticDataClassRef.__doc__) == self.CLASS_REF_NOTE
         assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.setRequestCurrentPowertrainDiagnosticDataClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestCurrentPowertrainDiagnosticDataClassRef.")
+
+
+class TestDiagnosticRequestPowertrainFreezeFrameData:
+    """
+    Test class for DiagnosticRequestPowertrainFreezeFrameData functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.132, p.152
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an instance of the OBD mode 0x02 service. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames"
+    FREEZE_FRAME_NOTE = "This represents the associated freeze-frame."
+    CLASS_REF_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context."
+
+    def _make_obj(self) -> DiagnosticRequestPowertrainFreezeFrameData:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestPowertrainFreezeFrameData(ar_root, "TestMode02")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestPowertrainFreezeFrameData instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMode02"
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getFreezeFrameRef() is None
+        assert obj.getRequestPowertrainFreezeFrameDataRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestPowertrainFreezeFrameData.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestPowertrainFreezeFrameData.__init__.__doc__ is None
+
+    def test_get_set_freeze_frame_ref(self):
+        """
+        Round-trips the freezeFrame ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-POWERTRAIN-FREEZE-FRAME")
+        ref.setValue("/AUTOSAR/DiagnosticPowertrainFreezeFrames/Frame1")
+        result = obj.setFreezeFrameRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getFreezeFrameRef() is ref
+        assert obj.getFreezeFrameRef().getValue() == "/AUTOSAR/DiagnosticPowertrainFreezeFrames/Frame1"
+        assert obj.getFreezeFrameRef().getDest() == "DIAGNOSTIC-POWERTRAIN-FREEZE-FRAME"
+
+        result = obj.setFreezeFrameRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFreezeFrameRef() is ref  # None is a no-op
+
+    def test_get_set_request_powertrain_freeze_frame_data_ref(self):
+        """
+        Round-trips the requestPowertrainFreezeFrameData ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestPowertrainFreezeFrameDataClasses/Class1")
+        result = obj.setRequestPowertrainFreezeFrameDataRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestPowertrainFreezeFrameDataRef() is ref
+        assert obj.getRequestPowertrainFreezeFrameDataRef().getValue() == "/AUTOSAR/DiagnosticRequestPowertrainFreezeFrameDataClasses/Class1"
+        assert obj.getRequestPowertrainFreezeFrameDataRef().getDest() == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS"
+
+        result = obj.setRequestPowertrainFreezeFrameDataRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestPowertrainFreezeFrameDataRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_powertrain_freeze_frame_data(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("OBDMode02Services")
+        element = package.createDiagnosticRequestPowertrainFreezeFrameData("Mode02Service1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestPowertrainFreezeFrameData)
+        assert element.getShortName() == "Mode02Service1"
+        assert package.getReferrableElement("Mode02Service1", DiagnosticRequestPowertrainFreezeFrameData) is element
+
+        duplicate = package.createDiagnosticRequestPowertrainFreezeFrameData("Mode02Service1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.getFreezeFrameRef.__doc__) == self.FREEZE_FRAME_NOTE
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setFreezeFrameRef.__doc__) == (self.FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing freezeFrameRef.")
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.getRequestPowertrainFreezeFrameDataRef.__doc__) == self.CLASS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setRequestPowertrainFreezeFrameDataRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestPowertrainFreezeFrameDataRef.")

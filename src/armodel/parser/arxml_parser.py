@@ -579,6 +579,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestFileTransfer,
+    DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -11553,6 +11554,12 @@ class ARXMLParser(AbstractARXMLParser):
         request_current_powertrain_data.setPidRef(self.getChildElementOptionalRefType(element, "PID-REF"))
         request_current_powertrain_data.setRequestCurrentPowertrainDiagnosticDataClassRef(self.getChildElementOptionalRefType(element, "REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF"))
 
+    def readDiagnosticRequestPowertrainFreezeFrameData(self, element: ET.Element, request_powertrain_freeze_frame_data: DiagnosticRequestPowertrainFreezeFrameData):
+        self.logger.debug("Read DiagnosticRequestPowertrainFreezeFrameData <%s>" % request_powertrain_freeze_frame_data.getShortName())
+        self.readIdentifiable(element, request_powertrain_freeze_frame_data)
+        request_powertrain_freeze_frame_data.setFreezeFrameRef(self.getChildElementOptionalRefType(element, "FREEZE-FRAME-REF"))
+        request_powertrain_freeze_frame_data.setRequestPowertrainFreezeFrameDataRef(self.getChildElementOptionalRefType(element, "REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16929,6 +16936,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA":
             request_current_powertrain_data = parent.createDiagnosticRequestCurrentPowertrainData(self.getShortName(child_element))
             self.readDiagnosticRequestCurrentPowertrainData(child_element, request_current_powertrain_data)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA":
+            request_powertrain_freeze_frame_data = parent.createDiagnosticRequestPowertrainFreezeFrameData(self.getShortName(child_element))
+            self.readDiagnosticRequestPowertrainFreezeFrameData(child_element, request_powertrain_freeze_frame_data)
             return True
         return False
 

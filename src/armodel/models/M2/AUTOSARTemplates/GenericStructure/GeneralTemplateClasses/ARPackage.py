@@ -152,6 +152,7 @@ __all__ = [
     "DiagnosticRequestDownload",
     "DiagnosticRequestControlOfOnBoardDevice",
     "DiagnosticRequestCurrentPowertrainData",
+    "DiagnosticRequestPowertrainFreezeFrameData",
     "DiagnosticReadScalingDataByIdentifier",
     "DiagnosticReadDataByPeriodicID",
     "DiagnosticReadDataByIdentifier",
@@ -1248,6 +1249,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             request_current_powertrain_data_class = DiagnosticRequestCurrentPowertrainDataClass(self, short_name)
             self.addReferrableElement(request_current_powertrain_data_class)
         return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainDataClass)
+
+    def createDiagnosticRequestPowertrainFreezeFrameData(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameData:
+        """
+        Creates a new DiagnosticRequestPowertrainFreezeFrameData with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestPowertrainFreezeFrameData represents an instance of the OBD mode 0x02 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestPowertrainFreezeFrameData
+
+        Returns:
+            The newly created or existing DiagnosticRequestPowertrainFreezeFrameData instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestPowertrainFreezeFrameData):
+            request_powertrain_freeze_frame_data = DiagnosticRequestPowertrainFreezeFrameData(self, short_name)
+            self.addReferrableElement(request_powertrain_freeze_frame_data)
+        return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameData)
 
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
@@ -7653,8 +7672,58 @@ class DiagnosticRequestOnBoardMonitoringTestResults(ARElement):
     pass
 
 
-class DiagnosticRequestPowertrainFreezeFrameData(ARElement):
-    pass
+class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x02 service. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames"""
+
+    # DiagnosticRequestPowertrainFreezeFrameData method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.132, p.152
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFreezeFrameRef                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreezeFrameRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestPowertrainFreezeFrameDataRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestPowertrainFreezeFrameDataRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the associated freeze-frame.
+        self.freezeFrameRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context.
+        self.requestPowertrainFreezeFrameDataRef: Optional[RefType] = None
+
+    def getFreezeFrameRef(self) -> Optional[RefType]:
+        """
+        This represents the associated freeze-frame.
+        """
+        return self.freezeFrameRef
+
+    def setFreezeFrameRef(self, value: Optional[RefType]) -> DiagnosticRequestPowertrainFreezeFrameData:
+        """
+        This represents the associated freeze-frame.
+
+        A None value is a no-op and does not overwrite an existing freezeFrameRef.
+        """
+        if value is not None:
+            self.freezeFrameRef = value
+        return self
+
+    def getRequestPowertrainFreezeFrameDataRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context.
+        """
+        return self.requestPowertrainFreezeFrameDataRef
+
+    def setRequestPowertrainFreezeFrameDataRef(self, value: Optional[RefType]) -> DiagnosticRequestPowertrainFreezeFrameData:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestPowertrainFreezeFrameDataRef.
+        """
+        if value is not None:
+            self.requestPowertrainFreezeFrameDataRef = value
+        return self
 
 
 class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
