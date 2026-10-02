@@ -541,6 +541,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
+    DiagnosticServiceSwMapping,
     DiagnosticEventPortMapping,
     DiagnosticOperationCyclePortMapping,
     DiagnosticEnableConditionPortMapping,
@@ -10548,6 +10549,21 @@ class ARXMLParser(AbstractARXMLParser):
             service_data_mapping.setParameterElementAccess(pea)
         service_data_mapping.setDiagnosticParameterRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-PARAMETER-REF"))
 
+    def readDiagnosticServiceSwMapping(self, element: ET.Element, mapping: DiagnosticServiceSwMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setAccessedDataPrototypeIRef(self.getChildElementOptionalRefType(element, "ACCESSED-DATA-PROTOTYPE-IREF"))
+        mapping.setDiagnosticDataElementRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-DATA-ELEMENT-REF"))
+        mapping.setDiagnosticParameterRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-PARAMETER-REF"))
+        mapping.setMappedBswServiceDependencyRef(self.getChildElementOptionalRefType(element, "MAPPED-BSW-SERVICE-DEPENDENCY-REF"))
+        mapping.setMappedFlatSwcServiceDependencyRef(self.getChildElementOptionalRefType(element, "MAPPED-FLAT-SWC-SERVICE-DEPENDENCY-REF"))
+        mapping.setMappedSwcServiceDependencyInSystemIRef(self.getChildElementOptionalRefType(element, "MAPPED-SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF"))
+        pea_element = self.find(element, "PARAMETER-ELEMENT-ACCESS")
+        if pea_element is not None:
+            pea = DiagnosticParameterElementAccess()
+            self.readDiagnosticParameterElementAccess(pea_element, pea)
+            mapping.setParameterElementAccess(pea)
+        mapping.setServiceInstanceRef(self.getChildElementOptionalRefType(element, "SERVICE-INSTANCE-REF"))
+
     def readDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setBswServiceDependencyRef(self.getChildElementOptionalRefType(element, "BSW-SERVICE-DEPENDENCY-REF"))
@@ -15731,6 +15747,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
                 service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
                 self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
+            elif tag_name == "DIAGNOSTIC-SERVICE-SW-MAPPING":
+                mapping = parent.createDiagnosticServiceSwMapping(self.getShortName(child_element))
+                self.readDiagnosticServiceSwMapping(child_element, mapping)
             elif tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
                 mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))
                 self.readDiagnosticEventPortMapping(child_element, mapping)

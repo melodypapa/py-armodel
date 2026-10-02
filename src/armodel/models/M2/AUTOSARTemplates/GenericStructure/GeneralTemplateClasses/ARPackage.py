@@ -120,6 +120,7 @@ __all__ = [
     "DiagnosticSessionControl",
     "DiagnosticServiceDataMapping",
     "DiagnosticServiceMappingDiagTarget",
+    "DiagnosticServiceSwMapping",
     "DiagnosticParameterElementAccess",
     "DiagnosticSecurityEventReportingModeMapping",
     "DiagnosticSecurityAccess",
@@ -2304,6 +2305,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticEventToTroubleCodeJ1939Mapping(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, DiagnosticEventToTroubleCodeJ1939Mapping)
+
+    def createDiagnosticServiceSwMapping(self, short_name: str) -> DiagnosticServiceSwMapping:
+        """
+        Creates a new DiagnosticServiceSwMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticServiceSwMapping: This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module.
+
+        Args:
+            short_name: The short name for the new DiagnosticServiceSwMapping
+
+        Returns:
+            The newly created or existing DiagnosticServiceSwMapping instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticServiceSwMapping):
+            element = DiagnosticServiceSwMapping(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, DiagnosticServiceSwMapping)
 
     def createCpSwClusterResourceToDiagFunctionIdMapping(self, short_name: str) -> CpSwClusterResourceToDiagFunctionIdMapping:
         """
@@ -6290,6 +6309,178 @@ class DiagnosticServiceMappingDiagTarget(ARObject):
             raise TypeError("DiagnosticServiceMappingDiagTarget is an abstract class.")
 
         super().__init__()
+
+
+class DiagnosticServiceSwMapping(DiagnosticSwMapping):
+    """This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module. If the former is used then this kind of service mapping is applicable for the usage of ClientServerInterfaces. Tags: atp.recommendedPackage=DiagnosticServiceMappings"""
+
+    # DiagnosticServiceSwMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.15, p.239
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessedDataPrototypeIRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessedDataPrototypeIRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticParameterRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedBswServiceDependencyRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedFlatSwcServiceDependencyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappedSwcServiceDependencyInSystemIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappedSwcServiceDependencyInSystemIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterElementAccess             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterElementAccess             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Thi instanceRef identifies the DataPrototype that is supposed to be accessed in the context of the operation argument. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        self.accessedDataPrototypeIRef: Optional[RefType] = None
+
+        # This represents a DiagnosticDataElement required to execute the respective diagnostic service in the context of the diagnostic service mapping,
+        self.diagnosticDataElementRef: Optional[RefType] = None
+
+        # This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement.
+        self.diagnosticParameterRef: Optional[RefType] = None
+
+        # This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        self.mappedBswServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        self.mappedFlatSwcServiceDependencyRef: Optional[RefType] = None
+
+        # This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition) InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        self.mappedSwcServiceDependencyInSystemIRef: Optional[RefType] = None
+
+        # This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        self.parameterElementAccess: Optional[DiagnosticParameterElementAccess] = None
+
+        # This represents the service instance that needs to be considered in this diagnostics service mapping.
+        self.serviceInstanceRef: Optional[RefType] = None
+
+    def getAccessedDataPrototypeIRef(self) -> Optional[RefType]:
+        """
+        Thi instanceRef identifies the DataPrototype that is supposed to be accessed in the context of the operation argument. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        """
+        return self.accessedDataPrototypeIRef
+
+    def setAccessedDataPrototypeIRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        Thi instanceRef identifies the DataPrototype that is supposed to be accessed in the context of the operation argument. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        A None value is a no-op and does not overwrite an existing accessedDataPrototypeIRef.
+        """
+        if value is not None:
+            self.accessedDataPrototypeIRef = value
+        return self
+
+    def getDiagnosticDataElementRef(self) -> Optional[RefType]:
+        """
+        This represents a DiagnosticDataElement required to execute the respective diagnostic service in the context of the diagnostic service mapping,
+        """
+        return self.diagnosticDataElementRef
+
+    def setDiagnosticDataElementRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents a DiagnosticDataElement required to execute the respective diagnostic service in the context of the diagnostic service mapping,
+        A None value is a no-op and does not overwrite an existing diagnosticDataElementRef.
+        """
+        if value is not None:
+            self.diagnosticDataElementRef = value
+        return self
+
+    def getDiagnosticParameterRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement.
+        """
+        return self.diagnosticParameterRef
+
+    def setDiagnosticParameterRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedDataElement.
+        A None value is a no-op and does not overwrite an existing diagnosticParameterRef.
+        """
+        if value is not None:
+            self.diagnosticParameterRef = value
+        return self
+
+    def getMappedBswServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        """
+        return self.mappedBswServiceDependencyRef
+
+    def setMappedBswServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This is supposed to represent a reference to a BswServiceDependency. the latter is not derived from Referrable and therefore this detour needs to be implemented to still let BswServiceDependency become the target of a reference.
+        A None value is a no-op and does not overwrite an existing mappedBswServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedBswServiceDependencyRef = value
+        return self
+
+    def getMappedFlatSwcServiceDependencyRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        """
+        return self.mappedFlatSwcServiceDependencyRef
+
+    def setMappedFlatSwcServiceDependencyRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the ability to refer to an AtomicSwComponentType that is available without the definition of how it will be embedded into the component hierarchy.
+        A None value is a no-op and does not overwrite an existing mappedFlatSwcServiceDependencyRef.
+        """
+        if value is not None:
+            self.mappedFlatSwcServiceDependencyRef = value
+        return self
+
+    def getMappedSwcServiceDependencyInSystemIRef(self) -> Optional[RefType]:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition) InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        """
+        return self.mappedSwcServiceDependencyInSystemIRef
+
+    def setMappedSwcServiceDependencyInSystemIRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the ability to point into the component hierarchy (under possible consideration of the rootSoftwareComposition) InstanceRef implemented by: SwcServiceDependencyInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing mappedSwcServiceDependencyInSystemIRef.
+        """
+        if value is not None:
+            self.mappedSwcServiceDependencyInSystemIRef = value
+        return self
+
+    def getParameterElementAccess(self) -> Optional[DiagnosticParameterElementAccess]:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        """
+        return self.parameterElementAccess
+
+    def setParameterElementAccess(self, value: Optional[DiagnosticParameterElementAccess]) -> DiagnosticServiceSwMapping:
+        """
+        This aggregation represents the single point of access to the reference to one specific DiagnosticParameterElement.
+        A None value is a no-op and does not overwrite an existing parameterElementAccess.
+        """
+        if value is not None:
+            self.parameterElementAccess = value
+        return self
+
+    def getServiceInstanceRef(self) -> Optional[RefType]:
+        """
+        This represents the service instance that needs to be considered in this diagnostics service mapping.
+        """
+        return self.serviceInstanceRef
+
+    def setServiceInstanceRef(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
+        """
+        This represents the service instance that needs to be considered in this diagnostics service mapping.
+        A None value is a no-op and does not overwrite an existing serviceInstanceRef.
+        """
+        if value is not None:
+            self.serviceInstanceRef = value
+        return self
 
 
 class DiagnosticSessionControl(ARElement):

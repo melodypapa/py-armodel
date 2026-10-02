@@ -417,6 +417,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939,
     DiagnosticParameterElementAccess,
     DiagnosticServiceDataMapping,
+    DiagnosticServiceSwMapping,
     DiagnosticEventPortMapping,
     DiagnosticOperationCyclePortMapping,
     DiagnosticEnableConditionPortMapping,
@@ -13869,6 +13870,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticParameterElementAccess(pea_element, parameter_element_access)
         self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-PARAMETER-REF", service_data_mapping.getDiagnosticParameterRef())
 
+    def writeDiagnosticServiceSwMapping(self, element: ET.Element, mapping: DiagnosticServiceSwMapping):
+        self.logger.debug("Write DiagnosticServiceSwMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SERVICE-SW-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "ACCESSED-DATA-PROTOTYPE-IREF", mapping.getAccessedDataPrototypeIRef())
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-DATA-ELEMENT-REF", mapping.getDiagnosticDataElementRef())
+        self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-PARAMETER-REF", mapping.getDiagnosticParameterRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-BSW-SERVICE-DEPENDENCY-REF", mapping.getMappedBswServiceDependencyRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-FLAT-SWC-SERVICE-DEPENDENCY-REF", mapping.getMappedFlatSwcServiceDependencyRef())
+        self.setChildElementOptionalRefType(child_element, "MAPPED-SWC-SERVICE-DEPENDENCY-IN-SYSTEM-IREF", mapping.getMappedSwcServiceDependencyInSystemIRef())
+        parameter_element_access = mapping.getParameterElementAccess()
+        if parameter_element_access is not None:
+            pea_element = ET.SubElement(child_element, "PARAMETER-ELEMENT-ACCESS")
+            self.writeDiagnosticParameterElementAccess(pea_element, parameter_element_access)
+        self.setChildElementOptionalRefType(child_element, "SERVICE-INSTANCE-REF", mapping.getServiceInstanceRef())
+
     def writeDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
         self.logger.debug("Write DiagnosticEventPortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-PORT-MAPPING")
@@ -15438,6 +15455,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceDataMapping):
             self.writeDiagnosticServiceDataMapping(element, ar_element)
+        elif isinstance(ar_element, DiagnosticServiceSwMapping):
+            self.writeDiagnosticServiceSwMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticEventPortMapping):
             self.writeDiagnosticEventPortMapping(element, ar_element)
         elif isinstance(ar_element, DiagnosticOperationCyclePortMapping):

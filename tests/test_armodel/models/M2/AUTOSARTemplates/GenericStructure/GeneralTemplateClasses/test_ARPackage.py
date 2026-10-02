@@ -64,6 +64,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSecurityEventReportingModeMapping,
     DiagnosticServiceDataMapping,
     DiagnosticServiceMappingDiagTarget,
+    DiagnosticServiceSwMapping,
     DiagnosticSessionControl,
     DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
@@ -5670,4 +5671,112 @@ class TestCpSwClusterResourceToDiagFunctionIdMapping:
         assert package.getElement("M1", CpSwClusterResourceToDiagFunctionIdMapping) is element
 
         duplicate = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+class TestDiagnosticServiceSwMapping:
+    """
+    Test class for DiagnosticServiceSwMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.15, p.239
+    """
+
+    CLASS_NOTE = "This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module. If the former is used then this kind of service mapping is applicable for the usage of ClientServerInterfaces. Tags: atp.recommendedPackage=DiagnosticServiceMappings"
+
+    def _make_obj(self) -> DiagnosticServiceSwMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticServiceSwMapping(ar_root, "TestServiceSwMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticServiceSwMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestServiceSwMapping"
+        assert obj.getAccessedDataPrototypeIRef() is None
+        assert obj.getDiagnosticDataElementRef() is None
+        assert obj.getDiagnosticParameterRef() is None
+        assert obj.getMappedBswServiceDependencyRef() is None
+        assert obj.getMappedFlatSwcServiceDependencyRef() is None
+        assert obj.getMappedSwcServiceDependencyInSystemIRef() is None
+        assert obj.getParameterElementAccess() is None
+        assert obj.getServiceInstanceRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticServiceSwMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticServiceSwMapping.__init__.__doc__ is None
+
+    def test_get_set_refs_and_aggregation(self):
+        """
+        Round-trips the references and the parameterElementAccess aggregation; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        iref1 = RefType().setValue("/AUTOSAR/Interfaces/Op1")
+        data_ref = RefType().setValue("/AUTOSAR/DataElements/Did1")
+        param_ref = RefType().setValue("/AUTOSAR/ParamIdents/Ident1")
+        bsw_ref = RefType().setValue("/AUTOSAR/BswDeps/Dep1")
+        flat_ref = RefType().setValue("/AUTOSAR/SwcDeps/Dep2")
+        iref2 = RefType().setValue("/AUTOSAR/System/SwcDep3")
+        pea = DiagnosticParameterElementAccess()
+        si_ref = RefType().setValue("/AUTOSAR/Services/Svc1")
+
+        obj.setAccessedDataPrototypeIRef(iref1)
+        obj.setDiagnosticDataElementRef(data_ref)
+        obj.setDiagnosticParameterRef(param_ref)
+        obj.setMappedBswServiceDependencyRef(bsw_ref)
+        obj.setMappedFlatSwcServiceDependencyRef(flat_ref)
+        obj.setMappedSwcServiceDependencyInSystemIRef(iref2)
+        obj.setParameterElementAccess(pea)
+        obj.setServiceInstanceRef(si_ref)
+
+        assert obj.getAccessedDataPrototypeIRef() is iref1
+        assert obj.getDiagnosticDataElementRef() is data_ref
+        assert obj.getDiagnosticParameterRef() is param_ref
+        assert obj.getMappedBswServiceDependencyRef() is bsw_ref
+        assert obj.getMappedFlatSwcServiceDependencyRef() is flat_ref
+        assert obj.getMappedSwcServiceDependencyInSystemIRef() is iref2
+        assert obj.getParameterElementAccess() is pea
+        assert obj.getServiceInstanceRef() is si_ref
+
+        obj.setAccessedDataPrototypeIRef(None)
+        obj.setDiagnosticDataElementRef(None)
+        obj.setDiagnosticParameterRef(None)
+        obj.setMappedBswServiceDependencyRef(None)
+        obj.setMappedFlatSwcServiceDependencyRef(None)
+        obj.setMappedSwcServiceDependencyInSystemIRef(None)
+        obj.setParameterElementAccess(None)
+        obj.setServiceInstanceRef(None)
+
+        assert obj.getAccessedDataPrototypeIRef() is iref1  # None is a no-op
+        assert obj.getDiagnosticDataElementRef() is data_ref  # None is a no-op
+        assert obj.getDiagnosticParameterRef() is param_ref  # None is a no-op
+        assert obj.getMappedBswServiceDependencyRef() is bsw_ref  # None is a no-op
+        assert obj.getMappedFlatSwcServiceDependencyRef() is flat_ref  # None is a no-op
+        assert obj.getMappedSwcServiceDependencyInSystemIRef() is iref2  # None is a no-op
+        assert obj.getParameterElementAccess() is pea  # None is a no-op
+        assert obj.getServiceInstanceRef() is si_ref  # None is a no-op
+
+    def test_create_diagnostic_service_sw_mapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticServiceMappings")
+        element = package.createDiagnosticServiceSwMapping("Mapping1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticServiceSwMapping)
+        assert element.getShortName() == "Mapping1"
+        assert package.getElement("Mapping1", DiagnosticServiceSwMapping) is element
+
+        duplicate = package.createDiagnosticServiceSwMapping("Mapping1")
         assert duplicate is element  # duplicate short name returns the existing element
