@@ -20,7 +20,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [x] `DiagnosticAudienceEnum` — AREnum — R23-11 markdown · Table 13.17 (CP_TPS_SoftwareComponentTemplate), p.754 — commit 80d64e8f1 (stamped 2026-10-02, # Spec verified: R23-11)
 - [x] `DiagnosticClearDtcNotificationEnum` — AREnum — R23-11 markdown · Table 13.33 (CP_TPS_SoftwareComponentTemplate), p.776 — commit 2415d2157 (stamped 2026-10-02, # Spec verified: R23-11)
 - [x] `DiagnosticProcessingStyleEnum` — AREnum — R23-11 markdown · Table 12.23 (CP_TPS_BSWModuleDescriptionTemplate), p.247 — commit d07b0d014 (stamped 2026-10-02, # Spec verified: R23-11)
-- [ ] `DiagnosticRoutineTypeEnum` — AREnum — R23-11 markdown · Table 12.25 (CP_TPS_BSWModuleDescriptionTemplate), p.247
+- [x] `DiagnosticRoutineTypeEnum` — AREnum — R23-11 markdown · Table 12.25 (CP_TPS_BSWModuleDescriptionTemplate), p.247 — commit f9dc536d5 (stamped 2026-10-02, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note (Step 1): Note = "This enumerator specifies the different types of diagnostic routines." Literals: asynchronous(0), synchronous(1) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.
   - [x] Step 1 — Sync members & description from spec
@@ -33,7 +33,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (full suite: 16300 passed / 1 pre-existing unrelated integration failure; targeted 266 passed, lint/black clean); 9b confirmed 2026-10-02 (user); checklist re-formatted to 6-column AREnum shape
 - [ ] `DiagnosticServiceRequestCallbackTypeEnum` — AREnum — R23-11 markdown · Table 13.35 (CP_TPS_SoftwareComponentTemplate), p.780
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note (Step 1): Note = "This represents the ability to define whether a Service Request Notification was used in the role of a manufacturer or a supplier." Literals: requestCallbackTypeManufacturer(0), requestCallbackTypeSupplier(1) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.

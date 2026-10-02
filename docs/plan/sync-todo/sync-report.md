@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 699 | 36.7% |
+| [x] Done | 700 | 36.8% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 289 | 15.2% |
+| [ ] Deferred | 288 | 15.1% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -691,7 +691,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticRoutineControlClass`                         | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticRoutineNeeds`                                | [ ] Deferred| 79c639e42a                               | Group14          |
 | `DiagnosticRoutineSubfunction`                          | [ ] Created | N/A                                      | Group24          |
-| `DiagnosticRoutineTypeEnum`                             | [ ] Deferred| 28746ce3cc                               | Group14          |
+| `DiagnosticRoutineTypeEnum`                             | [x] Done    | f9dc536d57                               | Group14          |
 | `DiagnosticSecurityAccess`                              | [ ] Deferred| 4b106b2461                               | Group24          |
 | `DiagnosticSecurityAccessClass`                         | [ ] Deferred| 17ef969f39                               | Group24          |
 | `DiagnosticSecurityEventReportingModeMapping`           | [ ] Deferred| 531da6dd58                               | Group26          |
