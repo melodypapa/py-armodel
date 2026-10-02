@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticMapping,
+    DiagnosticMemoryByAddress,
     DiagnosticProofOfOwnership,
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
@@ -50,6 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticTransferExit,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
     DiagnosticWriteDataByIdentifier,
@@ -4394,3 +4396,49 @@ class TestDiagnosticClearDiagnosticInformation:
 
         duplicate = package.createDiagnosticClearDiagnosticInformation("ClearDiagnosticInformation1")
         assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element
+
+
+class TestDiagnosticMemoryByAddress:
+    """
+    Test class for DiagnosticMemoryByAddress functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.110, p.139
+    (abstract base with no own attributes; exercised through the concrete
+    subclass DiagnosticTransferExit)
+    """
+
+    CLASS_NOTE = "This represents an abstract base class for diagnostic services that deal with accessing memory by address."
+
+    def _make_obj(self) -> DiagnosticTransferExit:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTransferExit(ar_root, "TestTransferExit")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass of the abstract DiagnosticMemoryByAddress is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestTransferExit"
+        assert isinstance(obj, DiagnosticMemoryByAddress)
+        assert isinstance(obj, ARElement)
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticMemoryByAddress cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMemoryByAddress(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticMemoryByAddress.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryByAddress.__init__.__doc__ is None

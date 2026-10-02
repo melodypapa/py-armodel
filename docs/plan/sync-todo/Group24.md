@@ -1009,14 +1009,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMemoryByAddress` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.110, p.139
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - note (Step 1): Table 4.110 body matched by Class row (leading caption, md l.4177); abstract
+    ARElement (no "(abstract)"-free — marked "DiagnosticMemoryByAddress (abstract)"); NO attribute
+    rows (`-` row) — XSD group DIAGNOSTIC-MEMORY-BY-ADDRESS (AUTOSAR_00052.xsd l.39449) is an empty
+    `<xsd:sequence/>`; Aggregated by ARPackage.element but abstract ⇒ no factory/dispatch
+    (DiagnosticDataByIdentifier precedent); no Rule 0001.7 helpers (nothing to read/write).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (abstract; no own XML-bearing attributes — empty XSD group; no dispatch, no Rule 0001.7 helpers)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (same reason; concrete subclasses dispatch under their own tags)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations.
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticMemoryAddressableRangeAccess` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.111, p.140
