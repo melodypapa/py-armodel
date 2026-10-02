@@ -1068,7 +1068,10 @@ class DiagnosticProcessingStyleEnum(AREnum):
 
     # DiagnosticProcessingStyleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.23, p.247
-    # (no methods)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DiagnosticValueNeeds.processingStyle (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request. Tags: atp.EnumerationLiteralIndex=0
     PROCESSING_STYLE_ASYNCHRONOUS = "processingStyleAsynchronous"
