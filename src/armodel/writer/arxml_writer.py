@@ -355,6 +355,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucParameterDerivationFormula,
     EcucQuery,
     EcucReferenceDef,
+    EcucUriReferenceDef,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
     EcucValidationCondition,
@@ -834,7 +835,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
+    CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
+    CouplingPortCreditBasedShaper,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortRatePolicy,
@@ -10909,6 +10912,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucAbstractInternalReferenceDef(child_element, reference)
             self.setChildElementOptionalRefType(child_element, "DESTINATION-REF", reference.getDestinationRef())
 
+    def writeEcucUriReferenceDef(self, element: ET.Element, reference: EcucUriReferenceDef):
+        if reference is not None:
+            child_element = ET.SubElement(element, "ECUC-URI-REFERENCE-DEF")
+            self.writeEcucAbstractInternalReferenceDef(child_element, reference)
+            self.setChildElementOptionalRefType(child_element, "DESTINATION-URI-REF", reference.getDestinationUriRef())
+
     def writeEcucChoiceReferenceDef(self, element: ET.Element, reference: EcucChoiceReferenceDef):
         if reference is not None:
             child_element = ET.SubElement(element, "ECUC-CHOICE-REFERENCE-DEF")
@@ -10941,6 +10950,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucSymbolicNameReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucReferenceDef):
                     self.writeEcucReferenceDef(child_element, reference)
+                elif isinstance(reference, EcucUriReferenceDef):
+                    self.writeEcucUriReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucChoiceReferenceDef):
                     self.writeEcucChoiceReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
@@ -11096,6 +11107,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucSymbolicNameReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucReferenceDef):
                     self.writeEcucReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucUriReferenceDef):
+                    self.writeEcucUriReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucChoiceReferenceDef):
                     self.writeEcucChoiceReferenceDef(references_element, reference)
                 elif isinstance(reference, EcucInstanceReferenceDef):
@@ -11348,6 +11361,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 return
             child = ET.SubElement(shaper_element, tag)
             self.writeIdentifiable(child, shaper)
+            if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
+                self.writeCouplingPortAsynchronousTrafficShaper(child, shaper)
+            elif isinstance(shaper, CouplingPortCreditBasedShaper):
+                self.writeCouplingPortCreditBasedShaper(child, shaper)
+
+    def writeCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
+        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", shaper.getCommittedBurstSize())
+        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", shaper.getCommittedInformationRate())
+        self.setChildElementOptionalRefType(element, "TRAFFIC-SHAPER-GROUP-REF", shaper.getTrafficShaperGroupRef())
+
+    def writeCouplingPortCreditBasedShaper(self, element: ET.Element, shaper: CouplingPortCreditBasedShaper):
+        self.setChildElementOptionalPositiveInteger(element, "IDLE-SLOPE", shaper.getIdleSlope())
+        self.setChildElementOptionalPositiveInteger(element, "LOWER-BOUNDARY", shaper.getLowerBoundary())
+        self.setChildElementOptionalPositiveInteger(element, "UPPER-BOUNDARY", shaper.getUpperBoundary())
 
     def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         if scheduler is not None:

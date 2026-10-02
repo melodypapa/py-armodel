@@ -10,13 +10,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 690 | 36.3% |
+| [x] Done | 695 | 36.5% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 293 | 15.4% |
-| [ ] Implemented | 432 | 22.7% |
+| [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
-| [ ] Pending | 2 | 0.1% |
+| [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
@@ -355,9 +355,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CouplingElementSwitchDetails`                          | [ ] Created | N/A                                      | Group30          |
 | `CouplingPort`                                          | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortAbstractShaper`                            | [ ] Deferred| N/A                                      | Group16          |
-| `CouplingPortAsynchronousTrafficShaper`                 | [ ] Pending | N/A                                      | Group16          |
+| `CouplingPortAsynchronousTrafficShaper`                 | [x] Done    | d419973456                               | Group16          |
 | `CouplingPortConnection`                                | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortCreditBasedShaper`                         | [ ] Pending | N/A                                      | Group16          |
+| `CouplingPortCreditBasedShaper`                         | [x] Done    | c5cfd1dc4e                               | Group16          |
 | `CouplingPortDetails`                                   | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortFifo`                                      | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortRatePolicy`                                | [ ] Implemented| N/A                                      | Group30          |
@@ -842,13 +842,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucParameterValue`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `EcucQuery`                                             | [ ] Implemented| N/A                                      | Group26          |
 | `EcucQueryExpression`                                   | [x] Done    | N/A                                      | Group19          |
-| `EcucReferenceDef`                                      | [ ] Implemented| N/A                                      | Group19          |
+| `EcucReferenceDef`                                      | [x] Done    | 0d45067479                               | Group19          |
 | `EcucReferenceValue`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `EcucScopeEnum`                                         | [ ] Deferred| N/A                                      | Group19          |
 | `EcucStringParamDef`                                    | [ ] Implemented| N/A                                      | Group26          |
-| `EcucSymbolicNameReferenceDef`                          | [ ] Implemented| N/A                                      | Group19          |
+| `EcucSymbolicNameReferenceDef`                          | [x] Done    | 0d45067479                               | Group19          |
 | `EcucTextualParamValue`                                 | [ ] Implemented| N/A                                      | Group27          |
-| `EcucUriReferenceDef`                                   | [ ] Implemented| N/A                                      | Group19          |
+| `EcucUriReferenceDef`                                   | [x] Done    | 0d45067479                               | Group19          |
 | `EcucValidationCondition`                               | [ ] Implemented| N/A                                      | Group27          |
 | `EcucValueCollection`                                   | [ ] Deferred| N/A                                      | Group19          |
 | `EcucValueConfigurationClass`                           | [ ] Implemented| N/A                                      | Group26          |

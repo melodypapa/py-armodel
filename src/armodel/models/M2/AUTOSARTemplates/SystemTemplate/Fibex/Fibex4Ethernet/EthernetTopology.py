@@ -212,6 +212,168 @@ class CouplingPortAbstractShaper(Identifiable, ABC):
         super().__init__(parent, short_name)
 
 
+class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
+    """
+    Defines an Asynchronous Traffic Shaper (ATS) for the CouplingPort egress structure.
+    """
+
+    # CouplingPortAsynchronousTrafficShaper method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortAsynchronousTrafficShaper, AUTOSAR_00052.xsd line 23458 (xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommittedBurstSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommittedBurstSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommittedInformationRate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommittedInformationRate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrafficShaperGroupRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrafficShaperGroupRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (concrete child of the abstract CouplingPortAbstractShaper: the XSD models the polymorphic
+    #  CouplingPortFifo.shaper choice via this class's xsd:group — the repo maps that choice to the
+    #  shaper registry; accepted deviation, 2026-09-30 user arbitration, recorded on the parent)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Maximum token capacity of the token bucket in bit.
+        self.committedBurstSize: Optional[PositiveInteger] = None
+
+        # Defines the rate at which the token bucket is refilled with tokens in bit per second.
+        self.committedInformationRate: Optional[PositiveInteger] = None
+
+        # Reference to the Traffic Shaper Group this Asynchronous Traffic Shaper is part of.
+        self.trafficShaperGroupRef: Optional[RefType] = None
+
+    def getCommittedBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Maximum token capacity of the token bucket in bit.
+        """
+        return self.committedBurstSize
+
+    def setCommittedBurstSize(self, value: Optional[PositiveInteger]) -> CouplingPortAsynchronousTrafficShaper:
+        """
+        Maximum token capacity of the token bucket in bit.
+        A None value is a no-op and does not overwrite an existing committedBurstSize.
+        """
+        if value is not None:
+            self.committedBurstSize = value
+        return self
+
+    def getCommittedInformationRate(self) -> Optional[PositiveInteger]:
+        """
+        Defines the rate at which the token bucket is refilled with tokens in bit per second.
+        """
+        return self.committedInformationRate
+
+    def setCommittedInformationRate(self, value: Optional[PositiveInteger]) -> CouplingPortAsynchronousTrafficShaper:
+        """
+        Defines the rate at which the token bucket is refilled with tokens in bit per second.
+        A None value is a no-op and does not overwrite an existing committedInformationRate.
+        """
+        if value is not None:
+            self.committedInformationRate = value
+        return self
+
+    def getTrafficShaperGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to the Traffic Shaper Group this Asynchronous Traffic Shaper is part of.
+        """
+        return self.trafficShaperGroupRef
+
+    def setTrafficShaperGroupRef(self, value: Optional[RefType]) -> CouplingPortAsynchronousTrafficShaper:
+        """
+        Reference to the Traffic Shaper Group this Asynchronous Traffic Shaper is part of.
+        A None value is a no-op and does not overwrite an existing trafficShaperGroupRef.
+        """
+        if value is not None:
+            self.trafficShaperGroupRef = value
+        return self
+
+
+CouplingPortAbstractShaper.registerShaper("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER", CouplingPortAsynchronousTrafficShaper)
+
+
+class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
+    """
+    Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.
+    """
+
+    # CouplingPortCreditBasedShaper method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortCreditBasedShaper, AUTOSAR_00052.xsd line 23597 (xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIdleSlope        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdleSlope        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLowerBoundary    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLowerBoundary    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpperBoundary    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperBoundary    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (concrete child of the abstract CouplingPortAbstractShaper: the XSD models the polymorphic
+    #  CouplingPortFifo.shaper choice via this class's xsd:group — the repo maps that choice to the
+    #  shaper registry; accepted deviation, 2026-09-30 user arbitration, recorded on the parent)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the increase of credit in bits per second for the CBS shaper.
+        self.idleSlope: Optional[PositiveInteger] = None
+
+        # Defines the lower boundary of credit for the CBS shaper.
+        self.lowerBoundary: Optional[PositiveInteger] = None
+
+        # Defines the upper boundary of credit for the CBS shaper.
+        self.upperBoundary: Optional[PositiveInteger] = None
+
+    def getIdleSlope(self) -> Optional[PositiveInteger]:
+        """
+        Defines the increase of credit in bits per second for the CBS shaper.
+        """
+        return self.idleSlope
+
+    def setIdleSlope(self, value: Optional[PositiveInteger]) -> CouplingPortCreditBasedShaper:
+        """
+        Defines the increase of credit in bits per second for the CBS shaper.
+        A None value is a no-op and does not overwrite an existing idleSlope.
+        """
+        if value is not None:
+            self.idleSlope = value
+        return self
+
+    def getLowerBoundary(self) -> Optional[PositiveInteger]:
+        """
+        Defines the lower boundary of credit for the CBS shaper.
+        """
+        return self.lowerBoundary
+
+    def setLowerBoundary(self, value: Optional[PositiveInteger]) -> CouplingPortCreditBasedShaper:
+        """
+        Defines the lower boundary of credit for the CBS shaper.
+        A None value is a no-op and does not overwrite an existing lowerBoundary.
+        """
+        if value is not None:
+            self.lowerBoundary = value
+        return self
+
+    def getUpperBoundary(self) -> Optional[PositiveInteger]:
+        """
+        Defines the upper boundary of credit for the CBS shaper.
+        """
+        return self.upperBoundary
+
+    def setUpperBoundary(self, value: Optional[PositiveInteger]) -> CouplingPortCreditBasedShaper:
+        """
+        Defines the upper boundary of credit for the CBS shaper.
+        A None value is a no-op and does not overwrite an existing upperBoundary.
+        """
+        if value is not None:
+            self.upperBoundary = value
+        return self
+
+
+CouplingPortAbstractShaper.registerShaper("COUPLING-PORT-CREDIT-BASED-SHAPER", CouplingPortCreditBasedShaper)
+
+
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
     Defines a FIFO for the CouplingPort egress structure.

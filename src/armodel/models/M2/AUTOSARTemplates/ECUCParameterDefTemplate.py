@@ -1064,6 +1064,7 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucSymbolicNameReferenceDef method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_ECUConfiguration.pdf, Table 2.34, p.83
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -1139,6 +1140,7 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.29, p.73
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1179,10 +1181,15 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucUriReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.33, p.81
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationUriRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDestinationUriRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Aggregated by dispatch: reader readEcucContainerDefReferences +
+    # readEcucDestinationUriPolicyReferences ECUC-URI-REFERENCE-DEF branches +
+    # writer isinstance branches both present; createEcucUriReferenceDef
+    # factory added on EcucParamConfContainerDef.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1871,6 +1878,22 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name, EcucReferenceDef)
+
+    def createEcucUriReferenceDef(self, short_name: str) -> EcucUriReferenceDef:
+        """
+        Creates a new ECUC URI reference definition and adds it to the container.
+
+        Args:
+            short_name (str): The short name identifier for the new reference definition.
+
+        Returns:
+            EcucUriReferenceDef: The newly created ECUC URI reference definition.
+        """
+        if not self.IsElementExists(short_name, EcucUriReferenceDef):
+            ref = EcucUriReferenceDef(self, short_name)
+            self.addElement(ref)
+            self.references.append(ref)
+        return self.getElement(short_name, EcucUriReferenceDef)
 
     def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
         """

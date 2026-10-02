@@ -722,7 +722,7 @@ Status: **0/24** completed
 
 ## Group16
 
-Status: **0/29** completed
+Status: **2/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -736,8 +736,8 @@ Status: **0/29** completed
 | `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
 | `TimeSyncServerConfiguration`           | [ ] Pending* | b1e4750b14 |
 | `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
-| `CouplingPortAsynchronousTrafficShaper` | [ ] Pending  | N/A        |
-| `CouplingPortCreditBasedShaper`         | [ ] Pending  | N/A        |
+| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | d419973456 |
+| `CouplingPortCreditBasedShaper`         | [x] Done     | c5cfd1dc4e |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
 | `IPSecConfig`                           | [ ] Pending* | 6c97ddc108 |
 | `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
@@ -815,26 +815,26 @@ Status: **0/17** completed
 
 ## Group19
 
-Status: **3/16** completed
+Status: **6/16** completed
 
-| Class Name                       | Status          | Commit ID |
-| -------------------------------- | --------------- | --------- |
-| `ConfigReferenceValue`           | [ ] Pending*    | N/A       |
-| `EcucValueCollection`            | [ ] Pending*    | N/A       |
-| `ModuleConfiguration`            | [ ] Pending*    | N/A       |
-| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A       |
-| `EcucScopeEnum`                  | [ ] Pending*    | N/A       |
-| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A       |
-| `EcucBooleanParamDef`            | [ ] Pending*    | N/A       |
-| `EcucFloatParamDef`              | [ ] Pending*    | N/A       |
-| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A       |
-| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A       |
-| `EcucReferenceDef`               | [ ] Implemented | N/A       |
-| `EcucSymbolicNameReferenceDef`   | [ ] Implemented | N/A       |
-| `EcucUriReferenceDef`            | [ ] Implemented | N/A       |
-| `EcucConditionFormula`           | [x] Done        | N/A       |
-| `EcucParameterDerivationFormula` | [x] Done        | N/A       |
-| `EcucQueryExpression`            | [x] Done        | N/A       |
+| Class Name                       | Status          | Commit ID  |
+| -------------------------------- | --------------- | ---------- |
+| `ConfigReferenceValue`           | [ ] Pending*    | N/A        |
+| `EcucValueCollection`            | [ ] Pending*    | N/A        |
+| `ModuleConfiguration`            | [ ] Pending*    | N/A        |
+| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A        |
+| `EcucScopeEnum`                  | [ ] Pending*    | N/A        |
+| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A        |
+| `EcucBooleanParamDef`            | [ ] Pending*    | N/A        |
+| `EcucFloatParamDef`              | [ ] Pending*    | N/A        |
+| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A        |
+| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A        |
+| `EcucReferenceDef`               | [x] Done        | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done        | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done        | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done        | N/A        |
+| `EcucParameterDerivationFormula` | [x] Done        | N/A        |
+| `EcucQueryExpression`            | [x] Done        | N/A        |
 
 ## Group20
 
