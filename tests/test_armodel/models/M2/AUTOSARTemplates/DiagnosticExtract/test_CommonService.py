@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
+    DiagnosticDataTransferClass,
     DiagnosticDynamicallyDefineDataIdentifierClass,
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
@@ -1232,4 +1233,37 @@ class Test_DiagnosticTransferExitClass:
         assert package.getReferrableElement("Tea1", DiagnosticTransferExitClass) is service_class
 
         duplicate = package.createDiagnosticTransferExitClass("Tea1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticDataTransferClass:
+    """Test cases for DiagnosticDataTransferClass class (Table 4.120, p.143)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Data Transfer" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticDataTransferClass(_pkg(), "MyDta")
+        assert service_class.getShortName() == "MyDta"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticDataTransferClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticDataTransferClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticDataTransferClass, ARObject)
+        assert issubclass(DiagnosticDataTransferClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticDataTransferClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticDataTransferClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_data_transfer_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticDataTransferClass("Dta1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticDataTransferClass)
+        assert service_class.getShortName() == "Dta1"
+        assert package.getReferrableElement("Dta1", DiagnosticDataTransferClass) is service_class
+
+        duplicate = package.createDiagnosticDataTransferClass("Dta1")
         assert duplicate is service_class

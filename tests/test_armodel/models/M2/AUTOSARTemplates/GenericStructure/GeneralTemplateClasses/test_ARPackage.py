@@ -37,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCustomServiceInstance,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDemProvidedDataMapping,
     DiagnosticDynamicallyDefineDataIdentifier,
@@ -7795,3 +7796,82 @@ class TestDiagnosticTransferExit:
         """
         assert inspect.cleandoc(DiagnosticTransferExit.getTransferExitClassRef.__doc__) == self.TRANSFER_EXIT_CLASS_NOTE
         assert inspect.cleandoc(DiagnosticTransferExit.setTransferExitClassRef.__doc__) == (self.TRANSFER_EXIT_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing transferExitClassRef.")
+
+
+class TestDiagnosticDataTransfer:
+    """
+    Test class for DiagnosticDataTransfer functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.119, p.143
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Data Transfer" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss'
+    DATA_TRANSFER_CLASS_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context."
+
+    def _make_obj(self) -> DiagnosticDataTransfer:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDataTransfer(ar_root, "TestDataTransfer")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticDataTransfer instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestDataTransfer"
+        assert isinstance(obj, DiagnosticMemoryByAddress)
+        assert obj.getDataTransferClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticDataTransfer.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDataTransfer.__init__.__doc__ is None
+
+    def test_get_set_data_transfer_class_ref(self):
+        """
+        Round-trips the dataTransferClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-TRANSFER-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticDataTransferClasses/Class1")
+        result = obj.setDataTransferClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDataTransferClassRef() is ref
+        assert obj.getDataTransferClassRef().getValue() == "/AUTOSAR/DiagnosticDataTransferClasses/Class1"
+        assert obj.getDataTransferClassRef().getDest() == "DIAGNOSTIC-DATA-TRANSFER-CLASS"
+
+        result = obj.setDataTransferClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataTransferClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_data_transfer(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticDataTransferServices")
+        element = package.createDiagnosticDataTransfer("DataTransferService1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticDataTransfer)
+        assert element.getShortName() == "DataTransferService1"
+        assert package.getReferrableElement("DataTransferService1", DiagnosticDataTransfer) is element
+
+        duplicate = package.createDiagnosticDataTransfer("DataTransferService1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticDataTransfer.getDataTransferClassRef.__doc__) == self.DATA_TRANSFER_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticDataTransfer.setDataTransferClassRef.__doc__) == (self.DATA_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataTransferClassRef.")

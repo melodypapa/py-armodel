@@ -286,6 +286,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
+    DiagnosticDataTransferClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
@@ -424,6 +425,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
@@ -14972,6 +14974,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, transfer_exit)
         self.setChildElementOptionalRefType(child_element, "TRANSFER-EXIT-CLASS-REF", transfer_exit.getTransferExitClassRef())
 
+    def writeDiagnosticDataTransfer(self, element: ET.Element, data_transfer: DiagnosticDataTransfer):
+        self.logger.debug("Write DiagnosticDataTransfer %s" % data_transfer.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-TRANSFER")
+        self.writeIdentifiable(child_element, data_transfer)
+        self.setChildElementOptionalRefType(child_element, "DATA-TRANSFER-CLASS-REF", data_transfer.getDataTransferClassRef())
+
+    def writeDiagnosticDataTransferClass(self, element: ET.Element, data_transfer_class: DiagnosticDataTransferClass):
+        self.logger.debug("Write DiagnosticDataTransferClass %s" % data_transfer_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-TRANSFER-CLASS")
+        self.writeIdentifiable(child_element, data_transfer_class)
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16077,6 +16090,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadMemoryByAddressClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticTransferExitClass):
             self.writeDiagnosticTransferExitClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDataTransferClass):
+            self.writeDiagnosticDataTransferClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEventClass):
@@ -16272,6 +16287,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticTransferExit):
             self.writeDiagnosticTransferExit(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticDataTransfer):
+            self.writeDiagnosticDataTransfer(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

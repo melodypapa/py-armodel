@@ -1044,6 +1044,43 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(transfer_exit_class)
         return self.getReferrableElement(short_name, DiagnosticTransferExitClass)
 
+    def createDiagnosticDataTransfer(self, short_name: str) -> DiagnosticDataTransfer:
+        """
+        Creates a new DiagnosticDataTransfer with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticDataTransfer represents an instance of the "Data Transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataTransfer
+
+        Returns:
+            The newly created or existing DiagnosticDataTransfer instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticDataTransfer):
+            data_transfer = DiagnosticDataTransfer(self, short_name)
+            self.addReferrableElement(data_transfer)
+        return self.getReferrableElement(short_name, DiagnosticDataTransfer)
+
+    def createDiagnosticDataTransferClass(self, short_name: str) -> DiagnosticDataTransferClass:
+        """
+        Creates a new DiagnosticDataTransferClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDataTransferClass contains attributes shared by all
+        instances of the "Data Transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataTransferClass
+
+        Returns:
+            The newly created or existing DiagnosticDataTransferClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticDataTransferClass):
+            data_transfer_class = DiagnosticDataTransferClass(self, short_name)
+            self.addReferrableElement(data_transfer_class)
+        return self.getReferrableElement(short_name, DiagnosticDataTransferClass)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -4077,6 +4114,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDataTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadMemoryByAddressClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticTransferExitClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
@@ -4991,7 +5029,36 @@ class DiagnosticMemoryByAddress(ARElement, ABC):
 
 
 class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
-    pass
+    """This represents an instance of the "Data Transfer" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticDataTransfer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.119, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransferClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataTransferClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context.
+        self.dataTransferClassRef: Optional[RefType] = None
+
+    def getDataTransferClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context.
+        """
+        return self.dataTransferClassRef
+
+    def setDataTransferClassRef(self, value: Optional[RefType]) -> DiagnosticDataTransfer:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context.
+
+        A None value is a no-op and does not overwrite an existing dataTransferClassRef.
+        """
+        if value is not None:
+            self.dataTransferClassRef = value
+        return self
 
 
 class DiagnosticDeAuthentication(DiagnosticAuthentication):

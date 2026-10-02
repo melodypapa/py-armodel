@@ -1241,27 +1241,37 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDataTransfer` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.119, p.143
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): twin of DiagnosticTransferExit (1461a0d67); Table 4.119 trailing-caption pair (md l.4330);
+    Base cell most-derived = DiagnosticMemoryByAddress; XSD group DIAGNOSTIC-DATA-TRANSFER = single
+    DATA-TRANSFER-CLASS-REF (l.34573); attr `dataTransferClass` (0..1 ref → `dataTransferClassRef:
+    Optional[RefType]`, DEST DIAGNOSTIC-DATA-TRANSFER-CLASS--SUBTYPES-ENUM). Wired per family convention
+    (ARPackage factory + memory-family dispatch / writer isinstance dispatch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (targeted incl. member-annotations + stub-gate 0 failed; parser+writer regression 7230 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticDataTransferClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.120, p.144
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): twin of DiagnosticTransferExitClass (4c14a1b1d); Table 4.120 caption md l.4343; Base cell
+    most-derived = DiagnosticServiceClass; attribute row `-` (zero own attrs); XSD group
+    DIAGNOSTIC-DATA-TRANSFER-CLASS = empty sequence. Bare *Class container per family convention
+    (class docstring drops the Tags suffix, `__init__`-only checklist reader/writer [—], ARPackage factory +
+    bottom import, readARPackageElementsRest/writeARPackageElementRest elif branches, IDENTIFIABLE wrapper only).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (targeted incl. member-annotations + stub-gate 0 failed; parser+writer regression 7230 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestDownload` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.121, p.144
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

@@ -393,6 +393,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
     DiagnosticReadMemoryByAddressClass,
+    DiagnosticDataTransferClass,
     DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
@@ -551,6 +552,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
@@ -11482,6 +11484,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, transfer_exit)
         transfer_exit.setTransferExitClassRef(self.getChildElementOptionalRefType(element, "TRANSFER-EXIT-CLASS-REF"))
 
+    def readDiagnosticDataTransfer(self, element: ET.Element, data_transfer: DiagnosticDataTransfer):
+        self.logger.debug("Read DiagnosticDataTransfer <%s>" % data_transfer.getShortName())
+        self.readIdentifiable(element, data_transfer)
+        data_transfer.setDataTransferClassRef(self.getChildElementOptionalRefType(element, "DATA-TRANSFER-CLASS-REF"))
+
+    def readDiagnosticDataTransferClass(self, element: ET.Element, data_transfer_class: DiagnosticDataTransferClass):
+        self.logger.debug("Read DiagnosticDataTransferClass <%s>" % data_transfer_class.getShortName())
+        self.readIdentifiable(element, data_transfer_class)
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16333,6 +16344,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-TRANSFER-EXIT-CLASS":
             transfer_exit_class = parent.createDiagnosticTransferExitClass(self.getShortName(child_element))
             self.readDiagnosticTransferExitClass(child_element, transfer_exit_class)
+        elif tag_name == "DIAGNOSTIC-DATA-TRANSFER-CLASS":
+            data_transfer_class = parent.createDiagnosticDataTransferClass(self.getShortName(child_element))
+            self.readDiagnosticDataTransferClass(child_element, data_transfer_class)
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
             write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
@@ -16803,6 +16817,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-TRANSFER-EXIT":
             transfer_exit = parent.createDiagnosticTransferExit(self.getShortName(child_element))
             self.readDiagnosticTransferExit(child_element, transfer_exit)
+            return True
+        if tag_name == "DIAGNOSTIC-DATA-TRANSFER":
+            data_transfer = parent.createDiagnosticDataTransfer(self.getShortName(child_element))
+            self.readDiagnosticDataTransfer(child_element, data_transfer)
             return True
         return False
 
