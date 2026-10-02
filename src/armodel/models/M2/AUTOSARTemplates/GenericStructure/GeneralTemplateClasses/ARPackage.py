@@ -1007,6 +1007,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(read_memory_by_address_class)
         return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddressClass)
 
+    def createDiagnosticTransferExit(self, short_name: str) -> DiagnosticTransferExit:
+        """
+        Creates a new DiagnosticTransferExit with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticTransferExit represents an instance of the "Transfer Exit" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticTransferExit
+
+        Returns:
+            The newly created or existing DiagnosticTransferExit instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTransferExit):
+            transfer_exit = DiagnosticTransferExit(self, short_name)
+            self.addReferrableElement(transfer_exit)
+        return self.getReferrableElement(short_name, DiagnosticTransferExit)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -8052,7 +8070,36 @@ class DiagnosticTestRoutineIdentifier(ARElement):
 
 
 class DiagnosticTransferExit(DiagnosticMemoryByAddress):
-    pass
+    """This represents an instance of the "Transfer Exit" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticTransferExit method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.117, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransferExitClassRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransferExitClassRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context.
+        self.transferExitClassRef: Optional[RefType] = None
+
+    def getTransferExitClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context.
+        """
+        return self.transferExitClassRef
+
+    def setTransferExitClassRef(self, value: Optional[RefType]) -> DiagnosticTransferExit:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context.
+
+        A None value is a no-op and does not overwrite an existing transferExitClassRef.
+        """
+        if value is not None:
+            self.transferExitClassRef = value
+        return self
 
 
 class DiagnosticTroubleCode(ARElement, ABC):

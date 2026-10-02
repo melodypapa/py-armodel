@@ -7716,3 +7716,82 @@ class TestDiagnosticReadMemoryByAddress:
         """
         assert inspect.cleandoc(DiagnosticReadMemoryByAddress.getReadClassRef.__doc__) == self.READ_CLASS_NOTE
         assert inspect.cleandoc(DiagnosticReadMemoryByAddress.setReadClassRef.__doc__) == (self.READ_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readClassRef.")
+
+
+class TestDiagnosticTransferExit:
+    """
+    Test class for DiagnosticTransferExit functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.117, p.143
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Transfer Exit" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss'
+    TRANSFER_EXIT_CLASS_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context."
+
+    def _make_obj(self) -> DiagnosticTransferExit:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTransferExit(ar_root, "TestTransferExit")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticTransferExit instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestTransferExit"
+        assert isinstance(obj, DiagnosticMemoryByAddress)
+        assert obj.getTransferExitClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticTransferExit.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTransferExit.__init__.__doc__ is None
+
+    def test_get_set_transfer_exit_class_ref(self):
+        """
+        Round-trips the transferExitClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-TRANSFER-EXIT-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticTransferExitClasses/Class1")
+        result = obj.setTransferExitClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getTransferExitClassRef() is ref
+        assert obj.getTransferExitClassRef().getValue() == "/AUTOSAR/DiagnosticTransferExitClasses/Class1"
+        assert obj.getTransferExitClassRef().getDest() == "DIAGNOSTIC-TRANSFER-EXIT-CLASS"
+
+        result = obj.setTransferExitClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTransferExitClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_transfer_exit(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticTransferExitServices")
+        element = package.createDiagnosticTransferExit("TransferExitService1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticTransferExit)
+        assert element.getShortName() == "TransferExitService1"
+        assert package.getReferrableElement("TransferExitService1", DiagnosticTransferExit) is element
+
+        duplicate = package.createDiagnosticTransferExit("TransferExitService1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTransferExit.getTransferExitClassRef.__doc__) == self.TRANSFER_EXIT_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticTransferExit.setTransferExitClassRef.__doc__) == (self.TRANSFER_EXIT_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing transferExitClassRef.")

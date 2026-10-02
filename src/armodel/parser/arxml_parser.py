@@ -567,6 +567,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDataByPeriodicID,
     DiagnosticReadDTCInformation,
     DiagnosticReadMemoryByAddress,
+    DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -11475,6 +11476,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticMemoryAddressableRangeAccess(element, read_memory_by_address)
         read_memory_by_address.setReadClassRef(self.getChildElementOptionalRefType(element, "READ-CLASS-REF"))
 
+    def readDiagnosticTransferExit(self, element: ET.Element, transfer_exit: DiagnosticTransferExit):
+        self.logger.debug("Read DiagnosticTransferExit <%s>" % transfer_exit.getShortName())
+        self.readIdentifiable(element, transfer_exit)
+        transfer_exit.setTransferExitClassRef(self.getChildElementOptionalRefType(element, "TRANSFER-EXIT-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16786,6 +16792,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS":
             read_memory_by_address = parent.createDiagnosticReadMemoryByAddress(self.getShortName(child_element))
             self.readDiagnosticReadMemoryByAddress(child_element, read_memory_by_address)
+            return True
+        if tag_name == "DIAGNOSTIC-TRANSFER-EXIT":
+            transfer_exit = parent.createDiagnosticTransferExit(self.getShortName(child_element))
+            self.readDiagnosticTransferExit(child_element, transfer_exit)
             return True
         return False
 

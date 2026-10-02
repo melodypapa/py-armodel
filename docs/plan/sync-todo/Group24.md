@@ -1197,15 +1197,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTransferExit` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.117, p.143
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note (Step 1): leading-caption table — body md l.4305-4311, caption l.4311 (trailing-caption sibling Table 4.118
+    caption sits right under); Base cell most-derived = `DiagnosticMemoryByAddress` (XSD complexType chain l.46135:
+    ... DIAGNOSTIC-COMMON-ELEMENT, DIAGNOSTIC-SERVICE-INSTANCE, DIAGNOSTIC-MEMORY-BY-ADDRESS, DIAGNOSTIC-TRANSFER-EXIT);
+    DIAGNOSTIC-MEMORY-BY-ADDRESS group l.46100 is an EMPTY sequence (abstract) and DIAGNOSTIC-SERVICE-INSTANCE
+    members (ACCESS-PERMISSION-REF/SERVICE-CLASS-REF) are NOT modeled on this family branch (established family
+    convention: sibling DiagnosticReadMemoryByAddress e0b679676 reads MEMORY-RANGE-REFS + own ref only) — own attr
+    `transferExitClass` (0..1 ref → `transferExitClassRef: Optional[RefType]`, DEST
+    DIAGNOSTIC-TRANSFER-EXIT-CLASS--SUBTYPES-ENUM, XSD l.46110 group = single TRANSFER-EXIT-CLASS-REF).
+    Wired: ARPackage `createDiagnosticTransferExit` factory, reader `readDiagnosticTransferExit` +
+    memory-family dispatch branch, writer `writeDiagnosticTransferExit` + isinstance dispatch (XSD order:
+    TRANSFER-EXIT-CLASS-REF only). Initial test draft wrongly asserted inherited memoryRanges — corrected to spec
+    (Table 4.117 attribute row has no memoryRange on this branch; Rule 0001.3 cross-check).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1202 passed / 0 failed targeted incl. member-annotations + stub-gate; parser+writer regression 7215 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticTransferExitClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.118, p.143
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
