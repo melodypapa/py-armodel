@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 706 | 37.1% |
+| [x] Done | 707 | 37.2% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 282 | 14.8% |
+| [ ] Deferred | 281 | 14.8% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -520,7 +520,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticComControlSubNodeChannel`                    | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticCommonElement`                               | [x] Done    | e0d022b1aa                               | Group7           |
 | `DiagnosticCommonProps`                                 | [ ] Deferred| 0b2c7c2fa7                               | Group23          |
-| `DiagnosticCommunicationManagerNeeds`                   | [ ] Deferred| 79c639e42a                               | Group14          |
+| `DiagnosticCommunicationManagerNeeds`                   | [x] Done    | 8c487102b9                               | Group14          |
 | `DiagnosticCompareTypeEnum`                             | [ ] Deferred| cc55d1d351                               | Group23          |
 | `DiagnosticComponentNeeds`                              | [x] Done    | 5c4c0963af                               | Group4           |
 | `DiagnosticCondition`                                   | [ ] Created | N/A                                      | Group25          |
