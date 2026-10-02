@@ -12209,10 +12209,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
         self.readIdentifiable(element, def_element)
-        def_element.setEcucCond(self.readEcucConditionSpecification(element))
+        def_element.setRelatedTraceItemRef(self.getChildElementOptionalRefType(element, "RELATED-TRACE-ITEM-REF"))
         self.readEcucValidationConditions(element, def_element)
+        def_element.setEcucCond(self.readEcucConditionSpecification(element))
         def_element.setLowerMultiplicity(self.getChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY"))
         def_element.setUpperMultiplicity(self.getChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY"))
+        def_element.setUpperMultiplicityInfinite(self.getChildElementOptionalBooleanValue(element, "UPPER-MULTIPLICITY-INFINITE"))
         def_element.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
 
     def readEcucModuleDefSupportedConfigVariants(self, element: ET.Element, module_def: EcucModuleDef):

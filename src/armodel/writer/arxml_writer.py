@@ -10613,11 +10613,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModeDeclarationMappingSetModeDeclarationMappings(child_element, mapping_set)
 
     def writeEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
-        self.writeARElement(element, def_element)
-        self.writeEcucConditionSpecification(element, def_element.getEcucCond())
+        self.writeIdentifiable(element, def_element)
+        self.setChildElementOptionalRefType(element, "RELATED-TRACE-ITEM-REF", def_element.getRelatedTraceItemRef())
         self.writeEcucValidationConditions(element, def_element.getEcucValidationConds())
+        self.writeEcucConditionSpecification(element, def_element.getEcucCond())
         self.setChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY", def_element.getLowerMultiplicity())
         self.setChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY", def_element.getUpperMultiplicity())
+        self.setChildElementOptionalBooleanValue(element, "UPPER-MULTIPLICITY-INFINITE", def_element.getUpperMultiplicityInfinite())
         self.setChildElementOptionalLiteral(element, "SCOPE", def_element.getScope())
 
     def writeEcucModuleDefSupportedConfigVariants(self, element: ET.Element, module_def: EcucModuleDef):
