@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 698 | 36.7% |
+| [x] Done | 699 | 36.7% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 290 | 15.2% |
+| [ ] Deferred | 289 | 15.2% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -646,7 +646,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticPeriodicRate`                                | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticPeriodicRateCategoryEnum`                    | [ ] Created | N/A                                      | Group24          |
 | `DiagnosticPowertrainFreezeFrame`                       | [ ] Created | N/A                                      | Group25          |
-| `DiagnosticProcessingStyleEnum`                         | [ ] Deferred| 28746ce3cc                               | Group14          |
+| `DiagnosticProcessingStyleEnum`                         | [x] Done    | d07b0d0144                               | Group14          |
 | `DiagnosticProofOfOwnership`                            | [ ] Deferred| 3ef2fb8c98                               | Group24          |
 | `DiagnosticProtocol`                                    | [ ] Deferred| 7324a51f2a                               | Group23          |
 | `DiagnosticReadDTCInformation`                          | [ ] Created | N/A                                      | Group24          |

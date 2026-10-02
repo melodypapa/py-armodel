@@ -659,13 +659,13 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **4/25** completed
+Status: **5/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
 | `DiagnosticAudienceEnum`                   | [x] Done     | 80d64e8f15 |
 | `DiagnosticClearDtcNotificationEnum`       | [x] Done     | 2415d2157a |
-| `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3cc |
+| `DiagnosticProcessingStyleEnum`            | [x] Done     | d07b0d0144 |
 | `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3cc |
 | `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending* | 28746ce3cc |
 | `DiagnosticValueAccessEnum`                | [ ] Pending* | 28746ce3cc |
