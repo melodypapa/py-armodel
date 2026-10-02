@@ -29,14 +29,14 @@ class HwDescriptionEntity(Referrable, ABC):
 
     # HwDescriptionEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.1, p.15
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwAttributeValue          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwAttributeValues         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwCategoryRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwCategoryRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getHwTypeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHwTypeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwAttributeValue          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwAttributeValues         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwCategoryRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwCategoryRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getHwTypeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwTypeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         if type(self) is HwDescriptionEntity:
@@ -195,22 +195,17 @@ class HwPin(Identifiable, HwDescriptionEntity, VariationPointCapable):
 
 class HwPinGroupContent(ARObject):
     """
-    Represents the content of a hardware pin group in AUTOSAR.
-    This class links individual pins and pin groups together to form complex pin structures.
-
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
-    Spec verified: R23-11
-    Note: XSD defines atpMixed choice (HW-PIN-GROUP | HW-PIN), not a sequence. Multiplicity 0..1 for both fields.
+    This meta-class specifies a mixture of hwPins and hwPinGroups.
     """
 
     # HwPinGroupContent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHwPin                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createHwPin                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHwPin                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createHwPin                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         """
@@ -310,17 +305,14 @@ class HwPinGroup(Identifiable, HwDescriptionEntity, VariationPointCapable):
 class HwPinConnector(Describable, VariationPointCapable):
     """
     This meta-class represents the ability to connect two pins.
-
-    [constr_11004] Multiplicity of HwPinConnector . hwPin: For each HwPinConnector there shall exist exactly 2 references in the role hwPin.
     """
 
     # HwPinConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.10, p.22
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwPinRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwPinRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -354,19 +346,16 @@ class HwPinConnector(Describable, VariationPointCapable):
 class HwPinGroupConnector(Describable, VariationPointCapable):
     """
     This meta-class represents the ability to connect two pin groups.
-
-    [constr_11003] Multiplicity of HwPinGroupConnector . hwPinGroup: For each HwPinGroupConnector there shall exist exactly 2 references in the role hwPinGroup.
     """
 
     # HwPinGroupConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.9, p.22
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwPinGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwPinGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -431,15 +420,14 @@ class HwElementConnector(Describable, VariationPointCapable):
 
     # HwElementConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.8, p.21
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwPinGroupConnection      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinGroupConnections     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwPinGroupConnection      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinGroupConnections     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()

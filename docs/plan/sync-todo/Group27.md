@@ -169,75 +169,81 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `HwDescriptionEntity` — Referrable — R23-11 CP_TPS_ECUResourceTemplate Table 2.1, p.15
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py + test_arxml_parser_hw_description_entity.py (family round-trips)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (ECUResourceTemplate + CoreTopology test files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; abstract; Base = Referrable ✓; 3 members (hwAttributeValues `*` aggr / hwCategoryRefs `*` ref / hwTypeRef 0..1 ref) ✓
 
 - [ ] `HwPinGroupContent` — ARObject — R23-11 CP_TPS_ECUResourceTemplate Table 2.6, p.20
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py + test_arxml_parser_hw_description_entity.py (family round-trips)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (ECUResourceTemplate + CoreTopology test files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; FABRICATED DOCSTRING FIXED ("Represents the content of a hardware pin group in AUTOSAR. This class links...") → verbatim "This meta-class specifies a mixture of hwPins and hwPinGroups."; hwPin/hwPinGroup 0..1 aggrs ✓
 
 - [ ] `HwElementConnector` — Describable — R23-11 CP_TPS_ECUResourceTemplate Table 2.8, p.21
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py + test_arxml_parser_hw_description_entity.py (family round-trips)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (ECUResourceTemplate + CoreTopology test files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): release column added (6-col existed); members hwElementRefs/hwPinConnections/hwPinGroupConnections ✓
 
 - [ ] `HwPinGroupConnector` — Describable — R23-11 CP_TPS_ECUResourceTemplate Table 2.9, p.22
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py + test_arxml_parser_hw_description_entity.py (family round-trips)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (ECUResourceTemplate + CoreTopology test files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): release column added; DOCSTRING constraint-text appendage removed → verbatim; hwPinConnections/hwPinGroupRefs ✓
 
 - [ ] `HwPinConnector` — Describable — R23-11 CP_TPS_ECUResourceTemplate Table 2.10, p.22
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py + test_arxml_parser_hw_description_entity.py (family round-trips)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (ECUResourceTemplate + CoreTopology test files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): release column added; DOCSTRING constraint-text appendage removed → verbatim; hwPinRefs ✓
 
 - [ ] `CommunicationController` — Identifiable — R23-11 CP_TPS_ECUResourceTemplate Table 3.3, p.31; also CP_TPS_SystemTemplate Table 3.3, p.53
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py + test_arxml_parser_hw_description_entity.py (family round-trips)
+  - [x] Step 6 — Update parser & writer (Green) — wiring pre-existing both sides
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (ECUResourceTemplate + CoreTopology test files green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; CITATION KEPT at SystemTemplate Table 3.3 p.53 (the ECUResourceTemplate "Table 3.3" is a config-attribute table, not the Class table — queue-row citation is a reproduction); abstract; wakeUpByControllerSupported 0..1 ✓
 
 - [ ] `ParameterSwComponentType` — SwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 2.1, p.41
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
