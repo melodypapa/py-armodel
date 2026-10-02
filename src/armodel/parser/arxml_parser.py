@@ -381,6 +381,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticClearDiagnosticInformationClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -10808,6 +10809,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, clear_diagnostic_information)
         clear_diagnostic_information.setClearDiagnosticInformationClass(self.getChildElementOptionalRefType(element, "CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF"))
 
+    def readDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
+        self.logger.debug("Read DiagnosticClearDiagnosticInformationClass <%s>" % clear_diagnostic_information_class.getShortName())
+        self.readIdentifiable(element, clear_diagnostic_information_class)
+
     def readDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Read DiagnosticComControl <%s>" % com_control.getShortName())
         self.readIdentifiable(element, com_control)
@@ -15872,6 +15877,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION":
                 clear_diagnostic_information = parent.createDiagnosticClearDiagnosticInformation(self.getShortName(child_element))
                 self.readDiagnosticClearDiagnosticInformation(child_element, clear_diagnostic_information)
+            elif tag_name == "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS":
+                clear_diagnostic_information_class = parent.createDiagnosticClearDiagnosticInformationClass(self.getShortName(child_element))
+                self.readDiagnosticClearDiagnosticInformationClass(child_element, clear_diagnostic_information_class)
             elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION":
                 read_dtc_information = parent.createDiagnosticReadDTCInformation(self.getShortName(child_element))
                 self.readDiagnosticReadDTCInformation(child_element, read_dtc_information)

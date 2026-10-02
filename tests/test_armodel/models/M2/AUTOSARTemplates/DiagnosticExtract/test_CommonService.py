@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticClearDiagnosticInformationClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -1096,4 +1097,37 @@ class Test_DiagnosticReadDTCInformationClass:
         assert package.getElement("Rdtci1", DiagnosticReadDTCInformationClass) is service_class
 
         duplicate = package.createDiagnosticReadDTCInformationClass("Rdtci1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticClearDiagnosticInformationClass:
+    """Test cases for DiagnosticClearDiagnosticInformationClass class (Table 4.109, p.137)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Clear Diagnostic Information" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticClearDiagnosticInformationClass(_pkg(), "MyCdci")
+        assert service_class.getShortName() == "MyCdci"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticClearDiagnosticInformationClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticClearDiagnosticInformationClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticClearDiagnosticInformationClass, ARObject)
+        assert issubclass(DiagnosticClearDiagnosticInformationClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticClearDiagnosticInformationClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticClearDiagnosticInformationClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_clear_diagnostic_information_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticClearDiagnosticInformationClass)
+        assert service_class.getShortName() == "Cdci1"
+        assert package.getElement("Cdci1", DiagnosticClearDiagnosticInformationClass) is service_class
+
+        duplicate = package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
         assert duplicate is service_class

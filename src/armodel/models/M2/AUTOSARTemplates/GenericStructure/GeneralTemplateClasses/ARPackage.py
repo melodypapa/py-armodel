@@ -1724,6 +1724,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(clear_diagnostic_information)
         return self.getElement(short_name, DiagnosticClearDiagnosticInformation)
 
+    def createDiagnosticClearDiagnosticInformationClass(self, short_name: str) -> DiagnosticClearDiagnosticInformationClass:
+        """
+        Creates a new DiagnosticClearDiagnosticInformationClass with the given
+        short name, or returns an existing one if it already exists in this package.
+
+        DiagnosticClearDiagnosticInformationClass contains attributes shared by all
+        instances of the "Clear Diagnostic Information" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearDiagnosticInformationClass
+
+        Returns:
+            The newly created or existing DiagnosticClearDiagnosticInformationClass instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticClearDiagnosticInformationClass):
+            clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
+            self.addElement(clear_diagnostic_information_class)
+        return self.getElement(short_name, DiagnosticClearDiagnosticInformationClass)
+
     def createDiagnosticComControl(self, short_name: str) -> DiagnosticComControl:
         """
         Creates a new DiagnosticComControl with the given short name,
@@ -3086,6 +3105,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402

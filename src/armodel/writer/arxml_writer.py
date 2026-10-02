@@ -275,6 +275,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
+    DiagnosticClearDiagnosticInformationClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -14113,6 +14114,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, clear_diagnostic_information)
         self.setChildElementOptionalRefType(child_element, "CLEAR-DIAGNOSTIC-INFORMATION-CLASS-REF", clear_diagnostic_information.getClearDiagnosticInformationClass())
 
+    def writeDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
+        self.logger.debug("Write DiagnosticClearDiagnosticInformationClass %s" % clear_diagnostic_information_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS")
+        self.writeIdentifiable(child_element, clear_diagnostic_information_class)
+
     def writeDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Write DiagnosticComControl %s" % com_control.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL")
@@ -15495,6 +15501,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDeAuthentication(element, ar_element)
         elif isinstance(ar_element, DiagnosticClearDiagnosticInformation):
             self.writeDiagnosticClearDiagnosticInformation(element, ar_element)
+        elif isinstance(ar_element, DiagnosticClearDiagnosticInformationClass):
+            self.writeDiagnosticClearDiagnosticInformationClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticComControl):
             self.writeDiagnosticComControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticComControlClass):
