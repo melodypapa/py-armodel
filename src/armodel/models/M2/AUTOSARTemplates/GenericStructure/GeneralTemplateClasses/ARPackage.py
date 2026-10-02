@@ -341,6 +341,7 @@ __all__ = [
     "SenderReceiverInterface",
     "SensorActuatorSwComponentType",
     "ServiceProxySwComponentType",
+    "ParameterSwComponentType",
     "ServiceSwComponentType",
     "SignalServiceTranslationPropsSet",
     "SoAdRoutingGroup",
@@ -1132,6 +1133,22 @@ class ARPackage(CollectableElement, VariationPointCapable):
             sw_component = ComplexDeviceDriverSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
         return self.getReferrableElement(short_name, ComplexDeviceDriverSwComponentType)
+
+    def createParameterSwComponentType(self, short_name: str) -> ParameterSwComponentType:
+        """
+        Creates a new ParameterSwComponentType with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        Args:
+            short_name: The short name for the new ParameterSwComponentType
+
+        Returns:
+            The newly created or existing ParameterSwComponentType instance
+        """
+        if not self.IsReferrableElementExists(short_name, ParameterSwComponentType):
+            sw_component = ParameterSwComponentType(self, short_name)
+            self.addReferrableElement(sw_component)
+        return self.getReferrableElement(short_name, ParameterSwComponentType)
 
     def createServiceSwComponentType(self, short_name: str) -> ServiceSwComponentType:
 
@@ -3808,6 +3825,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ( 
     ServiceSwComponentType,
     SwComponentType,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ParameterSwComponentType  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (  # noqa: E402
     ApplicationArrayDataType,

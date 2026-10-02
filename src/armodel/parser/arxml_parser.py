@@ -764,6 +764,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SwComponentType,
     SymbolProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ParameterSwComponentType  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
     InnerPortGroupInCompositionInstanceRef,
     ModeGroupInAtomicSwcInstanceRef,
@@ -8378,6 +8379,22 @@ class ARXMLParser(AbstractARXMLParser):
     def readCompositionSwComponentTypePhysicalDimensionMapping(self, element: ET.Element, parent: CompositionSwComponentType):
         parent.setPhysicalDimensionMappingRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-MAPPING-REF"))
 
+    def readParameterSwComponentType(self, element: ET.Element, sw_component: ParameterSwComponentType):
+        self.logger.debug("Read ParameterSwComponentType <%s>" % sw_component.getShortName())
+        self.readSwComponentType(element, sw_component)
+        for ref in self.getChildElementRefTypeList(element, "CONSTANT-MAPPING-REFS/CONSTANT-MAPPING-REF"):
+            sw_component.addConstantMappingRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "DATA-TYPE-MAPPING-REFS/DATA-TYPE-MAPPING-REF"):
+            sw_component.addDataTypeMappingRef(ref)
+        for child_element in self.findall(element, "INSTANTIATION-DATA-DEF-PROPSS/INSTANTIATION-DATA-DEF-PROPS"):
+            props = InstantiationDataDefProps()
+            self.readARObject(child_element, props)
+            props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
+            props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            self.readVariationPointCapable(child_element, props)
+            sw_component.addInstantiationDataDefProps(props)
+
     def readCompositionSwComponentType(self, element: ET.Element, type: CompositionSwComponentType):
         self.logger.debug("Read CompositionSwComponentType: <%s>" % type.getShortName())
         self.readSwComponentType(element, type)
@@ -15912,6 +15929,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
+            if tag_name == "PARAMETER-SW-COMPONENT-TYPE":
+                sw_component = parent.createParameterSwComponentType(self.getShortName(child_element))
+                self.readParameterSwComponentType(child_element, sw_component)
             if tag_name == "COMPOSITION-SW-COMPONENT-TYPE":
                 type = parent.createCompositionSwComponentType(self.getShortName(child_element))
                 self.readCompositionSwComponentType(child_element, type)

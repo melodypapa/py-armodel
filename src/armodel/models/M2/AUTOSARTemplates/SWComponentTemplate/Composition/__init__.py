@@ -24,7 +24,7 @@ class SwComponentPrototype(AtpPrototype, VariationPointCapable):
 
     # SwComponentPrototype method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.11, p.77 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTypeTRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -67,11 +67,11 @@ class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
 
     # SwConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.12, p.80
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
@@ -113,7 +113,7 @@ class AssemblySwConnector(SwConnector):
 
     # AssemblySwConnector method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.13, p.80 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getProviderIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -241,13 +241,13 @@ class PassThroughSwConnector(SwConnector):
 
     # PassThroughSwConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.15, p.83
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -314,13 +314,13 @@ class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
 
     # InstantiationRTEEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.17, p.85
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRefinedEventIRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRefinedEventIRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRefinedEventIRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRefinedEventIRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is InstantiationRTEEventProps:
@@ -390,11 +390,11 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     # InstantiationTimingEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.16, p.85
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

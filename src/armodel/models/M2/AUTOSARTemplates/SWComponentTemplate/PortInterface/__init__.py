@@ -22,6 +22,8 @@ if TYPE_CHECKING:
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ArParameterInImplementationDataInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -41,13 +43,13 @@ class PortInterface(AtpType, ABC):
 
     # PortInterface method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.18, p.87
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIsService   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsService   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getServiceKind [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setServiceKind [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIsService   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsService   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceKind [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceKind [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterface:
@@ -212,7 +214,7 @@ class InvalidationPolicy(ARObject):
 
     # InvalidationPolicy method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.2, p.97 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -265,7 +267,7 @@ class MetaDataItem(ARObject):
 
     # MetaDataItem method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.4, p.98 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -318,7 +320,7 @@ class MetaDataItemSet(ARObject):
 
     # MetaDataItemSet method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.5, p.99 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -541,11 +543,11 @@ class ApplicationError(Identifiable):
 
     # ApplicationError method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.11, p.108
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorCode      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorCode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorCode      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorCode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -587,14 +589,14 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     # ClientServerOperation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getArguments                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPossibleErrorRefs        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addPossibleErrorRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getArguments                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] getDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] getPossibleErrorRefs        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] addPossibleErrorRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -671,13 +673,13 @@ class ClientServerInterface(PortInterface):
 
     # ClientServerInterface method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getOperations               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] createOperation             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPossibleErrors           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] createApplicationError      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getOperations               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] createOperation             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] getPossibleErrors           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] createApplicationError      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -733,7 +735,7 @@ class TriggerInterface(PortInterface):
 
     # TriggerInterface method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.12, p.109 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createTrigger  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -765,11 +767,11 @@ class ModeSwitchInterface(PortInterface):
 
     # ModeSwitchInterface method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.16, p.113
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createModeGroup    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeGroup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createModeGroup    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeGroup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -816,7 +818,7 @@ class PortInterfaceMapping(AtpBlueprintable, VariationPointCapable, ABC):
 
     # PortInterfaceMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -835,13 +837,13 @@ class ClientServerApplicationErrorMapping(ARObject):
 
     # ClientServerApplicationErrorMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.25, p.129
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSecondApplicationErrorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSecondApplicationErrorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSecondApplicationErrorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSecondApplicationErrorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -908,7 +910,7 @@ class SubElementRef(ARObject, ABC):
 
     # SubElementRef method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.33, p.138 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -926,7 +928,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
 
     # ApplicationCompositeDataTypeSubElementRef method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.35, p.138 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApplicationCompositeElementIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -961,7 +963,7 @@ class MappingDirectionEnum(AREnum):
 
     # MappingDirectionEnum method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -985,7 +987,7 @@ class TextTableValuePair(ARObject):
 
     # TextTableValuePair method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.38, p.146 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFirstValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1040,7 +1042,7 @@ class TextTableMapping(ARObject):
 
     # TextTableMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.36, p.145 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBitfieldTextTableMaskFirst  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1155,7 +1157,7 @@ class SubElementMapping(ARObject):
 
     # SubElementMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.32, p.137 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (textTableMapping multiplicity 0..2 per Table 4.32 — modeled as a list; bound documented here)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -1231,21 +1233,21 @@ class DataPrototypeMapping(ARObject):
 
     # DataPrototypeMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.22, p.125
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondDataPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondDataPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addSubElementMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubElementMappings        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTextTableMapping          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTextTableMappings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondDataPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondDataPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSubElementMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElementMappings        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTextTableMapping          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTextTableMappings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1380,17 +1382,17 @@ class ClientServerOperationMapping(ARObject):
 
     # ClientServerOperationMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.24, p.129
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addArgumentMapping                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getArgumentMappings                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getFirstOperationRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFirstOperationRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSecondOperationRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSecondOperationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] addArgumentMapping                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getArgumentMappings                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] getFirstOperationRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setFirstOperationRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSecondOperationRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSecondOperationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1475,7 +1477,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
     # ClientServerInterfaceMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.23, p.128 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getErrorMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1596,7 +1598,7 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
 
     # TriggerInterfaceMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.30, p.134 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTriggerMappings            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1631,13 +1633,13 @@ class ModeDeclarationMapping(AtpStructureElement):
 
     # ModeDeclarationMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.29, p.132
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstModeRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFirstModeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondModeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondModeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstModeRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirstModeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondModeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondModeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1686,7 +1688,7 @@ class ModeDeclarationMappingSet(AtpType):
 
     # ModeDeclarationMappingSet method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.28, p.132 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getModeDeclarationMappings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1730,7 +1732,7 @@ class PortInterfaceMappingSet(ARElement):
 
     # PortInterfaceMappingSet method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.19, p.119 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPortInterfaceMappings                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1793,4 +1795,52 @@ class PortInterfaceMappingSet(ARElement):
 
 
 class ImplementationDataTypeSubElementRef(SubElementRef):
-    pass
+    """This meta-class represents the specialization of SubElementMapping with respect to Implementation DataTypes."""
+
+    # ImplementationDataTypeSubElementRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.34, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementationDataTypeElement     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationDataTypeElement     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the referenced implementationDataType Element.
+        self.implementationDataTypeElement: Optional[ArVariableInImplementationDataInstanceRef] = None
+
+        # This represents the referenced ImplementationDataType Element.
+        self.parameterImplementationDataTypeElement: Optional[ArParameterInImplementationDataInstanceRef] = None
+
+    def getImplementationDataTypeElement(self) -> Optional[ArVariableInImplementationDataInstanceRef]:
+        """
+        This represents the referenced implementationDataType Element.
+        """
+        return self.implementationDataTypeElement
+
+    def setImplementationDataTypeElement(self, value: Optional[ArVariableInImplementationDataInstanceRef]) -> ImplementationDataTypeSubElementRef:
+        """
+        This represents the referenced implementationDataType Element.
+        A None value is a no-op and does not overwrite an existing implementationDataTypeElement.
+        """
+        if value is not None:
+            self.implementationDataTypeElement = value
+        return self
+
+    def getParameterImplementationDataTypeElement(self) -> Optional[ArParameterInImplementationDataInstanceRef]:
+        """
+        This represents the referenced ImplementationDataType Element.
+        """
+        return self.parameterImplementationDataTypeElement
+
+    def setParameterImplementationDataTypeElement(self, value: Optional[ArParameterInImplementationDataInstanceRef]) -> ImplementationDataTypeSubElementRef:
+        """
+        This represents the referenced ImplementationDataType Element.
+        A None value is a no-op and does not overwrite an existing parameterImplementationDataTypeElement.
+        """
+        if value is not None:
+            self.parameterImplementationDataTypeElement = value
+        return self

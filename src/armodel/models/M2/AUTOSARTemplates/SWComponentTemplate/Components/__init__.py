@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     SenderReceiverAnnotation,
     TriggerPortAnnotation,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
@@ -62,26 +63,26 @@ class SwComponentType(AtpType, ABC):
 
     # SwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.1, p.64
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createConsistencyNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConsistencyNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createPPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createRPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createPRPortPrototype        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPorts                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getPPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPRPortPrototypes          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPortPrototypes            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createPortGroup              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPortGroups                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwcMappingConstraintRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwcMappingConstraintsRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addUnitGroupRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnitGroupRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createConsistencyNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsistencyNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createPPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createPRPortPrototype        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPorts                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPRPortPrototypes          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortPrototypes            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createPortGroup              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortGroups                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwcMappingConstraintRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcMappingConstraintsRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addUnitGroupRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitGroupRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwComponentType:
@@ -336,7 +337,7 @@ class SymbolProps(ImplementationProps):
 
     # SymbolProps method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.21, p.288 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -351,7 +352,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
 
     # PortPrototype method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.2, p.66 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addClientServerAnnotation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -782,7 +783,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
     # PPortPrototype method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.6, p.68 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getProvidedInterfaceTRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -816,7 +817,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
 
     # RPortPrototype method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.5, p.68 (R23-11)
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMayBeUnconnected             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -956,12 +957,12 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
     # AtomicSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.8, p.70
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInternalBehavior          [x] impl  [x] docstring  [x] test
-    # [x] createSwcInternalBehavior    [x] impl  [x] docstring  [x] test
-    # [x] getSymbolProps               [x] impl  [x] docstring  [x] test
-    # [x] createSymbolProps            [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  R23-11
+    # [x] getInternalBehavior          [x] impl  [x] docstring  [x] test  R23-11
+    # [x] createSwcInternalBehavior    [x] impl  [x] docstring  [x] test  R23-11
+    # [x] getSymbolProps               [x] impl  [x] docstring  [x] test  R23-11
+    # [x] createSymbolProps            [x] impl  [x] docstring  [x] test  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1079,7 +1080,7 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
 
 class ApplicationSwComponentType(AtomicSwComponentType):
     """
-    The ApplicationSwComponentType is used to represent the application software.
+    The ApplicationSwComponentType is used to represent the application software. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.9, p.71
@@ -1300,4 +1301,72 @@ class ServiceSwComponentType(AtomicSwComponentType):
 
 
 class ParameterSwComponentType(SwComponentType):
-    pass
+    """The ParameterSwComponentType defines parameters and characteristic values accessible via provided Ports. The provided values are the same for all connected requesters. Tags: atp.recommendedPackage=SwComponentTypes"""
+
+    # ParameterSwComponentType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 2.1, p.41
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConstantMappingRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstantMappingRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataTypeMappingRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataTypeMappingRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInstantiationDataDefProps      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstantiationDataDefProps      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType. Stereotypes: atpSplitable
+        self.constantMappingRefs: List[RefType] = []
+
+        # Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType. Stereotypes: atpSplitable
+        self.dataTypeMappingRefs: List[RefType] = []
+
+        # The purpose of this is that within the context of a given SwComponentType some data def properties can be modified.
+        self.instantiationDataDefProps: List[InstantiationDataDefProps] = []
+
+    def addConstantMappingRef(self, value: Optional[RefType]) -> ParameterSwComponentType:
+        """
+        Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType. Stereotypes: atpSplitable
+        A None value is a no-op and does not append a constantMappingRef.
+        """
+        if value is not None:
+            self.constantMappingRefs.append(value)
+        return self
+
+    def getConstantMappingRefs(self) -> List[RefType]:
+        """
+        Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType. Stereotypes: atpSplitable
+        """
+        return self.constantMappingRefs
+
+    def addDataTypeMappingRef(self, value: Optional[RefType]) -> ParameterSwComponentType:
+        """
+        Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType. Stereotypes: atpSplitable
+        A None value is a no-op and does not append a dataTypeMappingRef.
+        """
+        if value is not None:
+            self.dataTypeMappingRefs.append(value)
+        return self
+
+    def getDataTypeMappingRefs(self) -> List[RefType]:
+        """
+        Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType. Stereotypes: atpSplitable
+        """
+        return self.dataTypeMappingRefs
+
+    def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> ParameterSwComponentType:
+        """
+        The purpose of this is that within the context of a given SwComponentType some data def properties can be modified.
+        A None value is a no-op and does not append an instantiationDataDefProps.
+        """
+        if value is not None:
+            self.instantiationDataDefProps.append(value)
+        return self
+
+    def getInstantiationDataDefProps(self) -> List[InstantiationDataDefProps]:
+        """
+        The purpose of this is that within the context of a given SwComponentType some data def properties can be modified.
+        """
+        return self.instantiationDataDefProps

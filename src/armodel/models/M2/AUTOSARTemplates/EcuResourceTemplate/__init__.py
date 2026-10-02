@@ -414,8 +414,6 @@ class HwPinGroupConnector(Describable, VariationPointCapable):
 class HwElementConnector(Describable, VariationPointCapable):
     """
     This meta-class represents the ability to connect two hardware elements. The details of the connection can be refined by hwPinGroupConnection.
-
-    [constr_11002] Multiplicity of HwElementConnector . hwElement: For each HwElementConnector there shall exist exactly 2 references in the role hwElement.
     """
 
     # HwElementConnector method parity checklist:

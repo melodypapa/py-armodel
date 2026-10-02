@@ -2,6 +2,8 @@
 This module contains application attribute classes for AUTOSAR software components.
 """
 
+from __future__ import annotations
+
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -16,8 +18,8 @@ class DataLimitKindEnum(AREnum):
 
     # DataLimitKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.45, p.153
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test  R23-11
 
     # Limitation to maximum value Tags: atp.EnumerationLiteralIndex=0
     MAX = "max"
@@ -45,8 +47,8 @@ class FilterDebouncingEnum(AREnum):
 
     # FilterDebouncingEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.48, p.157
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test  R23-11
 
     # The signal is a mean value Tags: atp.EnumerationLiteralIndex=0
     DEBOUNCE_DATA = "debounceData"
@@ -74,8 +76,8 @@ class ProcessingKindEnum(AREnum):
 
     # ProcessingKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.44, p.153
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test  R23-11
 
     # Indicates that a raw signal has been manipulated by some application software components by using filters. Tags: atp.EnumerationLiteralIndex=0
     FILTERED = "filtered"
@@ -103,8 +105,8 @@ class PulseTestEnum(AREnum):
 
     # PulseTestEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.49, p.157
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test  R23-11
 
     # Disables the pulse test Tags: atp.EnumerationLiteralIndex=0
     DISABLE = "disable"
@@ -128,8 +130,8 @@ class SignalFanEnum(AREnum):
 
     # SignalFanEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.55, p.162
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test  R23-11
 
     # The connections internally in the CompositionSwComponentType via DelegationSwConnectors and AssemblySwConnectors are defined in a way that at least one data element present in the S/R interface or one ClientServerOperation in the C/S interface of the outer PortPrototype is involved in a 1:n or n:1 communication pattern. Tags: atp.EnumerationLiteralIndex=0
     NFOLD = "nfold"
@@ -153,16 +155,16 @@ class SenderReceiverAnnotation(GeneralAnnotation):
 
     # SenderReceiverAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.41, p.152
-    # Spec verified: R23-11
-    # [x] __init__                  [x] impl  [x] docstring  [x] test
-    # [x] getComputed               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setComputed               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataElementRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLimitKind              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLimitKind              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProcessingKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProcessingKind         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  R23-11
+    # [x] getComputed               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComputed               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElementRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLimitKind              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLimitKind              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessingKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessingKind         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -188,7 +190,7 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         """
         return self.computed
 
-    def setComputed(self, value: Optional[Boolean]) -> "SenderReceiverAnnotation":
+    def setComputed(self, value: Optional[Boolean]) -> SenderReceiverAnnotation:
         """
         Sets the flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
         A None value is a no-op and does not overwrite an existing value.
@@ -212,7 +214,7 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         """
         return self.dataElementRef
 
-    def setDataElementRef(self, value: Optional[RefType]) -> "SenderReceiverAnnotation":
+    def setDataElementRef(self, value: Optional[RefType]) -> SenderReceiverAnnotation:
         """
         Sets the instance of VariableDataPrototype annotated.
         A None value is a no-op and does not overwrite an existing reference.
@@ -236,7 +238,7 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         """
         return self.limitKind
 
-    def setLimitKind(self, value: Optional[DataLimitKindEnum]) -> "SenderReceiverAnnotation":
+    def setLimitKind(self, value: Optional[DataLimitKindEnum]) -> SenderReceiverAnnotation:
         """
         Sets the limit kind of this data element annotation.
         A None value is a no-op and does not overwrite an existing value.
@@ -260,7 +262,7 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         """
         return self.processingKind
 
-    def setProcessingKind(self, value: Optional[ProcessingKindEnum]) -> "SenderReceiverAnnotation":
+    def setProcessingKind(self, value: Optional[ProcessingKindEnum]) -> SenderReceiverAnnotation:
         """
         Sets the processing kind of this data element annotation.
         A None value is a no-op and does not overwrite an existing value.
@@ -283,11 +285,11 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ClientServerAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.46, p.155
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getOperationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setOperationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getOperationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setOperationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -301,7 +303,7 @@ class ClientServerAnnotation(GeneralAnnotation):
         """
         return self.operationRef
 
-    def setOperationRef(self, value: Optional[RefType]) -> "ClientServerAnnotation":
+    def setOperationRef(self, value: Optional[RefType]) -> ClientServerAnnotation:
         """
         This represents the ClientServerOperation that the Client ServerAnnotation corresponds to.
         A None value is a no-op and does not overwrite an existing operationRef.
@@ -318,25 +320,25 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     # IoHwAbstractionServerAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.47, p.157
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getAge                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setAge                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getArgumentRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setArgumentRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getBswResolution            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setBswResolution            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getFailureMonitoringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFailureMonitoringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getFilteringDebouncing      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setFilteringDebouncing      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPulseTest                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setPulseTest                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getAge                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setAge                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getArgumentRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setArgumentRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getBswResolution            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setBswResolution            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getFailureMonitoringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setFailureMonitoringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getFilteringDebouncing      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setFilteringDebouncing      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] getPulseTest                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setPulseTest                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] getTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -371,7 +373,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.age
 
-    def setAge(self, value: Optional[MultidimensionalTime]) -> "IoHwAbstractionServerAnnotation":
+    def setAge(self, value: Optional[MultidimensionalTime]) -> IoHwAbstractionServerAnnotation:
         """
         In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer Tags: xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing age.
@@ -386,7 +388,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.argumentRef
 
-    def setArgumentRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def setArgumentRef(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Reference to the corresponding ArgumentDataPrototype. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing argumentRef.
@@ -401,7 +403,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.bswResolution
 
-    def setBswResolution(self, value: Optional[Float]) -> "IoHwAbstractionServerAnnotation":
+    def setBswResolution(self, value: Optional[Float]) -> IoHwAbstractionServerAnnotation:
         """
         This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1) Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing bswResolution.
@@ -416,7 +418,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.dataElementRef
 
-    def setDataElementRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def setDataElementRef(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Reference to the corresponding VariableDataPrototype. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing dataElementRef.
@@ -431,7 +433,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.failureMonitoringRef
 
-    def setFailureMonitoringRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def setFailureMonitoringRef(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component. Tags: xml.sequenceOffset=50
         A None value is a no-op and does not overwrite an existing failureMonitoringRef.
@@ -446,7 +448,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.filteringDebouncing
 
-    def setFilteringDebouncing(self, value: Optional[FilterDebouncingEnum]) -> "IoHwAbstractionServerAnnotation":
+    def setFilteringDebouncing(self, value: Optional[FilterDebouncingEnum]) -> IoHwAbstractionServerAnnotation:
         """
         This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time Tags: xml.sequenceOffset=60
         A None value is a no-op and does not overwrite an existing filteringDebouncing.
@@ -461,7 +463,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.pulseTest
 
-    def setPulseTest(self, value: Optional[PulseTestEnum]) -> "IoHwAbstractionServerAnnotation":
+    def setPulseTest(self, value: Optional[PulseTestEnum]) -> IoHwAbstractionServerAnnotation:
         """
         This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer Tags: xml.sequenceOffset=70
         A None value is a no-op and does not overwrite an existing pulseTest.
@@ -476,7 +478,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.triggerRef
 
-    def setTriggerRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def setTriggerRef(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Reference to the corresponding Trigger. Tags: xml.sequenceOffset=80
         A None value is a no-op and does not overwrite an existing triggerRef.
@@ -493,11 +495,11 @@ class ModePortAnnotation(GeneralAnnotation):
 
     # ModePortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.51, p.159
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -511,7 +513,7 @@ class ModePortAnnotation(GeneralAnnotation):
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: Optional[RefType]) -> "ModePortAnnotation":
+    def setModeGroupRef(self, value: Optional[RefType]) -> ModePortAnnotation:
         """
         The instance of annotated ModeDeclarationGroup Prototype.
         A None value is a no-op and does not overwrite an existing modeGroupRef.
@@ -528,11 +530,11 @@ class NvDataPortAnnotation(GeneralAnnotation):
 
     # NvDataPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.53, p.160
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getVariableRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setVariableRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getVariableRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setVariableRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -546,7 +548,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
         """
         return self.variableRef
 
-    def setVariableRef(self, value: Optional[RefType]) -> "NvDataPortAnnotation":
+    def setVariableRef(self, value: Optional[RefType]) -> NvDataPortAnnotation:
         """
         The instance of nv data annotated.
         A None value is a no-op and does not overwrite an existing variableRef.
@@ -563,11 +565,11 @@ class ParameterPortAnnotation(GeneralAnnotation):
 
     # ParameterPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.50, p.159
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setParameterRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -581,7 +583,7 @@ class ParameterPortAnnotation(GeneralAnnotation):
         """
         return self.parameterRef
 
-    def setParameterRef(self, value: Optional[RefType]) -> "ParameterPortAnnotation":
+    def setParameterRef(self, value: Optional[RefType]) -> ParameterPortAnnotation:
         """
         The instance of annotated ParameterDataPrototype.
         A None value is a no-op and does not overwrite an existing parameterRef.
@@ -598,11 +600,11 @@ class TriggerPortAnnotation(GeneralAnnotation):
 
     # TriggerPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.52, p.160
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -616,7 +618,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
         """
         return self.triggerRef
 
-    def setTriggerRef(self, value: Optional[RefType]) -> "TriggerPortAnnotation":
+    def setTriggerRef(self, value: Optional[RefType]) -> TriggerPortAnnotation:
         """
         The instance of annotated trigger.
         A None value is a no-op and does not overwrite an existing triggerRef.
@@ -633,11 +635,11 @@ class DelegatedPortAnnotation(GeneralAnnotation):
 
     # DelegatedPortAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.54, p.162
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getSignalFan                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setSignalFan                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getSignalFan                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
+    # [x] setSignalFan                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -651,7 +653,7 @@ class DelegatedPortAnnotation(GeneralAnnotation):
         """
         return self.signalFan
 
-    def setSignalFan(self, value: Optional[SignalFanEnum]) -> "DelegatedPortAnnotation":
+    def setSignalFan(self, value: Optional[SignalFanEnum]) -> DelegatedPortAnnotation:
         """
         Specifies the Signal Fan In or Signal Fan Out inside the Composition Type.
         A None value is a no-op and does not overwrite an existing signalFan.
@@ -681,8 +683,44 @@ __all__ = [
 
 
 class ReceiverAnnotation(SenderReceiverAnnotation):
-    pass
+    """Annotation of a receiver port, specifying properties of data elements that don't affect communication or generation of the RTE. The given attributes are requirements on the required RTE implementation which shall be fulfilled by the RTE."""
+
+    # ReceiverAnnotation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.43, p.153
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSignalAge      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignalAge      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The maximum allowed age of the signal since it was originally read by a sensor. This is a requirement specified on the required RTE implementation which shall be fulfilled by the RTE.
+        self.signalAge: Optional[MultidimensionalTime] = None
+
+    def getSignalAge(self) -> Optional[MultidimensionalTime]:
+        """
+        The maximum allowed age of the signal since it was originally read by a sensor. This is a requirement specified on the required RTE implementation which shall be fulfilled by the RTE.
+        """
+        return self.signalAge
+
+    def setSignalAge(self, value: Optional[MultidimensionalTime]) -> ReceiverAnnotation:
+        """
+        The maximum allowed age of the signal since it was originally read by a sensor. This is a requirement specified on the required RTE implementation which shall be fulfilled by the RTE.
+        A None value is a no-op and does not overwrite an existing signalAge.
+        """
+        if value is not None:
+            self.signalAge = value
+        return self
 
 
 class SenderAnnotation(SenderReceiverAnnotation):
-    pass
+    """Annotation of a sender port, specifying properties of data elements that don't affect communication or generation of the RTE."""
+
+    # SenderAnnotation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.42, p.153
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()

@@ -23,7 +23,7 @@ class DataTransformationKindEnum(AREnum):
 
     # DataTransformationKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.40, p.150
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # The DataTransformation shall only be applied to the receiving end only, i.e. transform from byte array to data type. Tags: atp.EnumerationLiteralIndex=0
@@ -52,15 +52,15 @@ class DataTransformation(Identifiable, VariationPointCapable):
 
     # DataTransformation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.2, p.763
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataTransformationKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataTransformationKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformerChainRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTransformerChainRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransformationKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataTransformationKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerChainRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTransformerChainRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -130,13 +130,13 @@ class BufferProperties(ARObject):
 
     # BufferProperties method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.5, p.767
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -185,9 +185,9 @@ class TransformationDescription(Describable, VariationPointCapable, ABC):
 
     # TransformationDescription method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.6, p.771
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransformationDescription:
@@ -202,7 +202,7 @@ class DataIdModeEnum(AREnum):
 
     # DataIdModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.24, p.807
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # Two bytes are included in the CRC (double ID configuration). Tags: atp.EnumerationLiteralIndex=0
@@ -235,7 +235,7 @@ class EndToEndProfileBehaviorEnum(AREnum):
 
     # EndToEndProfileBehaviorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.26, p.808
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # Check has the legacy behavior, before AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=0 xml.name=PRE-R-4-2
@@ -296,53 +296,53 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # EndToEndTransformationDescription method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.23, p.807
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -773,7 +773,7 @@ class TransformerClassEnum(AREnum):
 
     # TransformerClassEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.4, p.765
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # The transformer is a custom transformer. Tags: atp.EnumerationLiteralIndex=0
@@ -799,23 +799,23 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
 
     # TransformationTechnology method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.3, p.764
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBufferProperties   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBufferProperties   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHasInternalState   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHasInternalState   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNeedsOriginalData  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNeedsOriginalData  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProtocol           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProtocol           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformationDescription [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationDescription [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformerClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformerClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVersion             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVersion             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBufferProperties   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBufferProperties   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHasInternalState   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHasInternalState   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNeedsOriginalData  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNeedsOriginalData  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocol           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocol           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformationDescription [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationDescription [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformerClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVersion             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -952,13 +952,13 @@ class DataTransformationSet(ARElement):
 
     # DataTransformationSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.1, p.763
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getDataTransformations         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] createDataTransformation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTransformationTechnologies  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] createTransformationTechnology [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getDataTransformations         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] createDataTransformation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTransformationTechnologies  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] createTransformationTechnology [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1003,7 +1003,7 @@ class CSTransformerErrorReactionEnum(AREnum):
 
     # CSTransformerErrorReactionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.9, p.773
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # The application is responsible for any error reaction. No autonomous error reaction of RTE and transformer. Tags: atp.EnumerationLiteralIndex=0
@@ -1023,8 +1023,8 @@ class SOMEIPMessageTypeEnum(AREnum):
 
     # SOMEIPMessageTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.13, p.779
-    # Spec verified: R23-11
-    # (no methods) — enum value form serialized on SOMEIPTransformationISignalProps.messageType
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
 
     # A request of a notification expecting no response. Tags: atp.EnumerationLiteralIndex=1 xml.name=NOTIFICATION
     NOTIFICATION = "NOTIFICATION"
@@ -1056,17 +1056,17 @@ class TlvDataIdDefinition(ARObject):
 
     # TlvDataIdDefinition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.31, p.831
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getId                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setId                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getId                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setId                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1143,11 +1143,11 @@ class TlvDataIdDefinitionSet(ARElement):
 
     # TlvDataIdDefinitionSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.30, p.830
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getTlvDataIdDefinitions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addTlvDataIdDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getTlvDataIdDefinitions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] addTlvDataIdDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1176,16 +1176,16 @@ class TransformationISignalProps(Describable, ABC):
 
     # TransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.8, p.772
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] addDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         if type(self) is TransformationISignalProps:
@@ -1263,11 +1263,11 @@ class DataPrototypeReference(ARObject, ABC):
 
     # DataPrototypeReference method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.18, p.787
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTagId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTagId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTagId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTagId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is DataPrototypeReference:
@@ -1300,11 +1300,11 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
 
     # DataPrototypeInPortInterfaceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.19, p.788
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1335,15 +1335,15 @@ class DataPrototypeTransformationProps(ARObject):
 
     # DataPrototypeTransformationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.17, p.787
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationPropsRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTransformationPropsRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationPropsRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setTransformationPropsRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1514,27 +1514,27 @@ class SOMEIPTransformationISignalProps(TransformationISignalProps):
 
     # SOMEIPTransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.11, p.778
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getInterfaceVersion                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInterfaceVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getMessageType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setMessageType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addTlvDataIdDefinitionRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTlvDataIdDefinitionRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getInterfaceVersion                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setInterfaceVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getMessageType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setMessageType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] addTlvDataIdDefinitionRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTlvDataIdDefinitionRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1709,9 +1709,9 @@ class UserDefinedTransformationISignalProps(TransformationISignalProps):
 
     # UserDefinedTransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.28, p.828
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
     # (no own attributes; reader/writer coverage via the USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS dispatch)
 
     def __init__(self):
@@ -1725,7 +1725,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     # EndToEndTransformationComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.92, p.201
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [ ] __init__                              [x] impl  [ ] docstring  [ ] test
     # [ ] getClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer

@@ -29,10 +29,10 @@ class HandleInvalidEnum(AREnum):
 
     # HandleInvalidEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.3, p.97
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (no methods) — enum value form serialized on InvalidationPolicy.handleInvalid
-    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
 
     # Invalidation is switched off. Tags: atp.EnumerationLiteralIndex=0
     DONT_INVALIDATE = "dontInvalidate"
@@ -54,9 +54,9 @@ class PPortComSpec(ARObject, ABC):
 
     # PPortComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.58, p.166
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is PPortComSpec:
@@ -71,9 +71,9 @@ class RPortComSpec(ARObject, ABC):
 
     # RPortComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.59, p.167
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is RPortComSpec:
@@ -89,13 +89,13 @@ class ReceptionComSpecProps(ARObject):
 
     # ReceptionComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.64, p.174
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -142,13 +142,13 @@ class CompositeNetworkRepresentation(ARObject):
 
     # CompositeNetworkRepresentation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.74, p.181
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getLeafElementIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setLeafElementIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getNetworkRepresentation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getLeafElementIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setLeafElementIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getNetworkRepresentation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -195,10 +195,10 @@ class TransmissionModeDefinitionEnum(AREnum):
 
     # TransmissionModeDefinitionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.73, p.181
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on TransmissionComSpecProps.transmissionMode
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The data is assumed to be transmitted in a cyclic manner. The cycle is defined by dataUpdatePeriod. Tags: atp.EnumerationLiteralIndex=0
     CYCLIC = "cyclic"
@@ -226,15 +226,15 @@ class TransmissionComSpecProps(ARObject):
 
     # TransmissionComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.70, p.179
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -301,11 +301,11 @@ class TransmissionAcknowledgementRequest(ARObject):
 
     # TransmissionAcknowledgementRequest method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.71, p.180
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -336,23 +336,23 @@ class SenderComSpec(PPortComSpec, ABC):
 
     # SenderComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.67, p.178
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SenderComSpec:
@@ -509,13 +509,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     # NonqueuedSenderComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.69, p.179
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -564,15 +564,15 @@ class ClientComSpec(RPortComSpec):
 
     # ClientComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.77, p.187
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -639,15 +639,15 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
 
     # ModeSwitchReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.81, p.191
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getEnhancedModeApi                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setEnhancedModeApi                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getModeGroupRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setModeGroupRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getEnhancedModeApi                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setEnhancedModeApi                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getModeGroupRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setModeGroupRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -711,13 +711,13 @@ class NvRequireComSpec(RPortComSpec):
 
     # NvRequireComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.84, p.194
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getVariableRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setVariableRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getVariableRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setVariableRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -764,13 +764,13 @@ class ParameterRequireComSpec(RPortComSpec):
 
     # ParameterRequireComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.83, p.193
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getInitValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInitValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getParameterRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setParameterRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getInitValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setInitValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getParameterRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setParameterRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -817,33 +817,33 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     # ReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.60, p.172
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDataElementRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRange          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRange          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentation     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReceptionProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReceptionProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReplaceWith               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReplaceWith               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncCounterInit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncCounterInit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElementRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRange          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRange          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentation     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceptionProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceptionProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReplaceWith               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReplaceWith               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncCounterInit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is ReceiverComSpec:
@@ -1074,11 +1074,11 @@ class ModeSwitchedAckRequest(ARObject):
 
     # ModeSwitchedAckRequest method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.80, p.190
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1108,17 +1108,17 @@ class ModeSwitchSenderComSpec(PPortComSpec):
 
     # ModeSwitchSenderComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.79, p.190
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getEnhancedModeApi   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setEnhancedModeApi   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getModeGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setModeGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getModeSwitchedAck   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setModeSwitchedAck   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getQueueLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setQueueLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getEnhancedModeApi   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setEnhancedModeApi   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getModeGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setModeGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getModeSwitchedAck   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setModeSwitchedAck   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getQueueLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setQueueLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1199,13 +1199,13 @@ class ParameterProvideComSpec(PPortComSpec):
 
     # ParameterProvideComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.82, p.192
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1254,9 +1254,9 @@ class TransformationComSpecProps(Describable, ABC):
 
     # TransformationComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.86, p.197
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransformationComSpecProps:
@@ -1287,15 +1287,15 @@ class ServerComSpec(PPortComSpec):
 
     # ServerComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.78, p.188
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1362,15 +1362,15 @@ class NvProvideComSpec(PPortComSpec):
 
     # NvProvideComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.85, p.195
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getRamBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setRamBlockInitValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getRomBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setRomBlockInitValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getVariableRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setVariableRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getRamBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setRamBlockInitValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getRomBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setRomBlockInitValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
+    # [x] getVariableRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setVariableRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1434,25 +1434,25 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     # NonqueuedReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.62, p.173
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAliveTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAliveTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEnableUpdate              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEnableUpdate              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFilter                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFilter                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleDataStatus          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleDataStatus          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleNeverReceived       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleNeverReceived       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleTimeoutType         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleTimeoutType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAliveTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAliveTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnableUpdate              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableUpdate              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilter                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilter                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleDataStatus          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleDataStatus          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleNeverReceived       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleNeverReceived       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleTimeoutType         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleTimeoutType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1609,11 +1609,11 @@ class QueuedReceiverComSpec(ReceiverComSpec):
 
     # QueuedReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.63, p.173
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  R23-11
+    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  R23-11
+    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1643,7 +1643,7 @@ class HandleOutOfRangeEnum(AREnum):
 
     # HandleOutOfRangeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.72, p.180
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # The RTE will use the initValue if the actual value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=0
@@ -1684,10 +1684,10 @@ class HandleOutOfRangeStatusEnum(AREnum):
 
     # HandleOutOfRangeStatusEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.61, p.172
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on ReceiverComSpec.handleOutOfRangeStatus
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RTE sets the return status to RTE_E_OUT_OF_RANGE if the received value is out of range and the attribute handleOutOfRange is not set to "none" or "invalid". Tags: atp.EnumerationLiteralIndex=0
     INDICATE = "indicate"
@@ -1711,10 +1711,10 @@ class HandleTimeoutEnum(AREnum):
 
     # HandleTimeoutEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.65, p.174
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on NonqueuedReceiverComSpec.handleTimeoutType
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If set to none no replacement shall take place. Tags: atp.EnumerationLiteralIndex=0
     NONE = "none"

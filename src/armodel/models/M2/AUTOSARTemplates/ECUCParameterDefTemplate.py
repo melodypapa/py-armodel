@@ -772,9 +772,7 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
 class EcucDerivationSpecification(ARObject):
     """
-    Allows to define configuration items that are calculated based on the value of
-    other parameter values, or of elements (attributes/classes) defined in other
-    AUTOSAR templates such as System template and SW component template.
+    Allows to define configuration items that are calculated based on the value of • other parameter values • elements (attributes/classes) defined in other AUTOSAR templates such as System template and SW component template
     """
 
     # EcucDerivationSpecification method parity checklist:

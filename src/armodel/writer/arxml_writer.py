@@ -665,6 +665,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SwComponentType,
     SymbolProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ParameterSwComponentType  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
     InnerPortGroupInCompositionInstanceRef,
     ModeGroupInAtomicSwcInstanceRef,
@@ -2830,6 +2831,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         prototype_tag = ET.SubElement(element, "SW-COMPONENT-PROTOTYPE")
         self.writeIdentifiable(prototype_tag, prototype)
         self.setChildElementOptionalRefType(prototype_tag, "TYPE-TREF", prototype.getTypeTRef())
+
+    def writeParameterSwComponentType(self, parent: ET.Element, sw_component: ParameterSwComponentType):
+        child_element = ET.SubElement(parent, "PARAMETER-SW-COMPONENT-TYPE")
+        self.writeSwComponentType(child_element, sw_component)
+        constant_mapping_refs = sw_component.getConstantMappingRefs()
+        if len(constant_mapping_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONSTANT-MAPPING-REFS")
+            for ref in constant_mapping_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONSTANT-MAPPING-REF", ref)
+        data_type_mapping_refs = sw_component.getDataTypeMappingRefs()
+        if len(data_type_mapping_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DATA-TYPE-MAPPING-REFS")
+            for ref in data_type_mapping_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DATA-TYPE-MAPPING-REF", ref)
+        props_list = sw_component.getInstantiationDataDefProps()
+        if len(props_list) > 0:
+            props_tag = ET.SubElement(child_element, "INSTANTIATION-DATA-DEF-PROPSS")
+            for props in props_list:
+                if isinstance(props, InstantiationDataDefProps):
+                    props_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.writeARObject(props_element, props)
+                    self.setAutosarParameterRef(props_element, "PARAMETER-INSTANCE", props.getParameterInstance())
+                    self.setSwDataDefProps(props_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
+                    self.setAutosarVariableRef(props_element, "VARIABLE-INSTANCE", props.getVariableInstance())
+                    self.writeVariationPointCapable(props_element, props)
 
     def writeCompositionSwComponentTypeComponents(self, element: ET.Element, sw_component: CompositionSwComponentType):
         components = sw_component.getComponents()
@@ -15807,6 +15833,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwcImplementation(element, ar_element)
         elif isinstance(ar_element, TcpOptionFilterSet):
             self.writeTcpOptionFilterSet(element, ar_element)
+        elif isinstance(ar_element, ParameterSwComponentType):
+            self.writeParameterSwComponentType(element, ar_element)
         elif isinstance(ar_element, CompositionSwComponentType):
             self.writeCompositionSwComponentType(element, ar_element)
         elif isinstance(ar_element, ApplicationDeferredDataType):
