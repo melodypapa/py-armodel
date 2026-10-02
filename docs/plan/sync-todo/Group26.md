@@ -895,73 +895,79 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucDestinationUriDefSet` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.34, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip files (tests/test_armodel/parser/test_ecuc_destination_uri_family.py, test_ecuc_derivation_query.py writer counterpart)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; DOCSTRING FIXED: missing "Tags: atp.recommendedPackage=EcucDestinationUriDefSets" suffix added; createEcucDestinationUriDef DUPLICATE-REUSE ADDED (was blind-append, violated 0001.6)
 
 - [ ] `EcucDestinationUriDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.35, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip files (tests/test_armodel/parser/test_ecuc_destination_uri_family.py, test_ecuc_derivation_query.py writer counterpart)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; docstring verbatim ✓; destinationUriPolicy 0..1 aggr spec-correct
 
 - [ ] `EcucDestinationUriPolicy` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.36, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip files (tests/test_armodel/parser/test_ecuc_destination_uri_family.py, test_ecuc_derivation_query.py writer counterpart)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; 4 members (containers `*` aggr / destinationUriNestingContract 0..1 / parameters `*` / references `*`) in markdown order ✓
 
 - [ ] `EcucDestinationUriNestingContractEnum` — AREnum — R23-11 CP_TPS_ECUConfiguration Table 2.37, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip files (tests/test_armodel/parser/test_ecuc_destination_uri_family.py, test_ecuc_derivation_query.py writer counterpart)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; 3 literals (LEAF-OF-TARGET-CONTAINER idx 0, TARGET-CONTAINER idx 1, VERTEX-OF-TARGET-CONTAINER idx 2) = XML tokens; enum docstring verbatim
 
 - [ ] `EcucDerivationSpecification` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.38, p.87
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip files (tests/test_armodel/parser/test_ecuc_destination_uri_family.py, test_ecuc_derivation_query.py writer counterpart)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; 3 members (calculationFormula 0..1 / ecucQueries `*` / informalFormula MlFormula 0..1) in markdown order ✓; createEcucQuery/getEcucQuery factories
 
 - [ ] `EcucQuery` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.40, p.89
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — family round-trip files (tests/test_armodel/parser/test_ecuc_destination_uri_family.py, test_ecuc_derivation_query.py writer counterpart)
+  - [x] Step 6 — Update parser & writer (Green) — inherited/verified via family round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (model + family parser/writer round-trip green; ruff/flake8 clean); 9b deferred to batch confirmation (user instruction)
+  - note (Rule 0023 re-sync): stale 5-col stamp removed; QUOTA-SHAPE FIXED: ecucQueryExpression bare annotation → Optional[EcucQueryExpression] per 0..1
 

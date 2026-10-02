@@ -779,15 +779,15 @@ class EcucDerivationSpecification(ARObject):
 
     # EcucDerivationSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.38, p.87
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2072,10 +2072,10 @@ class EcucDestinationUriDef(Identifiable):
 
     # EcucDestinationUriDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.35, p.82
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2101,16 +2101,16 @@ class EcucDestinationUriDef(Identifiable):
 
 class EcucDestinationUriDefSet(AtpBlueprintable):
     """
-    This class represents a list of EcucDestinationUriDefs.
+    This class represents a list of EcucDestinationUriDefs. Tags: atp.recommendedPackage=EcucDestinationUriDefSets
     """
 
     # EcucDestinationUriDefSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.34, p.82
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addDestinationUriDef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDestinationUriDef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2128,9 +2128,11 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         """
         This is one particular EcucDestinationUriDef.
         """
-        element = EcucDestinationUriDef(self, short_name)
-        self.destinationUriDefs.append(element)
-        return element
+        if not self.IsReferrableElementExists(short_name, EcucDestinationUriDef):
+            element = EcucDestinationUriDef(self, short_name)
+            self.addReferrableElement(element)
+            self.destinationUriDefs.append(element)
+        return self.getReferrableElement(short_name, EcucDestinationUriDef)
 
     def addDestinationUriDef(self, value: EcucDestinationUriDef) -> EcucDestinationUriDefSet:
         """
@@ -2149,16 +2151,16 @@ class EcucDestinationUriPolicy(ARObject):
 
     # EcucDestinationUriPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.36, p.83
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReference                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReference                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2243,7 +2245,7 @@ class EcucDestinationUriNestingContractEnum(AREnum):
 
     # EcucDestinationUriNestingContractEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.37, p.83
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
     # EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) that are directly owned by the target container. Tags: atp.EnumerationLiteralIndex=0
@@ -2357,18 +2359,18 @@ class EcucQuery(Identifiable):
 
     # EcucQuery method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.40, p.89
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This is the EcucQuery used in the calculation formula or the condition formula.
-        self.ecucQueryExpression: EcucQueryExpression = None
+        self.ecucQueryExpression: Optional[EcucQueryExpression] = None
 
-    def getEcucQueryExpression(self) -> EcucQueryExpression:
+    def getEcucQueryExpression(self) -> Optional[EcucQueryExpression]:
         """
         This is the EcucQuery used in the calculation formula or the condition formula.
         """

@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDestinationUriDef,
     EcucDestinationUriDefRefType,
     EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
     EcucDestinationUriPolicy,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
@@ -663,13 +664,59 @@ class TestEcucDefinitionCollection:
 
 
 class TestEcucDestinationUriDef:
+    """
+    Test class for EcucDestinationUriDef functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.35, p.82
+    """
+
+    CLASS_NOTE = "Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs."
+
     def test_instantiation(self):
         assert _instantiate(EcucDestinationUriDef, "EcucDestinationUriDef").getShortName() == "EcucDestinationUriDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucDestinationUriDef.__doc__) == self.CLASS_NOTE
+
+    def test_get_set_destination_uri_policy(self):
+        obj = EcucDestinationUriDef(AUTOSAR.getInstance().createARPackage("Pkg_TDUD"), "UriDef")
+
+        value = EcucDestinationUriPolicy()
+        assert obj.setDestinationUriPolicy(value) is obj  # method chaining
+        assert obj.getDestinationUriPolicy() is value
+
+        obj.setDestinationUriPolicy(None)
+        assert obj.getDestinationUriPolicy() is value  # None is a no-op
+
 
 class TestEcucDestinationUriDefSet:
+    """
+    Test class for EcucDestinationUriDefSet functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.34, p.82
+    """
+
+    CLASS_NOTE = "This class represents a list of EcucDestinationUriDefs. Tags: atp.recommendedPackage=EcucDestinationUriDefSets"
+
     def test_instantiation(self):
         assert _instantiate(EcucDestinationUriDefSet, "EcucDestinationUriDefSet").getShortName() == "EcucDestinationUriDefSet"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucDestinationUriDefSet.__doc__) == self.CLASS_NOTE
+
+    def test_create_add_get_destination_uri_defs(self):
+        obj = EcucDestinationUriDefSet(AUTOSAR.getInstance().createARPackage("EcucDestinationUriDefSets"), "UriDefSet")
+
+        created = obj.createEcucDestinationUriDef("UriDef1")
+        assert isinstance(created, EcucDestinationUriDef)
+        assert obj.getDestinationUriDefs() == [created]
+
+        added = EcucDestinationUriDef(AUTOSAR.getInstance().createARPackage("Other"), "UriDef2")
+        assert obj.addDestinationUriDef(added) is obj  # method chaining
+        assert obj.getDestinationUriDefs() == [created, added]
+
+        duplicate = obj.createEcucDestinationUriDef("UriDef1")
+        assert duplicate is created  # duplicate short name returns the existing element
 
 
 class TestEcucQuery:
@@ -1085,8 +1132,44 @@ class TestEcucConditionFormula:
 
 
 class TestEcucDestinationUriPolicy:
+    """
+    Test class for EcucDestinationUriPolicy functionality.
+
+    Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.36, p.83
+    """
+
     def test_instantiation(self):
         assert isinstance(EcucDestinationUriPolicy(), EcucDestinationUriPolicy)
+
+    def test_defaults_are_spec_multiplicity(self):
+        obj = EcucDestinationUriPolicy()
+
+        assert obj.getContainers() == []
+        assert obj.getDestinationUriNestingContract() is None
+        assert obj.getParameters() == []
+        assert obj.getReferences() == []
+
+    def test_add_members(self):
+        obj = EcucDestinationUriPolicy()
+
+        container = EcucParamConfContainerDef(AUTOSAR.getInstance().createARPackage("Pkg_TDUP"), "C1")
+        assert obj.addContainer(container) is obj  # method chaining
+        parameter = EcucIntegerParamDef(AUTOSAR.getInstance().createARPackage("Pkg_TDUP"), "P1")
+        assert obj.addParameter(parameter) is obj
+        reference = EcucReferenceDef(AUTOSAR.getInstance().createARPackage("Pkg_TDUP"), "R1")
+        assert obj.addReference(reference) is obj
+
+        assert obj.getContainers() == [container]
+        assert obj.getParameters() == [parameter]
+        assert obj.getReferences() == [reference]
+
+        contract = EcucDestinationUriNestingContractEnum()
+        contract.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+        assert obj.setDestinationUriNestingContract(contract) is obj
+        assert obj.getDestinationUriNestingContract() is contract
+
+        obj.setDestinationUriNestingContract(None)
+        assert obj.getDestinationUriNestingContract() is contract  # None is a no-op
 
 
 class TestEcucParameterDerivationFormula:
