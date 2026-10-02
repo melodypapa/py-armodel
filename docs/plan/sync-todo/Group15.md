@@ -205,7 +205,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see below
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-02 (full unit suite 16878 passed, lint clean, black-check clean); 9b user-confirmed 2026-10-02 with the TOLERANCE gap FIXED before stamping per user instruction: AbsoluteTolerance/RelativeTolerance members added (XSD-only, '# XSD verified: AUTOSAR_00052.xsd'), TOLERANCE choice rw wired (XSD order TOLERANCE→VALUE), Red→Green value-asserting round-trip tests; no open deviations; `# Spec verified: R23-11` written after the `# Spec:` line
 
 - [ ] `TimeRangeTypeTolerance` — ARObject — XSD-only · group TIME-RANGE-TYPE-TOLERANCE (00052.xsd L122919)
   - Note: NEW row (recorded 2026-09-28: TimeRangeType.tolerance member type class created in commit dcbc6abd without own queue row — Rule 0016.4/0017 row-parity; same pattern as the TriggerMode/SecuredPduHeaderEnum NEW rows) — XSD-only: group TIME-RANGE-TYPE-TOLERANCE is an EMPTY group (`<xsd:sequence/>`, atpObject, mmt.qualifiedName="TimeRangeTypeTolerance"), no own Class/Enumeration table in R23-11, R4.3.1 or R4.4.0 corpora; complexType TIME-RANGE-TYPE aggregates it only through the CONSUMING class (AR-OBJECT + TIME-RANGE-TYPE groups), so the class has no own members, no own XML element; Base `ARObject`, `__init__(self)` only.
