@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **4/24** completed
+Status: **5/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -700,7 +700,7 @@ Status: **4/24** completed
 | `MultiplexedPart`             | [x] Done     | 9ed9d78782 |
 | `DynamicPart`                 | [x] Done     | 82138518f9 |
 | `SegmentPosition`             | [x] Done     | 6c2d8befb2 |
-| `ISignalPort`                 | [ ] Pending* | b5f92f4b28 |
+| `ISignalPort`                 | [x] Done     | b5f92f4b28 |
 | `ISignalIPduGroup`            | [ ] Pending* | 1e758bd44e |
 | `MultiplexedIPdu`             | [ ] Pending* | eba346cb51 |
 | `TriggerMode`                 | [ ] Pending* | cc609f42a3 |
