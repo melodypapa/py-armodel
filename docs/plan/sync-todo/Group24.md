@@ -1431,6 +1431,10 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations (pending per Rule 0001.10, reported: DiagnosticSupportInfoByte is a queued pass-stub (Table
     4.129, later row) — referenced as the real class; its SUPPORT-INFO-BYTE element is identity-only serialized (empty
     element) until that row's sync lands; id/pidSize PositiveInteger values written as text, round-trip asserted)
+  - note (resolved in Group25): the Rule 0001.10 pending item above is CLOSED — DiagnosticSupportInfoByte synced
+    (Group25 Table 4.129); the SUPPORT-INFO-BYTE serialization was upgraded from identity-only to the named helpers
+    readDiagnosticSupportInfoByte/writeDiagnosticSupportInfoByte in this class's reader/writer call sites, with
+    value-asserting round-trip (see Group25 DiagnosticSupportInfoByte row)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1717 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7266 passed / 0 failed; npm run lint clean after one ruff I001 import-sort fix in the new writer test; black clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticParameterSupportInfo` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.128, p.149

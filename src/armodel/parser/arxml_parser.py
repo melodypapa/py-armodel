@@ -11017,6 +11017,11 @@ class ARXMLParser(AbstractARXMLParser):
             protocol.setSendRespPendOnTransToBoot(send_resp_pend_value)
         protocol.setServiceTableRef(self.getChildElementOptionalRefType(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"))
 
+    def readDiagnosticSupportInfoByte(self, element: ET.Element, support_info_byte: DiagnosticSupportInfoByte):
+        self.logger.debug("Read DiagnosticSupportInfoByte")
+        support_info_byte.setPosition(self.getChildElementOptionalPositiveInteger(element, "POSITION"))
+        support_info_byte.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
+
     def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
         for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
@@ -11027,7 +11032,9 @@ class ARXMLParser(AbstractARXMLParser):
         did.setRepresentsVin(self.getChildElementOptionalBooleanValue(element, "REPRESENTS-VIN"))
         support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
         if support_info_byte_element is not None:
-            did.setSupportInfoByte(DiagnosticSupportInfoByte())
+            support_info_byte = DiagnosticSupportInfoByte()
+            self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
+            did.setSupportInfoByte(support_info_byte)
 
     def readDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.readARObject(element, parameter)
@@ -11532,8 +11539,11 @@ class ARXMLParser(AbstractARXMLParser):
                 parameter_identifier.addDataElement(data_element)
         parameter_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
         parameter_identifier.setPidSize(self.getChildElementOptionalPositiveInteger(element, "PID-SIZE"))
-        if self.find(element, "SUPPORT-INFO-BYTE") is not None:
-            parameter_identifier.setSupportInfoByte(DiagnosticSupportInfoByte())
+        support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
+        if support_info_byte_element is not None:
+            support_info_byte = DiagnosticSupportInfoByte()
+            self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
+            parameter_identifier.setSupportInfoByte(support_info_byte)
 
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())

@@ -505,6 +505,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
+    DiagnosticSupportInfoByte,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -14453,7 +14454,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "DID-SIZE", did.getDidSize())
         self.setChildElementOptionalBooleanValue(child_element, "REPRESENTS-VIN", did.getRepresentsVin())
         if did.getSupportInfoByte() is not None:
-            ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
+            self.writeDiagnosticSupportInfoByte(child_element, did.getSupportInfoByte())
 
     def writeDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.writeARObject(element, parameter)
@@ -14473,6 +14474,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "SCALING-INFO-SIZE", data_element.getScalingInfoSize())
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_element.getSwDataDefProps())
         self.writeVariationPoint(child_element, data_element.getVariationPoint())
+
+    def writeDiagnosticSupportInfoByte(self, element: ET.Element, support_info_byte: DiagnosticSupportInfoByte):
+        self.logger.debug("Write DiagnosticSupportInfoByte")
+        support_info_byte_element = ET.SubElement(element, "SUPPORT-INFO-BYTE")
+        self.setChildElementOptionalPositiveInteger(support_info_byte_element, "POSITION", support_info_byte.getPosition())
+        self.setChildElementOptionalPositiveInteger(support_info_byte_element, "SIZE", support_info_byte.getSize())
 
     def writeDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
         self.logger.debug("Write DiagnosticParameterSupportInfo")
@@ -15043,7 +15050,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "ID", parameter_identifier.getId())
         self.setChildElementOptionalPositiveInteger(child_element, "PID-SIZE", parameter_identifier.getPidSize())
         if parameter_identifier.getSupportInfoByte() is not None:
-            ET.SubElement(child_element, "SUPPORT-INFO-BYTE")
+            self.writeDiagnosticSupportInfoByte(child_element, parameter_identifier.getSupportInfoByte())
 
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())

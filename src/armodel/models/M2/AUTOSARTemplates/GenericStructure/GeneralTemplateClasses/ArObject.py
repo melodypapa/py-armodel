@@ -908,7 +908,57 @@ class DiagnosticServiceSwMapping(ARObject):
 
 
 class DiagnosticSupportInfoByte(ARObject):
-    pass
+    """This meta-class defines the support information (typically byte A) to declare the usability of the Data Elements within the so-called packeted PIDs (e.g. PID$68)."""
+
+    # DiagnosticSupportInfoByte method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.129, p.150
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSize      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSize      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the position of the supportInfo in the PID. Unit: byte.
+        self.position: Optional[PositiveInteger] = None
+
+        # This represents the size of the supportInfo within the PID. Unit: byte.
+        self.size: Optional[PositiveInteger] = None
+
+    def getPosition(self) -> Optional[PositiveInteger]:
+        """
+        This represents the position of the supportInfo in the PID. Unit: byte.
+        """
+        return self.position
+
+    def setPosition(self, value: Optional[PositiveInteger]) -> DiagnosticSupportInfoByte:
+        """
+        This represents the position of the supportInfo in the PID. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing position.
+        """
+        if value is not None:
+            self.position = value
+        return self
+
+    def getSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the size of the supportInfo within the PID. Unit: byte.
+        """
+        return self.size
+
+    def setSize(self, value: Optional[PositiveInteger]) -> DiagnosticSupportInfoByte:
+        """
+        This represents the size of the supportInfo within the PID. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing size.
+        """
+        if value is not None:
+            self.size = value
+        return self
 
 
 class DiagnosticTestIdentifier(ARObject):
