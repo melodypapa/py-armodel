@@ -691,29 +691,29 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **16/24** completed
+Status: **19/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
-| `CommunicationDirectionType`  | [ ] Pending* | 3378eb6247 |
+| `CommunicationDirectionType`  | [x] Done     | 7aa197e046 |
 | `TransferPropertyEnum`        | [x] Done     | f3a9dc08dd |
 | `MultiplexedPart`             | [x] Done     | 9ed9d78782 |
 | `DynamicPart`                 | [x] Done     | 82138518f9 |
 | `SegmentPosition`             | [x] Done     | 6c2d8befb2 |
-| `ISignalPort`                 | [x] Done     | b5f92f4b28 |
-| `ISignalIPduGroup`            | [x] Done     | 1e758bd44e |
+| `ISignalPort`                 | [x] Done     | 7a508bea29 |
+| `ISignalIPduGroup`            | [x] Done     | 4658ff431a |
 | `MultiplexedIPdu`             | [x] Done     | 2c2e102933 |
 | `TriggerMode`                 | [x] Done     | 2c2e102933 |
 | `SecuredIPdu`                 | [x] Done     | 2c2e102933 |
 | `SecuredPduHeaderEnum`        | [x] Done     | 2c2e102933 |
 | `UserDefinedIPdu`             | [x] Done     | 2c2e102933 |
 | `UserDefinedPdu`              | [x] Done     | 2c2e102933 |
-| `SystemSignal`                | [x] Done     | 7c5d9e9d81 |
-| `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
-| `TimeRangeTypeTolerance`      | [x] Done     | dcbc6abdb3 |
-| `TransmissionModeCondition`   | [x] Done     | dcbc6abdb3 |
-| `TriggerIPduSendCondition`    | [x] Done     | dcbc6abdb3 |
-| `CyclicTiming`                | [ ] Pending* | dcbc6abdb3 |
+| `SystemSignal`                | [x] Done     | 7828064475 |
+| `TimeRangeType`               | [x] Done     | 7aa197e046 |
+| `TimeRangeTypeTolerance`      | [x] Done     | ba8d04cbb4 |
+| `TransmissionModeCondition`   | [x] Done     | 7a7ff3c5af |
+| `TriggerIPduSendCondition`    | [x] Done     | d2dbe59bf6 |
+| `CyclicTiming`                | [x] Done     | 7aa197e046 |
 | `EventControlledTiming`       | [ ] Pending* | dcbc6abdb3 |
 | `FlexrayChannelName`          | [ ] Pending* | 7c137656f6 |
 | `PncGatewayTypeEnum`          | [ ] Pending* | 7c137656f6 |

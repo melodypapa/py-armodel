@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 737 | 38.7% |
+| [x] Done | 740 | 38.9% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 293 | 15.4% |
+| [ ] Deferred | 290 | 15.2% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 432 | 22.7% |
 | [ ] Pending | 0 | 0.0% |
@@ -301,7 +301,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CommunicationController`                               | [ ] Implemented| N/A                                      | Group27          |
 | `CommunicationControllerMapping`                        | [x] Done    | 2613747d22                               | Group7           |
 | `CommunicationCycle`                                    | [x] Done    | 75683a2ede                               | Group5           |
-| `CommunicationDirectionType`                            | [ ] Deferred| 3378eb6247                               | Group15          |
+| `CommunicationDirectionType`                            | [x] Done    | 7aa197e046                               | Group15          |
 | `Compiler`                                              | [x] Done    | 3fce597322                               | Group1           |
 | `ComplexDeviceDriverSwComponentType`                    | [ ] Implemented| N/A                                      | Group29          |
 | `ComponentClustering`                                   | [ ] Created | N/A                                      | Group30          |
@@ -404,7 +404,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CycleCounter`                                          | [x] Done    | 75683a2ede                               | Group5           |
 | `CycleRepetition`                                       | [x] Done    | 75683a2ede                               | Group5           |
 | `CycleRepetitionType`                                   | [x] Done    | bf6cb0f022                               | Group5           |
-| `CyclicTiming`                                          | [ ] Deferred| dcbc6abdb3                               | Group15          |
+| `CyclicTiming`                                          | [x] Done    | 7aa197e046                               | Group15          |
 | `DataComProps`                                          | [ ] Created | N/A                                      | Group34          |
 | `DataConsistencyPolicyEnum`                             | [ ] Created | N/A                                      | Group34          |
 | `DataConstr`                                            | [x] Done    | 9927cc9e89                               | Group3           |
@@ -1071,9 +1071,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ISignal`                                               | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalGroup`                                          | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalIPdu`                                           | [ ] Implemented| N/A                                      | Group31          |
-| `ISignalIPduGroup`                                      | [x] Done    | 1e758bd44e                               | Group15          |
+| `ISignalIPduGroup`                                      | [x] Done    | 4658ff431a                               | Group15          |
 | `ISignalMapping`                                        | [ ] Deferred| N/A                                      | Group17          |
-| `ISignalPort`                                           | [x] Done    | b5f92f4b28                               | Group15          |
+| `ISignalPort`                                           | [x] Done    | 7a508bea29                               | Group15          |
 | `ISignalProps`                                          | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalToIPduMapping`                                  | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalTriggering`                                     | [ ] Implemented| N/A                                      | Group31          |
@@ -1728,7 +1728,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SynchronousServerCallPoint`                            | [x] Done    | 9182987d97                               | Group2           |
 | `System`                                                | [x] Done    | ccfb528daf                               | Group5           |
 | `SystemMapping`                                         | [ ] Implemented| N/A                                      | Group30          |
-| `SystemSignal`                                          | [x] Done    | 7c5d9e9d81                               | Group15          |
+| `SystemSignal`                                          | [x] Done    | 7828064475                               | Group15          |
 | `SystemSignalGroup`                                     | [ ] Implemented| N/A                                      | Group31          |
 | `SystemSignalGroupToCommunicationResourceMapping`       | [ ] Created | N/A                                      | Group31          |
 | `SystemSignalToCommunicationResourceMapping`            | [ ] Created | N/A                                      | Group31          |
@@ -1791,8 +1791,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TextValueSpecification`                                | [x] Done    | 81588f449e                               | Group9           |
 | `TextualCondition`                                      | [ ] Created | N/A                                      | Group36          |
 | `Tgroup`                                                | [x] Done    | 278d4674f3                               | Group3           |
-| `TimeRangeType`                                         | [ ] Deferred| dcbc6abdb3                               | Group15          |
-| `TimeRangeTypeTolerance`                                | [x] Done    | dcbc6abdb3                               | Group15          |
+| `TimeRangeType`                                         | [x] Done    | 7aa197e046                               | Group15          |
+| `TimeRangeTypeTolerance`                                | [x] Done    | ba8d04cbb4                               | Group15          |
 | `TimeSyncClientConfiguration`                           | [x] Done    | a032fa05dc                               | Group6           |
 | `TimeSyncServerConfiguration`                           | [ ] Deferred| b1e4750b14                               | Group16          |
 | `TimeSyncTechnologyEnum`                                | [ ] Implemented| N/A                                      | Group32          |
@@ -1836,14 +1836,14 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransformerHardErrorEvent`                             | [ ] Created | N/A                                      | Group28          |
 | `TransmissionAcknowledgementRequest`                    | [ ] Implemented| N/A                                      | Group27          |
 | `TransmissionComSpecProps`                              | [ ] Implemented| N/A                                      | Group27          |
-| `TransmissionModeCondition`                             | [x] Done    | dcbc6abdb3                               | Group15          |
+| `TransmissionModeCondition`                             | [x] Done    | 7a7ff3c5af                               | Group15          |
 | `TransmissionModeDeclaration`                           | [ ] Deferred| dcbc6abdb3                               | Group15          |
 | `TransmissionModeDefinitionEnum`                        | [ ] Implemented| N/A                                      | Group27          |
 | `TransmissionModeTiming`                                | [ ] Deferred| dcbc6abdb3                               | Group15          |
 | `TransportLayerRule`                                    | [ ] Deferred| cb197c6b8b                               | Group20          |
 | `TransportProtocolConfiguration`                        | [x] Done    | 0014960828                               | Group6           |
 | `Trigger`                                               | [x] Done    | 131473204c                               | Group1           |
-| `TriggerIPduSendCondition`                              | [x] Done    | dcbc6abdb3                               | Group15          |
+| `TriggerIPduSendCondition`                              | [x] Done    | d2dbe59bf6                               | Group15          |
 | `TriggerInAtomicSwcInstanceRef`                         | [x] Done    | 839264b3a6                               | Group11          |
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4cc                               | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8feb                               | Group1           |
