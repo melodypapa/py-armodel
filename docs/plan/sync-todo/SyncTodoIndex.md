@@ -691,7 +691,7 @@ Status: **25/25** completed
 
 ## Group15
 
-Status: **14/24** completed
+Status: **15/24** completed
 
 | Class Name                    | Status       | Commit ID  |
 | ----------------------------- | ------------ | ---------- |
@@ -711,7 +711,7 @@ Status: **14/24** completed
 | `SystemSignal`                | [x] Done     | 7c5d9e9d81 |
 | `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
 | `TimeRangeTypeTolerance`      | [x] Done     | dcbc6abdb3 |
-| `TransmissionModeCondition`   | [ ] Pending* | dcbc6abdb3 |
+| `TransmissionModeCondition`   | [x] Done     | dcbc6abdb3 |
 | `TriggerIPduSendCondition`    | [ ] Pending* | dcbc6abdb3 |
 | `CyclicTiming`                | [ ] Pending* | dcbc6abdb3 |
 | `EventControlledTiming`       | [ ] Pending* | dcbc6abdb3 |

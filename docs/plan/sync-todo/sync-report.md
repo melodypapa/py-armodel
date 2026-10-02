@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 735 | 38.6% |
+| [x] Done | 736 | 38.7% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 295 | 15.5% |
+| [ ] Deferred | 294 | 15.4% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 432 | 22.7% |
 | [ ] Pending | 0 | 0.0% |
@@ -1836,7 +1836,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransformerHardErrorEvent`                             | [ ] Created | N/A                                      | Group28          |
 | `TransmissionAcknowledgementRequest`                    | [ ] Implemented| N/A                                      | Group27          |
 | `TransmissionComSpecProps`                              | [ ] Implemented| N/A                                      | Group27          |
-| `TransmissionModeCondition`                             | [ ] Deferred| dcbc6abdb3                               | Group15          |
+| `TransmissionModeCondition`                             | [x] Done    | dcbc6abdb3                               | Group15          |
 | `TransmissionModeDeclaration`                           | [ ] Deferred| dcbc6abdb3                               | Group15          |
 | `TransmissionModeDefinitionEnum`                        | [ ] Implemented| N/A                                      | Group27          |
 | `TransmissionModeTiming`                                | [ ] Deferred| dcbc6abdb3                               | Group15          |
