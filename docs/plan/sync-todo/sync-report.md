@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 712 | 37.4% |
+| [x] Done | 713 | 37.5% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 276 | 14.5% |
+| [ ] Deferred | 275 | 14.5% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -487,7 +487,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DhcpServerConfiguration`                               | [ ] Implemented| N/A                                      | Group30          |
 | `Dhcpv6Props`                                           | [ ] Created | N/A                                      | Group30          |
 | `DiagEventDebounceAlgorithm`                            | [x] Done    | 4f246ae62d                               | Group4           |
-| `DiagEventDebounceCounterBased`                         | [ ] Deferred| d064592a44                               | Group14          |
+| `DiagEventDebounceCounterBased`                         | [x] Done    | f41b486233                               | Group14          |
 | `DiagEventDebounceMonitorInternal`                      | [x] Done    | 103cfd4316                               | Group4           |
 | `DiagEventDebounceTimeBased`                            | [ ] Deferred| eb9e198676                               | Group23          |
 | `DiagPduType`                                           | [ ] Created | N/A                                      | Group31          |
