@@ -2010,6 +2010,7 @@ class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
 
         assert enum.getValue() == "serviceOnly"
 
+
 class TestDiagnosticHandleDDDIConfigurationEnum:
     """
     Test class for DiagnosticHandleDDDIConfigurationEnum functionality.
@@ -2048,7 +2049,6 @@ class TestDiagnosticHandleDDDIConfigurationEnum:
         enum.setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
 
         assert enum.getValue() == "nonVolatile"
-
 
 
 class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
@@ -2093,7 +2093,6 @@ class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
         assert enum.getValue() == "defineByIdentifier"
 
 
-
 class TestDiagnosticPeriodicRateCategoryEnum:
     """
     Test class for DiagnosticPeriodicRateCategoryEnum functionality.
@@ -2136,7 +2135,6 @@ class TestDiagnosticPeriodicRateCategoryEnum:
         assert enum.getValue() == "periodicRateSlow"
 
 
-
 class TestDiagnosticEventWindowTimeEnum:
     """
     Test class for DiagnosticEventWindowTimeEnum functionality.
@@ -2175,7 +2173,6 @@ class TestDiagnosticEventWindowTimeEnum:
         enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
 
         assert enum.getValue() == "powerWindowTime"
-
 
 
 class TestDiagnosticResponseOnEventActionEnum:

@@ -1271,6 +1271,7 @@ class TestRoleBasedResourceDependency:
         assert obj.getResourceRef() is ref  # None is a no-op
         assert obj.getRole() is role  # None is a no-op
 
+
 class TestDiagnosticRoutineSubfunction:
     """
     Test class for DiagnosticRoutineSubfunction functionality.
@@ -1343,7 +1344,6 @@ class TestDiagnosticRoutineSubfunction:
         setter_hints = typing.get_type_hints(DiagnosticRoutineSubfunction.setAccessPermission)
         assert setter_hints.get("value") == typing.Optional[RefType]
         assert setter_hints.get("return") is DiagnosticRoutineSubfunction
-
 
 
 class TestDiagnosticStartRoutine:
@@ -1444,7 +1444,6 @@ class TestDiagnosticStartRoutine:
         assert inspect.cleandoc(DiagnosticStartRoutine.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."
 
 
-
 class TestDiagnosticStopRoutine:
     """
     Test class for DiagnosticStopRoutine functionality.
@@ -1541,7 +1540,6 @@ class TestDiagnosticStopRoutine:
         assert inspect.cleandoc(DiagnosticStopRoutine.addRequest.__doc__) == "This represents the request parameters.\nA None value is a no-op and does not append a request."
         assert inspect.cleandoc(DiagnosticStopRoutine.getResponse.__doc__) == "This represents the response parameters."
         assert inspect.cleandoc(DiagnosticStopRoutine.addResponse.__doc__) == "This represents the response parameters.\nA None value is a no-op and does not append a response."
-
 
 
 class TestDiagnosticRequestRoutineResults:

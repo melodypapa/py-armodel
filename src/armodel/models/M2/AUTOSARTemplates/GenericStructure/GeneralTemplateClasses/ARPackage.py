@@ -22,8 +22,22 @@ if TYPE_CHECKING:
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticCommonProps, DiagnosticControlEnableMaskBit, DiagnosticEventWindow, DiagnosticParameter, DiagnosticSupportInfoByte
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticAuthTransmitCertificateEvaluation, DiagnosticRequestRoutineResults, DiagnosticStartRoutine, DiagnosticStopRoutine, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    DiagnosticCommonProps,
+    DiagnosticControlEnableMaskBit,
+    DiagnosticEventWindow,
+    DiagnosticParameter,
+    DiagnosticSupportInfoByte,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    DiagnosticAuthTransmitCertificateEvaluation,
+    DiagnosticRequestRoutineResults,
+    DiagnosticStartRoutine,
+    DiagnosticStopRoutine,
+    Identifiable,
+    Referrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 

@@ -5817,6 +5817,7 @@ class TestDiagnosticServiceSwMapping:
         duplicate = package.createDiagnosticServiceSwMapping("Mapping1")
         assert duplicate is element  # duplicate short name returns the existing element
 
+
 class TestDiagnosticControlDTCSetting:
     """
     Test class for DiagnosticControlDTCSetting functionality.
@@ -5900,7 +5901,6 @@ class TestDiagnosticControlDTCSetting:
         assert duplicate is control_dtc_setting
 
 
-
 class TestDiagnosticDataByIdentifier:
     """
     Test class for DiagnosticDataByIdentifier functionality.
@@ -5972,7 +5972,6 @@ class TestDiagnosticDataByIdentifier:
         """
         assert inspect.cleandoc(DiagnosticDataByIdentifier.getDataIdentifier.__doc__) == self.DATA_IDENTIFIER_NOTE
         assert inspect.cleandoc(DiagnosticDataByIdentifier.setDataIdentifier.__doc__) == (self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataIdentifier.")
-
 
 
 class TestDiagnosticReadDataByIdentifier:
@@ -6059,7 +6058,6 @@ class TestDiagnosticReadDataByIdentifier:
         assert duplicate is read_did  # duplicate short name returns the existing element
 
 
-
 class TestDiagnosticWriteDataByIdentifier:
     """
     Test class for DiagnosticWriteDataByIdentifier functionality.
@@ -6142,7 +6140,6 @@ class TestDiagnosticWriteDataByIdentifier:
 
         duplicate = package.createDiagnosticWriteDataByIdentifier("WriteDataByIdentifier1")
         assert duplicate is write_did  # duplicate short name returns the existing element
-
 
 
 class TestDiagnosticReadScalingDataByIdentifier:
@@ -6229,7 +6226,6 @@ class TestDiagnosticReadScalingDataByIdentifier:
 
         duplicate = package.createDiagnosticReadScalingDataByIdentifier("ReadScalingDataByIdentifier1")
         assert duplicate is read_scaling  # duplicate short name returns the existing element
-
 
 
 class TestDiagnosticIOControl:
@@ -6425,7 +6421,6 @@ class TestDiagnosticIOControl:
         assert duplicate is io_control  # duplicate short name returns the existing element
 
 
-
 class TestDiagnosticRoutine:
     """
     Test class for DiagnosticRoutine functionality.
@@ -6585,7 +6580,6 @@ class TestDiagnosticRoutine:
         assert duplicate is routine  # duplicate short name returns the existing element
 
 
-
 class TestDiagnosticRoutineControl:
     """
     Test class for DiagnosticRoutineControl functionality.
@@ -6687,7 +6681,6 @@ class TestDiagnosticRoutineControl:
 
         duplicate = package.createDiagnosticRoutineControl("RoutineControl1")
         assert duplicate is routine_control  # duplicate short name returns the existing element
-
 
 
 class TestDiagnosticDynamicallyDefineDataIdentifier:
@@ -6817,7 +6810,6 @@ class TestDiagnosticDynamicallyDefineDataIdentifier:
         assert duplicate is dddi  # duplicate short name returns the existing element
 
 
-
 class TestDiagnosticReadDataByPeriodicID:
     """
     Test class for DiagnosticReadDataByPeriodicID functionality.
@@ -6898,7 +6890,6 @@ class TestDiagnosticReadDataByPeriodicID:
 
         duplicate = package.createDiagnosticReadDataByPeriodicID("Rdbpid1")
         assert duplicate is obj  # duplicate short name returns the existing element
-
 
 
 class TestDiagnosticResponseOnEvent:
@@ -7030,7 +7021,6 @@ class TestDiagnosticResponseOnEvent:
         assert duplicate is response_on_event  # duplicate short name returns the existing element
 
 
-
 class TestDiagnosticReadDTCInformation:
     """
     Test class for DiagnosticReadDTCInformation functionality.
@@ -7117,7 +7107,6 @@ class TestDiagnosticReadDTCInformation:
 
         duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
         assert duplicate is read_dtc_information  # duplicate short name returns the existing element
-
 
 
 class TestDiagnosticClearDiagnosticInformation:
@@ -7208,7 +7197,6 @@ class TestDiagnosticClearDiagnosticInformation:
         assert duplicate is clear_diagnostic_information  # duplicate short name returns the existing element
 
 
-
 class TestDiagnosticMemoryByAddress:
     """
     Test class for DiagnosticMemoryByAddress functionality.
@@ -7255,12 +7243,10 @@ class TestDiagnosticMemoryByAddress:
         assert DiagnosticMemoryByAddress.__init__.__doc__ is None
 
 
-
 class _MemoryAddressableRangeAccessStub(DiagnosticMemoryAddressableRangeAccess):
     """Concrete test stub for the abstract DiagnosticMemoryAddressableRangeAccess."""
 
     pass
-
 
 
 class TestDiagnosticMemoryAddressableRangeAccess:
