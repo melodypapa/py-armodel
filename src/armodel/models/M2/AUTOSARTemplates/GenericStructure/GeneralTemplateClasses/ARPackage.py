@@ -1268,6 +1268,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_powertrain_freeze_frame_data)
         return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameData)
 
+    def createDiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameDataClass:
+        """
+        Creates a new DiagnosticRequestPowertrainFreezeFrameDataClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestPowertrainFreezeFrameDataClass contains attributes shared by all
+        instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestPowertrainFreezeFrameDataClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestPowertrainFreezeFrameDataClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass):
+            request_powertrain_freeze_frame_data_class = DiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name)
+            self.addReferrableElement(request_powertrain_freeze_frame_data_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -4305,6 +4324,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestCurrentPowertrainDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestFileTransferClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestPowertrainFreezeFrameDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestUploadClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadMemoryByAddressClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticTransferExitClass  # noqa: E402

@@ -611,7 +611,15 @@ class DiagnosticRequestFileTransferClass(DiagnosticServiceClass):
 
 
 class DiagnosticRequestPowertrainFreezeFrameDataClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic service."""
+
+    # DiagnosticRequestPowertrainFreezeFrameDataClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.133, p.152
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestUploadClass(DiagnosticServiceClass):

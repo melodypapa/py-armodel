@@ -290,6 +290,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestFileTransferClass,
+    DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticTransferExitClass,
@@ -15028,6 +15029,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS")
         self.writeIdentifiable(child_element, request_file_transfer_class)
 
+    def writeDiagnosticRequestPowertrainFreezeFrameDataClass(self, element: ET.Element, request_powertrain_freeze_frame_data_class: DiagnosticRequestPowertrainFreezeFrameDataClass):
+        self.logger.debug("Write DiagnosticRequestPowertrainFreezeFrameDataClass %s" % request_powertrain_freeze_frame_data_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS")
+        self.writeIdentifiable(child_element, request_powertrain_freeze_frame_data_class)
+
     def writeDiagnosticRequestDownload(self, element: ET.Element, request_download: DiagnosticRequestDownload):
         self.logger.debug("Write DiagnosticRequestDownload %s" % request_download.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD")
@@ -16189,6 +16195,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRequestUploadClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestFileTransferClass):
             self.writeDiagnosticRequestFileTransferClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestPowertrainFreezeFrameDataClass):
+            self.writeDiagnosticRequestPowertrainFreezeFrameDataClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEventClass):

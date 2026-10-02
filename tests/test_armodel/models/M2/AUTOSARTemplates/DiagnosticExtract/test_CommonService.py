@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestFileTransferClass,
+    DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -1402,4 +1403,37 @@ class Test_DiagnosticRequestCurrentPowertrainDataClass:
         assert package.getReferrableElement("Rcp1", DiagnosticRequestCurrentPowertrainDataClass) is service_class
 
         duplicate = package.createDiagnosticRequestCurrentPowertrainDataClass("Rcp1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestPowertrainFreezeFrameDataClass:
+    """Test cases for DiagnosticRequestPowertrainFreezeFrameDataClass class (Table 4.133, p.152)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestPowertrainFreezeFrameDataClass(_pkg(), "MyRpf")
+        assert service_class.getShortName() == "MyRpf"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, ARObject)
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameDataClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestPowertrainFreezeFrameDataClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_powertrain_freeze_frame_data_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestPowertrainFreezeFrameDataClass("Rpf1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestPowertrainFreezeFrameDataClass)
+        assert service_class.getShortName() == "Rpf1"
+        assert package.getReferrableElement("Rpf1", DiagnosticRequestPowertrainFreezeFrameDataClass) is service_class
+
+        duplicate = package.createDiagnosticRequestPowertrainFreezeFrameDataClass("Rpf1")
         assert duplicate is service_class
