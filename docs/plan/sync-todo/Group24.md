@@ -922,14 +922,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticReadDTCInformation` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.106, p.136
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): leading-caption table — caption at md l.4066, body follows (Class row =
+      DiagnosticReadDTCInformation). Single attr readDTCInformationClass (DiagnosticReadDTCInformationClass
+      0..1 ref — RefType, no pull-in needed; cell-wraps "read DTCInformation Class" /
+      "DiagnosticReadDTC InformationClass" healed). Note cell-wrap healed ("DiagnosticRead DTCInformation" →
+      DiagnosticReadDTCInformation). Base chain most-derived ARElement. XSD group
+      DIAGNOSTIC-READ-DTC-INFORMATION l.41350: single element READ-DTC-INFORMATION-CLASS-REF (DEST
+      DIAGNOSTIC-READ-DTC-INFORMATION-CLASS--SUBTYPES-ENUM), no removed elements; XML order
+      READ-DTC-INFORMATION-CLASS-REF only.
+    - note (Step 6): full 5-place pattern — ARPackage `createDiagnosticReadDTCInformation` factory +
+      readARPackageElements / writeARPackageElement dispatch branches; single ref via
+      getChildElementOptionalRefType / setChildElementOptionalRefType (DEST preserved).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticReadDTCInformationClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.107, p.136

@@ -1974,6 +1974,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(read_data_by_periodic_id_class)
         return self.getElement(short_name, DiagnosticReadDataByPeriodicIDClass)
 
+    def createDiagnosticReadDTCInformation(self, short_name: str) -> DiagnosticReadDTCInformation:
+        """
+        Creates a new DiagnosticReadDTCInformation with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadDTCInformation represents an instance of the
+        "Read DTC Information" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadDTCInformation
+
+        Returns:
+            The newly created or existing DiagnosticReadDTCInformation instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticReadDTCInformation):
+            read_dtc_information = DiagnosticReadDTCInformation(self, short_name)
+            self.addElement(read_dtc_information)
+        return self.getElement(short_name, DiagnosticReadDTCInformation)
+
     def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
         """
         Creates a new DiagnosticReadScalingDataByIdentifier with the given short name,
@@ -4435,7 +4454,36 @@ class DiagnosticProtocol(ARElement):
 
 
 class DiagnosticReadDTCInformation(ARElement):
-    pass
+    """This represents an instance of the "Read DTC Information" diagnostic service."""
+
+    # DiagnosticReadDTCInformation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.106, p.136
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReadDTCInformationClass       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadDTCInformationClass       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDTCInformation in the given context.
+        self.readDTCInformationClass: Optional[RefType] = None
+
+    def getReadDTCInformationClass(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDTCInformation in the given context.
+        """
+        return self.readDTCInformationClass
+
+    def setReadDTCInformationClass(self, value: Optional[RefType]) -> DiagnosticReadDTCInformation:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDTCInformation in the given context.
+
+        A None value is a no-op and does not overwrite an existing readDTCInformationClass.
+        """
+        if value is not None:
+            self.readDTCInformationClass = value
+        return self
 
 
 class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):

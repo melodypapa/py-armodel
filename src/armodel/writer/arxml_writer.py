@@ -425,6 +425,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
+    DiagnosticReadDTCInformation,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -14209,6 +14210,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS")
         self.writeIdentifiable(child_element, read_scaling_data_by_identifier_class)
 
+    def writeDiagnosticReadDTCInformation(self, element: ET.Element, read_dtc_information: DiagnosticReadDTCInformation):
+        self.logger.debug("Write DiagnosticReadDTCInformation %s" % read_dtc_information.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DTC-INFORMATION")
+        self.writeIdentifiable(child_element, read_dtc_information)
+        self.setChildElementOptionalRefType(child_element, "READ-DTC-INFORMATION-CLASS-REF", read_dtc_information.getReadDTCInformationClass())
+
     def writeDiagnosticResponseOnEvent(self, element: ET.Element, response_on_event: DiagnosticResponseOnEvent):
         self.logger.debug("Write DiagnosticResponseOnEvent %s" % response_on_event.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT")
@@ -15495,6 +15502,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifierClass):
             self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticReadDTCInformation):
+            self.writeDiagnosticReadDTCInformation(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
             self.writeDiagnosticResponseOnEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEventClass):

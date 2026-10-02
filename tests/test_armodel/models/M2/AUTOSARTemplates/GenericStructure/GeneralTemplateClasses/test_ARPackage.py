@@ -42,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProtocol,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
+    DiagnosticReadDTCInformation,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -4216,3 +4217,91 @@ class TestDiagnosticResponseOnEvent:
 
         duplicate = package.createDiagnosticResponseOnEvent("ResponseOnEvent1")
         assert duplicate is response_on_event  # duplicate short name returns the existing element
+
+
+class TestDiagnosticReadDTCInformation:
+    """
+    Test class for DiagnosticReadDTCInformation functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.106, p.136
+    """
+
+    CLASS_NOTE = 'This represents an instance of the "Read DTC Information" diagnostic service.'
+    READ_DTC_INFORMATION_CLASS_NOTE = (
+        "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class."
+        " Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadDTCInformation in the given context."
+    )
+
+    def _make_obj(self) -> DiagnosticReadDTCInformation:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticReadDTCInformation(ar_root, "TestReadDTCInformation")
+
+    def _ref(self, dest: str, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticReadDTCInformation instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestReadDTCInformation"
+        assert isinstance(obj, ARElement)
+        assert obj.getReadDTCInformationClass() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticReadDTCInformation.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticReadDTCInformation.__init__.__doc__ is None
+
+    def test_get_set_read_dtc_information_class(self):
+        """
+        Round-trips the readDTCInformationClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = self._ref("DIAGNOSTIC-READ-DTC-INFORMATION-CLASS", "/AUTOSAR/DiagnosticReadDtcInformations/ReadDTCInformationClass")
+        result = obj.setReadDTCInformationClass(ref)
+        assert result is obj  # method chaining
+        assert obj.getReadDTCInformationClass() is ref
+        assert obj.getReadDTCInformationClass().getValue() == "/AUTOSAR/DiagnosticReadDtcInformations/ReadDTCInformationClass"
+        assert obj.getReadDTCInformationClass().getDest() == "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS"
+
+        result = obj.setReadDTCInformationClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReadDTCInformationClass() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticReadDTCInformation.getReadDTCInformationClass.__doc__) == self.READ_DTC_INFORMATION_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticReadDTCInformation.setReadDTCInformationClass.__doc__) == (
+            self.READ_DTC_INFORMATION_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing readDTCInformationClass."
+        )
+
+    def test_create_diagnostic_read_dtc_information(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticReadDtcInformations")
+        read_dtc_information = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
+
+        assert read_dtc_information is not None
+        assert isinstance(read_dtc_information, DiagnosticReadDTCInformation)
+        assert read_dtc_information.getShortName() == "ReadDTCInformation1"
+        assert package.getElement("ReadDTCInformation1", DiagnosticReadDTCInformation) is read_dtc_information
+
+        duplicate = package.createDiagnosticReadDTCInformation("ReadDTCInformation1")
+        assert duplicate is read_dtc_information  # duplicate short name returns the existing element

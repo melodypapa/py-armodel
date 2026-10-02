@@ -551,6 +551,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
+    DiagnosticReadDTCInformation,
     DiagnosticReadScalingDataByIdentifier,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
@@ -10883,6 +10884,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticReadScalingDataByIdentifierClass <%s>" % read_scaling_data_by_identifier_class.getShortName())
         self.readIdentifiable(element, read_scaling_data_by_identifier_class)
 
+    def readDiagnosticReadDTCInformation(self, element: ET.Element, read_dtc_information: DiagnosticReadDTCInformation):
+        self.logger.debug("Read DiagnosticReadDTCInformation <%s>" % read_dtc_information.getShortName())
+        self.readIdentifiable(element, read_dtc_information)
+        read_dtc_information.setReadDTCInformationClass(self.getChildElementOptionalRefType(element, "READ-DTC-INFORMATION-CLASS-REF"))
+
     def readDiagnosticResponseOnEvent(self, element: ET.Element, response_on_event: DiagnosticResponseOnEvent):
         self.logger.debug("Read DiagnosticResponseOnEvent <%s>" % response_on_event.getShortName())
         self.readIdentifiable(element, response_on_event)
@@ -15852,6 +15858,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS":
                 read_data_by_periodic_id_class = parent.createDiagnosticReadDataByPeriodicIDClass(self.getShortName(child_element))
                 self.readDiagnosticReadDataByPeriodicIDClass(child_element, read_data_by_periodic_id_class)
+            elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION":
+                read_dtc_information = parent.createDiagnosticReadDTCInformation(self.getShortName(child_element))
+                self.readDiagnosticReadDTCInformation(child_element, read_dtc_information)
             elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
                 write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
                 self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
