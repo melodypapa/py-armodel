@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlEnableMaskBit,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
+    DiagnosticPeriodicRate,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -26,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
     PositiveInteger,
     RefType,
     String,
@@ -743,4 +745,89 @@ class TestDiagnosticControlEnableMaskBit:
         assert inspect.cleandoc(DiagnosticControlEnableMaskBit.getControlledDataElements.__doc__) == self.CONTROLLED_DATA_ELEMENT_NOTE
         assert inspect.cleandoc(DiagnosticControlEnableMaskBit.addControlledDataElement.__doc__) == (
             self.CONTROLLED_DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not append a controlledDataElement."
+        )
+
+
+class TestDiagnosticPeriodicRate:
+    """
+    Test class for DiagnosticPeriodicRate functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.99, p.131
+    """
+
+    CLASS_NOTE = 'This represents the ability to define a periodic rate for the specification of the "read data by periodic ID" diagnostic service.'
+    PERIOD_NOTE = "This represents the period of the DiagnosticPeriodicRate in seconds."
+    PERIODIC_RATE_CATEGORY_NOTE = "This attribute represents the category of the periodic rate."
+
+    def _create_periodic_rate(self) -> DiagnosticPeriodicRate:
+        return DiagnosticPeriodicRate()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticPeriodicRate initializes all attributes to their defaults.
+        """
+        obj = self._create_periodic_rate()
+
+        assert obj.getPeriod() is None
+        assert obj.getPeriodicRateCategory() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticPeriodicRate derives from ARObject (Table 4.99 Base).
+        """
+        assert issubclass(DiagnosticPeriodicRate, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticPeriodicRate.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticPeriodicRate.__init__.__doc__ is None
+
+    def test_get_set_period(self):
+        """
+        Test getPeriod and setPeriod round-trip and None no-op.
+        """
+        obj = self._create_periodic_rate()
+
+        value = TimeValue().setValue(0.5)
+        result = obj.setPeriod(value)
+        assert result is obj  # method chaining
+        assert obj.getPeriod() is value
+        assert obj.getPeriod().getValue() == 0.5
+
+        result = obj.setPeriod(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPeriod() is value  # None is a no-op
+
+    def test_get_set_periodic_rate_category(self):
+        """
+        Test getPeriodicRateCategory and setPeriodicRateCategory round-trip and None no-op.
+        """
+        obj = self._create_periodic_rate()
+
+        value = DiagnosticPeriodicRateCategoryEnum().setValue(DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM)
+        result = obj.setPeriodicRateCategory(value)
+        assert result is obj  # method chaining
+        assert obj.getPeriodicRateCategory() is value
+        assert obj.getPeriodicRateCategory().getValue() == "periodicRateMedium"
+
+        result = obj.setPeriodicRateCategory(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPeriodicRateCategory() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticPeriodicRate.getPeriod.__doc__) == self.PERIOD_NOTE
+        assert inspect.cleandoc(DiagnosticPeriodicRate.setPeriod.__doc__) == (self.PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing period.")
+        assert inspect.cleandoc(DiagnosticPeriodicRate.getPeriodicRateCategory.__doc__) == self.PERIODIC_RATE_CATEGORY_NOTE
+        assert inspect.cleandoc(DiagnosticPeriodicRate.setPeriodicRateCategory.__doc__) == (
+            self.PERIODIC_RATE_CATEGORY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing periodicRateCategory."
         )

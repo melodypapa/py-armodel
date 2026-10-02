@@ -784,7 +784,57 @@ class DiagnosticParameterSupportInfo(ARObject):
 
 
 class DiagnosticPeriodicRate(ARObject):
-    pass
+    """This represents the ability to define a periodic rate for the specification of the "read data by periodic ID" diagnostic service."""
+
+    # DiagnosticPeriodicRate method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.99, p.131
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriodicRateCategory      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriodicRateCategory      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the period of the DiagnosticPeriodicRate in seconds.
+        self.period: Optional[TimeValue] = None
+
+        # This attribute represents the category of the periodic rate.
+        self.periodicRateCategory: Optional[DiagnosticPeriodicRateCategoryEnum] = None
+
+    def getPeriod(self) -> Optional[TimeValue]:
+        """
+        This represents the period of the DiagnosticPeriodicRate in seconds.
+        """
+        return self.period
+
+    def setPeriod(self, value: Optional[TimeValue]) -> DiagnosticPeriodicRate:
+        """
+        This represents the period of the DiagnosticPeriodicRate in seconds.
+
+        A None value is a no-op and does not overwrite an existing period.
+        """
+        if value is not None:
+            self.period = value
+        return self
+
+    def getPeriodicRateCategory(self) -> Optional[DiagnosticPeriodicRateCategoryEnum]:
+        """
+        This attribute represents the category of the periodic rate.
+        """
+        return self.periodicRateCategory
+
+    def setPeriodicRateCategory(self, value: Optional[DiagnosticPeriodicRateCategoryEnum]) -> DiagnosticPeriodicRate:
+        """
+        This attribute represents the category of the periodic rate.
+
+        A None value is a no-op and does not overwrite an existing periodicRateCategory.
+        """
+        if value is not None:
+            self.periodicRateCategory = value
+        return self
 
 
 class DiagnosticReadMemoryByAddress(ARObject):
@@ -1321,6 +1371,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
     PositiveInteger,
     RefType,
     TimeValue,

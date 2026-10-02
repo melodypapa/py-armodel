@@ -757,14 +757,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticPeriodicRate` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.99, p.131
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+    - note (Step 1): pulled in ahead of its consumer DiagnosticReadDataByPeriodicIDClass (Rule 0016.5 —
+      periodicRate `*` aggr references it); Table 4.99 body matched by Class row (leading caption); concrete
+      ARObject (no-arg ctor); attrs period (TimeValue 0..1 attr) + periodicRateCategory
+      (DiagnosticPeriodicRateCategoryEnum 0..1 attr, cell-wrap "periodicRate Category" /
+      "DiagnosticPeriodicRate CategoryEnum" healed); XSD group DIAGNOSTIC-PERIODIC-RATE
+      (AUTOSAR_00052.xsd l.40879) — PERIOD, PERIODIC-RATE-CATEGORY, matches displayed order.
+    - note (Step 6): reusable read/writeDiagnosticPeriodicRate helper (DiagnosticControlEnableMaskBit
+      ARObject pattern — readARObject/writeARObject + own fields; writer creates its own
+      DIAGNOSTIC-PERIODIC-RATE SubElement); no dispatch of its own — the PERIODIC-RATES wrapper dispatch
+      rides the DiagnosticReadDataByPeriodicIDClass pass; round-trip verified via an ET-level
+      write → re-read cycle (nested ARObject is not document-reachable before its aggregator syncs).
+    - note (Step 8): no open deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticPeriodicRateCategoryEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.100, p.131

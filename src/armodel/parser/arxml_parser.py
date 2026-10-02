@@ -502,6 +502,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlEnableMaskBit,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
+    DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -592,6 +593,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseToEcuResetEnum,
     Identifier,
     Integer,
@@ -10824,6 +10826,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticReadDataByIdentifierClass <%s>" % read_data_by_identifier_class.getShortName())
         self.readIdentifiable(element, read_data_by_identifier_class)
         read_data_by_identifier_class.setMaxDidToRead(self.getChildElementOptionalPositiveInteger(element, "MAX-DID-TO-READ"))
+
+    def readDiagnosticPeriodicRate(self, element: ET.Element, rate: DiagnosticPeriodicRate):
+        self.logger.debug("Read DiagnosticPeriodicRate")
+        self.readARObject(element, rate)
+        rate.setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
+        rate.setPeriodicRateCategory(self._readEnumToken(element, "PERIODIC-RATE-CATEGORY", DiagnosticPeriodicRateCategoryEnum, DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP))
 
     def readDiagnosticReadDataByPeriodicID(self, element: ET.Element, read_data_by_periodic_id: DiagnosticReadDataByPeriodicID):
         self.logger.debug("Read DiagnosticReadDataByPeriodicID <%s>" % read_data_by_periodic_id.getShortName())

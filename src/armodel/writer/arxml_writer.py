@@ -439,6 +439,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSubNodeChannel,
     DiagnosticControlEnableMaskBit,
     DiagnosticParameter,
+    DiagnosticPeriodicRate,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -14147,6 +14148,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
         self.writeIdentifiable(child_element, read_data_by_identifier_class)
         self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", read_data_by_identifier_class.getMaxDidToRead())
+
+    def writeDiagnosticPeriodicRate(self, element: ET.Element, rate: DiagnosticPeriodicRate):
+        self.logger.debug("Write DiagnosticPeriodicRate")
+        child_element = ET.SubElement(element, "DIAGNOSTIC-PERIODIC-RATE")
+        self.writeARObject(child_element, rate)
+        self.setChildElementOptionalTimeValue(child_element, "PERIOD", rate.getPeriod())
+        self._writeEnumToken(child_element, "PERIODIC-RATE-CATEGORY", rate.getPeriodicRateCategory(), DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP)
 
     def writeDiagnosticReadDataByPeriodicID(self, element: ET.Element, read_data_by_periodic_id: DiagnosticReadDataByPeriodicID):
         self.logger.debug("Write DiagnosticReadDataByPeriodicID %s" % read_data_by_periodic_id.getShortName())
