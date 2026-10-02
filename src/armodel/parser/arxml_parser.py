@@ -399,6 +399,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
     DiagnosticWriteDataByIdentifierClass,
+    DiagnosticWriteMemoryByAddressClass,
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -11472,6 +11473,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticMemoryAddressableRangeAccess(element, write_memory_by_address)
         write_memory_by_address.setWriteClassRef(self.getChildElementOptionalRefType(element, "WRITE-CLASS-REF"))
 
+    def readDiagnosticWriteMemoryByAddressClass(self, element: ET.Element, write_memory_by_address_class: DiagnosticWriteMemoryByAddressClass):
+        self.logger.debug("Read DiagnosticWriteMemoryByAddressClass <%s>" % write_memory_by_address_class.getShortName())
+        self.readIdentifiable(element, write_memory_by_address_class)
+
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
         self.readIdentifiable(element, auth_role)
@@ -16309,6 +16314,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS":
             write_data_by_identifier_class = parent.createDiagnosticWriteDataByIdentifierClass(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifierClass(child_element, write_data_by_identifier_class)
+        elif tag_name == "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS-CLASS":
+            write_memory_by_address_class = parent.createDiagnosticWriteMemoryByAddressClass(self.getShortName(child_element))
+            self.readDiagnosticWriteMemoryByAddressClass(child_element, write_memory_by_address_class)
         elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS":
             read_scaling_data_by_identifier_class = parent.createDiagnosticReadScalingDataByIdentifierClass(self.getShortName(child_element))
             self.readDiagnosticReadScalingDataByIdentifierClass(child_element, read_scaling_data_by_identifier_class)

@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
     DiagnosticWriteDataByIdentifierClass,
+    DiagnosticWriteMemoryByAddressClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -1130,4 +1131,37 @@ class Test_DiagnosticClearDiagnosticInformationClass:
         assert package.getReferrableElement("Cdci1", DiagnosticClearDiagnosticInformationClass) is service_class
 
         duplicate = package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticWriteMemoryByAddressClass:
+    """Test cases for DiagnosticWriteMemoryByAddressClass class (Table 4.114, p.141)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Write Memory by Address" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticWriteMemoryByAddressClass(_pkg(), "MyWmba")
+        assert service_class.getShortName() == "MyWmba"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, ARObject)
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticWriteMemoryByAddressClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticWriteMemoryByAddressClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_write_memory_by_address_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticWriteMemoryByAddressClass("Wmba1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticWriteMemoryByAddressClass)
+        assert service_class.getShortName() == "Wmba1"
+        assert package.getReferrableElement("Wmba1", DiagnosticWriteMemoryByAddressClass) is service_class
+
+        duplicate = package.createDiagnosticWriteMemoryByAddressClass("Wmba1")
         assert duplicate is service_class

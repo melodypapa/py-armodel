@@ -1118,6 +1118,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddress)
 
+    def createDiagnosticWriteMemoryByAddressClass(self, short_name: str) -> DiagnosticWriteMemoryByAddressClass:
+        """
+        Creates a new DiagnosticWriteMemoryByAddressClass with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteMemoryByAddressClass contains attributes shared by all
+        instances of the "Write Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteMemoryByAddressClass
+
+        Returns:
+            The newly created or existing DiagnosticWriteMemoryByAddressClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticWriteMemoryByAddressClass):
+            write_memory_by_address_class = DiagnosticWriteMemoryByAddressClass(self, short_name)
+            self.addReferrableElement(write_memory_by_address_class)
+        return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddressClass)
+
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, EcuAbstractionSwComponentType):
@@ -3989,6 +4008,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticResponseOnEventClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRoutineControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteMemoryByAddressClass  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
 

@@ -293,6 +293,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
     DiagnosticWriteDataByIdentifierClass,
+    DiagnosticWriteMemoryByAddressClass,
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -14961,6 +14962,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticMemoryAddressableRangeAccess(child_element, write_memory_by_address)
         self.setChildElementOptionalRefType(child_element, "WRITE-CLASS-REF", write_memory_by_address.getWriteClassRef())
 
+    def writeDiagnosticWriteMemoryByAddressClass(self, element: ET.Element, write_memory_by_address_class: DiagnosticWriteMemoryByAddressClass):
+        self.logger.debug("Write DiagnosticWriteMemoryByAddressClass %s" % write_memory_by_address_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS-CLASS")
+        self.writeIdentifiable(child_element, write_memory_by_address_class)
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -16033,6 +16039,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
             self.writeDiagnosticWriteDataByIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticWriteMemoryByAddressClass):
+            self.writeDiagnosticWriteMemoryByAddressClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadScalingDataByIdentifierClass):
             self.writeDiagnosticReadScalingDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDTCInformation):
