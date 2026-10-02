@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 713 | 37.5% |
+| [x] Done | 714 | 37.5% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 275 | 14.5% |
+| [ ] Deferred | 274 | 14.4% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1601,7 +1601,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ShowSeeEnum`                                           | [x] Done    | 5d48c2a6f3                               | Group3           |
 | `SignalFanEnum`                                         | [ ] Implemented| N/A                                      | Group27          |
 | `SignalServiceTranslationControlEnum`                   | [ ] Implemented| N/A                                      | Group34          |
-| `SignalServiceTranslationElementProps`                  | [ ] Deferred| 29d09fc625                               | Group14          |
+| `SignalServiceTranslationElementProps`                  | [x] Done    | 8b6384cb3f                               | Group14          |
 | `SignalServiceTranslationEventProps`                    | [ ] Implemented| N/A                                      | Group34          |
 | `SignalServiceTranslationProps`                         | [ ] Implemented| N/A                                      | Group34          |
 | `SignalServiceTranslationPropsSet`                      | [ ] Implemented| N/A                                      | Group34          |

@@ -659,7 +659,7 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **19/25** completed
+Status: **20/25** completed
 
 | Class Name                                 | Status       | Commit ID  |
 | ------------------------------------------ | ------------ | ---------- |
@@ -680,7 +680,7 @@ Status: **19/25** completed
 | `DtcStatusChangeNotificationNeeds`         | [x] Done     | 89407b6f0f |
 | `CryptoServiceNeeds`                       | [x] Done     | bea3457ed5 |
 | `DiagEventDebounceCounterBased`            | [x] Done     | f41b486233 |
-| `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc625 |
+| `SignalServiceTranslationElementProps`     | [x] Done     | 8b6384cb3f |
 | `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
 | `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending* | N/A        |
 | `DiagnosticLogicalOperatorEnum`            | [ ] Pending* | N/A        |
