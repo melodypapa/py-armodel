@@ -3069,6 +3069,7 @@ class CommunicationDirectionType(AREnum):
 
     # CommunicationDirectionType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.33, p.351 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CommConnectorPort.communicationDirection, IEEE1722TpConnection.communicationDirection, IPSecRule.direction, ISignalIPduGroup.communicationDirection
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
