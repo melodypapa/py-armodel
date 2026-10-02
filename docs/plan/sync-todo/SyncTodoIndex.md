@@ -659,35 +659,18 @@ Status: **23/23** completed
 
 ## Group14
 
-Status: **22/25** completed
+Status: **5/8** completed
 
-| Class Name                                 | Status       | Commit ID  |
-| ------------------------------------------ | ------------ | ---------- |
-| `DiagnosticAudienceEnum`                   | [x] Done     | 80d64e8f15 |
-| `DiagnosticClearDtcNotificationEnum`       | [x] Done     | 2415d2157a |
-| `DiagnosticProcessingStyleEnum`            | [x] Done     | d07b0d0144 |
-| `DiagnosticRoutineTypeEnum`                | [x] Done     | f9dc536d57 |
-| `DiagnosticServiceRequestCallbackTypeEnum` | [x] Done     | 77c7312cc8 |
-| `DiagnosticValueAccessEnum`                | [x] Done     | 85e9c3f3be |
-| `DtcFormatTypeEnum`                        | [x] Done     | f376d8339f |
-| `DtcKindEnum`                              | [x] Done     | 8b62eec625 |
-| `ServiceDiagnosticRelevanceEnum`           | [x] Done     | da3a2d3532 |
-| `DiagnosticCapabilityElement`              | [x] Done     | caf7dc3419 |
-| `DiagnosticCommunicationManagerNeeds`      | [x] Done     | 8c487102b9 |
-| `DiagnosticEventInfoNeeds`                 | [x] Done     | 99f3db39c4 |
-| `DiagnosticRoutineNeeds`                   | [x] Done     | 9f1a4310b7 |
-| `DiagnosticValueNeeds`                     | [x] Done     | 475d150577 |
-| `DtcStatusChangeNotificationNeeds`         | [x] Done     | 89407b6f0f |
-| `CryptoServiceNeeds`                       | [x] Done     | bea3457ed5 |
-| `DiagEventDebounceCounterBased`            | [x] Done     | f41b486233 |
-| `SignalServiceTranslationElementProps`     | [x] Done     | 8b6384cb3f |
-| `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
-| `DiagnosticJumpToBootLoaderEnum`           | [x] Done     | d901d9ee70 |
-| `DiagnosticLogicalOperatorEnum`            | [x] Done     | a70421898e |
-| `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af373 |
-| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af373 |
-| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af373 |
-| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |
+| Class Name                           | Status       | Commit ID  |
+| ------------------------------------ | ------------ | ---------- |
+| `DiagnosticAudienceEnum`             | [x] Done     | 80d64e8f15 |
+| `DiagnosticClearDtcNotificationEnum` | [x] Done     | 2415d2157a |
+| `DiagnosticProcessingStyleEnum`      | [x] Done     | f9dc536d57 |
+| `DiagnosticServiceClass`             | [x] Done*    | 6b514727f9 |
+| `DiagnosticEnvConditionFormulaPart`  | [x] Done*    | af255af373 |
+| `DiagnosticEnvConditionFormula`      | [ ] Pending* | af255af373 |
+| `DiagnosticEnvCompareCondition`      | [ ] Pending* | af255af373 |
+| `DiagnosticEnvModeElement`           | [ ] Pending* | af255af373 |
 
 ## Group15
 
