@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 695 | 36.5% |
+| [x] Done | 696 | 36.6% |
 | [x] Deferred | 12 | 0.6% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 293 | 15.4% |
+| [ ] Deferred | 292 | 15.3% |
 | [ ] Implemented | 429 | 22.5% |
 | [ ] Created | 474 | 24.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -207,7 +207,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswScheduleEvent`                                      | [x] Done    | 46ce237162                               | Group22          |
 | `BswSchedulerNamePrefix`                                | [x] Done    | 2a4f60c8c4                               | Group22          |
 | `BswServiceDependency`                                  | [x] Done    | N/A                                      | Group23          |
-| `BswServiceDependencyIdent`                             | [ ] Deferred| d488a5e4a8                               | Group26          |
+| `BswServiceDependencyIdent`                             | [x] Done    | d488a5e4a8                               | Group26          |
 | `BswSynchronousServerCallPoint`                         | [x] Done    | f23ec00417                               | Group13          |
 | `BswTimingEvent`                                        | [x] Done    | 361ab10d5e                               | Group13          |
 | `BswTriggerDirectImplementation`                        | [ ] Deferred| 0626aec9ca                               | Group22          |
