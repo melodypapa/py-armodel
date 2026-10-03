@@ -619,7 +619,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (254 passed ECUCParameterDefTemplate + member-annotation gate + new round-trip + container/os-ecuc suites; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (254 passed ECUCParameterDefTemplate + member-annotation gate + new round-trip + container/os-ecuc suites; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `aa827f384`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); members/display order verified (parameters, references, subContainers); class docstring single-line verbatim; XSD own group l.53080 (MULTIPLE-CONFIGURATION-CONTAINER atp.Status=removed not modeled; PARAMETERS → REFERENCES → SUB-CONTAINERS) already matched reader/writer; full factory set present (9 param + 6 reference + 2 container createXxx) but old 5-col checklist UNDER-LISTED it — 6-col checklist now lists all 21 rows (createEcucUriReferenceDef/createEcucForeignReferenceDef/createEcucLinkerSymbolDef rows were missing)
 
 - [ ] `EcucChoiceContainerDef` — EcucContainerDef — R23-11 CP_TPS_ECUConfiguration Table 2.5, p.41
