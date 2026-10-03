@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **14/29** completed
+Status: **15/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -754,7 +754,7 @@ Status: **14/29** completed
 | `TcpOptionFilterList`                   | [x] Done     | fd11862858 |
 | `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
 | `IPv6ExtHeaderFilterList`               | [x] Done     | d8127416ac |
-| `TimeSynchronization`                   | [ ] Pending* | b1e4750b14 |
+| `TimeSynchronization`                   | [x] Done     | f4a1df5bcb |
 
 ## Group17
 

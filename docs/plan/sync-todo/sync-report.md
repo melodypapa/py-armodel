@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 757 | 39.8% |
+| [x] Done | 758 | 39.8% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 308 | 16.2% |
+| [ ] Deferred | 307 | 16.1% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1796,7 +1796,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TimeSyncClientConfiguration`                           | [x] Done    | a032fa05dc                               | Group6           |
 | `TimeSyncServerConfiguration`                           | [x] Done    | 155cc2f7f9                               | Group16          |
 | `TimeSyncTechnologyEnum`                                | [ ] Implemented| N/A                                      | Group32          |
-| `TimeSynchronization`                                   | [ ] Deferred| b1e4750b14                               | Group16          |
+| `TimeSynchronization`                                   | [x] Done    | f4a1df5bcb                               | Group16          |
 | `TimeValue`                                             | [ ] Implemented| N/A                                      | Group27          |
 | `TimeValueValueVariationPoint`                          | [x] Done    | d5c96fd954                               | Group8           |
 | `TimingCondition`                                       | [ ] Implemented| N/A                                      | Group35          |
