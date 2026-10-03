@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **10/29** completed
+Status: **11/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -747,7 +747,7 @@ Status: **10/29** completed
 | `TcpTp`                                 | [ ] Pending* | N/A        |
 | `UdpTp`                                 | [ ] Pending* | N/A        |
 | `PduCollectionSemanticsEnum`            | [ ] Pending* | 4b7c8dc79c |
-| `SocketConnectionIpduIdentifier`        | [ ] Pending* | 4b7c8dc79c |
+| `SocketConnectionIpduIdentifier`        | [x] Done     | c02cad3bb9 |
 | `SocketConnectionBundle`                | [ ] Pending* | 4b7c8dc79c |
 | `RequestResponseDelay`                  | [ ] Pending* | d7240be740 |
 | `SdServerConfig`                        | [x] Done     | f509df9d94 |
