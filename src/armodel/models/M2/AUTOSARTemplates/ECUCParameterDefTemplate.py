@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Identifier, Limit
@@ -1471,11 +1471,11 @@ class EcucIntegerParamDef(EcucParameterDef):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: UnlimitedInteger = None
-        self.max: UnlimitedInteger = None
-        self.min: UnlimitedInteger = None
+        self.defaultValue: Optional[UnlimitedInteger] = None
+        self.max: Optional[UnlimitedInteger] = None
+        self.min: Optional[UnlimitedInteger] = None
 
-    def getDefaultValue(self) -> UnlimitedInteger:
+    def getDefaultValue(self) -> Optional[UnlimitedInteger]:
         return self.defaultValue
 
     def setDefaultValue(self, value: UnlimitedInteger):
@@ -1483,7 +1483,7 @@ class EcucIntegerParamDef(EcucParameterDef):
             self.defaultValue = value
         return self
 
-    def getMax(self) -> UnlimitedInteger:
+    def getMax(self) -> Optional[UnlimitedInteger]:
         return self.max
 
     def setMax(self, value: UnlimitedInteger):
@@ -1491,7 +1491,7 @@ class EcucIntegerParamDef(EcucParameterDef):
             self.max = value
         return self
 
-    def getMin(self) -> UnlimitedInteger:
+    def getMin(self) -> Optional[UnlimitedInteger]:
         return self.min
 
     def setMin(self, value: UnlimitedInteger):
@@ -1606,7 +1606,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
             literal = EcucEnumerationLiteralDef(self, short_name)
             self.addReferrableElement(literal)
             self.literals.append(literal)
-        return self.getReferrableElement(short_name, EcucEnumerationLiteralDef)
+        return cast(EcucEnumerationLiteralDef, self.getReferrableElement(short_name, EcucEnumerationLiteralDef))
 
 
 class EcucFloatParamDef(EcucParameterDef):
@@ -1715,7 +1715,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
             choice = EcucParamConfContainerDef(self, short_name)
             self.addReferrableElement(choice)
             self.choices.append(choice)
-        return self.getReferrableElement(short_name, EcucParamConfContainerDef)
+        return cast(EcucParamConfContainerDef, self.getReferrableElement(short_name, EcucParamConfContainerDef))
 
 
 class EcucParamConfContainerDef(EcucContainerDef):
@@ -1771,7 +1771,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucAddInfoParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucAddInfoParamDef)
+        return cast(EcucAddInfoParamDef, self.getReferrableElement(short_name, EcucAddInfoParamDef))
 
     def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
         """
@@ -1781,7 +1781,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucBooleanParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucBooleanParamDef)
+        return cast(EcucBooleanParamDef, self.getReferrableElement(short_name, EcucBooleanParamDef))
 
     def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
         """
@@ -1791,7 +1791,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucStringParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucStringParamDef)
+        return cast(EcucStringParamDef, self.getReferrableElement(short_name, EcucStringParamDef))
 
     def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
         """
@@ -1801,7 +1801,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucIntegerParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucIntegerParamDef)
+        return cast(EcucIntegerParamDef, self.getReferrableElement(short_name, EcucIntegerParamDef))
 
     def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
         """
@@ -1811,7 +1811,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucFloatParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucFloatParamDef)
+        return cast(EcucFloatParamDef, self.getReferrableElement(short_name, EcucFloatParamDef))
 
     def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
         """
@@ -1821,7 +1821,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucEnumerationParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucEnumerationParamDef)
+        return cast(EcucEnumerationParamDef, self.getReferrableElement(short_name, EcucEnumerationParamDef))
 
     def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
         """
@@ -1831,7 +1831,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucFunctionNameDef(self, short_name)
             self.addReferrableElement(ref)
             self.parameters.append(ref)
-        return self.getReferrableElement(short_name, EcucFunctionNameDef)
+        return cast(EcucFunctionNameDef, self.getReferrableElement(short_name, EcucFunctionNameDef))
 
     def createEcucMultilineStringParamDef(self, short_name: str) -> EcucMultilineStringParamDef:
         """
@@ -1841,7 +1841,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucMultilineStringParamDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucMultilineStringParamDef)
+        return cast(EcucMultilineStringParamDef, self.getReferrableElement(short_name, EcucMultilineStringParamDef))
 
     def createEcucLinkerSymbolDef(self, short_name: str) -> EcucLinkerSymbolDef:
         """
@@ -1851,7 +1851,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             param = EcucLinkerSymbolDef(self, short_name)
             self.addReferrableElement(param)
             self.parameters.append(param)
-        return self.getReferrableElement(short_name, EcucLinkerSymbolDef)
+        return cast(EcucLinkerSymbolDef, self.getReferrableElement(short_name, EcucLinkerSymbolDef))
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
@@ -1867,7 +1867,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucSymbolicNameReferenceDef(self, short_name)
             self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getReferrableElement(short_name, EcucSymbolicNameReferenceDef)
+        return cast(EcucSymbolicNameReferenceDef, self.getReferrableElement(short_name, EcucSymbolicNameReferenceDef))
 
     def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
         """
@@ -1883,7 +1883,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucReferenceDef(self, short_name)
             self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getReferrableElement(short_name, EcucReferenceDef)
+        return cast(EcucReferenceDef, self.getReferrableElement(short_name, EcucReferenceDef))
 
     def createEcucUriReferenceDef(self, short_name: str) -> EcucUriReferenceDef:
         """
@@ -1899,7 +1899,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucUriReferenceDef(self, short_name)
             self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getReferrableElement(short_name, EcucUriReferenceDef)
+        return cast(EcucUriReferenceDef, self.getReferrableElement(short_name, EcucUriReferenceDef))
 
     def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
         """
@@ -1915,7 +1915,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucChoiceReferenceDef(self, short_name)
             self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getReferrableElement(short_name, EcucChoiceReferenceDef)
+        return cast(EcucChoiceReferenceDef, self.getReferrableElement(short_name, EcucChoiceReferenceDef))
 
     def createEcucInstanceReferenceDef(self, short_name: str) -> EcucInstanceReferenceDef:
         """
@@ -1925,7 +1925,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucInstanceReferenceDef(self, short_name)
             self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getReferrableElement(short_name, EcucInstanceReferenceDef)
+        return cast(EcucInstanceReferenceDef, self.getReferrableElement(short_name, EcucInstanceReferenceDef))
 
     def createEcucForeignReferenceDef(self, short_name: str) -> EcucForeignReferenceDef:
         """
@@ -1935,7 +1935,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucForeignReferenceDef(self, short_name)
             self.addReferrableElement(ref)
             self.references.append(ref)
-        return self.getReferrableElement(short_name, EcucForeignReferenceDef)
+        return cast(EcucForeignReferenceDef, self.getReferrableElement(short_name, EcucForeignReferenceDef))
 
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
@@ -1951,7 +1951,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             container = EcucChoiceContainerDef(self, short_name)
             self.addReferrableElement(container)
             self.subContainers.append(container)
-        return self.getReferrableElement(short_name, EcucChoiceContainerDef)
+        return cast(EcucChoiceContainerDef, self.getReferrableElement(short_name, EcucChoiceContainerDef))
 
     def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
         """
@@ -1961,7 +1961,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             container = EcucParamConfContainerDef(self, short_name)
             self.addReferrableElement(container)
             self.subContainers.append(container)
-        return self.getReferrableElement(short_name, EcucParamConfContainerDef)
+        return cast(EcucParamConfContainerDef, self.getReferrableElement(short_name, EcucParamConfContainerDef))
 
 
 class EcucAddInfoParamDef(EcucParameterDef):
@@ -2321,7 +2321,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         # This indicates that the referenced query shall return a string.
         self.ecucQueryStringRef: Optional[RefType] = None
 
-    def getEcucQueryRef(self) -> RefType:
+    def getEcucQueryRef(self) -> Optional[RefType]:
         """
         This is one particular EcucQuery used in the calculation formula.
         """
@@ -2336,7 +2336,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
             self.ecucQueryRef = value
         return self
 
-    def getEcucQueryStringRef(self) -> RefType:
+    def getEcucQueryStringRef(self) -> Optional[RefType]:
         """
         This indicates that the referenced query shall return a string.
         """
@@ -2368,9 +2368,9 @@ class EcucQuery(Identifiable):
         super().__init__(parent, short_name)
 
         # This is the EcucQuery used in the calculation formula or the condition formula.
-        self.ecucQueryExpression: EcucQueryExpression = None
+        self.ecucQueryExpression: Optional[EcucQueryExpression] = None
 
-    def getEcucQueryExpression(self) -> EcucQueryExpression:
+    def getEcucQueryExpression(self) -> Optional[EcucQueryExpression]:
         """
         This is the EcucQuery used in the calculation formula or the condition formula.
         """
@@ -2508,7 +2508,7 @@ class EcucModuleDef(EcucDefinitionElement):
             container_def = EcucParamConfContainerDef(self, short_name)
             self.addReferrableElement(container_def)
             self.containers.append(container_def)
-        return self.getReferrableElement(short_name, EcucParamConfContainerDef)
+        return cast(EcucParamConfContainerDef, self.getReferrableElement(short_name, EcucParamConfContainerDef))
 
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
         """
@@ -2518,7 +2518,7 @@ class EcucModuleDef(EcucDefinitionElement):
             container_def = EcucChoiceContainerDef(self, short_name)
             self.addReferrableElement(container_def)
             self.containers.append(container_def)
-        return self.getReferrableElement(short_name, EcucChoiceContainerDef)
+        return cast(EcucChoiceContainerDef, self.getReferrableElement(short_name, EcucChoiceContainerDef))
 
     def getPostBuildVariantSupport(self) -> Optional[Boolean]:
         """

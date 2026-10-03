@@ -40,6 +40,9 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "ModeTransition",
     "PlatformModuleEndpointConfiguration",
     "PlatformModuleEthernetEndpointConfiguration",
+    # Rule 0001.10 placeholder: TYPE_CHECKING-only stub in FibexCore/CoreTopology.py
+    # (referenced by EcuInstance.v2xSupported annotations; real class not yet synced)
+    "V2xSupportEnum",
 }
 
 
