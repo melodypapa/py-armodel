@@ -767,6 +767,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_control_of_on_board_device_class)
         return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass)
 
+    def createDiagnosticTestRoutineIdentifier(self, short_name: str) -> DiagnosticTestRoutineIdentifier:
+        """
+        Creates a new DiagnosticTestRoutineIdentifier with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticTestRoutineIdentifier represents the test id of the DiagnosticTestIdentifier.
+
+        Args:
+            short_name: The short name for the new DiagnosticTestRoutineIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticTestRoutineIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTestRoutineIdentifier):
+            test_routine_identifier = DiagnosticTestRoutineIdentifier(self, short_name)
+            self.addReferrableElement(test_routine_identifier)
+        return self.getReferrableElement(short_name, DiagnosticTestRoutineIdentifier)
+
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
         Creates a new DiagnosticComControlClass with the given short name,
@@ -9015,7 +9033,78 @@ class DiagnosticTestResult(ARElement):
 
 
 class DiagnosticTestRoutineIdentifier(ARElement):
-    pass
+    """This represents the test id of the DiagnosticTestIdentifier. Tags: atp.recommendedPackage=DiagnosticTestRoutineIdentifier"""
+
+    # DiagnosticTestRoutineIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.143, p.158
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestDataSize             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestDataSize             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseDataSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseDataSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA).
+        self.id: Optional[PositiveInteger] = None
+
+        # This represents the specified data size for the request message. Unit: byte.
+        self.requestDataSize: Optional[PositiveInteger] = None
+
+        # This represents the specified data size for the response message. Unit:byte.
+        self.responseDataSize: Optional[PositiveInteger] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA).
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
+        """
+        This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA).
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getRequestDataSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the specified data size for the request message. Unit: byte.
+        """
+        return self.requestDataSize
+
+    def setRequestDataSize(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
+        """
+        This represents the specified data size for the request message. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing requestDataSize.
+        """
+        if value is not None:
+            self.requestDataSize = value
+        return self
+
+    def getResponseDataSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the specified data size for the response message. Unit:byte.
+        """
+        return self.responseDataSize
+
+    def setResponseDataSize(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
+        """
+        This represents the specified data size for the response message. Unit:byte.
+
+        A None value is a no-op and does not overwrite an existing responseDataSize.
+        """
+        if value is not None:
+            self.responseDataSize = value
+        return self
 
 
 class DiagnosticTransferExit(DiagnosticMemoryByAddress):

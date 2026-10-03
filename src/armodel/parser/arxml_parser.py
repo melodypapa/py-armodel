@@ -595,6 +595,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -11603,6 +11604,13 @@ class ARXMLParser(AbstractARXMLParser):
         request_control_of_on_board_device.setRequestControlOfOnBoardDeviceClassRef(self.getChildElementOptionalRefType(element, "REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF"))
         request_control_of_on_board_device.setTestIdRef(self.getChildElementOptionalRefType(element, "TEST-ID-REF"))
 
+    def readDiagnosticTestRoutineIdentifier(self, element: ET.Element, test_routine_identifier: DiagnosticTestRoutineIdentifier):
+        self.logger.debug("Read DiagnosticTestRoutineIdentifier <%s>" % test_routine_identifier.getShortName())
+        self.readIdentifiable(element, test_routine_identifier)
+        test_routine_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        test_routine_identifier.setRequestDataSize(self.getChildElementOptionalPositiveInteger(element, "REQUEST-DATA-SIZE"))
+        test_routine_identifier.setResponseDataSize(self.getChildElementOptionalPositiveInteger(element, "RESPONSE-DATA-SIZE"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -17034,6 +17042,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE":
             request_control_of_on_board_device = parent.createDiagnosticRequestControlOfOnBoardDevice(self.getShortName(child_element))
             self.readDiagnosticRequestControlOfOnBoardDevice(child_element, request_control_of_on_board_device)
+            return True
+        if tag_name == "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER":
+            test_routine_identifier = parent.createDiagnosticTestRoutineIdentifier(self.getShortName(child_element))
+            self.readDiagnosticTestRoutineIdentifier(child_element, test_routine_identifier)
             return True
         return False
 

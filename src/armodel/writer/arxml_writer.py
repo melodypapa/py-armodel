@@ -467,6 +467,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
+    DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -15149,6 +15150,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF", request_control_of_on_board_device.getRequestControlOfOnBoardDeviceClassRef())
         self.setChildElementOptionalRefType(child_element, "TEST-ID-REF", request_control_of_on_board_device.getTestIdRef())
 
+    def writeDiagnosticTestRoutineIdentifier(self, element: ET.Element, test_routine_identifier: DiagnosticTestRoutineIdentifier):
+        self.logger.debug("Write DiagnosticTestRoutineIdentifier %s" % test_routine_identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER")
+        self.writeIdentifiable(child_element, test_routine_identifier)
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", test_routine_identifier.getId())
+        self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-DATA-SIZE", test_routine_identifier.getRequestDataSize())
+        self.setChildElementOptionalPositiveInteger(child_element, "RESPONSE-DATA-SIZE", test_routine_identifier.getResponseDataSize())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16505,6 +16514,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestControlOfOnBoardDevice):
             self.writeDiagnosticRequestControlOfOnBoardDevice(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTestRoutineIdentifier):
+            self.writeDiagnosticTestRoutineIdentifier(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

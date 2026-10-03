@@ -102,6 +102,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
+    DiagnosticTestRoutineIdentifier,
     DiagnosticTransferExit,
     DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
@@ -8904,3 +8905,122 @@ class TestDiagnosticRequestControlOfOnBoardDevice:
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setRequestControlOfOnBoardDeviceClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestControlOfOnBoardDeviceClassRef.")
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.getTestIdRef.__doc__) == self.TEST_ID_NOTE
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setTestIdRef.__doc__) == (self.TEST_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing testIdRef.")
+
+
+class TestDiagnosticTestRoutineIdentifier:
+    """
+    Test class for DiagnosticTestRoutineIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.143, p.158
+    """
+
+    CLASS_NOTE = "This represents the test id of the DiagnosticTestIdentifier. Tags: atp.recommendedPackage=DiagnosticTestRoutineIdentifier"
+    ID_NOTE = "This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA)."
+    REQUEST_DATA_SIZE_NOTE = "This represents the specified data size for the request message. Unit: byte."
+    RESPONSE_DATA_SIZE_NOTE = "This represents the specified data size for the response message. Unit:byte."
+
+    def _make_obj(self) -> DiagnosticTestRoutineIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTestRoutineIdentifier(ar_root, "TestRoutine1")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticTestRoutineIdentifier instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestRoutine1"
+        assert isinstance(obj, ARElement)
+        assert obj.getId() is None
+        assert obj.getRequestDataSize() is None
+        assert obj.getResponseDataSize() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticTestRoutineIdentifier.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTestRoutineIdentifier.__init__.__doc__ is None
+
+    def test_get_set_id(self):
+        """
+        Round-trips the id; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        id_value = PositiveInteger()
+        id_value.setValue("1")
+        result = obj.setId(id_value)
+        assert result is obj  # method chaining
+        assert obj.getId() is id_value
+        assert obj.getId().getValue() == 1
+
+        result = obj.setId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getId() is id_value  # None is a no-op
+
+    def test_get_set_request_data_size(self):
+        """
+        Round-trips the requestDataSize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        size = PositiveInteger()
+        size.setValue("8")
+        result = obj.setRequestDataSize(size)
+        assert result is obj  # method chaining
+        assert obj.getRequestDataSize() is size
+        assert obj.getRequestDataSize().getValue() == 8
+
+        result = obj.setRequestDataSize(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestDataSize() is size  # None is a no-op
+
+    def test_get_set_response_data_size(self):
+        """
+        Round-trips the responseDataSize; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        size = PositiveInteger()
+        size.setValue("16")
+        result = obj.setResponseDataSize(size)
+        assert result is obj  # method chaining
+        assert obj.getResponseDataSize() is size
+        assert obj.getResponseDataSize().getValue() == 16
+
+        result = obj.setResponseDataSize(None)
+        assert result is obj  # method chaining with None
+        assert obj.getResponseDataSize() is size  # None is a no-op
+
+    def test_create_diagnostic_test_routine_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticTestRoutineIdentifiers")
+        element = package.createDiagnosticTestRoutineIdentifier("RoutineIdentifier1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticTestRoutineIdentifier)
+        assert element.getShortName() == "RoutineIdentifier1"
+        assert package.getReferrableElement("RoutineIdentifier1", DiagnosticTestRoutineIdentifier) is element
+
+        duplicate = package.createDiagnosticTestRoutineIdentifier("RoutineIdentifier1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getRequestDataSize.__doc__) == self.REQUEST_DATA_SIZE_NOTE
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setRequestDataSize.__doc__) == (self.REQUEST_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDataSize.")
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getResponseDataSize.__doc__) == self.RESPONSE_DATA_SIZE_NOTE
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setResponseDataSize.__doc__) == (self.RESPONSE_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseDataSize.")
