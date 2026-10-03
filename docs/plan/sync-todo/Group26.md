@@ -710,7 +710,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A standalone enum
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (179 passed ECUCParameterDefTemplate + member-annotation gate + EcucModuleDef round-trip + os-ecuc suite; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `a11f2d1ce`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (179 passed ECUCParameterDefTemplate + member-annotation gate + EcucModuleDef round-trip + os-ecuc suite; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `b9d00ef0d`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); MISSING LITERAL RESTORED — PRECONFIGURED_CONFIGURATION = PRECONFIGURED-CONFIGURATION (idx 0; markdown page-split the literal across the caption line, XSD l.135950 declaration order = display order confirms); literals now 5 in display order (idx 0,1,2,3,6); class docstring was FABRICATED (carried EcucModuleDef.supportedConfigVariant attr note) → enum Note verbatim (Specifies the possible Configuration Variants used for AUTOSAR BSW Modules.)
 
 - [ ] `EcucParameterDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.14, p.57
