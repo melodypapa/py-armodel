@@ -880,10 +880,10 @@ STUBS = [
         "AREnum",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticClearResetEmissionRelatedInfo",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",

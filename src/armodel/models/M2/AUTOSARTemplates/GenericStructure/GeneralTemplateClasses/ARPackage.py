@@ -151,6 +151,7 @@ __all__ = [
     "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
     "DiagnosticRequestDownload",
     "DiagnosticRequestEmissionRelatedDTC",
+    "DiagnosticClearResetEmissionRelatedInfo",
     "DiagnosticRequestControlOfOnBoardDevice",
     "DiagnosticRequestCurrentPowertrainData",
     "DiagnosticRequestPowertrainFreezeFrameData",
@@ -691,6 +692,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
             self.addReferrableElement(clear_diagnostic_information_class)
         return self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformationClass)
+
+    def createDiagnosticClearResetEmissionRelatedInfo(self, short_name: str) -> DiagnosticClearResetEmissionRelatedInfo:
+        """
+        Creates a new DiagnosticClearResetEmissionRelatedInfo with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticClearResetEmissionRelatedInfo represents an instance of the OBD mode 0x04 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearResetEmissionRelatedInfo
+
+        Returns:
+            The newly created or existing DiagnosticClearResetEmissionRelatedInfo instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticClearResetEmissionRelatedInfo):
+            clear_reset_emission_related_info = DiagnosticClearResetEmissionRelatedInfo(self, short_name)
+            self.addReferrableElement(clear_reset_emission_related_info)
+        return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfo)
 
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
@@ -5232,6 +5251,39 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
         """
         if value is not None:
             self.requestEmissionRelatedDtcClassRef = value
+        return self
+
+
+class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x04 service. Tags: atp.recommendedPackage=DiagnosticClearResetEmissionRelatedInfos"""
+
+    # DiagnosticClearResetEmissionRelatedInfo method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.137, p.155
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearResetEmissionRelatedDiagnosticInfoClassRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearResetEmissionRelatedDiagnosticInfoClassRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context.
+        self.clearResetEmissionRelatedDiagnosticInfoClassRef: Optional[RefType] = None
+
+    def getClearResetEmissionRelatedDiagnosticInfoClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context.
+        """
+        return self.clearResetEmissionRelatedDiagnosticInfoClassRef
+
+    def setClearResetEmissionRelatedDiagnosticInfoClassRef(self, value: Optional[RefType]) -> DiagnosticClearResetEmissionRelatedInfo:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context.
+
+        A None value is a no-op and does not overwrite an existing clearResetEmissionRelatedDiagnosticInfoClassRef.
+        """
+        if value is not None:
+            self.clearResetEmissionRelatedDiagnosticInfoClassRef = value
         return self
 
 

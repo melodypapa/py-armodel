@@ -426,6 +426,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthTransmitCertificate,
     DiagnosticClearDiagnosticInformation,
+    DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
@@ -15104,6 +15105,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, request_emission_related_dtc)
         self.setChildElementOptionalRefType(child_element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF", request_emission_related_dtc.getRequestEmissionRelatedDtcClassRef())
 
+    def writeDiagnosticClearResetEmissionRelatedInfo(self, element: ET.Element, clear_reset_emission_related_info: DiagnosticClearResetEmissionRelatedInfo):
+        self.logger.debug("Write DiagnosticClearResetEmissionRelatedInfo %s" % clear_reset_emission_related_info.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO")
+        self.writeIdentifiable(child_element, clear_reset_emission_related_info)
+        self.setChildElementOptionalRefType(child_element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF", clear_reset_emission_related_info.getClearResetEmissionRelatedDiagnosticInfoClassRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16445,6 +16452,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestEmissionRelatedDTC):
             self.writeDiagnosticRequestEmissionRelatedDTC(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticClearResetEmissionRelatedInfo):
+            self.writeDiagnosticClearResetEmissionRelatedInfo(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

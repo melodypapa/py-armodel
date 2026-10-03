@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificate,
     DiagnosticAuthTransmitCertificateMapping,
     DiagnosticClearDiagnosticInformation,
+    DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
@@ -8618,3 +8619,82 @@ class TestDiagnosticRequestEmissionRelatedDTC:
         """
         assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.getRequestEmissionRelatedDtcClassRef.__doc__) == self.CLASS_REF_NOTE
         assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.setRequestEmissionRelatedDtcClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassRef.")
+
+
+class TestDiagnosticClearResetEmissionRelatedInfo:
+    """
+    Test class for DiagnosticClearResetEmissionRelatedInfo functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.137, p.155
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an instance of the OBD mode 0x04 service. Tags: atp.recommendedPackage=DiagnosticClearResetEmissionRelatedInfos"
+    CLASS_REF_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context."
+
+    def _make_obj(self) -> DiagnosticClearResetEmissionRelatedInfo:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticClearResetEmissionRelatedInfo(ar_root, "TestMode04")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticClearResetEmissionRelatedInfo instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMode04"
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getClearResetEmissionRelatedDiagnosticInfoClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticClearResetEmissionRelatedInfo.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticClearResetEmissionRelatedInfo.__init__.__doc__ is None
+
+    def test_get_set_clear_reset_emission_related_diagnostic_info_class_ref(self):
+        """
+        Round-trips the clearResetEmissionRelatedDiagnosticInfoClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticClearResetEmissionRelatedInfoClasses/Class1")
+        result = obj.setClearResetEmissionRelatedDiagnosticInfoClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getClearResetEmissionRelatedDiagnosticInfoClassRef() is ref
+        assert obj.getClearResetEmissionRelatedDiagnosticInfoClassRef().getValue() == "/AUTOSAR/DiagnosticClearResetEmissionRelatedInfoClasses/Class1"
+        assert obj.getClearResetEmissionRelatedDiagnosticInfoClassRef().getDest() == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS"
+
+        result = obj.setClearResetEmissionRelatedDiagnosticInfoClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getClearResetEmissionRelatedDiagnosticInfoClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_clear_reset_emission_related_info(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("OBDMode04Services")
+        element = package.createDiagnosticClearResetEmissionRelatedInfo("Mode04Service1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticClearResetEmissionRelatedInfo)
+        assert element.getShortName() == "Mode04Service1"
+        assert package.getReferrableElement("Mode04Service1", DiagnosticClearResetEmissionRelatedInfo) is element
+
+        duplicate = package.createDiagnosticClearResetEmissionRelatedInfo("Mode04Service1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfo.getClearResetEmissionRelatedDiagnosticInfoClassRef.__doc__) == self.CLASS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfo.setClearResetEmissionRelatedDiagnosticInfoClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearResetEmissionRelatedDiagnosticInfoClassRef.")

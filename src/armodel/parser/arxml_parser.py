@@ -553,6 +553,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthTransmitCertificate,
     DiagnosticClearDiagnosticInformation,
+    DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
@@ -11575,6 +11576,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_emission_related_dtc)
         request_emission_related_dtc.setRequestEmissionRelatedDtcClassRef(self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF"))
 
+    def readDiagnosticClearResetEmissionRelatedInfo(self, element: ET.Element, clear_reset_emission_related_info: DiagnosticClearResetEmissionRelatedInfo):
+        self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfo <%s>" % clear_reset_emission_related_info.getShortName())
+        self.readIdentifiable(element, clear_reset_emission_related_info)
+        clear_reset_emission_related_info.setClearResetEmissionRelatedDiagnosticInfoClassRef(self.getChildElementOptionalRefType(element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16977,6 +16983,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC":
             request_emission_related_dtc = parent.createDiagnosticRequestEmissionRelatedDTC(self.getShortName(child_element))
             self.readDiagnosticRequestEmissionRelatedDTC(child_element, request_emission_related_dtc)
+            return True
+        if tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO":
+            clear_reset_emission_related_info = parent.createDiagnosticClearResetEmissionRelatedInfo(self.getShortName(child_element))
+            self.readDiagnosticClearResetEmissionRelatedInfo(child_element, clear_reset_emission_related_info)
             return True
         return False
 

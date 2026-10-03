@@ -221,10 +221,6 @@ class DiagnosticAbstractParameter(ARObject, ABC):
         return self
 
 
-class DiagnosticClearResetEmissionRelatedInfo(ARObject):
-    pass
-
-
 class DiagnosticComControlSpecificChannel(ARObject):
     """
     This represents the ability to add further attributes to the definition of a specific channel that is subject to the diagnostic service "communication control".
