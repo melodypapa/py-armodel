@@ -13,9 +13,11 @@ from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     Boolean,
+    DateTime,
     Identifier,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
@@ -179,7 +181,8 @@ class TestSoAdConfigRoundTrip:
         identifier.setPduCollectionSemantics(_literal("queued"))
         identifier.setPduCollectionTrigger(_literal("always"))
         identifier.setPduTriggeringRef(_ref("/IT/FrTrigger"))
-        identifier.setRoutingGroupRefs([_ref("/Pkg/SoAdRoutingGroup1")])
+        identifier.addRoutingGroupRef(_ref("/Pkg/SoAdRoutingGroup1"))
+        identifier.addRoutingGroupRef(_ref("/Pkg/SoAdRoutingGroup2"))
         bundle.addPdu(identifier)
         bundle.addBundledConnection(_connection())
 
@@ -194,6 +197,13 @@ class TestSoAdConfigRoundTrip:
         assert re_bundle.getUdpChecksumHandling().getValue() == "randomize"
         assert re_bundle.getServerPortRef().getValue() == "/Sock/SA1"
 
+        bundled = re_bundle.getBundledConnections()
+        assert len(bundled) == 1
+        re_connection = bundled[0]
+        assert isinstance(re_connection, SocketConnection)
+        assert re_connection.getRuntimePortConfiguration().getValue() == "sd"
+        assert re_connection.getShortLabel().getValue() == "label"
+
         pdus = re_bundle.getPdus()
         assert len(pdus) == 1
         re_identifier = pdus[0]
@@ -204,5 +214,77 @@ class TestSoAdConfigRoundTrip:
         assert re_identifier.getPduCollectionTrigger().getValue() == "always"
         assert re_identifier.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
         refs = re_identifier.getRoutingGroupRefs()
-        assert len(refs) == 1
-        assert refs[0].getValue() == "/Pkg/SoAdRoutingGroup1"
+        assert [ref.getValue() for ref in refs] == ["/Pkg/SoAdRoutingGroup1", "/Pkg/SoAdRoutingGroup2"]
+
+    def test_round_trip_bundle_preserves_arobject_checksum_and_timestamp(self, writer, parser):
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("Bundle1")
+        bundle.setChecksum(String().setValue("CHK123"))
+        bundle.setTimestamp(DateTime().setValue("2026-10-03T00:00:00Z"))
+
+        parsed = _write_and_parse(writer, parser, config)
+
+        re_bundle = parsed.getConnectionBundles()[0]
+        assert re_bundle.getChecksum().getValue() == "CHK123"
+        assert re_bundle.getTimestamp().getValue() == "2026-10-03T00:00:00Z"
+
+    def test_round_trip_bundle_empty_optional_and_no_children(self, writer, parser):
+        config = SoAdConfig()
+        config.createSocketConnectionBundle("Bundle1")
+
+        parent = ET.Element("ETHERNET-PHYSICAL-CHANNEL")
+        writer.writeSoAdConfig(parent, "SO-AD-CONFIG", config)
+        node = parent.find("SO-AD-CONFIG/CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE")
+        assert node.find("BUNDLED-CONNECTIONS") is None
+        assert node.find("PDUS") is None
+        assert node.find("DIFFERENTIATED-SERVICE-FIELD") is None
+        assert node.find("FLOW-LABEL") is None
+        assert node.find("PATH-MTU-DISCOVERY-ENABLED") is None
+        assert node.find("SERVER-PORT-REF") is None
+        assert node.find("UDP-CHECKSUM-HANDLING") is None
+
+        parsed = _write_and_parse(writer, parser, config)
+        re_bundle = parsed.getConnectionBundles()[0]
+        assert re_bundle.getBundledConnections() == []
+        assert re_bundle.getPdus() == []
+        assert re_bundle.getDifferentiatedServiceField() is None
+        assert re_bundle.getFlowLabel() is None
+        assert re_bundle.getPathMtuDiscoveryEnabled() is None
+        assert re_bundle.getServerPortRef() is None
+        assert re_bundle.getUdpChecksumHandling() is None
+
+    def test_round_trip_pdu_without_routing_groups(self, writer, parser):
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("Bundle1")
+        identifier = SocketConnectionIpduIdentifier()
+        identifier.setHeaderId(_positive(1))
+        bundle.addPdu(identifier)
+
+        parsed = _write_and_parse(writer, parser, config)
+
+        re_identifier = parsed.getConnectionBundles()[0].getPdus()[0]
+        assert re_identifier.getRoutingGroupRefs() == []
+        parent = ET.Element("ETHERNET-PHYSICAL-CHANNEL")
+        writer.writeSoAdConfig(parent, "SO-AD-CONFIG", config)
+        assert parent.find("SO-AD-CONFIG/CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE/PDUS/SOCKET-CONNECTION-IPDU-IDENTIFIER/ROUTING-GROUP-REFS") is None
+
+    def test_round_trip_variation_point_is_last_element(self, writer, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("Bundle1")
+        point = VariationPoint()
+        label = Identifier()
+        label.setValue("vp1")
+        point.setShortLabel(label)
+        bundle.setVariationPoint(point)
+
+        parsed = _write_and_parse(writer, parser, config)
+        re_bundle = parsed.getConnectionBundles()[0]
+        assert re_bundle.getVariationPoint() is not None
+        assert re_bundle.getVariationPoint().getShortLabel().getValue() == "vp1"
+
+        parent = ET.Element("ETHERNET-PHYSICAL-CHANNEL")
+        writer.writeSoAdConfig(parent, "SO-AD-CONFIG", config)
+        bundle_element = parent.find("SO-AD-CONFIG/CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE")
+        assert bundle_element[-1].tag == "VARIATION-POINT"

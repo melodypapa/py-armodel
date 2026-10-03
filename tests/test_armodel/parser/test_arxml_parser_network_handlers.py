@@ -1100,6 +1100,72 @@ class TestSoAdAndSocketHandlers:
         parser.readSocketConnectionBundleConnections(element, bundle)
         assert len(bundle.getBundledConnections()) == 1
 
+    def test_readSocketConnectionBundle_reads_all_fields(self, parser):
+        from armodel.models import SoAdConfig
+
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("scb")
+        element = _snip(
+            "<SHORT-NAME>scb</SHORT-NAME>"
+            "<BUNDLED-CONNECTIONS>"
+            "<SOCKET-CONNECTION><SHORT-LABEL>conn1</SHORT-LABEL></SOCKET-CONNECTION>"
+            "</BUNDLED-CONNECTIONS>"
+            "<DIFFERENTIATED-SERVICE-FIELD>48</DIFFERENTIATED-SERVICE-FIELD>"
+            "<FLOW-LABEL>100</FLOW-LABEL>"
+            "<PATH-MTU-DISCOVERY-ENABLED>true</PATH-MTU-DISCOVERY-ENABLED>"
+            "<PDUS>"
+            "<SOCKET-CONNECTION-IPDU-IDENTIFIER><HEADER-ID>42</HEADER-ID></SOCKET-CONNECTION-IPDU-IDENTIFIER>"
+            "</PDUS>"
+            "<SERVER-PORT-REF DEST='SOCKET-ADDRESS'>/Sock/SA1</SERVER-PORT-REF>"
+            "<UDP-CHECKSUM-HANDLING>udpChecksumEnabled</UDP-CHECKSUM-HANDLING>",
+            root_tag="SOCKET-CONNECTION-BUNDLE",
+        )
+        element.set("S", "CHK123")
+        element.set("T", "2026-10-03T00:00:00Z")
+        parser.readSocketConnectionBundle(element, bundle)
+        assert bundle.getChecksum().getValue() == "CHK123"
+        assert bundle.getTimestamp().getValue() == "2026-10-03T00:00:00Z"
+        assert int(bundle.getDifferentiatedServiceField().getValue()) == 48
+        assert int(bundle.getFlowLabel().getValue()) == 100
+        assert bundle.getPathMtuDiscoveryEnabled().getValue() is True
+        assert bundle.getServerPortRef().getValue() == "/Sock/SA1"
+        assert bundle.getUdpChecksumHandling().getValue() == "udpChecksumEnabled"
+        assert len(bundle.getBundledConnections()) == 1
+        assert bundle.getBundledConnections()[0].getShortLabel().getValue() == "conn1"
+        assert len(bundle.getPdus()) == 1
+        assert int(bundle.getPdus()[0].getHeaderId().getValue()) == 42
+
+    def test_readSocketConnectionBundle_empty_optional_and_no_children(self, parser):
+        from armodel.models import SoAdConfig
+
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("scb")
+        element = _snip("<SHORT-NAME>scb</SHORT-NAME>", root_tag="SOCKET-CONNECTION-BUNDLE")
+        parser.readSocketConnectionBundle(element, bundle)
+        assert bundle.getChecksum() is None
+        assert bundle.getTimestamp() is None
+        assert bundle.getDifferentiatedServiceField() is None
+        assert bundle.getFlowLabel() is None
+        assert bundle.getPathMtuDiscoveryEnabled() is None
+        assert bundle.getServerPortRef() is None
+        assert bundle.getUdpChecksumHandling() is None
+        assert bundle.getVariationPoint() is None
+        assert bundle.getBundledConnections() == []
+        assert bundle.getPdus() == []
+
+    def test_readSocketConnectionBundle_reads_variation_point(self, parser):
+        from armodel.models import SoAdConfig
+
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("scb")
+        element = _snip(
+            "<SHORT-NAME>scb</SHORT-NAME><VARIATION-POINT><SHORT-LABEL>vp1</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="SOCKET-CONNECTION-BUNDLE",
+        )
+        parser.readSocketConnectionBundle(element, bundle)
+        assert bundle.getVariationPoint() is not None
+        assert bundle.getVariationPoint().getShortLabel().getValue() == "vp1"
+
     def test_getSocketConnection_sets_shortLabel(self, parser):
         element = _snip(
             "<SHORT-LABEL>conn1</SHORT-LABEL>",
@@ -1119,6 +1185,34 @@ class TestSoAdAndSocketHandlers:
         assert ident is not None
         assert ident.getHeaderId() is not None
         assert ident.getHeaderId().getValue() == 100
+
+    def test_getSocketConnectionIpduIdentifier_reads_all_fields(self, parser):
+        element = _snip(
+            "<HEADER-ID>42</HEADER-ID>"
+            "<PDU-COLLECTION-PDU-TIMEOUT>10.0</PDU-COLLECTION-PDU-TIMEOUT>"
+            "<PDU-COLLECTION-SEMANTICS>queued</PDU-COLLECTION-SEMANTICS>"
+            "<PDU-COLLECTION-TRIGGER>always</PDU-COLLECTION-TRIGGER>"
+            "<PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/IT/FrTrigger</PDU-TRIGGERING-REF>"
+            "<ROUTING-GROUP-REFS>"
+            "<ROUTING-GROUP-REF DEST='SO-AD-ROUTING-GROUP'>/Pkg/Rg1</ROUTING-GROUP-REF>"
+            "<ROUTING-GROUP-REF DEST='SO-AD-ROUTING-GROUP'>/Pkg/Rg2</ROUTING-GROUP-REF>"
+            "</ROUTING-GROUP-REFS>",
+            root_tag="SOCKET-CONNECTION-IPDU-IDENTIFIER",
+        )
+        ident = parser.getSocketConnectionIpduIdentifier(element)
+        assert ident is not None
+        assert int(ident.getHeaderId().getValue()) == 42
+        assert float(ident.getPduCollectionPduTimeout().getValue()) == 10.0
+        assert ident.getPduCollectionSemantics().getValue() == "queued"
+        assert ident.getPduCollectionTrigger().getValue() == "always"
+        assert ident.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
+        refs = ident.getRoutingGroupRefs()
+        assert [ref.getValue() for ref in refs] == ["/Pkg/Rg1", "/Pkg/Rg2"]
+
+    def test_getSocketConnectionIpduIdentifier_empty_routing_groups(self, parser):
+        element = _snip("<HEADER-ID>7</HEADER-ID>", root_tag="SOCKET-CONNECTION-IPDU-IDENTIFIER")
+        ident = parser.getSocketConnectionIpduIdentifier(element)
+        assert ident.getRoutingGroupRefs() == []
 
     def test_getSocketConnectionPdus_returns_list(self, parser):
         element = _snip(

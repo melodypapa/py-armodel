@@ -8,7 +8,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4Configuration, NetworkEndpoint, NetworkEndpointAddress
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IpAddressKeepEnum, Ipv4AddressSourceEnum, Ipv4Configuration, NetworkEndpoint, NetworkEndpointAddress
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -41,8 +42,9 @@ def test_read_ipv4_configuration_address(parser):
         "<DNS-SERVER-ADDRESS>8.8.8.8</DNS-SERVER-ADDRESS>"
         "<DNS-SERVER-ADDRESS>8.8.4.4</DNS-SERVER-ADDRESS>"
         "</DNS-SERVER-ADDRESSES>"
-        "<IP-ADDRESS-KEEP-BEHAVIOR>KEEP</IP-ADDRESS-KEEP-BEHAVIOR>"
+        "<IP-ADDRESS-KEEP-BEHAVIOR>storePersistently</IP-ADDRESS-KEEP-BEHAVIOR>"
         "<IPV-4-ADDRESS>192.168.0.10</IPV-4-ADDRESS>"
+        "<IPV-4-ADDRESS-SOURCE>fixed</IPV-4-ADDRESS-SOURCE>"
         "<NETWORK-MASK>255.255.255.0</NETWORK-MASK>"
         "<TTL>64</TTL>"
         "</IPV-4-CONFIGURATION>"
@@ -61,8 +63,34 @@ def test_read_ipv4_configuration_address(parser):
     assert address.getDefaultGateway().getValue() == "192.168.0.1"
     assert address.getAssignmentPriority().getValue() == 1
     assert address.getTtl().getValue() == 64
+    assert isinstance(address.getDefaultGateway(), Ip4AddressString)
+    assert isinstance(address.getIpv4Address(), Ip4AddressString)
+    assert isinstance(address.getNetworkMask(), Ip4AddressString)
     dns = address.getDnsServerAddresses()
     assert len(dns) == 2
     assert dns[0].getValue() == "8.8.8.8"
     assert dns[1].getValue() == "8.8.4.4"
-    assert address.getIpAddressKeepBehavior().getValue() == "KEEP"
+    assert isinstance(dns[0], Ip4AddressString)
+    assert isinstance(dns[1], Ip4AddressString)
+    assert address.getIpAddressKeepBehavior().getValue() == "storePersistently"
+    assert isinstance(address.getIpAddressKeepBehavior(), IpAddressKeepEnum)
+    assert address.getIpv4AddressSource().getValue() == "fixed"
+    assert isinstance(address.getIpv4AddressSource(), Ipv4AddressSourceEnum)
+
+
+def test_read_ipv4_configuration_empty_optional_attributes(parser):
+    root = _snip("<NETWORK-ENDPOINT-ADDRESSES><IPV-4-CONFIGURATION/></NETWORK-ENDPOINT-ADDRESSES>")
+    endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
+    parser.readNetworkEndPointNetworkEndPointAddress(root, endpoint)
+
+    addresses = endpoint.getNetworkEndpointAddresses()
+    assert len(addresses) == 1
+    address = addresses[0]
+    assert address.getAssignmentPriority() is None
+    assert address.getDefaultGateway() is None
+    assert address.getDnsServerAddresses() == []
+    assert address.getIpAddressKeepBehavior() is None
+    assert address.getIpv4Address() is None
+    assert address.getIpv4AddressSource() is None
+    assert address.getNetworkMask() is None
+    assert address.getTtl() is None

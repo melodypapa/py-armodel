@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **2/29** completed
+Status: **15/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -732,29 +732,29 @@ Status: **2/29** completed
 | `Ipv4AddressSourceEnum`                 | [ ] Pending* | 6c97ddc108 |
 | `DoIpEntity`                            | [ ] Pending* | b1e4750b14 |
 | `TpPort`                                | [ ] Pending* | b1e4750b14 |
-| `InitialSdDelayConfig`                  | [ ] Pending* | d7240be740 |
-| `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
-| `TimeSyncServerConfiguration`           | [ ] Pending* | b1e4750b14 |
-| `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
-| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | d419973456 |
-| `CouplingPortCreditBasedShaper`         | [x] Done     | c5cfd1dc4e |
+| `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
+| `EthernetPriorityRegeneration`          | [x] Done     | a513bd3ec3 |
+| `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
+| `CouplingPortAbstractShaper`            | [x] Done     | 929cee7081 |
+| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
+| `CouplingPortCreditBasedShaper`         | [x] Done     | 929cee7081 |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
-| `IPSecConfig`                           | [ ] Pending* | 6c97ddc108 |
-| `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
+| `IPSecConfig`                           | [x] Done     | d75eb10bff |
+| `NetworkEndpoint`                       | [x] Done     | 84587c11f6 |
 | `VlanConfig`                            | [ ] Pending* | b1e4750b14 |
-| `Ipv4Configuration`                     | [ ] Pending* | 6c97ddc108 |
+| `Ipv4Configuration`                     | [x] Done     | dcebacccb1 |
 | `GenericTp`                             | [ ] Pending* | N/A        |
 | `TcpTp`                                 | [ ] Pending* | N/A        |
 | `UdpTp`                                 | [ ] Pending* | N/A        |
 | `PduCollectionSemanticsEnum`            | [ ] Pending* | 4b7c8dc79c |
-| `SocketConnectionIpduIdentifier`        | [ ] Pending* | 4b7c8dc79c |
-| `SocketConnectionBundle`                | [ ] Pending* | 4b7c8dc79c |
+| `SocketConnectionIpduIdentifier`        | [x] Done     | c02cad3bb9 |
+| `SocketConnectionBundle`                | [x] Done     | 01f37f105c |
 | `RequestResponseDelay`                  | [ ] Pending* | d7240be740 |
-| `SdServerConfig`                        | [ ] Pending* | d7240be740 |
-| `TcpOptionFilterList`                   | [ ] Pending* | 2d5b3256b4 |
+| `SdServerConfig`                        | [x] Done     | f509df9d94 |
+| `TcpOptionFilterList`                   | [x] Done     | fd11862858 |
 | `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
-| `IPv6ExtHeaderFilterList`               | [ ] Pending* | 2d5b3256b4 |
-| `TimeSynchronization`                   | [ ] Pending* | b1e4750b14 |
+| `IPv6ExtHeaderFilterList`               | [x] Done     | d8127416ac |
+| `TimeSynchronization`                   | [x] Done     | f4a1df5bcb |
 
 ## Group17
 

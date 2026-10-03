@@ -1001,6 +1001,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
     TcpOptionFilterList,
     TcpOptionFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
+    IPv6ExtHeaderFilterList,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -1029,9 +1032,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     DhcpServerConfiguration,
     Ipv4DhcpServerConfiguration,
     Ipv6DhcpServerConfiguration,
-    InitialSdDelayConfig,
     MacMulticastGroup,
     SdClientConfig,
+    SdServerConfig,
     VlanMembership,
     GenericTp,
     TcpTp,
@@ -1066,6 +1069,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     IPsecIpProtocolEnum,
     IPsecModeEnum,
     IPsecPolicyEnum,
+    IPSecConfig,
     IPSecConfigProps,
     IPSecRule,
     SecOcCryptoServiceMapping,
@@ -1089,14 +1093,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
-    IPSecConfig,
+    Ipv4AddressSourceEnum,
     Ipv4Configuration,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
     NetworkEndpoint,
     OrderedMaster,
     TimeSyncClientConfiguration,
-    TimeSyncServerConfiguration,
     TimeSyncTechnologyEnum,
     TimeSynchronization,
 )
@@ -1107,9 +1110,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
+    InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
-    SdServerConfig,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     StaticSocketConnection,
@@ -9759,20 +9762,36 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             configuration = Ipv4Configuration()
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
-            configuration.setDefaultGateway(self.getChildElementOptionalLiteral(element, "DEFAULT-GATEWAY"))
+            default_gateway = self.getChildElementOptionalLiteral(element, "DEFAULT-GATEWAY")
+            if default_gateway is not None:
+                ip4_address = Ip4AddressString()
+                ip4_address.setValue(default_gateway.getValue())
+                configuration.setDefaultGateway(ip4_address)
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
-                literal = ARLiteral()
-                self.readARType(address, literal)
-                literal.setValue(address.text)
-                configuration.addDnsServerAddress(literal)
+                dns_address = Ip4AddressString()
+                self.readARType(address, dns_address)
+                dns_address.setValue(address.text)
+                configuration.addDnsServerAddress(dns_address)
             keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
             if keep_literal is not None:
                 keep = IpAddressKeepEnum()
                 keep.setValue(keep_literal.getValue())
                 configuration.setIpAddressKeepBehavior(keep)
-            configuration.setIpv4Address(self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS"))
-            configuration.setIpv4AddressSource(self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-SOURCE"))
-            configuration.setNetworkMask(self.getChildElementOptionalLiteral(element, "NETWORK-MASK"))
+            ipv4_address = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS")
+            if ipv4_address is not None:
+                ip4_address = Ip4AddressString()
+                ip4_address.setValue(ipv4_address.getValue())
+                configuration.setIpv4Address(ip4_address)
+            source_literal = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-SOURCE")
+            if source_literal is not None:
+                source = Ipv4AddressSourceEnum()
+                source.setValue(source_literal.getValue())
+                configuration.setIpv4AddressSource(source)
+            network_mask = self.getChildElementOptionalLiteral(element, "NETWORK-MASK")
+            if network_mask is not None:
+                ip4_address = Ip4AddressString()
+                ip4_address.setValue(network_mask.getValue())
+                configuration.setNetworkMask(ip4_address)
             configuration.setTtl(self.getChildElementOptionalPositiveInteger(element, "TTL"))
         return configuration
 
@@ -9845,14 +9864,16 @@ class ARXMLParser(AbstractARXMLParser):
                 sync.setTimeSyncClient(client)
             server_element = self.find(child_element, "TIME-SYNC-SERVER")
             if server_element is not None:
-                server = TimeSyncServerConfiguration(None, self.getShortName(server_element))
+                server = sync.createTimeSyncServer(self.getShortName(server_element))
                 self.readReferrable(server_element, server)
+                server.setPriority(self.getChildElementOptionalPositiveInteger(server_element, "PRIORITY"))
+                server.setSyncInterval(self.getChildElementOptionalTimeValue(server_element, "SYNC-INTERVAL"))
+                server.setTimeSyncServerIdentifier(self.getChildElementOptionalString(server_element, "TIME-SYNC-SERVER-IDENTIFIER"))
                 time_sync_technology = self.getChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY")
                 if time_sync_technology is not None:
                     e = TimeSyncTechnologyEnum()
                     e.setValue(time_sync_technology.getValue())
                     server.setTimeSyncTechnology(e)
-                sync.setTimeSyncServer(server)
         return sync
 
     def readOrderedMaster(self, element: ET.Element, master: OrderedMaster):
@@ -9873,6 +9894,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.readIdentifiable(element, end_point)
+        end_point.setFullyQualifiedDomainName(self.getChildElementOptionalString(element, "FULLY-QUALIFIED-DOMAIN-NAME"))
         end_point.setInfrastructureServices(self.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES"))
         ip_sec_config_element = self.find(element, "IP-SEC-CONFIG")
         if ip_sec_config_element is not None:
@@ -9904,10 +9926,8 @@ class ARXMLParser(AbstractARXMLParser):
 
                 identifier.setPduCollectionTrigger(PduCollectionTriggerEnum().setValue(trigger_literal.getValue()))
             identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
-            routing_group_refs = []
             for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
-                routing_group_refs.append(ref)
-            identifier.setRoutingGroupRefs(routing_group_refs)
+                identifier.addRoutingGroupRef(ref)
         return identifier
 
     def getSocketConnectionPdus(self, element: ET.Element) -> List[SocketConnectionIpduIdentifier]:
@@ -9955,6 +9975,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Bundled Connection <%s>" % tag_name)
 
     def readSocketConnectionBundle(self, element: ET.Element, bundle: SocketConnectionBundle):
+        self.readReferrable(element, bundle)
         self.readSocketConnectionBundleConnections(element, bundle)
         bundle.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
         bundle.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
@@ -9963,6 +9984,7 @@ class ARXMLParser(AbstractARXMLParser):
             bundle.addPdu(pdu)
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
         bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
+        self.readVariationPointCapable(element, bundle)
 
     def readTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
         self.logger.debug("Read TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())
@@ -9982,10 +10004,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, tcp_filter_list)
         options_element = self.find(element, "ALLOWED-TCP-OPTIONS")
         if options_element is not None:
-            for value in self.getChildElementNumericalValueList(options_element, "ALLOWED-TCP-OPTION"):
-                option = PositiveInteger()
-                option.setValue(str(int(value.getValue())))
-                tcp_filter_list.addAllowedTcpOption(option)
+            for value in self.getChildElementPositiveIntegerValueList(options_element, "ALLOWED-TCP-OPTION"):
+                tcp_filter_list.addAllowedTcpOption(value)
+
+    def readIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
+        self.readIdentifiable(element, ipv6_ext_header_filter_list)
+        allowed_element = self.find(element, "ALLOWED-I-PV-6-EXT-HEADERS")
+        if allowed_element is not None:
+            for value in self.getChildElementPositiveIntegerValueList(allowed_element, "ALLOWED-I-PV-6-EXT-HEADER"):
+                ipv6_ext_header_filter_list.addAllowedIPv6ExtHeader(value)
 
     def readSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "CONNECTION-BUNDLES/*"):
@@ -10171,6 +10198,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = InitialSdDelayConfig()
+            self.readARObject(child_element, config)
             config.setInitialDelayMaxValue(self.getChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE"))
             config.setInitialDelayMinValue(self.getChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE"))
             config.setInitialRepetitionsBaseDelay(self.getChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY"))
@@ -10226,6 +10254,9 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = SdServerConfig()
+            self.readARObject(child_element, config)
+            for tag in self.getTagWithOptionalValues(child_element, "CAPABILITY-RECORDS"):
+                config.addCapabilityRecord(tag)
             config.setInitialOfferBehavior(self.getInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR"))
             config.setOfferCyclicDelay(self.getChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY"))
             config.setRequestResponseDelay(self.getRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY"))
@@ -13755,6 +13786,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % tag_name)
 
     def readEthernetPriorityRegeneration(self, element: ET.Element, regeneration: EthernetPriorityRegeneration):
+        self.readReferrable(element, regeneration)
         regeneration.setIngressPriority(self.getChildElementOptionalPositiveInteger(element, "INGRESS-PRIORITY"))
         regeneration.setRegeneratedPriority(self.getChildElementOptionalPositiveInteger(element, "REGENERATED-PRIORITY"))
 
@@ -15610,8 +15642,7 @@ class ARXMLParser(AbstractARXMLParser):
         wrapper = self.find(element, "IP-SEC-RULES")
         if wrapper is not None:
             for child_element in self.findall(wrapper, "IP-SEC-RULE"):
-                rule = IPSecRule(config, self.getShortName(child_element))
-                config.addIPSecRule(rule)
+                rule = config.createIPSecRule(self.getShortName(child_element))
                 self.readIPSecRule(child_element, rule)
 
     def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):

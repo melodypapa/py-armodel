@@ -1,4 +1,6 @@
+import ast
 import inspect
+import sys
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     Ip4AddressString,
@@ -20,7 +22,7 @@ class TestIpv4Configuration:
         obj = self._obj()
         assert obj.getAssignmentPriority() is None
         assert obj.getDefaultGateway() is None
-        assert obj.dnsServerAddresses == []
+        assert obj.getDnsServerAddresses() == []
         assert obj.getIpAddressKeepBehavior() is None
         assert obj.getIpv4Address() is None
         assert obj.getIpv4AddressSource() is None
@@ -40,9 +42,9 @@ class TestIpv4Configuration:
         assert obj.getDefaultGateway() is item
         item = Ip4AddressString()
         assert obj.addDnsServerAddress(item) is obj
-        assert obj.dnsServerAddresses == [item]
+        assert obj.getDnsServerAddresses() == [item]
         obj.addDnsServerAddress(None)
-        assert obj.dnsServerAddresses == [item]
+        assert obj.getDnsServerAddresses() == [item]
         item = IpAddressKeepEnum()
         assert obj.setIpAddressKeepBehavior(item) is obj
         assert obj.getIpAddressKeepBehavior() is item
@@ -83,7 +85,8 @@ class TestIpv4Configuration:
         )
         assert inspect.cleandoc(obj.getDefaultGateway.__doc__) == "IP address of the default gateway."
         assert inspect.cleandoc(obj.setDefaultGateway.__doc__).split("\n")[0] == "IP address of the default gateway."
-        assert inspect.cleandoc(obj.addDnsServerAddress.__doc__).split("\n")[0] == "IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES"
+        assert inspect.cleandoc(obj.getDnsServerAddresses.__doc__) == "IP addresses of preconfigured DNS servers."
+        assert inspect.cleandoc(obj.addDnsServerAddress.__doc__).split("\n")[0] == "IP addresses of preconfigured DNS servers."
         assert inspect.cleandoc(obj.getIpAddressKeepBehavior.__doc__) == "Defines the lifetime of a dynamically fetched IP address."
         assert inspect.cleandoc(obj.setIpAddressKeepBehavior.__doc__).split("\n")[0] == "Defines the lifetime of a dynamically fetched IP address."
         assert (
@@ -106,3 +109,10 @@ class TestIpv4Configuration:
             inspect.cleandoc(obj.setTtl.__doc__).split("\n")[0]
             == "Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system."
         )
+
+    def test_dns_pair_is_mutator_first_in_source(self):
+        module = sys.modules[Ipv4Configuration.__module__]
+        tree = ast.parse(inspect.getsource(module))
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "Ipv4Configuration")
+        methods = [n.name for n in cls.body if isinstance(n, ast.FunctionDef)]
+        assert methods.index("addDnsServerAddress") < methods.index("getDnsServerAddresses")

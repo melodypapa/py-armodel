@@ -22,13 +22,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecRule, MacSecProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig, MacSecProps
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
         ConsumedServiceInstance,
         ProvidedServiceInstance,
-        RequestResponseDelay,
         SoAdConfig,
     )
 
@@ -172,33 +171,39 @@ class CouplingPortStructuralElement(Identifiable, ABC):
 
 
 class CouplingPortAbstractShaper(Identifiable, ABC):
-    """Abstract class for the definition of coupling port shapers."""
+    """
+    Abstract class for the definition of coupling port shapers.
+    """
 
     # CouplingPortAbstractShaper method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), abstract class CouplingPortAbstractShaper, AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # Spec: AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; XSD-only, no Class/Enumeration table in the repo corpora)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] registerShaper    [x] impl  [x] docstring  [—] test  [—] reader  [—] writer  R23-11
+    # [x] registerShaper    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getShaperClass    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getShaperTag      [x] impl  [x] docstring  [—] test  [—] reader  [—] writer  R23-11
+    # [x] getShaperTag      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (accepted deviation, 2026-09-30 user arbitration: the XSD models this abstract class as the
     #  empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER consumed by the CouplingPortFifo.shaper choice
     #  (xsd L23763: COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER);
     #  the repo maps that polymorphic choice to this registry-based abstract base + concrete subclasses
-    #  — the concrete children are queued in Group16 and register themselves at import time)
+    #  — the two concrete children register themselves by XSD element name at import time)
 
     _shaper_registry: Dict[str, type] = {}
 
     @classmethod
     def registerShaper(cls, xml_tag: str, shaper_cls):
+        """Register the concrete shaper class for an XSD coupling-port shaper element name."""
         cls._shaper_registry[xml_tag] = shaper_cls
 
     @classmethod
     def getShaperClass(cls, xml_tag: str):
+        """Return the concrete shaper class registered for an XSD coupling-port shaper element name, or None."""
         return cls._shaper_registry.get(xml_tag)
 
     @classmethod
     def getShaperTag(cls, shaper_cls):
+        """Return the XSD coupling-port shaper element name registered for a concrete shaper class, or None."""
         for tag, shaper_class in cls._shaper_registry.items():
             if shaper_class is shaper_cls:
                 return tag
@@ -217,8 +222,8 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
     """
 
     # CouplingPortAsynchronousTrafficShaper method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortAsynchronousTrafficShaper, AUTOSAR_00052.xsd line 23458 (xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
-    # XSD verified: AUTOSAR_00052.xsd
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.36, p.2012
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommittedBurstSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -298,8 +303,8 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
     """
 
     # CouplingPortCreditBasedShaper method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortCreditBasedShaper, AUTOSAR_00052.xsd line 23597 (xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
-    # XSD verified: AUTOSAR_00052.xsd
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.37, p.2013
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIdleSlope        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -503,20 +508,21 @@ class EthernetPriorityRegeneration(Referrable):
     """
 
     # EthernetPriorityRegeneration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.74, p.128 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.74, p.128
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIngressPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIngressPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRegeneratedPriority     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRegeneratedPriority     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getIngressPriority             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setIngressPriority             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Message priority of the incoming message. range: 0-7
         self.ingressPriority: Optional[PositiveInteger] = None
 
-        # [x] getRegeneratedPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setRegeneratedPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Regenerated message priority. range: 0-7
         self.regeneratedPriority: Optional[PositiveInteger] = None
 
@@ -1300,97 +1306,158 @@ class EthernetCommunicationConnector(CommunicationConnector):
         return self
 
 
-class InitialSdDelayConfig(ARObject):
+class SdServerConfig(ARObject):
     """
-    This element is used to configure the offer behavior of the server and the find behavior on the client.
+    Server configuration for Service-Discovery.
     """
 
-    # InitialSdDelayConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.170, p.514 (R23-11)
+    # SdServerConfig method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.171, p.355
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getInitialDelayMaxValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInitialDelayMaxValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getInitialDelayMinValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInitialDelayMinValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getInitialRepetitionsBaseDelay [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInitialRepetitionsBaseDelay [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getInitialRepetitionsMax     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setInitialRepetitionsMax     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getCapabilityRecords          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] getInitialOfferBehavior       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setInitialOfferBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getOfferCyclicDelay           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setOfferCyclicDelay           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getRequestResponseDelay       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRequestResponseDelay       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getServerServiceMajorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setServerServiceMajorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getServerServiceMinorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setServerServiceMinorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getTtl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setTtl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         super().__init__()
 
-        # Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
-        self.initialDelayMaxValue: Optional[TimeValue] = None
+        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
+        self.capabilityRecords: List[TagWithOptionalValue] = []
 
-        # Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
-        self.initialDelayMinValue: Optional[TimeValue] = None
+        # Controls offer behavior of the server.
+        self.initialOfferBehavior: Optional[InitialSdDelayConfig] = None
 
-        # The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
-        self.initialRepetitionsBaseDelay: Optional[TimeValue] = None
+        # Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
+        self.offerCyclicDelay: Optional[TimeValue] = None
 
-        # Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
-        self.initialRepetitionsMax: Optional[PositiveInteger] = None
+        # Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        self.requestResponseDelay: Optional[RequestResponseDelay] = None
 
-    def getInitialDelayMaxValue(self) -> Optional[TimeValue]:
+        # Major version number of the Service.
+        self.serverServiceMajorVersion: Optional[PositiveInteger] = None
+
+        # Minor version number of the Service.
+        self.serverServiceMinorVersion: Optional[PositiveInteger] = None
+
+        # Time to live. Shall be a positive value (sInt32).
+        self.ttl: Optional[PositiveInteger] = None
+
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> SdServerConfig:
         """
-        Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
-        """
-        return self.initialDelayMaxValue
-
-    def setInitialDelayMaxValue(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
-        """
-        Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
-        A None value is a no-op and does not overwrite an existing initialDelayMaxValue.
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
+        A None value is a no-op and is not appended to capabilityRecords.
         """
         if value is not None:
-            self.initialDelayMaxValue = value
+            self.capabilityRecords.append(value)
         return self
 
-    def getInitialDelayMinValue(self) -> Optional[TimeValue]:
+    def getCapabilityRecords(self) -> List[TagWithOptionalValue]:
         """
-        Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
         """
-        return self.initialDelayMinValue
+        return self.capabilityRecords
 
-    def setInitialDelayMinValue(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
+    def getInitialOfferBehavior(self) -> Optional[InitialSdDelayConfig]:
         """
-        Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
-        A None value is a no-op and does not overwrite an existing initialDelayMinValue.
+        Controls offer behavior of the server.
+        """
+        return self.initialOfferBehavior
+
+    def setInitialOfferBehavior(self, value: Optional[InitialSdDelayConfig]) -> SdServerConfig:
+        """
+        Controls offer behavior of the server.
+        A None value is a no-op and does not overwrite an existing initialOfferBehavior.
         """
         if value is not None:
-            self.initialDelayMinValue = value
+            self.initialOfferBehavior = value
         return self
 
-    def getInitialRepetitionsBaseDelay(self) -> Optional[TimeValue]:
+    def getOfferCyclicDelay(self) -> Optional[TimeValue]:
         """
-        The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
         """
-        return self.initialRepetitionsBaseDelay
+        return self.offerCyclicDelay
 
-    def setInitialRepetitionsBaseDelay(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
+    def setOfferCyclicDelay(self, value: Optional[TimeValue]) -> SdServerConfig:
         """
-        The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
-        A None value is a no-op and does not overwrite an existing initialRepetitionsBaseDelay.
+        Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
+        A None value is a no-op and does not overwrite an existing offerCyclicDelay.
         """
         if value is not None:
-            self.initialRepetitionsBaseDelay = value
+            self.offerCyclicDelay = value
         return self
 
-    def getInitialRepetitionsMax(self) -> Optional[PositiveInteger]:
+    def getRequestResponseDelay(self) -> Optional[RequestResponseDelay]:
         """
-        Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        Maximum/Minimum allowable response delay to entries received by multicast in seconds.
         """
-        return self.initialRepetitionsMax
+        return self.requestResponseDelay
 
-    def setInitialRepetitionsMax(self, value: Optional[PositiveInteger]) -> InitialSdDelayConfig:
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> SdServerConfig:
         """
-        Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
-        A None value is a no-op and does not overwrite an existing initialRepetitionsMax.
+        Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        A None value is a no-op and does not overwrite an existing requestResponseDelay.
         """
         if value is not None:
-            self.initialRepetitionsMax = value
+            self.requestResponseDelay = value
+        return self
+
+    def getServerServiceMajorVersion(self) -> Optional[PositiveInteger]:
+        """
+        Major version number of the Service.
+        """
+        return self.serverServiceMajorVersion
+
+    def setServerServiceMajorVersion(self, value: Optional[PositiveInteger]) -> SdServerConfig:
+        """
+        Major version number of the Service.
+        A None value is a no-op and does not overwrite an existing serverServiceMajorVersion.
+        """
+        if value is not None:
+            self.serverServiceMajorVersion = value
+        return self
+
+    def getServerServiceMinorVersion(self) -> Optional[PositiveInteger]:
+        """
+        Minor version number of the Service.
+        """
+        return self.serverServiceMinorVersion
+
+    def setServerServiceMinorVersion(self, value: Optional[PositiveInteger]) -> SdServerConfig:
+        """
+        Minor version number of the Service.
+        A None value is a no-op and does not overwrite an existing serverServiceMinorVersion.
+        """
+        if value is not None:
+            self.serverServiceMinorVersion = value
+        return self
+
+    def getTtl(self) -> Optional[PositiveInteger]:
+        """
+        Time to live. Shall be a positive value (sInt32).
+        """
+        return self.ttl
+
+    def setTtl(self, value: Optional[PositiveInteger]) -> SdServerConfig:
+        """
+        Time to live. Shall be a positive value (sInt32).
+        A None value is a no-op and does not overwrite an existing ttl.
+        """
+        if value is not None:
+            self.ttl = value
         return self
 
 
@@ -2057,15 +2124,16 @@ class Ipv4Configuration(NetworkEndpointAddress):
     """
 
     # Ipv4Configuration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAssignmentPriority     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setAssignmentPriority     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDefaultGateway         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDefaultGateway         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDnsServerAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addDnsServerAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIpv4Address            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2086,7 +2154,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         # IP address of the default gateway.
         self.defaultGateway: Optional[Ip4AddressString] = None
 
-        # IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        # IP addresses of preconfigured DNS servers.
         self.dnsServerAddresses: List[Ip4AddressString] = []
 
         # Defines the lifetime of a dynamically fetched IP address.
@@ -2134,20 +2202,20 @@ class Ipv4Configuration(NetworkEndpointAddress):
             self.defaultGateway = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
-        """
-        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
-        """
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
-        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        IP addresses of preconfigured DNS servers.
         A None value is a no-op and is not appended to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """
+        IP addresses of preconfigured DNS servers.
+        """
+        return self.dnsServerAddresses
 
     def getIpAddressKeepBehavior(self) -> Optional[IpAddressKeepEnum]:
         """
@@ -2760,30 +2828,31 @@ class TimeSyncServerConfiguration(Referrable):
     """
 
     # TimeSyncServerConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.470 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.470
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncInterval                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncInterval                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Server Priority.
         self.priority: Optional[PositiveInteger] = None
 
-        # [x] getSyncInterval                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setSyncInterval                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Synchronisation interval used by the time synchronisation server (in seconds).
         self.syncInterval: Optional[TimeValue] = None
 
-        # [x] getTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Identifier of the TimeSyncServer.
         self.timeSyncServerIdentifier: Optional[String] = None
 
-        # [x] getTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Defines the time synchronisation technology used. Possible values are: NTP_RFC958, PTP_ IEEE1588_2002, PTP_IEEE1588_2008, AVB_ IEEE802_1AS and others.
         self.timeSyncTechnology: Optional[TimeSyncTechnologyEnum] = None
 
@@ -2854,20 +2923,21 @@ class TimeSynchronization(ARObject):
     """
 
     # TimeSynchronization method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.145, p.469 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.145, p.469
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeSyncClient         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncClient         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTimeSyncServer      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncServer         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getTimeSyncClient              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncClient              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Configuration of the time synchronisation client.
         self.timeSyncClient: Optional[TimeSyncClientConfiguration] = None
 
-        # [x] getTimeSyncServer              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncServer              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Configuration of the time synchronisation server.
         self.timeSyncServer: Optional[TimeSyncServerConfiguration] = None
 
@@ -2886,20 +2956,21 @@ class TimeSynchronization(ARObject):
             self.timeSyncClient = value
         return self
 
+    def createTimeSyncServer(self, short_name: str) -> TimeSyncServerConfiguration:
+        """
+        Configuration of the time synchronisation server.
+        """
+        if self.timeSyncServer is not None and self.timeSyncServer.getShortName() == short_name:
+            return self.timeSyncServer
+        server = TimeSyncServerConfiguration(self, short_name)
+        self.timeSyncServer = server
+        return server
+
     def getTimeSyncServer(self) -> Optional[TimeSyncServerConfiguration]:
         """
         Configuration of the time synchronisation server.
         """
         return self.timeSyncServer
-
-    def setTimeSyncServer(self, value: Optional[TimeSyncServerConfiguration]) -> TimeSynchronization:
-        """
-        Configuration of the time synchronisation server.
-        A None value is a no-op and does not overwrite an existing timeSyncServer.
-        """
-        if value is not None:
-            self.timeSyncServer = value
-        return self
 
 
 class InfrastructureServices(ARObject):
@@ -2953,77 +3024,24 @@ class InfrastructureServices(ARObject):
         return self
 
 
-class IPSecConfig(ARObject):
-    """
-    IPsec is a protocol that is designed to provide "end-to-end" cryptographically-based security for IP network connections.
-    """
-
-    # IPSecConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571 (R23-11)
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addIPSecRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIPSecRules          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-
-    def __init__(self):
-        super().__init__()
-
-        # Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
-        self.ipSecConfigPropsRef: Optional[RefType] = None
-
-        # IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
-        self.ipSecRules: List[IPSecRule] = []
-
-    def getIpSecConfigPropsRef(self) -> Optional[RefType]:
-        """
-        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
-        """
-        return self.ipSecConfigPropsRef
-
-    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> IPSecConfig:
-        """
-        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
-        A None value is a no-op and does not overwrite an existing ipSecConfigPropsRef.
-        """
-        if value is not None:
-            self.ipSecConfigPropsRef = value
-        return self
-
-    def addIPSecRule(self, value: Optional[IPSecRule]) -> IPSecConfig:
-        """
-        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
-        A None value is a no-op and does not extend the ipSecRules list.
-        """
-        if value is not None:
-            self.ipSecRules.append(value)
-        return self
-
-    def getIPSecRules(self) -> List[IPSecRule]:
-        """
-        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
-        """
-        return self.ipSecRules
-
-
 class NetworkEndpoint(Identifiable):
     """
     The network endpoint defines the network addressing (e.g. IP-Address or MAC multicast address).
     """
 
     # NetworkEndpoint method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getInfrastructureServices   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setInfrastructureServices   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getNetworkEndpointAddresses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpSecConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addNetworkEndpointAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkEndpointAddresses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -3039,7 +3057,7 @@ class NetworkEndpoint(Identifiable):
         # Optional IPSec configuration that provides security services for IP packets.
         self.ipSecConfig: Optional[IPSecConfig] = None
 
-        # Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        # Definition of a Network Address.
         self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
 
         # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
@@ -3090,20 +3108,20 @@ class NetworkEndpoint(Identifiable):
             self.ipSecConfig = value
         return self
 
-    def getNetworkEndpointAddresses(self) -> List[NetworkEndpointAddress]:
-        """
-        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
-        """
-        return self.networkEndpointAddresses
-
     def addNetworkEndpointAddress(self, value: Optional[NetworkEndpointAddress]) -> NetworkEndpoint:
         """
-        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        Definition of a Network Address.
         A None value is a no-op and is not appended to networkEndpointAddresses.
         """
         if value is not None:
             self.networkEndpointAddresses.append(value)
         return self
+
+    def getNetworkEndpointAddresses(self) -> List[NetworkEndpointAddress]:
+        """
+        Definition of a Network Address.
+        """
+        return self.networkEndpointAddresses
 
     def getPriority(self) -> Optional[PositiveInteger]:
         """
@@ -4682,3 +4700,9 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
 
 class RtpTp(TransportProtocolConfiguration):
     pass
+
+
+# Runtime import breaking the EthernetTopology <-> ServiceInstances cycle: InitialSdDelayConfig and RequestResponseDelay
+# are referenced by annotations in this module and must resolve in its runtime globals for typing.get_type_hints
+# (Rule 0003). ServiceInstances defines both before its own import of this module (Rule 0005).
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import InitialSdDelayConfig, RequestResponseDelay  # noqa: E402

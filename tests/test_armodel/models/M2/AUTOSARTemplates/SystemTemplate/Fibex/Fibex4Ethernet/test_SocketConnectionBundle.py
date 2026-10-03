@@ -1,6 +1,6 @@
 import inspect
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
@@ -37,15 +37,25 @@ class TestSocketConnectionBundle:
         obj.addBundledConnection(None)
         assert obj.getBundledConnections() == [connection]
 
-        assert obj.setDifferentiatedServiceField(3) is obj
-        assert obj.getDifferentiatedServiceField() == 3
+        service_field = PositiveInteger()
+        service_field.setValue(3)
+        assert obj.setDifferentiatedServiceField(service_field) is obj
+        assert obj.getDifferentiatedServiceField() is service_field
+        obj.setDifferentiatedServiceField(None)
+        assert obj.getDifferentiatedServiceField() is service_field
 
-        assert obj.setFlowLabel(100) is obj
-        assert obj.getFlowLabel() == 100
+        flow_label = PositiveInteger()
+        flow_label.setValue(100)
+        assert obj.setFlowLabel(flow_label) is obj
+        assert obj.getFlowLabel() is flow_label
+        obj.setFlowLabel(None)
+        assert obj.getFlowLabel() is flow_label
 
         flag = Boolean()
         flag.setValue(True)
         assert obj.setPathMtuDiscoveryEnabled(flag) is obj
+        assert obj.getPathMtuDiscoveryEnabled() is flag
+        obj.setPathMtuDiscoveryEnabled(None)
         assert obj.getPathMtuDiscoveryEnabled() is flag
 
         identifier = SocketConnectionIpduIdentifier()
@@ -58,9 +68,33 @@ class TestSocketConnectionBundle:
         ref.value = "/socket"
         assert obj.setServerPortRef(ref) is obj
         assert obj.getServerPortRef() is ref
+        obj.setServerPortRef(None)
+        assert obj.getServerPortRef() is ref
 
-        assert obj.setUdpChecksumHandling(UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED) is obj
-        assert obj.getUdpChecksumHandling() == UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED
+        checksum = UdpChecksumCalculationEnum()
+        checksum.setValue(UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED)
+        assert obj.setUdpChecksumHandling(checksum) is obj
+        assert obj.getUdpChecksumHandling() is checksum
+        obj.setUdpChecksumHandling(None)
+        assert obj.getUdpChecksumHandling() is checksum
+
+    def test_variation_point_capable_mixin(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        obj = self._obj()
+        assert isinstance(obj, VariationPointCapable)
+        assert obj.getVariationPoint() is None
+        point = VariationPoint()
+        assert obj.setVariationPoint(point) is obj
+        assert obj.getVariationPoint() is point
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is point
+
+    def test_list_pairs_are_mutator_first_in_source(self):
+        source = inspect.getsource(SocketConnectionBundle)
+        assert source.index("def addBundledConnection") < source.index("def getBundledConnections")
+        assert source.index("def addPdu") < source.index("def getPdus")
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(SocketConnectionBundle.__doc__).split("\n\n")[0] == CLASS_NOTE

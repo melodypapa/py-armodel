@@ -896,6 +896,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
     TcpOptionFilterList,
     TcpOptionFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
+    IPv6ExtHeaderFilterList,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -922,11 +925,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
     DhcpServerConfiguration,
-    InitialSdDelayConfig,
     Ipv4DhcpServerConfiguration,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
     SdClientConfig,
+    SdServerConfig,
     VlanMembership,
     TcpProps,
     UdpProps,
@@ -939,6 +942,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
+    IPSecConfig,
     IPSecConfigProps,
     IPSecRule,
     MacSecCipherSuiteConfig,
@@ -958,7 +962,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     ApplicationEndpoint,
     DoIpEntity,
     InfrastructureServices,
-    IPSecConfig,
     Ipv4Configuration,
     Ipv6Configuration,
     NetworkEndpoint,
@@ -977,9 +980,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventHandler,
+    InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
-    SdServerConfig,
     SoAdConfig,
     StaticSocketConnection,
     SocketAddress,
@@ -9900,6 +9903,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             if server is not None:
                 server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
                 self.writeReferrable(server_element, server)
+                self.setChildElementOptionalPositiveInteger(server_element, "PRIORITY", server.getPriority())
+                self.setChildElementOptionalTimeValue(server_element, "SYNC-INTERVAL", server.getSyncInterval())
+                self.setChildElementOptionalString(server_element, "TIME-SYNC-SERVER-IDENTIFIER", server.getTimeSyncServerIdentifier())
                 self.setChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY", server.getTimeSyncTechnology())
 
     def writeTimeSyncClientConfigurationOrderedMasters(self, element: ET.Element, client: TimeSyncClientConfiguration):
@@ -9923,6 +9929,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())
         child_element = ET.SubElement(element, "NETWORK-ENDPOINT")
         self.writeIdentifiable(child_element, end_point)
+        self.setChildElementOptionalString(child_element, "FULLY-QUALIFIED-DOMAIN-NAME", end_point.getFullyQualifiedDomainName())
         self.setInfrastructureServices(child_element, "INFRASTRUCTURE-SERVICES", end_point.getInfrastructureServices())
         ip_sec_config = end_point.getIpSecConfig()
         if ip_sec_config is not None and (ip_sec_config.getIpSecConfigPropsRef() is not None or len(ip_sec_config.getIPSecRules()) > 0):
@@ -9995,6 +10002,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setSocketConnectionPdus(child_element, "PDUS", bundle.getPdus())
             self.setChildElementOptionalRefType(child_element, "SERVER-PORT-REF", bundle.getServerPortRef())
             self.setChildElementOptionalLiteral(child_element, "UDP-CHECKSUM-HANDLING", bundle.getUdpChecksumHandling())
+            self.writeVariationPointCapable(child_element, bundle)
 
     def writeTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
         self.logger.debug("Write TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())
@@ -10017,6 +10025,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             options_element = ET.SubElement(child_element, "ALLOWED-TCP-OPTIONS")
             for option in allowed_tcp_options:
                 self.setChildElementOptionalPositiveInteger(options_element, "ALLOWED-TCP-OPTION", option)
+
+    def writeIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
+        child_element = ET.SubElement(element, "I-PV-6-EXT-HEADER-FILTER-LIST")
+        self.writeIdentifiable(child_element, ipv6_ext_header_filter_list)
+        allowed_ipv6_ext_headers = ipv6_ext_header_filter_list.getAllowedIPv6ExtHeaders()
+        if len(allowed_ipv6_ext_headers) > 0:
+            headers_element = ET.SubElement(child_element, "ALLOWED-I-PV-6-EXT-HEADERS")
+            for value in allowed_ipv6_ext_headers:
+                self.setChildElementOptionalPositiveInteger(headers_element, "ALLOWED-I-PV-6-EXT-HEADER", value)
 
     def writeSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         bundles = config.getConnectionBundles()
@@ -10223,6 +10240,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setInitialSdDelayConfig(self, element: ET.Element, key: str, config: InitialSdDelayConfig):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE", config.getInitialDelayMaxValue())
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE", config.getInitialDelayMinValue())
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY", config.getInitialRepetitionsBaseDelay())
@@ -10231,6 +10249,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSdServerConfig(self, element: ET.Element, key: str, config: SdServerConfig):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
+            self.setTagWithOptionalValues(child_element, "CAPABILITY-RECORDS", config.getCapabilityRecords())
             self.setInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR", config.getInitialOfferBehavior())
             self.setChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY", config.getOfferCyclicDelay())
             self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())

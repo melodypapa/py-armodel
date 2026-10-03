@@ -9,8 +9,8 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IPSecConfig, NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecRule
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig
 from armodel.writer.arxml_writer import ARXMLWriter
 
 NS = "http://autosar.org/schema/r4.0"
@@ -40,8 +40,8 @@ def _ref(dest: str, value: str) -> RefType:
     return ref
 
 
-def _rule(parent, name, mode=None):
-    rule = IPSecRule(parent, name)
+def _rule(config, name, mode=None):
+    rule = config.createIPSecRule(name)
     if mode is not None:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPsecModeEnum
 
@@ -54,8 +54,8 @@ def _rule(parent, name, mode=None):
 def test_write_ip_sec_config(writer):
     config = IPSecConfig()
     config.setIpSecConfigPropsRef(_ref("IP-SEC-CONFIG-PROPS", "/pkg/GlobalProps"))
-    config.addIPSecRule(_rule(AUTOSAR.getInstance(), "RuleA", mode="tunnel"))
-    config.addIPSecRule(_rule(AUTOSAR.getInstance(), "RuleB"))
+    _rule(config, "RuleA", mode="tunnel")
+    _rule(config, "RuleB")
 
     element = ET.Element("ROOT")
     writer.writeIPSecConfig(element, config)
@@ -71,6 +71,27 @@ def test_write_ip_sec_config(writer):
     modes = rules.findall("IP-SEC-RULE/MODE")
     assert len(modes) == 1
     assert modes[0].text == "tunnel"
+
+
+def test_write_ip_sec_config_without_rules_omits_wrapper(writer):
+    config = IPSecConfig()
+    config.setIpSecConfigPropsRef(_ref("IP-SEC-CONFIG-PROPS", "/pkg/GlobalProps"))
+
+    element = ET.Element("ROOT")
+    writer.writeIPSecConfig(element, config)
+
+    children = _tags(element[0])
+    assert children == ["IP-SEC-CONFIG-PROPS-REF"]
+    assert "IP-SEC-RULES" not in children
+
+    xml_text = ET.tostring(element, encoding="unicode").replace("<ROOT>", "<ROOT xmlns='%s'>" % NS, 1)
+    from armodel.parser.arxml_parser import ARXMLParser
+
+    reparsed = ET.fromstring(xml_text)
+    config2 = IPSecConfig()
+    ARXMLParser().readIPSecConfig(reparsed[0], config2)
+    assert config2.getIpSecConfigPropsRef().getValue() == "/pkg/GlobalProps"
+    assert config2.getIPSecRules() == []
 
 
 def test_write_network_endpoint_emits_ip_sec_config_at_xsd_position(writer):
@@ -126,7 +147,7 @@ def test_ipsec_config_write_reparse_round_trip(writer):
     endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
     config = IPSecConfig()
     config.setIpSecConfigPropsRef(_ref("IP-SEC-CONFIG-PROPS", "/pkg/Props"))
-    config.addIPSecRule(_rule(AUTOSAR.getInstance(), "RuleA", mode="transport"))
+    _rule(config, "RuleA", mode="transport")
     endpoint.setIpSecConfig(config)
 
     ne_element = ET.Element("ROOT")

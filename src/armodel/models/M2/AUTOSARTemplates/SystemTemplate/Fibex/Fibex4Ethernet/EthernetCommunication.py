@@ -12,6 +12,7 @@ from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SocketConnection
@@ -52,7 +53,8 @@ class SocketConnectionIpduIdentifier(ARObject):
     """
 
     # SocketConnectionIpduIdentifier method parity checklist:
-    # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 6.122, p.321 (R4.3.1)
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.122, p.321
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] getHeaderId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -65,8 +67,8 @@ class SocketConnectionIpduIdentifier(ARObject):
     # [x] setPduCollectionTrigger     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
     # [x] getPduTriggeringRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
     # [x] setPduTriggeringRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] addRoutingGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
     # [x] getRoutingGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setRoutingGroupRefs         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         super().__init__()
@@ -164,45 +166,47 @@ class SocketConnectionIpduIdentifier(ARObject):
             self.pduTriggeringRef = value
         return self
 
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> SocketConnectionIpduIdentifier:
+        """
+        Reference to RoutingGroups that can be enabled or disabled.
+        A None value is a no-op and does not append to routingGroupRefs.
+        """
+        if value is not None:
+            self.routingGroupRefs.append(value)
+        return self
+
     def getRoutingGroupRefs(self) -> List[RefType]:
         """
         Reference to RoutingGroups that can be enabled or disabled.
         """
         return self.routingGroupRefs
 
-    def setRoutingGroupRefs(self, value: Optional[List[RefType]]) -> SocketConnectionIpduIdentifier:
-        """
-        Reference to RoutingGroups that can be enabled or disabled.
-        A None value is a no-op and leaves the existing routingGroupRefs unchanged.
-        """
-        if value is not None:
-            self.routingGroupRefs = value
-        return self
 
-
-class SocketConnectionBundle(Referrable):
+class SocketConnectionBundle(Referrable, VariationPointCapable):
     """
     This elements groups SocketConnections, i.e. specifies socket connections belonging to the bundle and describes properties which are common for all socket connections in the bundle.
     """
 
     # SocketConnectionBundle method parity checklist:
-    # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 6.118, p.316 (R4.3.1)
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.118, p.316
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
-    # [x] getBundledConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
     # [x] addBundledConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getDifferentiatedServiceField [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setDifferentiatedServiceField [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getFlowLabel                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setFlowLabel                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getPathMtuDiscoveryEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setPathMtuDiscoveryEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getPdus                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] addPdu                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getServerPortRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setServerPortRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getUdpChecksumHandling         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setUdpChecksumHandling         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getBundledConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] getDifferentiatedServiceField  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDifferentiatedServiceField  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getFlowLabel                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setFlowLabel                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getPathMtuDiscoveryEnabled      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setPathMtuDiscoveryEnabled      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] addPdu                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getPdus                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] getServerPortRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setServerPortRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getUdpChecksumHandling          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setUdpChecksumHandling          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -228,12 +232,6 @@ class SocketConnectionBundle(Referrable):
         # Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksumDisabled) on the related socket connection.
         self.udpChecksumHandling: Optional[UdpChecksumCalculationEnum] = None
 
-    def getBundledConnections(self) -> List[SocketConnection]:
-        """
-        Collection of SocketConnections in the connectionGroup.
-        """
-        return self.bundledConnections
-
     def addBundledConnection(self, value: Optional[SocketConnection]) -> SocketConnectionBundle:
         """
         Collection of SocketConnections in the connectionGroup.
@@ -242,6 +240,12 @@ class SocketConnectionBundle(Referrable):
         if value is not None:
             self.bundledConnections.append(value)
         return self
+
+    def getBundledConnections(self) -> List[SocketConnection]:
+        """
+        Collection of SocketConnections in the connectionGroup.
+        """
+        return self.bundledConnections
 
     def getDifferentiatedServiceField(self) -> Optional[PositiveInteger]:
         """
@@ -288,12 +292,6 @@ class SocketConnectionBundle(Referrable):
             self.pathMtuDiscoveryEnabled = value
         return self
 
-    def getPdus(self) -> List[SocketConnectionIpduIdentifier]:
-        """
-        With this aggregation SocketConnectionIpduIdentifier elements are assigned to all SocketConnections that are available in this SocketConnetionBundle.
-        """
-        return self.pdus
-
     def addPdu(self, value: Optional[SocketConnectionIpduIdentifier]) -> SocketConnectionBundle:
         """
         With this aggregation SocketConnectionIpduIdentifier elements are assigned to all SocketConnections that are available in this SocketConnetionBundle.
@@ -302,6 +300,12 @@ class SocketConnectionBundle(Referrable):
         if value is not None:
             self.pdus.append(value)
         return self
+
+    def getPdus(self) -> List[SocketConnectionIpduIdentifier]:
+        """
+        With this aggregation SocketConnectionIpduIdentifier elements are assigned to all SocketConnections that are available in this SocketConnetionBundle.
+        """
+        return self.pdus
 
     def getServerPortRef(self) -> Optional[RefType]:
         """
