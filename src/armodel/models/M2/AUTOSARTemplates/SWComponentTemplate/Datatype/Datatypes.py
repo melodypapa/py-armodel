@@ -5,7 +5,7 @@ implementation data types, as well as datatype mapping classes
 used to map between different type representations.
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
@@ -199,7 +199,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
             array_element = ApplicationArrayElement(self, short_name)
             self.addReferrableElement(array_element)
             self.element = array_element
-        return self.getReferrableElement(short_name, ApplicationArrayElement)
+        return cast(ApplicationArrayElement, self.getReferrableElement(short_name, ApplicationArrayElement))
 
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
@@ -224,7 +224,7 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
             record_element = ApplicationRecordElement(self, short_name)
             self.addReferrableElement(record_element)
             self.recordElements.append(record_element)
-        return self.getReferrableElement(short_name, ApplicationRecordElement)
+        return cast(ApplicationRecordElement, self.getReferrableElement(short_name, ApplicationRecordElement))
 
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
         return self.recordElements

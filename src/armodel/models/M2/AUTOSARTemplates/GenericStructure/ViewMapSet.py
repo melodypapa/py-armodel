@@ -8,7 +8,7 @@ BuildActionManifest / Collection).
 """
 
 from __future__ import annotations
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -164,7 +164,7 @@ class ViewMapSet(Identifiable):
             view_map = ViewMap(self, short_name)
             self.addReferrableElement(view_map)
             self.viewMaps.append(view_map)
-        return self.getReferrableElement(short_name, ViewMap)
+        return cast(ViewMap, self.getReferrableElement(short_name, ViewMap))
 
     def getViewMaps(self) -> List[ViewMap]:
         """

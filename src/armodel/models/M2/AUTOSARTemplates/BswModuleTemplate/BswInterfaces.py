@@ -4,7 +4,7 @@ BSW interfaces define how BSW modules interact with other software components,
 including dependencies, module entries, and client-server interfaces.
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
@@ -272,7 +272,7 @@ class BswModuleEntry(AtpBlueprintable):
             arg = SwServiceArg(self, short_name)
             self.addReferrableElement(arg)
             self.arguments.append(arg)
-        return self.getReferrableElement(short_name, SwServiceArg)
+        return cast(SwServiceArg, self.getReferrableElement(short_name, SwServiceArg))
 
     def getBswEntryKind(self) -> Optional[BswEntryKindEnum]:
         """
@@ -384,7 +384,7 @@ class BswModuleEntry(AtpBlueprintable):
             arg = SwServiceArg(self, short_name)
             self.addReferrableElement(arg)
             self.returnType = arg
-        return self.getReferrableElement(short_name, SwServiceArg)
+        return cast(SwServiceArg, self.getReferrableElement(short_name, SwServiceArg))
 
     def getRole(self) -> Optional[Identifier]:
         """

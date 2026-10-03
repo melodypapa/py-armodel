@@ -3,7 +3,7 @@
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
@@ -723,7 +723,7 @@ class CanTpConfig(TpConfig):
             address = CanTpAddress(self, short_name)
             self.addReferrableElement(address)
             self.tpAddresses.append(address)
-        return self.getReferrableElement(short_name, CanTpAddress)
+        return cast(CanTpAddress, self.getReferrableElement(short_name, CanTpAddress))
 
     def getTpChannels(self) -> List[CanTpChannel]:
         """Configuration of CAN TP channels."""
@@ -735,7 +735,7 @@ class CanTpConfig(TpConfig):
             channel = CanTpChannel(self, short_name)
             self.addReferrableElement(channel)
             self.tpChannels.append(channel)
-        return self.getReferrableElement(short_name, CanTpChannel)
+        return cast(CanTpChannel, self.getReferrableElement(short_name, CanTpChannel))
 
     def getTpConnections(self) -> List[CanTpConnection]:
         """Senders and receivers of CAN TP messages."""
@@ -773,7 +773,7 @@ class CanTpConfig(TpConfig):
             node = CanTpNode(self, short_name)
             self.addReferrableElement(node)
             self.tpNodes.append(node)
-        return self.getReferrableElement(short_name, CanTpNode)
+        return cast(CanTpNode, self.getReferrableElement(short_name, CanTpNode))
 
 
 class DoIpLogicAddress(Identifiable):
@@ -817,13 +817,13 @@ class DoIpLogicAddress(Identifiable):
         """Collection of additional LogicAddress properties."""
         if self.getDoIpLogicAddressProps() is None:
             self.doIpLogicAddressProps = DoIpLogicTargetAddressProps(self, short_name)
-        return self.getDoIpLogicAddressProps()
+        return cast(DoIpLogicTargetAddressProps, self.getDoIpLogicAddressProps())
 
     def createDoIpLogicTesterAddressProps(self, short_name: str) -> DoIpLogicTesterAddressProps:
         """Collection of additional LogicAddress properties."""
         if self.getDoIpLogicAddressProps() is None:
             self.doIpLogicAddressProps = DoIpLogicTesterAddressProps(self, short_name)
-        return self.getDoIpLogicAddressProps()
+        return cast(DoIpLogicTesterAddressProps, self.getDoIpLogicAddressProps())
 
     def getDoIpLogicAddressProps(self) -> Optional[AbstractDoIpLogicAddressProps]:
         """Collection of additional LogicAddress properties."""
@@ -936,7 +936,7 @@ class DoIpTpConfig(TpConfig):
             address = DoIpLogicAddress(self, short_name)
             self.addReferrableElement(address)
             self.doIpLogicAddresses.append(address)
-        return self.getReferrableElement(short_name, DoIpLogicAddress)
+        return cast(DoIpLogicAddress, self.getReferrableElement(short_name, DoIpLogicAddress))
 
     def getTpConnections(self) -> List[DoIpTpConnection]:
         """

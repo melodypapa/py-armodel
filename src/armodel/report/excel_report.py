@@ -1,4 +1,6 @@
 import logging
+import os
+from typing import Union
 
 from openpyxl import Workbook
 
@@ -44,5 +46,5 @@ class ExcelReporter:
             if "number_format" in format:
                 cell.number_format = format["number_format"]
 
-    def save(self, name: str):
+    def save(self, name: Union[str, os.PathLike]):
         self.wb.save(name)

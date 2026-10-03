@@ -5,7 +5,7 @@ import logging
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDescriptor
@@ -123,7 +123,7 @@ class SwComponentType(AtpType, ABC):
             consistency_needs = ConsistencyNeeds(self, short_name)
             self.addReferrableElement(consistency_needs)
             self.consistencyNeeds.append(consistency_needs)
-        return self.getReferrableElement(short_name, ConsistencyNeeds)
+        return cast(ConsistencyNeeds, self.getReferrableElement(short_name, ConsistencyNeeds))
 
     def getConsistencyNeeds(self) -> List[ConsistencyNeeds]:
         """
@@ -149,7 +149,7 @@ class SwComponentType(AtpType, ABC):
             prototype = PPortPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.ports.append(prototype)
-        return self.getReferrableElement(short_name, PPortPrototype)
+        return cast(PPortPrototype, self.getReferrableElement(short_name, PPortPrototype))
 
     def createRPortPrototype(self, short_name: str) -> RPortPrototype:
         """
@@ -166,7 +166,7 @@ class SwComponentType(AtpType, ABC):
             prototype = RPortPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.ports.append(prototype)
-        return self.getReferrableElement(short_name, RPortPrototype)
+        return cast(RPortPrototype, self.getReferrableElement(short_name, RPortPrototype))
 
     def createPRPortPrototype(self, short_name: str) -> PRPortPrototype:
         """
@@ -183,7 +183,7 @@ class SwComponentType(AtpType, ABC):
             prototype = PRPortPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.ports.append(prototype)
-        return self.getReferrableElement(short_name, PRPortPrototype)
+        return cast(PRPortPrototype, self.getReferrableElement(short_name, PRPortPrototype))
 
     def getPorts(self) -> List[PortPrototype]:
         """
@@ -201,7 +201,7 @@ class SwComponentType(AtpType, ABC):
         Returns:
             List of PPortPrototype instances
         """
-        return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key=lambda o: o.short_name))
+        return list(sorted([c for c in self.ports if isinstance(c, PPortPrototype)], key=lambda o: o.short_name))
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
         """
@@ -210,7 +210,7 @@ class SwComponentType(AtpType, ABC):
         Returns:
             List of RPortPrototype instances
         """
-        return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key=lambda o: o.short_name))
+        return list(sorted([c for c in self.ports if isinstance(c, RPortPrototype)], key=lambda o: o.short_name))
 
     def getPRPortPrototypes(self) -> List[PRPortPrototype]:
         """
@@ -219,7 +219,7 @@ class SwComponentType(AtpType, ABC):
         Returns:
             List of PRPortPrototype instances
         """
-        return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.ports), key=lambda o: o.short_name))
+        return list(sorted([c for c in self.ports if isinstance(c, PRPortPrototype)], key=lambda o: o.short_name))
 
     def getPortPrototypes(self) -> List[PortPrototype]:
         """
@@ -245,7 +245,7 @@ class SwComponentType(AtpType, ABC):
             port_group = PortGroup(self, short_name)
             self.addReferrableElement(port_group)
             self.portGroups.append(port_group)
-        return self.getReferrableElement(short_name, PortGroup)
+        return cast(PortGroup, self.getReferrableElement(short_name, PortGroup))
 
     def getPortGroups(self) -> List[PortGroup]:
         """
@@ -679,7 +679,7 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
         return self.providedComSpecs
 
     def getNonqueuedSenderComSpecs(self) -> List[NonqueuedSenderComSpec]:
-        return filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.providedComSpecs)
+        return [c for c in self.providedComSpecs if isinstance(c, NonqueuedSenderComSpec)]
 
 
 class AbstractRequiredPortPrototype(PortPrototype, ABC):
@@ -769,10 +769,10 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
         return self.requiredComSpecs
 
     def getClientComSpecs(self) -> List[ClientComSpec]:
-        return filter(lambda c: isinstance(c, ClientComSpec), self.requiredComSpecs)
+        return [c for c in self.requiredComSpecs if isinstance(c, ClientComSpec)]
 
     def getNonqueuedReceiverComSpecs(self) -> List[NonqueuedReceiverComSpec]:
-        return filter(lambda c: isinstance(c, NonqueuedReceiverComSpec), self.requiredComSpecs)
+        return [c for c in self.requiredComSpecs if isinstance(c, NonqueuedReceiverComSpec)]
 
 
 class PPortPrototype(AbstractProvidedPortPrototype):
@@ -1001,7 +1001,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
             behavior = SwcInternalBehavior(self, short_name)
             self.addReferrableElement(behavior)
             self.internalBehavior = behavior
-        return self.getReferrableElement(short_name, SwcInternalBehavior)
+        return cast(SwcInternalBehavior, self.getReferrableElement(short_name, SwcInternalBehavior))
 
     def getSymbolProps(self) -> Optional[SymbolProps]:
         """
@@ -1028,7 +1028,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
             symbol_props = SymbolProps(self, short_name)
             self.addReferrableElement(symbol_props)
             self.symbolProps = symbol_props
-        return self.getReferrableElement(short_name, SymbolProps)
+        return cast(SymbolProps, self.getReferrableElement(short_name, SymbolProps))
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
@@ -1186,7 +1186,7 @@ class NvBlockSwComponentType(AtomicSwComponentType):
             descriptor = BulkNvDataDescriptor(self, short_name)
             self.addReferrableElement(descriptor)
             self.bulkNvDataDescriptors.append(descriptor)
-        return self.getReferrableElement(short_name, BulkNvDataDescriptor)
+        return cast(BulkNvDataDescriptor, self.getReferrableElement(short_name, BulkNvDataDescriptor))
 
     def getNvBlockDescriptors(self) -> List[NvBlockDescriptor]:
         """
@@ -1216,7 +1216,7 @@ class NvBlockSwComponentType(AtomicSwComponentType):
             descriptor = NvBlockDescriptor(self, short_name)
             self.addReferrableElement(descriptor)
             self.nvBlockDescriptors.append(descriptor)
-        return self.getReferrableElement(short_name, NvBlockDescriptor)
+        return cast(NvBlockDescriptor, self.getReferrableElement(short_name, NvBlockDescriptor))
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):

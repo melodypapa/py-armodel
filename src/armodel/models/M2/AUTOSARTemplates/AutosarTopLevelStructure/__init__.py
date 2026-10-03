@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -9,9 +9,8 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock as DocumentationBlock
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
@@ -177,7 +176,7 @@ class AbstractAUTOSAR(ARObject):
     def setAdminData(self, value: Optional[AdminData]) -> "AbstractAUTOSAR":
         """This represents the administrative data of an Autosar file."""
         if value is not None:
-            self.adminData = value
+            self.adminData: Optional[AdminData] = value
         return self
 
     def removeAdminData(self) -> None:
@@ -260,7 +259,7 @@ class AbstractAUTOSAR(ARObject):
         self.referrableElements: List[Referrable] = []
         self.referrableElementMappings: Dict[str, List[Referrable]] = {}
 
-    def getReferrableElement(self, short_name: str, type=None) -> Referrable:
+    def getReferrableElement(self, short_name: str, type=None) -> Optional[Referrable]:
         if (type is ARPackage or type is None) and short_name in self._ar_package_index:
             return self._ar_package_index[short_name]
         if short_name not in self.referrableElementMappings:
@@ -302,7 +301,7 @@ class AbstractAUTOSAR(ARObject):
             return any(isinstance(a, type) for a in self.referrableElementMappings[short_name])
         return False
 
-    def find(self, referred) -> Referrable:
+    def find(self, referred) -> Optional[Referrable]:
         if isinstance(referred, RefType):
             referred_name = referred.getValue()
             referred_type = referred.getDest()
@@ -310,7 +309,7 @@ class AbstractAUTOSAR(ARObject):
             referred_name = referred
             referred_type = None
 
-        short_name_list = referred_name.split("/")
+        short_name_list = cast(str, referred_name).split("/")
         element = AUTOSAR.getInstance()
         for short_name in short_name_list:
             if short_name == "":
@@ -352,32 +351,38 @@ class AbstractAUTOSAR(ARObject):
         raise NotImplementedError("The type <%s> is not implemented for getDestType method" % type.__class__.__name__)
 
     def findAtomicSwComponentType(self, referred) -> AtomicSwComponentType:
-        return self.find(referred)
+        return cast(AtomicSwComponentType, self.find(referred))
 
     def findSystemSignal(self, referred) -> SystemSignal:
-        return self.find(referred)
+        return cast(SystemSignal, self.find(referred))
 
     def findSystemSignalGroup(self, referred) -> SystemSignalGroup:
-        return self.find(referred)
+        return cast(SystemSignalGroup, self.find(referred))
 
     def findPort(self, referred: str) -> PortPrototype:
-        return self.find(referred)
+        return cast(PortPrototype, self.find(referred))
 
     def findVariableDataPrototype(self, referred) -> VariableDataPrototype:
-        return self.find(referred)
+        return cast(VariableDataPrototype, self.find(referred))
 
     def findImplementationDataType(self, referred) -> ImplementationDataType:
-        return self.find(referred)
+        return cast(ImplementationDataType, self.find(referred))
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType):
             if data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE:
-                referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
-                return self.getDataType(referred_type)
+                props = data_type.swDataDefProps
+                ref = props.implementationDataTypeRef if props is not None else None
+                referred_type = self.find(cast(RefType, ref).value)
+                return self.getDataType(cast(ImplementationDataType, referred_type))
             if data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE:
-                if data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE":
-                    referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
-                    return self.getDataType(referred_type)
+                props = data_type.swDataDefProps
+                target = props.swPointerTargetProps if props is not None else None
+                if target is not None and target.getTargetCategory() == "VALUE":
+                    target_props = target.getSwDataDefProps()
+                    base_ref = target_props.getBaseTypeRef() if target_props is not None else None
+                    referred_type = self.find(base_ref)
+                    return self.getDataType(cast(ImplementationDataType, referred_type))
             return data_type
         else:
             raise ValueError("%s is not ImplementationDataType." % data_type)
@@ -385,20 +390,24 @@ class AbstractAUTOSAR(ARObject):
     def addDataTypeMap(self, data_type_map: DataTypeMap):
         if (data_type_map.applicationDataTypeRef is None) or (data_type_map.implementationDataTypeRef is None):
             return
-        self._appl_impl_type_maps[data_type_map.applicationDataTypeRef.value] = data_type_map.implementationDataTypeRef.value
-        self._impl_appl_type_maps[data_type_map.implementationDataTypeRef.value] = data_type_map.applicationDataTypeRef.value
+        application_value = data_type_map.applicationDataTypeRef.value
+        implementation_value = data_type_map.implementationDataTypeRef.value
+        if application_value is None or implementation_value is None:
+            return
+        self._appl_impl_type_maps[application_value] = implementation_value
+        self._impl_appl_type_maps[implementation_value] = application_value
 
     def convertToImplementationDataType(self, appl_data_type: str) -> ImplementationDataType:
         if appl_data_type not in self._appl_impl_type_maps.keys():
             raise IndexError("Invalid application data type <%s>" % appl_data_type)
 
-        return self.find(self._appl_impl_type_maps[appl_data_type])
+        return cast(ImplementationDataType, self.find(self._appl_impl_type_maps[appl_data_type]))
 
     def convertToApplicationDataType(self, impl_data_type: str) -> ApplicationDataType:
         if impl_data_type not in self._impl_appl_type_maps.keys():
             raise IndexError("Invalid Implementation data type <%s>" % impl_data_type)
 
-        return self.find(self._impl_appl_type_maps[impl_data_type])
+        return cast(ApplicationDataType, self.find(self._impl_appl_type_maps[impl_data_type]))
 
     def getRootSwCompositionPrototype(self):
         return self.rootSwCompositionPrototype
@@ -409,16 +418,16 @@ class AbstractAUTOSAR(ARObject):
                 if value.getShortName() != self.rootSwCompositionPrototype.getShortName():
                     raise ValueError("RootSwCompositionPrototype already set to <%s>, cannot set to <%s>." % (self.rootSwCompositionPrototype.getShortName(), value.getShortName()))
             else:
-                self.rootSwCompositionPrototype = value
+                self.rootSwCompositionPrototype = cast(RootSwCompositionPrototype, value)
         return self
 
-    def addImplementationBehaviorMap(self, impl: str, behavior: str) -> Implementation:
+    def addImplementationBehaviorMap(self, impl: str, behavior: str) -> None:
         self._behavior_impl_maps[behavior] = impl
         self._impl_behavior_maps[impl] = behavior
 
-    def getBehavior(self, impl_ref: str) -> InternalBehavior:
+    def getBehavior(self, impl_ref: str) -> Optional[InternalBehavior]:
         if impl_ref in self._impl_behavior_maps:
-            return self.find(self._impl_behavior_maps[impl_ref])
+            return cast(InternalBehavior, self.find(self._impl_behavior_maps[impl_ref]))
         return None
 
     def getImplementation(self, behavior_ref: str):
@@ -452,7 +461,7 @@ class AbstractAUTOSAR(ARObject):
 
     def addARObject(self, value: ARObject):
         if value is not None:
-            self.uuid_mgr.addObject(value)
+            self.uuid_mgr.addObject(cast(Identifiable, value))
         return self
 
     def getDuplicateUUIDs(self) -> List[str]:

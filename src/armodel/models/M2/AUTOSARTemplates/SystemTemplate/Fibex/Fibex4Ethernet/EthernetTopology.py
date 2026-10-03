@@ -2,7 +2,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -30,7 +30,6 @@ if TYPE_CHECKING:
         ProvidedServiceInstance,
         RequestResponseDelay,
         SoAdConfig,
-        TransportProtocolConfiguration,
     )
 
 
@@ -147,7 +146,7 @@ class EthernetCluster(CommunicationCluster):
             group = MacMulticastGroup(self, short_name)
             self.addReferrableElement(group)
             self.macMulticastGroups.append(group)
-        return self.getReferrableElement(short_name, MacMulticastGroup)
+        return cast(MacMulticastGroup, self.getReferrableElement(short_name, MacMulticastGroup))
 
     def getMacMulticastGroups(self) -> List[MacMulticastGroup]:
         """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
@@ -188,7 +187,7 @@ class CouplingPortAbstractShaper(Identifiable, ABC):
     #  the repo maps that polymorphic choice to this registry-based abstract base + concrete subclasses
     #  — the concrete children are queued in Group16 and register themselves at import time)
 
-    _shaper_registry = {}
+    _shaper_registry: Dict[str, type] = {}
 
     @classmethod
     def registerShaper(cls, xml_tag: str, shaper_cls):
@@ -1115,7 +1114,7 @@ class EthernetCommunicationController(CommunicationController):
             group = CouplingPort(self, short_name)
             self.addReferrableElement(group)
             self.couplingPorts.append(group)
-        return self.getReferrableElement(short_name, CouplingPort)
+        return cast(CouplingPort, self.getReferrableElement(short_name, CouplingPort))
 
     def getMacLayerType(self) -> Optional[EthernetMacLayerTypeEnum]:
         """Specifies the mac layer type of the ethernet controller."""
@@ -1921,7 +1920,7 @@ class ApplicationEndpoint(Identifiable):
             instance = ConsumedServiceInstance(self, short_name)
             self.addReferrableElement(instance)
             self.consumedServiceInstances.append(instance)
-        return self.getReferrableElement(short_name, ConsumedServiceInstance)
+        return cast(ConsumedServiceInstance, self.getReferrableElement(short_name, ConsumedServiceInstance))
 
     def getConsumedServiceInstances(self) -> List[ConsumedServiceInstance]:
         """Consumed service instances."""
@@ -1974,7 +1973,7 @@ class ApplicationEndpoint(Identifiable):
             instance = ProvidedServiceInstance(self, short_name)
             self.addReferrableElement(instance)
             self.providedServiceInstances.append(instance)
-        return self.getReferrableElement(short_name, ProvidedServiceInstance)
+        return cast(ProvidedServiceInstance, self.getReferrableElement(short_name, ProvidedServiceInstance))
 
     def getProvidedServiceInstances(self) -> List[ProvidedServiceInstance]:
         """Provided service instances."""
@@ -4021,7 +4020,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
             end_point = NetworkEndpoint(self, short_name)
             self.addReferrableElement(end_point)
             self.networkEndpoints.append(end_point)
-        return self.getReferrableElement(short_name, NetworkEndpoint)
+        return cast(NetworkEndpoint, self.getReferrableElement(short_name, NetworkEndpoint))
 
     def getNetworkEndpoints(self) -> List[NetworkEndpoint]:
         """Collection of NetworkEndpoints that are used in the VLan."""
@@ -4046,7 +4045,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
             config = VlanConfig(self, short_name)
             self.addReferrableElement(config)
             self.vlan = config
-        return self.getReferrableElement(short_name, VlanConfig)
+        return cast(VlanConfig, self.getReferrableElement(short_name, VlanConfig))
 
     def getVlan(self) -> Optional[VlanConfig]:
         """VLAN Configuration."""

@@ -678,10 +678,6 @@ class DiagnosticControlEnableMaskBit(ARObject):
         return self.controlledDataElement
 
 
-class DiagnosticEnableConditionPortMapping(ARObject):
-    pass
-
-
 class DiagnosticEventWindow(ARObject):
     """This represents the ability to define the characteristics of the applicable event window"""
 
@@ -792,10 +788,6 @@ class DiagnosticParameter(DiagnosticAbstractParameter, VariationPointCapable):
         return self
 
 
-class DiagnosticParameterElementAccess(ARObject):
-    pass
-
-
 class DiagnosticParameterSupportInfo(ARObject):
     """This represents a way to define which bit of the supportInfo is representing this part of the PID"""
 
@@ -883,14 +875,6 @@ class DiagnosticPeriodicRate(ARObject):
         return self
 
 
-class DiagnosticServiceMappingDiagTarget(ARObject, ABC):
-    pass
-
-
-class DiagnosticServiceSwMapping(ARObject):
-    pass
-
-
 class DiagnosticSupportInfoByte(ARObject):
     """This meta-class defines the support information (typically byte A) to declare the usability of the Data Elements within the so-called packeted PIDs (e.g. PID$68)."""
 
@@ -946,10 +930,6 @@ class DiagnosticSupportInfoByte(ARObject):
 
 
 class DiagnosticTestIdentifier(ARObject):
-    pass
-
-
-class DiagnosticTroubleCodeJ1939(ARObject):
     pass
 
 

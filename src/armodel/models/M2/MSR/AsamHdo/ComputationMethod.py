@@ -242,7 +242,7 @@ class CompuScaleConstantContents(CompuScaleContents):
         # This represents the fact that the scale is a constant. The use case is mainly a non interpolated scale. It is a simplification of the fact that a constant scale can also be expressed as rational function of order 0. Tags: xml.sequenceOffset=90
         self.compuConst: Optional[CompuConst] = None
 
-    def getCompuConst(self) -> CompuConst:
+    def getCompuConst(self) -> Optional[CompuConst]:
         """This represents the fact that the scale is a constant. The use case is mainly a non interpolated scale. It is a simplification of the fact that a constant scale can also be expressed as rational function of order 0. Tags: xml.sequenceOffset=90"""
         return self.compuConst
 
@@ -274,7 +274,7 @@ class CompuRationalCoeffs(ARObject):
         # This is the numerator of the rational expression. Tags: xml.sequenceOffset=20
         self.compuNumerator: Optional[CompuNominatorDenominator] = None
 
-    def getCompuDenominator(self) -> CompuNominatorDenominator:
+    def getCompuDenominator(self) -> Optional[CompuNominatorDenominator]:
         """This is the denominator of the expression. Tags: xml.sequenceOffset=30"""
         return self.compuDenominator
 
@@ -284,7 +284,7 @@ class CompuRationalCoeffs(ARObject):
             self.compuDenominator = value
         return self
 
-    def getCompuNumerator(self) -> CompuNominatorDenominator:
+    def getCompuNumerator(self) -> Optional[CompuNominatorDenominator]:
         """This is the numerator of the rational expression. Tags: xml.sequenceOffset=20"""
         return self.compuNumerator
 
@@ -312,7 +312,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
         # This specifies the coefficients of the rational formula. Tags: xml.sequenceOffset=110
         self.compuRationalCoeffs: Optional[CompuRationalCoeffs] = None
 
-    def getCompuRationalCoeffs(self) -> CompuRationalCoeffs:
+    def getCompuRationalCoeffs(self) -> Optional[CompuRationalCoeffs]:
         """This specifies the coefficients of the rational formula. Tags: xml.sequenceOffset=110"""
         return self.compuRationalCoeffs
 
@@ -408,7 +408,7 @@ class CompuScale(ARObject, VariationPointCapable):
         # This specifies the upper limit of a of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=50
         self.upperLimit: Optional[Limit] = None
 
-    def getA2lDisplayText(self) -> String:
+    def getA2lDisplayText(self) -> Optional[String]:
         """The value of this attribute shall be taken for generating one display text (specifically the OutVal) within the equivalent of the enclosing CompuMethod in A2L."""
         return self.a2lDisplayText
 
@@ -418,7 +418,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.a2lDisplayText = value
         return self
 
-    def getCompuInverseValue(self) -> CompuConst:
+    def getCompuInverseValue(self) -> Optional[CompuConst]:
         """This is the inverse value of the constraint. This supports the case that the scale is not reversible per se. Tags: xml.sequenceOffset=60"""
         return self.compuInverseValue
 
@@ -428,7 +428,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.compuInverseValue = value
         return self
 
-    def getCompuScaleContents(self) -> CompuScaleContents:
+    def getCompuScaleContents(self) -> Optional[CompuScaleContents]:
         """This represents the computation details of the scale. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false"""
         return self.compuScaleContents
 
@@ -438,7 +438,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.compuScaleContents = value
         return self
 
-    def getDesc(self) -> MultiLanguageOverviewParagraph:
+    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """<desc> represents a general but brief description of the object in question. Tags: xml.sequenceOffset=30"""
         return self.desc
 
@@ -448,7 +448,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.desc = value
         return self
 
-    def getLowerLimit(self) -> Limit:
+    def getLowerLimit(self) -> Optional[Limit]:
         """This specifies the lower limit of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=40"""
         return self.lowerLimit
 
@@ -458,7 +458,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.lowerLimit = value
         return self
 
-    def getMask(self) -> PositiveUnlimitedInteger:
+    def getMask(self) -> Optional[PositiveUnlimitedInteger]:
         """In difference to all the other computational methods every COMPU-SCALE will be applied including the bit MASK. Therefore it is allowed for this type of COMPU-METHOD, that COMPU-SCALES overlap. To calculate the string reverse to a value, the string has to be split and the according value for each substring has to be summed up. The sum is finally transmitted. The processing has to be done in order of the COMPU-SCALE elements. Tags: xml.sequenceOffset=35"""
         return self.mask
 
@@ -468,7 +468,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.mask = value
         return self
 
-    def getShortLabel(self) -> Identifier:
+    def getShortLabel(self) -> Optional[Identifier]:
         """This element specifies a short name for the particular scale. The name can for example be used to derive a programming language identifier. Tags: xml.sequenceOffset=20"""
         return self.shortLabel
 
@@ -478,7 +478,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.shortLabel = value
         return self
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> Optional[CIdentifier]:
         """The symbol, if provided, is used by code generators to get a C identifier for the CompuScale. The name will be used as is for the code generation, therefore it needs to be unique within the generation context. Tags: xml.sequenceOffset=25"""
         return self.symbol
 
@@ -488,7 +488,7 @@ class CompuScale(ARObject, VariationPointCapable):
             self.symbol = value
         return self
 
-    def getUpperLimit(self) -> Limit:
+    def getUpperLimit(self) -> Optional[Limit]:
         """This specifies the upper limit of a of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=50"""
         return self.upperLimit
 

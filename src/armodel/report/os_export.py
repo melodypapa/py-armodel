@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 
 from openpyxl.styles import Alignment
 
@@ -132,7 +132,7 @@ class OsConfigModelMapper:
 
 
 class OsConfigYamlExporter:
-    def __init__(self, mapper: OsConfigModelMapper = None):
+    def __init__(self, mapper: Optional[OsConfigModelMapper] = None):
         self.mapper = mapper or OsConfigModelMapper()
 
     def export(self, os_os: OsOs, output_path: Union[str, os.PathLike]) -> None:
@@ -148,7 +148,7 @@ class OsConfigYamlExporter:
 
 
 class OsConfigXlsxExporter(ExcelReporter):
-    def __init__(self, mapper: OsConfigModelMapper = None):
+    def __init__(self, mapper: Optional[OsConfigModelMapper] = None):
         super().__init__()
         self.mapper = mapper or OsConfigModelMapper()
 
@@ -185,9 +185,9 @@ class OsConfigXlsxExporter(ExcelReporter):
 
 
 class OsConfigExporter:
-    def __init__(self, mapper: OsConfigModelMapper = None):
+    def __init__(self, mapper: Optional[OsConfigModelMapper] = None):
         mapper = mapper or OsConfigModelMapper()
-        self._exporters = {"yaml": OsConfigYamlExporter(mapper), "xlsx": OsConfigXlsxExporter(mapper)}
+        self._exporters: Dict[str, Union[OsConfigYamlExporter, OsConfigXlsxExporter]] = {"yaml": OsConfigYamlExporter(mapper), "xlsx": OsConfigXlsxExporter(mapper)}
 
     def export(self, os_os: OsOs, output_path: Union[str, os.PathLike]) -> None:
         extension = os.path.splitext(os.fspath(output_path))[1].lower().lstrip(".")

@@ -4,7 +4,7 @@ in the CommonStructure module. Flat maps are used to describe instance
 hierarchies in a flat manner, typically used for code generation purposes.
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
@@ -219,7 +219,7 @@ class FlatMap(ARElement):
             element = FlatInstanceDescriptor(self, short_name)
             self.addReferrableElement(element)
             self.instances.append(element)
-        return self.getReferrableElement(short_name, FlatInstanceDescriptor)
+        return cast(FlatInstanceDescriptor, self.getReferrableElement(short_name, FlatInstanceDescriptor))
 
     def getInstances(self) -> List[FlatInstanceDescriptor]:
         """

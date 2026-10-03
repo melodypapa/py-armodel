@@ -5,7 +5,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AnyServiceInstanceId,
@@ -733,7 +733,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             group = ConsumedEventGroup(self, short_name)
             self.addReferrableElement(group)
             self.consumedEventGroups.append(group)
-        return self.getReferrableElement(short_name, ConsumedEventGroup)
+        return cast(ConsumedEventGroup, self.getReferrableElement(short_name, ConsumedEventGroup))
 
     def getConsumedEventGroups(self) -> List[ConsumedEventGroup]:
         """Selection of event-groups the consumer wants to subscribe for."""
@@ -1553,7 +1553,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
             instance = EventHandler(self, short_name)
             self.addReferrableElement(instance)
             self.eventHandlers.append(instance)
-        return self.getReferrableElement(short_name, EventHandler)
+        return cast(EventHandler, self.getReferrableElement(short_name, EventHandler))
 
     def getInstanceIdentifier(self):
         """
@@ -1838,7 +1838,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
             end_point = ApplicationEndpoint(self, short_name)
             self.addReferrableElement(end_point)
             self.applicationEndpoint = end_point
-        return self.getReferrableElement(short_name, ApplicationEndpoint)
+        return cast(ApplicationEndpoint, self.getReferrableElement(short_name, ApplicationEndpoint))
 
     def getApplicationEndpoint(self) -> Optional[ApplicationEndpoint]:
         """Application addressing"""

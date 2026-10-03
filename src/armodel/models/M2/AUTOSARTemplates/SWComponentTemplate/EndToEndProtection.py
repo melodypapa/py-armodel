@@ -11,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu
@@ -312,7 +312,7 @@ class EndToEndProtection(Identifiable, VariationPointCapable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.endToEndProfile: EndToEndDescription = None
+        self.endToEndProfile: Optional[EndToEndDescription] = None
         self.endToEndProtectionISignalIPdus: List[EndToEndProtectionISignalIPdu] = []
         self.endToEndProtectionVariablePrototypes: List[EndToEndProtectionVariablePrototype] = []
 
@@ -413,7 +413,7 @@ class EndToEndProtectionSet(ARElement):
             protection = EndToEndProtection(self, short_name)
             self.addReferrableElement(protection)
             self.endToEndProtections.append(protection)
-        return self.getReferrableElement(short_name, EndToEndProtection)
+        return cast(EndToEndProtection, self.getReferrableElement(short_name, EndToEndProtection))
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
         """

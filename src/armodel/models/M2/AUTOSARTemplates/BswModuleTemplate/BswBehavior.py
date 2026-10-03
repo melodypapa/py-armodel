@@ -13,7 +13,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
@@ -491,7 +491,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             access = BswAsynchronousServerCallPoint(self, short_name)
             self.addReferrableElement(access)
             self.callPoints.append(access)
-        return self.getReferrableElement(short_name, BswAsynchronousServerCallPoint)
+        return cast(BswAsynchronousServerCallPoint, self.getReferrableElement(short_name, BswAsynchronousServerCallPoint))
 
     def createBswAsynchronousServerCallResultPoint(self, short_name: str) -> BswAsynchronousServerCallResultPoint:
         """
@@ -509,7 +509,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             access = BswAsynchronousServerCallResultPoint(self, short_name)
             self.addReferrableElement(access)
             self.callPoints.append(access)
-        return self.getReferrableElement(short_name, BswAsynchronousServerCallResultPoint)
+        return cast(BswAsynchronousServerCallResultPoint, self.getReferrableElement(short_name, BswAsynchronousServerCallResultPoint))
 
     def createBswSynchronousServerCallPoint(self, short_name: str) -> BswSynchronousServerCallPoint:
         """
@@ -527,7 +527,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             access = BswSynchronousServerCallPoint(self, short_name)
             self.addReferrableElement(access)
             self.callPoints.append(access)
-        return self.getReferrableElement(short_name, BswSynchronousServerCallPoint)
+        return cast(BswSynchronousServerCallPoint, self.getReferrableElement(short_name, BswSynchronousServerCallPoint))
 
     def createBswDirectCallPoint(self, short_name: str) -> BswDirectCallPoint:
         """
@@ -545,7 +545,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             access = BswDirectCallPoint(self, short_name)
             self.addReferrableElement(access)
             self.callPoints.append(access)
-        return self.getReferrableElement(short_name, BswDirectCallPoint)
+        return cast(BswDirectCallPoint, self.getReferrableElement(short_name, BswDirectCallPoint))
 
     def getDataReceivePoints(self) -> List[BswVariableAccess]:
         """
@@ -572,7 +572,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             access = BswVariableAccess(self, short_name)
             self.addReferrableElement(access)
             self.dataReceivePoints.append(access)
-        return self.getReferrableElement(short_name, BswVariableAccess)
+        return cast(BswVariableAccess, self.getReferrableElement(short_name, BswVariableAccess))
 
     def getDataSendPoints(self) -> List[BswVariableAccess]:
         """
@@ -599,7 +599,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             access = BswVariableAccess(self, short_name)
             self.addReferrableElement(access)
             self.dataSendPoints.append(access)
-        return self.getReferrableElement(short_name, BswVariableAccess)
+        return cast(BswVariableAccess, self.getReferrableElement(short_name, BswVariableAccess))
 
     def getImplementedEntryRef(self) -> Optional[RefType]:
         """
@@ -1214,7 +1214,9 @@ class BswTimingEvent(BswScheduleEvent):
             The period in milliseconds, or None if the period is not set
         """
         if self.period is not None:
-            return int(self.period.value * 1000)
+            value = self.period.value
+            if value is not None:
+                return int(value * 1000)
         return None
 
 
@@ -2424,7 +2426,7 @@ class BswInternalBehavior(InternalBehavior):
             partition = BswDistinguishedPartition(self, short_name)
             self.addReferrableElement(partition)
             self.distinguishedPartitions.append(partition)
-        return self.getReferrableElement(short_name, BswDistinguishedPartition)
+        return cast(BswDistinguishedPartition, self.getReferrableElement(short_name, BswDistinguishedPartition))
 
     def setDistinguishedPartitions(self, value):
         """
@@ -2485,7 +2487,7 @@ class BswInternalBehavior(InternalBehavior):
             entity = BswInternalTriggeringPoint(self, short_name)
             self.addReferrableElement(entity)
             self.internalTriggeringPoints.append(entity)
-        return self.getReferrableElement(short_name, BswInternalTriggeringPoint)
+        return cast(BswInternalTriggeringPoint, self.getReferrableElement(short_name, BswInternalTriggeringPoint))
 
     def getInternalTriggeringPointPolicies(self):
         """
@@ -2681,7 +2683,7 @@ class BswInternalBehavior(InternalBehavior):
             prefix = BswSchedulerNamePrefix(self, short_name)
             self.addReferrableElement(prefix)
             self.schedulerNamePrefixes.append(prefix)
-        return self.getReferrableElement(short_name, BswSchedulerNamePrefix)
+        return cast(BswSchedulerNamePrefix, self.getReferrableElement(short_name, BswSchedulerNamePrefix))
 
     def setSchedulerNamePrefixes(self, value):
         """
@@ -2839,13 +2841,13 @@ class BswInternalBehavior(InternalBehavior):
             entity = BswCalledEntity(self, short_name)
             self.addReferrableElement(entity)
             self.entities.append(entity)
-        return self.getReferrableElement(short_name, BswCalledEntity)
+        return cast(BswCalledEntity, self.getReferrableElement(short_name, BswCalledEntity))
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
         """
         A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswCalledEntity), self.entities))
+        return [a for a in self.entities if isinstance(a, BswCalledEntity)]
 
     def createBswSchedulableEntity(self, short_name: str) -> BswSchedulableEntity:
         """
@@ -2861,13 +2863,13 @@ class BswInternalBehavior(InternalBehavior):
             entity = BswSchedulableEntity(self, short_name)
             self.addReferrableElement(entity)
             self.entities.append(entity)
-        return self.getReferrableElement(short_name, BswSchedulableEntity)
+        return cast(BswSchedulableEntity, self.getReferrableElement(short_name, BswSchedulableEntity))
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
         """
         A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.entities))
+        return [a for a in self.entities if isinstance(a, BswSchedulableEntity)]
 
     def createBswInterruptEntity(self, short_name: str) -> BswInterruptEntity:
         """
@@ -2883,13 +2885,13 @@ class BswInternalBehavior(InternalBehavior):
             entity = BswInterruptEntity(self, short_name)
             self.addReferrableElement(entity)
             self.entities.append(entity)
-        return self.getReferrableElement(short_name, BswInterruptEntity)
+        return cast(BswInterruptEntity, self.getReferrableElement(short_name, BswInterruptEntity))
 
     def getBswInterruptEntities(self) -> List[BswInterruptEntity]:
         """
         A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswInterruptEntity), self.entities))
+        return [a for a in self.entities if isinstance(a, BswInterruptEntity)]
 
     def getBswModuleEntities(self) -> List[BswModuleEntity]:
         """
@@ -2911,13 +2913,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswModeSwitchEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswModeSwitchEvent)
+        return cast(BswModeSwitchEvent, self.getReferrableElement(short_name, BswModeSwitchEvent))
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswModeSwitchEvent)]
 
     def createBswTimingEvent(self, short_name: str) -> BswTimingEvent:
         """
@@ -2933,13 +2935,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswTimingEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswTimingEvent)
+        return cast(BswTimingEvent, self.getReferrableElement(short_name, BswTimingEvent))
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswTimingEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswTimingEvent)]
 
     def createBswDataReceivedEvent(self, short_name: str) -> BswDataReceivedEvent:
         """
@@ -2955,13 +2957,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswDataReceivedEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswDataReceivedEvent)
+        return cast(BswDataReceivedEvent, self.getReferrableElement(short_name, BswDataReceivedEvent))
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswDataReceivedEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswDataReceivedEvent)]
 
     def createBswInternalTriggerOccurredEvent(self, short_name: str) -> BswInternalTriggerOccurredEvent:
         """
@@ -2977,13 +2979,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswInternalTriggerOccurredEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswInternalTriggerOccurredEvent)
+        return cast(BswInternalTriggerOccurredEvent, self.getReferrableElement(short_name, BswInternalTriggerOccurredEvent))
 
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswInternalTriggerOccurredEvent)]
 
     def createBswExternalTriggerOccurredEvent(self, short_name: str) -> BswExternalTriggerOccurredEvent:
         """
@@ -2999,13 +3001,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswExternalTriggerOccurredEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswExternalTriggerOccurredEvent)
+        return cast(BswExternalTriggerOccurredEvent, self.getReferrableElement(short_name, BswExternalTriggerOccurredEvent))
 
     def getBswOperationInvokedEvents(self) -> List[BswOperationInvokedEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswOperationInvokedEvent)]
 
     def createBswOperationInvokedEvent(self, short_name: str) -> BswOperationInvokedEvent:
         """
@@ -3021,13 +3023,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswOperationInvokedEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswOperationInvokedEvent)
+        return cast(BswOperationInvokedEvent, self.getReferrableElement(short_name, BswOperationInvokedEvent))
 
     def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswExternalTriggerOccurredEvent)]
 
     def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
         """
@@ -3043,7 +3045,7 @@ class BswInternalBehavior(InternalBehavior):
             event = BswBackgroundEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswBackgroundEvent)
+        return cast(BswBackgroundEvent, self.getReferrableElement(short_name, BswBackgroundEvent))
 
     def createBswInterruptEvent(self, short_name: str) -> BswEvent:
         """
@@ -3060,7 +3062,7 @@ class BswInternalBehavior(InternalBehavior):
             event = BswInterruptEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswInterruptEvent)
+        return cast(BswInterruptEvent, self.getReferrableElement(short_name, BswInterruptEvent))
 
     def createBswOsTaskExecutionEvent(self, short_name: str) -> BswOsTaskExecutionEvent:
         """
@@ -3076,13 +3078,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswOsTaskExecutionEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswOsTaskExecutionEvent)
+        return cast(BswOsTaskExecutionEvent, self.getReferrableElement(short_name, BswOsTaskExecutionEvent))
 
     def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswBackgroundEvent)]
 
     def createBswModeManagerErrorEvent(self, short_name: str) -> BswModeManagerErrorEvent:
         """
@@ -3098,13 +3100,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswModeManagerErrorEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswModeManagerErrorEvent)
+        return cast(BswModeManagerErrorEvent, self.getReferrableElement(short_name, BswModeManagerErrorEvent))
 
     def getBswModeManagerErrorEvents(self) -> List[BswModeManagerErrorEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswModeManagerErrorEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswModeManagerErrorEvent)]
 
     def createBswModeSwitchedAckEvent(self, short_name: str) -> BswModeSwitchedAckEvent:
         """
@@ -3120,13 +3122,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswModeSwitchedAckEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswModeSwitchedAckEvent)
+        return cast(BswModeSwitchedAckEvent, self.getReferrableElement(short_name, BswModeSwitchedAckEvent))
 
     def getBswModeSwitchedAckEvents(self) -> List[BswModeSwitchedAckEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswModeSwitchedAckEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswModeSwitchedAckEvent)]
 
     def createBswAsynchronousServerCallReturnsEvent(self, short_name: str) -> BswAsynchronousServerCallReturnsEvent:
         """
@@ -3142,13 +3144,13 @@ class BswInternalBehavior(InternalBehavior):
             event = BswAsynchronousServerCallReturnsEvent(self, short_name)
             self.addReferrableElement(event)
             self.events.append(event)
-        return self.getReferrableElement(short_name, BswAsynchronousServerCallReturnsEvent)
+        return cast(BswAsynchronousServerCallReturnsEvent, self.getReferrableElement(short_name, BswAsynchronousServerCallReturnsEvent))
 
     def getBswAsynchronousServerCallReturnsEvents(self) -> List[BswAsynchronousServerCallReturnsEvent]:
         """
         An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswAsynchronousServerCallReturnsEvent), self.events))
+        return [a for a in self.events if isinstance(a, BswAsynchronousServerCallReturnsEvent)]
 
     def getBswEvents(self) -> List[BswEvent]:
         """

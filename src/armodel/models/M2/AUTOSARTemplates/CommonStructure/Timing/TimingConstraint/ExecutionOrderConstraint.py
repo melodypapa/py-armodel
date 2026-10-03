@@ -9,7 +9,7 @@ Classes:
     ExecutionOrderConstraint: Constraint defining the execution order of entities
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -296,7 +296,7 @@ class ExecutionOrderConstraint(TimingConstraint):
             event_ref = EOCEventRef(self, short_name)
             self.addReferrableElement(event_ref)
             self.orderedElements.append(event_ref)
-        return self.getReferrableElement(short_name, EOCEventRef)
+        return cast(EOCEventRef, self.getReferrableElement(short_name, EOCEventRef))
 
     def createEOCExecutableEntityRef(self, short_name: str) -> EOCExecutableEntityRef:
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
@@ -304,7 +304,7 @@ class ExecutionOrderConstraint(TimingConstraint):
             entity_ref = EOCExecutableEntityRef(self, short_name)
             self.addReferrableElement(entity_ref)
             self.orderedElements.append(entity_ref)
-        return self.getReferrableElement(short_name, EOCExecutableEntityRef)
+        return cast(EOCExecutableEntityRef, self.getReferrableElement(short_name, EOCExecutableEntityRef))
 
     def createEOCExecutableEntityRefGroup(self, short_name: str) -> "EOCExecutableEntityRefGroup":
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
@@ -312,7 +312,7 @@ class ExecutionOrderConstraint(TimingConstraint):
             entity_ref_group = EOCExecutableEntityRefGroup(self, short_name)
             self.addReferrableElement(entity_ref_group)
             self.orderedElements.append(entity_ref_group)
-        return self.getReferrableElement(short_name, EOCExecutableEntityRefGroup)
+        return cast(EOCExecutableEntityRefGroup, self.getReferrableElement(short_name, EOCExecutableEntityRefGroup))
 
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""

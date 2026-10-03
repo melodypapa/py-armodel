@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 
 class IdentCaption(AtpStructureElement, ABC):
@@ -272,7 +272,7 @@ class DiagnosticParameterIdent(IdentCaption):
             sub_element = DiagnosticParameterElement(self, short_name)
             self.addReferrableElement(sub_element)
             self.subElements.append(sub_element)
-        return self.getReferrableElement(short_name, DiagnosticParameterElement)
+        return cast(DiagnosticParameterElement, self.getReferrableElement(short_name, DiagnosticParameterElement))
 
     def getSubElements(self) -> List[DiagnosticParameterElement]:
         """

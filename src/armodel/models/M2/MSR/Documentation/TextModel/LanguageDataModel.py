@@ -29,7 +29,6 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import Traceable
     from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Std, Xdoc, Xfile
     from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SlOverviewParagraph
-    from armodel.models.M2.MSR.Documentation.TextModel.SlParagraph import SlParagraph
 
 
 class LEnum(AREnum):

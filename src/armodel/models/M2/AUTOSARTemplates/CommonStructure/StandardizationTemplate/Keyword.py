@@ -4,7 +4,7 @@ in the StandardizationTemplate module. Keywords are used for standardization
 and classification purposes in AUTOSAR models.
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -108,4 +108,4 @@ class KeywordSet(AtpBlueprintable):
             keyword = Keyword(self, short_name)
             self.addReferrableElement(keyword)
             self.keywords.append(keyword)
-        return self.getReferrableElement(short_name, Keyword)
+        return cast(Keyword, self.getReferrableElement(short_name, Keyword))

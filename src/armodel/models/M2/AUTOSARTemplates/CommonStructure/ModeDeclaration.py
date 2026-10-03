@@ -7,7 +7,7 @@ that software components or BSW modules can be in, along with transitions betwee
 from __future__ import annotations
 
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
@@ -316,7 +316,7 @@ class ModeDeclarationGroup(AtpType):
         if not self.IsReferrableElementExists(short_name, ModeDeclaration):
             spec = ModeDeclaration(self, short_name)
             self.addReferrableElement(spec)
-        return self.getReferrableElement(short_name, ModeDeclaration)
+        return cast(ModeDeclaration, self.getReferrableElement(short_name, ModeDeclaration))
 
     def getModeDeclarations(self) -> List[ModeDeclaration]:
         """
@@ -325,7 +325,7 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             List of ModeDeclaration instances
         """
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.referrableElements), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclaration)), key=lambda o: o.short_name))
 
     def setInitialModeRef(self, ref: Optional[RefType]) -> ModeDeclarationGroup:
         """
@@ -389,7 +389,7 @@ class ModeDeclarationGroup(AtpType):
             spec = ModeTransition(self, short_name)
             self.addReferrableElement(spec)
             self.modeTransitions.append(spec)
-        return self.getReferrableElement(short_name, ModeTransition)
+        return cast(ModeTransition, self.getReferrableElement(short_name, ModeTransition))
 
     def getModeTransitions(self) -> List[ModeTransition]:
         """

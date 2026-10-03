@@ -4,7 +4,7 @@ sub-package of the SWComponentTemplate module, together with its
 InstanceRefs sub-module.
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
@@ -254,7 +254,7 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
             data_group = DataPrototypeGroup(self, short_name)
             self.addReferrableElement(data_group)
             self.dpgDoesNotRequireCoherency.append(data_group)
-        return self.getReferrableElement(short_name, DataPrototypeGroup)
+        return cast(DataPrototypeGroup, self.getReferrableElement(short_name, DataPrototypeGroup))
 
     def getDpgDoesNotRequireCoherencys(self) -> List[DataPrototypeGroup]:
         """
@@ -286,7 +286,7 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
             data_group = DataPrototypeGroup(self, short_name)
             self.addReferrableElement(data_group)
             self.dpgRequiresCoherency.append(data_group)
-        return self.getReferrableElement(short_name, DataPrototypeGroup)
+        return cast(DataPrototypeGroup, self.getReferrableElement(short_name, DataPrototypeGroup))
 
     def getDpgRequiresCoherencys(self) -> List[DataPrototypeGroup]:
         """
@@ -318,7 +318,7 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
             runnable_group = RunnableEntityGroup(self, short_name)
             self.addReferrableElement(runnable_group)
             self.regDoesNotRequireStability.append(runnable_group)
-        return self.getReferrableElement(short_name, RunnableEntityGroup)
+        return cast(RunnableEntityGroup, self.getReferrableElement(short_name, RunnableEntityGroup))
 
     def getRegDoesNotRequireStabilitys(self) -> List[RunnableEntityGroup]:
         """
@@ -350,7 +350,7 @@ class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
             runnable_group = RunnableEntityGroup(self, short_name)
             self.addReferrableElement(runnable_group)
             self.regRequiresStability.append(runnable_group)
-        return self.getReferrableElement(short_name, RunnableEntityGroup)
+        return cast(RunnableEntityGroup, self.getReferrableElement(short_name, RunnableEntityGroup))
 
     def getRegRequiresStabilitys(self) -> List[RunnableEntityGroup]:
         """
