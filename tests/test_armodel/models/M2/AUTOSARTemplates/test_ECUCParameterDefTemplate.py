@@ -56,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String, UnlimitedInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Identifier, RefType, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -271,8 +271,39 @@ class TestEcucEnumerationLiteralDef:
 
 
 class TestEcucEnumerationParamDef:
+    CLASS_NOTE = "Configuration parameter type for Enumeration."
+
     def test_instantiation(self):
         assert _instantiate(EcucEnumerationParamDef, "EcucEnumerationParamDef").getShortName() == "EcucEnumerationParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucEnumerationParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucEnumerationParamDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucEnumerationParamDef, "Ep")
+        assert obj.getDefaultValue() is None
+        assert obj.getLiterals() == []
+
+    def test_get_set_default_value_roundtrip(self):
+        obj = _instantiate(EcucEnumerationParamDef, "Ep")
+        value = Identifier()
+        value.setValue("VARIANT_POST_BUILD")
+        assert obj.setDefaultValue(value) is obj
+        assert obj.getDefaultValue() is value
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() is value
+
+    def test_create_literal_appends_and_dedupes(self):
+        obj = _instantiate(EcucEnumerationParamDef, "Ep")
+        literal = obj.createLiteral("L1")
+        assert isinstance(literal, EcucEnumerationLiteralDef)
+        assert obj.getLiterals() == [literal]
+        assert obj.createLiteral("L1") is literal
+        obj.createLiteral("L2")
+        assert len(obj.getLiterals()) == 2
 
 
 class TestEcucFloatParamDef:

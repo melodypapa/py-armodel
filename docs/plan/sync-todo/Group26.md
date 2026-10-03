@@ -793,15 +793,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucEnumerationParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.23, p.66
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (431 passed battery incl. new enum-param reload round-trip + createLiteral dedupe test; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); attrs displayed order defaultValue (Identifier 0..1), literal (* aggr) ✓; literal note was missing its `Tags: atp.Splitkey=literal.shortName` tail on inline comment + getter + createLiteral docstring — added verbatim; createLiteral registry dedupe shape ✓ (IsReferrableElementExists + addReferrableElement); XSD LITERALS/ECUC-ENUMERATION-LITERAL-DEF wrapper matched reader/writer
 
 - [ ] `EcucEnumerationLiteralDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.24, p.67
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
@@ -813,7 +814,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (425 passed battery incl. new literal reload round-trip + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (425 passed battery incl. new literal reload round-trip + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `320335973`
   - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); SYNCED BEFORE EcucEnumerationParamDef (Rule 0016.5 dependency-first — it is EcucEnumerationParamDef.literal's member type though file order lists T2.23 first); Base Identifiable ✓; attrs displayed order ecucCond (0..1 aggr), origin ✓ notes verbatim; XSD group l.52155 order ECUC-COND → ORIGIN matched reader/writer; full reload round-trip via parent EcucEnumerationParamDef LITERALS wrapper
 
 - [ ] `EcucAddInfoParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.25, p.68

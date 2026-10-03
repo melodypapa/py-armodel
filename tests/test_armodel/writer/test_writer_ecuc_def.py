@@ -578,6 +578,35 @@ class TestWriterEcucEnumerationParamDef:
         writer.writeEcucEnumerationParamDef(parent, None)
         assert len(parent) == 0
 
+    def test_round_trip_default_value_and_literals(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucEnumerationParamDef("P")
+        param.setDefaultValue(_literal("L1"))
+        param.createLiteral("L1")
+        param.createLiteral("L2")
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucEnumerationParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "L1"
+            literal_names = [lit.getShortName() for lit in reloaded_param.getLiterals()]
+            assert literal_names == ["L1", "L2"]
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucFunctionNameDef:
     def test_full(self, writer):
