@@ -423,13 +423,29 @@ class TestEcucConfigurationVariantEnum:
 
 
 class TestEcucMultiplicityConfigurationClass:
+    CLASS_NOTE = "Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."
+
     def test_instantiation(self):
         assert isinstance(EcucMultiplicityConfigurationClass(), EcucMultiplicityConfigurationClass)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucMultiplicityConfigurationClass.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucMultiplicityConfigurationClass.__init__.__doc__ is None
+
 
 class TestEcucValueConfigurationClass:
+    CLASS_NOTE = "Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef."
+
     def test_instantiation(self):
         assert isinstance(EcucValueConfigurationClass(), EcucValueConfigurationClass)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucValueConfigurationClass.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucValueConfigurationClass.__init__.__doc__ is None
 
 
 class TestEcucDerivationSpecification:
@@ -992,6 +1008,34 @@ class TestEcucAbstractStringParamDef:
 
 
 class TestEcucAbstractConfigurationClass:
+    CLASS_NOTE = "Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             EcucAbstractConfigurationClass()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractConfigurationClass.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractConfigurationClass.__init__.__doc__ is None
+
+    def test_subclass_get_set_roundtrip(self):
+        obj = EcucValueConfigurationClass()
+        config_class = EcucConfigurationClassEnum()
+        config_class.setValue(EcucConfigurationClassEnum.POST_BUILD)
+        assert obj.setConfigClass(config_class) is obj
+        assert obj.getConfigClass() is config_class
+        obj.setConfigClass(None)
+        assert obj.getConfigClass() is config_class  # None is a no-op
+        variant = EcucConfigurationVariantEnum()
+        variant.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        assert obj.setConfigVariant(variant) is obj
+        assert obj.getConfigVariant() is variant
+        obj.setConfigVariant(None)
+        assert obj.getConfigVariant() is variant  # None is a no-op
+
+    def test_initialization_defaults(self):
+        obj = EcucMultiplicityConfigurationClass()
+        assert obj.getConfigClass() is None
+        assert obj.getConfigVariant() is None

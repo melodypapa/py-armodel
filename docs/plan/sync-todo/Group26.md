@@ -663,39 +663,42 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucAbstractConfigurationClass` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.9, p.51
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed ECUCParameterDefTemplate + member-annotation gate + consuming-class round-trips; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); attrs configClass/configVariant (0..1 enums) notes verbatim ✓; abstract (marker) + Base ARObject most-derived ✓; reader readEcucAbstractConfigurationClass + writer writeEcucAbstractConfigurationClass (CONFIG-CLASS → CONFIG-VARIANT) verified in order
 
 - [ ] `EcucValueConfigurationClass` — EcucAbstractConfigurationClass — R23-11 CP_TPS_ECUConfiguration Table 2.10, p.52
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A own attrs (zero own attributes `-` row; serialized via the ECUC-VALUE-CONFIGURATION-CLASS wrapper round-tripped on consuming EcucCommonAttributes, Rules 0010–0011 pattern)
+  - [x] Step 6 — Update parser & writer (Green) — N/A own attrs (wrapper helpers readEcucValueConfigurationClass/writeEcucValueConfigurationClass exist and covered there)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed battery as EcucAbstractConfigurationClass); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); concrete (no marker), Base most-derived EcucAbstractConfigurationClass ✓, zero own attrs ✓, Note verbatim ✓
 
 - [ ] `EcucMultiplicityConfigurationClass` — EcucAbstractConfigurationClass — R23-11 CP_TPS_ECUConfiguration Table 2.11, p.52
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A own attrs (zero own attributes `-` row; serialized via the ECUC-MULTIPLICITY-CONFIGURATION-CLASS wrapper round-tripped on consuming EcucCommonAttributes/EcucContainerDef, Rules 0010–0011 pattern)
+  - [x] Step 6 — Update parser & writer (Green) — N/A own attrs (wrapper helpers readEcucMultiplicityConfigurationClass/writeEcucMultiplicityConfigurationClass exist and covered there)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed battery as EcucAbstractConfigurationClass); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); concrete (no marker), Base most-derived EcucAbstractConfigurationClass ✓, zero own attrs ✓, Note verbatim ✓
 
 - [ ] `EcucConfigurationVariantEnum` — AREnum — R23-11 CP_TPS_ECUConfiguration Table 2.13, p.53
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

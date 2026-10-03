@@ -428,18 +428,16 @@ class EcucConfigurationVariantEnum(AREnum):
 
 
 class EcucAbstractConfigurationClass(ARObject, ABC):
-    """
-    Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.
-    """
+    """Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."""
 
     # EcucAbstractConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.9, p.51
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigClass               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigClass               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConfigVariant             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigVariant             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfigClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getConfigVariant  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setConfigVariant  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucAbstractConfigurationClass:
@@ -484,14 +482,12 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
 
 
 class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
-    """
-    Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.
-    """
+    """Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."""
 
     # EcucMultiplicityConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.11, p.52
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -612,14 +608,12 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
 
 class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
-    """
-    Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef.
-    """
+    """Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef."""
 
     # EcucValueConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.10, p.52
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
