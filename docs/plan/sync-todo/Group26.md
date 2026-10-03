@@ -671,7 +671,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed ECUCParameterDefTemplate + member-annotation gate + consuming-class round-trips; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed ECUCParameterDefTemplate + member-annotation gate + consuming-class round-trips; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `9282241b7`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); attrs configClass/configVariant (0..1 enums) notes verbatim ✓; abstract (marker) + Base ARObject most-derived ✓; reader readEcucAbstractConfigurationClass + writer writeEcucAbstractConfigurationClass (CONFIG-CLASS → CONFIG-VARIANT) verified in order
 
 - [ ] `EcucValueConfigurationClass` — EcucAbstractConfigurationClass — R23-11 CP_TPS_ECUConfiguration Table 2.10, p.52
@@ -684,7 +684,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A own attrs (wrapper helpers readEcucValueConfigurationClass/writeEcucValueConfigurationClass exist and covered there)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed battery as EcucAbstractConfigurationClass); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed battery as EcucAbstractConfigurationClass); 9b deferred to batch confirmation (user instruction); sync commit `9282241b7`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); concrete (no marker), Base most-derived EcucAbstractConfigurationClass ✓, zero own attrs ✓, Note verbatim ✓
 
 - [ ] `EcucMultiplicityConfigurationClass` — EcucAbstractConfigurationClass — R23-11 CP_TPS_ECUConfiguration Table 2.11, p.52
@@ -697,7 +697,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A own attrs (wrapper helpers readEcucMultiplicityConfigurationClass/writeEcucMultiplicityConfigurationClass exist and covered there)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed battery as EcucAbstractConfigurationClass); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (158 passed battery as EcucAbstractConfigurationClass); 9b deferred to batch confirmation (user instruction); sync commit `9282241b7`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); concrete (no marker), Base most-derived EcucAbstractConfigurationClass ✓, zero own attrs ✓, Note verbatim ✓
 
 - [ ] `EcucConfigurationVariantEnum` — AREnum — R23-11 CP_TPS_ECUConfiguration Table 2.13, p.53
