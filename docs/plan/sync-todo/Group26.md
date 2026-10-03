@@ -583,15 +583,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucModuleDef` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.2, p.32
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (215 passed ECUCParameterDefTemplate + member-annotation gate + ecuc parser/writer suites + new round-trip; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); members/display order verified (apiServicePrefix, containers, postBuildVariantSupport, refinedModuleDefRef, supportedConfigVariants); XSD group order (API-SERVICE-PREFIX → POST-BUILD-VARIANT-SUPPORT → REFINED-MODULE-DEF-REF → SUPPORTED-CONFIG-VARIANTS → CONTAINERS offset 11) already matched reader/writer; markdown word-splits joined (refinedModule Def → refinedModuleDefRef per XSD REFINED-MODULE-DEF-REF; VENDOR_SPECIFIC_MODULE_ DEFINITION; Ecuc ModuleDef)
+  - note (Step 6): writer gap fixed — writeEcucModuleDefContainers emitted an empty `<CONTAINERS/>` wrapper when no containers (XSD minOccurs=0; sibling wrappers all guarded len>0); pre-existing unit test test_writer_ecuc_def.py::TestWriterEcucModuleDefContainers::test_empty updated to the guarded behavior
 
 - [ ] `EcucContainerDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.3, p.37
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

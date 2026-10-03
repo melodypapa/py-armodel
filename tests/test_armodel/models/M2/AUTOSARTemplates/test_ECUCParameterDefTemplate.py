@@ -56,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -230,8 +230,70 @@ class TestEcucQuery:
 
 
 class TestEcucModuleDef:
+    CLASS_NOTE = "Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure. Tags: atp.recommendedPackage=EcucModuleDefs"
+
     def test_instantiation(self):
         assert _instantiate(EcucModuleDef, "EcucModuleDef").getShortName() == "EcucModuleDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucModuleDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucModuleDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        assert obj.getApiServicePrefix() is None
+        assert obj.getContainers() == []
+        assert obj.getPostBuildVariantSupport() is None
+        assert obj.getRefinedModuleDefRef() is None
+        assert obj.getSupportedConfigVariants() == []
+
+    def test_get_set_api_service_prefix_roundtrip(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        prefix = CIdentifier()
+        prefix.setValue("Com")
+        assert obj.setApiServicePrefix(prefix) is obj
+        assert obj.getApiServicePrefix() is prefix
+        obj.setApiServicePrefix(None)
+        assert obj.getApiServicePrefix() is prefix  # None is a no-op
+
+    def test_get_set_post_build_variant_support_roundtrip(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setPostBuildVariantSupport(value) is obj
+        assert obj.getPostBuildVariantSupport() is value
+        obj.setPostBuildVariantSupport(None)
+        assert obj.getPostBuildVariantSupport() is value  # None is a no-op
+
+    def test_get_set_refined_module_def_ref_roundtrip(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        ref = RefType()
+        ref.setValue("/EcucModuleDefs/Standard")
+        assert obj.setRefinedModuleDefRef(ref) is obj
+        assert obj.getRefinedModuleDefRef() is ref
+        obj.setRefinedModuleDefRef(None)
+        assert obj.getRefinedModuleDefRef() is ref  # None is a no-op
+
+    def test_add_get_supported_config_variants(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        variant = EcucConfigurationVariantEnum()
+        variant.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        assert obj.addSupportedConfigVariant(variant) is obj
+        assert obj.getSupportedConfigVariants() == [variant]
+        obj.addSupportedConfigVariant(None)
+        assert obj.getSupportedConfigVariants() == [variant]  # None is a no-op
+
+    def test_create_containers_appends_and_dedupes(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        param_container = obj.createEcucParamConfContainerDef("C1")
+        assert isinstance(param_container, EcucParamConfContainerDef)
+        assert obj.getContainers() == [param_container]
+        assert obj.createEcucParamConfContainerDef("C1") is param_container  # duplicate returns existing
+        choice_container = obj.createEcucChoiceContainerDef("C2")
+        assert isinstance(choice_container, EcucChoiceContainerDef)
+        assert obj.getContainers() == [param_container, choice_container]
 
 
 class TestEcucBooleanParamDef:

@@ -865,9 +865,7 @@ class TestWriterEcucModuleDefContainers:
         module = _make_module()
         parent = _parent()
         writer.writeEcucModuleDefContainers(parent, module)
-        assert len(parent) == 1
-        assert parent[0].tag == "CONTAINERS"
-        assert len(parent[0]) == 0
+        assert len(parent) == 0
 
 
 class TestWriterEcucModuleDef:
