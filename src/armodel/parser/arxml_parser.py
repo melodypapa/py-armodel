@@ -584,6 +584,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
     DiagnosticRequestFileTransfer,
+    DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
@@ -11586,6 +11587,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, clear_reset_emission_related_info)
         clear_reset_emission_related_info.setClearResetEmissionRelatedDiagnosticInfoClassRef(self.getChildElementOptionalRefType(element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF"))
 
+    def readDiagnosticRequestOnBoardMonitoringTestResults(self, element: ET.Element, request_on_board_monitoring_test_results: DiagnosticRequestOnBoardMonitoringTestResults):
+        self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResults <%s>" % request_on_board_monitoring_test_results.getShortName())
+        self.readIdentifiable(element, request_on_board_monitoring_test_results)
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-TEST-RESULT-REFS/DIAGNOSTIC-TEST-RESULT-REF"):
+            request_on_board_monitoring_test_results.addDiagnosticTestResultRef(ref)
+        request_on_board_monitoring_test_results.setRequestOnBoardMonitoringTestResultsClassRef(self.getChildElementOptionalRefType(element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -16995,6 +17003,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO":
             clear_reset_emission_related_info = parent.createDiagnosticClearResetEmissionRelatedInfo(self.getShortName(child_element))
             self.readDiagnosticClearResetEmissionRelatedInfo(child_element, clear_reset_emission_related_info)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS":
+            request_on_board_monitoring_test_results = parent.createDiagnosticRequestOnBoardMonitoringTestResults(self.getShortName(child_element))
+            self.readDiagnosticRequestOnBoardMonitoringTestResults(child_element, request_on_board_monitoring_test_results)
             return True
         return False
 

@@ -1327,6 +1327,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_current_powertrain_data_class)
         return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainDataClass)
 
+    def createDiagnosticRequestOnBoardMonitoringTestResults(self, short_name: str) -> DiagnosticRequestOnBoardMonitoringTestResults:
+        """
+        Creates a new DiagnosticRequestOnBoardMonitoringTestResults with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestOnBoardMonitoringTestResults represents an instance of the OBD mode 0x06 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestOnBoardMonitoringTestResults
+
+        Returns:
+            The newly created or existing DiagnosticRequestOnBoardMonitoringTestResults instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestOnBoardMonitoringTestResults):
+            request_on_board_monitoring_test_results = DiagnosticRequestOnBoardMonitoringTestResults(self, short_name)
+            self.addReferrableElement(request_on_board_monitoring_test_results)
+        return self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResults)
+
     def createDiagnosticRequestPowertrainFreezeFrameData(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         Creates a new DiagnosticRequestPowertrainFreezeFrameData with the given short name, or
@@ -7880,8 +7898,58 @@ class DiagnosticRequestFileTransfer(ARElement):
         return self
 
 
-class DiagnosticRequestOnBoardMonitoringTestResults(ARElement):
-    pass
+class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x06 service. Tags: atp.recommendedPackage=DiagnosticRequestOnBoardMonitoringTestResultss"""
+
+    # DiagnosticRequestOnBoardMonitoringTestResults method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.139, p.156
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticTestResultRefs                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDiagnosticTestResultRef                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestOnBoardMonitoringTestResultsClassRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestOnBoardMonitoringTestResultsClassRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the applicable collection of test identifiers for setting up a request message for mode 0x06.
+        self.diagnosticTestResultRefs: List[RefType] = []
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestOnBoardMonitoringTestResults in the given context.
+        self.requestOnBoardMonitoringTestResultsClassRef: Optional[RefType] = None
+
+    def getDiagnosticTestResultRefs(self) -> List[RefType]:
+        """
+        This reference identifies the applicable collection of test identifiers for setting up a request message for mode 0x06.
+        """
+        return self.diagnosticTestResultRefs
+
+    def addDiagnosticTestResultRef(self, value: Optional[RefType]) -> DiagnosticRequestOnBoardMonitoringTestResults:
+        """
+        This reference identifies the applicable collection of test identifiers for setting up a request message for mode 0x06.
+
+        A None value is a no-op and does not append a diagnosticTestResultRef.
+        """
+        if value is not None:
+            self.diagnosticTestResultRefs.append(value)
+        return self
+
+    def getRequestOnBoardMonitoringTestResultsClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestOnBoardMonitoringTestResults in the given context.
+        """
+        return self.requestOnBoardMonitoringTestResultsClassRef
+
+    def setRequestOnBoardMonitoringTestResultsClassRef(self, value: Optional[RefType]) -> DiagnosticRequestOnBoardMonitoringTestResults:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestOnBoardMonitoringTestResults in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestOnBoardMonitoringTestResultsClassRef.
+        """
+        if value is not None:
+            self.requestOnBoardMonitoringTestResultsClassRef = value
+        return self
 
 
 class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):

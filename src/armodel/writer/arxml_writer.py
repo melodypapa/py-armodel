@@ -457,6 +457,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
     DiagnosticRequestFileTransfer,
+    DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
     DiagnosticResponseOnEvent,
@@ -15117,6 +15118,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, clear_reset_emission_related_info)
         self.setChildElementOptionalRefType(child_element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF", clear_reset_emission_related_info.getClearResetEmissionRelatedDiagnosticInfoClassRef())
 
+    def writeDiagnosticRequestOnBoardMonitoringTestResults(self, element: ET.Element, request_on_board_monitoring_test_results: DiagnosticRequestOnBoardMonitoringTestResults):
+        self.logger.debug("Write DiagnosticRequestOnBoardMonitoringTestResults %s" % request_on_board_monitoring_test_results.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS")
+        self.writeIdentifiable(child_element, request_on_board_monitoring_test_results)
+        diagnostic_test_result_refs = request_on_board_monitoring_test_results.getDiagnosticTestResultRefs()
+        if len(diagnostic_test_result_refs) > 0:
+            test_result_refs_tag = ET.SubElement(child_element, "DIAGNOSTIC-TEST-RESULT-REFS")
+            for test_result_ref in diagnostic_test_result_refs:
+                self.setChildElementOptionalRefType(test_result_refs_tag, "DIAGNOSTIC-TEST-RESULT-REF", test_result_ref)
+        self.setChildElementOptionalRefType(child_element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF", request_on_board_monitoring_test_results.getRequestOnBoardMonitoringTestResultsClassRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16463,6 +16475,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticClearResetEmissionRelatedInfo):
             self.writeDiagnosticClearResetEmissionRelatedInfo(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestOnBoardMonitoringTestResults):
+            self.writeDiagnosticRequestOnBoardMonitoringTestResults(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)
