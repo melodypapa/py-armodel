@@ -10002,6 +10002,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setSocketConnectionPdus(child_element, "PDUS", bundle.getPdus())
             self.setChildElementOptionalRefType(child_element, "SERVER-PORT-REF", bundle.getServerPortRef())
             self.setChildElementOptionalLiteral(child_element, "UDP-CHECKSUM-HANDLING", bundle.getUdpChecksumHandling())
+            self.writeVariationPointCapable(child_element, bundle)
 
     def writeTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
         self.logger.debug("Write TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())

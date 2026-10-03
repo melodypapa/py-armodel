@@ -9977,6 +9977,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Bundled Connection <%s>" % tag_name)
 
     def readSocketConnectionBundle(self, element: ET.Element, bundle: SocketConnectionBundle):
+        self.readReferrable(element, bundle)
         self.readSocketConnectionBundleConnections(element, bundle)
         bundle.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
         bundle.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
@@ -9985,6 +9986,7 @@ class ARXMLParser(AbstractARXMLParser):
             bundle.addPdu(pdu)
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
         bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
+        self.readVariationPointCapable(element, bundle)
 
     def readTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
         self.logger.debug("Read TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())
