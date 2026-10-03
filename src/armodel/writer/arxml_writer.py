@@ -433,6 +433,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearDiagnosticInformation,
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
+    DiagnosticCondition,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
@@ -13975,6 +13976,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setLifeCyclePeriod(child_element, "DEFAULT-PERIOD-END", info_set.getDefaultPeriodEnd())
             self.writeLifeCycleInfoSetLifeCycleInfos(child_element, info_set)
             self.setChildElementOptionalRefType(child_element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF", info_set.getUsedLifeCycleStateDefinitionGroupRef())
+
+    def writeDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
+        self.setChildElementOptionalBooleanValue(element, "INIT-VALUE", condition.getInitValue())
 
     def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         refs = connection.getFunctionalRequestRefs()

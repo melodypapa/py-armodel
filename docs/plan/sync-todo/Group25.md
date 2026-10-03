@@ -829,15 +829,37 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticCondition` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.184, p.194
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): spec marks the class **abstract** (md l.5937 "DiagnosticCondition (abstract)"; XSD DIAGNOSTIC-CONDITION is
+    an abstract xsd:group l.33411, not a complexType). Base chain (md l.5941) = ARElement , ARObject , CollectableElement ,
+    DiagnosticCommonElement , Identifiable , MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base
+    DiagnosticCommonElement per Rule 0001.2 (stub base changed in place ARElement,ABC → DiagnosticCommonElement,ABC;
+    DiagnosticCommonElement is available at runtime via the ARPackage.py bottom import l.4407); STUBS entry base repaired
+    ARElement → DiagnosticCommonElement. Subclasses (md l.5942): DiagnosticEnableCondition, DiagnosticStorageCondition —
+    both queued later, both stubs already subclass DiagnosticCondition in place. Attribute (displayed order):
+    1. initValue (Boolean, 0..1, attr; XSD INIT-VALUE in group DIAGNOSTIC-CONDITION) → getInitValue/setInitValue.
+    Aggregated by ARPackage.element — but the XSD has NO standalone DIAGNOSTIC-CONDITION element in the AR-PACKAGE
+    element choice (only the concrete subclass elements exist), so NO ARPackage factory and NO read/writeARPackageElement
+    dispatch branches for this class; per Rule 0001.7 (abstract XML-bearing bases own reusable helpers) the class owns
+    named reusable readDiagnosticCondition/writeDiagnosticCondition helpers (INIT-VALUE only) for the concrete subclass
+    syncs to call (precedent: abstract DiagnosticServiceInstance + its read/writeDiagnosticServiceInstance helpers).
+    Table body md l.5937-5945 (caption l.5935; PDF p.194 via pdf_page.py).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the queue row's generic "wire into the ARPackage dispatch chains like
+    DiagnosticAging" Step 6 instruction is superseded for this class by the spec/XSD reality: DIAGNOSTIC-CONDITION has no
+    standalone element (abstract xsd:group), so per Rule 0001.7 the class owns reusable readDiagnosticCondition /
+    writeDiagnosticCondition helpers and its concrete subclass syncs (queued next) add the dispatch branches that call
+    them — exact precedent: abstract DiagnosticServiceInstance with its read/writeDiagnosticServiceInstance helpers, no
+    own dispatch. Referenced classes: DiagnosticCommonElement (synced, stamped), Boolean (synced primitive),
+    DiagnosticEnableCondition / DiagnosticStorageCondition (stubs, queued later — not blocking; helper tests drive them
+    as concrete vehicles). XSD DIAGNOSTIC-CONDITION--SUBTYPES-ENUM also lists DIAGNOSTIC-CLEAR-CONDITION (AP-only
+    DiagnosticClearCondition, RestrictToStandards="AP") — no R23-11 CP markdown table, not queued, informational only) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1803 passed / 0 failed: test_ARPackage.py + test_diagnostic_condition.py + test_writer_diagnostic_condition.py + test_member_annotations.py + test_group21_36_stub_classes.py; parser+writer regression 7491 passed / 0 failed; npm run lint clean after one ruff I001 import-sort fix in test_ARPackage.py; black-check clean; set-based checklist==methods audit OK); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticEnableCondition` — DiagnosticCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.185, p.194
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

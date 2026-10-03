@@ -9,6 +9,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     DiagnosticCommonProps,
@@ -35,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearDiagnosticInformation,
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
+    DiagnosticCondition,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticCustomServiceInstance,
@@ -46,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
+    DiagnosticEnableCondition,
     DiagnosticEnableConditionPortMapping,
     DiagnosticEventPortMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
@@ -9406,3 +9409,80 @@ class TestDiagnosticAging:
         assert inspect.cleandoc(DiagnosticAging.setAgingCycleRef.__doc__) == (self.AGING_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing agingCycleRef.")
         assert inspect.cleandoc(DiagnosticAging.getThreshold.__doc__) == self.THRESHOLD_NOTE
         assert inspect.cleandoc(DiagnosticAging.setThreshold.__doc__) == (self.THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing threshold.")
+
+
+class TestDiagnosticCondition:
+    """
+    Test class for DiagnosticCondition functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.184, p.194
+
+    DiagnosticCondition is abstract (spec marks it "(abstract)"; subclasses:
+    DiagnosticEnableCondition, DiagnosticStorageCondition), so __init__ defaults
+    and base accessors are exercised through the concrete subclass stub
+    DiagnosticEnableCondition (Rule 0006 abstract-class clause).
+    """
+
+    CLASS_NOTE = "Abstract element for StorageConditions and EnableConditions."
+    INIT_VALUE_NOTE = "Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled"
+
+    def _make_obj(self) -> DiagnosticEnableCondition:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEnableCondition(ar_root, "TestCondition")
+
+    def test_abstract_instantiation_blocked(self):
+        """
+        Test that instantiating the abstract DiagnosticCondition directly raises TypeError.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+
+        with pytest.raises(TypeError):
+            DiagnosticCondition(ar_root, "DirectCondition")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass instantiates with the spec defaults and the most-derived base.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestCondition"
+        assert isinstance(obj, DiagnosticCondition)
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert isinstance(obj, ARElement)
+        assert obj.getInitValue() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticCondition.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticCondition.__init__.__doc__ is None
+
+    def test_get_set_init_value(self):
+        """
+        Round-trips the initValue; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        init_value = Boolean().setValue(True)
+        result = obj.setInitValue(init_value)
+        assert result is obj  # method chaining
+        assert obj.getInitValue() is init_value
+        assert obj.getInitValue().value is True
+
+        result = obj.setInitValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInitValue() is init_value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticCondition.getInitValue.__doc__) == self.INIT_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticCondition.setInitValue.__doc__) == (self.INIT_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing initValue.")

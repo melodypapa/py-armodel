@@ -560,6 +560,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearDiagnosticInformation,
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
+    DiagnosticCondition,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
@@ -10638,6 +10639,9 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setCouplingPortSwitchoffDelay(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY"))
             self.readEthernetClusterMacMulticastGroups(child_element, cluster)
             self.readEthernetClusterCouplingPortConnections(child_element, cluster)
+
+    def readDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
+        condition.setInitValue(self.getChildElementOptionalBooleanValue(element, "INIT-VALUE"))
 
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):

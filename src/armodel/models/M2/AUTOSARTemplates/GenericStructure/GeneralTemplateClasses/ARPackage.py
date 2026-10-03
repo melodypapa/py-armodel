@@ -5264,8 +5264,39 @@ class DiagnosticComControl(ARElement):
         return self
 
 
-class DiagnosticCondition(ARElement, ABC):
-    pass
+class DiagnosticCondition(DiagnosticCommonElement, ABC):
+    """Abstract element for StorageConditions and EnableConditions."""
+
+    # DiagnosticCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.184, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticCondition:
+            raise TypeError("DiagnosticCondition is an abstract class.")
+        super().__init__(parent, short_name)
+
+        # Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled
+        self.initValue: Optional[Boolean] = None
+
+    def getInitValue(self) -> Optional[Boolean]:
+        """
+        Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled
+        """
+        return self.initValue
+
+    def setInitValue(self, value: Optional[Boolean]) -> DiagnosticCondition:
+        """
+        Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled
+
+        A None value is a no-op and does not overwrite an existing initValue.
+        """
+        if value is not None:
+            self.initValue = value
+        return self
 
 
 class DiagnosticConditionGroup(ARElement, ABC):
