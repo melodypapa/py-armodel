@@ -28,7 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 pytest = ["pytest>=7.0", "pytest-cov>=4.0", "pyyaml>=6.0"]
-lint = ["ruff", "black"]
+lint = ["ruff", "black", "mypy"]
 
 [project.urls]
 Homepage = "http://github.com/melodypapa/py-armodel"
@@ -112,3 +112,82 @@ ignore = ["E501"]
 [tool.ruff.lint.isort]
 known-first-party = ["armodel"]
 force-single-line = false
+
+[tool.mypy]
+files = ["src/armodel"]
+ignore_missing_imports = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+# Legacy modules with pre-existing type debt (mypy gradual adoption baseline):
+# bodies are fully analyzed but reported errors are suppressed. Drain by fixing
+# a module's errors and deleting its entry; new modules must NOT be added.
+[[tool.mypy.overrides]]
+module = [
+    "armodel.cli.arxml_dump_cli",
+    "armodel.lib.sw_component",
+    "armodel.models",
+    "armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure",
+    "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior",
+    "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces",
+    "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint",
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions",
+    "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",
+    "armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate",
+    "armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate",
+    "armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory",
+    "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+    "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+    "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
+    "armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling",
+    "armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet",
+    "armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents",
+    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer",
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols",
+    "armodel.models.M2.MSR.AsamHdo.ComputationMethod",
+    "armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel",
+    "armodel.models.utils.uuid_mgr",
+    "armodel.parser.abstract_arxml_parser",
+    "armodel.parser.arxml_parser",
+    "armodel.parser.connector_xlsx_parser",
+    "armodel.parser.ecuc_parser",
+    "armodel.parser.file_parser",
+    "armodel.parser.os_ecuc_parser",
+    "armodel.report.connector_xls_report",
+    "armodel.report.os_export",
+    "armodel.transformer.admin_data",
+    "armodel.writer.abstract_arxml_writer",
+    "armodel.writer.arxml_writer",
+]
+ignore_errors = true
