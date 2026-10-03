@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR hardware element categorie
 in the EcuResourceTemplate module.
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -209,7 +209,7 @@ class HwAttributeDef(Identifiable):
             literal_def = HwAttributeLiteralDef(self, short_name)
             self.addReferrableElement(literal_def)
             self.hwAttributeLiterals.append(literal_def)
-        return self.getReferrableElement(short_name, HwAttributeLiteralDef)
+        return cast(HwAttributeLiteralDef, self.getReferrableElement(short_name, HwAttributeLiteralDef))
 
     def addHwAttributeLiteral(self, literal_def: HwAttributeLiteralDef) -> "HwAttributeDef":
         """
@@ -288,7 +288,7 @@ class HwCategory(ARElement):
             attribute_def = HwAttributeDef(self, short_name)
             self.addReferrableElement(attribute_def)
             self.hwAttributeDefs.append(attribute_def)
-        return self.getReferrableElement(short_name, HwAttributeDef)
+        return cast(HwAttributeDef, self.getReferrableElement(short_name, HwAttributeDef))
 
     def addHwAttributeDef(self, attribute_def: HwAttributeDef) -> "HwCategory":
         """

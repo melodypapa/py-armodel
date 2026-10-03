@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
@@ -976,7 +976,7 @@ class DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable):
             sub_element = DiagnosticParameterElement(self, short_name)
             self.addReferrableElement(sub_element)
             self.subElements.append(sub_element)
-        return self.getReferrableElement(short_name, DiagnosticParameterElement)
+        return cast(DiagnosticParameterElement, self.getReferrableElement(short_name, DiagnosticParameterElement))
 
     def getSubElements(self) -> List[DiagnosticParameterElement]:
         """

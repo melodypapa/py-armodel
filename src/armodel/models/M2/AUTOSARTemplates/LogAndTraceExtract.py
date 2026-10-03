@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -136,7 +136,7 @@ class DltArgument(Identifiable):
             entry = DltArgument(self, short_name)
             self.addReferrableElement(entry)
             self.dltArgumentEntries.append(entry)
-        return self.getReferrableElement(short_name, DltArgument)
+        return cast(DltArgument, self.getReferrableElement(short_name, DltArgument))
 
     def getDltArgumentEntries(self) -> List[DltArgument]:
         """
@@ -279,7 +279,7 @@ class DltMessage(Identifiable, VariationPointCapable):
             argument = DltArgument(self, short_name)
             self.addReferrableElement(argument)
             self.dltArguments.append(argument)
-        return self.getReferrableElement(short_name, DltArgument)
+        return cast(DltArgument, self.getReferrableElement(short_name, DltArgument))
 
     def getDltArguments(self) -> List[DltArgument]:
         """
@@ -570,7 +570,7 @@ class DltEcu(ARElement):
             application = DltApplication(self, short_name)
             self.addReferrableElement(application)
             self.applications.append(application)
-        return self.getReferrableElement(short_name, DltApplication)
+        return cast(DltApplication, self.getReferrableElement(short_name, DltApplication))
 
     def getApplications(self) -> List[DltApplication]:
         """

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -461,7 +461,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
             container_value = EcucContainerValue(self, short_name)
             self.addReferrableElement(container_value)
             self.subContainers.append(container_value)
-        return self.getReferrableElement(short_name, EcucContainerValue)
+        return cast(EcucContainerValue, self.getReferrableElement(short_name, EcucContainerValue))
 
 
 class EcucModuleConfigurationValues(ARElement):
@@ -514,7 +514,7 @@ class EcucModuleConfigurationValues(ARElement):
             container = EcucContainerValue(self, short_name)
             self.addReferrableElement(container)
             self.containers.append(container)
-        return self.getReferrableElement(short_name, EcucContainerValue)
+        return cast(EcucContainerValue, self.getReferrableElement(short_name, EcucContainerValue))
 
     def getContainers(self) -> List[EcucContainerValue]:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
@@ -1013,7 +1013,7 @@ class Container(Identifiable):
             sub_container = Container(self, short_name)
             self.addReferrableElement(sub_container)
             self.subContainers.append(sub_container)
-        return self.getReferrableElement(short_name, Container)
+        return cast(Container, self.getReferrableElement(short_name, Container))
 
 
 class ModuleConfiguration(ARElement):
@@ -1085,7 +1085,7 @@ class ModuleConfiguration(ARElement):
             container = Container(self, short_name)
             self.addReferrableElement(container)
             self.containers.append(container)
-        return self.getReferrableElement(short_name, Container)
+        return cast(Container, self.getReferrableElement(short_name, Container))
 
     def getContainers(self) -> List[Container]:
         """Aggregates all containers that belong to this module configuration. Stereotypes: atpSplitable Tags: xml.sequenceOffset=10"""
