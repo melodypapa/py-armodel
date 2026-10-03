@@ -1592,7 +1592,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(child_element, "VALUE", value.getValue())
         self.setAnnotations(child_element, value.getAnnotations())
 
-    def writeVariationPoint(self, element: ET.Element, variation_point: VariationPoint):
+    def writeVariationPoint(self, element: ET.Element, variation_point: Optional[VariationPoint]):
         if variation_point is not None:
             child_element = ET.SubElement(element, "VARIATION-POINT")
             self.writeARObject(child_element, variation_point)
@@ -2329,7 +2329,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(mapping_tag, "APPL-CONSTANT-REF", mapping.getApplConstantRef())
             self.setChildElementOptionalRefType(mapping_tag, "IMPL-CONSTANT-REF", mapping.getImplConstantRef())
 
-    def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
+    def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: Optional[ValueSpecification]):
         if value_spec is not None:
             child_element = ET.SubElement(element, key)
             if isinstance(value_spec, ApplicationValueSpecification):
@@ -3293,7 +3293,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeMlFigure(child_element, figure)
 
-    def writeDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
+    def writeDocumentationBlock(self, element: ET.Element, key: str, block: Optional[DocumentationBlock]):
         if block is not None:
             child_element = ET.SubElement(element, key)
             self.writeDocumentationBlockContent(child_element, block)
@@ -3567,7 +3567,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
             self.setChildElementOptionalRefType(child_element, "FUNCTION-POINTER-SIGNATURE-REF", props.getFunctionPointerSignatureRef())
 
-    def setSwDataDefProps(self, element: ET.Element, key: str, props: SwDataDefProps):
+    def setSwDataDefProps(self, element: ET.Element, key: str, props: Optional[SwDataDefProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, props)
@@ -6553,7 +6553,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeVariationPoint(child_element, memory_section.getVariationPoint())
                 self.logger.debug("Write MemorySection %s" % memory_section.getShortName())
 
-    def setMultidimensionalTime(self, element: ET.Element, key: str, value: MultidimensionalTime):
+    def setMultidimensionalTime(self, element: ET.Element, key: str, value: Optional[MultidimensionalTime]):
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalCseCodeType(child_element, "CSE-CODE", value.getCseCode())
