@@ -120,6 +120,7 @@ __all__ = [
     "FMFeature",
     "EvaluatedVariantSet",
     "DiagnosticWriteDataByIdentifier",
+    "DiagnosticWriteMemoryByAddress",
     "DiagnosticVerifyCertificateUnidirectional",
     "DiagnosticVerifyCertificateBidirectional",
     "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
@@ -149,11 +150,17 @@ __all__ = [
     "DiagnosticRequestFileTransfer",
     "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
     "DiagnosticRequestDownload",
+    "DiagnosticRequestEmissionRelatedDTC",
+    "DiagnosticClearResetEmissionRelatedInfo",
     "DiagnosticRequestControlOfOnBoardDevice",
+    "DiagnosticRequestCurrentPowertrainData",
+    "DiagnosticRequestPowertrainFreezeFrameData",
+    "DiagnosticPowertrainFreezeFrame",
     "DiagnosticReadScalingDataByIdentifier",
     "DiagnosticReadDataByPeriodicID",
     "DiagnosticReadDataByIdentifier",
     "DiagnosticReadDTCInformation",
+    "DiagnosticReadMemoryByAddress",
     "DiagnosticProtocol",
     "DiagnosticProofOfOwnership",
     "DiagnosticPowertrainFreezeFrame",
@@ -412,6 +419,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     ReferrableSubtypesEnum,
+    String,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue  # noqa: E402
 
@@ -684,6 +692,116 @@ class ARPackage(CollectableElement, VariationPointCapable):
             clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
             self.addReferrableElement(clear_diagnostic_information_class)
         return self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformationClass)
+
+    def createDiagnosticClearResetEmissionRelatedInfo(self, short_name: str) -> DiagnosticClearResetEmissionRelatedInfo:
+        """
+        Creates a new DiagnosticClearResetEmissionRelatedInfo with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticClearResetEmissionRelatedInfo represents an instance of the OBD mode 0x04 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearResetEmissionRelatedInfo
+
+        Returns:
+            The newly created or existing DiagnosticClearResetEmissionRelatedInfo instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticClearResetEmissionRelatedInfo):
+            clear_reset_emission_related_info = DiagnosticClearResetEmissionRelatedInfo(self, short_name)
+            self.addReferrableElement(clear_reset_emission_related_info)
+        return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfo)
+
+    def createDiagnosticClearResetEmissionRelatedInfoClass(self, short_name: str) -> DiagnosticClearResetEmissionRelatedInfoClass:
+        """
+        Creates a new DiagnosticClearResetEmissionRelatedInfoClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticClearResetEmissionRelatedInfoClass contains attributes shared by all
+        instances of the "Clear Reset Emission Related Data" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearResetEmissionRelatedInfoClass
+
+        Returns:
+            The newly created or existing DiagnosticClearResetEmissionRelatedInfoClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticClearResetEmissionRelatedInfoClass):
+            clear_reset_emission_related_info_class = DiagnosticClearResetEmissionRelatedInfoClass(self, short_name)
+            self.addReferrableElement(clear_reset_emission_related_info_class)
+        return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfoClass)
+
+    def createDiagnosticRequestControlOfOnBoardDevice(self, short_name: str) -> DiagnosticRequestControlOfOnBoardDevice:
+        """
+        Creates a new DiagnosticRequestControlOfOnBoardDevice with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestControlOfOnBoardDevice represents an instance of the OBD mode 0x08 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestControlOfOnBoardDevice
+
+        Returns:
+            The newly created or existing DiagnosticRequestControlOfOnBoardDevice instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestControlOfOnBoardDevice):
+            request_control_of_on_board_device = DiagnosticRequestControlOfOnBoardDevice(self, short_name)
+            self.addReferrableElement(request_control_of_on_board_device)
+        return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDevice)
+
+    def createDiagnosticRequestControlOfOnBoardDeviceClass(self, short_name: str) -> DiagnosticRequestControlOfOnBoardDeviceClass:
+        """
+        Creates a new DiagnosticRequestControlOfOnBoardDeviceClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestControlOfOnBoardDeviceClass contains attributes shared by all
+        instances of the "Request Control Of On-Board Device" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestControlOfOnBoardDeviceClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestControlOfOnBoardDeviceClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestControlOfOnBoardDeviceClass):
+            request_control_of_on_board_device_class = DiagnosticRequestControlOfOnBoardDeviceClass(self, short_name)
+            self.addReferrableElement(request_control_of_on_board_device_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass)
+
+    def createDiagnosticTestRoutineIdentifier(self, short_name: str) -> DiagnosticTestRoutineIdentifier:
+        """
+        Creates a new DiagnosticTestRoutineIdentifier with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticTestRoutineIdentifier represents the test id of the DiagnosticTestIdentifier.
+
+        Args:
+            short_name: The short name for the new DiagnosticTestRoutineIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticTestRoutineIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTestRoutineIdentifier):
+            test_routine_identifier = DiagnosticTestRoutineIdentifier(self, short_name)
+            self.addReferrableElement(test_routine_identifier)
+        return self.getReferrableElement(short_name, DiagnosticTestRoutineIdentifier)
+
+    def createDiagnosticInfoType(self, short_name: str) -> DiagnosticInfoType:
+        """
+        Creates a new DiagnosticInfoType with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticInfoType represents the ability to model an OBD info type.
+
+        Args:
+            short_name: The short name for the new DiagnosticInfoType
+
+        Returns:
+            The newly created or existing DiagnosticInfoType instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticInfoType):
+            info_type = DiagnosticInfoType(self, short_name)
+            self.addReferrableElement(info_type)
+        return self.getReferrableElement(short_name, DiagnosticInfoType)
 
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
@@ -967,6 +1085,450 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(read_scaling_data_by_identifier_class)
         return self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
 
+    def createDiagnosticReadMemoryByAddress(self, short_name: str) -> DiagnosticReadMemoryByAddress:
+        """
+        Creates a new DiagnosticReadMemoryByAddress with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticReadMemoryByAddress: This represents an instance of the "Read Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadMemoryByAddress
+
+        Returns:
+            The newly created or existing DiagnosticReadMemoryByAddress instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadMemoryByAddress):
+            element = DiagnosticReadMemoryByAddress(self, short_name)
+            self.addReferrableElement(element)
+        return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddress)
+
+    def createDiagnosticReadMemoryByAddressClass(self, short_name: str) -> DiagnosticReadMemoryByAddressClass:
+        """
+        Creates a new DiagnosticReadMemoryByAddressClass with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticReadMemoryByAddressClass contains attributes shared by all
+        instances of the "Read Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticReadMemoryByAddressClass
+
+        Returns:
+            The newly created or existing DiagnosticReadMemoryByAddressClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticReadMemoryByAddressClass):
+            read_memory_by_address_class = DiagnosticReadMemoryByAddressClass(self, short_name)
+            self.addReferrableElement(read_memory_by_address_class)
+        return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddressClass)
+
+    def createDiagnosticTransferExit(self, short_name: str) -> DiagnosticTransferExit:
+        """
+        Creates a new DiagnosticTransferExit with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticTransferExit represents an instance of the "Transfer Exit" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticTransferExit
+
+        Returns:
+            The newly created or existing DiagnosticTransferExit instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTransferExit):
+            transfer_exit = DiagnosticTransferExit(self, short_name)
+            self.addReferrableElement(transfer_exit)
+        return self.getReferrableElement(short_name, DiagnosticTransferExit)
+
+    def createDiagnosticTransferExitClass(self, short_name: str) -> DiagnosticTransferExitClass:
+        """
+        Creates a new DiagnosticTransferExitClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTransferExitClass contains attributes shared by all
+        instances of the "Transfer Exit" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticTransferExitClass
+
+        Returns:
+            The newly created or existing DiagnosticTransferExitClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTransferExitClass):
+            transfer_exit_class = DiagnosticTransferExitClass(self, short_name)
+            self.addReferrableElement(transfer_exit_class)
+        return self.getReferrableElement(short_name, DiagnosticTransferExitClass)
+
+    def createDiagnosticDataTransfer(self, short_name: str) -> DiagnosticDataTransfer:
+        """
+        Creates a new DiagnosticDataTransfer with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticDataTransfer represents an instance of the "Data Transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataTransfer
+
+        Returns:
+            The newly created or existing DiagnosticDataTransfer instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticDataTransfer):
+            data_transfer = DiagnosticDataTransfer(self, short_name)
+            self.addReferrableElement(data_transfer)
+        return self.getReferrableElement(short_name, DiagnosticDataTransfer)
+
+    def createDiagnosticDataTransferClass(self, short_name: str) -> DiagnosticDataTransferClass:
+        """
+        Creates a new DiagnosticDataTransferClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDataTransferClass contains attributes shared by all
+        instances of the "Data Transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataTransferClass
+
+        Returns:
+            The newly created or existing DiagnosticDataTransferClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticDataTransferClass):
+            data_transfer_class = DiagnosticDataTransferClass(self, short_name)
+            self.addReferrableElement(data_transfer_class)
+        return self.getReferrableElement(short_name, DiagnosticDataTransferClass)
+
+    def createDiagnosticRequestDownload(self, short_name: str) -> DiagnosticRequestDownload:
+        """
+        Creates a new DiagnosticRequestDownload with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestDownload represents an instance of the "Request Download" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestDownload
+
+        Returns:
+            The newly created or existing DiagnosticRequestDownload instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestDownload):
+            request_download = DiagnosticRequestDownload(self, short_name)
+            self.addReferrableElement(request_download)
+        return self.getReferrableElement(short_name, DiagnosticRequestDownload)
+
+    def createDiagnosticRequestDownloadClass(self, short_name: str) -> DiagnosticRequestDownloadClass:
+        """
+        Creates a new DiagnosticRequestDownloadClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestDownloadClass contains attributes shared by all
+        instances of the "Request Download" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestDownloadClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestDownloadClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestDownloadClass):
+            request_download_class = DiagnosticRequestDownloadClass(self, short_name)
+            self.addReferrableElement(request_download_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestDownloadClass)
+
+    def createDiagnosticRequestEmissionRelatedDTC(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTC:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTC with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTC represents an instance of the OBD mode 0x03/0x07 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTC
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTC instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTC):
+            request_emission_related_dtc = DiagnosticRequestEmissionRelatedDTC(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc)
+        return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTC)
+
+    def createDiagnosticRequestEmissionRelatedDTCClass(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCClass:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTCClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTCClass contains attributes shared by all
+        instances of the "Request Emission Related DTC" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTCClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTCClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCClass):
+            request_emission_related_dtc_class = DiagnosticRequestEmissionRelatedDTCClass(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCClass)
+
+    def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
+        """
+        Creates a new DiagnosticRequestUpload with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestUpload represents an instance of the "Request Upload" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestUpload
+
+        Returns:
+            The newly created or existing DiagnosticRequestUpload instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestUpload):
+            request_upload = DiagnosticRequestUpload(self, short_name)
+            self.addReferrableElement(request_upload)
+        return self.getReferrableElement(short_name, DiagnosticRequestUpload)
+
+    def createDiagnosticRequestUploadClass(self, short_name: str) -> DiagnosticRequestUploadClass:
+        """
+        Creates a new DiagnosticRequestUploadClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestUploadClass contains attributes shared by all
+        instances of the "Request Upload" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestUploadClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestUploadClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestUploadClass):
+            request_upload_class = DiagnosticRequestUploadClass(self, short_name)
+            self.addReferrableElement(request_upload_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestUploadClass)
+
+    def createDiagnosticRequestVehicleInfo(self, short_name: str) -> DiagnosticRequestVehicleInfo:
+        """
+        Creates a new DiagnosticRequestVehicleInfo with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestVehicleInfo represents an instance of the OBD mode 0x09 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestVehicleInfo
+
+        Returns:
+            The newly created or existing DiagnosticRequestVehicleInfo instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestVehicleInfo):
+            request_vehicle_info = DiagnosticRequestVehicleInfo(self, short_name)
+            self.addReferrableElement(request_vehicle_info)
+        return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfo)
+
+    def createDiagnosticRequestVehicleInfoClass(self, short_name: str) -> DiagnosticRequestVehicleInfoClass:
+        """
+        Creates a new DiagnosticRequestVehicleInfoClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestVehicleInfoClass contains attributes shared by all
+        instances of the "Request Vehicle Info" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestVehicleInfoClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestVehicleInfoClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestVehicleInfoClass):
+            request_vehicle_info_class = DiagnosticRequestVehicleInfoClass(self, short_name)
+            self.addReferrableElement(request_vehicle_info_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfoClass)
+
+    def createDiagnosticRequestFileTransfer(self, short_name: str) -> DiagnosticRequestFileTransfer:
+        """
+        Creates a new DiagnosticRequestFileTransfer with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestFileTransfer represents an instance of the "Request File transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestFileTransfer
+
+        Returns:
+            The newly created or existing DiagnosticRequestFileTransfer instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransfer):
+            request_file_transfer = DiagnosticRequestFileTransfer(self, short_name)
+            self.addReferrableElement(request_file_transfer)
+        return self.getReferrableElement(short_name, DiagnosticRequestFileTransfer)
+
+    def createDiagnosticRequestFileTransferClass(self, short_name: str) -> DiagnosticRequestFileTransferClass:
+        """
+        Creates a new DiagnosticRequestFileTransferClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestFileTransferClass contains attributes shared by all
+        instances of the "Request File transfer" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestFileTransferClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestFileTransferClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransferClass):
+            request_file_transfer_class = DiagnosticRequestFileTransferClass(self, short_name)
+            self.addReferrableElement(request_file_transfer_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestFileTransferClass)
+
+    def createDiagnosticParameterIdentifier(self, short_name: str) -> DiagnosticParameterIdentifier:
+        """
+        Creates a new DiagnosticParameterIdentifier with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticParameterIdentifier represents the ability to model a diagnostic
+        parameter identifier (PID) for the purpose of executing on-board diagnostics (OBD).
+
+        Args:
+            short_name: The short name for the new DiagnosticParameterIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticParameterIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticParameterIdentifier):
+            parameter_identifier = DiagnosticParameterIdentifier(self, short_name)
+            self.addReferrableElement(parameter_identifier)
+        return self.getReferrableElement(short_name, DiagnosticParameterIdentifier)
+
+    def createDiagnosticRequestCurrentPowertrainData(self, short_name: str) -> DiagnosticRequestCurrentPowertrainData:
+        """
+        Creates a new DiagnosticRequestCurrentPowertrainData with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestCurrentPowertrainData represents an instance of the OBD mode 0x01 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestCurrentPowertrainData
+
+        Returns:
+            The newly created or existing DiagnosticRequestCurrentPowertrainData instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestCurrentPowertrainData):
+            request_current_powertrain_data = DiagnosticRequestCurrentPowertrainData(self, short_name)
+            self.addReferrableElement(request_current_powertrain_data)
+        return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainData)
+
+    def createDiagnosticRequestCurrentPowertrainDataClass(self, short_name: str) -> DiagnosticRequestCurrentPowertrainDataClass:
+        """
+        Creates a new DiagnosticRequestCurrentPowertrainDataClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestCurrentPowertrainDataClass contains attributes shared by all
+        instances of the "Request current Powertrain Data" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestCurrentPowertrainDataClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestCurrentPowertrainDataClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestCurrentPowertrainDataClass):
+            request_current_powertrain_data_class = DiagnosticRequestCurrentPowertrainDataClass(self, short_name)
+            self.addReferrableElement(request_current_powertrain_data_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainDataClass)
+
+    def createDiagnosticRequestOnBoardMonitoringTestResults(self, short_name: str) -> DiagnosticRequestOnBoardMonitoringTestResults:
+        """
+        Creates a new DiagnosticRequestOnBoardMonitoringTestResults with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestOnBoardMonitoringTestResults represents an instance of the OBD mode 0x06 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestOnBoardMonitoringTestResults
+
+        Returns:
+            The newly created or existing DiagnosticRequestOnBoardMonitoringTestResults instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestOnBoardMonitoringTestResults):
+            request_on_board_monitoring_test_results = DiagnosticRequestOnBoardMonitoringTestResults(self, short_name)
+            self.addReferrableElement(request_on_board_monitoring_test_results)
+        return self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResults)
+
+    def createDiagnosticRequestOnBoardMonitoringTestResultsClass(self, short_name: str) -> DiagnosticRequestOnBoardMonitoringTestResultsClass:
+        """
+        Creates a new DiagnosticRequestOnBoardMonitoringTestResultsClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestOnBoardMonitoringTestResultsClass contains attributes shared by all
+        instances of the "Request On-Board Monitoring Test Results" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestOnBoardMonitoringTestResultsClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestOnBoardMonitoringTestResultsClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestOnBoardMonitoringTestResultsClass):
+            request_on_board_monitoring_test_results_class = DiagnosticRequestOnBoardMonitoringTestResultsClass(self, short_name)
+            self.addReferrableElement(request_on_board_monitoring_test_results_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResultsClass)
+
+    def createDiagnosticRequestPowertrainFreezeFrameData(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameData:
+        """
+        Creates a new DiagnosticRequestPowertrainFreezeFrameData with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestPowertrainFreezeFrameData represents an instance of the OBD mode 0x02 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestPowertrainFreezeFrameData
+
+        Returns:
+            The newly created or existing DiagnosticRequestPowertrainFreezeFrameData instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestPowertrainFreezeFrameData):
+            request_powertrain_freeze_frame_data = DiagnosticRequestPowertrainFreezeFrameData(self, short_name)
+            self.addReferrableElement(request_powertrain_freeze_frame_data)
+        return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameData)
+
+    def createDiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameDataClass:
+        """
+        Creates a new DiagnosticRequestPowertrainFreezeFrameDataClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestPowertrainFreezeFrameDataClass contains attributes shared by all
+        instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestPowertrainFreezeFrameDataClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestPowertrainFreezeFrameDataClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass):
+            request_powertrain_freeze_frame_data_class = DiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name)
+            self.addReferrableElement(request_powertrain_freeze_frame_data_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass)
+
+    def createDiagnosticPowertrainFreezeFrame(self, short_name: str) -> DiagnosticPowertrainFreezeFrame:
+        """
+        Creates a new DiagnosticPowertrainFreezeFrame with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticPowertrainFreezeFrame represents a powertrain-related freeze-frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticPowertrainFreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticPowertrainFreezeFrame instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticPowertrainFreezeFrame):
+            powertrain_freeze_frame = DiagnosticPowertrainFreezeFrame(self, short_name)
+            self.addReferrableElement(powertrain_freeze_frame)
+        return self.getReferrableElement(short_name, DiagnosticPowertrainFreezeFrame)
+
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
         Creates a new DiagnosticResponseOnEvent with the given short name,
@@ -1097,6 +1659,43 @@ class ARPackage(CollectableElement, VariationPointCapable):
             write_data_by_identifier_class = DiagnosticWriteDataByIdentifierClass(self, short_name)
             self.addReferrableElement(write_data_by_identifier_class)
         return self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifierClass)
+
+    def createDiagnosticWriteMemoryByAddress(self, short_name: str) -> DiagnosticWriteMemoryByAddress:
+        """
+        Creates a new DiagnosticWriteMemoryByAddress with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteMemoryByAddress: This represents an instance of the "Write Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteMemoryByAddress
+
+        Returns:
+            The newly created or existing DiagnosticWriteMemoryByAddress instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticWriteMemoryByAddress):
+            element = DiagnosticWriteMemoryByAddress(self, short_name)
+            self.addReferrableElement(element)
+        return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddress)
+
+    def createDiagnosticWriteMemoryByAddressClass(self, short_name: str) -> DiagnosticWriteMemoryByAddressClass:
+        """
+        Creates a new DiagnosticWriteMemoryByAddressClass with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticWriteMemoryByAddressClass contains attributes shared by all
+        instances of the "Write Memory by Address" diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticWriteMemoryByAddressClass
+
+        Returns:
+            The newly created or existing DiagnosticWriteMemoryByAddressClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticWriteMemoryByAddressClass):
+            write_memory_by_address_class = DiagnosticWriteMemoryByAddressClass(self, short_name)
+            self.addReferrableElement(write_memory_by_address_class)
+        return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddressClass)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 
@@ -2936,6 +3535,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return self.getReferrableElement(short_name, DiagnosticMasterToSlaveEventMapping)
 
+    def createDiagnosticMemoryIdentifier(self, short_name: str) -> DiagnosticMemoryIdentifier:
+        """
+        Creates a new DiagnosticMemoryIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMemoryIdentifier: This meta-class represents the ability to define memory properties from the diagnostics point of view..
+
+        Args:
+            short_name: The short name for the new DiagnosticMemoryIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticMemoryIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticMemoryIdentifier):
+            element = DiagnosticMemoryIdentifier(self, short_name)
+            self.addReferrableElement(element)
+        return self.getReferrableElement(short_name, DiagnosticMemoryIdentifier)
+
     def createDiagnosticDemProvidedDataMapping(self, short_name: str) -> DiagnosticDemProvidedDataMapping:
         """
         Creates a new DiagnosticDemProvidedDataMapping with the given short name,
@@ -3940,17 +4557,31 @@ ViewMapSet.__bases__ = (ARElement,)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearResetEmissionRelatedInfoClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDataTransferClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestControlOfOnBoardDeviceClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestCurrentPowertrainDataClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestFileTransferClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestOnBoardMonitoringTestResultsClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestPowertrainFreezeFrameDataClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestUploadClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadMemoryByAddressClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticTransferExitClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByPeriodicIDClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadScalingDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestVehicleInfoClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticResponseOnEventClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRoutineControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteMemoryByAddressClass  # noqa: E402
 
 BuildActionManifest.__bases__ = (ARElement,)
 
@@ -4706,6 +5337,126 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
         return self
 
 
+class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x01 service. Tags: atp.recommendedPackage=DiagnosticRequestCurrentPowertrainDatas"""
+
+    # DiagnosticRequestCurrentPowertrainData method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.130, p.151
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPidRef                                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPidRef                                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestCurrentPowertrainDiagnosticDataClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestCurrentPowertrainDiagnosticDataClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the PID associated with this instance of the OBD mode 0x01 service.
+        self.pidRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestCurrentPowertrainData in the given context.
+        self.requestCurrentPowertrainDiagnosticDataClassRef: Optional[RefType] = None
+
+    def getPidRef(self) -> Optional[RefType]:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x01 service.
+        """
+        return self.pidRef
+
+    def setPidRef(self, value: Optional[RefType]) -> DiagnosticRequestCurrentPowertrainData:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x01 service.
+
+        A None value is a no-op and does not overwrite an existing pidRef.
+        """
+        if value is not None:
+            self.pidRef = value
+        return self
+
+    def getRequestCurrentPowertrainDiagnosticDataClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestCurrentPowertrainData in the given context.
+        """
+        return self.requestCurrentPowertrainDiagnosticDataClassRef
+
+    def setRequestCurrentPowertrainDiagnosticDataClassRef(self, value: Optional[RefType]) -> DiagnosticRequestCurrentPowertrainData:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestCurrentPowertrainData in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestCurrentPowertrainDiagnosticDataClassRef.
+        """
+        if value is not None:
+            self.requestCurrentPowertrainDiagnosticDataClassRef = value
+        return self
+
+
+class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x03/0x07 service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCs"""
+
+    # DiagnosticRequestEmissionRelatedDTC method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.135, p.154
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestEmissionRelatedDtcClassRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestEmissionRelatedDtcClassRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context.
+        self.requestEmissionRelatedDtcClassRef: Optional[RefType] = None
+
+    def getRequestEmissionRelatedDtcClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context.
+        """
+        return self.requestEmissionRelatedDtcClassRef
+
+    def setRequestEmissionRelatedDtcClassRef(self, value: Optional[RefType]) -> DiagnosticRequestEmissionRelatedDTC:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTC in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassRef.
+        """
+        if value is not None:
+            self.requestEmissionRelatedDtcClassRef = value
+        return self
+
+
+class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x04 service. Tags: atp.recommendedPackage=DiagnosticClearResetEmissionRelatedInfos"""
+
+    # DiagnosticClearResetEmissionRelatedInfo method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.137, p.155
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearResetEmissionRelatedDiagnosticInfoClassRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearResetEmissionRelatedDiagnosticInfoClassRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context.
+        self.clearResetEmissionRelatedDiagnosticInfoClassRef: Optional[RefType] = None
+
+    def getClearResetEmissionRelatedDiagnosticInfoClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context.
+        """
+        return self.clearResetEmissionRelatedDiagnosticInfoClassRef
+
+    def setClearResetEmissionRelatedDiagnosticInfoClassRef(self, value: Optional[RefType]) -> DiagnosticClearResetEmissionRelatedInfo:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticClearResteEmissionRelatedInfo in the given context.
+
+        A None value is a no-op and does not overwrite an existing clearResetEmissionRelatedDiagnosticInfoClassRef.
+        """
+        if value is not None:
+            self.clearResetEmissionRelatedDiagnosticInfoClassRef = value
+        return self
+
+
 class DiagnosticDataByIdentifier(ARElement, ABC):
     """This represents an abstract base class for all diagnostic services that access data by identifier."""
 
@@ -4856,7 +5607,36 @@ class DiagnosticMemoryByAddress(ARElement, ABC):
 
 
 class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
-    pass
+    """This represents an instance of the "Data Transfer" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticDataTransfer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.119, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransferClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataTransferClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context.
+        self.dataTransferClassRef: Optional[RefType] = None
+
+    def getDataTransferClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context.
+        """
+        return self.dataTransferClassRef
+
+    def setDataTransferClassRef(self, value: Optional[RefType]) -> DiagnosticDataTransfer:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticDataTransfer in the given context.
+
+        A None value is a no-op and does not overwrite an existing dataTransferClassRef.
+        """
+        if value is not None:
+            self.dataTransferClassRef = value
+        return self
 
 
 class DiagnosticDeAuthentication(DiagnosticAuthentication):
@@ -6025,7 +6805,57 @@ class DiagnosticIndicator(ARElement):
 
 
 class DiagnosticInfoType(ARElement):
-    pass
+    """This meta-class represents the ability to model an OBD info type. Tags: atp.recommendedPackage=DiagnosticInfoTypes"""
+
+    # DiagnosticInfoType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.146, p.160
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElements              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataElement               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName
+        self.dataElements: List[DiagnosticParameter] = []
+
+        # This attribute represents the value of InfoType (see SAE J1979-DA).
+        self.id: Optional[PositiveInteger] = None
+
+    def getDataElements(self) -> List[DiagnosticParameter]:
+        """
+        This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName
+        """
+        return self.dataElements
+
+    def addDataElement(self, value: Optional[DiagnosticParameter]) -> DiagnosticInfoType:
+        """
+        This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName
+
+        A None value is a no-op and does not append a dataElement.
+        """
+        if value is not None:
+            self.dataElements.append(value)
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the value of InfoType (see SAE J1979-DA).
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticInfoType:
+        """
+        This attribute represents the value of InfoType (see SAE J1979-DA).
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
 
 
 class DiagnosticIumpr(ARElement):
@@ -6573,7 +7403,141 @@ class DiagnosticMemoryDestinationPrimary(ARElement):
 
 
 class DiagnosticMemoryIdentifier(ARElement):
-    pass
+    """This meta-class represents the ability to define memory properties from the diagnostics point of view. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticMemoryIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.112, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessPermissionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessPermissionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryHighAddress           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryHighAddress           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryHighAddressLabel      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryHighAddressLabel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryLowAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryLowAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryLowAddressLabel       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryLowAddressLabel       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission
+        self.accessPermissionRef: Optional[RefType] = None
+
+        # This represents the identification of the memory segment.
+        self.id: Optional[PositiveInteger] = None
+
+        # This represents the upper bound for addresses of the memory segment.
+        self.memoryHighAddress: Optional[PositiveInteger] = None
+
+        # This represents a symbolic label for the upper bound for addresses of the memory segment.
+        self.memoryHighAddressLabel: Optional[String] = None
+
+        # This represents the lower bound for addresses of the memory segment.
+        self.memoryLowAddress: Optional[PositiveInteger] = None
+
+        # This represents a symbolic label for the lower bound for addresses of the memory segment.
+        self.memoryLowAddressLabel: Optional[String] = None
+
+    def getAccessPermissionRef(self) -> Optional[RefType]:
+        """
+        This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission
+        """
+        return self.accessPermissionRef
+
+    def setAccessPermissionRef(self, value: Optional[RefType]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents that access permission defined for the specific DiagnosticMemoryIdentifier. Stereotypes: atpSplitable Tags: atp.Splitkey=accessPermission
+
+        A None value is a no-op and does not overwrite an existing accessPermissionRef.
+        """
+        if value is not None:
+            self.accessPermissionRef = value
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the identification of the memory segment.
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents the identification of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getMemoryHighAddress(self) -> Optional[PositiveInteger]:
+        """
+        This represents the upper bound for addresses of the memory segment.
+        """
+        return self.memoryHighAddress
+
+    def setMemoryHighAddress(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents the upper bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryHighAddress.
+        """
+        if value is not None:
+            self.memoryHighAddress = value
+        return self
+
+    def getMemoryHighAddressLabel(self) -> Optional[String]:
+        """
+        This represents a symbolic label for the upper bound for addresses of the memory segment.
+        """
+        return self.memoryHighAddressLabel
+
+    def setMemoryHighAddressLabel(self, value: Optional[String]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents a symbolic label for the upper bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryHighAddressLabel.
+        """
+        if value is not None:
+            self.memoryHighAddressLabel = value
+        return self
+
+    def getMemoryLowAddress(self) -> Optional[PositiveInteger]:
+        """
+        This represents the lower bound for addresses of the memory segment.
+        """
+        return self.memoryLowAddress
+
+    def setMemoryLowAddress(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents the lower bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryLowAddress.
+        """
+        if value is not None:
+            self.memoryLowAddress = value
+        return self
+
+    def getMemoryLowAddressLabel(self) -> Optional[String]:
+        """
+        This represents a symbolic label for the lower bound for addresses of the memory segment.
+        """
+        return self.memoryLowAddressLabel
+
+    def setMemoryLowAddressLabel(self, value: Optional[String]) -> DiagnosticMemoryIdentifier:
+        """
+        This represents a symbolic label for the lower bound for addresses of the memory segment.
+
+        A None value is a no-op and does not overwrite an existing memoryLowAddressLabel.
+        """
+        if value is not None:
+            self.memoryLowAddressLabel = value
+        return self
 
 
 class DiagnosticOperationCycle(ARElement):
@@ -6653,11 +7617,132 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
 
 
 class DiagnosticParameterIdentifier(ARElement):
-    pass
+    """This meta-class represents the ability to model a diagnostic parameter identifier (PID) for the purpose of executing on-board diagnostics (OBD). Tags: atp.recommendedPackage=DiagnosticParameterIdentifiers"""
+
+    # DiagnosticParameterIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.127, p.149
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElements         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataElement          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPidSize              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPidSize              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportInfoByte      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportInfoByte      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.dataElements: List[DiagnosticParameter] = []
+
+        # This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA).
+        self.id: Optional[PositiveInteger] = None
+
+        # The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte.
+        self.pidSize: Optional[PositiveInteger] = None
+
+        # This represents the supported information associated with the DiagnosticParameterIdentifier.
+        self.supportInfoByte: Optional[DiagnosticSupportInfoByte] = None
+
+    def getDataElements(self) -> List[DiagnosticParameter]:
+        """
+        This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.dataElements
+
+    def addDataElement(self, value: Optional[DiagnosticParameter]) -> DiagnosticParameterIdentifier:
+        """
+        This represents the data carried by the DiagnosticParameterIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName, dataElement.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append a dataElement.
+        """
+        if value is not None:
+            self.dataElements.append(value)
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA).
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticParameterIdentifier:
+        """
+        This is the numerical identifier used to identify the DiagnosticParameterIdentifier in the scope of diagnostic workflow (see SAE J1979-DA).
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getPidSize(self) -> Optional[PositiveInteger]:
+        """
+        The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte.
+        """
+        return self.pidSize
+
+    def setPidSize(self, value: Optional[PositiveInteger]) -> DiagnosticParameterIdentifier:
+        """
+        The size of the entire PID can be greater than the sum of the data elements because padding might be applied. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing pidSize.
+        """
+        if value is not None:
+            self.pidSize = value
+        return self
+
+    def getSupportInfoByte(self) -> Optional[DiagnosticSupportInfoByte]:
+        """
+        This represents the supported information associated with the DiagnosticParameterIdentifier.
+        """
+        return self.supportInfoByte
+
+    def setSupportInfoByte(self, value: Optional[DiagnosticSupportInfoByte]) -> DiagnosticParameterIdentifier:
+        """
+        This represents the supported information associated with the DiagnosticParameterIdentifier.
+
+        A None value is a no-op and does not overwrite an existing supportInfoByte.
+        """
+        if value is not None:
+            self.supportInfoByte = value
+        return self
 
 
 class DiagnosticPowertrainFreezeFrame(ARElement):
-    pass
+    """This meta-class represents a powertrain-related freeze-frame. In theory, this meta-class would need an additional id attribute. However, legal regulations requires only a single value for this attribute anyway. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames"""
+
+    # DiagnosticPowertrainFreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.134, p.153
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPidRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPidRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the PID associated with this instance of the OBD mode 0x02 service.
+        self.pidRefs: List[RefType] = []
+
+    def getPidRefs(self) -> List[RefType]:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x02 service.
+        """
+        return self.pidRefs
+
+    def addPidRef(self, value: Optional[RefType]) -> DiagnosticPowertrainFreezeFrame:
+        """
+        This represents the PID associated with this instance of the OBD mode 0x02 service.
+
+        A None value is a no-op and does not append a pidRef.
+        """
+        if value is not None:
+            self.pidRefs.append(value)
+        return self
 
 
 class DiagnosticProofOfOwnership(DiagnosticAuthentication):
@@ -6921,12 +8006,91 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
         return self
 
 
-class DiagnosticRequestControlOfOnBoardDevice(ARElement):
-    pass
+class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x08 service. Tags: atp.recommendedPackage=DiagnosticRequestControlOfOnBoardDevices"""
+
+    # DiagnosticRequestControlOfOnBoardDevice method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.141, p.157
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestControlOfOnBoardDeviceClassRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestControlOfOnBoardDeviceClassRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTestIdRef                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTestIdRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context.
+        self.requestControlOfOnBoardDeviceClassRef: Optional[RefType] = None
+
+        # This represents the test Id for the mode 0x08.
+        self.testIdRef: Optional[RefType] = None
+
+    def getRequestControlOfOnBoardDeviceClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context.
+        """
+        return self.requestControlOfOnBoardDeviceClassRef
+
+    def setRequestControlOfOnBoardDeviceClassRef(self, value: Optional[RefType]) -> DiagnosticRequestControlOfOnBoardDevice:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestControlOfOnBoardDeviceClassRef.
+        """
+        if value is not None:
+            self.requestControlOfOnBoardDeviceClassRef = value
+        return self
+
+    def getTestIdRef(self) -> Optional[RefType]:
+        """
+        This represents the test Id for the mode 0x08.
+        """
+        return self.testIdRef
+
+    def setTestIdRef(self, value: Optional[RefType]) -> DiagnosticRequestControlOfOnBoardDevice:
+        """
+        This represents the test Id for the mode 0x08.
+
+        A None value is a no-op and does not overwrite an existing testIdRef.
+        """
+        if value is not None:
+            self.testIdRef = value
+        return self
 
 
 class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
-    pass
+    """This represents an instance of the "Request Download" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticRequestDownload method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.121, p.144
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestDownloadClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestDownloadClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestDownload in the given context.
+        self.requestDownloadClassRef: Optional[RefType] = None
+
+    def getRequestDownloadClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestDownload in the given context.
+        """
+        return self.requestDownloadClassRef
+
+    def setRequestDownloadClassRef(self, value: Optional[RefType]) -> DiagnosticRequestDownload:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestDownload in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestDownloadClassRef.
+        """
+        if value is not None:
+            self.requestDownloadClassRef = value
+        return self
 
 
 class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
@@ -6934,23 +8098,231 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
 
 
 class DiagnosticRequestFileTransfer(ARElement):
-    pass
+    """This diagnostic service instance implements the UDS service 0x38. Tags: atp.recommendedPackage=DiagnosticRequestFileTransfers"""
+
+    # DiagnosticRequestFileTransfer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.125, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestFileTransferClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestFileTransferClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context.
+        self.requestFileTransferClassRef: Optional[RefType] = None
+
+    def getRequestFileTransferClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context.
+        """
+        return self.requestFileTransferClassRef
+
+    def setRequestFileTransferClassRef(self, value: Optional[RefType]) -> DiagnosticRequestFileTransfer:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestFileTransfer in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestFileTransferClassRef.
+        """
+        if value is not None:
+            self.requestFileTransferClassRef = value
+        return self
 
 
-class DiagnosticRequestOnBoardMonitoringTestResults(ARElement):
-    pass
+class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x06 service. Tags: atp.recommendedPackage=DiagnosticRequestOnBoardMonitoringTestResultss"""
+
+    # DiagnosticRequestOnBoardMonitoringTestResults method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.139, p.156
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticTestResultRefs                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDiagnosticTestResultRef                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestOnBoardMonitoringTestResultsClassRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestOnBoardMonitoringTestResultsClassRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the applicable collection of test identifiers for setting up a request message for mode 0x06.
+        self.diagnosticTestResultRefs: List[RefType] = []
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestOnBoardMonitoringTestResults in the given context.
+        self.requestOnBoardMonitoringTestResultsClassRef: Optional[RefType] = None
+
+    def getDiagnosticTestResultRefs(self) -> List[RefType]:
+        """
+        This reference identifies the applicable collection of test identifiers for setting up a request message for mode 0x06.
+        """
+        return self.diagnosticTestResultRefs
+
+    def addDiagnosticTestResultRef(self, value: Optional[RefType]) -> DiagnosticRequestOnBoardMonitoringTestResults:
+        """
+        This reference identifies the applicable collection of test identifiers for setting up a request message for mode 0x06.
+
+        A None value is a no-op and does not append a diagnosticTestResultRef.
+        """
+        if value is not None:
+            self.diagnosticTestResultRefs.append(value)
+        return self
+
+    def getRequestOnBoardMonitoringTestResultsClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestOnBoardMonitoringTestResults in the given context.
+        """
+        return self.requestOnBoardMonitoringTestResultsClassRef
+
+    def setRequestOnBoardMonitoringTestResultsClassRef(self, value: Optional[RefType]) -> DiagnosticRequestOnBoardMonitoringTestResults:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestOnBoardMonitoringTestResults in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestOnBoardMonitoringTestResultsClassRef.
+        """
+        if value is not None:
+            self.requestOnBoardMonitoringTestResultsClassRef = value
+        return self
 
 
-class DiagnosticRequestPowertrainFreezeFrameData(ARElement):
-    pass
+class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x02 service. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames"""
+
+    # DiagnosticRequestPowertrainFreezeFrameData method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.132, p.152
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFreezeFrameRef                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreezeFrameRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestPowertrainFreezeFrameDataRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestPowertrainFreezeFrameDataRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the associated freeze-frame.
+        self.freezeFrameRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context.
+        self.requestPowertrainFreezeFrameDataRef: Optional[RefType] = None
+
+    def getFreezeFrameRef(self) -> Optional[RefType]:
+        """
+        This represents the associated freeze-frame.
+        """
+        return self.freezeFrameRef
+
+    def setFreezeFrameRef(self, value: Optional[RefType]) -> DiagnosticRequestPowertrainFreezeFrameData:
+        """
+        This represents the associated freeze-frame.
+
+        A None value is a no-op and does not overwrite an existing freezeFrameRef.
+        """
+        if value is not None:
+            self.freezeFrameRef = value
+        return self
+
+    def getRequestPowertrainFreezeFrameDataRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context.
+        """
+        return self.requestPowertrainFreezeFrameDataRef
+
+    def setRequestPowertrainFreezeFrameDataRef(self, value: Optional[RefType]) -> DiagnosticRequestPowertrainFreezeFrameData:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestPowertrainFreezeFrameData in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestPowertrainFreezeFrameDataRef.
+        """
+        if value is not None:
+            self.requestPowertrainFreezeFrameDataRef = value
+        return self
 
 
 class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
-    pass
+    """This represents an instance of the "Request Upload" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticRequestUpload method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.123, p.145
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestUploadClassRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestUploadClassRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context.
+        self.requestUploadClassRef: Optional[RefType] = None
+
+    def getRequestUploadClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context.
+        """
+        return self.requestUploadClassRef
+
+    def setRequestUploadClassRef(self, value: Optional[RefType]) -> DiagnosticRequestUpload:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestUpload in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestUploadClassRef.
+        """
+        if value is not None:
+            self.requestUploadClassRef = value
+        return self
 
 
-class DiagnosticRequestVehicleInfo(ARElement):
-    pass
+class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x09 service. Tags: atp.recommendedPackage=DiagnosticRequestVehicleInfos"""
+
+    # DiagnosticRequestVehicleInfo method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.144, p.160
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInfoTypeRef                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInfoTypeRef                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestVehicleInformationClassRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestVehicleInformationClassRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the info type associated with the mode 0x09 service.
+        self.infoTypeRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context.
+        self.requestVehicleInformationClassRef: Optional[RefType] = None
+
+    def getInfoTypeRef(self) -> Optional[RefType]:
+        """
+        This represents the info type associated with the mode 0x09 service.
+        """
+        return self.infoTypeRef
+
+    def setInfoTypeRef(self, value: Optional[RefType]) -> DiagnosticRequestVehicleInfo:
+        """
+        This represents the info type associated with the mode 0x09 service.
+
+        A None value is a no-op and does not overwrite an existing infoTypeRef.
+        """
+        if value is not None:
+            self.infoTypeRef = value
+        return self
+
+    def getRequestVehicleInformationClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context.
+        """
+        return self.requestVehicleInformationClassRef
+
+    def setRequestVehicleInformationClassRef(self, value: Optional[RefType]) -> DiagnosticRequestVehicleInfo:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestVehicleInformationClassRef.
+        """
+        if value is not None:
+            self.requestVehicleInformationClassRef = value
+        return self
 
 
 class DiagnosticResponseOnEvent(ARElement):
@@ -7817,11 +9189,111 @@ class DiagnosticTestResult(ARElement):
 
 
 class DiagnosticTestRoutineIdentifier(ARElement):
-    pass
+    """This represents the test id of the DiagnosticTestIdentifier. Tags: atp.recommendedPackage=DiagnosticTestRoutineIdentifier"""
+
+    # DiagnosticTestRoutineIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.143, p.158
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestDataSize             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestDataSize             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseDataSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseDataSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA).
+        self.id: Optional[PositiveInteger] = None
+
+        # This represents the specified data size for the request message. Unit: byte.
+        self.requestDataSize: Optional[PositiveInteger] = None
+
+        # This represents the specified data size for the response message. Unit:byte.
+        self.responseDataSize: Optional[PositiveInteger] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA).
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
+        """
+        This represents the numerical id of the DiagnosticTestIdentifier (see SAE J1979-DA).
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getRequestDataSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the specified data size for the request message. Unit: byte.
+        """
+        return self.requestDataSize
+
+    def setRequestDataSize(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
+        """
+        This represents the specified data size for the request message. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing requestDataSize.
+        """
+        if value is not None:
+            self.requestDataSize = value
+        return self
+
+    def getResponseDataSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the specified data size for the response message. Unit:byte.
+        """
+        return self.responseDataSize
+
+    def setResponseDataSize(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
+        """
+        This represents the specified data size for the response message. Unit:byte.
+
+        A None value is a no-op and does not overwrite an existing responseDataSize.
+        """
+        if value is not None:
+            self.responseDataSize = value
+        return self
 
 
 class DiagnosticTransferExit(DiagnosticMemoryByAddress):
-    pass
+    """This represents an instance of the "Transfer Exit" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticTransferExit method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.117, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransferExitClassRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransferExitClassRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context.
+        self.transferExitClassRef: Optional[RefType] = None
+
+    def getTransferExitClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context.
+        """
+        return self.transferExitClassRef
+
+    def setTransferExitClassRef(self, value: Optional[RefType]) -> DiagnosticTransferExit:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticTransferExit in the given context.
+
+        A None value is a no-op and does not overwrite an existing transferExitClassRef.
+        """
+        if value is not None:
+            self.transferExitClassRef = value
+        return self
 
 
 class DiagnosticTroubleCode(ARElement, ABC):
@@ -8002,6 +9474,72 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
         """
         if value is not None:
             self.writeClass = value
+        return self
+
+
+class DiagnosticReadMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
+    """This represents an instance of the "Read Memory by Address" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticReadMemoryByAddress method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.115, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReadClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context.
+        self.readClassRef: Optional[RefType] = None
+
+    def getReadClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context.
+        """
+        return self.readClassRef
+
+    def setReadClassRef(self, value: Optional[RefType]) -> DiagnosticReadMemoryByAddress:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticReadMemoryByAddresst in the given context.
+
+        A None value is a no-op and does not overwrite an existing readClassRef.
+        """
+        if value is not None:
+            self.readClassRef = value
+        return self
+
+
+class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
+    """This represents an instance of the "Write Memory by Address" diagnostic service. Tags: atp.recommendedPackage=DiagnosticMemoryByAdresss"""
+
+    # DiagnosticWriteMemoryByAddress method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.113, p.141
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWriteClassRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWriteClassRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWritememoryByAddress in the given context.
+        self.writeClassRef: Optional[RefType] = None
+
+    def getWriteClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWritememoryByAddress in the given context.
+        """
+        return self.writeClassRef
+
+    def setWriteClassRef(self, value: Optional[RefType]) -> DiagnosticWriteMemoryByAddress:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticWritememoryByAddress in the given context.
+
+        A None value is a no-op and does not overwrite an existing writeClassRef.
+        """
+        if value is not None:
+            self.writeClassRef = value
         return self
 
 

@@ -13,23 +13,37 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticClearDiagnosticInformationClass,
+    DiagnosticClearResetEmissionRelatedInfoClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
+    DiagnosticDataTransferClass,
     DiagnosticDynamicallyDefineDataIdentifierClass,
     DiagnosticEcuResetClass,
     DiagnosticIoControlClass,
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
+    DiagnosticReadMemoryByAddressClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticRequestControlOfOnBoardDeviceClass,
+    DiagnosticRequestCurrentPowertrainDataClass,
+    DiagnosticRequestDownloadClass,
+    DiagnosticRequestEmissionRelatedDTCClass,
+    DiagnosticRequestFileTransferClass,
+    DiagnosticRequestOnBoardMonitoringTestResultsClass,
+    DiagnosticRequestPowertrainFreezeFrameDataClass,
+    DiagnosticRequestUploadClass,
+    DiagnosticRequestVehicleInfoClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
+    DiagnosticTransferExitClass,
     DiagnosticWriteDataByIdentifierClass,
+    DiagnosticWriteMemoryByAddressClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -1130,4 +1144,466 @@ class Test_DiagnosticClearDiagnosticInformationClass:
         assert package.getReferrableElement("Cdci1", DiagnosticClearDiagnosticInformationClass) is service_class
 
         duplicate = package.createDiagnosticClearDiagnosticInformationClass("Cdci1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticWriteMemoryByAddressClass:
+    """Test cases for DiagnosticWriteMemoryByAddressClass class (Table 4.114, p.141)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Write Memory by Address" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticWriteMemoryByAddressClass(_pkg(), "MyWmba")
+        assert service_class.getShortName() == "MyWmba"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, ARObject)
+        assert issubclass(DiagnosticWriteMemoryByAddressClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticWriteMemoryByAddressClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticWriteMemoryByAddressClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_write_memory_by_address_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticWriteMemoryByAddressClass("Wmba1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticWriteMemoryByAddressClass)
+        assert service_class.getShortName() == "Wmba1"
+        assert package.getReferrableElement("Wmba1", DiagnosticWriteMemoryByAddressClass) is service_class
+
+        duplicate = package.createDiagnosticWriteMemoryByAddressClass("Wmba1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticReadMemoryByAddressClass:
+    """Test cases for DiagnosticReadMemoryByAddressClass class (Table 4.116, p.142)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Read Memory by Address" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticReadMemoryByAddressClass(_pkg(), "MyRmba")
+        assert service_class.getShortName() == "MyRmba"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticReadMemoryByAddressClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticReadMemoryByAddressClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticReadMemoryByAddressClass, ARObject)
+        assert issubclass(DiagnosticReadMemoryByAddressClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticReadMemoryByAddressClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticReadMemoryByAddressClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_read_memory_by_address_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticReadMemoryByAddressClass("Rmba1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticReadMemoryByAddressClass)
+        assert service_class.getShortName() == "Rmba1"
+        assert package.getReferrableElement("Rmba1", DiagnosticReadMemoryByAddressClass) is service_class
+
+        duplicate = package.createDiagnosticReadMemoryByAddressClass("Rmba1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticTransferExitClass:
+    """Test cases for DiagnosticTransferExitClass class (Table 4.118, p.143)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Transfer Exit" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticTransferExitClass(_pkg(), "MyTea")
+        assert service_class.getShortName() == "MyTea"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticTransferExitClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticTransferExitClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticTransferExitClass, ARObject)
+        assert issubclass(DiagnosticTransferExitClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticTransferExitClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticTransferExitClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_transfer_exit_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticTransferExitClass("Tea1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticTransferExitClass)
+        assert service_class.getShortName() == "Tea1"
+        assert package.getReferrableElement("Tea1", DiagnosticTransferExitClass) is service_class
+
+        duplicate = package.createDiagnosticTransferExitClass("Tea1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticDataTransferClass:
+    """Test cases for DiagnosticDataTransferClass class (Table 4.120, p.143)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Data Transfer" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticDataTransferClass(_pkg(), "MyDta")
+        assert service_class.getShortName() == "MyDta"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticDataTransferClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticDataTransferClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticDataTransferClass, ARObject)
+        assert issubclass(DiagnosticDataTransferClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticDataTransferClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticDataTransferClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_data_transfer_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticDataTransferClass("Dta1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticDataTransferClass)
+        assert service_class.getShortName() == "Dta1"
+        assert package.getReferrableElement("Dta1", DiagnosticDataTransferClass) is service_class
+
+        duplicate = package.createDiagnosticDataTransferClass("Dta1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestDownloadClass:
+    """Test cases for DiagnosticRequestDownloadClass class (Table 4.122, p.145)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Request Download" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestDownloadClass(_pkg(), "MyRqd")
+        assert service_class.getShortName() == "MyRqd"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestDownloadClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestDownloadClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestDownloadClass, ARObject)
+        assert issubclass(DiagnosticRequestDownloadClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestDownloadClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestDownloadClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_download_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestDownloadClass("Rqd1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestDownloadClass)
+        assert service_class.getShortName() == "Rqd1"
+        assert package.getReferrableElement("Rqd1", DiagnosticRequestDownloadClass) is service_class
+
+        duplicate = package.createDiagnosticRequestDownloadClass("Rqd1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestUploadClass:
+    """Test cases for DiagnosticRequestUploadClass class (Table 4.124, p.146)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Request Upload" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestUploadClass(_pkg(), "MyRqu")
+        assert service_class.getShortName() == "MyRqu"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestUploadClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestUploadClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestUploadClass, ARObject)
+        assert issubclass(DiagnosticRequestUploadClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestUploadClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestUploadClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_upload_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestUploadClass("Rqu1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestUploadClass)
+        assert service_class.getShortName() == "Rqu1"
+        assert package.getReferrableElement("Rqu1", DiagnosticRequestUploadClass) is service_class
+
+        duplicate = package.createDiagnosticRequestUploadClass("Rqu1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestFileTransferClass:
+    """Test cases for DiagnosticRequestFileTransferClass class (Table 4.126, p.147)."""
+
+    CLASS_DOCSTRING = 'This meta-class contains attributes shared by all instances of the "Request File transfer" diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestFileTransferClass(_pkg(), "MyRqf")
+        assert service_class.getShortName() == "MyRqf"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestFileTransferClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestFileTransferClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestFileTransferClass, ARObject)
+        assert issubclass(DiagnosticRequestFileTransferClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestFileTransferClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestFileTransferClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_file_transfer_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestFileTransferClass("Rqf1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestFileTransferClass)
+        assert service_class.getShortName() == "Rqf1"
+        assert package.getReferrableElement("Rqf1", DiagnosticRequestFileTransferClass) is service_class
+
+        duplicate = package.createDiagnosticRequestFileTransferClass("Rqf1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestCurrentPowertrainDataClass:
+    """Test cases for DiagnosticRequestCurrentPowertrainDataClass class (Table 4.131, p.151)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request current Powertrain Data" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestCurrentPowertrainDataClass(_pkg(), "MyRcp")
+        assert service_class.getShortName() == "MyRcp"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestCurrentPowertrainDataClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestCurrentPowertrainDataClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestCurrentPowertrainDataClass, ARObject)
+        assert issubclass(DiagnosticRequestCurrentPowertrainDataClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainDataClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestCurrentPowertrainDataClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_current_powertrain_data_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestCurrentPowertrainDataClass("Rcp1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestCurrentPowertrainDataClass)
+        assert service_class.getShortName() == "Rcp1"
+        assert package.getReferrableElement("Rcp1", DiagnosticRequestCurrentPowertrainDataClass) is service_class
+
+        duplicate = package.createDiagnosticRequestCurrentPowertrainDataClass("Rcp1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestPowertrainFreezeFrameDataClass:
+    """Test cases for DiagnosticRequestPowertrainFreezeFrameDataClass class (Table 4.133, p.152)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestPowertrainFreezeFrameDataClass(_pkg(), "MyRpf")
+        assert service_class.getShortName() == "MyRpf"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, ARObject)
+        assert issubclass(DiagnosticRequestPowertrainFreezeFrameDataClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameDataClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestPowertrainFreezeFrameDataClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_powertrain_freeze_frame_data_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestPowertrainFreezeFrameDataClass("Rpf1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestPowertrainFreezeFrameDataClass)
+        assert service_class.getShortName() == "Rpf1"
+        assert package.getReferrableElement("Rpf1", DiagnosticRequestPowertrainFreezeFrameDataClass) is service_class
+
+        duplicate = package.createDiagnosticRequestPowertrainFreezeFrameDataClass("Rpf1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestEmissionRelatedDTCClass:
+    """Test cases for DiagnosticRequestEmissionRelatedDTCClass class (Table 4.136, p.154)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Emission Related DTC" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestEmissionRelatedDTCClass(_pkg(), "MyRed")
+        assert service_class.getShortName() == "MyRed"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, ARObject)
+        assert issubclass(DiagnosticRequestEmissionRelatedDTCClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTCClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestEmissionRelatedDTCClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_emission_related_dtc_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestEmissionRelatedDTCClass("Red1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestEmissionRelatedDTCClass)
+        assert service_class.getShortName() == "Red1"
+        assert package.getReferrableElement("Red1", DiagnosticRequestEmissionRelatedDTCClass) is service_class
+
+        duplicate = package.createDiagnosticRequestEmissionRelatedDTCClass("Red1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticClearResetEmissionRelatedInfoClass:
+    """Test cases for DiagnosticClearResetEmissionRelatedInfoClass class (Table 4.138, p.155)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Clear Reset Emission Related Data" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticClearResetEmissionRelatedInfoClass(_pkg(), "MyCre")
+        assert service_class.getShortName() == "MyCre"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, ARObject)
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfoClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticClearResetEmissionRelatedInfoClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_clear_reset_emission_related_info_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticClearResetEmissionRelatedInfoClass("Cre1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticClearResetEmissionRelatedInfoClass)
+        assert service_class.getShortName() == "Cre1"
+        assert package.getReferrableElement("Cre1", DiagnosticClearResetEmissionRelatedInfoClass) is service_class
+
+        duplicate = package.createDiagnosticClearResetEmissionRelatedInfoClass("Cre1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestOnBoardMonitoringTestResultsClass:
+    """Test cases for DiagnosticRequestOnBoardMonitoringTestResultsClass class (Table 4.140, p.157)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request On-Board Monitoring Test Results" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestOnBoardMonitoringTestResultsClass(_pkg(), "MyObd06")
+        assert service_class.getShortName() == "MyObd06"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, ARObject)
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResultsClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestOnBoardMonitoringTestResultsClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_on_board_monitoring_test_results_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestOnBoardMonitoringTestResultsClass("Obd061")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestOnBoardMonitoringTestResultsClass)
+        assert service_class.getShortName() == "Obd061"
+        assert package.getReferrableElement("Obd061", DiagnosticRequestOnBoardMonitoringTestResultsClass) is service_class
+
+        duplicate = package.createDiagnosticRequestOnBoardMonitoringTestResultsClass("Obd061")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestControlOfOnBoardDeviceClass:
+    """Test cases for DiagnosticRequestControlOfOnBoardDeviceClass class (Table 4.142, p.158)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Control Of On-Board Device" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestControlOfOnBoardDeviceClass(_pkg(), "MyCoob")
+        assert service_class.getShortName() == "MyCoob"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, ARObject)
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDeviceClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestControlOfOnBoardDeviceClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_control_of_on_board_device_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestControlOfOnBoardDeviceClass("Coob1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestControlOfOnBoardDeviceClass)
+        assert service_class.getShortName() == "Coob1"
+        assert package.getReferrableElement("Coob1", DiagnosticRequestControlOfOnBoardDeviceClass) is service_class
+
+        duplicate = package.createDiagnosticRequestControlOfOnBoardDeviceClass("Coob1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestVehicleInfoClass:
+    """Test cases for DiagnosticRequestVehicleInfoClass class (Table 4.145, p.160)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Vehicle Info" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestVehicleInfoClass(_pkg(), "MyRvi")
+        assert service_class.getShortName() == "MyRvi"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestVehicleInfoClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestVehicleInfoClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestVehicleInfoClass, ARObject)
+        assert issubclass(DiagnosticRequestVehicleInfoClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfoClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestVehicleInfoClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_vehicle_info_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestVehicleInfoClass("Rvi1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestVehicleInfoClass)
+        assert service_class.getShortName() == "Rvi1"
+        assert package.getReferrableElement("Rvi1", DiagnosticRequestVehicleInfoClass) is service_class
+
+        duplicate = package.createDiagnosticRequestVehicleInfoClass("Rvi1")
         assert duplicate is service_class

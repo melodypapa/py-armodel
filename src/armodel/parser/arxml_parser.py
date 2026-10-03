@@ -383,6 +383,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticClearDiagnosticInformationClass,
+    DiagnosticClearResetEmissionRelatedInfoClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -392,6 +393,18 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByIdentifierClass,
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
+    DiagnosticReadMemoryByAddressClass,
+    DiagnosticDataTransferClass,
+    DiagnosticRequestControlOfOnBoardDeviceClass,
+    DiagnosticRequestCurrentPowertrainDataClass,
+    DiagnosticRequestDownloadClass,
+    DiagnosticRequestEmissionRelatedDTCClass,
+    DiagnosticRequestFileTransferClass,
+    DiagnosticRequestOnBoardMonitoringTestResultsClass,
+    DiagnosticRequestPowertrainFreezeFrameDataClass,
+    DiagnosticRequestUploadClass,
+    DiagnosticRequestVehicleInfoClass,
+    DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
@@ -399,6 +412,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticServiceInstance,
     DiagnosticSessionControlClass,
     DiagnosticWriteDataByIdentifierClass,
+    DiagnosticWriteMemoryByAddressClass,
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -543,11 +557,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthTransmitCertificate,
     DiagnosticClearDiagnosticInformation,
+    DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
@@ -557,20 +573,37 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939Spn,
     DiagnosticEcuReset,
     DiagnosticIOControl,
+    DiagnosticInfoType,
     DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
     DiagnosticReadDataByPeriodicID,
     DiagnosticReadDTCInformation,
+    DiagnosticReadMemoryByAddress,
+    DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRequestControlOfOnBoardDevice,
+    DiagnosticRequestCurrentPowertrainData,
+    DiagnosticRequestDownload,
+    DiagnosticRequestEmissionRelatedDTC,
+    DiagnosticRequestFileTransfer,
+    DiagnosticRequestOnBoardMonitoringTestResults,
+    DiagnosticRequestPowertrainFreezeFrameData,
+    DiagnosticRequestUpload,
+    DiagnosticRequestVehicleInfo,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCodeJ1939,
+    DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
+    DiagnosticParameterIdentifier,
+    DiagnosticPowertrainFreezeFrame,
     DiagnosticServiceDataMapping,
     DiagnosticServiceSwMapping,
     DiagnosticEventPortMapping,
@@ -11001,6 +11034,11 @@ class ARXMLParser(AbstractARXMLParser):
             protocol.setSendRespPendOnTransToBoot(send_resp_pend_value)
         protocol.setServiceTableRef(self.getChildElementOptionalRefType(element, "SERVICE-TABLES/DIAGNOSTIC-SERVICE-TABLE-REF-CONDITIONAL/DIAGNOSTIC-SERVICE-TABLE-REF"))
 
+    def readDiagnosticSupportInfoByte(self, element: ET.Element, support_info_byte: DiagnosticSupportInfoByte):
+        self.logger.debug("Read DiagnosticSupportInfoByte")
+        support_info_byte.setPosition(self.getChildElementOptionalPositiveInteger(element, "POSITION"))
+        support_info_byte.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
+
     def readDiagnosticDataIdentifier(self, element: ET.Element, did: DiagnosticDataIdentifier):
         self.readDiagnosticAbstractDataIdentifier(element, did)
         for child_element in self.findall(element, "DATA-ELEMENTS/DIAGNOSTIC-PARAMETER"):
@@ -11011,7 +11049,9 @@ class ARXMLParser(AbstractARXMLParser):
         did.setRepresentsVin(self.getChildElementOptionalBooleanValue(element, "REPRESENTS-VIN"))
         support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
         if support_info_byte_element is not None:
-            did.setSupportInfoByte(DiagnosticSupportInfoByte())
+            support_info_byte = DiagnosticSupportInfoByte()
+            self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
+            did.setSupportInfoByte(support_info_byte)
 
     def readDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.readARObject(element, parameter)
@@ -11039,6 +11079,10 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
+    def readDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
+        self.logger.debug("Read DiagnosticParameterSupportInfo")
+        support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
+
     def readDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         self.readDiagnosticAbstractParameter(element, parameter)
         ident_element = self.find(element, "IDENT")
@@ -11047,7 +11091,9 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticParameterIdent(ident_element, ident)
         support_info_element = self.find(element, "SUPPORT-INFO")
         if support_info_element is not None:
-            parameter.setSupportInfo(DiagnosticParameterSupportInfo())
+            support_info = DiagnosticParameterSupportInfo()
+            self.readDiagnosticParameterSupportInfo(support_info_element, support_info)
+            parameter.setSupportInfo(support_info)
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
             if isinstance(parameter, VariationPointCapable):
@@ -11111,9 +11157,23 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "MEMORY-RANGE-REFS/MEMORY-RANGE-REF"):
             range_access.addMemoryRange(ref)
 
+    def readDiagnosticMemoryIdentifier(self, element: ET.Element, identifier: DiagnosticMemoryIdentifier):
+        self.logger.debug("Read DiagnosticMemoryIdentifier <%s>" % identifier.getShortName())
+        self.readIdentifiable(element, identifier)
+        identifier.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
+        identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        identifier.setMemoryHighAddress(self.getChildElementOptionalPositiveInteger(element, "MEMORY-HIGH-ADDRESS"))
+        identifier.setMemoryHighAddressLabel(self.getChildElementOptionalString(element, "MEMORY-HIGH-ADDRESS-LABEL"))
+        identifier.setMemoryLowAddress(self.getChildElementOptionalPositiveInteger(element, "MEMORY-LOW-ADDRESS"))
+        identifier.setMemoryLowAddressLabel(self.getChildElementOptionalString(element, "MEMORY-LOW-ADDRESS-LABEL"))
+
     def readDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
         self.logger.debug("Read DiagnosticClearDiagnosticInformationClass <%s>" % clear_diagnostic_information_class.getShortName())
         self.readIdentifiable(element, clear_diagnostic_information_class)
+
+    def readDiagnosticClearResetEmissionRelatedInfoClass(self, element: ET.Element, clear_reset_emission_related_info_class: DiagnosticClearResetEmissionRelatedInfoClass):
+        self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfoClass <%s>" % clear_reset_emission_related_info_class.getShortName())
+        self.readIdentifiable(element, clear_reset_emission_related_info_class)
 
     def readDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Read DiagnosticComControl <%s>" % com_control.getShortName())
@@ -11453,6 +11513,177 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticVerifyCertificateUnidirectional <%s>" % verification.getShortName())
         self.readIdentifiable(element, verification)
         self.readDiagnosticAuthentication(element, verification)
+
+    def readDiagnosticReadMemoryByAddress(self, element: ET.Element, read_memory_by_address: DiagnosticReadMemoryByAddress):
+        self.logger.debug("Read DiagnosticReadMemoryByAddress <%s>" % read_memory_by_address.getShortName())
+        self.readIdentifiable(element, read_memory_by_address)
+        self.readDiagnosticMemoryAddressableRangeAccess(element, read_memory_by_address)
+        read_memory_by_address.setReadClassRef(self.getChildElementOptionalRefType(element, "READ-CLASS-REF"))
+
+    def readDiagnosticTransferExit(self, element: ET.Element, transfer_exit: DiagnosticTransferExit):
+        self.logger.debug("Read DiagnosticTransferExit <%s>" % transfer_exit.getShortName())
+        self.readIdentifiable(element, transfer_exit)
+        transfer_exit.setTransferExitClassRef(self.getChildElementOptionalRefType(element, "TRANSFER-EXIT-CLASS-REF"))
+
+    def readDiagnosticDataTransfer(self, element: ET.Element, data_transfer: DiagnosticDataTransfer):
+        self.logger.debug("Read DiagnosticDataTransfer <%s>" % data_transfer.getShortName())
+        self.readIdentifiable(element, data_transfer)
+        data_transfer.setDataTransferClassRef(self.getChildElementOptionalRefType(element, "DATA-TRANSFER-CLASS-REF"))
+
+    def readDiagnosticDataTransferClass(self, element: ET.Element, data_transfer_class: DiagnosticDataTransferClass):
+        self.logger.debug("Read DiagnosticDataTransferClass <%s>" % data_transfer_class.getShortName())
+        self.readIdentifiable(element, data_transfer_class)
+
+    def readDiagnosticRequestDownload(self, element: ET.Element, request_download: DiagnosticRequestDownload):
+        self.logger.debug("Read DiagnosticRequestDownload <%s>" % request_download.getShortName())
+        self.readIdentifiable(element, request_download)
+        request_download.setRequestDownloadClassRef(self.getChildElementOptionalRefType(element, "REQUEST-DOWNLOAD-CLASS-REF"))
+
+    def readDiagnosticRequestUpload(self, element: ET.Element, request_upload: DiagnosticRequestUpload):
+        self.logger.debug("Read DiagnosticRequestUpload <%s>" % request_upload.getShortName())
+        self.readIdentifiable(element, request_upload)
+        request_upload.setRequestUploadClassRef(self.getChildElementOptionalRefType(element, "REQUEST-UPLOAD-CLASS-REF"))
+
+    def readDiagnosticRequestFileTransfer(self, element: ET.Element, request_file_transfer: DiagnosticRequestFileTransfer):
+        self.logger.debug("Read DiagnosticRequestFileTransfer <%s>" % request_file_transfer.getShortName())
+        self.readIdentifiable(element, request_file_transfer)
+        request_file_transfer.setRequestFileTransferClassRef(self.getChildElementOptionalRefType(element, "REQUEST-FILE-TRANSFER-CLASS-REF"))
+
+    def readDiagnosticParameterIdentifier(self, element: ET.Element, parameter_identifier: DiagnosticParameterIdentifier):
+        self.logger.debug("Read DiagnosticParameterIdentifier <%s>" % parameter_identifier.getShortName())
+        self.readIdentifiable(element, parameter_identifier)
+        data_elements_element = self.find(element, "DATA-ELEMENTS")
+        if data_elements_element is not None:
+            for child_element in self.findall(data_elements_element, "DIAGNOSTIC-PARAMETER"):
+                data_element = DiagnosticParameter()
+                self.readDiagnosticParameter(child_element, data_element)
+                parameter_identifier.addDataElement(data_element)
+        parameter_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        parameter_identifier.setPidSize(self.getChildElementOptionalPositiveInteger(element, "PID-SIZE"))
+        support_info_byte_element = self.find(element, "SUPPORT-INFO-BYTE")
+        if support_info_byte_element is not None:
+            support_info_byte = DiagnosticSupportInfoByte()
+            self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
+            parameter_identifier.setSupportInfoByte(support_info_byte)
+
+    def readDiagnosticRequestCurrentPowertrainData(self, element: ET.Element, request_current_powertrain_data: DiagnosticRequestCurrentPowertrainData):
+        self.logger.debug("Read DiagnosticRequestCurrentPowertrainData <%s>" % request_current_powertrain_data.getShortName())
+        self.readIdentifiable(element, request_current_powertrain_data)
+        request_current_powertrain_data.setPidRef(self.getChildElementOptionalRefType(element, "PID-REF"))
+        request_current_powertrain_data.setRequestCurrentPowertrainDiagnosticDataClassRef(self.getChildElementOptionalRefType(element, "REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF"))
+
+    def readDiagnosticRequestPowertrainFreezeFrameData(self, element: ET.Element, request_powertrain_freeze_frame_data: DiagnosticRequestPowertrainFreezeFrameData):
+        self.logger.debug("Read DiagnosticRequestPowertrainFreezeFrameData <%s>" % request_powertrain_freeze_frame_data.getShortName())
+        self.readIdentifiable(element, request_powertrain_freeze_frame_data)
+        request_powertrain_freeze_frame_data.setFreezeFrameRef(self.getChildElementOptionalRefType(element, "FREEZE-FRAME-REF"))
+        request_powertrain_freeze_frame_data.setRequestPowertrainFreezeFrameDataRef(self.getChildElementOptionalRefType(element, "REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-REF"))
+
+    def readDiagnosticPowertrainFreezeFrame(self, element: ET.Element, powertrain_freeze_frame: DiagnosticPowertrainFreezeFrame):
+        self.logger.debug("Read DiagnosticPowertrainFreezeFrame <%s>" % powertrain_freeze_frame.getShortName())
+        self.readIdentifiable(element, powertrain_freeze_frame)
+        for ref in self.getChildElementRefTypeList(element, "PID-REFS/PID-REF"):
+            powertrain_freeze_frame.addPidRef(ref)
+
+    def readDiagnosticRequestEmissionRelatedDTC(self, element: ET.Element, request_emission_related_dtc: DiagnosticRequestEmissionRelatedDTC):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTC <%s>" % request_emission_related_dtc.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc)
+        request_emission_related_dtc.setRequestEmissionRelatedDtcClassRef(self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF"))
+
+    def readDiagnosticClearResetEmissionRelatedInfo(self, element: ET.Element, clear_reset_emission_related_info: DiagnosticClearResetEmissionRelatedInfo):
+        self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfo <%s>" % clear_reset_emission_related_info.getShortName())
+        self.readIdentifiable(element, clear_reset_emission_related_info)
+        clear_reset_emission_related_info.setClearResetEmissionRelatedDiagnosticInfoClassRef(self.getChildElementOptionalRefType(element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF"))
+
+    def readDiagnosticRequestOnBoardMonitoringTestResults(self, element: ET.Element, request_on_board_monitoring_test_results: DiagnosticRequestOnBoardMonitoringTestResults):
+        self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResults <%s>" % request_on_board_monitoring_test_results.getShortName())
+        self.readIdentifiable(element, request_on_board_monitoring_test_results)
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-TEST-RESULT-REFS/DIAGNOSTIC-TEST-RESULT-REF"):
+            request_on_board_monitoring_test_results.addDiagnosticTestResultRef(ref)
+        request_on_board_monitoring_test_results.setRequestOnBoardMonitoringTestResultsClassRef(self.getChildElementOptionalRefType(element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF"))
+
+    def readDiagnosticRequestControlOfOnBoardDevice(self, element: ET.Element, request_control_of_on_board_device: DiagnosticRequestControlOfOnBoardDevice):
+        self.logger.debug("Read DiagnosticRequestControlOfOnBoardDevice <%s>" % request_control_of_on_board_device.getShortName())
+        self.readIdentifiable(element, request_control_of_on_board_device)
+        request_control_of_on_board_device.setRequestControlOfOnBoardDeviceClassRef(self.getChildElementOptionalRefType(element, "REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF"))
+        request_control_of_on_board_device.setTestIdRef(self.getChildElementOptionalRefType(element, "TEST-ID-REF"))
+
+    def readDiagnosticTestRoutineIdentifier(self, element: ET.Element, test_routine_identifier: DiagnosticTestRoutineIdentifier):
+        self.logger.debug("Read DiagnosticTestRoutineIdentifier <%s>" % test_routine_identifier.getShortName())
+        self.readIdentifiable(element, test_routine_identifier)
+        test_routine_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        test_routine_identifier.setRequestDataSize(self.getChildElementOptionalPositiveInteger(element, "REQUEST-DATA-SIZE"))
+        test_routine_identifier.setResponseDataSize(self.getChildElementOptionalPositiveInteger(element, "RESPONSE-DATA-SIZE"))
+
+    def readDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
+        self.logger.debug("Read DiagnosticRequestVehicleInfo <%s>" % request_vehicle_info.getShortName())
+        self.readIdentifiable(element, request_vehicle_info)
+        request_vehicle_info.setInfoTypeRef(self.getChildElementOptionalRefType(element, "INFO-TYPE-REF"))
+        request_vehicle_info.setRequestVehicleInformationClassRef(self.getChildElementOptionalRefType(element, "REQUEST-VEHICLE-INFORMATION-CLASS-REF"))
+
+    def readDiagnosticInfoType(self, element: ET.Element, info_type: DiagnosticInfoType):
+        self.logger.debug("Read DiagnosticInfoType <%s>" % info_type.getShortName())
+        self.readIdentifiable(element, info_type)
+        data_elements_element = self.find(element, "DATA-ELEMENTS")
+        if data_elements_element is not None:
+            for child_element in self.findall(data_elements_element, "DIAGNOSTIC-PARAMETER"):
+                data_element = DiagnosticParameter()
+                self.readDiagnosticParameter(child_element, data_element)
+                info_type.addDataElement(data_element)
+        info_type.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+
+    def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
+        self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
+        self.readIdentifiable(element, read_memory_by_address_class)
+
+    def readDiagnosticTransferExitClass(self, element: ET.Element, transfer_exit_class: DiagnosticTransferExitClass):
+        self.logger.debug("Read DiagnosticTransferExitClass <%s>" % transfer_exit_class.getShortName())
+        self.readIdentifiable(element, transfer_exit_class)
+
+    def readDiagnosticRequestDownloadClass(self, element: ET.Element, request_download_class: DiagnosticRequestDownloadClass):
+        self.logger.debug("Read DiagnosticRequestDownloadClass <%s>" % request_download_class.getShortName())
+        self.readIdentifiable(element, request_download_class)
+
+    def readDiagnosticRequestControlOfOnBoardDeviceClass(self, element: ET.Element, request_control_of_on_board_device_class: DiagnosticRequestControlOfOnBoardDeviceClass):
+        self.logger.debug("Read DiagnosticRequestControlOfOnBoardDeviceClass <%s>" % request_control_of_on_board_device_class.getShortName())
+        self.readIdentifiable(element, request_control_of_on_board_device_class)
+
+    def readDiagnosticRequestCurrentPowertrainDataClass(self, element: ET.Element, request_current_powertrain_data_class: DiagnosticRequestCurrentPowertrainDataClass):
+        self.logger.debug("Read DiagnosticRequestCurrentPowertrainDataClass <%s>" % request_current_powertrain_data_class.getShortName())
+        self.readIdentifiable(element, request_current_powertrain_data_class)
+
+    def readDiagnosticRequestPowertrainFreezeFrameDataClass(self, element: ET.Element, request_powertrain_freeze_frame_data_class: DiagnosticRequestPowertrainFreezeFrameDataClass):
+        self.logger.debug("Read DiagnosticRequestPowertrainFreezeFrameDataClass <%s>" % request_powertrain_freeze_frame_data_class.getShortName())
+        self.readIdentifiable(element, request_powertrain_freeze_frame_data_class)
+
+    def readDiagnosticRequestEmissionRelatedDTCClass(self, element: ET.Element, request_emission_related_dtc_class: DiagnosticRequestEmissionRelatedDTCClass):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCClass <%s>" % request_emission_related_dtc_class.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc_class)
+
+    def readDiagnosticRequestOnBoardMonitoringTestResultsClass(self, element: ET.Element, request_on_board_monitoring_test_results_class: DiagnosticRequestOnBoardMonitoringTestResultsClass):
+        self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResultsClass <%s>" % request_on_board_monitoring_test_results_class.getShortName())
+        self.readIdentifiable(element, request_on_board_monitoring_test_results_class)
+
+    def readDiagnosticRequestVehicleInfoClass(self, element: ET.Element, request_vehicle_info_class: DiagnosticRequestVehicleInfoClass):
+        self.logger.debug("Read DiagnosticRequestVehicleInfoClass <%s>" % request_vehicle_info_class.getShortName())
+        self.readIdentifiable(element, request_vehicle_info_class)
+
+    def readDiagnosticRequestUploadClass(self, element: ET.Element, request_upload_class: DiagnosticRequestUploadClass):
+        self.logger.debug("Read DiagnosticRequestUploadClass <%s>" % request_upload_class.getShortName())
+        self.readIdentifiable(element, request_upload_class)
+
+    def readDiagnosticRequestFileTransferClass(self, element: ET.Element, request_file_transfer_class: DiagnosticRequestFileTransferClass):
+        self.logger.debug("Read DiagnosticRequestFileTransferClass <%s>" % request_file_transfer_class.getShortName())
+        self.readIdentifiable(element, request_file_transfer_class)
+
+    def readDiagnosticWriteMemoryByAddress(self, element: ET.Element, write_memory_by_address: DiagnosticWriteMemoryByAddress):
+        self.logger.debug("Read DiagnosticWriteMemoryByAddress <%s>" % write_memory_by_address.getShortName())
+        self.readIdentifiable(element, write_memory_by_address)
+        self.readDiagnosticMemoryAddressableRangeAccess(element, write_memory_by_address)
+        write_memory_by_address.setWriteClassRef(self.getChildElementOptionalRefType(element, "WRITE-CLASS-REF"))
+
+    def readDiagnosticWriteMemoryByAddressClass(self, element: ET.Element, write_memory_by_address_class: DiagnosticWriteMemoryByAddressClass):
+        self.logger.debug("Read DiagnosticWriteMemoryByAddressClass <%s>" % write_memory_by_address_class.getShortName())
+        self.readIdentifiable(element, write_memory_by_address_class)
 
     def readDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Read DiagnosticAuthRole <%s>" % auth_role.getShortName())
@@ -16237,6 +16468,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-COM-CONTROL":
             com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
             self.readDiagnosticComControl(child_element, com_control)
+        elif tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS":
+            clear_reset_emission_related_info_class = parent.createDiagnosticClearResetEmissionRelatedInfoClass(self.getShortName(child_element))
+            self.readDiagnosticClearResetEmissionRelatedInfoClass(child_element, clear_reset_emission_related_info_class)
         elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
             com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
             self.readDiagnosticComControlClass(child_element, com_control_class)
@@ -16282,6 +16516,42 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-READ-DTC-INFORMATION-CLASS":
             read_dtc_information_class = parent.createDiagnosticReadDTCInformationClass(self.getShortName(child_element))
             self.readDiagnosticReadDTCInformationClass(child_element, read_dtc_information_class)
+        elif tag_name == "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS":
+            read_memory_by_address_class = parent.createDiagnosticReadMemoryByAddressClass(self.getShortName(child_element))
+            self.readDiagnosticReadMemoryByAddressClass(child_element, read_memory_by_address_class)
+        elif tag_name == "DIAGNOSTIC-TRANSFER-EXIT-CLASS":
+            transfer_exit_class = parent.createDiagnosticTransferExitClass(self.getShortName(child_element))
+            self.readDiagnosticTransferExitClass(child_element, transfer_exit_class)
+        elif tag_name == "DIAGNOSTIC-DATA-TRANSFER-CLASS":
+            data_transfer_class = parent.createDiagnosticDataTransferClass(self.getShortName(child_element))
+            self.readDiagnosticDataTransferClass(child_element, data_transfer_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS":
+            request_control_of_on_board_device_class = parent.createDiagnosticRequestControlOfOnBoardDeviceClass(self.getShortName(child_element))
+            self.readDiagnosticRequestControlOfOnBoardDeviceClass(child_element, request_control_of_on_board_device_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA-CLASS":
+            request_current_powertrain_data_class = parent.createDiagnosticRequestCurrentPowertrainDataClass(self.getShortName(child_element))
+            self.readDiagnosticRequestCurrentPowertrainDataClass(child_element, request_current_powertrain_data_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS":
+            request_download_class = parent.createDiagnosticRequestDownloadClass(self.getShortName(child_element))
+            self.readDiagnosticRequestDownloadClass(child_element, request_download_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS":
+            request_powertrain_freeze_frame_data_class = parent.createDiagnosticRequestPowertrainFreezeFrameDataClass(self.getShortName(child_element))
+            self.readDiagnosticRequestPowertrainFreezeFrameDataClass(child_element, request_powertrain_freeze_frame_data_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS":
+            request_on_board_monitoring_test_results_class = parent.createDiagnosticRequestOnBoardMonitoringTestResultsClass(self.getShortName(child_element))
+            self.readDiagnosticRequestOnBoardMonitoringTestResultsClass(child_element, request_on_board_monitoring_test_results_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS":
+            request_vehicle_info_class = parent.createDiagnosticRequestVehicleInfoClass(self.getShortName(child_element))
+            self.readDiagnosticRequestVehicleInfoClass(child_element, request_vehicle_info_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS":
+            request_upload_class = parent.createDiagnosticRequestUploadClass(self.getShortName(child_element))
+            self.readDiagnosticRequestUploadClass(child_element, request_upload_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS":
+            request_emission_related_dtc_class = parent.createDiagnosticRequestEmissionRelatedDTCClass(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTCClass(child_element, request_emission_related_dtc_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS":
+            request_file_transfer_class = parent.createDiagnosticRequestFileTransferClass(self.getShortName(child_element))
+            self.readDiagnosticRequestFileTransferClass(child_element, request_file_transfer_class)
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER":
             write_data_by_identifier = parent.createDiagnosticWriteDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifier(child_element, write_data_by_identifier)
@@ -16291,6 +16561,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-WRITE-DATA-BY-IDENTIFIER-CLASS":
             write_data_by_identifier_class = parent.createDiagnosticWriteDataByIdentifierClass(self.getShortName(child_element))
             self.readDiagnosticWriteDataByIdentifierClass(child_element, write_data_by_identifier_class)
+        elif tag_name == "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS-CLASS":
+            write_memory_by_address_class = parent.createDiagnosticWriteMemoryByAddressClass(self.getShortName(child_element))
+            self.readDiagnosticWriteMemoryByAddressClass(child_element, write_memory_by_address_class)
         elif tag_name == "DIAGNOSTIC-READ-SCALING-DATA-BY-IDENTIFIER-CLASS":
             read_scaling_data_by_identifier_class = parent.createDiagnosticReadScalingDataByIdentifierClass(self.getShortName(child_element))
             self.readDiagnosticReadScalingDataByIdentifierClass(child_element, read_scaling_data_by_identifier_class)
@@ -16733,6 +17006,82 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
             verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
             self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+            return True
+        if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
+            identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))
+            self.readDiagnosticMemoryIdentifier(child_element, identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS":
+            write_memory_by_address = parent.createDiagnosticWriteMemoryByAddress(self.getShortName(child_element))
+            self.readDiagnosticWriteMemoryByAddress(child_element, write_memory_by_address)
+            return True
+        if tag_name == "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS":
+            read_memory_by_address = parent.createDiagnosticReadMemoryByAddress(self.getShortName(child_element))
+            self.readDiagnosticReadMemoryByAddress(child_element, read_memory_by_address)
+            return True
+        if tag_name == "DIAGNOSTIC-TRANSFER-EXIT":
+            transfer_exit = parent.createDiagnosticTransferExit(self.getShortName(child_element))
+            self.readDiagnosticTransferExit(child_element, transfer_exit)
+            return True
+        if tag_name == "DIAGNOSTIC-DATA-TRANSFER":
+            data_transfer = parent.createDiagnosticDataTransfer(self.getShortName(child_element))
+            self.readDiagnosticDataTransfer(child_element, data_transfer)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-DOWNLOAD":
+            request_download = parent.createDiagnosticRequestDownload(self.getShortName(child_element))
+            self.readDiagnosticRequestDownload(child_element, request_download)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-UPLOAD":
+            request_upload = parent.createDiagnosticRequestUpload(self.getShortName(child_element))
+            self.readDiagnosticRequestUpload(child_element, request_upload)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER":
+            request_file_transfer = parent.createDiagnosticRequestFileTransfer(self.getShortName(child_element))
+            self.readDiagnosticRequestFileTransfer(child_element, request_file_transfer)
+            return True
+        if tag_name == "DIAGNOSTIC-PARAMETER-IDENTIFIER":
+            parameter_identifier = parent.createDiagnosticParameterIdentifier(self.getShortName(child_element))
+            self.readDiagnosticParameterIdentifier(child_element, parameter_identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA":
+            request_current_powertrain_data = parent.createDiagnosticRequestCurrentPowertrainData(self.getShortName(child_element))
+            self.readDiagnosticRequestCurrentPowertrainData(child_element, request_current_powertrain_data)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA":
+            request_powertrain_freeze_frame_data = parent.createDiagnosticRequestPowertrainFreezeFrameData(self.getShortName(child_element))
+            self.readDiagnosticRequestPowertrainFreezeFrameData(child_element, request_powertrain_freeze_frame_data)
+            return True
+        if tag_name == "DIAGNOSTIC-POWERTRAIN-FREEZE-FRAME":
+            powertrain_freeze_frame = parent.createDiagnosticPowertrainFreezeFrame(self.getShortName(child_element))
+            self.readDiagnosticPowertrainFreezeFrame(child_element, powertrain_freeze_frame)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC":
+            request_emission_related_dtc = parent.createDiagnosticRequestEmissionRelatedDTC(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTC(child_element, request_emission_related_dtc)
+            return True
+        if tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO":
+            clear_reset_emission_related_info = parent.createDiagnosticClearResetEmissionRelatedInfo(self.getShortName(child_element))
+            self.readDiagnosticClearResetEmissionRelatedInfo(child_element, clear_reset_emission_related_info)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS":
+            request_on_board_monitoring_test_results = parent.createDiagnosticRequestOnBoardMonitoringTestResults(self.getShortName(child_element))
+            self.readDiagnosticRequestOnBoardMonitoringTestResults(child_element, request_on_board_monitoring_test_results)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE":
+            request_control_of_on_board_device = parent.createDiagnosticRequestControlOfOnBoardDevice(self.getShortName(child_element))
+            self.readDiagnosticRequestControlOfOnBoardDevice(child_element, request_control_of_on_board_device)
+            return True
+        if tag_name == "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER":
+            test_routine_identifier = parent.createDiagnosticTestRoutineIdentifier(self.getShortName(child_element))
+            self.readDiagnosticTestRoutineIdentifier(child_element, test_routine_identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO":
+            request_vehicle_info = parent.createDiagnosticRequestVehicleInfo(self.getShortName(child_element))
+            self.readDiagnosticRequestVehicleInfo(child_element, request_vehicle_info)
+            return True
+        if tag_name == "DIAGNOSTIC-INFO-TYPE":
+            info_type = parent.createDiagnosticInfoType(self.getShortName(child_element))
+            self.readDiagnosticInfoType(child_element, info_type)
             return True
         return False
 

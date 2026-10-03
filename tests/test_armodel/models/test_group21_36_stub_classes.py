@@ -880,10 +880,10 @@ STUBS = [
         "AREnum",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticClearResetEmissionRelatedInfo",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -1116,10 +1116,10 @@ STUBS = [
         "DiagnosticEnvCompareCondition",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",
         "DiagnosticEnvModeCondition",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",
+        "DiagnosticEnvCompareCondition",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition",
@@ -1580,10 +1580,10 @@ STUBS = [
         "DiagnosticServiceClass",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticReadMemoryByAddress",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticMemoryAddressableRangeAccess",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -1613,7 +1613,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestControlOfOnBoardDevice",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -1622,10 +1622,10 @@ STUBS = [
         "DiagnosticServiceClass",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestCurrentPowertrainData",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -1640,16 +1640,16 @@ STUBS = [
         "DiagnosticMemoryAddressableRangeAccess",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
         "DiagnosticRequestDownloadClass",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
+        "DiagnosticServiceClass",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestEmissionRelatedDTC",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -1685,19 +1685,19 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestOnBoardMonitoringTestResults",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "DiagnosticServiceInstance",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
         "DiagnosticRequestOnBoardMonitoringTestResultsClass",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
+        "DiagnosticServiceClass",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestPowertrainFreezeFrameData",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -1733,7 +1733,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestVehicleInfo",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
@@ -2006,10 +2006,10 @@ STUBS = [
         "DiagnosticServiceClass",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticWriteMemoryByAddress",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "DiagnosticMemoryAddressableRangeAccess",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",

@@ -117,7 +117,15 @@ class DiagnosticClearDiagnosticInformationClass(DiagnosticServiceClass):
 
 
 class DiagnosticClearResetEmissionRelatedInfoClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Clear Reset Emission Related Data" OBD diagnostic service."""
+
+    # DiagnosticClearResetEmissionRelatedInfoClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.138, p.155
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticComControlClass(DiagnosticServiceClass):
@@ -287,7 +295,15 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
 
 
 class DiagnosticDataTransferClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Data Transfer" diagnostic service."""
+
+    # DiagnosticDataTransferClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.120, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
@@ -531,7 +547,15 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
 
 
 class DiagnosticReadMemoryByAddressClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Read Memory by Address" diagnostic service."""
+
+    # DiagnosticReadMemoryByAddressClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.116, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticReadScalingDataByIdentifierClass(DiagnosticServiceClass):
@@ -547,15 +571,51 @@ class DiagnosticReadScalingDataByIdentifierClass(DiagnosticServiceClass):
 
 
 class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request Control Of On-Board Device" OBD diagnostic service."""
+
+    # DiagnosticRequestControlOfOnBoardDeviceClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.142, p.158
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestCurrentPowertrainDataClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request current Powertrain Data" OBD diagnostic service."""
+
+    # DiagnosticRequestCurrentPowertrainDataClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.131, p.151
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class DiagnosticRequestDownloadClass(DiagnosticServiceClass):
+    """This meta-class contains attributes shared by all instances of the "Request Download" diagnostic service."""
+
+    # DiagnosticRequestDownloadClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.122, p.145
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestEmissionRelatedDTCClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request Emission Related DTC" OBD diagnostic service."""
+
+    # DiagnosticRequestEmissionRelatedDTCClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.136, p.154
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceClass):
@@ -563,19 +623,63 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceC
 
 
 class DiagnosticRequestFileTransferClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Request File transfer" diagnostic service."""
+
+    # DiagnosticRequestFileTransferClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.126, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class DiagnosticRequestOnBoardMonitoringTestResultsClass(DiagnosticServiceClass):
+    """This meta-class represents the ability to define common properties for all instances of the "Request On-Board Monitoring Test Results" OBD diagnostic service."""
+
+    # DiagnosticRequestOnBoardMonitoringTestResultsClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.140, p.157
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestPowertrainFreezeFrameDataClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic service."""
+
+    # DiagnosticRequestPowertrainFreezeFrameDataClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.133, p.152
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestUploadClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Request Upload" diagnostic service."""
+
+    # DiagnosticRequestUploadClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.124, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticRequestVehicleInfoClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Request Vehicle Info" OBD diagnostic service."""
+
+    # DiagnosticRequestVehicleInfoClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.145, p.160
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
@@ -778,7 +882,15 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
 
 
 class DiagnosticTransferExitClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Transfer Exit" diagnostic service."""
+
+    # DiagnosticTransferExitClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.118, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticWriteDataByIdentifierClass(DiagnosticServiceClass):
@@ -794,4 +906,12 @@ class DiagnosticWriteDataByIdentifierClass(DiagnosticServiceClass):
 
 
 class DiagnosticWriteMemoryByAddressClass(DiagnosticServiceClass):
-    pass
+    """This meta-class contains attributes shared by all instances of the "Write Memory by Address" diagnostic service."""
+
+    # DiagnosticWriteMemoryByAddressClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.114, p.141
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

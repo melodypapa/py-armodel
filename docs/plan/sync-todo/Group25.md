@@ -13,219 +13,460 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticSupportInfoByte` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.129, p.150
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): nested container; row's Base=ARObject verified (md l.4552; XSD complexType DIAGNOSTIC-SUPPORT-INFO-BYTE
+    l.45874 chains AR-OBJECT only) — stub already in ArObject.py, NO relocation, NO ARPackage factory. Aggregated by TWO
+    parents (md l.4553): DiagnosticDataIdentifier.supportInfoByte AND DiagnosticParameterIdentifier.supportInfoByte (XSD
+    SUPPORT-INFO-BYTE, 0..1 each) ⇒ BOTH parents' identity-only SUPPORT-INFO-BYTE serialization (reader constructed an empty
+    DiagnosticSupportInfoByte(); writer emitted a bare element) upgraded to named reusable helpers
+    readDiagnosticSupportInfoByte/writeDiagnosticSupportInfoByte called from readDiagnosticDataIdentifier,
+    writeDiagnosticDataIdentifier, readDiagnosticParameterIdentifier, writeDiagnosticParameterIdentifier (Rule 0001.7
+    identity-only-debt clause; this resolves the Rule 0001.10 pending item recorded on DiagnosticParameterIdentifier,
+    Group24). Table body md l.4548-4556 (caption l.4546; PDF p.150 via pdf_page.py). Note (md l.4551): "This meta-class
+    defines the support information (typically byte A) to declare the usability of the Data Elements within the so-called
+    packeted PIDs (e.g. PID$68)." (no Tags). Attributes (displayed order): position (PositiveInteger, 0..1, attr; XSD
+    POSITION) → setPosition/getPosition; size (PositiveInteger, 0..1, attr; XSD SIZE) → setSize/getSize.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the BOTH-parents SUPPORT-INFO-BYTE upgrade is the Rule 0001.7 identity-only-debt resolution, recorded in the Step 1 note and mirrored as a resolution note on the Group24 DiagnosticParameterIdentifier row) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1272 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ArObject.py + test_diagnostic_support_info_byte.py + test_writer_diagnostic_support_info_byte.py; parser+writer regression 7282 passed / 0 failed; npm run lint clean after two ruff I001 import-sort fixes in the new tests; black clean); 9b deferred to batch stamp (user instruction); sync commit `80af808a6`
 
-- [ ] `DiagnosticRequestCurrentPowertrainData` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.130, p.151
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticRequestCurrentPowertrainData` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.130, p.151
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)
+  - note (Step 1): row correction — the row's original "ARObject" was the pre-sync stub's base; spec Base chain (md l.4572)
+    = ARElement , ARObject , CollectableElement , DiagnosticCommonElement , DiagnosticServiceInstance (cell-wrap healed),
+    Identifiable , MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base DiagnosticServiceInstance
+    per Rule 0001.2 (XSD complexType DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA l.41736: ... DIAGNOSTIC-COMMON-ELEMENT →
+    DIAGNOSTIC-SERVICE-INSTANCE → DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA). The ArObject.py stub cannot host the class:
+    DiagnosticServiceInstance lives in CommonService.py, and ArObject.py cannot import it (ARPackage.py imports ArObject.py
+    at load time ⇒ class-definition-time circular import) ⇒ relocated to ARPackage.py directly AFTER the bottom
+    CommonService import block (l.4068), next to the DiagnosticCustomServiceInstance family (the established
+    DiagnosticServiceInstance-subclass placement, precedent DiagnosticCustomServiceInstance Table 4.27); ArObject.py stub
+    removed, STUBS entry updated. Table split across two page-break blocks (md l.4568-4575 Class/Package/Note/Base/
+    Aggregated-by; md l.4584-4587 Attribute rows; caption l.4582; PDF p.151 via pdf_page.py). Note (md l.4571):
+    "This meta-class represents the ability to model an instance of the OBD mode 0x01 service.
+    Tags: atp.recommendedPackage=DiagnosticRequestCurrentPowertrainDatas". Attributes (displayed order):
+    1. pid (DiagnosticParameterIdentifier, 0..1, ref — cell-wrap healed) → pidRef (XSD PID-REF, DEST
+       DIAGNOSTIC-PARAMETER-IDENTIFIER--SUBTYPES-ENUM).
+    2. requestCurrentPowertrainDiagnosticDataClass (DiagnosticRequestCurrentPowertrainDataClass, 0..1, ref — cell-wrap
+       healed per the XSD mmt.qualifiedName "…requestCurrentPowertrainDiagnosticDataClass", NOT …DataClass) →
+       requestCurrentPowertrainDiagnosticDataClassRef (XSD REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF, DEST
+       DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA-CLASS--SUBTYPES-ENUM). XSD element order: PID-REF,
+       REQUEST-CURRENT-POWERTRAIN-DIAGNOSTIC-DATA-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+       createDiagnosticRequestCurrentPowertrainData + readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARObject base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; DiagnosticServiceInstance-subclass placement after the ARPackage.py bottom import block follows the DiagnosticCustomServiceInstance precedent, and the class name was appended to ARPackage.__all__ to keep the top-level export chain) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1723 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_current_powertrain_data.py + test_writer_diagnostic_request_current_powertrain_data.py; parser+writer regression 7287 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `37165c575`
 
 - [ ] `DiagnosticRequestCurrentPowertrainDataClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.131, p.151
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4597; XSD complexType
+    DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA-CLASS chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS) — stub
+    already in CommonService.py next to its family, NO relocation. Attribute row `-` ⇒ no own attributes, bare __init__
+    only (twin shape 8d1719c7a). Note (md l.4596): "This meta-class represents the ability to define common properties for
+    all instances of the "Request current Powertrain Data" OBD diagnostic service." — class docstring drops the trailing
+    "Tags: atp.recommendedPackage=DiagnosticRequestCurrentPowertrainDatas" suffix (twin convention); PDF p.151 via
+    pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1910 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_current_powertrain_data.py + test_diagnostic_request_current_powertrain_data_class.py + test_writer_diagnostic_request_current_powertrain_data.py + test_writer_diagnostic_request_current_powertrain_data_class.py; parser+writer regression 7292 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `b278ba155`
 
-- [ ] `DiagnosticRequestPowertrainFreezeFrameData` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.132, p.152
+- [ ] `DiagnosticRequestPowertrainFreezeFrameData` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.132, p.152
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): row correction — the row's original "ARElement" is the pre-sync stub's base; spec Base chain (md l.4620)
+    = ARElement , ARObject , CollectableElement , DiagnosticCommonElement , DiagnosticServiceInstance , Identifiable ,
+    MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base DiagnosticServiceInstance per Rule 0001.2
+    (XSD complexType DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA l.42325: ... DIAGNOSTIC-COMMON-ELEMENT →
+    DIAGNOSTIC-SERVICE-INSTANCE → own) — the ARPackage.py stub base is changed in place to DiagnosticServiceInstance
+    (available at runtime: the stub sits after the bottom CommonService import block; exact precedent
+    DiagnosticRequestCurrentPowertrainData 37165c575), STUBS entry base repaired ARElement → DiagnosticServiceInstance; NO
+    module move. Table body md l.4616-4624 (caption l.4614; PDF p.152 via pdf_page.py). Note (md l.4619):
+    "This meta-class represents the ability to model an instance of the OBD mode 0x02 service.
+    Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames". Attributes (displayed order):
+    1. freezeFrame (DiagnosticPowertrainFreezeFrame, 0..1, ref) → freezeFrameRef (XSD FREEZE-FRAME-REF, DEST
+       DIAGNOSTIC-POWERTRAIN-FREEZE-FRAME--SUBTYPES-ENUM).
+    2. requestPowertrainFreezeFrameData (DiagnosticRequestPowertrainFreezeFrameDataClass, 0..1, ref — attr-name cell-wrap
+       healed per the XSD mmt.qualifiedName "…requestPowertrainFreezeFrameData", NOT …DataClass) →
+       requestPowertrainFreezeFrameDataRef (XSD REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-REF, DEST
+       DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS--SUBTYPES-ENUM). XSD element order: FREEZE-FRAME-REF,
+       REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+       createDiagnosticRequestPowertrainFreezeFrameData + readDiagnosticPackageElement/writeDiagnosticElement dispatch
+       chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARElement base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; the in-place base change to DiagnosticServiceInstance works because the stub sits after the ARPackage.py bottom CommonService import block — exact precedent DiagnosticRequestCurrentPowertrainData 37165c575) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1730 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_powertrain_freeze_frame_data.py + test_writer_diagnostic_request_powertrain_freeze_frame_data.py; parser+writer regression 7297 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `1d44c26c8`
 
 - [ ] `DiagnosticRequestPowertrainFreezeFrameDataClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.133, p.152
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4634; XSD complexType
+    DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS l.42375 chains DIAGNOSTIC-COMMON-ELEMENT →
+    DIAGNOSTIC-SERVICE-CLASS → empty group l.42366) — pass-stub already in CommonService.py next to its family, NO
+    relocation. Attribute row `-` ⇒ no own attributes, bare __init__ only (twin shape 8d1719c7a). Note (md l.4633):
+    "This meta-class represents the ability to define common properties for all instances of the "Request Powertrain Freeze
+    Frame Data" OBD diagnostic service." — class docstring drops the trailing
+    "Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames" suffix (twin convention); PDF p.152 via pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1922 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_powertrain_freeze_frame_data.py + test_diagnostic_request_powertrain_freeze_frame_data_class.py + test_writer_diagnostic_request_powertrain_freeze_frame_data.py + test_writer_diagnostic_request_powertrain_freeze_frame_data_class.py; parser+writer regression 7302 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `0f9475a2f`
 
 - [ ] `DiagnosticPowertrainFreezeFrame` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.134, p.153
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; row's Base=ARElement verified — spec Base chain (md l.4647) = ARElement , ARObject ,
+    CollectableElement , DiagnosticCommonElement , Identifiable , MultilanguageReferrable (cell-wrap healed),
+    PackageableElement , Referrable ⇒ most-derived base ARElement per Rule 0001.2 (XSD complexType
+    DIAGNOSTIC-POWERTRAIN-FREEZE-FRAME l.40952: ... AR-ELEMENT → DIAGNOSTIC-COMMON-ELEMENT → own; NO service-instance
+    link) — the ARPackage.py stub base is already correct, no relocation. Table body md l.4643-4650 (caption l.4641; PDF
+    p.153 via pdf_page.py). Note (md l.4646): "This meta-class represents a powertrain-related freeze-frame. In theory,
+    this meta-class would need an additional id attribute. However, legal regulations requires only a single value for this
+    attribute anyway. Tags: atp.recommendedPackage=DiagnosticPowertrainFreezeFrames". Attribute (single): pid
+    (DiagnosticParameterIdentifier, *, ref — singular spec name ⇒ plural py list) → pidRefs + addPidRef/getPidRefs (XSD
+    PID-REFS wrapper l.40923 with unbounded PID-REF items, DEST DIAGNOSTIC-PARAMETER-IDENTIFIER--SUBTYPES-ENUM; wrapper
+    emitted only when non-empty). Aggregated by ARPackage.element ⇒ ARPackage factory createDiagnosticPowertrainFreezeFrame
+    + readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1737 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_powertrain_freeze_frame.py + test_writer_diagnostic_powertrain_freeze_frame.py; parser+writer regression 7308 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `b742a3633`
 
-- [ ] `DiagnosticRequestEmissionRelatedDTC` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.135, p.154
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticRequestEmissionRelatedDTC` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.135, p.154
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)
+  - note (Step 1): row correction — the row's original "ARObject" was the pre-sync stub's base; spec Base chain (md l.4666,
+    cell-wrap "DiagnosticServiceInstance Identifiable" healed) = ... DiagnosticServiceInstance , Identifiable , ... ⇒
+    most-derived base DiagnosticServiceInstance per Rule 0001.2 (XSD complexType DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC
+    l.41893: ... DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-INSTANCE → own). The ArObject.py stub cannot host the class
+    (DiagnosticServiceInstance lives in CommonService.py ⇒ class-definition-time circular import) ⇒ relocated to ARPackage.py
+    after the bottom CommonService import block, next to the DiagnosticServiceInstance-subclass family (precedent
+    DiagnosticRequestCurrentPowertrainData 37165c575); ArObject.py stub removed, STUBS entry repaired to
+    ARPackage/DiagnosticServiceInstance, name appended to ARPackage.__all__. Note (md l.4665 — the R23-11 markdown render
+    DROPS the word "service." after "0x03/0x07"; healed per the R23-11 XSD documentation which reads "...mode 0x03/0x07
+    service.", ControlDTCSetting R4.3.1-note precedent): "This meta-class represents the ability to model an instance of the
+    OBD mode 0x03/0x07 service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCs". Attribute (single):
+    requestEmissionRelatedDtcClass (DiagnosticRequestEmissionRelatedDTCClass, 0..1, ref — attr-name cell-wrap healed per the
+    XSD mmt.qualifiedName "…requestEmissionRelatedDtcClass", lowercase "Dtc") → requestEmissionRelatedDtcClassRef (XSD
+    REQUEST-EMISSION-RELATED-DTC-CLASS-REF, DEST DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS--SUBTYPES-ENUM; Note
+    cell-wrap healed, XSD doc reads "DiagnosticRequestEmissionRelatedDTC"). XSD element order: single
+    REQUEST-EMISSION-RELATED-DTC-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+    createDiagnosticRequestEmissionRelatedDTC + readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARObject base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; the R23-11 markdown render drops the word "service." from the class Note — healed per the R23-11 XSD documentation, ControlDTCSetting R4.3.1-note precedent) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1742 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_emission_related_dtc.py + test_writer_diagnostic_request_emission_related_dtc.py; parser+writer regression 7313 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `6e6de52f5`
 
 - [ ] `DiagnosticRequestEmissionRelatedDTCClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.136, p.154
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4688; XSD complexType
+    DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS → empty group)
+    — pass-stub already in CommonService.py next to its family, NO relocation. Attribute row `-` ⇒ no own attributes, bare
+    __init__ only (twin shape 8d1719c7a). Note (md l.4687): "This meta-class represents the ability to define common
+    properties for all instances of the "Request Emission Related DTC" OBD diagnostic service." — class docstring drops the
+    trailing "Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCs" suffix (twin convention); PDF p.154 via
+    pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1939 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_emission_related_dtc.py + test_diagnostic_request_emission_related_dtc_class.py + test_writer_diagnostic_request_emission_related_dtc.py + test_writer_diagnostic_request_emission_related_dtc_class.py; parser+writer regression 7318 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `6112add0b`
 
-- [ ] `DiagnosticClearResetEmissionRelatedInfo` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.137, p.155
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticClearResetEmissionRelatedInfo` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.137, p.155
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)
+  - note (Step 1): row correction — the row's original "ARObject" was the pre-sync stub's base; spec Base chain (md l.4707)
+    = ... DiagnosticServiceInstance , Identifiable , ... ⇒ most-derived base DiagnosticServiceInstance per Rule 0001.2 (XSD
+    complexType DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO l.42446: ... DIAGNOSTIC-COMMON-ELEMENT →
+    DIAGNOSTIC-SERVICE-INSTANCE → own). The ArObject.py stub cannot host the class (DiagnosticServiceInstance lives in
+    CommonService.py ⇒ class-definition-time circular import) ⇒ relocated to ARPackage.py after the bottom CommonService
+    import block, next to the DiagnosticServiceInstance-subclass family (precedent
+    DiagnosticRequestCurrentPowertrainData 37165c575); ArObject.py stub removed, STUBS entry repaired to
+    ARPackage/DiagnosticServiceInstance, name appended to ARPackage.__all__. Note (md l.4706): "This meta-class represents
+    the ability to model an instance of the OBD mode 0x04 service.
+    Tags: atp.recommendedPackage=DiagnosticClearResetEmissionRelatedInfos". Attribute (single):
+    clearResetEmissionRelatedDiagnosticInfoClass (DiagnosticClearResetEmissionRelatedInfoClass, 0..1, ref — attr-name
+    cell-wrap healed per the XSD mmt.qualifiedName "…clearResetEmissionRelatedDiagnosticInfoClass") →
+    clearResetEmissionRelatedDiagnosticInfoClassRef (XSD CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF, DEST
+    DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS--SUBTYPES-ENUM; Note cell-wrap healed — the XSD documentation itself
+    carries the upstream "DiagnosticClearResteEmissionRelatedInfo" typo ("Reste" for "Reset"), kept verbatim per the
+    DiagnosticReadMemoryByAddresst quirk precedent). XSD element order: single
+    CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+    createDiagnosticClearResetEmissionRelatedInfo + readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARObject base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; the attr Note keeps the upstream "DiagnosticClearResteEmissionRelatedInfo" typo ("Reste" for "Reset") verbatim — carried by both the R23-11 markdown and the XSD documentation, DiagnosticReadMemoryByAddresst quirk precedent) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1748 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_clear_reset_emission_related_info.py + test_writer_diagnostic_clear_reset_emission_related_info.py; parser+writer regression 7323 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `1d583075c`
 
 - [ ] `DiagnosticClearResetEmissionRelatedInfoClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.138, p.155
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4729; XSD complexType
+    DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS → empty
+    group l.32479) — pass-stub already in CommonService.py next to its family, NO relocation. Attribute row `-` ⇒ no own
+    attributes, bare __init__ only (twin shape 8d1719c7a). Note (md l.4728): "This meta-class represents the ability to
+    define common properties for all instances of the "Clear Reset Emission Related Data" OBD diagnostic service." — class
+    docstring drops the trailing "Tags: atp.recommendedPackage=DiagnosticClearResetEmissionRelatedInfos" suffix (twin
+    convention); PDF p.155 via pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1950 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_clear_reset_emission_related_info.py + test_diagnostic_clear_reset_emission_related_info_class.py + test_writer_diagnostic_clear_reset_emission_related_info.py + test_writer_diagnostic_clear_reset_emission_related_info_class.py; parser+writer regression 7328 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `95c27f01e`
 
-- [ ] `DiagnosticRequestOnBoardMonitoringTestResults` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.139, p.156
+- [ ] `DiagnosticRequestOnBoardMonitoringTestResults` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.139, p.156
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): row correction — the row's original "ARElement" is the pre-sync stub's base; spec Base chain (md l.4760)
+    = ... DiagnosticServiceInstance , Identifiable , ... ⇒ most-derived base DiagnosticServiceInstance per Rule 0001.2 (XSD
+    complexType DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS l.42248: ... DIAGNOSTIC-COMMON-ELEMENT →
+    DIAGNOSTIC-SERVICE-INSTANCE → own). The ARPackage.py stub base is changed in place to DiagnosticServiceInstance (stub
+    sits after the ARPackage.py bottom CommonService import block; precedent DiagnosticRequestCurrentPowertrainData
+    37165c575), STUBS entry base repaired ARElement → DiagnosticServiceInstance; NO module move, NO ArObject.py stub for
+    this class. Table body md l.4756-4764 (caption l.4766; PDF p.156 via pdf_page.py). Note (md l.4759): "This meta-class
+    represents the ability to model an instance of the OBD mode 0x06 service. Tags:
+    atp.recommendedPackage=DiagnosticRequestOnBoardMonitoringTestResultss" (upstream double-s quirk "TestResultss", kept
+    verbatim). Attributes (displayed order):
+    1. diagnosticTestResult (DiagnosticTestResult, *, ref — singular spec name ⇒ plural py list) → diagnosticTestResultRefs +
+       addDiagnosticTestResultRef/getDiagnosticTestResultRefs; XSD wrapper DIAGNOSTIC-TEST-RESULT-REFS (0..1) with unbounded
+       DIAGNOSTIC-TEST-RESULT-REF items (DEST DIAGNOSTIC-TEST-RESULT--SUBTYPES-ENUM; wrapper emitted only when non-empty).
+       NOTE: the XSD group also carries TEST-RESULT-REF with atp.Status="removed" (mmt
+       DiagnosticRequestOnBoardMonitoringTestResults.testResult) — removed attribute ⇒ NOT modeled (Rule 0001.3), absent
+       from the R23-11 markdown table as well.
+    2. requestOnBoardMonitoringTestResultsClass (DiagnosticRequestOnBoardMonitoringTestResultsClass, 0..1, ref — cell-wrap
+       healed) → requestOnBoardMonitoringTestResultsClassRef (XSD REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF, DEST
+       DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS--SUBTYPES-ENUM). XSD element order:
+       DIAGNOSTIC-TEST-RESULT-REFS, REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF. Aggregated by ARPackage.element ⇒
+       ARPackage factory createDiagnosticRequestOnBoardMonitoringTestResults + readDiagnosticPackageElement/
+       writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARElement base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; the XSD group's TEST-RESULT-REF (atp.Status="removed") is not modeled per Rule 0001.3 — documented in the Step 1 note; upstream double-s quirk "TestResultss" kept verbatim in the class Note) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1756 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_on_board_monitoring_test_results.py + test_writer_diagnostic_request_on_board_monitoring_test_results.py; parser+writer regression 7334 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `5d8bb0b9a`
 
-- [ ] `DiagnosticRequestOnBoardMonitoringTestResultsClass` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.140, p.157
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticRequestOnBoardMonitoringTestResultsClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.140, p.157
+  - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py (relocated from the ArObject.py stub — see Step 1 note)
+  - note (Step 1): row correction — the row's original "ARObject" was the pre-sync stub's base; spec Base chain (md l.4772)
+    = ... DiagnosticServiceClass , Identifiable , ... ⇒ Base DiagnosticServiceClass per Rule 0001.2 (XSD complexType
+    DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS →
+    empty group l.42270). The ArObject.py stub cannot host the class (must subclass DiagnosticServiceClass, CommonService.py;
+    ARPackage.py imports ArObject.py at load time ⇒ class-definition-time circular import) ⇒ relocated to CommonService.py
+    next to its family (precedent DiagnosticRequestDownloadClass 16a6c77ac); ArObject.py stub removed, STUBS entry repaired
+    to CommonService/DiagnosticServiceClass. Table split across two page-break blocks (md l.4768-4772 Class/Package/Note/
+    Base; md l.4782-4786 Aggregated by/Attribute; caption l.4778; PDF p.157 via pdf_page.py). Attribute row `-` ⇒ no own
+    attributes, bare __init__ only (twin shape 8d1719c7a). Note (md l.4771): "This meta-class represents the ability to
+    define common properties for all instances of the "Request On-Board Monitoring Test Results" OBD diagnostic service." —
+    class docstring drops the trailing "Tags: atp.recommendedPackage=DiagnosticRequestOnBoardMonitoringTestResultss"
+    suffix (upstream double-s quirk, dropped with the Tags per twin convention).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARObject base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; the relocation follows the DiagnosticRequestDownloadClass precedent 16a6c77ac) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1963 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_on_board_monitoring_test_results.py + test_diagnostic_request_on_board_monitoring_test_results_class.py + test_writer_diagnostic_request_on_board_monitoring_test_results.py + test_writer_diagnostic_request_on_board_monitoring_test_results_class.py; parser+writer regression 7339 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `445d4e053`
 
-- [ ] `DiagnosticRequestControlOfOnBoardDevice` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.141, p.157
+- [ ] `DiagnosticRequestControlOfOnBoardDevice` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.141, p.157
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): row correction — the row's original "ARElement" is the pre-sync stub's base; spec Base chain (md l.4806)
+    = ... DiagnosticServiceInstance , Identifiable , ... ⇒ most-derived base DiagnosticServiceInstance per Rule 0001.2 (XSD
+    complexType DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE l.41640: ... DIAGNOSTIC-COMMON-ELEMENT →
+    DIAGNOSTIC-SERVICE-INSTANCE → own). The ARPackage.py stub base is changed in place to DiagnosticServiceInstance (stub
+    sits after the ARPackage.py bottom CommonService import block; precedent DiagnosticRequestCurrentPowertrainData
+    37165c575), STUBS entry base repaired ARElement → DiagnosticServiceInstance; NO module move. Table body md l.4802-4810
+    (caption l.4800; PDF p.157 via pdf_page.py). Note (md l.4805): "This meta-class represents the ability to model an
+    instance of the OBD mode 0x08 service. Tags: atp.recommendedPackage=DiagnosticRequestControlOfOnBoardDevices".
+    Attributes (displayed order):
+    1. requestControlOfOnBoardDeviceClass (DiagnosticRequestControlOfOnBoardDeviceClass, 0..1, ref — attr-name cell-wrap
+       healed per the XSD mmt.qualifiedName "…requestControlOfOnBoardDeviceClass") → requestControlOfOnBoardDeviceClassRef
+       (XSD REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF, DEST
+       DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS--SUBTYPES-ENUM; Note cell-wrap healed, XSD doc reads
+       "DiagnosticRequestControlOfOnBoardDevice").
+    2. testId (DiagnosticTestRoutineIdentifier, 0..1, ref) → testIdRef (XSD TEST-ID-REF, DEST
+       DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER--SUBTYPES-ENUM). XSD element order: REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF,
+       TEST-ID-REF. Aggregated by ARPackage.element ⇒ ARPackage factory createDiagnosticRequestControlOfOnBoardDevice +
+       readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARElement base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1762 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_control_of_on_board_device.py + test_writer_diagnostic_request_control_of_on_board_device.py; parser+writer regression 7344 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `a14b69853`
 
 - [ ] `DiagnosticRequestControlOfOnBoardDeviceClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.142, p.158
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4828, cell-wrap
+    "DiagnosticServiceClass Identifiable" healed; XSD complexType DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS chains
+    DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS → empty group l.41662) — pass-stub already in CommonService.py next
+    to its family, NO relocation. Attribute row `-` ⇒ no own attributes, bare __init__ only (twin shape 8d1719c7a). Note
+    (md l.4827): "This meta-class represents the ability to define common properties for all instances of the "Request
+    Control Of On-Board Device" OBD diagnostic service." — class docstring drops the trailing
+    "Tags: atp.recommendedPackage=DiagnosticRequestControlOfOnBoardDevices" suffix (twin convention); PDF p.158 via
+    pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1974 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_control_of_on_board_device.py + test_diagnostic_request_control_of_on_board_device_class.py + test_writer_diagnostic_request_control_of_on_board_device.py + test_writer_diagnostic_request_control_of_on_board_device_class.py; parser+writer regression 7349 passed / 0 failed; npm run lint clean; black clean after one string-join reformat in the new writer test); 9b deferred to batch stamp (user instruction); sync commit `a919e664e`
 
 - [ ] `DiagnosticTestRoutineIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.143, p.158
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (the row's original "Stub in ArObject.py"
+    was wrong — the stub batch already placed it in ARPackage.py, STUBS entry ARPackage/ARElement; base verified below)
+  - note (Step 1): concrete class; row's "Base=ARObject" corrected — spec Base chain (md l.4839, cell-wrap "Multilanguage
+    Referrable" healed) = ARElement , ARObject , CollectableElement , DiagnosticCommonElement , Identifiable ,
+    MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base ARElement per Rule 0001.2 (XSD complexType
+    DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER l.46084: ... AR-ELEMENT → DIAGNOSTIC-COMMON-ELEMENT → own; NO service-instance link)
+    — the ARPackage.py stub base is already correct, no relocation. Table body md l.4835-4844 (caption l.4833; PDF p.158 via
+    pdf_page.py). Note (md l.4838): "This represents the test id of the DiagnosticTestIdentifier.
+    Tags: atp.recommendedPackage=DiagnosticTestRoutineIdentifier". Attributes (displayed order):
+    1. id (PositiveInteger, 0..1, attr; XSD ID) → setId/getId; Note cell-wrap healed ("DiagnosticTest Identifier" →
+       DiagnosticTestIdentifier).
+    2. requestDataSize (PositiveInteger, 0..1, attr; XSD REQUEST-DATA-SIZE) → setRequestDataSize/getRequestDataSize.
+    3. responseDataSize (PositiveInteger, 0..1, attr; XSD RESPONSE-DATA-SIZE) → setResponseDataSize/getResponseDataSize;
+       Note keeps the upstream "Unit:byte" no-space quirk verbatim (carried by BOTH markdown l.4844 and the XSD
+       documentation). XSD element order: ID, REQUEST-DATA-SIZE, RESPONSE-DATA-SIZE. Aggregated by ARPackage.element ⇒
+       ARPackage factory createDiagnosticTestRoutineIdentifier + readDiagnosticPackageElement/writeDiagnosticElement
+       dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original "Base=ARObject / Stub in ArObject.py" was wrong — the stub batch already placed the class in ARPackage.py with the ARElement base, verified correct per Rule 0001.2 in the Step 1 note; responseDataSize keeps the upstream "Unit:byte" no-space quirk verbatim) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1770 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_test_routine_identifier.py + test_writer_diagnostic_test_routine_identifier.py; parser+writer regression 7354 passed / 0 failed; npm run lint clean; black clean after string-join reformats in the new tests); 9b deferred to batch stamp (user instruction); sync commit `95790f92b`
 
-- [ ] `DiagnosticRequestVehicleInfo` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.144, p.160
+- [ ] `DiagnosticRequestVehicleInfo` — DiagnosticServiceInstance — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.144, p.160
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): row correction — the row's original "ARElement" is the pre-sync stub's base; spec Base chain (md l.4882)
+    = ... DiagnosticServiceInstance , Identifiable , ... ⇒ most-derived base DiagnosticServiceInstance per Rule 0001.2 (XSD
+    complexType DIAGNOSTIC-REQUEST-VEHICLE-INFO l.42577: ... DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-INSTANCE → own).
+    The ARPackage.py stub base is changed in place to DiagnosticServiceInstance (stub after the ARPackage.py bottom
+    CommonService import block; precedent DiagnosticRequestCurrentPowertrainData 37165c575), STUBS entry base repaired
+    ARElement → DiagnosticServiceInstance; NO module move. Table body md l.4878-4886 (caption l.4876; PDF p.160 via
+    pdf_page.py). Note (md l.4881): "This meta-class represents the ability to model an instance of the OBD mode 0x09
+    service. Tags: atp.recommendedPackage=DiagnosticRequestVehicleInfos". Attributes (displayed order):
+    1. infoType (DiagnosticInfoType, 0..1, ref) → infoTypeRef (XSD INFO-TYPE-REF, DEST DIAGNOSTIC-INFO-TYPE--SUBTYPES-ENUM).
+    2. requestVehicleInformationClass (DiagnosticRequestVehicleInfoClass, 0..1, ref — attr-name cell-wrap healed per the XSD
+       mmt.qualifiedName "…requestVehicleInformationClass") → requestVehicleInformationClassRef (XSD
+       REQUEST-VEHICLE-INFORMATION-CLASS-REF, DEST DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS--SUBTYPES-ENUM; Note cell-wrap
+       healed — the XSD documentation itself carries the upstream "DiagnosticRequesVehicleInfo" typo (missing "t"), kept
+       verbatim per the DiagnosticClearResteEmissionRelatedInfo quirk precedent). XSD element order: INFO-TYPE-REF,
+       REQUEST-VEHICLE-INFORMATION-CLASS-REF. Aggregated by ARPackage.element ⇒ ARPackage factory
+       createDiagnosticRequestVehicleInfo + readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARElement base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note; the class-ref Note keeps the upstream "DiagnosticRequesVehicleInfo" typo (missing "t") verbatim — carried by BOTH the markdown and the XSD documentation)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1777 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_vehicle_info.py + test_writer_diagnostic_request_vehicle_info.py; parser+writer regression 7359 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `a1dca9869`
 
 - [ ] `DiagnosticRequestVehicleInfoClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.145, p.160
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4896; XSD complexType
+    DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS → empty group
+    l.42599) — pass-stub already in CommonService.py next to its family, NO relocation. Attribute row `-` ⇒ no own
+    attributes, bare __init__ only (twin shape 8d1719c7a). Note (md l.4895): "This meta-class represents the ability to
+    define common properties for all instances of the "Request Vehicle Info" OBD diagnostic service." — class docstring
+    drops the trailing "Tags: atp.recommendedPackage=DiagnosticRequestVehicleInfos" suffix (twin convention); PDF p.160 via
+    pdf_page.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1994 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_vehicle_info.py + test_diagnostic_request_vehicle_info_class.py + test_writer_diagnostic_request_vehicle_info.py + test_writer_diagnostic_request_vehicle_info_class.py; parser+writer regression 7364 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `4a2725a98`
 
 - [ ] `DiagnosticInfoType` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.146, p.160
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete class; row's Base=ARElement verified — spec Base chain (md l.4907, cell-wrap "Multilanguage
+    Referrable" healed) = ARElement , ARObject , CollectableElement , DiagnosticCommonElement , Identifiable ,
+    MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base ARElement per Rule 0001.2 (XSD complexType
+    DIAGNOSTIC-INFO-TYPE l.38329: ... AR-ELEMENT → DIAGNOSTIC-COMMON-ELEMENT → own; NO service-instance link) — the
+    ARPackage.py stub base is already correct, no relocation. Table body md l.4903-4911 (caption l.4901; PDF p.160 via
+    pdf_page.py). Note (md l.4906): "This meta-class represents the ability to model an OBD info type.
+    Tags: atp.recommendedPackage=DiagnosticInfoTypes". Attributes (displayed order):
+    1. dataElement (DiagnosticParameter, *, aggr — singular spec name ⇒ plural py list) → dataElements + addDataElement/
+       getDataElements (DiagnosticParameter is ARObject-based, NOT Referrable ⇒ add/get shape per Rule 0001.6); XSD wrapper
+       DATA-ELEMENTS (0..1) with unbounded DIAGNOSTIC-PARAMETER items; the XSD documents an inherent variation point
+       (vh.variationPointApplicable="false", constr_2638 — "shall not exist in models") ⇒ no VARIATION-POINT modeling; Note
+       cell-wrap healed per the XSD appinfo ("data Element.ident.shortName" → dataElement.ident.shortName).
+    2. id (PositiveInteger, 0..1, attr; XSD ID) → setId/getId. XSD element order: DATA-ELEMENTS, ID. Aggregated by
+       ARPackage.element ⇒ ARPackage factory createDiagnosticInfoType + readDiagnosticPackageElement/
+       writeDiagnosticElement dispatch chains.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original "Stub in ArObject.py" was wrong — the stub batch already placed the class in ARPackage.py with the ARElement base, verified correct per Rule 0001.2 in the Step 1 note; the XSD's inherent non-model variation point (vh.variationPointApplicable=\"false\", constr_2638) is not modeled, documented in the Step 1 note) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1785 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_info_type.py + test_writer_diagnostic_info_type.py; parser+writer regression 7370 passed / 0 failed; npm run lint clean after two ruff I001 import-sort fixes in the new tests; black clean); 9b deferred to batch stamp (user instruction); sync commit `87a45b092`
 
 - [ ] `DiagnosticRequestEmissionRelatedDTCPermanentStatus` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.147, p.161
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
