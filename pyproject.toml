@@ -125,6 +125,5 @@ warn_unused_ignores = true
 [[tool.mypy.overrides]]
 module = [
     "armodel.parser.arxml_parser",
-    "armodel.writer.arxml_writer",
 ]
 ignore_errors = true
