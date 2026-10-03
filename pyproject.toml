@@ -152,7 +152,6 @@ module = [
     "armodel.parser.ecuc_parser",
     "armodel.parser.os_ecuc_parser",
     "armodel.report.connector_xls_report",
-    "armodel.report.os_export",
     "armodel.writer.abstract_arxml_writer",
     "armodel.writer.arxml_writer",
 ]
