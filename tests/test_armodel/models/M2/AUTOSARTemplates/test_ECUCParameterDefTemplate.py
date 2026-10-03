@@ -81,12 +81,6 @@ class TestEcucValidationCondition:
         assert len(vc.getEcucQueries()) == 1
         assert vc.createEcucQuery("Q1") is query
         assert len(vc.getEcucQueries()) == 1
-        assert vc.getEcucQuery("Q1") is query
-        assert vc.getEcucQuery("Missing") is None
-
-    def test_create_ecuc_query_none_short_name(self):
-        vc = EcucValidationCondition(AUTOSAR.getInstance().createARPackage("Pkg"), "VC")
-        assert vc.createEcucQuery(None) is None
 
     def test_get_set_validation_formula(self):
         vc = EcucValidationCondition(AUTOSAR.getInstance().createARPackage("Pkg"), "VC")

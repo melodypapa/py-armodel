@@ -13152,7 +13152,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, vc)
         for query_element in self.findall(element, "ECUC-QUERYS/ECUC-QUERY"):
             query = vc.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, cast(EcucQuery, query))
+            self.readEcucQuery(query_element, query)
         formula_element = self.find(element, "VALIDATION-FORMULA")
         if formula_element is not None:
             vc.setValidationFormula(self.readEcucConditionFormula(formula_element))
