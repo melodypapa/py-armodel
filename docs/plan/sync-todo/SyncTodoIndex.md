@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **12/29** completed
+Status: **13/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -735,9 +735,9 @@ Status: **12/29** completed
 | `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
 | `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
 | `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
-| `CouplingPortAbstractShaper`            | [ ] Pending* | N/A        |
-| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | d419973456 |
-| `CouplingPortCreditBasedShaper`         | [x] Done     | c5cfd1dc4e |
+| `CouplingPortAbstractShaper`            | [x] Done     | 929cee7081 |
+| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
+| `CouplingPortCreditBasedShaper`         | [x] Done     | 929cee7081 |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
 | `IPSecConfig`                           | [x] Done     | d75eb10bff |
 | `NetworkEndpoint`                       | [x] Done     | 84587c11f6 |

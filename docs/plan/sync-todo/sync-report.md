@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 755 | 39.7% |
+| [x] Done | 756 | 39.7% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 310 | 16.3% |
+| [ ] Deferred | 309 | 16.2% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -354,10 +354,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CouplingElementEnum`                                   | [ ] Created | N/A                                      | Group30          |
 | `CouplingElementSwitchDetails`                          | [ ] Created | N/A                                      | Group30          |
 | `CouplingPort`                                          | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortAbstractShaper`                            | [ ] Deferred| N/A                                      | Group16          |
-| `CouplingPortAsynchronousTrafficShaper`                 | [x] Done    | d419973456                               | Group16          |
+| `CouplingPortAbstractShaper`                            | [x] Done    | 929cee7081                               | Group16          |
+| `CouplingPortAsynchronousTrafficShaper`                 | [x] Done    | 929cee7081                               | Group16          |
 | `CouplingPortConnection`                                | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortCreditBasedShaper`                         | [x] Done    | c5cfd1dc4e                               | Group16          |
+| `CouplingPortCreditBasedShaper`                         | [x] Done    | 929cee7081                               | Group16          |
 | `CouplingPortDetails`                                   | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortFifo`                                      | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortRatePolicy`                                | [ ] Implemented| N/A                                      | Group30          |
