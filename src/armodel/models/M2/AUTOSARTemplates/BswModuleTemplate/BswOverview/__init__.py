@@ -13,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from typing import List, Optional
+from typing import List, Optional, cast
 
 
 class BswModuleDescription(AtpStructureElement):
@@ -123,7 +123,7 @@ class BswModuleDescription(AtpStructureElement):
             dependency = BswModuleDependency(self, short_name)
             self.addReferrableElement(dependency)
             self.bswModuleDependencies.append(dependency)
-        return self.getReferrableElement(short_name, BswModuleDependency)
+        return cast(BswModuleDependency, self.getReferrableElement(short_name, BswModuleDependency))
 
     def addBswModuleDependency(self, value: BswModuleDependency) -> "BswModuleDescription":
         """
@@ -253,7 +253,7 @@ class BswModuleDescription(AtpStructureElement):
             behavior = BswInternalBehavior(self, short_name)
             self.addReferrableElement(behavior)
             self.internalBehaviors.append(behavior)
-        return self.getReferrableElement(short_name, BswInternalBehavior)
+        return cast(BswInternalBehavior, self.getReferrableElement(short_name, BswInternalBehavior))
 
     def getModuleId(self) -> Optional[PositiveInteger]:
         """
@@ -296,7 +296,7 @@ class BswModuleDescription(AtpStructureElement):
             entry = BswModuleClientServerEntry(self, short_name)
             self.addReferrableElement(entry)
             self.providedClientServerEntries.append(entry)
-        return self.getReferrableElement(short_name, BswModuleClientServerEntry)
+        return cast(BswModuleClientServerEntry, self.getReferrableElement(short_name, BswModuleClientServerEntry))
 
     def getProvidedDatas(self) -> List[VariableDataPrototype]:
         """
@@ -318,7 +318,7 @@ class BswModuleDescription(AtpStructureElement):
             prototype = VariableDataPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.providedDatas.append(prototype)
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def getProvidedModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         """
@@ -340,7 +340,7 @@ class BswModuleDescription(AtpStructureElement):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.providedModeGroups.append(prototype)
-        return self.getReferrableElement(short_name, ModeDeclarationGroupPrototype)
+        return cast(ModeDeclarationGroupPrototype, self.getReferrableElement(short_name, ModeDeclarationGroupPrototype))
 
     def getReleasedTriggers(self) -> List[Trigger]:
         """
@@ -362,7 +362,7 @@ class BswModuleDescription(AtpStructureElement):
             trigger = Trigger(self, short_name)
             self.addReferrableElement(trigger)
             self.releasedTriggers.append(trigger)
-        return self.getReferrableElement(short_name, Trigger)
+        return cast(Trigger, self.getReferrableElement(short_name, Trigger))
 
     def getRequiredClientServerEntries(self) -> List[BswModuleClientServerEntry]:
         """
@@ -384,7 +384,7 @@ class BswModuleDescription(AtpStructureElement):
             entry = BswModuleClientServerEntry(self, short_name)
             self.addReferrableElement(entry)
             self.requiredClientServerEntries.append(entry)
-        return self.getReferrableElement(short_name, BswModuleClientServerEntry)
+        return cast(BswModuleClientServerEntry, self.getReferrableElement(short_name, BswModuleClientServerEntry))
 
     def getRequiredDatas(self) -> List[VariableDataPrototype]:
         """
@@ -406,7 +406,7 @@ class BswModuleDescription(AtpStructureElement):
             prototype = VariableDataPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.requiredDatas.append(prototype)
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def getRequiredModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         """
@@ -428,7 +428,7 @@ class BswModuleDescription(AtpStructureElement):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.requiredModeGroups.append(prototype)
-        return self.getReferrableElement(short_name, ModeDeclarationGroupPrototype)
+        return cast(ModeDeclarationGroupPrototype, self.getReferrableElement(short_name, ModeDeclarationGroupPrototype))
 
     def getRequiredTriggers(self) -> List[Trigger]:
         """
@@ -450,4 +450,4 @@ class BswModuleDescription(AtpStructureElement):
             trigger = Trigger(self, short_name)
             self.addReferrableElement(trigger)
             self.requiredTriggers.append(trigger)
-        return self.getReferrableElement(short_name, Trigger)
+        return cast(Trigger, self.getReferrableElement(short_name, Trigger))

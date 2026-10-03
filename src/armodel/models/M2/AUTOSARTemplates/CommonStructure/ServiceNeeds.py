@@ -8,7 +8,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -1823,7 +1823,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             algorithm = DiagEventDebounceCounterBased(self, short_name)
             self.addReferrableElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
-        return self.getReferrableElement(short_name, DiagEventDebounceCounterBased)
+        return cast(DiagEventDebounceCounterBased, self.getReferrableElement(short_name, DiagEventDebounceCounterBased))
 
     def createDiagEventDebounceMonitorInternal(self, short_name: str) -> DiagEventDebounceMonitorInternal:
         """
@@ -1839,7 +1839,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             algorithm = DiagEventDebounceMonitorInternal(self, short_name)
             self.addReferrableElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
-        return self.getReferrableElement(short_name, DiagEventDebounceMonitorInternal)
+        return cast(DiagEventDebounceMonitorInternal, self.getReferrableElement(short_name, DiagEventDebounceMonitorInternal))
 
     def createDiagEventDebounceTimeBased(self, short_name: str) -> DiagEventDebounceTimeBased:
         """
@@ -1855,7 +1855,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             algorithm = DiagEventDebounceTimeBased(self, short_name)
             self.addReferrableElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
-        return self.getReferrableElement(short_name, DiagEventDebounceTimeBased)
+        return cast(DiagEventDebounceTimeBased, self.getReferrableElement(short_name, DiagEventDebounceTimeBased))
 
     def getInhibitingFidRef(self) -> Optional[RefType]:
         """
@@ -2872,7 +2872,7 @@ class ErrorTracerNeeds(ServiceNeeds):
             failure = DevelopmentError(self, short_name)
             self.addReferrableElement(failure)
             self.tracedFailures.append(failure)
-        return self.getReferrableElement(short_name, DevelopmentError)
+        return cast(DevelopmentError, self.getReferrableElement(short_name, DevelopmentError))
 
     def createRuntimeError(self, short_name: str) -> RuntimeError:
         """
@@ -2888,7 +2888,7 @@ class ErrorTracerNeeds(ServiceNeeds):
             failure = RuntimeError(self, short_name)
             self.addReferrableElement(failure)
             self.tracedFailures.append(failure)
-        return self.getReferrableElement(short_name, RuntimeError)
+        return cast(RuntimeError, self.getReferrableElement(short_name, RuntimeError))
 
     def createTransientFault(self, short_name: str) -> TransientFault:
         """
@@ -2904,7 +2904,7 @@ class ErrorTracerNeeds(ServiceNeeds):
             failure = TransientFault(self, short_name)
             self.addReferrableElement(failure)
             self.tracedFailures.append(failure)
-        return self.getReferrableElement(short_name, TransientFault)
+        return cast(TransientFault, self.getReferrableElement(short_name, TransientFault))
 
 
 class EventAcceptanceStatusEnum(AREnum):
@@ -4066,7 +4066,7 @@ class TransientFault(TracedFailure):
             reaction = PossibleErrorReaction(self, short_name)
             self.addReferrableElement(reaction)
             self.possibleErrorReactions.append(reaction)
-        return self.getReferrableElement(short_name, PossibleErrorReaction)
+        return cast(PossibleErrorReaction, self.getReferrableElement(short_name, PossibleErrorReaction))
 
     def getPossibleErrorReactions(self) -> List[PossibleErrorReaction]:
         """

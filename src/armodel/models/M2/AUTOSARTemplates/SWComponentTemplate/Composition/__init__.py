@@ -1,6 +1,6 @@
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
@@ -494,7 +494,7 @@ class CompositionSwComponentType(SwComponentType):
             prototype = SwComponentPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.components.append(prototype)
-        return self.getReferrableElement(short_name, SwComponentPrototype)
+        return cast(SwComponentPrototype, self.getReferrableElement(short_name, SwComponentPrototype))
 
     def getComponents(self) -> List[SwComponentPrototype]:
         """
@@ -520,7 +520,7 @@ class CompositionSwComponentType(SwComponentType):
             connector = AssemblySwConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, AssemblySwConnector)
+        return cast(AssemblySwConnector, self.getReferrableElement(short_name, AssemblySwConnector))
 
     def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
         """
@@ -537,7 +537,7 @@ class CompositionSwComponentType(SwComponentType):
             connector = DelegationSwConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, DelegationSwConnector)
+        return cast(DelegationSwConnector, self.getReferrableElement(short_name, DelegationSwConnector))
 
     def createPassThroughSwConnector(self, short_name: str) -> PassThroughSwConnector:
         """
@@ -554,7 +554,7 @@ class CompositionSwComponentType(SwComponentType):
             connector = PassThroughSwConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, PassThroughSwConnector)
+        return cast(PassThroughSwConnector, self.getReferrableElement(short_name, PassThroughSwConnector))
 
     def getSwConnectors(self) -> List[SwConnector]:
         """
@@ -572,7 +572,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             List of AssemblySwConnector instances
         """
-        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.connectors), key=lambda c: c.short_name))
+        return list(sorted([e for e in self.connectors if isinstance(e, AssemblySwConnector)], key=lambda c: c.short_name))
 
     def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
         """
@@ -581,7 +581,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             List of DelegationSwConnector instances
         """
-        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.connectors), key=lambda c: c.short_name))
+        return list(sorted([e for e in self.connectors if isinstance(e, DelegationSwConnector)], key=lambda c: c.short_name))
 
     def getPassThroughSwConnectors(self) -> List[PassThroughSwConnector]:
         """
@@ -590,7 +590,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             List of PassThroughSwConnector instances
         """
-        return list(sorted(filter(lambda e: isinstance(e, PassThroughSwConnector), self.connectors), key=lambda c: c.short_name))
+        return list(sorted([e for e in self.connectors if isinstance(e, PassThroughSwConnector)], key=lambda c: c.short_name))
 
     def removeAllAssemblySwConnector(self):
         """
