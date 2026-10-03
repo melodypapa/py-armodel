@@ -374,16 +374,16 @@ class TestEcucDestinationUriDefSet:
         assert uri_def_set.getShortName() == "TestDestinationUriDefSet"
         assert uri_def_set.getDestinationUriDefs() == []
 
-    def test_add_get_destination_uri_defs(self):
+    def test_create_get_destination_uri_defs(self):
         """
-        Test addDestinationUriDef appends an EcucDestinationUriDef and returns self.
+        Test createEcucDestinationUriDef appends and dedupes by short name.
         """
         parent, uri_def_set = self._make_uri_def_set()
-        uri_def = EcucDestinationUriDef(parent, "TestDestinationUriDef")
-        result = uri_def_set.addDestinationUriDef(uri_def)
-        assert result == uri_def_set
+        uri_def = uri_def_set.createEcucDestinationUriDef("TestDestinationUriDef")
+        assert isinstance(uri_def, EcucDestinationUriDef)
         assert len(uri_def_set.getDestinationUriDefs()) == 1
         assert uri_def_set.getDestinationUriDefs()[0] is uri_def
+        assert uri_def_set.createEcucDestinationUriDef("TestDestinationUriDef") is uri_def
 
 
 class TestEcucDestinationUriPolicy:

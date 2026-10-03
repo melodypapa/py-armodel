@@ -897,15 +897,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucDestinationUriDefSet` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.34, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (631 passed battery incl. new create-dedupe + docstring tests; DESTINATION-URI-DEF-SET ARPackage-dispatch reload round-trips pre-existing in test_writer_ecuc_def.py (Uri1/Uri2) re-verified green; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); most-derived base kept AtpBlueprintable per the EcucDefinitionCollection T2.1 arbitration precedent (ARElement import would cycle; ATP-BLUEPRINTABLE precedes own group in XSD l.52587+); class docstring was missing `Tags: atp.recommendedPackage=EcucDestinationUriDefSets` tail — added verbatim; attr destinationUriDef (* aggr) ✓; createEcucDestinationUriDef was registry-less (no dedupe, no addReferrableElement) → migrated to the Identifiable registry pattern (IsReferrableElementExists + addReferrableElement); addDestinationUriDef removed (Referrable child ⇒ createXxx shape per Rule 0001.6) and its test migrated
 
 - [ ] `EcucDestinationUriDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.35, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

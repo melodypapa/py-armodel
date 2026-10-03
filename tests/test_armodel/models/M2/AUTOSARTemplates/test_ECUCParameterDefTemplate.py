@@ -535,8 +535,35 @@ class TestEcucDestinationUriDef:
 
 
 class TestEcucDestinationUriDefSet:
+    CLASS_NOTE = "This class represents a list of EcucDestinationUriDefs. Tags: atp.recommendedPackage=EcucDestinationUriDefSets"
+    DEF_NOTE = "This is one particular EcucDestinationUriDef."
+
     def test_instantiation(self):
         assert _instantiate(EcucDestinationUriDefSet, "EcucDestinationUriDefSet").getShortName() == "EcucDestinationUriDefSet"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDestinationUriDefSet.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriDefSet.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucDestinationUriDefSet, "Uds")
+        assert obj.getDestinationUriDefs() == []
+
+    def test_create_destination_uri_def_appends_and_dedupes(self):
+        obj = _instantiate(EcucDestinationUriDefSet, "Uds")
+        uri_def = obj.createEcucDestinationUriDef("U1")
+        assert isinstance(uri_def, EcucDestinationUriDef)
+        assert obj.getDestinationUriDefs() == [uri_def]
+        assert obj.createEcucDestinationUriDef("U1") is uri_def
+        obj.createEcucDestinationUriDef("U2")
+        assert len(obj.getDestinationUriDefs()) == 2
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucDestinationUriDefSet, "Uds")
+        assert inspect.cleandoc(obj.getDestinationUriDefs.__doc__) == self.DEF_NOTE
+        assert inspect.cleandoc(obj.createEcucDestinationUriDef.__doc__).splitlines()[0] == self.DEF_NOTE
 
 
 class TestEcucQuery:

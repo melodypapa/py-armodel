@@ -2078,17 +2078,14 @@ class EcucDestinationUriDef(Identifiable):
 
 
 class EcucDestinationUriDefSet(AtpBlueprintable):
-    """
-    This class represents a list of EcucDestinationUriDefs.
-    """
+    """This class represents a list of EcucDestinationUriDefs. Tags: atp.recommendedPackage=EcucDestinationUriDefSets"""
 
     # EcucDestinationUriDefSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.34, p.82
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addDestinationUriDef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2106,18 +2103,11 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         """
         This is one particular EcucDestinationUriDef.
         """
-        element = EcucDestinationUriDef(self, short_name)
-        self.destinationUriDefs.append(element)
-        return element
-
-    def addDestinationUriDef(self, value: EcucDestinationUriDef) -> EcucDestinationUriDefSet:
-        """
-        This is one particular EcucDestinationUriDef.
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.destinationUriDefs.append(value)
-        return self
+        if not self.IsReferrableElementExists(short_name, EcucDestinationUriDef):
+            uri_def = EcucDestinationUriDef(self, short_name)
+            self.addReferrableElement(uri_def)
+            self.destinationUriDefs.append(uri_def)
+        return cast(EcucDestinationUriDef, self.getReferrableElement(short_name, EcucDestinationUriDef))
 
 
 class EcucDestinationUriPolicy(ARObject):
