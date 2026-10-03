@@ -578,7 +578,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (268 passed ECUCParameterDefTemplate + member-annotation gate + new parser/writer round-trip; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (268 passed ECUCParameterDefTemplate + member-annotation gate + new parser/writer round-trip; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `ae0585d41`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); row's `ARElement` base claim is a generation artifact — XSD complexType l.51807 group order (ATP-BLUEPRINTABLE immediately before own group) + repo convention (SwComponentType/AtpType, BswModuleEntry/AtpBlueprintable; ARElement lives in ARPackage.py — importing it here would cycle) keep most-derived base AtpBlueprintable; addModuleRef/getModuleRefs docstrings were paraphrases → Note verbatim (single-line form); reader/writer already wired (readARElement/writeARElement + MODULE-REFS, DEST ECUC-MODULE-DEF asserted)
 
 - [ ] `EcucModuleDef` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.2, p.32
