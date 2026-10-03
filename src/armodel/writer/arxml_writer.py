@@ -434,6 +434,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticCondition,
+    DiagnosticConditionGroup,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
@@ -13979,6 +13980,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
         self.setChildElementOptionalBooleanValue(element, "INIT-VALUE", condition.getInitValue())
+
+    def writeDiagnosticConditionGroup(self, element: ET.Element, condition_group: DiagnosticConditionGroup):
+        pass
 
     def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         refs = connection.getFunctionalRequestRefs()

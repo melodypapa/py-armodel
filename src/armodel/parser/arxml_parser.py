@@ -561,6 +561,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticCondition,
+    DiagnosticConditionGroup,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
@@ -10642,6 +10643,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
         condition.setInitValue(self.getChildElementOptionalBooleanValue(element, "INIT-VALUE"))
+
+    def readDiagnosticConditionGroup(self, element: ET.Element, condition_group: DiagnosticConditionGroup):
+        pass
 
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):

@@ -911,15 +911,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticConditionGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.193, p.200
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1806 passed / 0 failed: tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_ARPackage.py, tests/test_armodel/parser/test_diagnostic_condition_group.py, tests/test_armodel/writer/test_writer_diagnostic_condition_group.py, tests/test_armodel/models/test_member_annotations.py, tests/test_armodel/models/test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 1): Table 4.193 is an abstract Class with zero Attribute rows; XSD group
+    DIAGNOSTIC-CONDITION-GROUP (AUTOSAR_00052.xsd l.33439) is an empty `<xsd:sequence/>`.
+    Base chain names DiagnosticCommonElement (most-derived available) — stub base corrected
+    ARElement → DiagnosticCommonElement (DiagnosticCondition precedent, 48dbae418) and the
+    STUBS entry in tests/test_armodel/models/test_group21_36_stub_classes.py repaired to match.
+    Instantiation guard added (spec marks "(abstract)"; subclasses DiagnosticEnableConditionGroup /
+    DiagnosticStorageConditionGroup queued next). No model fields/accessors to sync.
+  - Note (Steps 5/6): no standalone XSD element (abstract); named reusable helpers
+    readDiagnosticConditionGroup / writeDiagnosticConditionGroup added (empty no-op bodies,
+    mirroring the empty XSD group) for the queued concrete subclasses to call; helper tests
+    driven through the stub subclass instances.
+  - Note (Step 8): no deviations. Referenced-but-missing classes: none (both subclasses exist
+    as stubs and carry their own queue rows, Tables 4.194/4.195).
 
 - [ ] `DiagnosticEnableConditionGroup` — DiagnosticConditionGroup — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.194, p.200
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

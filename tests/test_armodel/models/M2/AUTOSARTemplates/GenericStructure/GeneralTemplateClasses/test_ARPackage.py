@@ -37,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
     DiagnosticCondition,
+    DiagnosticConditionGroup,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticCustomServiceInstance,
@@ -49,6 +50,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticEcuReset,
     DiagnosticEnableCondition,
+    DiagnosticEnableConditionGroup,
     DiagnosticEnableConditionPortMapping,
     DiagnosticEventPortMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
@@ -107,6 +109,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticServiceMappingDiagTarget,
     DiagnosticServiceSwMapping,
     DiagnosticSessionControl,
+    DiagnosticStorageConditionGroup,
     DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
     DiagnosticTestRoutineIdentifier,
@@ -9486,3 +9489,68 @@ class TestDiagnosticCondition:
         """
         assert inspect.cleandoc(DiagnosticCondition.getInitValue.__doc__) == self.INIT_VALUE_NOTE
         assert inspect.cleandoc(DiagnosticCondition.setInitValue.__doc__) == (self.INIT_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing initValue.")
+
+
+class TestDiagnosticConditionGroup:
+    """
+    Test class for DiagnosticConditionGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.193, p.200
+
+    DiagnosticConditionGroup is abstract (spec marks it "(abstract)"; subclasses:
+    DiagnosticEnableConditionGroup, DiagnosticStorageConditionGroup) and its table
+    carries no Attribute rows (the XSD group DIAGNOSTIC-CONDITION-GROUP is an empty
+    sequence), so __init__ defaults and the base chain are exercised through the
+    concrete subclass stub DiagnosticEnableConditionGroup (Rule 0006 abstract-class
+    clause).
+    """
+
+    CLASS_NOTE = "Abstract element for StorageConditionGroups and EnableConditionGroups."
+
+    def _make_obj(self) -> DiagnosticEnableConditionGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEnableConditionGroup(ar_root, "TestConditionGroup")
+
+    def test_abstract_instantiation_blocked(self):
+        """
+        Test that instantiating the abstract DiagnosticConditionGroup directly raises TypeError.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+
+        with pytest.raises(TypeError):
+            DiagnosticConditionGroup(ar_root, "DirectConditionGroup")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass instantiates with the most-derived base chain and no own fields.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestConditionGroup"
+        assert isinstance(obj, DiagnosticConditionGroup)
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert isinstance(obj, ARElement)
+
+    def test_storage_condition_group_subclass_instantiates(self):
+        """
+        Test that the second subclass stub DiagnosticStorageConditionGroup instantiates through the base too.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = DiagnosticStorageConditionGroup(ar_root, "StorageGroup")
+
+        assert obj.getShortName() == "StorageGroup"
+        assert isinstance(obj, DiagnosticConditionGroup)
+        assert isinstance(obj, DiagnosticCommonElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticConditionGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticConditionGroup.__init__.__doc__ is None
