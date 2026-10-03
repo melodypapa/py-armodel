@@ -758,23 +758,19 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
 
 class EcucDerivationSpecification(ARObject):
-    """
-    Allows to define configuration items that are calculated based on the value of
-    other parameter values, or of elements (attributes/classes) defined in other
-    AUTOSAR templates such as System template and SW component template.
-    """
+    """Allows to define configuration items that are calculated based on the value of • other parameter values • elements (attributes/classes) defined in other AUTOSAR templates such as System template and SW component template"""
 
     # EcucDerivationSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.38, p.87
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -811,7 +807,7 @@ class EcucDerivationSpecification(ARObject):
 
     def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
-        Creates or returns an existing EcucQuery aggregated by this derivation specification.
+        Query to the ECU Configuration Description.
         """
         if short_name is None:
             return None

@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
+    EcucParameterDerivationFormula,
     EcucQuery,
     EcucQueryExpression,
     EcucReferenceDef,
@@ -1404,7 +1405,6 @@ class TestWriterEcucDerivationSpecification:
     def _build_derivation(self):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
             EcucDerivationSpecification,
-            EcucParameterDerivationFormula,
             EcucQueryExpression,
         )
         from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula

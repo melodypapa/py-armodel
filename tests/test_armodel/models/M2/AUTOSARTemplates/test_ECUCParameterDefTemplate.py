@@ -799,8 +799,28 @@ class TestEcucValueConfigurationClass:
 
 
 class TestEcucDerivationSpecification:
+    CLASS_NOTE = "Allows to define configuration items that are calculated based on the value of • other parameter values • elements (attributes/classes) defined in other AUTOSAR templates such as System template and SW component template"
+    CALC_NOTE = "Definition of the formula used to calculate the value of the configuration element."
+    QUERY_NOTE = "Query to the ECU Configuration Description."
+    INFORMAL_NOTE = "Informal description of the derivation used to calculate the value of the configuration element."
+
     def test_instantiation(self):
         assert isinstance(EcucDerivationSpecification(), EcucDerivationSpecification)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucDerivationSpecification.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDerivationSpecification.__init__.__doc__ is None
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        derivation = EcucDerivationSpecification()
+        assert inspect.cleandoc(derivation.getCalculationFormula.__doc__) == self.CALC_NOTE
+        assert inspect.cleandoc(derivation.setCalculationFormula.__doc__).splitlines()[0] == self.CALC_NOTE
+        assert inspect.cleandoc(derivation.getEcucQueries.__doc__) == self.QUERY_NOTE
+        assert inspect.cleandoc(derivation.createEcucQuery.__doc__).splitlines()[0] == self.QUERY_NOTE
+        assert inspect.cleandoc(derivation.getInformalFormula.__doc__) == self.INFORMAL_NOTE
+        assert inspect.cleandoc(derivation.setInformalFormula.__doc__).splitlines()[0] == self.INFORMAL_NOTE
 
     def test_initialization(self):
         derivation = EcucDerivationSpecification()
