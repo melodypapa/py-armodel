@@ -556,8 +556,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     PositiveInteger,
     RefType,
-    Integer,
-    Float,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2116,18 +2114,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "DISABLE-END-TO-END-CHECK", prop.getDisableEndToEndCheck())
             self.setChildElementOptionalBooleanValue(child_element, "DISABLE-END-TO-END-STATE-MACHINE", prop.getDisableEndToEndStateMachine())
             self.setChildElementOptionalRefType(child_element, "E2E-PROFILE-COMPATIBILITY-PROPS-REF", prop.getE2eProfileCompatibilityPropsRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", cast(Integer, prop.getMaxDeltaCounter()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", cast(Integer, prop.getMaxErrorStateInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", cast(Integer, prop.getMaxErrorStateInvalid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-VALID", cast(Integer, prop.getMaxErrorStateValid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", cast(Integer, prop.getMaxNoNewOrRepeatedData()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INIT", cast(Integer, prop.getMinOkStateInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INVALID", cast(Integer, prop.getMinOkStateInvalid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-VALID", cast(Integer, prop.getMinOkStateValid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", cast(Integer, prop.getSyncCounterInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INIT", cast(Integer, prop.getWindowSizeInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", cast(Integer, prop.getWindowSizeInvalid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", cast(Integer, prop.getWindowSizeValid()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", prop.getMaxDeltaCounter())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", prop.getMaxErrorStateInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", prop.getMaxErrorStateInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-VALID", prop.getMaxErrorStateValid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", prop.getMaxNoNewOrRepeatedData())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INIT", prop.getMinOkStateInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INVALID", prop.getMinOkStateInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-VALID", prop.getMinOkStateValid())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", prop.getSyncCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INIT", prop.getWindowSizeInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", prop.getWindowSizeInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", prop.getWindowSizeValid())
 
     def writeServerComSpecTransformationComSpecProps(self, element: ET.Element, com_spec: ServerComSpec):
         self.writeTransformationComSpecPropss(element, com_spec.getTransformationComSpecProps())
@@ -2136,7 +2134,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SERVER-COM-SPEC")
         self.writeARObject(child_element, com_spec)
         self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.getOperationRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", cast(Integer, com_spec.getQueueLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
         self.writeServerComSpecTransformationComSpecProps(child_element, com_spec)
 
     def writeQueuedSenderComSpec(self, element: ET.Element, com_spec: QueuedSenderComSpec):
@@ -2156,7 +2154,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", com_spec.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", com_spec.getModeGroupRef())
         self.setModeSwitchedAckRequest(child_element, "MODE-SWITCHED-ACK", com_spec.getModeSwitchedAck())
-        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", cast(Integer, com_spec.getQueueLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
 
     def writeNvProvideComSpec(self, com_specs_tag: ET.Element, com_spec: NvProvideComSpec):
         if com_spec is not None:
@@ -2209,12 +2207,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS", com_spec.getHandleOutOfRangeStatus())
-        self.setChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT", cast(Integer, com_spec.getMaxDeltaCounterInit()))
-        self.setChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA", cast(Integer, com_spec.getMaxNoNewOrRepeatedData()))
+        self.setChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT", com_spec.getMaxDeltaCounterInit())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA", com_spec.getMaxNoNewOrRepeatedData())
         self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.getUsesEndToEndProtection())
         self.writeReceptionComSpecProps(element, "RECEPTION-PROPS", com_spec.getReceptionProps())
         self.writeReceiverReplaceWith(element, "REPLACE-WITH", com_spec.getReplaceWith())
-        self.setChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT", cast(Integer, com_spec.getSyncCounterInit()))
+        self.setChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT", com_spec.getSyncCounterInit())
         props = com_spec.getTransformationComSpecProps()
         if len(props) > 0:
             props_tag = ET.SubElement(element, "TRANSFORMATION-COM-SPEC-PROPSS")
@@ -2253,10 +2251,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, sw_values)
             for vf in sw_values.getVfs():
-                self.setChildElementOptionalFloatValue(child_element, "VF", cast(Float, vf))
+                self.setChildElementOptionalFloatValue(child_element, "VF", vf)
             self.setChildElementOptionalLiteral(child_element, "VT", sw_values.getVt())
             for v in sw_values.getVs():
-                self.setChildElementOptionalFloatValue(child_element, "V", cast(Float, v))
+                self.setChildElementOptionalFloatValue(child_element, "V", v)
             self.setValueGroup(child_element, "VG", sw_values.getVg())
             for vtf in sw_values.getVtfs():
                 self.writeNumericalOrText(child_element, "VTF", vtf)
@@ -2269,10 +2267,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             contents = value_group.getVgContents()
             if contents is not None:
                 for vf in contents.getVfs():
-                    self.setChildElementOptionalFloatValue(child_element, "VF", cast(Float, vf))
+                    self.setChildElementOptionalFloatValue(child_element, "VF", vf)
                 self.setChildElementOptionalLiteral(child_element, "VT", contents.getVt())
                 for v in contents.getVs():
-                    self.setChildElementOptionalFloatValue(child_element, "V", cast(Float, v))
+                    self.setChildElementOptionalFloatValue(child_element, "V", v)
                 for vtf in contents.getVtfs():
                     self.writeNumericalOrText(child_element, "VTF", vtf)
 
@@ -2343,7 +2341,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNotAvailableValueSpecification(elements_tag, sub_element)
                 else:
                     self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
-        self.setChildElementOptionalPositiveInteger(value_spec_tag, "INTENDED-PARTIAL-INITIALIZATION-COUNT", cast(Integer, value_spec.getIntendedPartialInitializationCount()))
+        self.setChildElementOptionalPositiveInteger(value_spec_tag, "INTENDED-PARTIAL-INITIALIZATION-COUNT", value_spec.getIntendedPartialInitializationCount())
 
     def setConstantReference(self, element: ET.Element, value_spec: ConstantReference):
         value_spec_tag = ET.SubElement(element, "CONSTANT-REFERENCE")
@@ -2360,7 +2358,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if value_spec is not None:
             value_spec_tag = ET.SubElement(element, "NOT-AVAILABLE-VALUE-SPECIFICATION")
             self.writeValueSpecification(value_spec_tag, value_spec)
-            self.setChildElementOptionalPositiveInteger(value_spec_tag, "DEFAULT-PATTERN", cast(Integer, value_spec.getDefaultPattern()))
+            self.setChildElementOptionalPositiveInteger(value_spec_tag, "DEFAULT-PATTERN", value_spec.getDefaultPattern())
 
     def writeNumericalRuleBasedValueSpecification(self, element: ET.Element, value_spec: NumericalRuleBasedValueSpecification):
         if value_spec is not None:
@@ -2421,7 +2419,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "QUEUED-RECEIVER-COM-SPEC")
         self.writeARObject(child_element, com_spec)
         self.writeReceiverComSpec(child_element, com_spec)
-        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", cast(Integer, com_spec.getQueueLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
 
     def writeClientComSpec(self, element: ET.Element, com_spec: ClientComSpec):
         self.logger.debug("writeClientComSpec")
@@ -3788,9 +3786,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.notImplemented("Unsupported ApplicationDataType <%s>" % type(data_type))
 
     def setBaseTypeDirectDefinition(self, element: ET.Element, base_type_definition: BaseTypeDirectDefinition):
-        self.setChildElementOptionalPositiveInteger(element, "BASE-TYPE-SIZE", cast(Integer, base_type_definition.getBaseTypeSize()))
+        self.setChildElementOptionalPositiveInteger(element, "BASE-TYPE-SIZE", base_type_definition.getBaseTypeSize())
         self.setChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING", base_type_definition.getBaseTypeEncoding())
-        self.setChildElementOptionalPositiveInteger(element, "MEM-ALIGNMENT", cast(Integer, base_type_definition.getMemAlignment()))
+        self.setChildElementOptionalPositiveInteger(element, "MEM-ALIGNMENT", base_type_definition.getMemAlignment())
         self.setChildElementOptionalLiteral(element, "BYTE-ORDER", base_type_definition.getByteOrder())
         self.setChildElementOptionalLiteral(element, "NATIVE-DECLARATION", base_type_definition.getNativeDeclaration())
 
@@ -3848,7 +3846,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
             self.setMultiLanguageOverviewParagraph(child_element, "DESC", compu_scale.getDesc())
-            self.setChildElementOptionalPositiveInteger(child_element, "MASK", cast(Integer, compu_scale.getMask()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MASK", compu_scale.getMask())
             self.setChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.getLowerLimit())
             self.setChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.getUpperLimit())
             self.writeCompuScaleContents(child_element, compu_scale)
@@ -3988,7 +3986,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                         self.setConstantReference(compound_tag, argument)
                     else:
                         self.notImplemented("Unsupported compound primitive argument type of <%s> of CompositeRuleBasedValueSpecification" % type(argument))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-SIZE-TO-FILL", cast(Integer, value_spec.getMaxSizeToFill()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
 
     def writeRecordValueSpecification(self, element: ET.Element, spec: RecordValueSpecification):
         child_element = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")
@@ -4344,8 +4342,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
         child_element = ET.SubElement(element, "NV-BLOCK-DATA-MAPPING")
         self.writeARObject(child_element, mapping)
-        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR", cast(Integer, mapping.getBitfieldTextTableMaskNvBlockDescriptor()))
-        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE", cast(Integer, mapping.getBitfieldTextTableMaskPortPrototype()))
+        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR", mapping.getBitfieldTextTableMaskNvBlockDescriptor())
+        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE", mapping.getBitfieldTextTableMaskPortPrototype())
         self.setAutosarVariableRef(child_element, "NV-RAM-BLOCK-ELEMENT", mapping.getNvRamBlockElement())
         self.setAutosarVariableRef(child_element, "READ-NV-DATA", mapping.getReadNvData())
         self.setAutosarVariableRef(child_element, "WRITTEN-NV-DATA", mapping.getWrittenNvData())
@@ -5441,12 +5439,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeBurstPatternEventTriggering(self, element: ET.Element, constraint: BurstPatternEventTriggering):
         self.logger.debug("writeBurstPatternEventTriggering %s" % constraint.getShortName())
         self.writeEventTriggeringConstraint(element, constraint)
-        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-OCCURRENCES", cast(Integer, constraint.getMaxNumberOfOccurrences()))
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-OCCURRENCES", constraint.getMaxNumberOfOccurrences())
         self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
         self.setMultidimensionalTime(element, "PATTERN-JITTER", constraint.getPatternJitter())
         self.setMultidimensionalTime(element, "PATTERN-LENGTH", constraint.getPatternLength())
         self.setMultidimensionalTime(element, "PATTERN-PERIOD", constraint.getPatternPeriod())
-        self.setChildElementOptionalPositiveInteger(element, "MIN-NUMBER-OF-OCCURRENCES", cast(Integer, constraint.getMinNumberOfOccurrences()))
+        self.setChildElementOptionalPositiveInteger(element, "MIN-NUMBER-OF-OCCURRENCES", constraint.getMinNumberOfOccurrences())
 
     def writeArbitraryEventTriggering(self, element: ET.Element, constraint: ArbitraryEventTriggering):
         self.logger.debug("writeArbitraryEventTriggering %s" % constraint.getShortName())
@@ -5532,10 +5530,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(child_element, "LET-INTERVAL-REFS")
             for let_interval_ref in let_interval_refs:
                 self.setChildElementOptionalRefType(refs_tag, "LET-INTERVAL-REF", let_interval_ref)
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-CYCLE-REPETITIONS", cast(Integer, group.getMaxCycleRepetitions()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-CYCLE-REPETITIONS", group.getMaxCycleRepetitions())
         self.setChildElementOptionalIntegerValue(child_element, "MAX-CYCLES", group.getMaxCycles())
         self.setChildElementOptionalIntegerValue(child_element, "MAX-SLOTS", group.getMaxSlots())
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SLOTS-PER-CYCLE", cast(Integer, group.getMaxSlotsPerCycle()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SLOTS-PER-CYCLE", group.getMaxSlotsPerCycle())
         nested_element_refs = group.getNestedElementRefs()
         if len(nested_element_refs) > 0:
             refs_tag = ET.SubElement(child_element, "NESTED-ELEMENT-REFS")
@@ -5844,8 +5842,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
         self.setChildElementOptionalBooleanValue(child_element, "CHECK-STATIC-BLOCK-ID", needs.getCheckStaticBlockId())
         self.setChildElementOptionalTimeValue(child_element, "CYCLIC-WRITING-PERIOD", needs.getCyclicWritingPeriod())
-        self.setChildElementOptionalPositiveInteger(child_element, "N-DATA-SETS", cast(Integer, needs.getNDataSets()))
-        self.setChildElementOptionalPositiveInteger(child_element, "N-ROM-BLOCKS", cast(Integer, needs.getNRomBlocks()))
+        self.setChildElementOptionalPositiveInteger(child_element, "N-DATA-SETS", needs.getNDataSets())
+        self.setChildElementOptionalPositiveInteger(child_element, "N-ROM-BLOCKS", needs.getNRomBlocks())
         self.setChildElementOptionalLiteral(child_element, "RAM-BLOCK-STATUS-CONTROL", needs.getRamBlockStatusControl())
         self.setChildElementOptionalBooleanValue(child_element, "READONLY", needs.getReadonly())
         self.setChildElementOptionalLiteral(child_element, "RELIABILITY", needs.getReliability())
@@ -5861,7 +5859,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "USE-CRC-COMP-MECHANISM", needs.getUseCRCCompMechanism())
         self.setChildElementOptionalBooleanValue(child_element, "WRITE-ONLY-ONCE", needs.getWriteOnlyOnce())
         self.setChildElementOptionalBooleanValue(child_element, "WRITE-VERIFICATION", needs.getWriteVerification())
-        self.setChildElementOptionalPositiveInteger(child_element, "WRITING-FREQUENCY", cast(Integer, needs.getWritingFrequency()))
+        self.setChildElementOptionalPositiveInteger(child_element, "WRITING-FREQUENCY", needs.getWritingFrequency())
         self.setChildElementOptionalLiteral(child_element, "WRITING-PRIORITY", needs.getWritingPriority())
 
     def writeDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
@@ -5879,7 +5877,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     audience_element = ET.SubElement(audiences_tag, "AUDIENCE")
                     audience_element.text = token
         self.setChildElementOptionalLiteral(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())
-        self.setChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL", cast(Integer, needs.getSecurityAccessLevel()))
+        self.setChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL", needs.getSecurityAccessLevel())
 
     def _writeEnumToken(self, element: ET.Element, tag: str, value, token_map: dict):
         if value is None:
@@ -5922,15 +5920,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self._writeEnumToken(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType(), DIAGNOSTIC_ROUTINE_TYPE_XML_MAP)
-        self.setChildElementOptionalIntegerValue(child_element, "RID-NUMBER", cast(Integer, needs.getRidNumber()))
+        self.setChildElementOptionalIntegerValue(child_element, "RID-NUMBER", needs.getRidNumber())
 
     def writeDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-VALUE-NEEDS")
         self.logger.debug("write DiagnosticValueNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", cast(Integer, needs.getDataLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", needs.getDataLength())
         self._writeEnumToken(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess(), DIAGNOSTIC_VALUE_ACCESS_XML_MAP)
-        self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", cast(Integer, needs.getDidNumber()))
+        self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", needs.getDidNumber())
         self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
         self._writeEnumToken(child_element, "PROCESSING-STYLE", needs.getProcessingStyle(), DIAGNOSTIC_PROCESSING_STYLE_XML_MAP)
 
@@ -5945,7 +5943,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF", needs.getApplicationDataTypeRef())
         self.setChildElementOptionalRefType(child_element, "EVENT-NEEDS-REF", needs.getEventNeedsRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "UNIT-AND-SCALING-ID", cast(Integer, needs.getUnitAndScalingId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "UNIT-AND-SCALING-ID", needs.getUnitAndScalingId())
         self.setChildElementOptionalLiteral(child_element, "UPDATE-KIND", needs.getUpdateKind())
 
     def writeObdPidServiceNeeds(self, element: ET.Element, needs: ObdPidServiceNeeds):
@@ -5996,16 +5994,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS")
         self.logger.debug("write DoIpRoutingActivationAuthenticationNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
-        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-REQUEST", cast(Integer, needs.getDataLengthRequest()))
-        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-RESPONSE", cast(Integer, needs.getDataLengthResponse()))
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-REQUEST", needs.getDataLengthRequest())
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-RESPONSE", needs.getDataLengthResponse())
         self.setChildElementOptionalLiteral(child_element, "ROUTING-ACTIVATION-TYPE", needs.getRoutingActivationType())
 
     def writeDoIpRoutingActivationConfirmationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationConfirmationNeeds):
         child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS")
         self.logger.debug("write DoIpRoutingActivationConfirmationNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
-        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-REQUEST", cast(Integer, needs.getDataLengthRequest()))
-        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-RESPONSE", cast(Integer, needs.getDataLengthResponse()))
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-REQUEST", needs.getDataLengthRequest())
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-RESPONSE", needs.getDataLengthResponse())
         self.setChildElementOptionalLiteral(child_element, "ROUTING-ACTIVATION-TYPE", needs.getRoutingActivationType())
 
     def writeSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
@@ -6085,8 +6083,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-INFO-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self._writeEnumToken(child_element, "DTC-KIND", needs.getDtcKind(), DTC_KIND_XML_MAP)
-        self.setChildElementOptionalPositiveInteger(child_element, "OBD-DTC-NUMBER", cast(Integer, needs.getObdDtcNumber()))
-        self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", cast(Integer, needs.getUdsDtcNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "OBD-DTC-NUMBER", needs.getObdDtcNumber())
+        self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
 
     def writeDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
         # self.logger.debug("Write DiagnosticIoControlNeeds %s" % needs.getShortName())
@@ -6179,7 +6177,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", needs.getAlgorithmFamily())
         self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", needs.getAlgorithmMode())
         self.setChildElementOptionalString(child_element, "CRYPTO-KEY-DESCRIPTION", needs.getCryptoKeyDescription())
-        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", cast(Integer, needs.getMaximumKeyLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
 
     def writeEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
         # self.logger.debug("write EcuStateMgrUserNeeds %s" % needs.getShortName())
@@ -6253,11 +6251,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "EXPECTED-ALIVE-CYCLE", needs.getExpectedAliveCycle())
         self.setChildElementOptionalTimeValue(child_element, "MAX-ALIVE-CYCLE", needs.getMaxAliveCycle())
         self.setChildElementOptionalTimeValue(child_element, "MIN-ALIVE-CYCLE", needs.getMinAliveCycle())
-        self.setChildElementOptionalPositiveInteger(child_element, "TOLERATED-FAILED-CYCLES", cast(Integer, needs.getToleratedFailedCycles()))
+        self.setChildElementOptionalPositiveInteger(child_element, "TOLERATED-FAILED-CYCLES", needs.getToleratedFailedCycles())
 
     def writeTracedFailure(self, element: ET.Element, failure: TracedFailure):
         self.writeIdentifiable(element, failure)
-        self.setChildElementOptionalPositiveInteger(element, "ID", cast(Integer, failure.getId()))
+        self.setChildElementOptionalPositiveInteger(element, "ID", failure.getId())
 
     def setDevelopmentError(self, element: ET.Element, failure: DevelopmentError):
         child_element = ET.SubElement(element, "DEVELOPMENT-ERROR")
@@ -6270,7 +6268,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setPossibleErrorReaction(self, element: ET.Element, reaction: PossibleErrorReaction):
         child_element = ET.SubElement(element, "POSSIBLE-ERROR-REACTION")
         self.writeIdentifiable(child_element, reaction)
-        self.setChildElementOptionalPositiveInteger(child_element, "REACTION-CODE", cast(Integer, reaction.getReactionCode()))
+        self.setChildElementOptionalPositiveInteger(child_element, "REACTION-CODE", reaction.getReactionCode())
 
     def setTransientFault(self, element: ET.Element, failure: TransientFault):
         child_element = ET.SubElement(element, "TRANSIENT-FAULT")
@@ -6606,7 +6604,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
                 self.setMemorySectionOptions(child_element, memory_section.getOptions())
                 self.setChildElementOptionalRefType(child_element, "PREFIX-REF", memory_section.getPrefixRef())
-                self.setChildElementOptionalPositiveInteger(child_element, "SIZE", cast(Integer, memory_section.getSize()))
+                self.setChildElementOptionalPositiveInteger(child_element, "SIZE", memory_section.getSize())
                 self.setChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF", memory_section.getSwAddrMethodRef())
                 self.setChildElementOptionalIdentifier(child_element, "SYMBOL", memory_section.getSymbol())
                 self.writeVariationPoint(child_element, memory_section.getVariationPoint())
@@ -6701,20 +6699,20 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeMeasuredHeapUsage(self, element: ET.Element, usage: MeasuredHeapUsage):
         child_element = ET.SubElement(element, "MEASURED-HEAP-USAGE")
         self.writeHeapUsage(child_element, usage)
-        self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", cast(Integer, usage.getAverageMemoryConsumption()))
-        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMaximumMemoryConsumption()))
-        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMinimumMemoryConsumption()))
+        self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", usage.getAverageMemoryConsumption())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", usage.getMaximumMemoryConsumption())
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", usage.getMinimumMemoryConsumption())
         self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
 
     def writeRoughEstimateHeapUsage(self, element: ET.Element, usage: RoughEstimateHeapUsage):
         child_element = ET.SubElement(element, "ROUGH-ESTIMATE-HEAP-USAGE")
         self.writeHeapUsage(child_element, usage)
-        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
 
     def writeWorstCaseHeapUsage(self, element: ET.Element, usage: WorstCaseHeapUsage):
         child_element = ET.SubElement(element, "WORST-CASE-HEAP-USAGE")
         self.writeHeapUsage(child_element, usage)
-        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
 
     def writeHeapUsages(self, element: ET.Element, usages: List):
         if len(usages) > 0:
@@ -6765,22 +6763,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if usage is not None:
             child_element = ET.SubElement(element, "ROUGH-ESTIMATE-STACK-USAGE")
             self.setStackUsage(child_element, usage)
-            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
 
     def setMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "MEASURED-STACK-USAGE")
             self.setStackUsage(child_element, usage)
-            self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", cast(Integer, usage.getAverageMemoryConsumption()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMaximumMemoryConsumption()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMinimumMemoryConsumption()))
+            self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", usage.getAverageMemoryConsumption())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", usage.getMaximumMemoryConsumption())
+            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", usage.getMinimumMemoryConsumption())
             self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
 
     def setWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "WORST-CASE-STACK-USAGE")
             self.setStackUsage(child_element, usage)
-            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
 
     def writeStackUsages(self, element: ET.Element, usages: List[StackUsage]):
         if len(usages) > 0:
@@ -6821,7 +6819,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "SW-VERSION", impl.getSwVersion())
         self.setChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF", impl.getSwcBswMappingRef())
         self.setChildElementOptionalLiteral(element, "USED-CODE-GENERATOR", impl.getUsedCodeGenerator())
-        self.setChildElementOptionalPositiveInteger(element, "VENDOR-ID", cast(Integer, impl.getVendorId()))
+        self.setChildElementOptionalPositiveInteger(element, "VENDOR-ID", impl.getVendorId())
         if impl.getMcSupport() is not None:
             self.writeMcSupportData(element, impl.getMcSupport())
 
@@ -6894,7 +6892,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         self.writeIdentifiable(element, instance)
-        self.setChildElementOptionalPositiveInteger(element, "ARRAY-SIZE", cast(Integer, instance.getArraySize()))
+        self.setChildElementOptionalPositiveInteger(element, "ARRAY-SIZE", instance.getArraySize())
         self.setChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER", instance.getDisplayIdentifier())
         self.setChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF", instance.getFlatMapEntryRef())
         instance_in_memory = instance.getInstanceInMemory()
@@ -6950,14 +6948,14 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeRptExecutableEntityProperties(self, element: ET.Element, properties: Optional[RptExecutableEntityProperties]):
         if properties is not None:
-            self.setChildElementOptionalPositiveInteger(element, "MAX-RPT-EVENT-ID", cast(Integer, properties.getMaxRptEventId()))
-            self.setChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID", cast(Integer, properties.getMinRptEventId()))
+            self.setChildElementOptionalPositiveInteger(element, "MAX-RPT-EVENT-ID", properties.getMaxRptEventId())
+            self.setChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID", properties.getMinRptEventId())
             self.setChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL", properties.getRptExecutionControl())
             self.setChildElementOptionalLiteral(element, "RPT-SERVICE-POINT", properties.getRptServicePoint())
 
     def writeRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         self.writeIdentifiable(element, service_point)
-        self.setChildElementOptionalPositiveInteger(element, "SERVICE-ID", cast(Integer, service_point.getServiceId()))
+        self.setChildElementOptionalPositiveInteger(element, "SERVICE-ID", service_point.getServiceId())
         self.setChildElementOptionalLiteral(element, "SYMBOL", service_point.getSymbol())
 
     def writeRptExecutableEntityEvent(self, element: ET.Element, event: RptExecutableEntityEvent):
@@ -6972,7 +6970,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             assignments_element = ET.SubElement(element, "MC-DATA-ASSIGNMENTS")
             for assignment in mc_data_assignments:
                 self.writeRoleBasedMcDataAssignment(ET.SubElement(assignments_element, "ROLE-BASED-MC-DATA-ASSIGNMENT"), assignment)
-        self.setChildElementOptionalPositiveInteger(element, "RPT-EVENT-ID", cast(Integer, event.getRptEventId()))
+        self.setChildElementOptionalPositiveInteger(element, "RPT-EVENT-ID", event.getRptEventId())
         if event.getRptExecutableEntityProperties() is not None:
             self.writeRptExecutableEntityProperties(ET.SubElement(element, "RPT-EXECUTABLE-ENTITY-PROPERTIES"), event.getRptExecutableEntityProperties())
         if event.getRptImplPolicy() is not None:
@@ -7218,9 +7216,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writePerInstanceMemorySize(self, element: ET.Element, value: PerInstanceMemorySize):
         child_element = ET.SubElement(element, "PER-INSTANCE-MEMORY-SIZE")
         self.writeARObject(child_element, value)
-        self.setChildElementOptionalPositiveInteger(child_element, "ALIGNMENT", cast(Integer, value.getAlignment()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ALIGNMENT", value.getAlignment())
         self.setChildElementOptionalRefType(child_element, "PER-INSTANCE-MEMORY-REF", value.getPerInstanceMemoryRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "SIZE", cast(Integer, value.getSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SIZE", value.getSize())
         self.writeVariationPoint(child_element, value.getVariationPoint())
 
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
@@ -7240,7 +7238,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(data_ids) > 0:
             child_element = ET.SubElement(element, "DATA-IDS")
             for data_id in data_ids:
-                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", cast(Integer, data_id))
+                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", data_id)
 
     def setEndToEndDescription(self, element: ET.Element, key: str, desc: EndToEndDescription):
         if desc is not None:
@@ -7248,14 +7246,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, desc)
             self.setChildElementOptionalNameToken(child_element, "CATEGORY", desc.getCategory())
             self.writeEndToEndDescriptionDataIds(child_element, desc)
-            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE", cast(Integer, desc.getDataIdMode()))
-            self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", cast(Integer, desc.getDataLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT", cast(Integer, desc.getMaxDeltaCounterInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", cast(Integer, desc.getCrcOffset()))
-            self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", cast(Integer, desc.getCounterOffset()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", cast(Integer, desc.getMaxNoNewOrRepeatedData()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", cast(Integer, desc.getSyncCounterInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", cast(Integer, desc.getDataIdNibbleOffset()))
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE", desc.getDataIdMode())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", desc.getDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT", desc.getMaxDeltaCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", desc.getCrcOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", desc.getMaxNoNewOrRepeatedData())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", desc.getDataIdNibbleOffset())
 
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: Optional[VariableDataPrototypeInSystemInstanceRef]):
         if instance_ref is not None:
@@ -7383,7 +7381,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMetaDataItem(self, element: ET.Element, item: MetaDataItem):
         child_element = ET.SubElement(element, "META-DATA-ITEM")
-        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", cast(Integer, item.getLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", item.getLength())
         value_spec = item.getMetaDataItemType()
         if value_spec is not None:
             type_element = ET.SubElement(child_element, "META-DATA-ITEM-TYPE")
@@ -7445,7 +7443,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeExecutableEntityActivationReason(self, element: ET.Element, reason: ExecutableEntityActivationReason):
         self.writeImplementationProps(element, reason)
-        self.setChildElementOptionalPositiveInteger(element, "BIT-POSITION", cast(Integer, reason.getBitPosition()))
+        self.setChildElementOptionalPositiveInteger(element, "BIT-POSITION", reason.getBitPosition())
 
     def writeCanEnterRefs(self, element: ET.Element, entity: ExecutableEntity):
         refs = entity.getCanEnterRefs()
@@ -7770,7 +7768,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setBswModeSwitchAckRequest(child_element, "ACK-REQUEST", policy.getAckRequest())
         self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", policy.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "PROVIDED-MODE-GROUP-REF", policy.getProvidedModeGroupRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", cast(Integer, policy.getQueueLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
         self.writeVariationPointCapable(child_element, policy)
 
     def setBswModeSwitchAckRequest(self, element: ET.Element, key: str, request: Optional[BswModeSwitchAckRequest]):
@@ -7807,7 +7805,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
         child_element = ET.SubElement(element, "BSW-QUEUED-DATA-RECEPTION-POLICY")
         self.writeBswDataReceptionPolicy(child_element, policy)
-        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", cast(Integer, policy.getQueueLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
 
     def writeBswPerInstanceMemoryPolicy(self, element: ET.Element, policy: BswPerInstanceMemoryPolicy):
         child_element = ET.SubElement(element, "BSW-PER-INSTANCE-MEMORY-POLICY")
@@ -8234,7 +8232,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(dependency, BswModuleDependency):
                     child_element = ET.SubElement(container, "BSW-MODULE-DEPENDENCY")
                     self.writeIdentifiable(child_element, dependency)
-                    self.setChildElementOptionalPositiveInteger(child_element, "TARGET-MODULE-ID", cast(Integer, dependency.getTargetModuleId()))
+                    self.setChildElementOptionalPositiveInteger(child_element, "TARGET-MODULE-ID", dependency.getTargetModuleId())
                     if dependency.getTargetModuleRef() is not None:
                         refs_tag = ET.SubElement(child_element, "TARGET-MODULE-REFS")
                         ref_conditional = ET.SubElement(refs_tag, "BSW-MODULE-DESCRIPTION-REF-CONDITIONAL")
@@ -8423,7 +8421,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
         self.writeAbstractImplementationDataTypeElement(child_element, impl_data_type_element)
         self.setChildElementOptionalLiteral(child_element, "ARRAY-IMPL-POLICY", impl_data_type_element.getArrayImplPolicy())
-        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", cast(Integer, impl_data_type_element.getArraySize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", impl_data_type_element.getArraySize())
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", impl_data_type_element.getArraySizeHandling())
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", impl_data_type_element.getArraySizeSemantics())
         self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", impl_data_type_element.getIsOptional())
@@ -8712,7 +8710,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setModeDeclaration(self, element: ET.Element, mode_declaration: ModeDeclaration):
         child_element = ET.SubElement(element, "MODE-DECLARATION")
         self.writeIdentifiable(child_element, mode_declaration)
-        self.setChildElementOptionalPositiveInteger(child_element, "VALUE", cast(Integer, mode_declaration.getValue()))
+        self.setChildElementOptionalPositiveInteger(child_element, "VALUE", mode_declaration.getValue())
 
     def writeModeDeclarationGroupModeDeclaration(self, element: ET.Element, parent: ModeDeclarationGroup):
         mode_declarations = parent.getModeDeclarations()
@@ -8748,7 +8746,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeModeErrorBehavior(child_element, "MODE-MANAGER-ERROR-BEHAVIOR", group.getModeManagerErrorBehavior())
         self.writeModeDeclarationGroupModeTransition(child_element, group)
         self.writeModeErrorBehavior(child_element, "MODE-USER-ERROR-BEHAVIOR", group.getModeUserErrorBehavior())
-        self.setChildElementOptionalPositiveInteger(child_element, "ON-TRANSITION-VALUE", cast(Integer, group.getOnTransitionValue()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ON-TRANSITION-VALUE", group.getOnTransitionValue())
 
     def writeModeSwitchInterfaceModeGroup(self, element: ET.Element, parent: ModeSwitchInterface):
         mode_group = parent.getModeGroup()
@@ -8951,7 +8949,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNmNode(self, element: ET.Element, nm_node: NmNode):
         self.writeIdentifiable(element, nm_node)
         self.setChildElementOptionalRefType(element, "CONTROLLER-REF", nm_node.getControllerRef())
-        self.setChildElementOptionalPositiveInteger(element, "NM-COORD-CLUSTER", cast(Integer, nm_node.getNmCoordCluster()))
+        self.setChildElementOptionalPositiveInteger(element, "NM-COORD-CLUSTER", nm_node.getNmCoordCluster())
         self.setChildElementOptionalLiteral(element, "NM-COORDINATOR-ROLE", nm_node.getNmCoordinatorRole())
         self.setChildElementOptionalRefType(element, "NM-IF-ECU-REF", nm_node.getNmIfEcuRef())
         self.setChildElementOptionalIntegerValue(element, "NM-NODE-ID", nm_node.getNmNodeId())
@@ -9069,7 +9067,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "NM-PNC-PARTICIPATION", cluster.getNmPncParticipation())
         self.setChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED", cluster.getNmRepeatMsgIndEnabled())
         self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
-        self.setChildElementOptionalPositiveInteger(element, "PNC-CLUSTER-VECTOR-LENGTH", cast(Integer, cluster.getPncClusterVectorLength()))
+        self.setChildElementOptionalPositiveInteger(element, "PNC-CLUSTER-VECTOR-LENGTH", cluster.getPncClusterVectorLength())
 
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
         self.logger.debug("Write CanNmCluster <%s>" % cluster.getShortName())
@@ -9077,11 +9075,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmCluster(child_element, cluster)
 
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ACTIVE", cluster.getNmBusloadReductionActive())
-        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cast(Integer, cluster.getNmCarWakeUpBitPosition()))
-        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cast(Integer, cluster.getNmCarWakeUpFilterNodeId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cluster.getNmCarWakeUpBitPosition())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cluster.getNmCarWakeUpFilterNodeId())
         self.setChildElementOptionalIntegerValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
         self.setChildElementOptionalTimeValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
-        self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cast(Integer, cluster.getNmImmediateNmTransmissions()))
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
         self.setChildElementOptionalTimeValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-TIME", cluster.getNmMsgCycleTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-NETWORK-TIMEOUT", cluster.getNmNetworkTimeout())
@@ -9096,7 +9094,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmCluster(child_element, cluster)
         self.setChildElementOptionalIntegerValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
         self.setChildElementOptionalTimeValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
-        self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cast(Integer, cluster.getNmImmediateNmTransmissions()))
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
         self.setChildElementOptionalTimeValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-TIME", cluster.getNmMsgCycleTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-NETWORK-TIMEOUT", cluster.getNmNetworkTimeout())
@@ -9110,9 +9108,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write FlexrayNmCluster <%s>" % cluster.getShortName())
         child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER")
         self.writeNmCluster(child_element, cluster)
-        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cast(Integer, cluster.getNmCarWakeUpBitPosition()))
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cluster.getNmCarWakeUpBitPosition())
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-FILTER-ENABLED", cluster.getNmCarWakeUpFilterEnabled())
-        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cast(Integer, cluster.getNmCarWakeUpFilterNodeId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cluster.getNmCarWakeUpFilterNodeId())
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", cluster.getNmCarWakeUpRxEnabled())
         self.setChildElementOptionalIntegerValue(child_element, "NM-DATA-CYCLE", cluster.getNmDataCycle())
         self.setChildElementOptionalTimeValue(child_element, "NM-MAIN-FUNCTION-PERIOD", cluster.getNmMainFunctionPeriod())
@@ -9254,17 +9252,17 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSecureCommunicationProps(self, element: ET.Element, key: str, props: Optional[SecureCommunicationProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH", cast(Integer, props.getAuthDataFreshnessLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION", cast(Integer, props.getAuthDataFreshnessStartPosition()))  # noqa E501
-            self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS", cast(Integer, props.getAuthenticationBuildAttempts()))
-            self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-RETRIES", cast(Integer, props.getAuthenticationRetries()))
-            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", cast(Integer, props.getDataId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-ID", cast(Integer, props.getFreshnessValueId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINK-LENGTH", cast(Integer, props.getMessageLinkLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINK-POSITION", cast(Integer, props.getMessageLinkPosition()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SECONDARY-FRESHNESS-VALUE-ID", cast(Integer, props.getSecondaryFreshnessValueId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SECURED-AREA-LENGTH", cast(Integer, props.getSecuredAreaLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SECURED-AREA-OFFSET", cast(Integer, props.getSecuredAreaOffset()))
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH", props.getAuthDataFreshnessLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION", props.getAuthDataFreshnessStartPosition())  # noqa E501
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS", props.getAuthenticationBuildAttempts())
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-RETRIES", props.getAuthenticationRetries())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", props.getDataId())
+            self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-ID", props.getFreshnessValueId())
+            self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINK-LENGTH", props.getMessageLinkLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINK-POSITION", props.getMessageLinkPosition())
+            self.setChildElementOptionalPositiveInteger(child_element, "SECONDARY-FRESHNESS-VALUE-ID", props.getSecondaryFreshnessValueId())
+            self.setChildElementOptionalPositiveInteger(child_element, "SECURED-AREA-LENGTH", props.getSecuredAreaLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "SECURED-AREA-OFFSET", props.getSecuredAreaOffset())
 
     def writeSecuredIPdu(self, element: ET.Element, i_pdu: SecuredIPdu):
         self.logger.debug("Write SecuredIPdu <%s>" % i_pdu.getShortName())
@@ -9303,7 +9301,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(element, "CAN-TP-CHANNEL")
             self.writeIdentifiable(child_element, channel)
-            self.setChildElementOptionalPositiveInteger(child_element, "CHANNEL-ID", cast(Integer, channel.getChannelId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "CHANNEL-ID", channel.getChannelId())
 
     def writeCanTpConfigTpChannels(self, element: ET.Element, config: CanTpConfig):
         channels = config.getTpChannels()
@@ -9525,15 +9523,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         props = triggering.getCanXlFrameTriggeringProps()
         if props is not None:
             props_element = ET.SubElement(child_element, "CAN-XL-FRAME-TRIGGERING-PROPS")
-            self.setChildElementOptionalPositiveInteger(props_element, "ACCEPTANCE-FIELD", cast(Integer, props.getAcceptanceField()))
-            self.setChildElementOptionalPositiveInteger(props_element, "PRIORITY-ID", cast(Integer, props.getPriorityId()))
-            self.setChildElementOptionalPositiveInteger(props_element, "SDU-TYPE", cast(Integer, props.getSduType()))
-            self.setChildElementOptionalPositiveInteger(props_element, "VCID", cast(Integer, props.getVcid()))
+            self.setChildElementOptionalPositiveInteger(props_element, "ACCEPTANCE-FIELD", props.getAcceptanceField())
+            self.setChildElementOptionalPositiveInteger(props_element, "PRIORITY-ID", props.getPriorityId())
+            self.setChildElementOptionalPositiveInteger(props_element, "SDU-TYPE", props.getSduType())
+            self.setChildElementOptionalPositiveInteger(props_element, "VCID", props.getVcid())
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
         self.setChildElementOptionalBooleanValue(child_element, "J-1939-REQUESTABLE", triggering.getJ1939requestable())
         self.setRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
-        self.setChildElementOptionalPositiveInteger(child_element, "RX-MASK", cast(Integer, triggering.getRxMask()))
-        self.setChildElementOptionalPositiveInteger(child_element, "TX-MASK", cast(Integer, triggering.getTxMask()))
+        self.setChildElementOptionalPositiveInteger(child_element, "RX-MASK", triggering.getRxMask())
+        self.setChildElementOptionalPositiveInteger(child_element, "TX-MASK", triggering.getTxMask())
 
     def writeLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Write LinFrameTriggering %s" % triggering.getShortName())
@@ -9574,7 +9572,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING")
             self.writeARObject(child_element, timing)
             self.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(child_element, timing)
-            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-ID", cast(Integer, timing.getSlotID()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-ID", timing.getSlotID())
 
     def writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(self, element: ET.Element, triggering: FlexrayFrameTriggering):
         timings = triggering.getAbsolutelyScheduledTimings()
@@ -9611,7 +9609,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFrameTriggering(child_element, triggering)
         self.writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(child_element, triggering)
         self.setChildElementOptionalBooleanValue(child_element, "ALLOW-DYNAMIC-L-SDU-LENGTH", triggering.getAllowDynamicLSduLength())
-        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", cast(Integer, triggering.getMessageId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", triggering.getMessageId())
         self.setChildElementOptionalBooleanValue(child_element, "PAYLOAD-PREAMBLE-INDICATOR", triggering.getPayloadPreambleIndicator())
 
     def writeISignalTriggering(self, element: ET.Element, triggering: ISignalTriggering):
@@ -9782,7 +9780,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for frame_pid in frame_pids:
                     frame_pid_element = ET.SubElement(frame_pids_element, "FRAME-PID")
                     self.setChildElementOptionalIntegerValue(frame_pid_element, "INDEX", frame_pid.getIndex())
-                    self.setChildElementOptionalPositiveInteger(frame_pid_element, "PID", cast(Integer, frame_pid.getPid()))
+                    self.setChildElementOptionalPositiveInteger(frame_pid_element, "PID", frame_pid.getPid())
             self.setChildElementOptionalIntegerValue(child_element, "START-INDEX", entry.getStartIndex())
 
     def setAssignNad(self, element: ET.Element, key: str, entry: AssignNad):
@@ -9798,7 +9796,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeScheduleTableEntry(child_element, entry)
             self.writeLinConfigurationEntry(child_element, entry)
             self.setChildElementOptionalIntegerValue(child_element, "BYTE", entry.getByte())
-            self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, entry.getId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "ID", entry.getId())
             self.setChildElementOptionalIntegerValue(child_element, "INVERT", entry.getInvert())
             self.setChildElementOptionalIntegerValue(child_element, "MASK", entry.getMask())
             self.setChildElementOptionalIntegerValue(child_element, "NEW-NAD", entry.getNewNad())
@@ -9871,7 +9869,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIpv4Configuration(self, element: ET.Element, configuration: Ipv4Configuration):
         if configuration is not None:
             child_element = ET.SubElement(element, "IPV-4-CONFIGURATION")
-            self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", cast(Integer, configuration.getAssignmentPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", configuration.getAssignmentPriority())
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", configuration.getDefaultGateway())
             addresses = configuration.getDnsServerAddresses()
             if len(addresses) > 0:
@@ -9882,12 +9880,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "IPV-4-ADDRESS", configuration.getIpv4Address())
             self.setChildElementOptionalLiteral(child_element, "IPV-4-ADDRESS-SOURCE", configuration.getIpv4AddressSource())
             self.setChildElementOptionalLiteral(child_element, "NETWORK-MASK", configuration.getNetworkMask())
-            self.setChildElementOptionalPositiveInteger(child_element, "TTL", cast(Integer, configuration.getTtl()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TTL", configuration.getTtl())
 
     def setIpv6Configuration(self, element: ET.Element, configuration: Ipv6Configuration):
         if configuration is not None:
             child_element = ET.SubElement(element, "IPV-6-CONFIGURATION")
-            self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", cast(Integer, configuration.getAssignmentPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", configuration.getAssignmentPriority())
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-ROUTER", configuration.getDefaultRouter())
             addresses = configuration.getDnsServerAddresses()
             if len(addresses) > 0:
@@ -9895,9 +9893,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for address in addresses:
                     self.setChildElementOptionalLiteral(dns_element, "DNS-SERVER-ADDRESS", address)
             self.setChildElementOptionalBooleanValue(child_element, "ENABLE-ANYCAST", configuration.getEnableAnycast())
-            self.setChildElementOptionalPositiveInteger(child_element, "HOP-COUNT", cast(Integer, configuration.getHopCount()))
+            self.setChildElementOptionalPositiveInteger(child_element, "HOP-COUNT", configuration.getHopCount())
             self.setChildElementOptionalLiteral(child_element, "IP-ADDRESS-KEEP-BEHAVIOR", configuration.getIpAddressKeepBehavior())
-            self.setChildElementOptionalPositiveInteger(child_element, "IP-ADDRESS-PREFIX-LENGTH", cast(Integer, configuration.getIpAddressPrefixLength()))
+            self.setChildElementOptionalPositiveInteger(child_element, "IP-ADDRESS-PREFIX-LENGTH", configuration.getIpAddressPrefixLength())
             self.setChildElementOptionalLiteral(child_element, "IPV-6-ADDRESS", configuration.getIpv6Address())
             self.setChildElementOptionalLiteral(child_element, "IPV-6-ADDRESS-SOURCE", configuration.getIpv6AddressSource())
 
@@ -9929,7 +9927,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             if server is not None:
                 server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
                 self.writeReferrable(server_element, server)
-                self.setChildElementOptionalPositiveInteger(server_element, "PRIORITY", cast(Integer, server.getPriority()))
+                self.setChildElementOptionalPositiveInteger(server_element, "PRIORITY", server.getPriority())
                 self.setChildElementOptionalTimeValue(server_element, "SYNC-INTERVAL", server.getSyncInterval())
                 self.setChildElementOptionalString(server_element, "TIME-SYNC-SERVER-IDENTIFIER", server.getTimeSyncServerIdentifier())
                 self.setChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY", server.getTimeSyncTechnology())
@@ -9942,7 +9940,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if master is not None:
                     master_element = ET.SubElement(list_element, "ORDERED-MASTER")
                     self.writeARObject(master_element, master)
-                    self.setChildElementOptionalPositiveInteger(master_element, "INDEX", cast(Integer, master.getIndex()))
+                    self.setChildElementOptionalPositiveInteger(master_element, "INDEX", master.getIndex())
                     self.setChildElementOptionalRefType(master_element, "TIME-SYNC-SERVER-REF", master.getTimeSyncServerRef())
 
     def setInfrastructureServices(self, element: ET.Element, key: str, services: Optional[InfrastructureServices]):
@@ -9961,7 +9959,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if ip_sec_config is not None and (ip_sec_config.getIpSecConfigPropsRef() is not None or len(ip_sec_config.getIPSecRules()) > 0):
             self.writeIPSecConfig(child_element, ip_sec_config)
         self.writeNetworkEndPointNetworkEndPointAddresses(child_element, end_point.getNetworkEndpointAddresses())
-        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, end_point.getPriority()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
 
     def writeEthernetPhysicalChannelNetworkEndPoints(self, element: ET.Element, end_points: List[NetworkEndpoint]):
         if len(end_points) > 0:
@@ -9972,7 +9970,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSocketConnectionIpduIdentifier(self, element: ET.Element, identifier: SocketConnectionIpduIdentifier):
         if identifier is not None:
             child_element = ET.SubElement(element, "SOCKET-CONNECTION-IPDU-IDENTIFIER")
-            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID", cast(Integer, identifier.getHeaderId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID", identifier.getHeaderId())
             self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-PDU-TIMEOUT", identifier.getPduCollectionPduTimeout())
             self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-SEMANTICS", identifier.getPduCollectionSemantics())
             self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-TRIGGER", identifier.getPduCollectionTrigger())
@@ -10003,7 +10001,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CLIENT-PORT-REF", connection.getClientPortRef())
             self.setChildElementOptionalBooleanValue(child_element, "CLIENT-PORT-FROM-CONNECTION-REQUEST", connection.getClientPortFromConnectionRequest())
             self.setSocketConnectionPdus(child_element, "PDUS", connection.getPdus())
-            self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", cast(Integer, connection.getPduCollectionMaxBufferSize()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", connection.getPduCollectionMaxBufferSize())
             self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", connection.getPduCollectionTimeout())
             self.setChildElementOptionalLiteral(child_element, "RUNTIME-IP-ADDRESS-CONFIGURATION", connection.getRuntimeIpAddressConfiguration())
 
@@ -10022,8 +10020,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SOCKET-CONNECTION-BUNDLE")
             self.writeReferrable(child_element, bundle)
             self.writeSocketConnectionBundleConnections(child_element, bundle)
-            self.setChildElementOptionalPositiveInteger(child_element, "DIFFERENTIATED-SERVICE-FIELD", cast(Integer, bundle.getDifferentiatedServiceField()))
-            self.setChildElementOptionalPositiveInteger(child_element, "FLOW-LABEL", cast(Integer, bundle.getFlowLabel()))
+            self.setChildElementOptionalPositiveInteger(child_element, "DIFFERENTIATED-SERVICE-FIELD", bundle.getDifferentiatedServiceField())
+            self.setChildElementOptionalPositiveInteger(child_element, "FLOW-LABEL", bundle.getFlowLabel())
             self.setChildElementOptionalBooleanValue(child_element, "PATH-MTU-DISCOVERY-ENABLED", bundle.getPathMtuDiscoveryEnabled())
             self.setSocketConnectionPdus(child_element, "PDUS", bundle.getPdus())
             self.setChildElementOptionalRefType(child_element, "SERVER-PORT-REF", bundle.getServerPortRef())
@@ -10050,7 +10048,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(allowed_tcp_options) > 0:
             options_element = ET.SubElement(child_element, "ALLOWED-TCP-OPTIONS")
             for option in allowed_tcp_options:
-                self.setChildElementOptionalPositiveInteger(options_element, "ALLOWED-TCP-OPTION", cast(Integer, option))
+                self.setChildElementOptionalPositiveInteger(options_element, "ALLOWED-TCP-OPTION", option)
 
     def writeIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
         child_element = ET.SubElement(element, "I-PV-6-EXT-HEADER-FILTER-LIST")
@@ -10059,7 +10057,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(allowed_ipv6_ext_headers) > 0:
             headers_element = ET.SubElement(child_element, "ALLOWED-I-PV-6-EXT-HEADERS")
             for value in allowed_ipv6_ext_headers:
-                self.setChildElementOptionalPositiveInteger(headers_element, "ALLOWED-I-PV-6-EXT-HEADER", cast(Integer, value))
+                self.setChildElementOptionalPositiveInteger(headers_element, "ALLOWED-I-PV-6-EXT-HEADER", value)
 
     def writeSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         bundles = config.getConnectionBundles()
@@ -10075,7 +10073,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if port is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalBooleanValue(child_element, "DYNAMICALLY-ASSIGNED", port.getDynamicallyAssigned())
-            self.setChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER", cast(Integer, port.getPortNumber()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER", port.getPortNumber())
 
     def writeUdpTp(self, element: ET.Element, tp: UdpTp):
         child_element = ET.SubElement(element, "UDP-TP")
@@ -10084,11 +10082,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTcpTp(self, element: ET.Element, tp: TcpTp):
         child_element = ET.SubElement(element, "TCP-TP")
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-INTERVAL", tp.getKeepAliveInterval())
-        self.setChildElementOptionalPositiveInteger(child_element, "KEEP-ALIVE-PROBES-MAX", cast(Integer, tp.getKeepAliveProbesMax()))
+        self.setChildElementOptionalPositiveInteger(child_element, "KEEP-ALIVE-PROBES-MAX", tp.getKeepAliveProbesMax())
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
         self.setChildElementOptionalBooleanValue(child_element, "KEEP-ALIVES", tp.getKeepAlives())
         self.setChildElementOptionalLiteral(child_element, "NAGLES-ALGORITHM", cast(ARLiteral, tp.getNaglesAlgorithm()))
-        self.setChildElementOptionalPositiveInteger(child_element, "RECEIVE-WINDOW-MIN", cast(Integer, tp.getReceiveWindowMin()))
+        self.setChildElementOptionalPositiveInteger(child_element, "RECEIVE-WINDOW-MIN", tp.getReceiveWindowMin())
         self.setChildElementOptionalTimeValue(child_element, "TCP-RETRANSMISSION-TIMEOUT", tp.getTcpRetransmissionTimeout())
         self.setTpPort(child_element, "TCP-TP-PORT", tp.getTcpTpPort())
 
@@ -10129,11 +10127,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
 
             self.setTagWithOptionalValues(child_element, "CAPABILITY-RECORDS", config.getCapabilityRecords())
-            self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MAJOR-VERSION", cast(Integer, config.getClientServiceMajorVersion()))
-            self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MINOR-VERSION", cast(Integer, config.getClientServiceMinorVersion()))
+            self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MAJOR-VERSION", config.getClientServiceMajorVersion())
+            self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MINOR-VERSION", config.getClientServiceMinorVersion())
             self.setInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR", config.getInitialFindBehavior())
             self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
-            self.setChildElementOptionalPositiveInteger(child_element, "TTL", cast(Integer, config.getTtl()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TTL", config.getTtl())
 
     def writeConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
         if group is not None:
@@ -10141,7 +10139,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, group)
             self.setChildElementOptionalRefType(child_element, "APPLICATION-ENDPOINT-REF", group.getApplicationEndpointRef())
             self.setChildElementOptionalBooleanValue(child_element, "AUTO-REQUIRE", group.getAutoRequire())
-            self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", cast(Integer, group.getEventGroupIdentifier()))
+            self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", group.getEventGroupIdentifier())
             refs = group.getEventMulticastAddressRefs()
             if len(refs) > 0:
                 wrapper = ET.SubElement(child_element, "EVENT-MULTICAST-ADDRESSS")
@@ -10153,7 +10151,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 wrapper = ET.SubElement(child_element, "PDU-ACTIVATION-ROUTING-GROUPS")
                 for activation_group in groups:
                     self.setPduActivationRoutingGroup(wrapper, activation_group)
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, group.getPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", group.getPriority())
             self.writeConsumedEventGroupRoutingGroupRefs(child_element, group)
             self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", group.getSdClientConfig())
             ref = group.getSdClientTimerConfigRef()
@@ -10177,8 +10175,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             wrapper = ET.SubElement(element, key)
             for version in versions:
                 child_element = ET.SubElement(wrapper, "SOMEIP-SERVICE-VERSION")
-                self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", cast(Integer, version.getMajorVersion()))
-                self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", cast(Integer, version.getMinorVersion()))
+                self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", version.getMajorVersion())
+                self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", version.getMinorVersion())
 
     def writeAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
         group = instance.getMethodActivationRoutingGroup()
@@ -10229,7 +10227,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", cast(Integer, instance.getMajorVersion()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", instance.getMajorVersion())
             self.writeAbstractServiceInstanceMethodActivationRoutingGroups(child_element, instance)
             self.setChildElementOptionalLiteral(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalRefType(child_element, "PROVIDED-SERVICE-INSTANCE-REF", instance.getProvidedServiceInstanceRef())
@@ -10250,7 +10248,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 wrapper = ET.SubElement(child_element, "SD-CLIENT-TIMER-CONFIGS")
                 cond_tag = ET.SubElement(wrapper, "SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(cond_tag, "SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF", ref)
-            self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-IDENTIFIER", cast(Integer, instance.getServiceIdentifier()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-IDENTIFIER", instance.getServiceIdentifier())
             self.setChildElementOptionalLiteral(child_element, "VERSION-DRIVEN-FIND-BEHAVIOR", instance.getVersionDrivenFindBehavior())
 
     def writeSocketAddressApplicationEndpointConsumedServiceInstances(self, element: ET.Element, end_point: ApplicationEndpoint):
@@ -10270,7 +10268,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE", config.getInitialDelayMaxValue())
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE", config.getInitialDelayMinValue())
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY", config.getInitialRepetitionsBaseDelay())
-            self.setChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX", cast(Integer, config.getInitialRepetitionsMax()))
+            self.setChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX", config.getInitialRepetitionsMax())
 
     def setSdServerConfig(self, element: ET.Element, key: str, config: Optional[SdServerConfig]):
         if config is not None:
@@ -10280,9 +10278,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR", config.getInitialOfferBehavior())
             self.setChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY", config.getOfferCyclicDelay())
             self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
-            self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MAJOR-VERSION", cast(Integer, config.getServerServiceMajorVersion()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MINOR-VERSION", cast(Integer, config.getServerServiceMinorVersion()))
-            self.setChildElementOptionalPositiveInteger(child_element, "TTL", cast(Integer, config.getTtl()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MAJOR-VERSION", config.getServerServiceMajorVersion())
+            self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MINOR-VERSION", config.getServerServiceMinorVersion())
+            self.setChildElementOptionalPositiveInteger(child_element, "TTL", config.getTtl())
 
     def setTagWithOptionalValue(self, element: ET.Element, key: str, tag: TagWithOptionalValue):
         if tag is not None:
@@ -10303,8 +10301,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.setInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR", config.getInitialFindBehavior())
-        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, config.getPriority()))
-        self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-FIND-TIME-TO-LIVE", cast(Integer, config.getServiceFindTimeToLive()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", config.getPriority())
+        self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-FIND-TIME-TO-LIVE", config.getServiceFindTimeToLive())
 
     def writeSomeipSdClientEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdClientEventGroupTimingConfig):
         self.logger.debug("Write SomeipSdClientEventGroupTimingConfig <%s>" % config.getShortName())
@@ -10312,8 +10310,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, config)
         self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
         self.setChildElementOptionalTimeValue(child_element, "SUBSCRIBE-EVENTGROUP-RETRY-DELAY", config.getSubscribeEventgroupRetryDelay())
-        self.setChildElementOptionalPositiveInteger(child_element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX", cast(Integer, config.getSubscribeEventgroupRetryMax()))
-        self.setChildElementOptionalPositiveInteger(child_element, "TIME-TO-LIVE", cast(Integer, config.getTimeToLive()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX", config.getSubscribeEventgroupRetryMax())
+        self.setChildElementOptionalPositiveInteger(child_element, "TIME-TO-LIVE", config.getTimeToLive())
 
     def writeSomeipSdServerEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdServerEventGroupTimingConfig):
         self.logger.debug("Write SomeipSdServerEventGroupTimingConfig <%s>" % config.getShortName())
@@ -10332,7 +10330,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "CONSUMED-EVENT-GROUP-REF", ref)
 
-            self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", cast(Integer, handler.getEventGroupIdentifier()))
+            self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", handler.getEventGroupIdentifier())
 
             ref = handler.getEventMulticastAddressRef()
             if ref is not None:
@@ -10340,7 +10338,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
 
-            self.setChildElementOptionalPositiveInteger(child_element, "MULTICAST-THRESHOLD", cast(Integer, handler.getMulticastThreshold()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MULTICAST-THRESHOLD", handler.getMulticastThreshold())
 
             groups = handler.getPduActivationRoutingGroups()
             if len(groups) > 0:
@@ -10386,7 +10384,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", cast(Integer, instance.getMajorVersion()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", instance.getMajorVersion())
             self.writeAbstractServiceInstanceMethodActivationRoutingGroups(child_element, instance)
             self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", instance.getPriority())
@@ -10438,9 +10436,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "APPLICATION-ENDPOINT")
             self.writeIdentifiable(child_element, end_point)
             self.writeSocketAddressApplicationEndpointConsumedServiceInstances(child_element, end_point)
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-CONNECTIONS", cast(Integer, end_point.getMaxNumberOfConnections()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-CONNECTIONS", end_point.getMaxNumberOfConnections())
             self.setChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF", end_point.getNetworkEndpointRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, end_point.getPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
             self.writeSocketAddressApplicationEndpointProvidedServiceInstance(child_element, end_point)
             self.setChildElementOptionalRefType(child_element, "TLS-CRYPTO-MAPPING-REF", end_point.getTlsCryptoMappingRef())
             self.writeTransportProtocolConfiguration(child_element, end_point.getTpConfiguration())
@@ -10459,11 +10457,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ALLOWED-TCP-OPTIONS-REF", address.getAllowedTcpOptionsRef())
         self.writeSocketAddressApplicationEndpoint(child_element, address)
         self.setChildElementOptionalRefType(child_element, "CONNECTOR-REF", address.getConnectorRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "DIFFERENTIATED-SERVICE-FIELD", cast(Integer, address.getDifferentiatedServiceField()))
-        self.setChildElementOptionalPositiveInteger(child_element, "FLOW-LABEL", cast(Integer, address.getFlowLabel()))
+        self.setChildElementOptionalPositiveInteger(child_element, "DIFFERENTIATED-SERVICE-FIELD", address.getDifferentiatedServiceField())
+        self.setChildElementOptionalPositiveInteger(child_element, "FLOW-LABEL", address.getFlowLabel())
         self.writeSocketAddressMulticastConnectorRefs(child_element, address)
         self.setChildElementOptionalBooleanValue(child_element, "PATH-MTU-DISCOVERY-ENABLED", address.getPathMtuDiscoveryEnabled())
-        self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", cast(Integer, address.getPduCollectionMaxBufferSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", address.getPduCollectionMaxBufferSize())
         self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", address.getPduCollectionTimeout())
         connections = address.getStaticSocketConnections()
         if len(connections) > 0:
@@ -10504,7 +10502,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if vlan is not None:
             child_element = ET.SubElement(element, "VLAN")
             self.writeIdentifiable(child_element, vlan)
-            self.setChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER", cast(Integer, vlan.getVlanIdentifier()))
+            self.setChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER", vlan.getVlanIdentifier())
 
     def writeEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
         self.logger.debug("Set EthernetPhysicalChannel %s" % channel.getShortName())
@@ -10545,7 +10543,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanClusterBusOffRecovery(self, element: ET.Element, key: str, recovery: Optional[CanClusterBusOffRecovery]):
         if recovery is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2", cast(Integer, recovery.getBorCounterL1ToL2()))
+            self.setChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2", recovery.getBorCounterL1ToL2())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1", recovery.getBorTimeL1())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2", recovery.getBorTimeL2())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-TX-ENSURED", recovery.getBorTimeTxEnsured())
@@ -10587,7 +10585,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(child_element, "J-1939-CLUSTER-CONDITIONAL")
             self.writeCommunicationCluster(child_element, cluster)
             self.writeAbstractCanCluster(child_element, cluster)
-            self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-ID", cast(Integer, cluster.getNetworkId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-ID", cluster.getNetworkId())
             self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())
             self.setChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION", cluster.getUsesAddressArbitration())
 
@@ -10595,7 +10593,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         """Write an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
         if props is not None:
             child_element = ET.SubElement(element, "UDP-PROPS")
-            self.setChildElementOptionalPositiveInteger(child_element, "UDP-TTL", cast(Integer, props.getUdpTtl()))
+            self.setChildElementOptionalPositiveInteger(child_element, "UDP-TTL", props.getUdpTtl())
 
     def writeEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Write an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
@@ -10618,24 +10616,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(child_element, "TCP-FIN-WAIT2TIMEOUT", props.getTcpFinWait2Timeout())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-KEEP-ALIVE-ENABLED", props.getTcpKeepAliveEnabled())
             self.setChildElementOptionalTimeValue(child_element, "TCP-KEEP-ALIVE-INTERVAL", props.getTcpKeepAliveInterval())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-KEEP-ALIVE-PROBES-MAX", cast(Integer, props.getTcpKeepAliveProbesMax()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-KEEP-ALIVE-PROBES-MAX", props.getTcpKeepAliveProbesMax())
             self.setChildElementOptionalTimeValue(child_element, "TCP-KEEP-ALIVE-TIME", props.getTcpKeepAliveTime())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-MAX-RTX", cast(Integer, props.getTcpMaxRtx()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-MAX-RTX", props.getTcpMaxRtx())
             self.setChildElementOptionalTimeValue(child_element, "TCP-MSL", props.getTcpMsl())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-NAGLE-ENABLED", props.getTcpNagleEnabled())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-RECEIVE-WINDOW-MAX", cast(Integer, props.getTcpReceiveWindowMax()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-RECEIVE-WINDOW-MAX", props.getTcpReceiveWindowMax())
             self.setChildElementOptionalTimeValue(child_element, "TCP-RETRANSMISSION-TIMEOUT", props.getTcpRetransmissionTimeout())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-SLOW-START-ENABLED", props.getTcpSlowStartEnabled())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-SYN-MAX-RTX", cast(Integer, props.getTcpSynMaxRtx()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-SYN-MAX-RTX", props.getTcpSynMaxRtx())
             self.setChildElementOptionalTimeValue(child_element, "TCP-SYN-RECEIVED-TIMEOUT", props.getTcpSynReceivedTimeout())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-TTL", cast(Integer, props.getTcpTtl()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-TTL", props.getTcpTtl())
 
     def writeTcpIpIcmpv4Props(self, element: ET.Element, props: Optional[TcpIpIcmpv4Props]):
         """Write an R23-11 <ICMP-V-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
         if props is not None:
             child_element = ET.SubElement(element, "ICMP-V-4-PROPS")
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV4EchoReplyEnabled())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-4-TTL", cast(Integer, props.getTcpIpIcmpV4Ttl()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-4-TTL", props.getTcpIpIcmpV4Ttl())
 
     def writeTcpIpIcmpv6Props(self, element: ET.Element, props: Optional[TcpIpIcmpv6Props]):
         """Write an R23-11 <ICMP-V-6-PROPS> element (Table 3.114, p.157): 5 optional attributes in XSD order."""
@@ -10643,7 +10641,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ICMP-V-6-PROPS")
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION", props.getTcpIpIcmpV6EchoReplyAvoidFragmentation())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV6EchoReplyEnabled())
-            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", cast(Integer, props.getTcpIpIcmpV6HopLimit()))
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", props.getTcpIpIcmpV6HopLimit())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
 
@@ -10665,7 +10663,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(child_element, "PERIOD", proxy.getPeriod())
             if proxy.getPreemptability() is not None:
                 self.setChildElementOptionalLiteral(child_element, "PREEMPTABILITY", proxy.getPreemptability())
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, proxy.getPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", proxy.getPriority())
 
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:
@@ -10806,8 +10804,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "RELATED-TRACE-ITEM-REF", def_element.getRelatedTraceItemRef())
         self.writeEcucValidationConditions(element, def_element.getEcucValidationConds())
         self.writeEcucConditionSpecification(element, def_element.getEcucCond())
-        self.setChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY", cast(Integer, def_element.getLowerMultiplicity()))
-        self.setChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY", cast(Integer, def_element.getUpperMultiplicity()))
+        self.setChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY", def_element.getLowerMultiplicity())
+        self.setChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY", def_element.getUpperMultiplicity())
         self.setChildElementOptionalBooleanValue(element, "UPPER-MULTIPLICITY-INFINITE", def_element.getUpperMultiplicityInfinite())
         self.setChildElementOptionalLiteral(element, "SCOPE", def_element.getScope())
 
@@ -10947,8 +10945,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcucAbstractStringParamDef(self, element: ET.Element, param_def: EcucAbstractStringParamDef):
         self.writeEcucParameterDef(element, param_def)
         self.setChildElementOptionalLiteral(element, "DEFAULT-VALUE", param_def.getDefaultValue())
-        self.setChildElementOptionalIntegerValue(element, "MAX-LENGTH", cast(Integer, param_def.getMaxLength()))
-        self.setChildElementOptionalIntegerValue(element, "MIN-LENGTH", cast(Integer, param_def.getMinLength()))
+        self.setChildElementOptionalIntegerValue(element, "MAX-LENGTH", param_def.getMaxLength())
+        self.setChildElementOptionalIntegerValue(element, "MIN-LENGTH", param_def.getMinLength())
         self.setChildElementOptionalLiteral(element, "REGULAR-EXPRESSION", param_def.getRegularExpression())
 
     def writeEcucStringParamDef(self, element: ET.Element, param_def: EcucStringParamDef):
@@ -11331,8 +11329,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in node_ports:
                 conditional_element = ET.SubElement(node_ports_element, "COUPLING-PORT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(conditional_element, "COUPLING-PORT-REF", ref)
-        self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-COUNT", cast(Integer, connection.getPlcaLocalNodeCount()))
-        self.setChildElementOptionalPositiveInteger(child_element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER", cast(Integer, connection.getPlcaTransmitOpportunityTimer()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-COUNT", connection.getPlcaLocalNodeCount())
+        self.setChildElementOptionalPositiveInteger(child_element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER", connection.getPlcaTransmitOpportunityTimer())
         self.setChildElementOptionalRefType(child_element, "SECOND-PORT-REF", connection.getSecondPortRef())
 
     def writeEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
@@ -11409,12 +11407,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerFdConfiguration(self, element: ET.Element, key: str, configuration: Optional[CanControllerFdConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalIntegerValue(child_element, "PADDING-VALUE", cast(Integer, configuration.getPaddingValue()))
-            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", cast(Integer, configuration.getPropSeg()))
-            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", cast(Integer, configuration.getSspOffset()))
-            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", cast(Integer, configuration.getSyncJumpWidth()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", cast(Integer, configuration.getTimeSeg1()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", cast(Integer, configuration.getTimeSeg2()))
+            self.setChildElementOptionalIntegerValue(child_element, "PADDING-VALUE", configuration.getPaddingValue())
+            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", configuration.getPropSeg())
+            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", configuration.getSspOffset())
+            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", configuration.getTimeSeg1())
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", configuration.getTimeSeg2())
             self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", configuration.getTxBitRateSwitch())
 
     def setFlexrayFifoRange(self, element: ET.Element, key: str, fifo_range: FlexrayFifoRange):
@@ -11447,21 +11445,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT", requirements.getMinSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH", requirements.getMinSyncJumpWidth())
             self.setChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET", requirements.getMinTrcvDelayCompensationOffset())  # noqa E501
-            self.setChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE", cast(Integer, requirements.getPaddingValue()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE", requirements.getPaddingValue())
             self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", requirements.getTxBitRateSwitch())
 
     def setCanControllerXlConfiguration(self, element: ET.Element, key: str, configuration: Optional[CanControllerXlConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED", configuration.getErrorSignalingEnabled())
-            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", cast(Integer, configuration.getPropSeg()))
-            self.setChildElementOptionalIntegerValue(child_element, "PWM-L", cast(Integer, configuration.getPwmL()))
-            self.setChildElementOptionalIntegerValue(child_element, "PWM-O", cast(Integer, configuration.getPwmO()))
-            self.setChildElementOptionalIntegerValue(child_element, "PWM-S", cast(Integer, configuration.getPwmS()))
-            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", cast(Integer, configuration.getSspOffset()))
-            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", cast(Integer, configuration.getSyncJumpWidth()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", cast(Integer, configuration.getTimeSeg1()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", cast(Integer, configuration.getTimeSeg2()))
+            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", configuration.getPropSeg())
+            self.setChildElementOptionalIntegerValue(child_element, "PWM-L", configuration.getPwmL())
+            self.setChildElementOptionalIntegerValue(child_element, "PWM-O", configuration.getPwmO())
+            self.setChildElementOptionalIntegerValue(child_element, "PWM-S", configuration.getPwmS())
+            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", configuration.getSspOffset())
+            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", configuration.getTimeSeg1())
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", configuration.getTimeSeg2())
             self.setChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED", configuration.getTrcvPwmModeEnabled())
 
     def setCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str, requirements: Optional[CanControllerXlConfigurationRequirements]):
@@ -11469,16 +11467,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED", requirements.getErrorSignalingEnabled())
             self.setChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMaxNumberOfTimeQuantaPerBit())
-            self.setChildElementOptionalIntegerValue(child_element, "MAX-PWM-L", cast(Integer, requirements.getMaxPwmL()))
-            self.setChildElementOptionalIntegerValue(child_element, "MAX-PWM-O", cast(Integer, requirements.getMaxPwmO()))
-            self.setChildElementOptionalIntegerValue(child_element, "MAX-PWM-S", cast(Integer, requirements.getMaxPwmS()))
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-PWM-L", requirements.getMaxPwmL())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-PWM-O", requirements.getMaxPwmO())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-PWM-S", requirements.getMaxPwmS())
             self.setChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT", requirements.getMaxSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH", requirements.getMaxSyncJumpWidth())
             self.setChildElementOptionalTimeValue(child_element, "MAX-TRCV-DELAY-COMPENSATION-OFFSET", requirements.getMaxTrcvDelayCompensationOffset())
             self.setChildElementOptionalIntegerValue(child_element, "MIN-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMinNumberOfTimeQuantaPerBit())
-            self.setChildElementOptionalIntegerValue(child_element, "MIN-PWM-L", cast(Integer, requirements.getMinPwmL()))
-            self.setChildElementOptionalIntegerValue(child_element, "MIN-PWM-O", cast(Integer, requirements.getMinPwmO()))
-            self.setChildElementOptionalIntegerValue(child_element, "MIN-PWM-S", cast(Integer, requirements.getMinPwmS()))
+            self.setChildElementOptionalIntegerValue(child_element, "MIN-PWM-L", requirements.getMinPwmL())
+            self.setChildElementOptionalIntegerValue(child_element, "MIN-PWM-O", requirements.getMinPwmO())
+            self.setChildElementOptionalIntegerValue(child_element, "MIN-PWM-S", requirements.getMinPwmS())
             self.setChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT", requirements.getMinSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH", requirements.getMinSyncJumpWidth())
             self.setChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET", requirements.getMinTrcvDelayCompensationOffset())
@@ -11535,8 +11533,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             if len(classes) > 0:
                 classes_element = ET.SubElement(child_element, "ASSIGNED-TRAFFIC-CLASSS")
                 for value in classes:
-                    self.setChildElementOptionalPositiveInteger(classes_element, "ASSIGNED-TRAFFIC-CLASS", cast(Integer, value))
-            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-FIFO-LENGTH", cast(Integer, fifo.getMinimumFifoLength()))
+                    self.setChildElementOptionalPositiveInteger(classes_element, "ASSIGNED-TRAFFIC-CLASS", value)
+            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-FIFO-LENGTH", fifo.getMinimumFifoLength())
             self.writeCouplingPortFifoShaper(child_element, fifo)
 
     def writeCouplingPortFifoShaper(self, element: ET.Element, fifo: CouplingPortFifo):
@@ -11555,14 +11553,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeCouplingPortCreditBasedShaper(child, shaper)
 
     def writeCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
-        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", cast(Integer, shaper.getCommittedBurstSize()))
-        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", cast(Integer, shaper.getCommittedInformationRate()))
+        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", shaper.getCommittedBurstSize())
+        self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", shaper.getCommittedInformationRate())
         self.setChildElementOptionalRefType(element, "TRAFFIC-SHAPER-GROUP-REF", shaper.getTrafficShaperGroupRef())
 
     def writeCouplingPortCreditBasedShaper(self, element: ET.Element, shaper: CouplingPortCreditBasedShaper):
-        self.setChildElementOptionalPositiveInteger(element, "IDLE-SLOPE", cast(Integer, shaper.getIdleSlope()))
-        self.setChildElementOptionalPositiveInteger(element, "LOWER-BOUNDARY", cast(Integer, shaper.getLowerBoundary()))
-        self.setChildElementOptionalPositiveInteger(element, "UPPER-BOUNDARY", cast(Integer, shaper.getUpperBoundary()))
+        self.setChildElementOptionalPositiveInteger(element, "IDLE-SLOPE", shaper.getIdleSlope())
+        self.setChildElementOptionalPositiveInteger(element, "LOWER-BOUNDARY", shaper.getLowerBoundary())
+        self.setChildElementOptionalPositiveInteger(element, "UPPER-BOUNDARY", shaper.getUpperBoundary())
 
     def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         if scheduler is not None:
@@ -11591,8 +11589,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if regeneration is not None:
             child_element = ET.SubElement(element, "ETHERNET-PRIORITY-REGENERATION")
             self.writeReferrable(child_element, regeneration)
-            self.setChildElementOptionalPositiveInteger(child_element, "INGRESS-PRIORITY", cast(Integer, regeneration.getIngressPriority()))
-            self.setChildElementOptionalPositiveInteger(child_element, "REGENERATED-PRIORITY", cast(Integer, regeneration.getRegeneratedPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "INGRESS-PRIORITY", regeneration.getIngressPriority())
+            self.setChildElementOptionalPositiveInteger(child_element, "REGENERATED-PRIORITY", regeneration.getRegeneratedPriority())
 
     def writeCouplingPortDetailsEthernetPriorityRegenerations(self, element: ET.Element, details: CouplingPortDetails):
         regenerations = details.getEthernetPriorityRegenerations()
@@ -11608,8 +11606,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT")
         self.writeReferrable(child_element, assignment)
         for priority in assignment.getPriorities():
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, priority))
-        self.setChildElementOptionalPositiveInteger(child_element, "TRAFFIC-CLASS", cast(Integer, assignment.getTrafficClass()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", priority)
+        self.setChildElementOptionalPositiveInteger(child_element, "TRAFFIC-CLASS", assignment.getTrafficClass())
 
     def writeCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):
         assignments = details.getEthernetTrafficClassAssignments()
@@ -11633,9 +11631,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
         child_element = ET.SubElement(element, "COUPLING-PORT-RATE-POLICY")
-        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", cast(Integer, policy.getDataLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", policy.getDataLength())
         self.setChildElementOptionalLiteral(child_element, "POLICY-ACTION", policy.getPolicyAction())
-        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, policy.getPriority()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", policy.getPriority())
         self.setChildElementOptionalTimeValue(child_element, "TIME-INTERVAL", policy.getTimeInterval())
         vlan_refs = policy.getVlanRefs()
         if len(vlan_refs) > 0:
@@ -11646,9 +11644,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setPlcaProps(self, element: ET.Element, key: str, props: Optional[PlcaProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID", cast(Integer, props.getPlcaLocalNodeId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID", props.getPlcaLocalNodeId())
+            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", props.getPlcaMaxBurstCount())
+            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", props.getPlcaMaxBurstTimer())
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:
@@ -11662,17 +11660,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(ether_types) > 0:
             wrapper = ET.SubElement(child_element, "BYPASS-ETHER-TYPES")
             for value in ether_types:
-                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-ETHER-TYPE", cast(Integer, value))
+                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-ETHER-TYPE", value)
         vlans = props.getBypassVlans()
         if len(vlans) > 0:
             wrapper = ET.SubElement(child_element, "BYPASS-VLANS")
             for value in vlans:
-                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", cast(Integer, value))
+                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", value)
 
     def writeMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
         self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
-        self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", cast(Integer, config.getCipherSuitePriority()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", config.getCipherSuitePriority())
 
     def writeMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
         child_element = ET.SubElement(element, "MAC-SEC-CRYPTO-ALGO-CONFIG")
@@ -11684,7 +11682,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
         self.setChildElementOptionalLiteral(child_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
         self.setChildElementOptionalBooleanValue(child_element, "REPLAY-PROTECTION", config.getReplayProtection())
-        self.setChildElementOptionalPositiveInteger(child_element, "REPLAY-PROTECTION-WINDOW", cast(Integer, config.getReplayProtectionWindow()))
+        self.setChildElementOptionalPositiveInteger(child_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
 
     def writeMacSecKayParticipant(self, element: ET.Element, participant: MacSecKayParticipant):
         child_element = ET.SubElement(element, "MAC-SEC-KAY-PARTICIPANT")
@@ -11701,7 +11699,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
             self.setChildElementOptionalLiteral(algo_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
             self.setChildElementOptionalBooleanValue(algo_element, "REPLAY-PROTECTION", config.getReplayProtection())
-            self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", cast(Integer, config.getReplayProtectionWindow()))
+            self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
         self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSakRef())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: Optional[MacSecLocalKayProps]):
@@ -11709,7 +11707,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
             self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", props.getKeyServerPriority())
             refs = props.getMkaParticipantRefs()
             if len(refs) > 0:
                 refs_element = ET.SubElement(child_element, "MKA-PARTICIPANT-REFS")
@@ -11807,7 +11805,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeVlanMembership(self, element: ET.Element, membership: VlanMembership):
         if membership is not None:
             child_element = ET.SubElement(element, "VLAN-MEMBERSHIP")
-            self.setChildElementOptionalPositiveInteger(child_element, "DEFAULT-PRIORITY", cast(Integer, membership.getDefaultPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "DEFAULT-PRIORITY", membership.getDefaultPriority())
             self.setDhcpServerConfiguration(child_element, "DHCP-ADDRESS-ASSIGNMENT", membership.getDhcpAddressAssignment())
             self.setChildElementOptionalLiteral(child_element, "SEND-ACTIVITY", membership.getSendActivity())
             self.setChildElementOptionalRefType(child_element, "VLAN-REF", membership.getVlanRef())
@@ -11905,24 +11903,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mask in masks:
                 mask_value = PositiveInteger()
                 mask_value.setValue(mask)
-                self.setChildElementOptionalPositiveInteger(masks_tag, "PNC-FILTER-ARRAY-MASK", cast(Integer, mask_value))
+                self.setChildElementOptionalPositiveInteger(masks_tag, "PNC-FILTER-ARRAY-MASK", mask_value)
         self.setChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE", connector.getPncGatewayType())
 
     def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.logger.debug("Write CanCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
-        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID", cast(Integer, connector.getPncWakeupCanId()))
+        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID", connector.getPncWakeupCanId())
         self.setChildElementOptionalBooleanValue(element, "PNC-WAKEUP-CAN-ID-EXTENDED", connector.getPncWakeupCanIdExtended())
-        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID-MASK", cast(Integer, connector.getPncWakeupCanIdMask()))
+        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID-MASK", connector.getPncWakeupCanIdMask())
         self.setChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK", connector.getPncWakeupDataMask())
-        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC", cast(Integer, connector.getPncWakeupDlc()))
+        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC", connector.getPncWakeupDlc())
 
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
         self.setChildElementOptionalRefType(element, "ETH-IP-PROPS-REF", connector.getEthIpPropsRef())
-        self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT", cast(Integer, connector.getMaximumTransmissionUnit()))
-        self.setChildElementOptionalPositiveInteger(element, "NEIGHBOR-CACHE-SIZE", cast(Integer, connector.getNeighborCacheSize()))
+        self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT", connector.getMaximumTransmissionUnit())
+        self.setChildElementOptionalPositiveInteger(element, "NEIGHBOR-CACHE-SIZE", connector.getNeighborCacheSize())
         self.setChildElementOptionalBooleanValue(element, "PATH-MTU-ENABLED", connector.getPathMtuEnabled())
         self.setChildElementOptionalTimeValue(element, "PATH-MTU-TIMEOUT", connector.getPathMtuTimeout())
 
@@ -12022,7 +12020,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if privacy_level is not None:
             child_element = ET.SubElement(element, "PRIVACY-LEVEL")
             self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", privacy_level.getCompuMethodRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIVACY-LEVEL", cast(Integer, privacy_level.getPrivacyLevel()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIVACY-LEVEL", privacy_level.getPrivacyLevel())
 
     def writeDltArgument(self, element: ET.Element, argument: DltArgument):
         child_element = ET.SubElement(element, "DLT-ARGUMENT")
@@ -12032,7 +12030,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             entries_element = ET.SubElement(child_element, "DLT-ARGUMENT-ENTRYS")
             for entry in entries:
                 self.writeDltArgument(entries_element, entry)
-        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", cast(Integer, argument.getLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", argument.getLength())
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION", argument.getNetworkRepresentation())
         self.setChildElementOptionalBooleanValue(child_element, "OPTIONAL", argument.getOptional())
         self.setChildElementOptionalBooleanValue(child_element, "PREDEFINED-TEXT", argument.getPredefinedText())
@@ -12046,8 +12044,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             arguments_element = ET.SubElement(child_element, "DLT-ARGUMENTS")
             for argument in arguments:
                 self.writeDltArgument(arguments_element, argument)
-        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", cast(Integer, message.getMessageId()))
-        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINE-NUMBER", cast(Integer, message.getMessageLineNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", message.getMessageId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINE-NUMBER", message.getMessageLineNumber())
         self.setChildElementOptionalString(child_element, "MESSAGE-SOURCE-FILE", message.getMessageSourceFile())
         self.setChildElementOptionalString(child_element, "MESSAGE-TYPE-INFO", message.getMessageTypeInfo())
         if message.getPrivacyLevel() is not None:
@@ -12470,13 +12468,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write CryptoEllipticCurveProps <%s>" % props.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-ELLIPTIC-CURVE-PROPS")
         self.writeIdentifiable(child_element, props)
-        self.setChildElementOptionalPositiveInteger(child_element, "NAMED-CURVE-ID", cast(Integer, props.getNamedCurveId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "NAMED-CURVE-ID", props.getNamedCurveId())
 
     def writeCryptoSignatureScheme(self, element: ET.Element, scheme: CryptoSignatureScheme):
         self.logger.debug("Write CryptoSignatureScheme <%s>" % scheme.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SIGNATURE-SCHEME")
         self.writeIdentifiable(child_element, scheme)
-        self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", cast(Integer, scheme.getSignatureSchemeId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", scheme.getSignatureSchemeId())
 
     def writeIPSecRule(self, parent: ET.Element, rule: IPSecRule):
         self.logger.debug("Write IPSecRule <%s>" % rule.getShortName())
@@ -12491,12 +12489,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "LOCAL-CERTIFICATE-REF", ref)
         self.setChildElementOptionalString(element, "LOCAL-ID", rule.getLocalId())
-        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-END", cast(Integer, rule.getLocalPortRangeEnd()))
-        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-START", cast(Integer, rule.getLocalPortRangeStart()))
+        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-END", rule.getLocalPortRangeEnd())
+        self.setChildElementOptionalPositiveInteger(element, "LOCAL-PORT-RANGE-START", rule.getLocalPortRangeStart())
         self.setChildElementOptionalLiteral(element, "MODE", rule.getMode())
         self.setChildElementOptionalLiteral(element, "POLICY", rule.getPolicy())
         self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", rule.getPreSharedKeyRef())
-        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", cast(Integer, rule.getPriority()))
+        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", rule.getPriority())
         refs = rule.getRemoteCertificateRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(element, "REMOTE-CERTIFICATE-REFS")
@@ -12508,8 +12506,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(element, "REMOTE-IP-ADDRESS-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "REMOTE-IP-ADDRESS-REF", ref)
-        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END", cast(Integer, rule.getRemotePortRangeEnd()))
-        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START", cast(Integer, rule.getRemotePortRangeStart()))
+        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-END", rule.getRemotePortRangeEnd())
+        self.setChildElementOptionalPositiveInteger(element, "REMOTE-PORT-RANGE-START", rule.getRemotePortRangeStart())
 
     def writeIPSecConfigProps(self, parent: ET.Element, props: IPSecConfigProps):
         self.logger.debug("Write IPSecConfigProps <%s>" % props.getShortName())
@@ -12529,10 +12527,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalString(names_tag, "ESP-CIPHER-SUITE-NAME", name)
         self.setChildElementOptionalString(element, "IKE-CIPHER-SUITE-NAME", props.getIkeCipherSuiteName())
         self.setChildElementOptionalTimeValue(element, "IKE-OVER-TIME", props.getIkeOverTime())
-        self.setChildElementOptionalPositiveInteger(element, "IKE-RAND-TIME", cast(Integer, props.getIkeRandTime()))
+        self.setChildElementOptionalPositiveInteger(element, "IKE-RAND-TIME", props.getIkeRandTime())
         self.setChildElementOptionalTimeValue(element, "IKE-REAUTH-TIME", props.getIkeReauthTime())
         self.setChildElementOptionalTimeValue(element, "IKE-REKEY-TIME", props.getIkeRekeyTime())
-        self.setChildElementOptionalPositiveInteger(element, "SA-OVER-TIME", cast(Integer, props.getSaOverTime()))
+        self.setChildElementOptionalPositiveInteger(element, "SA-OVER-TIME", props.getSaOverTime())
         self.setChildElementOptionalTimeValue(element, "SA-RAND-TIME", props.getSaRandTime())
         self.setChildElementOptionalTimeValue(element, "SA-REKEY-TIME", props.getSaRekeyTime())
 
@@ -12552,7 +12550,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, certificate)
         self.setChildElementOptionalLiteral(child_element, "ALGORITHM-FAMILY", certificate.getAlgorithmFamily())
         self.setChildElementOptionalLiteral(child_element, "FORMAT", certificate.getFormat())
-        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-LENGTH", cast(Integer, certificate.getMaximumLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-LENGTH", certificate.getMaximumLength())
         self.setChildElementOptionalRefType(child_element, "NEXT-HIGHER-CERTIFICATE-REF", certificate.getNextHigherCertificateRef())
         self.setChildElementOptionalString(child_element, "SERVER-NAME-IDENTIFICATION", certificate.getServerNameIdentification())
 
@@ -12591,7 +12589,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, cipher_suite)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", cipher_suite.getAuthenticationRef())
         self.setChildElementOptionalRefType(element, "CERTIFICATE-REF", cipher_suite.getCertificateRef())
-        self.setChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-ID", cast(Integer, cipher_suite.getCipherSuiteId()))
+        self.setChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-ID", cipher_suite.getCipherSuiteId())
         self.setChildElementOptionalString(element, "CIPHER-SUITE-SHORT-LABEL", cipher_suite.getCipherSuiteShortLabel())
         refs = cipher_suite.getEllipticCurveRefs()
         if len(refs) > 0:
@@ -12609,7 +12607,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(element, "KEY-EXCHANGE-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "KEY-EXCHANGE-REF", ref)
-        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", cast(Integer, cipher_suite.getPriority()))
+        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", cipher_suite.getPriority())
         if cipher_suite.getProps() is not None:
             self.writeTlsCryptoCipherSuiteProps(element, cipher_suite.getProps())
         if cipher_suite.getPskIdentity() is not None:
@@ -12637,7 +12635,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTlvDataIdDefinition(self, parent: ET.Element, tlv_data_id_definition: TlvDataIdDefinition):
         element = ET.SubElement(parent, "TLV-DATA-ID-DEFINITION")
-        self.setChildElementOptionalPositiveInteger(element, "ID", cast(Integer, tlv_data_id_definition.getId()))
+        self.setChildElementOptionalPositiveInteger(element, "ID", tlv_data_id_definition.getId())
         self.setChildElementOptionalRefType(element, "TLV-ARGUMENT-REF", tlv_data_id_definition.getTlvArgumentRef())
         self.setChildElementOptionalRefType(element, "TLV-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF", tlv_data_id_definition.getTlvImplementationDataTypeElementRef())
         self.setChildElementOptionalRefType(element, "TLV-RECORD-ELEMENT-REF", tlv_data_id_definition.getTlvRecordElementRef())
@@ -12760,7 +12758,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCpSoftwareCluster(self, element: ET.Element, cluster: CpSoftwareCluster):
         child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER")
         self.writeARElement(child_element, cluster)
-        self.setChildElementOptionalPositiveInteger(child_element, "SOFTWARE-CLUSTER-ID", cast(Integer, cluster.getSoftwareClusterId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SOFTWARE-CLUSTER-ID", cluster.getSoftwareClusterId())
         assignments = cluster.getSwComponentAssignments()
         if len(assignments) > 0:
             assignments_tag = ET.SubElement(child_element, "SW-COMPONENT-ASSIGNMENTS")
@@ -12828,8 +12826,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemInterpolationRoutineMappingSetRefs(child_element, system)
         self.writeSystemJ1939SharedAddressClusters(child_element, system)
         self.writeSystemMappings(child_element, system)
-        self.setChildElementOptionalPositiveInteger(child_element, "PNC-VECTOR-LENGTH", cast(Integer, system.getPncVectorLength()))
-        self.setChildElementOptionalPositiveInteger(child_element, "PNC-VECTOR-OFFSET", cast(Integer, system.getPncVectorOffset()))
+        self.setChildElementOptionalPositiveInteger(child_element, "PNC-VECTOR-LENGTH", system.getPncVectorLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "PNC-VECTOR-OFFSET", system.getPncVectorOffset())
         self.writeRootSwCompositionPrototype(child_element, system)
         self.writeSystemSwClusterRefs(child_element, system)
         self.setChildElementOptionalRevisionLabelString(child_element, "SYSTEM-VERSION", system.getSystemVersion())
@@ -12927,8 +12925,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTextTableMapping(self, element: ET.Element, mapping: Optional[TextTableMapping], key: str = "TEXT-TABLE-MAPPING"):
         if mapping is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", cast(Integer, mapping.getBitfieldTextTableMaskFirst()))
-            self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", cast(Integer, mapping.getBitfieldTextTableMaskSecond()))
+            self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", mapping.getBitfieldTextTableMaskFirst())
+            self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
             self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
             self.setChildElementOptionalLiteral(child_element, "MAPPING-DIRECTION", mapping.getMappingDirection())
             value_pairs = mapping.getValuePairs()
@@ -13098,8 +13096,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tag, "I-PDU-MAPPING")
                 self.writeDocumentationBlock(child_element, "INTRODUCTION", mapping.getIntroduction())
-                self.setChildElementOptionalPositiveInteger(child_element, "PDU-MAX-LENGTH", cast(Integer, mapping.getPduMaxLength()))
-                self.setChildElementOptionalPositiveInteger(child_element, "PDUR-TP-CHUNK-SIZE", cast(Integer, mapping.getPdurTpChunkSize()))
+                self.setChildElementOptionalPositiveInteger(child_element, "PDU-MAX-LENGTH", mapping.getPduMaxLength())
+                self.setChildElementOptionalPositiveInteger(child_element, "PDUR-TP-CHUNK-SIZE", mapping.getPdurTpChunkSize())
                 self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIPduRef())
                 self.setTargetIPduRef(child_element, "TARGET-I-PDU", mapping.getTargetIPdu())
 
@@ -13323,7 +13321,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
-        self.setChildElementOptionalPositiveInteger(element, "INDEX", cast(Integer, param_value.getIndex()))
+        self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
         self.setAnnotations(element, param_value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
         self.writeVariationPointCapable(element, param_value)
@@ -13359,7 +13357,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
-        self.setChildElementOptionalPositiveInteger(element, "INDEX", cast(Integer, value.getIndex()))
+        self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
         self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
         self.writeVariationPointCapable(element, value)
@@ -13405,7 +13403,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ECUC-CONTAINER-VALUE")
         self.writeIdentifiable(child_element, container_value)
         self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", container_value.getDefinitionRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "INDEX", cast(Integer, container_value.getIndex()))
+        self.setChildElementOptionalPositiveInteger(child_element, "INDEX", container_value.getIndex())
         self.writeEcucContainerValueParameterValues(child_element, container_value)
         self.writeEcucContainerValueReferenceValues(child_element, container_value)
         self.writeEcucContainerValueSubContainers(child_element, container_value)
@@ -13506,9 +13504,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
         self.setChildLimitElement(element, "MAX", restriction.getMax())
-        self.setChildElementOptionalPositiveInteger(element, "MAX-LENGTH", cast(Integer, restriction.getMaxLength()))
+        self.setChildElementOptionalPositiveInteger(element, "MAX-LENGTH", restriction.getMaxLength())
         self.setChildLimitElement(element, "MIN", restriction.getMin())
-        self.setChildElementOptionalPositiveInteger(element, "MIN-LENGTH", cast(Integer, restriction.getMinLength()))
+        self.setChildElementOptionalPositiveInteger(element, "MIN-LENGTH", restriction.getMinLength())
         self.setChildElementOptionalRegularExpression(element, "PATTERN", restriction.getPattern())
 
     def writeSdgDef(self, element: ET.Element, sdg_def: SdgDef):
@@ -13665,7 +13663,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
         self.writeARObject(child_element, ref)
-        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", cast(Integer, ref.getTagId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", ref.getTagId())
         cs_ref = ref.getDataPrototypeInClientServerInterface()
         if cs_ref is not None:
             self.writeDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
@@ -13737,7 +13735,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "INITIAL-INACTIVITY-TIME", interface.getInitialInactivityTime())
         self.setChildElementOptionalTimeValue(child_element, "INITIAL-VEHICLE-ANNOUNCEMENT-TIME", interface.getInitialVehicleAnnouncementTime())
         self.setChildElementOptionalBooleanValue(child_element, "IS-ACTIVATION-LINE-DEPENDENT", interface.getIsActivationLineDependent())
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-TESTER-CONNECTIONS", cast(Integer, interface.getMaxTesterConnections()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-TESTER-CONNECTIONS", interface.getMaxTesterConnections())
         socket_connection_refs = interface.getSocketConnectionRefs()
         if len(socket_connection_refs) > 0:
             refs_tag = ET.SubElement(child_element, "SOCKET-CONNECTION-REFS")
@@ -13745,7 +13743,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "SOCKET-CONNECTION-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "USE-MAC-ADDRESS-FOR-IDENTIFICATION", interface.getUseMacAddressForIdentification())
         self.setChildElementOptionalBooleanValue(child_element, "USE-VEHICLE-IDENTIFICATION-SYNC-STATUS", interface.getUseVehicleIdentificationSyncStatus())
-        self.setChildElementOptionalPositiveInteger(child_element, "VEHICLE-ANNOUNCEMENT-COUNT", cast(Integer, interface.getVehicleAnnouncementCount()))
+        self.setChildElementOptionalPositiveInteger(child_element, "VEHICLE-ANNOUNCEMENT-COUNT", interface.getVehicleAnnouncementCount())
         self.setChildElementOptionalTimeValue(child_element, "VEHICLE-ANNOUNCEMENT-INTERVAL", interface.getVehicleAnnouncementInterval())
 
     def writeDoIpRoutingActivation(self, element: ET.Element, activation: DoIpRoutingActivation):
@@ -13763,7 +13761,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(ids) > 0:
             child_element = ET.SubElement(element, "DATA-IDS")
             for id in ids:
-                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", cast(Integer, id))
+                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", id)
 
     def writeEndToEndTransformationISignalProps(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         if props is not None:
@@ -13773,10 +13771,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTransformationISignalProps(child_element, props)
             self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
             self.writeEndToEndTransformationISignalPropsDataIds(child_element, props)
-            self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", cast(Integer, props.getDataLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DATA-LENGTH", cast(Integer, props.getMaxDataLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-DATA-LENGTH", cast(Integer, props.getMinDataLength()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-ID", cast(Integer, props.getSourceId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DATA-LENGTH", props.getMaxDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-DATA-LENGTH", props.getMinDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-ID", props.getSourceId())
 
     def writeSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         if props is not None:
@@ -13786,13 +13784,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTransformationISignalProps(child_element, props)
             self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
             self.setChildElementOptionalBooleanValue(child_element, "IMPLEMENTS-LEGACY-STRING-SERIALIZATION", props.getImplementsLegacyStringSerialization())
-            self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", cast(Integer, props.getInterfaceVersion()))
+            self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", props.getInterfaceVersion())
             self.setChildElementOptionalBooleanValue(child_element, "IS-DYNAMIC-LENGTH-FIELD-SIZE", props.getIsDynamicLengthFieldSize())
             self.setChildElementOptionalLiteral(child_element, "MESSAGE-TYPE", props.getMessageType())
-            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-ARRAY-LENGTH-FIELDS", cast(Integer, props.getSizeOfArrayLengthFields()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRING-LENGTH-FIELDS", cast(Integer, props.getSizeOfStringLengthFields()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRUCT-LENGTH-FIELDS", cast(Integer, props.getSizeOfStructLengthFields()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-UNION-LENGTH-FIELDS", cast(Integer, props.getSizeOfUnionLengthFields()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-ARRAY-LENGTH-FIELDS", props.getSizeOfArrayLengthFields())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRING-LENGTH-FIELDS", props.getSizeOfStringLengthFields())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRUCT-LENGTH-FIELDS", props.getSizeOfStructLengthFields())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-UNION-LENGTH-FIELDS", props.getSizeOfUnionLengthFields())
             refs = props.getTlvDataIdDefinitionRefs()
             if len(refs) > 0:
                 refs_element = ET.SubElement(child_element, "TLV-DATA-ID-DEFINITION-REFS")
@@ -14018,7 +14016,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self._writeEnumToken(conditional_tag, "DEFAULT-ENDIANNESS", common_props.getDefaultEndianness(), BYTE_ORDER_XML_MAP)
             self._writeEnumToken(conditional_tag, "EVENT-COMBINATION-REPORTING-BEHAVIOR", common_props.getEventCombinationReportingBehavior(), DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP)
             self.setChildElementOptionalPositiveInteger(
-                conditional_tag, "MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING", cast(Integer, common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending())
+                conditional_tag, "MAX-NUMBER-OF-REQUEST-CORRECTLY-RECEIVED-RESPONSE-PENDING", common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending()
             )
             self._writeEnumToken(conditional_tag, "OCCURRENCE-COUNTER-PROCESSING", common_props.getOccurrenceCounterProcessing(), DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP)
             self.setChildElementOptionalBooleanValue(conditional_tag, "RESET-CONFIRMED-BIT-ON-OVERFLOW", common_props.getResetConfirmedBitOnOverflow())
@@ -14041,7 +14039,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticJ1939Spn %s" % j1939_spn.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-J-1939-SPN")
         self.writeIdentifiable(child_element, j1939_spn)
-        self.setChildElementOptionalPositiveInteger(child_element, "SPN", cast(Integer, j1939_spn.getSpn()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SPN", j1939_spn.getSpn())
 
     def writeDiagnosticJ1939FreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticJ1939FreezeFrame):
         self.logger.debug("Write DiagnosticJ1939FreezeFrame %s" % freeze_frame.getShortName())
@@ -14070,7 +14068,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE-J-1939")
         self.writeIdentifiable(child_element, trouble_code)
         self.setChildElementOptionalRefType(child_element, "DTC-PROPS-REF", trouble_code.getDtcPropsRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "FMI", cast(Integer, trouble_code.getFmi()))
+        self.setChildElementOptionalPositiveInteger(child_element, "FMI", trouble_code.getFmi())
         self._writeEnumToken(child_element, "KIND", trouble_code.getKind(), DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP)
         self.setChildElementOptionalRefType(child_element, "NODE-REF", trouble_code.getNodeRef())
         self.setChildElementOptionalRefType(child_element, "SPN-REF", trouble_code.getSpnRef())
@@ -14217,7 +14215,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for dependency in dependent_resources:
                 dep_element = ET.SubElement(deps_tag, "ROLE-BASED-RESOURCE-DEPENDENCY")
                 self.writeRoleBasedResourceDependency(dep_element, dependency)
-        self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", cast(Integer, resource.getGlobalResourceId()))
+        self.setChildElementOptionalPositiveInteger(element, "GLOBAL-RESOURCE-ID", resource.getGlobalResourceId())
         self.setChildElementOptionalBooleanValue(element, "IS-MANDATORY", resource.getIsMandatory())
 
     def writeDiagnosticEventToTroubleCodeJ1939Mapping(self, element: ET.Element, mapping: DiagnosticEventToTroubleCodeJ1939Mapping):
@@ -14502,7 +14500,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if routine.getRequestResult() is not None:
             request_result_element = ET.SubElement(child_element, "REQUEST-RESULT")
             self.writeDiagnosticRequestRoutineResults(request_result_element, routine.getRequestResult())
-        self.setChildElementOptionalPositiveInteger(child_element, "ROUTINE-INFO", cast(Integer, routine.getRoutineInfo()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ROUTINE-INFO", routine.getRoutineInfo())
         if routine.getStart() is not None:
             start_element = ET.SubElement(child_element, "START")
             self.writeDiagnosticStartRoutine(start_element, routine.getStart())
@@ -14531,27 +14529,27 @@ class ARXMLWriter(AbstractARXMLWriter):
             data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
             for data_element in data_elements:
                 self.writeDiagnosticParameter(data_elements_tag, data_element)
-        self.setChildElementOptionalPositiveInteger(child_element, "DID-SIZE", cast(Integer, did.getDidSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "DID-SIZE", did.getDidSize())
         self.setChildElementOptionalBooleanValue(child_element, "REPRESENTS-VIN", did.getRepresentsVin())
         if did.getSupportInfoByte() is not None:
             self.writeDiagnosticSupportInfoByte(child_element, did.getSupportInfoByte())
 
     def writeDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.writeARObject(element, parameter)
-        self.setChildElementOptionalPositiveInteger(element, "BIT-OFFSET", cast(Integer, parameter.getBitOffset()))
+        self.setChildElementOptionalPositiveInteger(element, "BIT-OFFSET", parameter.getBitOffset())
         data_element = parameter.getDataElement()
         if data_element is not None:
             data_elements_tag = ET.SubElement(element, "DATA-ELEMENTS")
             self.writeDiagnosticDataElement(data_elements_tag, data_element)
-        self.setChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE", cast(Integer, parameter.getParameterSize()))
+        self.setChildElementOptionalPositiveInteger(element, "PARAMETER-SIZE", parameter.getParameterSize())
 
     def writeDiagnosticDataElement(self, element: ET.Element, data_element: DiagnosticDataElement):
         self.logger.debug("Write DiagnosticDataElement %s" % data_element.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-ELEMENT")
         self.writeIdentifiable(child_element, data_element, write_variation_point=False)
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", data_element.getArraySizeSemantics())
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS", cast(Integer, data_element.getMaxNumberOfElements()))
-        self.setChildElementOptionalPositiveInteger(child_element, "SCALING-INFO-SIZE", cast(Integer, data_element.getScalingInfoSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS", data_element.getMaxNumberOfElements())
+        self.setChildElementOptionalPositiveInteger(child_element, "SCALING-INFO-SIZE", data_element.getScalingInfoSize())
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_element.getSwDataDefProps())
         self.writeVariationPoint(child_element, data_element.getVariationPoint())
 
@@ -14559,14 +14557,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if support_info_byte is not None:
             self.logger.debug("Write DiagnosticSupportInfoByte")
             support_info_byte_element = ET.SubElement(element, "SUPPORT-INFO-BYTE")
-            self.setChildElementOptionalPositiveInteger(support_info_byte_element, "POSITION", cast(Integer, support_info_byte.getPosition()))
-            self.setChildElementOptionalPositiveInteger(support_info_byte_element, "SIZE", cast(Integer, support_info_byte.getSize()))
+            self.setChildElementOptionalPositiveInteger(support_info_byte_element, "POSITION", support_info_byte.getPosition())
+            self.setChildElementOptionalPositiveInteger(support_info_byte_element, "SIZE", support_info_byte.getSize())
 
     def writeDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: Optional[DiagnosticParameterSupportInfo]):
         if support_info is not None:
             self.logger.debug("Write DiagnosticParameterSupportInfo")
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
-            self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", cast(Integer, support_info.getSupportInfoBit()))
+            self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
 
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")
@@ -14583,7 +14581,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER-ELEMENT")
         self.writeIdentifiable(child_element, parameter_element)
         self.writeDiagnosticAbstractParameter(child_element, parameter_element)
-        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", cast(Integer, parameter_element.getArraySize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", parameter_element.getArraySize())
         sub_elements = parameter_element.getSubElements()
         if len(sub_elements) > 0:
             sub_elements_tag = ET.SubElement(child_element, "SUB-ELEMENTS")
@@ -14611,7 +14609,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, dddi)
         self.setChildElementOptionalRefType(child_element, "DATA-IDENTIFIER-REF", dddi.getDataIdentifier())
         self.setChildElementOptionalRefType(child_element, "DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS-REF", dddi.getDynamicallyDefineDataIdentifierClass())
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SOURCE-ELEMENT", cast(Integer, dddi.getMaxSourceElement()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SOURCE-ELEMENT", dddi.getMaxSourceElement())
 
     def writeDiagnosticDynamicallyDefineDataIdentifierClass(self, element: ET.Element, dddi_class: DiagnosticDynamicallyDefineDataIdentifierClass):
         self.logger.debug("Write DiagnosticDynamicallyDefineDataIdentifierClass %s" % dddi_class.getShortName())
@@ -14634,7 +14632,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticEcuReset %s" % ecu_reset.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET")
         self.writeIdentifiable(child_element, ecu_reset)
-        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", cast(Integer, ecu_reset.getCustomSubFunctionNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", ecu_reset.getCustomSubFunctionNumber())
         self.setChildElementOptionalRefType(child_element, "ECU-RESET-CLASS-REF", ecu_reset.getEcuResetClass())
 
     def writeDiagnosticClearDiagnosticInformation(self, element: ET.Element, clear_diagnostic_information: DiagnosticClearDiagnosticInformation):
@@ -14655,10 +14653,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-MEMORY-IDENTIFIER")
         self.writeIdentifiable(child_element, identifier)
         self.setChildElementOptionalRefType(child_element, "ACCESS-PERMISSION-REF", identifier.getAccessPermissionRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, identifier.getId()))
-        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-HIGH-ADDRESS", cast(Integer, identifier.getMemoryHighAddress()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", identifier.getId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-HIGH-ADDRESS", identifier.getMemoryHighAddress())
         self.setChildElementOptionalString(child_element, "MEMORY-HIGH-ADDRESS-LABEL", identifier.getMemoryHighAddressLabel())
-        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-LOW-ADDRESS", cast(Integer, identifier.getMemoryLowAddress()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-LOW-ADDRESS", identifier.getMemoryLowAddress())
         self.setChildElementOptionalString(child_element, "MEMORY-LOW-ADDRESS-LABEL", identifier.getMemoryLowAddressLabel())
 
     def writeDiagnosticClearDiagnosticInformationClass(self, element: ET.Element, clear_diagnostic_information_class: DiagnosticClearDiagnosticInformationClass):
@@ -14676,7 +14674,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL")
         self.writeIdentifiable(child_element, com_control)
         self.setChildElementOptionalRefType(child_element, "COM-CONTROL-CLASS-REF", com_control.getComControlClass())
-        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", cast(Integer, com_control.getCustomSubFunctionNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SUB-FUNCTION-NUMBER", com_control.getCustomSubFunctionNumber())
 
     def writeDiagnosticComControlClass(self, element: ET.Element, com_control_class: DiagnosticComControlClass):
         self.logger.debug("Write DiagnosticComControlClass %s" % com_control_class.getShortName())
@@ -14720,13 +14718,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-SPECIFIC-CHANNEL")
         self.setChildElementOptionalRefType(child_element, "SPECIFIC-CHANNEL-REF", channel.getSpecificChannel())
         self.setChildElementOptionalRefType(child_element, "SPECIFIC-PHYSICAL-CHANNEL-REF", channel.getSpecificPhysicalChannel())
-        self.setChildElementOptionalPositiveInteger(child_element, "SUBNET-NUMBER", cast(Integer, channel.getSubnetNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SUBNET-NUMBER", channel.getSubnetNumber())
 
     def writeDiagnosticComControlSubNodeChannel(self, element: ET.Element, channel: DiagnosticComControlSubNodeChannel):
         self.logger.debug("Write DiagnosticComControlSubNodeChannel")
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL-SUB-NODE-CHANNEL")
         self.setChildElementOptionalRefType(child_element, "SUB-NODE-CHANNEL-REF", channel.getSubNodeChannel())
-        self.setChildElementOptionalPositiveInteger(child_element, "SUB-NODE-NUMBER", cast(Integer, channel.getSubNodeNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SUB-NODE-NUMBER", channel.getSubNodeNumber())
         self.setChildElementOptionalRefType(child_element, "SUB-NODE-PHYSICAL-CHANNEL-REF", channel.getSubNodePhysicalChannel())
 
     def writeDiagnosticEcuResetClass(self, element: ET.Element, ecu_reset_class: DiagnosticEcuResetClass):
@@ -14739,7 +14737,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticReadDataByIdentifierClass %s" % read_data_by_identifier_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER-CLASS")
         self.writeIdentifiable(child_element, read_data_by_identifier_class)
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", cast(Integer, read_data_by_identifier_class.getMaxDidToRead()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-DID-TO-READ", read_data_by_identifier_class.getMaxDidToRead())
 
     def writeDiagnosticPeriodicRate(self, element: ET.Element, rate: DiagnosticPeriodicRate):
         self.logger.debug("Write DiagnosticPeriodicRate")
@@ -14758,13 +14756,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticReadDataByPeriodicIDClass %s" % read_data_by_periodic_id_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-DATA-BY-PERIODIC-ID-CLASS")
         self.writeIdentifiable(child_element, read_data_by_periodic_id_class)
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-PERIODIC-DID-TO-READ", cast(Integer, read_data_by_periodic_id_class.getMaxPeriodicDidToRead()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-PERIODIC-DID-TO-READ", read_data_by_periodic_id_class.getMaxPeriodicDidToRead())
         periodic_rates = read_data_by_periodic_id_class.getPeriodicRates()
         if len(periodic_rates) > 0:
             periodic_rates_tag = ET.SubElement(child_element, "PERIODIC-RATES")
             for periodic_rate in periodic_rates:
                 self.writeDiagnosticPeriodicRate(periodic_rates_tag, periodic_rate)
-        self.setChildElementOptionalPositiveInteger(child_element, "SCHEDULER-MAX-NUMBER", cast(Integer, read_data_by_periodic_id_class.getSchedulerMaxNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SCHEDULER-MAX-NUMBER", read_data_by_periodic_id_class.getSchedulerMaxNumber())
 
     def writeDiagnosticWriteDataByIdentifierClass(self, element: ET.Element, write_data_by_identifier_class: DiagnosticWriteDataByIdentifierClass):
         self.logger.debug("Write DiagnosticWriteDataByIdentifierClass %s" % write_data_by_identifier_class.getShortName())
@@ -14803,12 +14801,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticResponseOnEventClass %s" % response_on_event_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-RESPONSE-ON-EVENT-CLASS")
         self.writeIdentifiable(child_element, response_on_event_class)
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-CHANGE-OF-DATA-IDENTFIER-EVENTS", cast(Integer, response_on_event_class.getMaxNumChangeOfDataIdentfierEvents()))
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-COMPARISION-OF-VALUE-EVENTS", cast(Integer, response_on_event_class.getMaxNumComparisionOfValueEvents()))
-        self.setChildElementOptionalPositiveInteger(
-            child_element, "MAX-NUMBER-OF-STORED-DTC-STATUS-CHANGED-EVENTS", cast(Integer, response_on_event_class.getMaxNumberOfStoredDTCStatusChangedEvents())
-        )
-        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SUPPORTED-DID-LENGTH", cast(Integer, response_on_event_class.getMaxSupportedDIDLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-CHANGE-OF-DATA-IDENTFIER-EVENTS", response_on_event_class.getMaxNumChangeOfDataIdentfierEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUM-COMPARISION-OF-VALUE-EVENTS", response_on_event_class.getMaxNumComparisionOfValueEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-STORED-DTC-STATUS-CHANGED-EVENTS", response_on_event_class.getMaxNumberOfStoredDTCStatusChangedEvents())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SUPPORTED-DID-LENGTH", response_on_event_class.getMaxSupportedDIDLength())
         self.setChildElementOptionalTimeValue(child_element, "RESPONSE-ON-EVENT-SCHEDULER-RATE", response_on_event_class.getResponseOnEventSchedulerRate())
         self.setChildElementOptionalBooleanValue(child_element, "STORE-EVENT-ENABLED", response_on_event_class.getStoreEventEnabled())
 
@@ -14816,7 +14812,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticControlEnableMaskBit")
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONTROL-ENABLE-MASK-BIT")
         self.writeARObject(child_element, mask_bit)
-        self.setChildElementOptionalPositiveInteger(child_element, "BIT-NUMBER", cast(Integer, mask_bit.getBitNumber()))
+        self.setChildElementOptionalPositiveInteger(child_element, "BIT-NUMBER", mask_bit.getBitNumber())
         controlled_data_elements = mask_bit.getControlledDataElements()
         if len(controlled_data_elements) > 0:
             refs_tag = ET.SubElement(child_element, "CONTROLLED-DATA-ELEMENT-REFS")
@@ -14851,7 +14847,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticCustomServiceClass %s" % service_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CUSTOM-SERVICE-CLASS")
         self.writeIdentifiable(child_element, service_class)
-        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SERVICE-ID", cast(Integer, service_class.getCustomServiceId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "CUSTOM-SERVICE-ID", service_class.getCustomServiceId())
 
     def writeDiagnosticCustomServiceInstance(self, element: ET.Element, instance: DiagnosticCustomServiceInstance):
         self.logger.debug("Write DiagnosticCustomServiceInstance %s" % instance.getShortName())
@@ -14873,7 +14869,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticSession %s" % session.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SESSION")
         self.writeIdentifiable(child_element, session)
-        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, session.getId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", session.getId())
         self.setChildElementOptionalLiteral(child_element, "JUMP-TO-BOOT-LOADER", session.getJumpToBootLoader())
         self.setChildElementOptionalTimeValue(child_element, "P-2-SERVER-MAX", session.getP2ServerMax())
         self.setChildElementOptionalTimeValue(child_element, "P-2-STAR-SERVER-MAX", session.getP2StarServerMax())
@@ -14900,7 +14896,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticSecurityAccess %s" % security_access.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-ACCESS")
         self.writeIdentifiable(child_element, security_access)
-        self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-SEED-ID", cast(Integer, security_access.getRequestSeedId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-SEED-ID", security_access.getRequestSeedId())
         self.setChildElementOptionalRefType(child_element, "SECURITY-ACCESS-CLASS-REF", security_access.getSecurityAccessClass())
         self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME-ON-BOOT", security_access.getSecurityDelayTimeOnBoot())
         self.setChildElementOptionalRefType(child_element, "SECURITY-LEVEL-REF", security_access.getSecurityLevel())
@@ -14909,11 +14905,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticSecurityLevel %s" % security_level.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-LEVEL")
         self.writeIdentifiable(child_element, security_level)
-        self.setChildElementOptionalPositiveInteger(child_element, "ACCESS-DATA-RECORD-SIZE", cast(Integer, security_level.getAccessDataRecordSize()))
-        self.setChildElementOptionalPositiveInteger(child_element, "KEY-SIZE", cast(Integer, security_level.getKeySize()))
-        self.setChildElementOptionalPositiveInteger(child_element, "NUM-FAILED-SECURITY-ACCESS", cast(Integer, security_level.getNumFailedSecurityAccess()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ACCESS-DATA-RECORD-SIZE", security_level.getAccessDataRecordSize())
+        self.setChildElementOptionalPositiveInteger(child_element, "KEY-SIZE", security_level.getKeySize())
+        self.setChildElementOptionalPositiveInteger(child_element, "NUM-FAILED-SECURITY-ACCESS", security_level.getNumFailedSecurityAccess())
         self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME", security_level.getSecurityDelayTime())
-        self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", cast(Integer, security_level.getSeedSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", security_level.getSeedSize())
 
     def writeDiagnosticEnvCompareCondition(self, element: ET.Element, condition: DiagnosticEnvCompareCondition):
         self.writeARObject(element, condition)
@@ -14942,7 +14938,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticEnvConditionFormula(self, element: ET.Element, formula: Optional[DiagnosticEnvConditionFormula]):
         if formula is not None:
             self.writeARObject(element, formula)
-            self.setChildElementOptionalPositiveInteger(element, "NRC-VALUE", cast(Integer, formula.getNrcValue()))
+            self.setChildElementOptionalPositiveInteger(element, "NRC-VALUE", formula.getNrcValue())
             self.setChildElementOptionalLiteral(element, "OP", formula.getOp())
             parts = formula.getParts()
             if len(parts) > 0:
@@ -15045,7 +15041,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticAuthTransmitCertificateEvaluation %s" % evaluation.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-EVALUATION")
         self.writeIdentifiable(child_element, evaluation)
-        self.setChildElementOptionalPositiveInteger(child_element, "EVALUATION-ID", cast(Integer, evaluation.getEvaluationId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "EVALUATION-ID", evaluation.getEvaluationId())
         self.setChildElementOptionalString(child_element, "FUNCTION", evaluation.getFunction())
 
     def writeDiagnosticDeAuthentication(self, element: ET.Element, de_authentication: DiagnosticDeAuthentication):
@@ -15168,8 +15164,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
             for data_element in data_elements:
                 self.writeDiagnosticParameter(data_elements_tag, data_element)
-        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, parameter_identifier.getId()))
-        self.setChildElementOptionalPositiveInteger(child_element, "PID-SIZE", cast(Integer, parameter_identifier.getPidSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", parameter_identifier.getId())
+        self.setChildElementOptionalPositiveInteger(child_element, "PID-SIZE", parameter_identifier.getPidSize())
         if parameter_identifier.getSupportInfoByte() is not None:
             self.writeDiagnosticSupportInfoByte(child_element, parameter_identifier.getSupportInfoByte())
 
@@ -15235,9 +15231,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticTestRoutineIdentifier %s" % test_routine_identifier.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER")
         self.writeIdentifiable(child_element, test_routine_identifier)
-        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, test_routine_identifier.getId()))
-        self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-DATA-SIZE", cast(Integer, test_routine_identifier.getRequestDataSize()))
-        self.setChildElementOptionalPositiveInteger(child_element, "RESPONSE-DATA-SIZE", cast(Integer, test_routine_identifier.getResponseDataSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", test_routine_identifier.getId())
+        self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-DATA-SIZE", test_routine_identifier.getRequestDataSize())
+        self.setChildElementOptionalPositiveInteger(child_element, "RESPONSE-DATA-SIZE", test_routine_identifier.getResponseDataSize())
 
     def writeDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
         self.logger.debug("Write DiagnosticRequestVehicleInfo %s" % request_vehicle_info.getShortName())
@@ -15255,7 +15251,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
             for data_element in data_elements:
                 self.writeDiagnosticParameter(data_elements_tag, data_element)
-        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, info_type.getId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", info_type.getId())
 
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
@@ -15283,7 +15279,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
         self.writeIdentifiable(child_element, auth_role)
-        self.setChildElementOptionalPositiveInteger(child_element, "BIT-POSITION", cast(Integer, auth_role.getBitPosition()))
+        self.setChildElementOptionalPositiveInteger(child_element, "BIT-POSITION", auth_role.getBitPosition())
         self.setChildElementOptionalBooleanValue(child_element, "IS-DEFAULT", auth_role.getIsDefault())
 
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
@@ -15320,13 +15316,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "CONTAINED-I-PDU-PROPS")
             self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", props.getCollectionSemantics())
             self.setChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF", props.getContainedPduTriggeringRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER", cast(Integer, props.getHeaderIdLongHeader()))
-            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER", cast(Integer, props.getHeaderIdShortHeader()))
-            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", cast(Integer, props.getOffset()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, props.getPriority()))
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER", props.getHeaderIdLongHeader())
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER", props.getHeaderIdShortHeader())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", props.getOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", props.getPriority())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", props.getTimeout())
             self.setChildElementOptionalLiteral(child_element, "TRIGGER", props.getTrigger())
-            self.setChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION", cast(Integer, props.getUpdateIndicationBitPosition()))
+            self.setChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
 
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
         self.writePdu(element, pdu)
@@ -15435,7 +15431,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSecureCommunicationAuthenticationProps(self, element: ET.Element, props: SecureCommunicationAuthenticationProps):
         chile_element = ET.SubElement(element, "SECURE-COMMUNICATION-AUTHENTICATION-PROPS")
         self.writeIdentifiable(chile_element, props)
-        self.setChildElementOptionalPositiveInteger(chile_element, "AUTH-INFO-TX-LENGTH", cast(Integer, props.getAuthInfoTxLength()))
+        self.setChildElementOptionalPositiveInteger(chile_element, "AUTH-INFO-TX-LENGTH", props.getAuthInfoTxLength())
 
     def writeSecureCommunicationPropsSetAuthenticationProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
         propses = props_set.getAuthenticationProps()
@@ -15450,10 +15446,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSecureCommunicationFreshnessProps(self, element: ET.Element, props: SecureCommunicationFreshnessProps):
         child_element = ET.SubElement(element, "SECURE-COMMUNICATION-FRESHNESS-PROPS")
         self.writeIdentifiable(child_element, props)
-        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-COUNTER-SYNC-ATTEMPTS", cast(Integer, props.getFreshnessCounterSyncAttempts()))
-        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR", cast(Integer, props.getFreshnessTimestampTimePeriodFactor()))
-        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-LENGTH", cast(Integer, props.getFreshnessValueLength()))
-        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH", cast(Integer, props.getFreshnessValueTxLength()))
+        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-COUNTER-SYNC-ATTEMPTS", props.getFreshnessCounterSyncAttempts())
+        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR", props.getFreshnessTimestampTimePeriodFactor())
+        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-LENGTH", props.getFreshnessValueLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH", props.getFreshnessValueTxLength())
         self.setChildElementOptionalBooleanValue(child_element, "USE-FRESHNESS-TIMESTAMP", props.getUseFreshnessTimestamp())
 
     def writeSecureCommunicationPropsSetFreshnessProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
@@ -15740,15 +15736,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         if frame is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", cast(Integer, frame.getMessageId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", frame.getMessageId())
 
     def setCanXlFrameTriggeringProps(self, element: ET.Element, key: str, props: CanXlFrameTriggeringProps):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "ACCEPTANCE-FIELD", cast(Integer, props.getAcceptanceField()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY-ID", cast(Integer, props.getPriorityId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "SDU-TYPE", cast(Integer, props.getSduType()))
-            self.setChildElementOptionalPositiveInteger(child_element, "VCID", cast(Integer, props.getVcid()))
+            self.setChildElementOptionalPositiveInteger(child_element, "ACCEPTANCE-FIELD", props.getAcceptanceField())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY-ID", props.getPriorityId())
+            self.setChildElementOptionalPositiveInteger(child_element, "SDU-TYPE", props.getSduType())
+            self.setChildElementOptionalPositiveInteger(child_element, "VCID", props.getVcid())
 
     def setLinOrderedConfigurableFrame(self, element: ET.Element, key: str, frame: LinOrderedConfigurableFrame):
         if frame is not None:
@@ -15760,7 +15756,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if config is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD", config.getConfiguredNad())
-            self.setChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID", cast(Integer, config.getFunctionId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID", config.getFunctionId())
             slave_ident = config.getIdent()
             if slave_ident is not None:
                 ident_element = ET.SubElement(child_element, "IDENT")
@@ -15778,8 +15774,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ordered_frame in ordered_frames:
                     self.setLinOrderedConfigurableFrame(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME", ordered_frame)
             self.setChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION", config.getProtocolVersion())
-            self.setChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID", cast(Integer, config.getSupplierId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "VARIANT-ID", cast(Integer, config.getVariantId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID", config.getSupplierId())
+            self.setChildElementOptionalPositiveInteger(child_element, "VARIANT-ID", config.getVariantId())
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()
@@ -15802,8 +15798,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "MASK", filter.getMask())
             self.setChildElementOptionalIntegerValue(child_element, "MAX", filter.getMax())
             self.setChildElementOptionalIntegerValue(child_element, "MIN", filter.getMin())
-            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", cast(Integer, filter.getOffset()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PERIOD", cast(Integer, filter.getPeriod()))
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", filter.getOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "PERIOD", filter.getPeriod())
             self.setChildElementOptionalIntegerValue(child_element, "X", filter.getX())
 
     def setTransmissionModeConditions(self, element: ET.Element, key: str, conditions: List[TransmissionModeCondition]):
@@ -15904,14 +15900,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for usage in usages:
                     usage_element = ET.SubElement(usages_tag, "CRYPTO-KEY-SLOT-CONTENT-ALLOWED-USAGE")
                     self.writeCryptoKeySlotContentAllowedUsage(usage_element, usage)
-            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-CAPACITY", cast(Integer, key_slot.getSlotCapacity()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-CAPACITY", key_slot.getSlotCapacity())
             self.setChildElementOptionalLiteral(child_element, "SLOT-TYPE", key_slot.getSlotType())
 
     def writeCryptoKeySlotAllowedModification(self, element: ET.Element, modification: CryptoKeySlotAllowedModification):
         self.writeARObject(element, modification)
         self.setChildElementOptionalBooleanValue(element, "ALLOW-CONTENT-TYPE-CHANGE", modification.getAllowContentTypeChange())
         self.setChildElementOptionalBooleanValue(element, "EXPORTABILITY", modification.getExportability())
-        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ALLOWED-UPDATES", cast(Integer, modification.getMaxNumberOfAllowedUpdates()))
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ALLOWED-UPDATES", modification.getMaxNumberOfAllowedUpdates())
         self.setChildElementOptionalBooleanValue(element, "RESTRICT-UPDATE", modification.getRestrictUpdate())
 
     def writeCryptoKeySlotContentAllowedUsage(self, element: ET.Element, usage: CryptoKeySlotContentAllowedUsage):
@@ -15942,7 +15938,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 fifos_element = ET.SubElement(child_element, "FLEXRAY-FIFOS")
                 for fifo in fifos:
                     self.setFlexrayFifoConfiguration(fifos_element, "FLEXRAY-FIFO-CONFIGURATION", fifo)
-            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SLOT-ID", cast(Integer, controller.getKeySlotID()))
+            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SLOT-ID", controller.getKeySlotID())
             self.setChildElementOptionalBooleanValue(child_element, "KEY-SLOT-ONLY-ENABLED", controller.getKeySlotOnlyEnabled())
             self.setChildElementOptionalBooleanValue(child_element, "KEY-SLOT-USED-FOR-START-UP", controller.getKeySlotUsedForStartUp())
             self.setChildElementOptionalBooleanValue(child_element, "KEY-SLOT-USED-FOR-SYNC", controller.getKeySlotUsedForSync())
@@ -15959,7 +15955,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT", controller.getOffsetCorrectionOut())
             self.setChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT", controller.getRateCorrectionOut())
             self.setChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK", controller.getSamplesPerMicrotick())
-            self.setChildElementOptionalPositiveInteger(child_element, "SECOND-KEY-SLOT-ID", cast(Integer, controller.getSecondKeySlotId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SECOND-KEY-SLOT-ID", controller.getSecondKeySlotId())
             self.setChildElementOptionalBooleanValue(child_element, "TWO-KEY-SLOT-MODE", controller.getTwoKeySlotMode())
             self.setChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN", controller.getWakeUpPattern())
 
@@ -16019,27 +16015,27 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "END-TO-END-TRANSFORMATION-DESCRIPTION")
             self.writeTransformationDescription(child_element, desc)
             self.setChildElementOptionalBooleanValue(child_element, "CLEAR-FROM-VALID-TO-INVALID", desc.getClearFromValidToInvalid())
-            self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", cast(Integer, desc.getCounterOffset()))
-            self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", cast(Integer, desc.getCrcOffset()))
+            self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", desc.getCrcOffset())
             self.setChildElementOptionalLiteral(child_element, "DATA-ID-MODE", desc.getDataIdMode())
-            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", cast(Integer, desc.getDataIdNibbleOffset()))
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", desc.getDataIdNibbleOffset())
             self.setChildElementOptionalRefType(child_element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF", desc.getE2eProfileCompatibilityPropsRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", cast(Integer, desc.getMaxDeltaCounter()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", cast(Integer, desc.getMaxErrorStateInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", cast(Integer, desc.getMaxErrorStateInvalid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-VALID", cast(Integer, desc.getMaxErrorStateValid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", cast(Integer, desc.getMaxNoNewOrRepeatedData()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INIT", cast(Integer, desc.getMinOkStateInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INVALID", cast(Integer, desc.getMinOkStateInvalid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-VALID", cast(Integer, desc.getMinOkStateValid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", cast(Integer, desc.getOffset()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", desc.getMaxDeltaCounter())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", desc.getMaxErrorStateInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", desc.getMaxErrorStateInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-VALID", desc.getMaxErrorStateValid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", desc.getMaxNoNewOrRepeatedData())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INIT", desc.getMinOkStateInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INVALID", desc.getMinOkStateInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-VALID", desc.getMinOkStateValid())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", desc.getOffset())
             self.setChildElementOptionalLiteral(child_element, "PROFILE-BEHAVIOR", desc.getProfileBehavior())
             self.setChildElementOptionalLiteral(child_element, "PROFILE-NAME", desc.getProfileName())
-            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", cast(Integer, desc.getSyncCounterInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "UPPER-HEADER-BITS-TO-SHIFT", cast(Integer, desc.getUpperHeaderBitsToShift()))
-            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INIT", cast(Integer, desc.getWindowSizeInit()))
-            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", cast(Integer, desc.getWindowSizeInvalid()))
-            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", cast(Integer, desc.getWindowSizeValid()))
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "UPPER-HEADER-BITS-TO-SHIFT", desc.getUpperHeaderBitsToShift())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INIT", desc.getWindowSizeInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", desc.getWindowSizeInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", desc.getWindowSizeValid())
 
     def writeTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         desc = tech.getTransformationDescription()
@@ -16780,11 +16776,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if rule is not None:
             self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
             self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
-            self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", cast(Integer, rule.getEtherType()))
+            self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
             self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
             self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
-            self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", cast(Integer, rule.getVlanId()))
-            self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", cast(Integer, rule.getVlanPriority()))
+            self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
+            self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 
     def writePayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
         parts = payload_rule.getPayloadBytePatternRuleParts()
@@ -16795,90 +16791,90 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writePayloadBytePatternRulePart(part_tag, part)
 
     def writePayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
-        self.setChildElementOptionalPositiveInteger(element, "OFFSET", cast(Integer, part.getOffset()))
-        self.setChildElementOptionalPositiveInteger(element, "VALUE", cast(Integer, part.getValue()))
+        self.setChildElementOptionalPositiveInteger(element, "OFFSET", part.getOffset())
+        self.setChildElementOptionalPositiveInteger(element, "VALUE", part.getValue())
 
     def writeSomeipProtocolRule(self, element: ET.Element, rule: Optional[SomeipProtocolRule]):
         if rule is not None:
-            self.setChildElementOptionalPositiveInteger(element, "CLIENT-ID", cast(Integer, rule.getClientId()))
+            self.setChildElementOptionalPositiveInteger(element, "CLIENT-ID", rule.getClientId())
             self.setChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION", rule.getLengthVerification())
-            self.setChildElementOptionalPositiveInteger(element, "MAJOR-VERSION", cast(Integer, rule.getMajorVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "MESSAGE-TYPE", cast(Integer, rule.getMessageType()))
-            self.setChildElementOptionalPositiveInteger(element, "METHOD-ID", cast(Integer, rule.getMethodId()))
-            self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", cast(Integer, rule.getProtocolVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "RETURN-CODE", cast(Integer, rule.getReturnCode()))
-            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", cast(Integer, rule.getServiceInterfaceId()))
+            self.setChildElementOptionalPositiveInteger(element, "MAJOR-VERSION", rule.getMajorVersion())
+            self.setChildElementOptionalPositiveInteger(element, "MESSAGE-TYPE", rule.getMessageType())
+            self.setChildElementOptionalPositiveInteger(element, "METHOD-ID", rule.getMethodId())
+            self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", rule.getProtocolVersion())
+            self.setChildElementOptionalPositiveInteger(element, "RETURN-CODE", rule.getReturnCode())
+            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
 
     def writeSomeipSdRule(self, element: ET.Element, rule: Optional[SomeipSdRule]):
         if rule is not None:
-            self.setChildElementOptionalPositiveInteger(element, "ENTRY-TYPE", cast(Integer, rule.getEntryType()))
-            self.setChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID", cast(Integer, rule.getEventGroupId()))
-            self.setChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION", cast(Integer, rule.getMaxMajorVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "MAX-MINOR-VERSION", cast(Integer, rule.getMaxMinorVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "MIN-MAJOR-VERSION", cast(Integer, rule.getMinMajorVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "MIN-MINOR-VERSION", cast(Integer, rule.getMinMinorVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID", cast(Integer, rule.getServiceInstanceId()))
-            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", cast(Integer, rule.getServiceInterfaceId()))
+            self.setChildElementOptionalPositiveInteger(element, "ENTRY-TYPE", rule.getEntryType())
+            self.setChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID", rule.getEventGroupId())
+            self.setChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION", rule.getMaxMajorVersion())
+            self.setChildElementOptionalPositiveInteger(element, "MAX-MINOR-VERSION", rule.getMaxMinorVersion())
+            self.setChildElementOptionalPositiveInteger(element, "MIN-MAJOR-VERSION", rule.getMinMajorVersion())
+            self.setChildElementOptionalPositiveInteger(element, "MIN-MINOR-VERSION", rule.getMinMinorVersion())
+            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID", rule.getServiceInstanceId())
+            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
 
     def writeDoIpRule(self, element: ET.Element, rule: Optional[DoIpRule]):
         if rule is not None:
-            self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS", cast(Integer, rule.getDestinationMaxAddress()))
-            self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS", cast(Integer, rule.getDestinationMinAddress()))
-            self.setChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION", cast(Integer, rule.getInverseProtocolVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-LENGTH", cast(Integer, rule.getPayloadLength()))
-            self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-TYPE", cast(Integer, rule.getPayloadType()))
-            self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", cast(Integer, rule.getProtocolVersion()))
-            self.setChildElementOptionalPositiveInteger(element, "SOURCE-MAX-ADDRESS", cast(Integer, rule.getSourceMaxAddress()))
-            self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", cast(Integer, rule.getSourceMinAddress()))
-            self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", cast(Integer, rule.getUdsService()))
+            self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS", rule.getDestinationMaxAddress())
+            self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS", rule.getDestinationMinAddress())
+            self.setChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION", rule.getInverseProtocolVersion())
+            self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-LENGTH", rule.getPayloadLength())
+            self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-TYPE", rule.getPayloadType())
+            self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", rule.getProtocolVersion())
+            self.setChildElementOptionalPositiveInteger(element, "SOURCE-MAX-ADDRESS", rule.getSourceMaxAddress())
+            self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", rule.getSourceMinAddress())
+            self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", rule.getUdsService())
 
     def writeTcpRule(self, element: ET.Element, rule: TcpRule):
-        self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", cast(Integer, rule.getNumberOfParallelTcpSessions()))
+        self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", rule.getNumberOfParallelTcpSessions())
         self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
-        self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", cast(Integer, rule.getTimeoutCheck()))
+        self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", rule.getTimeoutCheck())
 
     def writeIcmpRule(self, element: ET.Element, rule: Optional[IcmpRule]):
         if rule is not None:
             self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
-            self.setChildElementOptionalPositiveInteger(element, "CODE", cast(Integer, rule.getCode()))
-            self.setChildElementOptionalPositiveInteger(element, "TYPE", cast(Integer, rule.getType()))
+            self.setChildElementOptionalPositiveInteger(element, "CODE", rule.getCode())
+            self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())
 
     def writeIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
         self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
         self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
-        self.setChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT", cast(Integer, rule.getDifferentiatedServiceCodePoint()))
+        self.setChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT", rule.getDifferentiatedServiceCodePoint())
         self.setChildElementOptionalBooleanValue(element, "DO-NOT-FRAGMENT", rule.getDoNotFragment())
-        self.setChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION", cast(Integer, rule.getExplicitCongestionNotification()))
+        self.setChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION", rule.getExplicitCongestionNotification())
         if rule.getIcmpRule() is not None:
             icmp_rule_tag = ET.SubElement(element, "ICMP-RULE")
             self.writeIcmpRule(icmp_rule_tag, rule.getIcmpRule())
-        self.setChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH", cast(Integer, rule.getInternetHeaderLength()))
+        self.setChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH", rule.getInternetHeaderLength())
         self.setChildElementOptionalBooleanValue(element, "MORE-FRAGMENTS", rule.getMoreFragments())
-        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL", cast(Integer, rule.getProtocol()))
+        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL", rule.getProtocol())
         self.setChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS", rule.getSourceIpAddress())
         self.setChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK", rule.getSourceNetworkMask())
-        self.setChildElementOptionalPositiveInteger(element, "TTL-MAX", cast(Integer, rule.getTtlMax()))
-        self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", cast(Integer, rule.getTtlMin()))
+        self.setChildElementOptionalPositiveInteger(element, "TTL-MAX", rule.getTtlMax())
+        self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", rule.getTtlMin())
 
     def writeIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
         self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
-        self.setChildElementOptionalPositiveInteger(element, "FLOW-LABEL", cast(Integer, rule.getFlowLabel()))
-        self.setChildElementOptionalPositiveInteger(element, "HOP-LIMIT", cast(Integer, rule.getHopLimit()))
+        self.setChildElementOptionalPositiveInteger(element, "FLOW-LABEL", rule.getFlowLabel())
+        self.setChildElementOptionalPositiveInteger(element, "HOP-LIMIT", rule.getHopLimit())
         if rule.getIcmpRule() is not None:
             icmp_rule_tag = ET.SubElement(element, "ICMP-RULE")
             self.writeIcmpRule(icmp_rule_tag, rule.getIcmpRule())
-        self.setChildElementOptionalPositiveInteger(element, "NEXT-HEADER", cast(Integer, rule.getNextHeader()))
+        self.setChildElementOptionalPositiveInteger(element, "NEXT-HEADER", rule.getNextHeader())
         self.setChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS", rule.getSourceIpAddress())
         self.setChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK", rule.getSourceNetworkMask())
-        self.setChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS", cast(Integer, rule.getTrafficClass()))
+        self.setChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS", rule.getTrafficClass())
 
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
         self.writeIdentifiable(rule_tag, rule)
-        self.setChildElementOptionalPositiveInteger(rule_tag, "BUCKET-SIZE", cast(Integer, rule.getBucketSize()))
+        self.setChildElementOptionalPositiveInteger(rule_tag, "BUCKET-SIZE", rule.getBucketSize())
         if rule.getDataLinkLayerRule() is not None:
             data_link_layer_rule_tag = ET.SubElement(rule_tag, "DATA-LINK-LAYER-RULE")
             self.writeDataLinkLayerRule(data_link_layer_rule_tag, rule.getDataLinkLayerRule())
@@ -16905,7 +16901,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for payload_rule in payload_rules:
                 payload_rule_tag = ET.SubElement(rules_tag, "PAYLOAD-BYTE-PATTERN-RULE")
                 self.writePayloadBytePatternRule(payload_rule_tag, payload_rule)
-        self.setChildElementOptionalPositiveInteger(rule_tag, "REFILL-AMOUNT", cast(Integer, rule.getRefillAmount()))
+        self.setChildElementOptionalPositiveInteger(rule_tag, "REFILL-AMOUNT", rule.getRefillAmount())
         if rule.getSomeipRule() is not None:
             someip_rule_tag = ET.SubElement(rule_tag, "SOMEIP-RULE")
             self.writeSomeipProtocolRule(someip_rule_tag, rule.getSomeipRule())
@@ -17345,11 +17341,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write CanXlProps %s" % can_xl_props.getShortName())
         element = ET.SubElement(parent, "CAN-XL-PROPS")
         self.writeIdentifiable(element, can_xl_props)
-        self.setChildElementOptionalPositiveInteger(element, "CAN-BAUDRATE", cast(Integer, can_xl_props.getCanBaudrate()))
+        self.setChildElementOptionalPositiveInteger(element, "CAN-BAUDRATE", can_xl_props.getCanBaudrate())
         self.setCanControllerConfiguration(element, "CAN-CONFIG", can_xl_props.getCanConfig())
-        self.setChildElementOptionalPositiveInteger(element, "CAN-FD-BAUDRATE", cast(Integer, can_xl_props.getCanFdBaudrate()))
+        self.setChildElementOptionalPositiveInteger(element, "CAN-FD-BAUDRATE", can_xl_props.getCanFdBaudrate())
         self.setCanControllerFdConfiguration(element, "CAN-FD-CONFIG", can_xl_props.getCanFdConfig())
-        self.setChildElementOptionalPositiveInteger(element, "CAN-XL-BAUDRATE", cast(Integer, can_xl_props.getCanXlBaudrate()))
+        self.setChildElementOptionalPositiveInteger(element, "CAN-XL-BAUDRATE", can_xl_props.getCanXlBaudrate())
         self.setCanControllerXlConfiguration(element, "CAN-XL-CONFIG", can_xl_props.getCanXlConfig())
         self.setCanControllerXlConfigurationRequirements(element, "CAN-XL-CONFIG-REQS", can_xl_props.getCanXlConfigReqs())
 
