@@ -15138,7 +15138,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticClearResetEmissionRelatedInfo %s" % clear_reset_emission_related_info.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO")
         self.writeIdentifiable(child_element, clear_reset_emission_related_info)
-        self.setChildElementOptionalRefType(child_element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF", clear_reset_emission_related_info.getClearResetEmissionRelatedDiagnosticInfoClassRef())
+        self.setChildElementOptionalRefType(
+            child_element, "CLEAR-RESET-EMISSION-RELATED-DIAGNOSTIC-INFO-CLASS-REF", clear_reset_emission_related_info.getClearResetEmissionRelatedDiagnosticInfoClassRef()
+        )
 
     def writeDiagnosticRequestOnBoardMonitoringTestResults(self, element: ET.Element, request_on_board_monitoring_test_results: DiagnosticRequestOnBoardMonitoringTestResults):
         self.logger.debug("Write DiagnosticRequestOnBoardMonitoringTestResults %s" % request_on_board_monitoring_test_results.getShortName())
@@ -15149,7 +15151,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             test_result_refs_tag = ET.SubElement(child_element, "DIAGNOSTIC-TEST-RESULT-REFS")
             for test_result_ref in diagnostic_test_result_refs:
                 self.setChildElementOptionalRefType(test_result_refs_tag, "DIAGNOSTIC-TEST-RESULT-REF", test_result_ref)
-        self.setChildElementOptionalRefType(child_element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF", request_on_board_monitoring_test_results.getRequestOnBoardMonitoringTestResultsClassRef())
+        self.setChildElementOptionalRefType(
+            child_element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF", request_on_board_monitoring_test_results.getRequestOnBoardMonitoringTestResultsClassRef()
+        )
 
     def writeDiagnosticRequestControlOfOnBoardDevice(self, element: ET.Element, request_control_of_on_board_device: DiagnosticRequestControlOfOnBoardDevice):
         self.logger.debug("Write DiagnosticRequestControlOfOnBoardDevice %s" % request_control_of_on_board_device.getShortName())
@@ -15188,6 +15192,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
         self.writeIdentifiable(child_element, read_memory_by_address_class)
+
     def writeDiagnosticTransferExitClass(self, element: ET.Element, transfer_exit_class: DiagnosticTransferExitClass):
         self.logger.debug("Write DiagnosticTransferExitClass %s" % transfer_exit_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-TRANSFER-EXIT-CLASS")

@@ -11634,6 +11634,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
+
     def readDiagnosticTransferExitClass(self, element: ET.Element, transfer_exit_class: DiagnosticTransferExitClass):
         self.logger.debug("Read DiagnosticTransferExitClass <%s>" % transfer_exit_class.getShortName())
         self.readIdentifiable(element, transfer_exit_class)

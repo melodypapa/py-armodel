@@ -7809,7 +7809,9 @@ class TestDiagnosticTransferExit:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticTransferExit.getTransferExitClassRef.__doc__) == self.TRANSFER_EXIT_CLASS_NOTE
-        assert inspect.cleandoc(DiagnosticTransferExit.setTransferExitClassRef.__doc__) == (self.TRANSFER_EXIT_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing transferExitClassRef.")
+        assert inspect.cleandoc(DiagnosticTransferExit.setTransferExitClassRef.__doc__) == (
+            self.TRANSFER_EXIT_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing transferExitClassRef."
+        )
 
 
 class TestDiagnosticDataTransfer:
@@ -7888,7 +7890,9 @@ class TestDiagnosticDataTransfer:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticDataTransfer.getDataTransferClassRef.__doc__) == self.DATA_TRANSFER_CLASS_NOTE
-        assert inspect.cleandoc(DiagnosticDataTransfer.setDataTransferClassRef.__doc__) == (self.DATA_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataTransferClassRef.")
+        assert inspect.cleandoc(DiagnosticDataTransfer.setDataTransferClassRef.__doc__) == (
+            self.DATA_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dataTransferClassRef."
+        )
 
 
 class TestDiagnosticRequestDownload:
@@ -7967,7 +7971,9 @@ class TestDiagnosticRequestDownload:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestDownload.getRequestDownloadClassRef.__doc__) == self.REQUEST_DOWNLOAD_CLASS_NOTE
-        assert inspect.cleandoc(DiagnosticRequestDownload.setRequestDownloadClassRef.__doc__) == (self.REQUEST_DOWNLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDownloadClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestDownload.setRequestDownloadClassRef.__doc__) == (
+            self.REQUEST_DOWNLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDownloadClassRef."
+        )
 
 
 class TestDiagnosticRequestUpload:
@@ -8046,7 +8052,9 @@ class TestDiagnosticRequestUpload:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestUpload.getRequestUploadClassRef.__doc__) == self.REQUEST_UPLOAD_CLASS_NOTE
-        assert inspect.cleandoc(DiagnosticRequestUpload.setRequestUploadClassRef.__doc__) == (self.REQUEST_UPLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestUploadClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestUpload.setRequestUploadClassRef.__doc__) == (
+            self.REQUEST_UPLOAD_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestUploadClassRef."
+        )
 
 
 class TestDiagnosticRequestFileTransfer:
@@ -8125,7 +8133,9 @@ class TestDiagnosticRequestFileTransfer:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestFileTransfer.getRequestFileTransferClassRef.__doc__) == self.REQUEST_FILE_TRANSFER_CLASS_NOTE
-        assert inspect.cleandoc(DiagnosticRequestFileTransfer.setRequestFileTransferClassRef.__doc__) == (self.REQUEST_FILE_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestFileTransferClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestFileTransfer.setRequestFileTransferClassRef.__doc__) == (
+            self.REQUEST_FILE_TRANSFER_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestFileTransferClassRef."
+        )
 
 
 class TestDiagnosticParameterIdentifier:
@@ -8261,7 +8271,9 @@ class TestDiagnosticParameterIdentifier:
         assert inspect.cleandoc(DiagnosticParameterIdentifier.getPidSize.__doc__) == self.PID_SIZE_NOTE
         assert inspect.cleandoc(DiagnosticParameterIdentifier.setPidSize.__doc__) == (self.PID_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pidSize.")
         assert inspect.cleandoc(DiagnosticParameterIdentifier.getSupportInfoByte.__doc__) == self.SUPPORT_INFO_BYTE_NOTE
-        assert inspect.cleandoc(DiagnosticParameterIdentifier.setSupportInfoByte.__doc__) == (self.SUPPORT_INFO_BYTE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing supportInfoByte.")
+        assert inspect.cleandoc(DiagnosticParameterIdentifier.setSupportInfoByte.__doc__) == (
+            self.SUPPORT_INFO_BYTE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing supportInfoByte."
+        )
 
 
 class TestDiagnosticRequestCurrentPowertrainData:
@@ -8363,7 +8375,9 @@ class TestDiagnosticRequestCurrentPowertrainData:
         assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.getPidRef.__doc__) == self.PID_NOTE
         assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.setPidRef.__doc__) == (self.PID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing pidRef.")
         assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.getRequestCurrentPowertrainDiagnosticDataClassRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.setRequestCurrentPowertrainDiagnosticDataClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestCurrentPowertrainDiagnosticDataClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestCurrentPowertrainData.setRequestCurrentPowertrainDiagnosticDataClassRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestCurrentPowertrainDiagnosticDataClassRef."
+        )
 
 
 class TestDiagnosticRequestPowertrainFreezeFrameData:
@@ -8463,9 +8477,13 @@ class TestDiagnosticRequestPowertrainFreezeFrameData:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.getFreezeFrameRef.__doc__) == self.FREEZE_FRAME_NOTE
-        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setFreezeFrameRef.__doc__) == (self.FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing freezeFrameRef.")
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setFreezeFrameRef.__doc__) == (
+            self.FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing freezeFrameRef."
+        )
         assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.getRequestPowertrainFreezeFrameDataRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setRequestPowertrainFreezeFrameDataRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestPowertrainFreezeFrameDataRef.")
+        assert inspect.cleandoc(DiagnosticRequestPowertrainFreezeFrameData.setRequestPowertrainFreezeFrameDataRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestPowertrainFreezeFrameDataRef."
+        )
 
 
 class TestDiagnosticPowertrainFreezeFrame:
@@ -8623,7 +8641,9 @@ class TestDiagnosticRequestEmissionRelatedDTC:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.getRequestEmissionRelatedDtcClassRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.setRequestEmissionRelatedDtcClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTC.setRequestEmissionRelatedDtcClassRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassRef."
+        )
 
 
 class TestDiagnosticClearResetEmissionRelatedInfo:
@@ -8702,7 +8722,9 @@ class TestDiagnosticClearResetEmissionRelatedInfo:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfo.getClearResetEmissionRelatedDiagnosticInfoClassRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfo.setClearResetEmissionRelatedDiagnosticInfoClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearResetEmissionRelatedDiagnosticInfoClassRef.")
+        assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfo.setClearResetEmissionRelatedDiagnosticInfoClassRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearResetEmissionRelatedDiagnosticInfoClassRef."
+        )
 
 
 class TestDiagnosticRequestOnBoardMonitoringTestResults:
@@ -8802,9 +8824,13 @@ class TestDiagnosticRequestOnBoardMonitoringTestResults:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.getDiagnosticTestResultRefs.__doc__) == self.TEST_RESULT_NOTE
-        assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.addDiagnosticTestResultRef.__doc__) == (self.TEST_RESULT_NOTE + "\n\nA None value is a no-op and does not append a diagnosticTestResultRef.")
+        assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.addDiagnosticTestResultRef.__doc__) == (
+            self.TEST_RESULT_NOTE + "\n\nA None value is a no-op and does not append a diagnosticTestResultRef."
+        )
         assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.getRequestOnBoardMonitoringTestResultsClassRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.setRequestOnBoardMonitoringTestResultsClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestOnBoardMonitoringTestResultsClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.setRequestOnBoardMonitoringTestResultsClassRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestOnBoardMonitoringTestResultsClassRef."
+        )
 
 
 class TestDiagnosticRequestControlOfOnBoardDevice:
@@ -8904,7 +8930,9 @@ class TestDiagnosticRequestControlOfOnBoardDevice:
         Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
         """
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.getRequestControlOfOnBoardDeviceClassRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setRequestControlOfOnBoardDeviceClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestControlOfOnBoardDeviceClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setRequestControlOfOnBoardDeviceClassRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestControlOfOnBoardDeviceClassRef."
+        )
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.getTestIdRef.__doc__) == self.TEST_ID_NOTE
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setTestIdRef.__doc__) == (self.TEST_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing testIdRef.")
 
@@ -9023,9 +9051,13 @@ class TestDiagnosticTestRoutineIdentifier:
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getId.__doc__) == self.ID_NOTE
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getRequestDataSize.__doc__) == self.REQUEST_DATA_SIZE_NOTE
-        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setRequestDataSize.__doc__) == (self.REQUEST_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDataSize.")
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setRequestDataSize.__doc__) == (
+            self.REQUEST_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDataSize."
+        )
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getResponseDataSize.__doc__) == self.RESPONSE_DATA_SIZE_NOTE
-        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setResponseDataSize.__doc__) == (self.RESPONSE_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseDataSize.")
+        assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setResponseDataSize.__doc__) == (
+            self.RESPONSE_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseDataSize."
+        )
 
 
 class TestDiagnosticRequestVehicleInfo:
@@ -9127,7 +9159,9 @@ class TestDiagnosticRequestVehicleInfo:
         assert inspect.cleandoc(DiagnosticRequestVehicleInfo.getInfoTypeRef.__doc__) == self.INFO_TYPE_NOTE
         assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setInfoTypeRef.__doc__) == (self.INFO_TYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing infoTypeRef.")
         assert inspect.cleandoc(DiagnosticRequestVehicleInfo.getRequestVehicleInformationClassRef.__doc__) == self.CLASS_REF_NOTE
-        assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setRequestVehicleInformationClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestVehicleInformationClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setRequestVehicleInformationClassRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestVehicleInformationClassRef."
+        )
 
 
 class TestDiagnosticInfoType:

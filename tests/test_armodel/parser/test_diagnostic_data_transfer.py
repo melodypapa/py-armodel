@@ -31,8 +31,7 @@ class TestReadDiagnosticDataTransfer:
     def test_read_sets_all_fields(self, parser):
         data_transfer = DiagnosticDataTransfer(AUTOSAR.getInstance(), "DataTransfer1")
         element = _snip(
-            "<SHORT-NAME>DataTransfer1</SHORT-NAME>"
-            "<DATA-TRANSFER-CLASS-REF DEST='DIAGNOSTIC-DATA-TRANSFER-CLASS'>/AUTOSAR/DiagnosticDataTransferClasses/Class1</DATA-TRANSFER-CLASS-REF>"
+            "<SHORT-NAME>DataTransfer1</SHORT-NAME>" "<DATA-TRANSFER-CLASS-REF DEST='DIAGNOSTIC-DATA-TRANSFER-CLASS'>/AUTOSAR/DiagnosticDataTransferClasses/Class1</DATA-TRANSFER-CLASS-REF>"
         )
         parser.readDiagnosticDataTransfer(element, data_transfer)
         assert data_transfer.getShortName() == "DataTransfer1"

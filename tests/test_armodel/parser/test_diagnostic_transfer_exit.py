@@ -31,8 +31,7 @@ class TestReadDiagnosticTransferExit:
     def test_read_sets_all_fields(self, parser):
         transfer_exit = DiagnosticTransferExit(AUTOSAR.getInstance(), "TransferExit1")
         element = _snip(
-            "<SHORT-NAME>TransferExit1</SHORT-NAME>"
-            "<TRANSFER-EXIT-CLASS-REF DEST='DIAGNOSTIC-TRANSFER-EXIT-CLASS'>/AUTOSAR/DiagnosticTransferExitClasses/Class1</TRANSFER-EXIT-CLASS-REF>"
+            "<SHORT-NAME>TransferExit1</SHORT-NAME>" "<TRANSFER-EXIT-CLASS-REF DEST='DIAGNOSTIC-TRANSFER-EXIT-CLASS'>/AUTOSAR/DiagnosticTransferExitClasses/Class1</TRANSFER-EXIT-CLASS-REF>"
         )
         parser.readDiagnosticTransferExit(element, transfer_exit)
         assert transfer_exit.getShortName() == "TransferExit1"
