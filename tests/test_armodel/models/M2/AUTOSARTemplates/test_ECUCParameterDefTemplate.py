@@ -103,8 +103,39 @@ class TestEcucSymbolicNameReferenceDef:
 
 
 class TestEcucChoiceReferenceDef:
+    CLASS_NOTE = "Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used."
+
     def test_instantiation(self):
         assert _instantiate(EcucChoiceReferenceDef, "EcucChoiceReferenceDef").getShortName() == "EcucChoiceReferenceDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucChoiceReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucChoiceReferenceDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucChoiceReferenceDef, "Crd")
+        assert obj.getDestinationRefs() == []
+        assert obj.getRequiresSymbolicNameValue() is None
+
+    def test_add_destination_ref_appends_and_none_noop(self):
+        obj = _instantiate(EcucChoiceReferenceDef, "Crd")
+        ref1 = RefType()
+        ref1.setValue("/Pkg/C1")
+        ref2 = RefType()
+        ref2.setValue("/Pkg/C2")
+        assert obj.addDestinationRef(ref1) is obj
+        obj.addDestinationRef(ref2)
+        assert obj.getDestinationRefs() == [ref1, ref2]
+        obj.addDestinationRef(None)
+        assert obj.getDestinationRefs() == [ref1, ref2]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucChoiceReferenceDef, "Crd")
+        note = "All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef"
+        assert inspect.cleandoc(obj.getDestinationRefs.__doc__) == note
+        assert inspect.cleandoc(obj.addDestinationRef.__doc__).splitlines()[0] == note
 
 
 class TestEcucReferenceDef:

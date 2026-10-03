@@ -7,6 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucBooleanParamDef,
+    EcucChoiceReferenceDef,
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
     EcucEnumerationLiteralDef,
@@ -896,6 +897,36 @@ class TestWriterEcucChoiceReferenceDef:
         parent = _parent()
         writer.writeEcucChoiceReferenceDef(parent, ref)
         assert parent[0].find("DESTINATION-REFS") is None
+
+    def test_round_trip_destination_refs(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        ref = container.createEcucChoiceReferenceDef("C")
+        ref.addDestinationRef(_ref("/dst1", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        ref.addDestinationRef(_ref("/dst2", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("C", EcucChoiceReferenceDef)
+            assert reloaded_ref is not None
+            reloaded_refs = reloaded_ref.getDestinationRefs()
+            assert len(reloaded_refs) == 2
+            assert reloaded_refs[0].getValue() == "/dst1"
+            assert reloaded_refs[0].getDest() == "ECUC-PARAM-CONF-CONTAINER-DEF"
+            assert reloaded_refs[1].getValue() == "/dst2"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucInstanceReferenceDef:

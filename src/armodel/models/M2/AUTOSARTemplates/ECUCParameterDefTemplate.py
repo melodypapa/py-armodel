@@ -1083,33 +1083,30 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
-    """
-    Specify alternative references where in the ECU Configuration description
-    only one of the specified references will actually be used.
-    """
+    """Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used."""
 
     # EcucChoiceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.30, p.74
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # All the possible parameter containers for the reference are specified.
+        # All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         self.destinationRefs: List[RefType] = []
 
     def getDestinationRefs(self) -> List[RefType]:
         """
-        All the possible parameter containers for the reference are specified.
+        All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         """
         return self.destinationRefs
 
     def addDestinationRef(self, value: RefType) -> EcucChoiceReferenceDef:
         """
-        All the possible parameter containers for the reference are specified.
+        All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         A None value is a no-op and does not overwrite an existing destinationRefs.
         """
         if value is not None:
