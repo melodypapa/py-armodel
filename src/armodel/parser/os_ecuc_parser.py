@@ -108,10 +108,13 @@ class OsEcucParser(EcucParser):
 
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name == "OsAlarmCounterRef":
                 alarm.setOsAlarmCounterRef(self.check_reference_path(name, path, index))
             elif name == "OsAlarmAccessingApplication":
@@ -134,10 +137,13 @@ class OsEcucParser(EcucParser):
                     self.logger.debug("Ignore non-standard OsAlarmAutostart parameter %s" % name)
             for reference in self.get_reference_values(autostart):
                 name = self.get_definition_name(reference.getDefinitionRef())
-                value_ref = reference.getValueRef()
-                if value_ref is None or value_ref.getValue() is None:
+                value_ref = self.get_reference_value_ref(reference)
+                if value_ref is None:
                     continue
-                path = value_ref.getValue().strip()
+                path = value_ref.getValue()
+                if path is None:
+                    continue
+                path = path.strip()
                 if name == "OsAlarmAppModeRef":
                     alarm.setOsAlarmAppModeRef(self.check_reference_path(name, path, index))
                 else:
@@ -149,10 +155,13 @@ class OsEcucParser(EcucParser):
         for action in action_containers:
             for reference in self.get_reference_values(action):
                 name = self.get_definition_name(reference.getDefinitionRef())
-                value_ref = reference.getValueRef()
-                if value_ref is None or value_ref.getValue() is None:
+                value_ref = self.get_reference_value_ref(reference)
+                if value_ref is None:
                     continue
-                path = value_ref.getValue().strip()
+                path = value_ref.getValue()
+                if path is None:
+                    continue
+                path = path.strip()
                 if name == "OsAlarmActivateTaskRef":
                     alarm.setOsAlarmActivateTaskRef(self.check_reference_path(name, path, index))
                 elif name == "OsAlarmSetEventTaskRef":
@@ -188,10 +197,13 @@ class OsEcucParser(EcucParser):
 
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name == "OsIsrResourceRef":
                 isr.setOsIsrResourceRef(self.check_reference_path(name, path, index))
             elif name == "OsIsrInterruptSource":
@@ -223,15 +235,20 @@ class OsEcucParser(EcucParser):
                     name = self.get_definition_name(parameter.getDefinitionRef())
                     raw = self.get_raw_value(parameter)
                     if name == "OsIsrResourceLockBudget":
-                        isr.addOsIsrResourceLockBudget(self.get_float(name, raw))
+                        budget = self.get_float(name, raw)
+                        if budget is not None:
+                            isr.addOsIsrResourceLockBudget(budget)
                     else:
                         self.logger.debug("Ignore non-standard OsIsrResourceLock parameter %s" % name)
                 for reference in self.get_reference_values(resource_lock):
                     name = self.get_definition_name(reference.getDefinitionRef())
-                    value_ref = reference.getValueRef()
-                    if value_ref is None or value_ref.getValue() is None:
+                    value_ref = self.get_reference_value_ref(reference)
+                    if value_ref is None:
                         continue
-                    path = value_ref.getValue().strip()
+                    path = value_ref.getValue()
+                    if path is None:
+                        continue
+                    path = path.strip()
                     if name == "OsIsrResourceLockResourceRef":
                         isr.addOsIsrResourceLockResourceRef(self.check_reference_path(name, path, index))
                     else:
@@ -250,10 +267,13 @@ class OsEcucParser(EcucParser):
 
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name == "OsScheduleTableCounterRef":
                 schedule_table.setOsScheduleTableCounterRef(self.check_reference_path(name, path, index))
             elif name == "OsScheduleTableAccessingApplication":
@@ -274,10 +294,13 @@ class OsEcucParser(EcucParser):
                     self.logger.debug("Ignore non-standard OsScheduleTableAutostart parameter %s" % name)
             for reference in self.get_reference_values(autostart):
                 name = self.get_definition_name(reference.getDefinitionRef())
-                value_ref = reference.getValueRef()
-                if value_ref is None or value_ref.getValue() is None:
+                value_ref = self.get_reference_value_ref(reference)
+                if value_ref is None:
                     continue
-                path = value_ref.getValue().strip()
+                path = value_ref.getValue()
+                if path is None:
+                    continue
+                path = path.strip()
                 if name == "OsScheduleTableAppModeRef":
                     schedule_table.setOsScheduleTableAppModeRef(self.check_reference_path(name, path, index))
                 else:
@@ -311,10 +334,13 @@ class OsEcucParser(EcucParser):
             for task_activation in expiry_sub_containers.get("OsScheduleTableTaskActivation", []):
                 for reference in self.get_reference_values(task_activation):
                     name = self.get_definition_name(reference.getDefinitionRef())
-                    value_ref = reference.getValueRef()
-                    if value_ref is None or value_ref.getValue() is None:
+                    value_ref = self.get_reference_value_ref(reference)
+                    if value_ref is None:
                         continue
-                    path = value_ref.getValue().strip()
+                    path = value_ref.getValue()
+                    if path is None:
+                        continue
+                    path = path.strip()
                     if name == "OsScheduleTableActivateTaskRef":
                         expiry_point.setOsScheduleTableActivateTaskRef(self.check_reference_path(name, path, index))
                     else:
@@ -322,10 +348,13 @@ class OsEcucParser(EcucParser):
             for event_setting in expiry_sub_containers.get("OsScheduleTableEventSetting", []):
                 for reference in self.get_reference_values(event_setting):
                     name = self.get_definition_name(reference.getDefinitionRef())
-                    value_ref = reference.getValueRef()
-                    if value_ref is None or value_ref.getValue() is None:
+                    value_ref = self.get_reference_value_ref(reference)
+                    if value_ref is None:
                         continue
-                    path = value_ref.getValue().strip()
+                    path = value_ref.getValue()
+                    if path is None:
+                        continue
+                    path = path.strip()
                     if name == "OsScheduleTableSetEventTaskRef":
                         expiry_point.setOsScheduleTableSetEventTaskRef(self.check_reference_path(name, path, index))
                     elif name == "OsScheduleTableSetEventRef":
@@ -459,10 +488,13 @@ class OsEcucParser(EcucParser):
 
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name == "OsTaskAccessingApplication":
                 continue
             elif name == "OsTaskEventRef":
@@ -478,10 +510,13 @@ class OsEcucParser(EcucParser):
         for autostart in sub_containers.get("OsTaskAutostart", []):
             for reference in self.get_reference_values(autostart):
                 name = self.get_definition_name(reference.getDefinitionRef())
-                value_ref = reference.getValueRef()
-                if value_ref is None or value_ref.getValue() is None:
+                value_ref = self.get_reference_value_ref(reference)
+                if value_ref is None:
                     continue
-                path = value_ref.getValue().strip()
+                path = value_ref.getValue()
+                if path is None:
+                    continue
+                path = path.strip()
                 if name == "OsTaskAppModeRef":
                     task.addOsTaskAppModeRef(self.check_reference_path(name, path, index))
                 else:
@@ -506,15 +541,20 @@ class OsEcucParser(EcucParser):
                     name = self.get_definition_name(parameter.getDefinitionRef())
                     raw = self.get_raw_value(parameter)
                     if name == "OsTaskResourceLockBudget":
-                        task.addOsTaskResourceLockBudget(self.get_float(name, raw))
+                        budget = self.get_float(name, raw)
+                        if budget is not None:
+                            task.addOsTaskResourceLockBudget(budget)
                     else:
                         self.logger.debug("Ignore non-standard OsTaskResourceLock parameter %s" % name)
                 for reference in self.get_reference_values(resource_lock):
                     name = self.get_definition_name(reference.getDefinitionRef())
-                    value_ref = reference.getValueRef()
-                    if value_ref is None or value_ref.getValue() is None:
+                    value_ref = self.get_reference_value_ref(reference)
+                    if value_ref is None:
                         continue
-                    path = value_ref.getValue().strip()
+                    path = value_ref.getValue()
+                    if path is None:
+                        continue
+                    path = path.strip()
                     if name == "OsTaskResourceLockResourceRef":
                         task.addOsTaskResourceLockResourceRef(self.check_reference_path(name, path, index))
                     else:
@@ -535,10 +575,13 @@ class OsEcucParser(EcucParser):
 
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name in ("OsAppTaskRef", "OsRestartTask", "OsTaskAccessingApplication"):
                 continue
             elif name == "OsAppAlarmRef":
@@ -583,10 +626,13 @@ class OsEcucParser(EcucParser):
     def get_resolve_task_objects(self, task: OsTask, container: Container, applications: Dict[str, OsApplication], index: Dict[str, Container], warning: bool) -> None:
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name == "OsTaskAccessingApplication":
                 application = self.get_lookup_application(name, path, applications, index, warning)
                 if application is not None:
@@ -595,10 +641,13 @@ class OsEcucParser(EcucParser):
     def get_resolve_application_objects(self, application: OsApplication, container: Container, tasks: Dict[str, OsTask], index: Dict[str, Container], warning: bool) -> None:
         for reference in self.get_reference_values(container):
             name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is None or value_ref.getValue() is None:
+            value_ref = self.get_reference_value_ref(reference)
+            if value_ref is None:
                 continue
-            path = value_ref.getValue().strip()
+            path = value_ref.getValue()
+            if path is None:
+                continue
+            path = path.strip()
             if name == "OsAppTaskRef":
                 task = self.get_lookup_task(name, path, tasks, index, warning)
                 if task is not None:

@@ -7,7 +7,7 @@ components, interfaces, data types, and other packages.
 """
 
 from __future__ import annotations
-from typing import List, Optional
+from typing import List, Optional, cast
 from typing import TYPE_CHECKING
 
 from abc import ABC
@@ -653,7 +653,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             for ar_package in self.arPackages:
                 if ar_package.short_name == short_name:
                     return ar_package
-        return Identifiable.getReferrableElement(self, short_name, type)
+        return cast(Referrable, Identifiable.getReferrableElement(self, short_name, type))
 
     def createDiagnosticClearDiagnosticInformation(self, short_name: str) -> DiagnosticClearDiagnosticInformation:
         """
@@ -672,7 +672,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticClearDiagnosticInformation):
             clear_diagnostic_information = DiagnosticClearDiagnosticInformation(self, short_name)
             self.addReferrableElement(clear_diagnostic_information)
-        return self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformation)
+        return cast(DiagnosticClearDiagnosticInformation, self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformation))
 
     def createDiagnosticClearDiagnosticInformationClass(self, short_name: str) -> DiagnosticClearDiagnosticInformationClass:
         """
@@ -691,7 +691,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticClearDiagnosticInformationClass):
             clear_diagnostic_information_class = DiagnosticClearDiagnosticInformationClass(self, short_name)
             self.addReferrableElement(clear_diagnostic_information_class)
-        return self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformationClass)
+        return cast(DiagnosticClearDiagnosticInformationClass, self.getReferrableElement(short_name, DiagnosticClearDiagnosticInformationClass))
 
     def createDiagnosticClearResetEmissionRelatedInfo(self, short_name: str) -> DiagnosticClearResetEmissionRelatedInfo:
         """
@@ -709,7 +709,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticClearResetEmissionRelatedInfo):
             clear_reset_emission_related_info = DiagnosticClearResetEmissionRelatedInfo(self, short_name)
             self.addReferrableElement(clear_reset_emission_related_info)
-        return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfo)
+        return cast(DiagnosticClearResetEmissionRelatedInfo, self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfo))
 
     def createDiagnosticClearResetEmissionRelatedInfoClass(self, short_name: str) -> DiagnosticClearResetEmissionRelatedInfoClass:
         """
@@ -728,7 +728,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticClearResetEmissionRelatedInfoClass):
             clear_reset_emission_related_info_class = DiagnosticClearResetEmissionRelatedInfoClass(self, short_name)
             self.addReferrableElement(clear_reset_emission_related_info_class)
-        return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfoClass)
+        return cast(DiagnosticClearResetEmissionRelatedInfoClass, self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfoClass))
 
     def createDiagnosticRequestControlOfOnBoardDevice(self, short_name: str) -> DiagnosticRequestControlOfOnBoardDevice:
         """
@@ -746,7 +746,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestControlOfOnBoardDevice):
             request_control_of_on_board_device = DiagnosticRequestControlOfOnBoardDevice(self, short_name)
             self.addReferrableElement(request_control_of_on_board_device)
-        return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDevice)
+        return cast(DiagnosticRequestControlOfOnBoardDevice, self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDevice))
 
     def createDiagnosticRequestControlOfOnBoardDeviceClass(self, short_name: str) -> DiagnosticRequestControlOfOnBoardDeviceClass:
         """
@@ -765,7 +765,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestControlOfOnBoardDeviceClass):
             request_control_of_on_board_device_class = DiagnosticRequestControlOfOnBoardDeviceClass(self, short_name)
             self.addReferrableElement(request_control_of_on_board_device_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass)
+        return cast(DiagnosticRequestControlOfOnBoardDeviceClass, self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass))
 
     def createDiagnosticTestRoutineIdentifier(self, short_name: str) -> DiagnosticTestRoutineIdentifier:
         """
@@ -783,7 +783,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticTestRoutineIdentifier):
             test_routine_identifier = DiagnosticTestRoutineIdentifier(self, short_name)
             self.addReferrableElement(test_routine_identifier)
-        return self.getReferrableElement(short_name, DiagnosticTestRoutineIdentifier)
+        return cast(DiagnosticTestRoutineIdentifier, self.getReferrableElement(short_name, DiagnosticTestRoutineIdentifier))
 
     def createDiagnosticInfoType(self, short_name: str) -> DiagnosticInfoType:
         """
@@ -801,7 +801,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticInfoType):
             info_type = DiagnosticInfoType(self, short_name)
             self.addReferrableElement(info_type)
-        return self.getReferrableElement(short_name, DiagnosticInfoType)
+        return cast(DiagnosticInfoType, self.getReferrableElement(short_name, DiagnosticInfoType))
 
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
@@ -820,7 +820,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticComControlClass):
             com_control_class = DiagnosticComControlClass(self, short_name)
             self.addReferrableElement(com_control_class)
-        return self.getReferrableElement(short_name, DiagnosticComControlClass)
+        return cast(DiagnosticComControlClass, self.getReferrableElement(short_name, DiagnosticComControlClass))
 
     def createDiagnosticControlDTCSetting(self, short_name: str) -> DiagnosticControlDTCSetting:
         """
@@ -838,7 +838,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticControlDTCSetting):
             control_dtc_setting = DiagnosticControlDTCSetting(self, short_name)
             self.addReferrableElement(control_dtc_setting)
-        return self.getReferrableElement(short_name, DiagnosticControlDTCSetting)
+        return cast(DiagnosticControlDTCSetting, self.getReferrableElement(short_name, DiagnosticControlDTCSetting))
 
     def createDiagnosticControlDTCSettingClass(self, short_name: str) -> DiagnosticControlDTCSettingClass:
         """
@@ -857,7 +857,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticControlDTCSettingClass):
             control_dtc_setting_class = DiagnosticControlDTCSettingClass(self, short_name)
             self.addReferrableElement(control_dtc_setting_class)
-        return self.getReferrableElement(short_name, DiagnosticControlDTCSettingClass)
+        return cast(DiagnosticControlDTCSettingClass, self.getReferrableElement(short_name, DiagnosticControlDTCSettingClass))
 
     def createDiagnosticDynamicallyDefineDataIdentifier(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
@@ -876,7 +876,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifier):
             dddi = DiagnosticDynamicallyDefineDataIdentifier(self, short_name)
             self.addReferrableElement(dddi)
-        return self.getReferrableElement(short_name, DiagnosticDynamicallyDefineDataIdentifier)
+        return cast(DiagnosticDynamicallyDefineDataIdentifier, self.getReferrableElement(short_name, DiagnosticDynamicallyDefineDataIdentifier))
 
     def createDiagnosticDynamicallyDefineDataIdentifierClass(self, short_name: str) -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
@@ -895,7 +895,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDynamicallyDefineDataIdentifierClass):
             dddi_class = DiagnosticDynamicallyDefineDataIdentifierClass(self, short_name)
             self.addReferrableElement(dddi_class)
-        return self.getReferrableElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass)
+        return cast(DiagnosticDynamicallyDefineDataIdentifierClass, self.getReferrableElement(short_name, DiagnosticDynamicallyDefineDataIdentifierClass))
 
     def createDiagnosticIOControl(self, short_name: str) -> DiagnosticIOControl:
         """
@@ -914,7 +914,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticIOControl):
             io_control = DiagnosticIOControl(self, short_name)
             self.addReferrableElement(io_control)
-        return self.getReferrableElement(short_name, DiagnosticIOControl)
+        return cast(DiagnosticIOControl, self.getReferrableElement(short_name, DiagnosticIOControl))
 
     def createDiagnosticIoControlClass(self, short_name: str) -> DiagnosticIoControlClass:
         """
@@ -933,7 +933,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticIoControlClass):
             io_control_class = DiagnosticIoControlClass(self, short_name)
             self.addReferrableElement(io_control_class)
-        return self.getReferrableElement(short_name, DiagnosticIoControlClass)
+        return cast(DiagnosticIoControlClass, self.getReferrableElement(short_name, DiagnosticIoControlClass))
 
     def createDiagnosticReadDTCInformation(self, short_name: str) -> DiagnosticReadDTCInformation:
         """
@@ -952,7 +952,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadDTCInformation):
             read_dtc_information = DiagnosticReadDTCInformation(self, short_name)
             self.addReferrableElement(read_dtc_information)
-        return self.getReferrableElement(short_name, DiagnosticReadDTCInformation)
+        return cast(DiagnosticReadDTCInformation, self.getReferrableElement(short_name, DiagnosticReadDTCInformation))
 
     def createDiagnosticReadDTCInformationClass(self, short_name: str) -> DiagnosticReadDTCInformationClass:
         """
@@ -971,7 +971,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadDTCInformationClass):
             read_dtc_information_class = DiagnosticReadDTCInformationClass(self, short_name)
             self.addReferrableElement(read_dtc_information_class)
-        return self.getReferrableElement(short_name, DiagnosticReadDTCInformationClass)
+        return cast(DiagnosticReadDTCInformationClass, self.getReferrableElement(short_name, DiagnosticReadDTCInformationClass))
 
     def createDiagnosticReadDataByIdentifier(self, short_name: str) -> DiagnosticReadDataByIdentifier:
         """
@@ -989,7 +989,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByIdentifier):
             read_data_by_identifier = DiagnosticReadDataByIdentifier(self, short_name)
             self.addReferrableElement(read_data_by_identifier)
-        return self.getReferrableElement(short_name, DiagnosticReadDataByIdentifier)
+        return cast(DiagnosticReadDataByIdentifier, self.getReferrableElement(short_name, DiagnosticReadDataByIdentifier))
 
     def createDiagnosticReadDataByIdentifierClass(self, short_name: str) -> DiagnosticReadDataByIdentifierClass:
         """
@@ -1008,7 +1008,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByIdentifierClass):
             read_data_by_identifier_class = DiagnosticReadDataByIdentifierClass(self, short_name)
             self.addReferrableElement(read_data_by_identifier_class)
-        return self.getReferrableElement(short_name, DiagnosticReadDataByIdentifierClass)
+        return cast(DiagnosticReadDataByIdentifierClass, self.getReferrableElement(short_name, DiagnosticReadDataByIdentifierClass))
 
     def createDiagnosticReadDataByPeriodicID(self, short_name: str) -> DiagnosticReadDataByPeriodicID:
         """
@@ -1027,7 +1027,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByPeriodicID):
             read_data_by_periodic_id = DiagnosticReadDataByPeriodicID(self, short_name)
             self.addReferrableElement(read_data_by_periodic_id)
-        return self.getReferrableElement(short_name, DiagnosticReadDataByPeriodicID)
+        return cast(DiagnosticReadDataByPeriodicID, self.getReferrableElement(short_name, DiagnosticReadDataByPeriodicID))
 
     def createDiagnosticReadDataByPeriodicIDClass(self, short_name: str) -> DiagnosticReadDataByPeriodicIDClass:
         """
@@ -1046,7 +1046,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadDataByPeriodicIDClass):
             read_data_by_periodic_id_class = DiagnosticReadDataByPeriodicIDClass(self, short_name)
             self.addReferrableElement(read_data_by_periodic_id_class)
-        return self.getReferrableElement(short_name, DiagnosticReadDataByPeriodicIDClass)
+        return cast(DiagnosticReadDataByPeriodicIDClass, self.getReferrableElement(short_name, DiagnosticReadDataByPeriodicIDClass))
 
     def createDiagnosticReadScalingDataByIdentifier(self, short_name: str) -> DiagnosticReadScalingDataByIdentifier:
         """
@@ -1064,7 +1064,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadScalingDataByIdentifier):
             read_scaling_data_by_identifier = DiagnosticReadScalingDataByIdentifier(self, short_name)
             self.addReferrableElement(read_scaling_data_by_identifier)
-        return self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifier)
+        return cast(DiagnosticReadScalingDataByIdentifier, self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifier))
 
     def createDiagnosticReadScalingDataByIdentifierClass(self, short_name: str) -> DiagnosticReadScalingDataByIdentifierClass:
         """
@@ -1083,7 +1083,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadScalingDataByIdentifierClass):
             read_scaling_data_by_identifier_class = DiagnosticReadScalingDataByIdentifierClass(self, short_name)
             self.addReferrableElement(read_scaling_data_by_identifier_class)
-        return self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifierClass)
+        return cast(DiagnosticReadScalingDataByIdentifierClass, self.getReferrableElement(short_name, DiagnosticReadScalingDataByIdentifierClass))
 
     def createDiagnosticReadMemoryByAddress(self, short_name: str) -> DiagnosticReadMemoryByAddress:
         """
@@ -1101,7 +1101,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadMemoryByAddress):
             element = DiagnosticReadMemoryByAddress(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddress)
+        return cast(DiagnosticReadMemoryByAddress, self.getReferrableElement(short_name, DiagnosticReadMemoryByAddress))
 
     def createDiagnosticReadMemoryByAddressClass(self, short_name: str) -> DiagnosticReadMemoryByAddressClass:
         """
@@ -1120,7 +1120,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticReadMemoryByAddressClass):
             read_memory_by_address_class = DiagnosticReadMemoryByAddressClass(self, short_name)
             self.addReferrableElement(read_memory_by_address_class)
-        return self.getReferrableElement(short_name, DiagnosticReadMemoryByAddressClass)
+        return cast(DiagnosticReadMemoryByAddressClass, self.getReferrableElement(short_name, DiagnosticReadMemoryByAddressClass))
 
     def createDiagnosticTransferExit(self, short_name: str) -> DiagnosticTransferExit:
         """
@@ -1138,7 +1138,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticTransferExit):
             transfer_exit = DiagnosticTransferExit(self, short_name)
             self.addReferrableElement(transfer_exit)
-        return self.getReferrableElement(short_name, DiagnosticTransferExit)
+        return cast(DiagnosticTransferExit, self.getReferrableElement(short_name, DiagnosticTransferExit))
 
     def createDiagnosticTransferExitClass(self, short_name: str) -> DiagnosticTransferExitClass:
         """
@@ -1157,7 +1157,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticTransferExitClass):
             transfer_exit_class = DiagnosticTransferExitClass(self, short_name)
             self.addReferrableElement(transfer_exit_class)
-        return self.getReferrableElement(short_name, DiagnosticTransferExitClass)
+        return cast(DiagnosticTransferExitClass, self.getReferrableElement(short_name, DiagnosticTransferExitClass))
 
     def createDiagnosticDataTransfer(self, short_name: str) -> DiagnosticDataTransfer:
         """
@@ -1175,7 +1175,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDataTransfer):
             data_transfer = DiagnosticDataTransfer(self, short_name)
             self.addReferrableElement(data_transfer)
-        return self.getReferrableElement(short_name, DiagnosticDataTransfer)
+        return cast(DiagnosticDataTransfer, self.getReferrableElement(short_name, DiagnosticDataTransfer))
 
     def createDiagnosticDataTransferClass(self, short_name: str) -> DiagnosticDataTransferClass:
         """
@@ -1194,7 +1194,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDataTransferClass):
             data_transfer_class = DiagnosticDataTransferClass(self, short_name)
             self.addReferrableElement(data_transfer_class)
-        return self.getReferrableElement(short_name, DiagnosticDataTransferClass)
+        return cast(DiagnosticDataTransferClass, self.getReferrableElement(short_name, DiagnosticDataTransferClass))
 
     def createDiagnosticRequestDownload(self, short_name: str) -> DiagnosticRequestDownload:
         """
@@ -1212,7 +1212,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestDownload):
             request_download = DiagnosticRequestDownload(self, short_name)
             self.addReferrableElement(request_download)
-        return self.getReferrableElement(short_name, DiagnosticRequestDownload)
+        return cast(DiagnosticRequestDownload, self.getReferrableElement(short_name, DiagnosticRequestDownload))
 
     def createDiagnosticRequestDownloadClass(self, short_name: str) -> DiagnosticRequestDownloadClass:
         """
@@ -1231,7 +1231,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestDownloadClass):
             request_download_class = DiagnosticRequestDownloadClass(self, short_name)
             self.addReferrableElement(request_download_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestDownloadClass)
+        return cast(DiagnosticRequestDownloadClass, self.getReferrableElement(short_name, DiagnosticRequestDownloadClass))
 
     def createDiagnosticRequestEmissionRelatedDTC(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTC:
         """
@@ -1249,7 +1249,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTC):
             request_emission_related_dtc = DiagnosticRequestEmissionRelatedDTC(self, short_name)
             self.addReferrableElement(request_emission_related_dtc)
-        return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTC)
+        return cast(DiagnosticRequestEmissionRelatedDTC, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTC))
 
     def createDiagnosticRequestEmissionRelatedDTCClass(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCClass:
         """
@@ -1268,7 +1268,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCClass):
             request_emission_related_dtc_class = DiagnosticRequestEmissionRelatedDTCClass(self, short_name)
             self.addReferrableElement(request_emission_related_dtc_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCClass)
+        return cast(DiagnosticRequestEmissionRelatedDTCClass, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCClass))
 
     def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
         """
@@ -1286,7 +1286,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestUpload):
             request_upload = DiagnosticRequestUpload(self, short_name)
             self.addReferrableElement(request_upload)
-        return self.getReferrableElement(short_name, DiagnosticRequestUpload)
+        return cast(DiagnosticRequestUpload, self.getReferrableElement(short_name, DiagnosticRequestUpload))
 
     def createDiagnosticRequestUploadClass(self, short_name: str) -> DiagnosticRequestUploadClass:
         """
@@ -1305,7 +1305,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestUploadClass):
             request_upload_class = DiagnosticRequestUploadClass(self, short_name)
             self.addReferrableElement(request_upload_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestUploadClass)
+        return cast(DiagnosticRequestUploadClass, self.getReferrableElement(short_name, DiagnosticRequestUploadClass))
 
     def createDiagnosticRequestVehicleInfo(self, short_name: str) -> DiagnosticRequestVehicleInfo:
         """
@@ -1323,7 +1323,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestVehicleInfo):
             request_vehicle_info = DiagnosticRequestVehicleInfo(self, short_name)
             self.addReferrableElement(request_vehicle_info)
-        return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfo)
+        return cast(DiagnosticRequestVehicleInfo, self.getReferrableElement(short_name, DiagnosticRequestVehicleInfo))
 
     def createDiagnosticRequestVehicleInfoClass(self, short_name: str) -> DiagnosticRequestVehicleInfoClass:
         """
@@ -1342,7 +1342,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestVehicleInfoClass):
             request_vehicle_info_class = DiagnosticRequestVehicleInfoClass(self, short_name)
             self.addReferrableElement(request_vehicle_info_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfoClass)
+        return cast(DiagnosticRequestVehicleInfoClass, self.getReferrableElement(short_name, DiagnosticRequestVehicleInfoClass))
 
     def createDiagnosticRequestFileTransfer(self, short_name: str) -> DiagnosticRequestFileTransfer:
         """
@@ -1360,7 +1360,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransfer):
             request_file_transfer = DiagnosticRequestFileTransfer(self, short_name)
             self.addReferrableElement(request_file_transfer)
-        return self.getReferrableElement(short_name, DiagnosticRequestFileTransfer)
+        return cast(DiagnosticRequestFileTransfer, self.getReferrableElement(short_name, DiagnosticRequestFileTransfer))
 
     def createDiagnosticRequestFileTransferClass(self, short_name: str) -> DiagnosticRequestFileTransferClass:
         """
@@ -1379,7 +1379,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransferClass):
             request_file_transfer_class = DiagnosticRequestFileTransferClass(self, short_name)
             self.addReferrableElement(request_file_transfer_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestFileTransferClass)
+        return cast(DiagnosticRequestFileTransferClass, self.getReferrableElement(short_name, DiagnosticRequestFileTransferClass))
 
     def createDiagnosticParameterIdentifier(self, short_name: str) -> DiagnosticParameterIdentifier:
         """
@@ -1398,7 +1398,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticParameterIdentifier):
             parameter_identifier = DiagnosticParameterIdentifier(self, short_name)
             self.addReferrableElement(parameter_identifier)
-        return self.getReferrableElement(short_name, DiagnosticParameterIdentifier)
+        return cast(DiagnosticParameterIdentifier, self.getReferrableElement(short_name, DiagnosticParameterIdentifier))
 
     def createDiagnosticRequestCurrentPowertrainData(self, short_name: str) -> DiagnosticRequestCurrentPowertrainData:
         """
@@ -1416,7 +1416,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestCurrentPowertrainData):
             request_current_powertrain_data = DiagnosticRequestCurrentPowertrainData(self, short_name)
             self.addReferrableElement(request_current_powertrain_data)
-        return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainData)
+        return cast(DiagnosticRequestCurrentPowertrainData, self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainData))
 
     def createDiagnosticRequestCurrentPowertrainDataClass(self, short_name: str) -> DiagnosticRequestCurrentPowertrainDataClass:
         """
@@ -1435,7 +1435,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestCurrentPowertrainDataClass):
             request_current_powertrain_data_class = DiagnosticRequestCurrentPowertrainDataClass(self, short_name)
             self.addReferrableElement(request_current_powertrain_data_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainDataClass)
+        return cast(DiagnosticRequestCurrentPowertrainDataClass, self.getReferrableElement(short_name, DiagnosticRequestCurrentPowertrainDataClass))
 
     def createDiagnosticRequestOnBoardMonitoringTestResults(self, short_name: str) -> DiagnosticRequestOnBoardMonitoringTestResults:
         """
@@ -1453,7 +1453,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestOnBoardMonitoringTestResults):
             request_on_board_monitoring_test_results = DiagnosticRequestOnBoardMonitoringTestResults(self, short_name)
             self.addReferrableElement(request_on_board_monitoring_test_results)
-        return self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResults)
+        return cast(DiagnosticRequestOnBoardMonitoringTestResults, self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResults))
 
     def createDiagnosticRequestOnBoardMonitoringTestResultsClass(self, short_name: str) -> DiagnosticRequestOnBoardMonitoringTestResultsClass:
         """
@@ -1472,7 +1472,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestOnBoardMonitoringTestResultsClass):
             request_on_board_monitoring_test_results_class = DiagnosticRequestOnBoardMonitoringTestResultsClass(self, short_name)
             self.addReferrableElement(request_on_board_monitoring_test_results_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResultsClass)
+        return cast(DiagnosticRequestOnBoardMonitoringTestResultsClass, self.getReferrableElement(short_name, DiagnosticRequestOnBoardMonitoringTestResultsClass))
 
     def createDiagnosticRequestPowertrainFreezeFrameData(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameData:
         """
@@ -1490,7 +1490,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestPowertrainFreezeFrameData):
             request_powertrain_freeze_frame_data = DiagnosticRequestPowertrainFreezeFrameData(self, short_name)
             self.addReferrableElement(request_powertrain_freeze_frame_data)
-        return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameData)
+        return cast(DiagnosticRequestPowertrainFreezeFrameData, self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameData))
 
     def createDiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name: str) -> DiagnosticRequestPowertrainFreezeFrameDataClass:
         """
@@ -1509,7 +1509,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass):
             request_powertrain_freeze_frame_data_class = DiagnosticRequestPowertrainFreezeFrameDataClass(self, short_name)
             self.addReferrableElement(request_powertrain_freeze_frame_data_class)
-        return self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass)
+        return cast(DiagnosticRequestPowertrainFreezeFrameDataClass, self.getReferrableElement(short_name, DiagnosticRequestPowertrainFreezeFrameDataClass))
 
     def createDiagnosticPowertrainFreezeFrame(self, short_name: str) -> DiagnosticPowertrainFreezeFrame:
         """
@@ -1527,7 +1527,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticPowertrainFreezeFrame):
             powertrain_freeze_frame = DiagnosticPowertrainFreezeFrame(self, short_name)
             self.addReferrableElement(powertrain_freeze_frame)
-        return self.getReferrableElement(short_name, DiagnosticPowertrainFreezeFrame)
+        return cast(DiagnosticPowertrainFreezeFrame, self.getReferrableElement(short_name, DiagnosticPowertrainFreezeFrame))
 
     def createDiagnosticResponseOnEvent(self, short_name: str) -> DiagnosticResponseOnEvent:
         """
@@ -1546,7 +1546,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticResponseOnEvent):
             response_on_event = DiagnosticResponseOnEvent(self, short_name)
             self.addReferrableElement(response_on_event)
-        return self.getReferrableElement(short_name, DiagnosticResponseOnEvent)
+        return cast(DiagnosticResponseOnEvent, self.getReferrableElement(short_name, DiagnosticResponseOnEvent))
 
     def createDiagnosticResponseOnEventClass(self, short_name: str) -> DiagnosticResponseOnEventClass:
         """
@@ -1565,7 +1565,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticResponseOnEventClass):
             response_on_event_class = DiagnosticResponseOnEventClass(self, short_name)
             self.addReferrableElement(response_on_event_class)
-        return self.getReferrableElement(short_name, DiagnosticResponseOnEventClass)
+        return cast(DiagnosticResponseOnEventClass, self.getReferrableElement(short_name, DiagnosticResponseOnEventClass))
 
     def createDiagnosticRoutine(self, short_name: str) -> DiagnosticRoutine:
         """
@@ -1583,7 +1583,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRoutine):
             routine = DiagnosticRoutine(self, short_name)
             self.addReferrableElement(routine)
-        return self.getReferrableElement(short_name, DiagnosticRoutine)
+        return cast(DiagnosticRoutine, self.getReferrableElement(short_name, DiagnosticRoutine))
 
     def createDiagnosticRoutineControl(self, short_name: str) -> DiagnosticRoutineControl:
         """
@@ -1602,7 +1602,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRoutineControl):
             routine_control = DiagnosticRoutineControl(self, short_name)
             self.addReferrableElement(routine_control)
-        return self.getReferrableElement(short_name, DiagnosticRoutineControl)
+        return cast(DiagnosticRoutineControl, self.getReferrableElement(short_name, DiagnosticRoutineControl))
 
     def createDiagnosticRoutineControlClass(self, short_name: str) -> DiagnosticRoutineControlClass:
         """
@@ -1621,7 +1621,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticRoutineControlClass):
             routine_control_class = DiagnosticRoutineControlClass(self, short_name)
             self.addReferrableElement(routine_control_class)
-        return self.getReferrableElement(short_name, DiagnosticRoutineControlClass)
+        return cast(DiagnosticRoutineControlClass, self.getReferrableElement(short_name, DiagnosticRoutineControlClass))
 
     def createDiagnosticWriteDataByIdentifier(self, short_name: str) -> DiagnosticWriteDataByIdentifier:
         """
@@ -1639,7 +1639,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticWriteDataByIdentifier):
             write_data_by_identifier = DiagnosticWriteDataByIdentifier(self, short_name)
             self.addReferrableElement(write_data_by_identifier)
-        return self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifier)
+        return cast(DiagnosticWriteDataByIdentifier, self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifier))
 
     def createDiagnosticWriteDataByIdentifierClass(self, short_name: str) -> DiagnosticWriteDataByIdentifierClass:
         """
@@ -1658,7 +1658,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticWriteDataByIdentifierClass):
             write_data_by_identifier_class = DiagnosticWriteDataByIdentifierClass(self, short_name)
             self.addReferrableElement(write_data_by_identifier_class)
-        return self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifierClass)
+        return cast(DiagnosticWriteDataByIdentifierClass, self.getReferrableElement(short_name, DiagnosticWriteDataByIdentifierClass))
 
     def createDiagnosticWriteMemoryByAddress(self, short_name: str) -> DiagnosticWriteMemoryByAddress:
         """
@@ -1676,7 +1676,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticWriteMemoryByAddress):
             element = DiagnosticWriteMemoryByAddress(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddress)
+        return cast(DiagnosticWriteMemoryByAddress, self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddress))
 
     def createDiagnosticWriteMemoryByAddressClass(self, short_name: str) -> DiagnosticWriteMemoryByAddressClass:
         """
@@ -1695,14 +1695,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticWriteMemoryByAddressClass):
             write_memory_by_address_class = DiagnosticWriteMemoryByAddressClass(self, short_name)
             self.addReferrableElement(write_memory_by_address_class)
-        return self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddressClass)
+        return cast(DiagnosticWriteMemoryByAddressClass, self.getReferrableElement(short_name, DiagnosticWriteMemoryByAddressClass))
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, EcuAbstractionSwComponentType):
             sw_component = EcuAbstractionSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, EcuAbstractionSwComponentType)
+        return cast(EcuAbstractionSwComponentType, self.getReferrableElement(short_name, EcuAbstractionSwComponentType))
 
     def createApplicationSwComponentType(self, short_name: str) -> ApplicationSwComponentType:
         """
@@ -1723,49 +1723,49 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, ApplicationSwComponentType):
             sw_component = ApplicationSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, ApplicationSwComponentType)
+        return cast(ApplicationSwComponentType, self.getReferrableElement(short_name, ApplicationSwComponentType))
 
     def createComplexDeviceDriverSwComponentType(self, short_name: str) -> ComplexDeviceDriverSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, ComplexDeviceDriverSwComponentType):
             sw_component = ComplexDeviceDriverSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, ComplexDeviceDriverSwComponentType)
+        return cast(ComplexDeviceDriverSwComponentType, self.getReferrableElement(short_name, ComplexDeviceDriverSwComponentType))
 
     def createServiceSwComponentType(self, short_name: str) -> ServiceSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, ServiceSwComponentType):
             sw_component = ServiceSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, ServiceSwComponentType)
+        return cast(ServiceSwComponentType, self.getReferrableElement(short_name, ServiceSwComponentType))
 
     def createSensorActuatorSwComponentType(self, short_name: str) -> SensorActuatorSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, SensorActuatorSwComponentType):
             sw_component = SensorActuatorSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, SensorActuatorSwComponentType)
+        return cast(SensorActuatorSwComponentType, self.getReferrableElement(short_name, SensorActuatorSwComponentType))
 
     def createNvBlockSwComponentType(self, short_name: str) -> NvBlockSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, NvBlockSwComponentType):
             sw_component = NvBlockSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, NvBlockSwComponentType)
+        return cast(NvBlockSwComponentType, self.getReferrableElement(short_name, NvBlockSwComponentType))
 
     def createServiceProxySwComponentType(self, short_name: str) -> ServiceProxySwComponentType:
 
         if not self.IsReferrableElementExists(short_name, ServiceProxySwComponentType):
             sw_component = ServiceProxySwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, ServiceProxySwComponentType)
+        return cast(ServiceProxySwComponentType, self.getReferrableElement(short_name, ServiceProxySwComponentType))
 
     def createCompositionSwComponentType(self, short_name: str) -> CompositionSwComponentType:
 
         if not self.IsReferrableElementExists(short_name, CompositionSwComponentType):
             sw_component = CompositionSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
-        return self.getReferrableElement(short_name, CompositionSwComponentType)
+        return cast(CompositionSwComponentType, self.getReferrableElement(short_name, CompositionSwComponentType))
 
     def createSenderReceiverInterface(self, short_name: str) -> SenderReceiverInterface:
         """
@@ -1786,63 +1786,63 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, SenderReceiverInterface):
             sr_interface = SenderReceiverInterface(self, short_name)
             self.addReferrableElement(sr_interface)
-        return self.getReferrableElement(short_name, SenderReceiverInterface)
+        return cast(SenderReceiverInterface, self.getReferrableElement(short_name, SenderReceiverInterface))
 
     def createParameterInterface(self, short_name: str) -> ParameterInterface:
 
         if not self.IsReferrableElementExists(short_name, ParameterInterface):
             sr_interface = ParameterInterface(self, short_name)
             self.addReferrableElement(sr_interface)
-        return self.getReferrableElement(short_name, ParameterInterface)
+        return cast(ParameterInterface, self.getReferrableElement(short_name, ParameterInterface))
 
     def createNvDataInterface(self, short_name: str) -> NvDataInterface:
 
         if not self.IsReferrableElementExists(short_name, NvDataInterface):
             nv_interface = NvDataInterface(self, short_name)
             self.addReferrableElement(nv_interface)
-        return self.getReferrableElement(short_name, NvDataInterface)
+        return cast(NvDataInterface, self.getReferrableElement(short_name, NvDataInterface))
 
     def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
 
         if not self.IsReferrableElementExists(short_name, GenericEthernetFrame):
             frame = GenericEthernetFrame(self, short_name)
             self.addReferrableElement(frame)
-        return self.getReferrableElement(short_name, GenericEthernetFrame)
+        return cast(GenericEthernetFrame, self.getReferrableElement(short_name, GenericEthernetFrame))
 
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
 
         if not self.IsReferrableElementExists(short_name, LifeCycleInfoSet):
             set = LifeCycleInfoSet(self, short_name)
             self.addReferrableElement(set)
-        return self.getReferrableElement(short_name, LifeCycleInfoSet)
+        return cast(LifeCycleInfoSet, self.getReferrableElement(short_name, LifeCycleInfoSet))
 
     def createDocumentation(self, short_name: str) -> Documentation:
 
         if not self.IsReferrableElementExists(short_name, Documentation):
             documentation = Documentation(self, short_name)
             self.addReferrableElement(documentation)
-        return self.getReferrableElement(short_name, Documentation)
+        return cast(Documentation, self.getReferrableElement(short_name, Documentation))
 
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
 
         if not self.IsReferrableElementExists(short_name, ClientServerInterface):
             cs_interface = ClientServerInterface(self, short_name)
             self.addReferrableElement(cs_interface)
-        return self.getReferrableElement(short_name, ClientServerInterface)
+        return cast(ClientServerInterface, self.getReferrableElement(short_name, ClientServerInterface))
 
     def createApplicationPrimitiveDataType(self, short_name: str) -> ApplicationPrimitiveDataType:
 
         if not self.IsReferrableElementExists(short_name, ApplicationPrimitiveDataType):
             data_type = ApplicationPrimitiveDataType(self, short_name)
             self.addReferrableElement(data_type)
-        return self.getReferrableElement(short_name, ApplicationPrimitiveDataType)
+        return cast(ApplicationPrimitiveDataType, self.getReferrableElement(short_name, ApplicationPrimitiveDataType))
 
     def createApplicationRecordDataType(self, short_name: str) -> ApplicationRecordDataType:
 
         if not self.IsReferrableElementExists(short_name, ApplicationRecordDataType):
             data_type = ApplicationRecordDataType(self, short_name)
             self.addReferrableElement(data_type)
-        return self.getReferrableElement(short_name, ApplicationRecordDataType)
+        return cast(ApplicationRecordDataType, self.getReferrableElement(short_name, ApplicationRecordDataType))
 
     def createApplicationDeferredDataType(self, short_name: str) -> ApplicationDeferredDataType:
         """
@@ -1862,7 +1862,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, ApplicationDeferredDataType):
             data_type = ApplicationDeferredDataType(self, short_name)
             self.addReferrableElement(data_type)
-        return self.getReferrableElement(short_name, ApplicationDeferredDataType)
+        return cast(ApplicationDeferredDataType, self.getReferrableElement(short_name, ApplicationDeferredDataType))
 
     def createImplementationDataType(self, short_name: str) -> ImplementationDataType:
         """
@@ -1883,28 +1883,28 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, ImplementationDataType):
             data_type = ImplementationDataType(self, short_name)
             self.addReferrableElement(data_type)
-        return self.getReferrableElement(short_name, ImplementationDataType)
+        return cast(ImplementationDataType, self.getReferrableElement(short_name, ImplementationDataType))
 
     def createSwBaseType(self, short_name: str) -> SwBaseType:
 
         if not self.IsReferrableElementExists(short_name, SwBaseType):
             base_type = SwBaseType(self, short_name)
             self.addReferrableElement(base_type)
-        return self.getReferrableElement(short_name, SwBaseType)
+        return cast(SwBaseType, self.getReferrableElement(short_name, SwBaseType))
 
     def createDataTypeMappingSet(self, short_name: str) -> DataTypeMappingSet:
 
         if not self.IsReferrableElementExists(short_name, DataTypeMappingSet):
             mapping_set = DataTypeMappingSet(self, short_name)
             self.addReferrableElement(mapping_set)
-        return self.getReferrableElement(short_name, DataTypeMappingSet)
+        return cast(DataTypeMappingSet, self.getReferrableElement(short_name, DataTypeMappingSet))
 
     def createCompuMethod(self, short_name: str) -> CompuMethod:
 
         if not self.IsReferrableElementExists(short_name, CompuMethod):
             compu_method = CompuMethod(self, short_name)
             self.addReferrableElement(compu_method)
-        return self.getReferrableElement(short_name, CompuMethod)
+        return cast(CompuMethod, self.getReferrableElement(short_name, CompuMethod))
 
     def createBswModuleDescription(self, short_name: str) -> BswModuleDescription:
         """
@@ -1925,42 +1925,42 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, BswModuleDescription):
             desc = BswModuleDescription(self, short_name)
             self.addReferrableElement(desc)
-        return self.getReferrableElement(short_name, BswModuleDescription)
+        return cast(BswModuleDescription, self.getReferrableElement(short_name, BswModuleDescription))
 
     def createBswModuleEntry(self, short_name: str) -> BswModuleEntry:
 
         if not self.IsReferrableElementExists(short_name, BswModuleEntry):
             entry = BswModuleEntry(self, short_name)
             self.addReferrableElement(entry)
-        return self.getReferrableElement(short_name, BswModuleEntry)
+        return cast(BswModuleEntry, self.getReferrableElement(short_name, BswModuleEntry))
 
     def createBswImplementation(self, short_name: str) -> BswImplementation:
 
         if not self.IsReferrableElementExists(short_name, BswImplementation):
             impl = BswImplementation(self, short_name)
             self.addReferrableElement(impl)
-        return self.getReferrableElement(short_name, BswImplementation)
+        return cast(BswImplementation, self.getReferrableElement(short_name, BswImplementation))
 
     def createSwcImplementation(self, short_name: str) -> SwcImplementation:
 
         if not self.IsReferrableElementExists(short_name, SwcImplementation):
             impl = SwcImplementation(self, short_name)
             self.addReferrableElement(impl)
-        return self.getReferrableElement(short_name, SwcImplementation)
+        return cast(SwcImplementation, self.getReferrableElement(short_name, SwcImplementation))
 
     def createSwcBswMapping(self, short_name: str) -> SwcBswMapping:
 
         if not self.IsReferrableElementExists(short_name, SwcBswMapping):
             mapping = SwcBswMapping(self, short_name)
             self.addReferrableElement(mapping)
-        return self.getReferrableElement(short_name, SwcBswMapping)
+        return cast(SwcBswMapping, self.getReferrableElement(short_name, SwcBswMapping))
 
     def createBswEntryRelationshipSet(self, short_name: str) -> BswEntryRelationshipSet:
 
         if not self.IsReferrableElementExists(short_name, BswEntryRelationshipSet):
             entry_set = BswEntryRelationshipSet(self, short_name)
             self.addReferrableElement(entry_set)
-        return self.getReferrableElement(short_name, BswEntryRelationshipSet)
+        return cast(BswEntryRelationshipSet, self.getReferrableElement(short_name, BswEntryRelationshipSet))
 
     def createFirewallRule(self, short_name: str) -> FirewallRule:
         """
@@ -1977,7 +1977,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, FirewallRule):
             rule = FirewallRule(self, short_name)
             self.addReferrableElement(rule)
-        return self.getReferrableElement(short_name, FirewallRule)
+        return cast(FirewallRule, self.getReferrableElement(short_name, FirewallRule))
 
     def createBlueprintMappingSet(self, short_name: str) -> BlueprintMappingSet:
         """
@@ -1994,13 +1994,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, BlueprintMappingSet):
             blueprint_mapping_set = BlueprintMappingSet(self, short_name)
             self.addReferrableElement(blueprint_mapping_set)
-        return self.getReferrableElement(short_name, BlueprintMappingSet)
+        return cast(BlueprintMappingSet, self.getReferrableElement(short_name, BlueprintMappingSet))
 
     def getBlueprintMappingSets(self) -> List[BlueprintMappingSet]:
         """
         This represents a container of mappings between "actual" model elements and the "blueprint" that has been taken for their creation.
         """
-        return list(filter(lambda a: isinstance(a, BlueprintMappingSet), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, BlueprintMappingSet))
 
     def createConstantSpecificationMappingSet(self, short_name: str) -> ConstantSpecificationMappingSet:
         """
@@ -2017,13 +2017,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, ConstantSpecificationMappingSet):
             constant_specification_mapping_set = ConstantSpecificationMappingSet(self, short_name)
             self.addReferrableElement(constant_specification_mapping_set)
-        return self.getReferrableElement(short_name, ConstantSpecificationMappingSet)
+        return cast(ConstantSpecificationMappingSet, self.getReferrableElement(short_name, ConstantSpecificationMappingSet))
 
     def getConstantSpecificationMappingSets(self) -> List[ConstantSpecificationMappingSet]:
         """
         This meta-class represents the ability to map two ConstantSpecifications to each others. One Constant Specification is supposed to be described in the application domain and the other should be described in the implementation domain.
         """
-        return list(filter(lambda a: isinstance(a, ConstantSpecificationMappingSet), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, ConstantSpecificationMappingSet))
 
     def createStateDependentFirewall(self, short_name: str) -> StateDependentFirewall:
         """
@@ -2040,7 +2040,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, StateDependentFirewall):
             firewall = StateDependentFirewall(self, short_name)
             self.addReferrableElement(firewall)
-        return self.getReferrableElement(short_name, StateDependentFirewall)
+        return cast(StateDependentFirewall, self.getReferrableElement(short_name, StateDependentFirewall))
 
     def createPlatformModuleEthernetEndpointConfiguration(self, short_name: str) -> PlatformModuleEthernetEndpointConfiguration:
         """
@@ -2057,7 +2057,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, PlatformModuleEthernetEndpointConfiguration):
             configuration = PlatformModuleEthernetEndpointConfiguration(self, short_name)
             self.addReferrableElement(configuration)
-        return self.getReferrableElement(short_name, PlatformModuleEthernetEndpointConfiguration)
+        return cast(PlatformModuleEthernetEndpointConfiguration, self.getReferrableElement(short_name, PlatformModuleEthernetEndpointConfiguration))
 
     def createMcFunction(self, short_name: str) -> McFunction:
         """
@@ -2074,7 +2074,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, McFunction):
             func = McFunction(self, short_name)
             self.addReferrableElement(func)
-        return self.getReferrableElement(short_name, McFunction)
+        return cast(McFunction, self.getReferrableElement(short_name, McFunction))
 
     def createMcGroup(self, short_name: str) -> McGroup:
         """
@@ -2091,224 +2091,224 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, McGroup):
             group = McGroup(self, short_name)
             self.addReferrableElement(group)
-        return self.getReferrableElement(short_name, McGroup)
+        return cast(McGroup, self.getReferrableElement(short_name, McGroup))
 
     def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
 
         if not self.IsReferrableElementExists(short_name, ConstantSpecification):
             spec = ConstantSpecification(self, short_name)
             self.addReferrableElement(spec)
-        return self.getReferrableElement(short_name, ConstantSpecification)
+        return cast(ConstantSpecification, self.getReferrableElement(short_name, ConstantSpecification))
 
     def createCryptoEllipticCurveProps(self, short_name: str) -> CryptoEllipticCurveProps:
 
         if not self.IsReferrableElementExists(short_name, CryptoEllipticCurveProps):
             props = CryptoEllipticCurveProps(self, short_name)
             self.addReferrableElement(props)
-        return self.getReferrableElement(short_name, CryptoEllipticCurveProps)
+        return cast(CryptoEllipticCurveProps, self.getReferrableElement(short_name, CryptoEllipticCurveProps))
 
     def createCryptoSignatureScheme(self, short_name: str) -> CryptoSignatureScheme:
 
         if not self.IsReferrableElementExists(short_name, CryptoSignatureScheme):
             scheme = CryptoSignatureScheme(self, short_name)
             self.addReferrableElement(scheme)
-        return self.getReferrableElement(short_name, CryptoSignatureScheme)
+        return cast(CryptoSignatureScheme, self.getReferrableElement(short_name, CryptoSignatureScheme))
 
     def createCryptoServiceCertificate(self, short_name: str) -> CryptoServiceCertificate:
 
         if not self.IsReferrableElementExists(short_name, CryptoServiceCertificate):
             certificate = CryptoServiceCertificate(self, short_name)
             self.addReferrableElement(certificate)
-        return self.getReferrableElement(short_name, CryptoServiceCertificate)
+        return cast(CryptoServiceCertificate, self.getReferrableElement(short_name, CryptoServiceCertificate))
 
     def createIPSecConfigProps(self, short_name: str) -> IPSecConfigProps:
 
         if not self.IsReferrableElementExists(short_name, IPSecConfigProps):
             props = IPSecConfigProps(self, short_name)
             self.addReferrableElement(props)
-        return self.getReferrableElement(short_name, IPSecConfigProps)
+        return cast(IPSecConfigProps, self.getReferrableElement(short_name, IPSecConfigProps))
 
     def createCryptoServicePrimitive(self, short_name: str) -> CryptoServicePrimitive:
 
         if not self.IsReferrableElementExists(short_name, CryptoServicePrimitive):
             primitive = CryptoServicePrimitive(self, short_name)
             self.addReferrableElement(primitive)
-        return self.getReferrableElement(short_name, CryptoServicePrimitive)
+        return cast(CryptoServicePrimitive, self.getReferrableElement(short_name, CryptoServicePrimitive))
 
     def createDataConstr(self, short_name: str) -> DataConstr:
 
         if not self.IsReferrableElementExists(short_name, DataConstr):
             constr = DataConstr(self, short_name)
             self.addReferrableElement(constr)
-        return self.getReferrableElement(short_name, DataConstr)
+        return cast(DataConstr, self.getReferrableElement(short_name, DataConstr))
 
     def createUnit(self, short_name: str) -> Unit:
 
         if not self.IsReferrableElementExists(short_name, Unit):
             unit = Unit(self, short_name)
             self.addReferrableElement(unit)
-        return self.getReferrableElement(short_name, Unit)
+        return cast(Unit, self.getReferrableElement(short_name, Unit))
 
     def createUnitGroup(self, short_name: str) -> UnitGroup:
 
         if not self.IsReferrableElementExists(short_name, UnitGroup):
             unit_group = UnitGroup(self, short_name)
             self.addReferrableElement(unit_group)
-        return self.getReferrableElement(short_name, UnitGroup)
+        return cast(UnitGroup, self.getReferrableElement(short_name, UnitGroup))
 
     def createEndToEndProtectionSet(self, short_name: str) -> EndToEndProtectionSet:
 
         if not self.IsReferrableElementExists(short_name, EndToEndProtectionSet):
             e2d_set = EndToEndProtectionSet(self, short_name)
             self.addReferrableElement(e2d_set)
-        return self.getReferrableElement(short_name, EndToEndProtectionSet)
+        return cast(EndToEndProtectionSet, self.getReferrableElement(short_name, EndToEndProtectionSet))
 
     def createApplicationArrayDataType(self, short_name: str) -> ApplicationArrayDataType:
 
         if not self.IsReferrableElementExists(short_name, ApplicationArrayDataType):
             data_type = ApplicationArrayDataType(self, short_name)
             self.addReferrableElement(data_type)
-        return self.getReferrableElement(short_name, ApplicationArrayDataType)
+        return cast(ApplicationArrayDataType, self.getReferrableElement(short_name, ApplicationArrayDataType))
 
     def createSwRecordLayout(self, short_name: str) -> SwRecordLayout:
 
         if not self.IsReferrableElementExists(short_name, SwRecordLayout):
             layout = SwRecordLayout(self, short_name)
             self.addReferrableElement(layout)
-        return self.getReferrableElement(short_name, SwRecordLayout)
+        return cast(SwRecordLayout, self.getReferrableElement(short_name, SwRecordLayout))
 
     def createSwAddrMethod(self, short_name: str) -> SwAddrMethod:
 
         if not self.IsReferrableElementExists(short_name, SwAddrMethod):
             method = SwAddrMethod(self, short_name)
             self.addReferrableElement(method)
-        return self.getReferrableElement(short_name, SwAddrMethod)
+        return cast(SwAddrMethod, self.getReferrableElement(short_name, SwAddrMethod))
 
     def createTriggerInterface(self, short_name: str) -> TriggerInterface:
 
         if not self.IsReferrableElementExists(short_name, TriggerInterface):
             trigger_interface = TriggerInterface(self, short_name)
             self.addReferrableElement(trigger_interface)
-        return self.getReferrableElement(short_name, TriggerInterface)
+        return cast(TriggerInterface, self.getReferrableElement(short_name, TriggerInterface))
 
     def createDataPrototypeGroup(self, short_name: str) -> DataPrototypeGroup:
 
         if not self.IsReferrableElementExists(short_name, DataPrototypeGroup):
             data_group = DataPrototypeGroup(self, short_name)
             self.addReferrableElement(data_group)
-        return self.getReferrableElement(short_name, DataPrototypeGroup)
+        return cast(DataPrototypeGroup, self.getReferrableElement(short_name, DataPrototypeGroup))
 
     def createRunnableEntityGroup(self, short_name: str) -> RunnableEntityGroup:
 
         if not self.IsReferrableElementExists(short_name, RunnableEntityGroup):
             runnable_group = RunnableEntityGroup(self, short_name)
             self.addReferrableElement(runnable_group)
-        return self.getReferrableElement(short_name, RunnableEntityGroup)
+        return cast(RunnableEntityGroup, self.getReferrableElement(short_name, RunnableEntityGroup))
 
     def createConsistencyNeeds(self, short_name: str) -> ConsistencyNeeds:
 
         if not self.IsReferrableElementExists(short_name, ConsistencyNeeds):
             consistency_needs = ConsistencyNeeds(self, short_name)
             self.addReferrableElement(consistency_needs)
-        return self.getReferrableElement(short_name, ConsistencyNeeds)
+        return cast(ConsistencyNeeds, self.getReferrableElement(short_name, ConsistencyNeeds))
 
     def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
 
         if not self.IsReferrableElementExists(short_name, ModeDeclarationGroup):
             group = ModeDeclarationGroup(self, short_name)
             self.addReferrableElement(group)
-        return self.getReferrableElement(short_name, ModeDeclarationGroup)
+        return cast(ModeDeclarationGroup, self.getReferrableElement(short_name, ModeDeclarationGroup))
 
     def createModeSwitchInterface(self, short_name: str) -> ModeSwitchInterface:
 
         if not self.IsReferrableElementExists(short_name, ModeSwitchInterface):
             switch_interface = ModeSwitchInterface(self, short_name)
             self.addReferrableElement(switch_interface)
-        return self.getReferrableElement(short_name, ModeSwitchInterface)
+        return cast(ModeSwitchInterface, self.getReferrableElement(short_name, ModeSwitchInterface))
 
     def createSwcTiming(self, short_name: str) -> SwcTiming:
 
         if not self.IsReferrableElementExists(short_name, SwcTiming):
             timing = SwcTiming(self, short_name)
             self.addReferrableElement(timing)
-        return self.getReferrableElement(short_name, SwcTiming)
+        return cast(SwcTiming, self.getReferrableElement(short_name, SwcTiming))
 
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
             cluster = LinCluster(self, short_name)
             self.addReferrableElement(cluster)
-        return self.getReferrableElement(short_name, LinCluster)
+        return cast(LinCluster, self.getReferrableElement(short_name, LinCluster))
 
     def createCanCluster(self, short_name: str) -> CanCluster:
 
         if not self.IsReferrableElementExists(short_name, CanCluster):
             cluster = CanCluster(self, short_name)
             self.addReferrableElement(cluster)
-        return self.getReferrableElement(short_name, CanCluster)
+        return cast(CanCluster, self.getReferrableElement(short_name, CanCluster))
 
     def createJ1939Cluster(self, short_name: str) -> J1939Cluster:
 
         if not self.IsReferrableElementExists(short_name, J1939Cluster):
             cluster = J1939Cluster(self, short_name)
             self.addReferrableElement(cluster)
-        return self.getReferrableElement(short_name, J1939Cluster)
+        return cast(J1939Cluster, self.getReferrableElement(short_name, J1939Cluster))
 
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
 
         if not self.IsReferrableElementExists(short_name, LinUnconditionalFrame):
             frame = LinUnconditionalFrame(self, short_name)
             self.addReferrableElement(frame)
-        return self.getReferrableElement(short_name, LinUnconditionalFrame)
+        return cast(LinUnconditionalFrame, self.getReferrableElement(short_name, LinUnconditionalFrame))
 
     def createNmPdu(self, short_name: str) -> NmPdu:
 
         if not self.IsReferrableElementExists(short_name, NmPdu):
             element = NmPdu(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, NmPdu)
+        return cast(NmPdu, self.getReferrableElement(short_name, NmPdu))
 
     def createNPdu(self, short_name: str) -> NPdu:
 
         if not self.IsReferrableElementExists(short_name, NPdu):
             element = NPdu(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, NPdu)
+        return cast(NPdu, self.getReferrableElement(short_name, NPdu))
 
     def createDcmIPdu(self, short_name: str) -> DcmIPdu:
 
         if not self.IsReferrableElementExists(short_name, DcmIPdu):
             element = DcmIPdu(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DcmIPdu)
+        return cast(DcmIPdu, self.getReferrableElement(short_name, DcmIPdu))
 
     def createSecuredIPdu(self, short_name: str) -> SecuredIPdu:
 
         if not self.IsReferrableElementExists(short_name, SecuredIPdu):
             element = SecuredIPdu(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SecuredIPdu)
+        return cast(SecuredIPdu, self.getReferrableElement(short_name, SecuredIPdu))
 
     def createNmConfig(self, short_name: str) -> NmConfig:
 
         if not self.IsReferrableElementExists(short_name, NmConfig):
             element = NmConfig(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, NmConfig)
+        return cast(NmConfig, self.getReferrableElement(short_name, NmConfig))
 
     def createCanTpConfig(self, short_name: str) -> CanTpConfig:
 
         if not self.IsReferrableElementExists(short_name, CanTpConfig):
             element = CanTpConfig(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CanTpConfig)
+        return cast(CanTpConfig, self.getReferrableElement(short_name, CanTpConfig))
 
     def createLinTpConfig(self, short_name: str) -> LinTpConfig:
 
         if not self.IsReferrableElementExists(short_name, LinTpConfig):
             element = LinTpConfig(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, LinTpConfig)
+        return cast(LinTpConfig, self.getReferrableElement(short_name, LinTpConfig))
 
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
@@ -2328,7 +2328,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, CanFrame):
             element = CanFrame(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CanFrame)
+        return cast(CanFrame, self.getReferrableElement(short_name, CanFrame))
 
     def createEcuInstance(self, short_name: str) -> EcuInstance:
         """
@@ -2349,7 +2349,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, EcuInstance):
             element = EcuInstance(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EcuInstance)
+        return cast(EcuInstance, self.getReferrableElement(short_name, EcuInstance))
 
     def createConsumedProvidedServiceInstanceGroup(self, short_name: str) -> ConsumedProvidedServiceInstanceGroup:
         """
@@ -2370,21 +2370,21 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, ConsumedProvidedServiceInstanceGroup):
             element = ConsumedProvidedServiceInstanceGroup(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, ConsumedProvidedServiceInstanceGroup)
+        return cast(ConsumedProvidedServiceInstanceGroup, self.getReferrableElement(short_name, ConsumedProvidedServiceInstanceGroup))
 
     def createGateway(self, short_name: str) -> Gateway:
 
         if not self.IsReferrableElementExists(short_name, Gateway):
             element = Gateway(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, Gateway)
+        return cast(Gateway, self.getReferrableElement(short_name, Gateway))
 
     def createISignal(self, short_name: str) -> ISignal:
 
         if not self.IsReferrableElementExists(short_name, ISignal):
             element = ISignal(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, ISignal)
+        return cast(ISignal, self.getReferrableElement(short_name, ISignal))
 
     def createSystemSignal(self, short_name: str) -> SystemSignal:
         """
@@ -2405,216 +2405,216 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, SystemSignal):
             element = SystemSignal(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SystemSignal)
+        return cast(SystemSignal, self.getReferrableElement(short_name, SystemSignal))
 
     def createSystemSignalGroup(self, short_name: str) -> SystemSignalGroup:
 
         if not self.IsReferrableElementExists(short_name, SystemSignalGroup):
             element = SystemSignalGroup(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SystemSignalGroup)
+        return cast(SystemSignalGroup, self.getReferrableElement(short_name, SystemSignalGroup))
 
     def createSignalServiceTranslationPropsSet(self, short_name: str) -> SignalServiceTranslationPropsSet:
 
         if not self.IsReferrableElementExists(short_name, SignalServiceTranslationPropsSet):
             element = SignalServiceTranslationPropsSet(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SignalServiceTranslationPropsSet)
+        return cast(SignalServiceTranslationPropsSet, self.getReferrableElement(short_name, SignalServiceTranslationPropsSet))
 
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
 
         if not self.IsReferrableElementExists(short_name, ISignalIPdu):
             element = ISignalIPdu(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, ISignalIPdu)
+        return cast(ISignalIPdu, self.getReferrableElement(short_name, ISignalIPdu))
 
     def createEcucValueCollection(self, short_name: str) -> EcucValueCollection:
 
         if not self.IsReferrableElementExists(short_name, EcucValueCollection):
             element = EcucValueCollection(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EcucValueCollection)
+        return cast(EcucValueCollection, self.getReferrableElement(short_name, EcucValueCollection))
 
     def createEthTcpIpProps(self, short_name: str) -> EthTcpIpProps:
 
         if not self.IsReferrableElementExists(short_name, EthTcpIpProps):
             props = EthTcpIpProps(self, short_name)
             self.addReferrableElement(props)
-        return self.getReferrableElement(short_name, EthTcpIpProps)
+        return cast(EthTcpIpProps, self.getReferrableElement(short_name, EthTcpIpProps))
 
     def createEthTcpIpIcmpProps(self, short_name: str) -> EthTcpIpIcmpProps:
 
         if not self.IsReferrableElementExists(short_name, EthTcpIpIcmpProps):
             props = EthTcpIpIcmpProps(self, short_name)
             self.addReferrableElement(props)
-        return self.getReferrableElement(short_name, EthTcpIpIcmpProps)
+        return cast(EthTcpIpIcmpProps, self.getReferrableElement(short_name, EthTcpIpIcmpProps))
 
     def createOsTaskProxy(self, short_name: str) -> OsTaskProxy:
 
         if not self.IsReferrableElementExists(short_name, OsTaskProxy):
             proxy = OsTaskProxy(self, short_name)
             self.addReferrableElement(proxy)
-        return self.getReferrableElement(short_name, OsTaskProxy)
+        return cast(OsTaskProxy, self.getReferrableElement(short_name, OsTaskProxy))
 
     def createModuleConfiguration(self, short_name: str) -> ModuleConfiguration:
 
         if not self.IsReferrableElementExists(short_name, ModuleConfiguration):
             module_configuration = ModuleConfiguration(self, short_name)
             self.addReferrableElement(module_configuration)
-        return self.getReferrableElement(short_name, ModuleConfiguration)
+        return cast(ModuleConfiguration, self.getReferrableElement(short_name, ModuleConfiguration))
 
     def createEcucModuleConfigurationValues(self, short_name: str) -> EcucModuleConfigurationValues:
 
         if not self.IsReferrableElementExists(short_name, EcucModuleConfigurationValues):
             element = EcucModuleConfigurationValues(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EcucModuleConfigurationValues)
+        return cast(EcucModuleConfigurationValues, self.getReferrableElement(short_name, EcucModuleConfigurationValues))
 
     def createEcucModuleDef(self, short_name: str) -> EcucModuleDef:
 
         if not self.IsReferrableElementExists(short_name, EcucModuleDef):
             element = EcucModuleDef(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EcucModuleDef)
+        return cast(EcucModuleDef, self.getReferrableElement(short_name, EcucModuleDef))
 
     def createEcucDefinitionCollection(self, short_name: str) -> EcucDefinitionCollection:
 
         if not self.IsReferrableElementExists(short_name, EcucDefinitionCollection):
             element = EcucDefinitionCollection(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EcucDefinitionCollection)
+        return cast(EcucDefinitionCollection, self.getReferrableElement(short_name, EcucDefinitionCollection))
 
     def createEcucDestinationUriDefSet(self, short_name: str) -> EcucDestinationUriDefSet:
 
         if not self.IsReferrableElementExists(short_name, EcucDestinationUriDefSet):
             element = EcucDestinationUriDefSet(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EcucDestinationUriDefSet)
+        return cast(EcucDestinationUriDefSet, self.getReferrableElement(short_name, EcucDestinationUriDefSet))
 
     def createSwSystemConst(self, short_name: str) -> SwSystemconst:
 
         if not self.IsReferrableElementExists(short_name, SwSystemconst):
             element = SwSystemconst(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SwSystemconst)
+        return cast(SwSystemconst, self.getReferrableElement(short_name, SwSystemconst))
 
     def createSwSystemconstantValueSet(self, short_name: str) -> SwSystemconstantValueSet:
 
         if not self.IsReferrableElementExists(short_name, SwSystemconstantValueSet):
             element = SwSystemconstantValueSet(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SwSystemconstantValueSet)
+        return cast(SwSystemconstantValueSet, self.getReferrableElement(short_name, SwSystemconstantValueSet))
 
     def createEvaluatedVariantSet(self, short_name: str) -> EvaluatedVariantSet:
 
         if not self.IsReferrableElementExists(short_name, EvaluatedVariantSet):
             element = EvaluatedVariantSet(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, EvaluatedVariantSet)
+        return cast(EvaluatedVariantSet, self.getReferrableElement(short_name, EvaluatedVariantSet))
 
     def createSdgDef(self, short_name: str) -> SdgDef:
 
         if not self.IsReferrableElementExists(short_name, SdgDef):
             element = SdgDef(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, SdgDef)
+        return cast(SdgDef, self.getReferrableElement(short_name, SdgDef))
 
     def createPredefinedVariant(self, short_name: str) -> PredefinedVariant:
 
         if not self.IsReferrableElementExists(short_name, PredefinedVariant):
             element = PredefinedVariant(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, PredefinedVariant)
+        return cast(PredefinedVariant, self.getReferrableElement(short_name, PredefinedVariant))
 
     def createPostBuildVariantCriterion(self, short_name: str) -> PostBuildVariantCriterion:
 
         if not self.IsReferrableElementExists(short_name, PostBuildVariantCriterion):
             element = PostBuildVariantCriterion(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, PostBuildVariantCriterion)
+        return cast(PostBuildVariantCriterion, self.getReferrableElement(short_name, PostBuildVariantCriterion))
 
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
 
         if not self.IsReferrableElementExists(short_name, PhysicalDimension):
             element = PhysicalDimension(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, PhysicalDimension)
+        return cast(PhysicalDimension, self.getReferrableElement(short_name, PhysicalDimension))
 
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
 
         if not self.IsReferrableElementExists(short_name, ISignalGroup):
             element = ISignalGroup(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, ISignalGroup)
+        return cast(ISignalGroup, self.getReferrableElement(short_name, ISignalGroup))
 
     def createISignalIPduGroup(self, short_name: str) -> ISignalIPduGroup:
 
         if not self.IsReferrableElementExists(short_name, ISignalIPduGroup):
             element = ISignalIPduGroup(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, ISignalIPduGroup)
+        return cast(ISignalIPduGroup, self.getReferrableElement(short_name, ISignalIPduGroup))
 
     def createPdurIPduGroup(self, short_name: str) -> PdurIPduGroup:
 
         if not self.IsReferrableElementExists(short_name, PdurIPduGroup):
             element = PdurIPduGroup(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, PdurIPduGroup)
+        return cast(PdurIPduGroup, self.getReferrableElement(short_name, PdurIPduGroup))
 
     def createClientIdDefinitionSet(self, short_name: str) -> ClientIdDefinitionSet:
 
         if not self.IsReferrableElementExists(short_name, ClientIdDefinitionSet):
             element = ClientIdDefinitionSet(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, ClientIdDefinitionSet)
+        return cast(ClientIdDefinitionSet, self.getReferrableElement(short_name, ClientIdDefinitionSet))
 
     def createInterpolationRoutineMappingSet(self, short_name: str) -> InterpolationRoutineMappingSet:
 
         if not self.IsReferrableElementExists(short_name, InterpolationRoutineMappingSet):
             element = InterpolationRoutineMappingSet(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, InterpolationRoutineMappingSet)
+        return cast(InterpolationRoutineMappingSet, self.getReferrableElement(short_name, InterpolationRoutineMappingSet))
 
     def createCpSoftwareCluster(self, short_name: str) -> CpSoftwareCluster:
 
         if not self.IsReferrableElementExists(short_name, CpSoftwareCluster):
             element = CpSoftwareCluster(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CpSoftwareCluster)
+        return cast(CpSoftwareCluster, self.getReferrableElement(short_name, CpSoftwareCluster))
 
     def createSystem(self, short_name: str) -> System:
 
         if not self.IsReferrableElementExists(short_name, System):
             element = System(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, System)
+        return cast(System, self.getReferrableElement(short_name, System))
 
     def createFlatMap(self, short_name: str) -> FlatMap:
 
         if not self.IsReferrableElementExists(short_name, FlatMap):
             map = FlatMap(self, short_name)
             self.addReferrableElement(map)
-        return self.getReferrableElement(short_name, FlatMap)
+        return cast(FlatMap, self.getReferrableElement(short_name, FlatMap))
 
     def createBuildActionManifest(self, short_name: str) -> BuildActionManifest:
         if not self.IsReferrableElementExists(short_name, BuildActionManifest):
             manifest = BuildActionManifest(self, short_name)
             self.addReferrableElement(manifest)
-        return self.getReferrableElement(short_name, BuildActionManifest)
+        return cast(BuildActionManifest, self.getReferrableElement(short_name, BuildActionManifest))
 
     def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
 
         if not self.IsReferrableElementExists(short_name, PortInterfaceMappingSet):
             map_set = PortInterfaceMappingSet(self, short_name)
             self.addReferrableElement(map_set)
-        return self.getReferrableElement(short_name, PortInterfaceMappingSet)
+        return cast(PortInterfaceMappingSet, self.getReferrableElement(short_name, PortInterfaceMappingSet))
 
     def createEthernetCluster(self, short_name: str) -> EthernetCluster:
 
         if not self.IsReferrableElementExists(short_name, EthernetCluster):
             cluster = EthernetCluster(self, short_name)
             self.addReferrableElement(cluster)
-        return self.getReferrableElement(short_name, EthernetCluster)
+        return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
 
     def createDiagnosticAuthRole(self, short_name: str) -> DiagnosticAuthRole:
         """
@@ -2633,7 +2633,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticAuthRole):
             auth_role = DiagnosticAuthRole(self, short_name)
             self.addReferrableElement(auth_role)
-        return self.getReferrableElement(short_name, DiagnosticAuthRole)
+        return cast(DiagnosticAuthRole, self.getReferrableElement(short_name, DiagnosticAuthRole))
 
     def createDiagnosticAuthenticationClass(self, short_name: str) -> DiagnosticAuthenticationClass:
         """
@@ -2652,7 +2652,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticAuthenticationClass):
             authentication_class = DiagnosticAuthenticationClass(self, short_name)
             self.addReferrableElement(authentication_class)
-        return self.getReferrableElement(short_name, DiagnosticAuthenticationClass)
+        return cast(DiagnosticAuthenticationClass, self.getReferrableElement(short_name, DiagnosticAuthenticationClass))
 
     def createDiagnosticAuthenticationConfiguration(self, short_name: str) -> DiagnosticAuthenticationConfiguration:
         """
@@ -2671,7 +2671,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticAuthenticationConfiguration):
             configuration = DiagnosticAuthenticationConfiguration(self, short_name)
             self.addReferrableElement(configuration)
-        return self.getReferrableElement(short_name, DiagnosticAuthenticationConfiguration)
+        return cast(DiagnosticAuthenticationConfiguration, self.getReferrableElement(short_name, DiagnosticAuthenticationConfiguration))
 
     def createDiagnosticAuthTransmitCertificate(self, short_name: str) -> DiagnosticAuthTransmitCertificate:
         """
@@ -2689,7 +2689,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticAuthTransmitCertificate):
             certificate = DiagnosticAuthTransmitCertificate(self, short_name)
             self.addReferrableElement(certificate)
-        return self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificate)
+        return cast(DiagnosticAuthTransmitCertificate, self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificate))
 
     def createDiagnosticDeAuthentication(self, short_name: str) -> DiagnosticDeAuthentication:
         """
@@ -2707,7 +2707,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDeAuthentication):
             de_authentication = DiagnosticDeAuthentication(self, short_name)
             self.addReferrableElement(de_authentication)
-        return self.getReferrableElement(short_name, DiagnosticDeAuthentication)
+        return cast(DiagnosticDeAuthentication, self.getReferrableElement(short_name, DiagnosticDeAuthentication))
 
     def createDiagnosticProofOfOwnership(self, short_name: str) -> DiagnosticProofOfOwnership:
         """
@@ -2725,7 +2725,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticProofOfOwnership):
             proof_of_ownership = DiagnosticProofOfOwnership(self, short_name)
             self.addReferrableElement(proof_of_ownership)
-        return self.getReferrableElement(short_name, DiagnosticProofOfOwnership)
+        return cast(DiagnosticProofOfOwnership, self.getReferrableElement(short_name, DiagnosticProofOfOwnership))
 
     def createDiagnosticVerifyCertificateBidirectional(self, short_name: str) -> DiagnosticVerifyCertificateBidirectional:
         """
@@ -2744,7 +2744,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticVerifyCertificateBidirectional):
             verification = DiagnosticVerifyCertificateBidirectional(self, short_name)
             self.addReferrableElement(verification)
-        return self.getReferrableElement(short_name, DiagnosticVerifyCertificateBidirectional)
+        return cast(DiagnosticVerifyCertificateBidirectional, self.getReferrableElement(short_name, DiagnosticVerifyCertificateBidirectional))
 
     def createDiagnosticVerifyCertificateUnidirectional(self, short_name: str) -> DiagnosticVerifyCertificateUnidirectional:
         """
@@ -2763,7 +2763,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticVerifyCertificateUnidirectional):
             verification = DiagnosticVerifyCertificateUnidirectional(self, short_name)
             self.addReferrableElement(verification)
-        return self.getReferrableElement(short_name, DiagnosticVerifyCertificateUnidirectional)
+        return cast(DiagnosticVerifyCertificateUnidirectional, self.getReferrableElement(short_name, DiagnosticVerifyCertificateUnidirectional))
 
     def createDiagnosticComControl(self, short_name: str) -> DiagnosticComControl:
         """
@@ -2781,14 +2781,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticComControl):
             com_control = DiagnosticComControl(self, short_name)
             self.addReferrableElement(com_control)
-        return self.getReferrableElement(short_name, DiagnosticComControl)
+        return cast(DiagnosticComControl, self.getReferrableElement(short_name, DiagnosticComControl))
 
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
 
         if not self.IsReferrableElementExists(short_name, DiagnosticConnection):
             connection = DiagnosticConnection(self, short_name)
             self.addReferrableElement(connection)
-        return self.getReferrableElement(short_name, DiagnosticConnection)
+        return cast(DiagnosticConnection, self.getReferrableElement(short_name, DiagnosticConnection))
 
     def createDiagnosticContributionSet(self, short_name: str) -> DiagnosticContributionSet:
         """
@@ -2807,7 +2807,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticContributionSet):
             contribution_set = DiagnosticContributionSet(self, short_name)
             self.addReferrableElement(contribution_set)
-        return self.getReferrableElement(short_name, DiagnosticContributionSet)
+        return cast(DiagnosticContributionSet, self.getReferrableElement(short_name, DiagnosticContributionSet))
 
     def createDiagnosticCustomServiceClass(self, short_name: str) -> DiagnosticCustomServiceClass:
         """
@@ -2826,7 +2826,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticCustomServiceClass):
             custom_service_class = DiagnosticCustomServiceClass(self, short_name)
             self.addReferrableElement(custom_service_class)
-        return self.getReferrableElement(short_name, DiagnosticCustomServiceClass)
+        return cast(DiagnosticCustomServiceClass, self.getReferrableElement(short_name, DiagnosticCustomServiceClass))
 
     def createDiagnosticCustomServiceInstance(self, short_name: str) -> DiagnosticCustomServiceInstance:
         """
@@ -2845,7 +2845,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticCustomServiceInstance):
             custom_service_instance = DiagnosticCustomServiceInstance(self, short_name)
             self.addReferrableElement(custom_service_instance)
-        return self.getReferrableElement(short_name, DiagnosticCustomServiceInstance)
+        return cast(DiagnosticCustomServiceInstance, self.getReferrableElement(short_name, DiagnosticCustomServiceInstance))
 
     def createDiagnosticProtocol(self, short_name: str) -> DiagnosticProtocol:
         """
@@ -2864,7 +2864,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticProtocol):
             protocol = DiagnosticProtocol(self, short_name)
             self.addReferrableElement(protocol)
-        return self.getReferrableElement(short_name, DiagnosticProtocol)
+        return cast(DiagnosticProtocol, self.getReferrableElement(short_name, DiagnosticProtocol))
 
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
@@ -2885,7 +2885,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticServiceTable):
             table = DiagnosticServiceTable(self, short_name)
             self.addReferrableElement(table)
-        return self.getReferrableElement(short_name, DiagnosticServiceTable)
+        return cast(DiagnosticServiceTable, self.getReferrableElement(short_name, DiagnosticServiceTable))
 
     def createDiagnosticSession(self, short_name: str) -> DiagnosticSession:
         """
@@ -2904,7 +2904,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSession):
             session = DiagnosticSession(self, short_name)
             self.addReferrableElement(session)
-        return self.getReferrableElement(short_name, DiagnosticSession)
+        return cast(DiagnosticSession, self.getReferrableElement(short_name, DiagnosticSession))
 
     def createDiagnosticSessionControl(self, short_name: str) -> DiagnosticSessionControl:
         """
@@ -2923,7 +2923,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSessionControl):
             session_control = DiagnosticSessionControl(self, short_name)
             self.addReferrableElement(session_control)
-        return self.getReferrableElement(short_name, DiagnosticSessionControl)
+        return cast(DiagnosticSessionControl, self.getReferrableElement(short_name, DiagnosticSessionControl))
 
     def createDiagnosticSessionControlClass(self, short_name: str) -> DiagnosticSessionControlClass:
         """
@@ -2942,7 +2942,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSessionControlClass):
             session_control_class = DiagnosticSessionControlClass(self, short_name)
             self.addReferrableElement(session_control_class)
-        return self.getReferrableElement(short_name, DiagnosticSessionControlClass)
+        return cast(DiagnosticSessionControlClass, self.getReferrableElement(short_name, DiagnosticSessionControlClass))
 
     def createDiagnosticSecurityAccess(self, short_name: str) -> DiagnosticSecurityAccess:
         """
@@ -2961,7 +2961,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSecurityAccess):
             security_access = DiagnosticSecurityAccess(self, short_name)
             self.addReferrableElement(security_access)
-        return self.getReferrableElement(short_name, DiagnosticSecurityAccess)
+        return cast(DiagnosticSecurityAccess, self.getReferrableElement(short_name, DiagnosticSecurityAccess))
 
     def createDiagnosticSecurityAccessClass(self, short_name: str) -> DiagnosticSecurityAccessClass:
         """
@@ -2980,7 +2980,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSecurityAccessClass):
             security_access_class = DiagnosticSecurityAccessClass(self, short_name)
             self.addReferrableElement(security_access_class)
-        return self.getReferrableElement(short_name, DiagnosticSecurityAccessClass)
+        return cast(DiagnosticSecurityAccessClass, self.getReferrableElement(short_name, DiagnosticSecurityAccessClass))
 
     def createDiagnosticSecurityLevel(self, short_name: str) -> DiagnosticSecurityLevel:
         """
@@ -3000,7 +3000,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSecurityLevel):
             security_level = DiagnosticSecurityLevel(self, short_name)
             self.addReferrableElement(security_level)
-        return self.getReferrableElement(short_name, DiagnosticSecurityLevel)
+        return cast(DiagnosticSecurityLevel, self.getReferrableElement(short_name, DiagnosticSecurityLevel))
 
     def createDiagnosticDataIdentifier(self, short_name: str) -> DiagnosticDataIdentifier:
         """
@@ -3020,7 +3020,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDataIdentifier):
             did = DiagnosticDataIdentifier(self, short_name)
             self.addReferrableElement(did)
-        return self.getReferrableElement(short_name, DiagnosticDataIdentifier)
+        return cast(DiagnosticDataIdentifier, self.getReferrableElement(short_name, DiagnosticDataIdentifier))
 
     def createDiagnosticDynamicDataIdentifier(self, short_name: str) -> DiagnosticDynamicDataIdentifier:
         """
@@ -3039,7 +3039,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDynamicDataIdentifier):
             did = DiagnosticDynamicDataIdentifier(self, short_name)
             self.addReferrableElement(did)
-        return self.getReferrableElement(short_name, DiagnosticDynamicDataIdentifier)
+        return cast(DiagnosticDynamicDataIdentifier, self.getReferrableElement(short_name, DiagnosticDynamicDataIdentifier))
 
     def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
         """
@@ -3057,7 +3057,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEcuReset):
             ecu_reset = DiagnosticEcuReset(self, short_name)
             self.addReferrableElement(ecu_reset)
-        return self.getReferrableElement(short_name, DiagnosticEcuReset)
+        return cast(DiagnosticEcuReset, self.getReferrableElement(short_name, DiagnosticEcuReset))
 
     def createDiagnosticEcuResetClass(self, short_name: str) -> DiagnosticEcuResetClass:
         """
@@ -3076,7 +3076,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEcuResetClass):
             ecu_reset_class = DiagnosticEcuResetClass(self, short_name)
             self.addReferrableElement(ecu_reset_class)
-        return self.getReferrableElement(short_name, DiagnosticEcuResetClass)
+        return cast(DiagnosticEcuResetClass, self.getReferrableElement(short_name, DiagnosticEcuResetClass))
 
     def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
         """
@@ -3096,7 +3096,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEnvironmentalCondition):
             condition = DiagnosticEnvironmentalCondition(self, short_name)
             self.addReferrableElement(condition)
-        return self.getReferrableElement(short_name, DiagnosticEnvironmentalCondition)
+        return cast(DiagnosticEnvironmentalCondition, self.getReferrableElement(short_name, DiagnosticEnvironmentalCondition))
 
     def createDiagnosticFimEventGroup(self, short_name: str) -> DiagnosticFimEventGroup:
         """
@@ -3115,7 +3115,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticFimEventGroup):
             fim_event_group = DiagnosticFimEventGroup(self, short_name)
             self.addReferrableElement(fim_event_group)
-        return self.getReferrableElement(short_name, DiagnosticFimEventGroup)
+        return cast(DiagnosticFimEventGroup, self.getReferrableElement(short_name, DiagnosticFimEventGroup))
 
     def createDiagnosticJ1939Spn(self, short_name: str) -> DiagnosticJ1939Spn:
         """
@@ -3134,7 +3134,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticJ1939Spn):
             j1939_spn = DiagnosticJ1939Spn(self, short_name)
             self.addReferrableElement(j1939_spn)
-        return self.getReferrableElement(short_name, DiagnosticJ1939Spn)
+        return cast(DiagnosticJ1939Spn, self.getReferrableElement(short_name, DiagnosticJ1939Spn))
 
     def createDiagnosticJ1939ExpandedFreezeFrame(self, short_name: str) -> DiagnosticJ1939ExpandedFreezeFrame:
         """
@@ -3153,7 +3153,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticJ1939ExpandedFreezeFrame):
             expanded_freeze_frame = DiagnosticJ1939ExpandedFreezeFrame(self, short_name)
             self.addReferrableElement(expanded_freeze_frame)
-        return self.getReferrableElement(short_name, DiagnosticJ1939ExpandedFreezeFrame)
+        return cast(DiagnosticJ1939ExpandedFreezeFrame, self.getReferrableElement(short_name, DiagnosticJ1939ExpandedFreezeFrame))
 
     def createDiagnosticJ1939FreezeFrame(self, short_name: str) -> DiagnosticJ1939FreezeFrame:
         """
@@ -3171,7 +3171,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticJ1939FreezeFrame):
             freeze_frame = DiagnosticJ1939FreezeFrame(self, short_name)
             self.addReferrableElement(freeze_frame)
-        return self.getReferrableElement(short_name, DiagnosticJ1939FreezeFrame)
+        return cast(DiagnosticJ1939FreezeFrame, self.getReferrableElement(short_name, DiagnosticJ1939FreezeFrame))
 
     def createDiagnosticTroubleCodeJ1939(self, short_name: str) -> DiagnosticTroubleCodeJ1939:
         """
@@ -3190,7 +3190,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCodeJ1939):
             trouble_code = DiagnosticTroubleCodeJ1939(self, short_name)
             self.addReferrableElement(trouble_code)
-        return self.getReferrableElement(short_name, DiagnosticTroubleCodeJ1939)
+        return cast(DiagnosticTroubleCodeJ1939, self.getReferrableElement(short_name, DiagnosticTroubleCodeJ1939))
 
     def createDiagnosticServiceDataMapping(self, short_name: str) -> DiagnosticServiceDataMapping:
         """
@@ -3209,7 +3209,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticServiceDataMapping):
             service_data_mapping = DiagnosticServiceDataMapping(self, short_name)
             self.addReferrableElement(service_data_mapping)
-        return self.getReferrableElement(short_name, DiagnosticServiceDataMapping)
+        return cast(DiagnosticServiceDataMapping, self.getReferrableElement(short_name, DiagnosticServiceDataMapping))
 
     def createDiagnosticStorageConditionPortMapping(self, short_name: str) -> DiagnosticStorageConditionPortMapping:
         """
@@ -3227,7 +3227,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticStorageConditionPortMapping):
             element = DiagnosticStorageConditionPortMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticStorageConditionPortMapping)
+        return cast(DiagnosticStorageConditionPortMapping, self.getReferrableElement(short_name, DiagnosticStorageConditionPortMapping))
 
     def createDiagnosticEventToSecurityEventMapping(self, short_name: str) -> DiagnosticEventToSecurityEventMapping:
         """
@@ -3245,7 +3245,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToSecurityEventMapping):
             element = DiagnosticEventToSecurityEventMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToSecurityEventMapping)
+        return cast(DiagnosticEventToSecurityEventMapping, self.getReferrableElement(short_name, DiagnosticEventToSecurityEventMapping))
 
     def createDiagnosticFimAliasEventGroupMapping(self, short_name: str) -> DiagnosticFimAliasEventGroupMapping:
         """
@@ -3263,7 +3263,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticFimAliasEventGroupMapping):
             element = DiagnosticFimAliasEventGroupMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticFimAliasEventGroupMapping)
+        return cast(DiagnosticFimAliasEventGroupMapping, self.getReferrableElement(short_name, DiagnosticFimAliasEventGroupMapping))
 
     def createDiagnosticFimFunctionMapping(self, short_name: str) -> DiagnosticFimFunctionMapping:
         """
@@ -3281,7 +3281,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticFimFunctionMapping):
             element = DiagnosticFimFunctionMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticFimFunctionMapping)
+        return cast(DiagnosticFimFunctionMapping, self.getReferrableElement(short_name, DiagnosticFimFunctionMapping))
 
     def createDiagnosticJ1939SwMapping(self, short_name: str) -> DiagnosticJ1939SwMapping:
         """
@@ -3299,7 +3299,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticJ1939SwMapping):
             element = DiagnosticJ1939SwMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticJ1939SwMapping)
+        return cast(DiagnosticJ1939SwMapping, self.getReferrableElement(short_name, DiagnosticJ1939SwMapping))
 
     def createDiagnosticJ1939Node(self, short_name: str) -> DiagnosticJ1939Node:
         """
@@ -3317,7 +3317,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticJ1939Node):
             element = DiagnosticJ1939Node(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticJ1939Node)
+        return cast(DiagnosticJ1939Node, self.getReferrableElement(short_name, DiagnosticJ1939Node))
 
     def createDiagnosticJ1939SpnMapping(self, short_name: str) -> DiagnosticJ1939SpnMapping:
         """
@@ -3335,7 +3335,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticJ1939SpnMapping):
             element = DiagnosticJ1939SpnMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticJ1939SpnMapping)
+        return cast(DiagnosticJ1939SpnMapping, self.getReferrableElement(short_name, DiagnosticJ1939SpnMapping))
 
     def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
         """
@@ -3353,7 +3353,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticIumprToFunctionIdentifierMapping):
             element = DiagnosticIumprToFunctionIdentifierMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticIumprToFunctionIdentifierMapping)
+        return cast(DiagnosticIumprToFunctionIdentifierMapping, self.getReferrableElement(short_name, DiagnosticIumprToFunctionIdentifierMapping))
 
     def createDiagnosticEventToTroubleCodeJ1939Mapping(self, short_name: str) -> DiagnosticEventToTroubleCodeJ1939Mapping:
         """
@@ -3371,7 +3371,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToTroubleCodeJ1939Mapping):
             element = DiagnosticEventToTroubleCodeJ1939Mapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToTroubleCodeJ1939Mapping)
+        return cast(DiagnosticEventToTroubleCodeJ1939Mapping, self.getReferrableElement(short_name, DiagnosticEventToTroubleCodeJ1939Mapping))
 
     def createDiagnosticServiceSwMapping(self, short_name: str) -> DiagnosticServiceSwMapping:
         """
@@ -3389,7 +3389,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticServiceSwMapping):
             element = DiagnosticServiceSwMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticServiceSwMapping)
+        return cast(DiagnosticServiceSwMapping, self.getReferrableElement(short_name, DiagnosticServiceSwMapping))
 
     def createCpSwClusterResourceToDiagFunctionIdMapping(self, short_name: str) -> CpSwClusterResourceToDiagFunctionIdMapping:
         """
@@ -3407,7 +3407,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, CpSwClusterResourceToDiagFunctionIdMapping):
             element = CpSwClusterResourceToDiagFunctionIdMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CpSwClusterResourceToDiagFunctionIdMapping)
+        return cast(CpSwClusterResourceToDiagFunctionIdMapping, self.getReferrableElement(short_name, CpSwClusterResourceToDiagFunctionIdMapping))
 
     def createCpSwClusterToDiagRoutineSubfunctionMapping(self, short_name: str) -> CpSwClusterToDiagRoutineSubfunctionMapping:
         """
@@ -3425,7 +3425,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, CpSwClusterToDiagRoutineSubfunctionMapping):
             element = CpSwClusterToDiagRoutineSubfunctionMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CpSwClusterToDiagRoutineSubfunctionMapping)
+        return cast(CpSwClusterToDiagRoutineSubfunctionMapping, self.getReferrableElement(short_name, CpSwClusterToDiagRoutineSubfunctionMapping))
 
     def createCpSwClusterResourceToDiagDataElemMapping(self, short_name: str) -> CpSwClusterResourceToDiagDataElemMapping:
         """
@@ -3443,7 +3443,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, CpSwClusterResourceToDiagDataElemMapping):
             element = CpSwClusterResourceToDiagDataElemMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CpSwClusterResourceToDiagDataElemMapping)
+        return cast(CpSwClusterResourceToDiagDataElemMapping, self.getReferrableElement(short_name, CpSwClusterResourceToDiagDataElemMapping))
 
     def createCpSwClusterToDiagEventMapping(self, short_name: str) -> CpSwClusterToDiagEventMapping:
         """
@@ -3461,7 +3461,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, CpSwClusterToDiagEventMapping):
             element = CpSwClusterToDiagEventMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, CpSwClusterToDiagEventMapping)
+        return cast(CpSwClusterToDiagEventMapping, self.getReferrableElement(short_name, CpSwClusterToDiagEventMapping))
 
     def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
         """
@@ -3479,7 +3479,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticFimAliasEventGroup):
             element = DiagnosticFimAliasEventGroup(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticFimAliasEventGroup)
+        return cast(DiagnosticFimAliasEventGroup, self.getReferrableElement(short_name, DiagnosticFimAliasEventGroup))
 
     def createDiagnosticFimAliasEventMapping(self, short_name: str) -> DiagnosticFimAliasEventMapping:
         """
@@ -3497,7 +3497,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticFimAliasEventMapping):
             element = DiagnosticFimAliasEventMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticFimAliasEventMapping)
+        return cast(DiagnosticFimAliasEventMapping, self.getReferrableElement(short_name, DiagnosticFimAliasEventMapping))
 
     def createDiagnosticInhibitSourceEventMapping(self, short_name: str) -> DiagnosticInhibitSourceEventMapping:
         """
@@ -3515,7 +3515,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticInhibitSourceEventMapping):
             element = DiagnosticInhibitSourceEventMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticInhibitSourceEventMapping)
+        return cast(DiagnosticInhibitSourceEventMapping, self.getReferrableElement(short_name, DiagnosticInhibitSourceEventMapping))
 
     def createDiagnosticMasterToSlaveEventMapping(self, short_name: str) -> DiagnosticMasterToSlaveEventMapping:
         """
@@ -3533,7 +3533,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticMasterToSlaveEventMapping):
             element = DiagnosticMasterToSlaveEventMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticMasterToSlaveEventMapping)
+        return cast(DiagnosticMasterToSlaveEventMapping, self.getReferrableElement(short_name, DiagnosticMasterToSlaveEventMapping))
 
     def createDiagnosticMemoryIdentifier(self, short_name: str) -> DiagnosticMemoryIdentifier:
         """
@@ -3551,7 +3551,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticMemoryIdentifier):
             element = DiagnosticMemoryIdentifier(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticMemoryIdentifier)
+        return cast(DiagnosticMemoryIdentifier, self.getReferrableElement(short_name, DiagnosticMemoryIdentifier))
 
     def createDiagnosticDemProvidedDataMapping(self, short_name: str) -> DiagnosticDemProvidedDataMapping:
         """
@@ -3569,7 +3569,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticDemProvidedDataMapping):
             element = DiagnosticDemProvidedDataMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticDemProvidedDataMapping)
+        return cast(DiagnosticDemProvidedDataMapping, self.getReferrableElement(short_name, DiagnosticDemProvidedDataMapping))
 
     def createDiagnosticSecurityEventReportingModeMapping(self, short_name: str) -> DiagnosticSecurityEventReportingModeMapping:
         """
@@ -3587,7 +3587,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticSecurityEventReportingModeMapping):
             element = DiagnosticSecurityEventReportingModeMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticSecurityEventReportingModeMapping)
+        return cast(DiagnosticSecurityEventReportingModeMapping, self.getReferrableElement(short_name, DiagnosticSecurityEventReportingModeMapping))
 
     def createDiagnosticAuthTransmitCertificateMapping(self, short_name: str) -> DiagnosticAuthTransmitCertificateMapping:
         """
@@ -3605,7 +3605,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticAuthTransmitCertificateMapping):
             element = DiagnosticAuthTransmitCertificateMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificateMapping)
+        return cast(DiagnosticAuthTransmitCertificateMapping, self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificateMapping))
 
     def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
         """
@@ -3623,7 +3623,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEnableConditionPortMapping):
             element = DiagnosticEnableConditionPortMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEnableConditionPortMapping)
+        return cast(DiagnosticEnableConditionPortMapping, self.getReferrableElement(short_name, DiagnosticEnableConditionPortMapping))
 
     def createDiagnosticOperationCyclePortMapping(self, short_name: str) -> DiagnosticOperationCyclePortMapping:
         """
@@ -3641,7 +3641,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticOperationCyclePortMapping):
             element = DiagnosticOperationCyclePortMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticOperationCyclePortMapping)
+        return cast(DiagnosticOperationCyclePortMapping, self.getReferrableElement(short_name, DiagnosticOperationCyclePortMapping))
 
     def createDiagnosticEventPortMapping(self, short_name: str) -> DiagnosticEventPortMapping:
         """
@@ -3659,7 +3659,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventPortMapping):
             element = DiagnosticEventPortMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventPortMapping)
+        return cast(DiagnosticEventPortMapping, self.getReferrableElement(short_name, DiagnosticEventPortMapping))
 
     def createDiagnosticEventToTroubleCodeUdsMapping(self, short_name: str) -> DiagnosticEventToTroubleCodeUdsMapping:
         """
@@ -3677,7 +3677,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToTroubleCodeUdsMapping):
             element = DiagnosticEventToTroubleCodeUdsMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToTroubleCodeUdsMapping)
+        return cast(DiagnosticEventToTroubleCodeUdsMapping, self.getReferrableElement(short_name, DiagnosticEventToTroubleCodeUdsMapping))
 
     def createDiagnosticEventToStorageConditionGroupMapping(self, short_name: str) -> DiagnosticEventToStorageConditionGroupMapping:
         """
@@ -3695,7 +3695,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToStorageConditionGroupMapping):
             element = DiagnosticEventToStorageConditionGroupMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToStorageConditionGroupMapping)
+        return cast(DiagnosticEventToStorageConditionGroupMapping, self.getReferrableElement(short_name, DiagnosticEventToStorageConditionGroupMapping))
 
     def createDiagnosticEventToOperationCycleMapping(self, short_name: str) -> DiagnosticEventToOperationCycleMapping:
         """
@@ -3713,7 +3713,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToOperationCycleMapping):
             element = DiagnosticEventToOperationCycleMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToOperationCycleMapping)
+        return cast(DiagnosticEventToOperationCycleMapping, self.getReferrableElement(short_name, DiagnosticEventToOperationCycleMapping))
 
     def createDiagnosticEventToEnableConditionGroupMapping(self, short_name: str) -> DiagnosticEventToEnableConditionGroupMapping:
         """
@@ -3731,7 +3731,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToEnableConditionGroupMapping):
             element = DiagnosticEventToEnableConditionGroupMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToEnableConditionGroupMapping)
+        return cast(DiagnosticEventToEnableConditionGroupMapping, self.getReferrableElement(short_name, DiagnosticEventToEnableConditionGroupMapping))
 
     def createDiagnosticEventToDebounceAlgorithmMapping(self, short_name: str) -> DiagnosticEventToDebounceAlgorithmMapping:
         """
@@ -3749,7 +3749,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticEventToDebounceAlgorithmMapping):
             element = DiagnosticEventToDebounceAlgorithmMapping(self, short_name)
             self.addReferrableElement(element)
-        return self.getReferrableElement(short_name, DiagnosticEventToDebounceAlgorithmMapping)
+        return cast(DiagnosticEventToDebounceAlgorithmMapping, self.getReferrableElement(short_name, DiagnosticEventToDebounceAlgorithmMapping))
 
     def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
         """
@@ -3769,168 +3769,168 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, DiagnosticAccessPermission):
             permission = DiagnosticAccessPermission(self, short_name)
             self.addReferrableElement(permission)
-        return self.getReferrableElement(short_name, DiagnosticAccessPermission)
+        return cast(DiagnosticAccessPermission, self.getReferrableElement(short_name, DiagnosticAccessPermission))
 
     def createDltContext(self, short_name: str) -> DltContext:
 
         if not self.IsReferrableElementExists(short_name, DltContext):
             context = DltContext(self, short_name)
             self.addReferrableElement(context)
-        return self.getReferrableElement(short_name, DltContext)
+        return cast(DltContext, self.getReferrableElement(short_name, DltContext))
 
     def createDltEcu(self, short_name: str) -> DltEcu:
 
         if not self.IsReferrableElementExists(short_name, DltEcu):
             ecu = DltEcu(self, short_name)
             self.addReferrableElement(ecu)
-        return self.getReferrableElement(short_name, DltEcu)
+        return cast(DltEcu, self.getReferrableElement(short_name, DltEcu))
 
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
 
         if not self.IsReferrableElementExists(short_name, MultiplexedIPdu):
             ipdu = MultiplexedIPdu(self, short_name)
             self.addReferrableElement(ipdu)
-        return self.getReferrableElement(short_name, MultiplexedIPdu)
+        return cast(MultiplexedIPdu, self.getReferrableElement(short_name, MultiplexedIPdu))
 
     def createUserDefinedIPdu(self, short_name: str) -> UserDefinedIPdu:
 
         if not self.IsReferrableElementExists(short_name, UserDefinedIPdu):
             ipdu = UserDefinedIPdu(self, short_name)
             self.addReferrableElement(ipdu)
-        return self.getReferrableElement(short_name, UserDefinedIPdu)
+        return cast(UserDefinedIPdu, self.getReferrableElement(short_name, UserDefinedIPdu))
 
     def createUserDefinedPdu(self, short_name: str) -> UserDefinedPdu:
 
         if not self.IsReferrableElementExists(short_name, UserDefinedPdu):
             pdu = UserDefinedPdu(self, short_name)
             self.addReferrableElement(pdu)
-        return self.getReferrableElement(short_name, UserDefinedPdu)
+        return cast(UserDefinedPdu, self.getReferrableElement(short_name, UserDefinedPdu))
 
     def createGeneralPurposeIPdu(self, short_name: str) -> GeneralPurposeIPdu:
 
         if not self.IsReferrableElementExists(short_name, GeneralPurposeIPdu):
             i_pdu = GeneralPurposeIPdu(self, short_name)
             self.addReferrableElement(i_pdu)
-        return self.getReferrableElement(short_name, GeneralPurposeIPdu)
+        return cast(GeneralPurposeIPdu, self.getReferrableElement(short_name, GeneralPurposeIPdu))
 
     def createGeneralPurposePdu(self, short_name: str) -> GeneralPurposePdu:
 
         if not self.IsReferrableElementExists(short_name, GeneralPurposePdu):
             pdu = GeneralPurposePdu(self, short_name)
             self.addReferrableElement(pdu)
-        return self.getReferrableElement(short_name, GeneralPurposePdu)
+        return cast(GeneralPurposePdu, self.getReferrableElement(short_name, GeneralPurposePdu))
 
     def createSecureCommunicationPropsSet(self, short_name: str) -> SecureCommunicationPropsSet:
 
         if not self.IsReferrableElementExists(short_name, SecureCommunicationPropsSet):
             props_set = SecureCommunicationPropsSet(self, short_name)
             self.addReferrableElement(props_set)
-        return self.getReferrableElement(short_name, SecureCommunicationPropsSet)
+        return cast(SecureCommunicationPropsSet, self.getReferrableElement(short_name, SecureCommunicationPropsSet))
 
     def createSoAdRoutingGroup(self, short_name: str) -> SoAdRoutingGroup:
 
         if not self.IsReferrableElementExists(short_name, SoAdRoutingGroup):
             group = SoAdRoutingGroup(self, short_name)
             self.addReferrableElement(group)
-        return self.getReferrableElement(short_name, SoAdRoutingGroup)
+        return cast(SoAdRoutingGroup, self.getReferrableElement(short_name, SoAdRoutingGroup))
 
     def createTcpOptionFilterSet(self, short_name: str) -> TcpOptionFilterSet:
 
         if not self.IsReferrableElementExists(short_name, TcpOptionFilterSet):
             tcp_option_filter_set = TcpOptionFilterSet(self, short_name)
             self.addReferrableElement(tcp_option_filter_set)
-        return self.getReferrableElement(short_name, TcpOptionFilterSet)
+        return cast(TcpOptionFilterSet, self.getReferrableElement(short_name, TcpOptionFilterSet))
 
     def createCanXlProps(self, short_name: str) -> CanXlProps:
 
         if not self.IsReferrableElementExists(short_name, CanXlProps):
             can_xl_props = CanXlProps(self, short_name)
             self.addReferrableElement(can_xl_props)
-        return self.getReferrableElement(short_name, CanXlProps)
+        return cast(CanXlProps, self.getReferrableElement(short_name, CanXlProps))
 
     def createSomeipSdClientServiceInstanceConfig(self, short_name: str) -> SomeipSdClientServiceInstanceConfig:
 
         if not self.IsReferrableElementExists(short_name, SomeipSdClientServiceInstanceConfig):
             config = SomeipSdClientServiceInstanceConfig(self, short_name)
             self.addReferrableElement(config)
-        return self.getReferrableElement(short_name, SomeipSdClientServiceInstanceConfig)
+        return cast(SomeipSdClientServiceInstanceConfig, self.getReferrableElement(short_name, SomeipSdClientServiceInstanceConfig))
 
     def createSomeipSdClientEventGroupTimingConfig(self, short_name: str) -> SomeipSdClientEventGroupTimingConfig:
 
         if not self.IsReferrableElementExists(short_name, SomeipSdClientEventGroupTimingConfig):
             config = SomeipSdClientEventGroupTimingConfig(self, short_name)
             self.addReferrableElement(config)
-        return self.getReferrableElement(short_name, SomeipSdClientEventGroupTimingConfig)
+        return cast(SomeipSdClientEventGroupTimingConfig, self.getReferrableElement(short_name, SomeipSdClientEventGroupTimingConfig))
 
     def createSomeipSdServerEventGroupTimingConfig(self, short_name: str) -> SomeipSdServerEventGroupTimingConfig:
 
         if not self.IsReferrableElementExists(short_name, SomeipSdServerEventGroupTimingConfig):
             config = SomeipSdServerEventGroupTimingConfig(self, short_name)
             self.addReferrableElement(config)
-        return self.getReferrableElement(short_name, SomeipSdServerEventGroupTimingConfig)
+        return cast(SomeipSdServerEventGroupTimingConfig, self.getReferrableElement(short_name, SomeipSdServerEventGroupTimingConfig))
 
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
 
         if not self.IsReferrableElementExists(short_name, DoIpTpConfig):
             tp_config = DoIpTpConfig(self, short_name)
             self.addReferrableElement(tp_config)
-        return self.getReferrableElement(short_name, DoIpTpConfig)
+        return cast(DoIpTpConfig, self.getReferrableElement(short_name, DoIpTpConfig))
 
     def createHwElement(self, short_name: str) -> HwElement:
 
         if not self.IsReferrableElementExists(short_name, HwElement):
             hw_element = HwElement(self, short_name)
             self.addReferrableElement(hw_element)
-        return self.getReferrableElement(short_name, HwElement)
+        return cast(HwElement, self.getReferrableElement(short_name, HwElement))
 
     def createHwCategory(self, short_name: str) -> HwCategory:
 
         if not self.IsReferrableElementExists(short_name, HwCategory):
             hw_category = HwCategory(self, short_name)
             self.addReferrableElement(hw_category)
-        return self.getReferrableElement(short_name, HwCategory)
+        return cast(HwCategory, self.getReferrableElement(short_name, HwCategory))
 
     def createHwType(self, short_name: str) -> HwType:
 
         if not self.IsReferrableElementExists(short_name, HwType):
             hw_category = HwType(self, short_name)
             self.addReferrableElement(hw_category)
-        return self.getReferrableElement(short_name, HwType)
+        return cast(HwType, self.getReferrableElement(short_name, HwType))
 
     def createFlexrayFrame(self, short_name: str) -> FlexrayFrame:
 
         if not self.IsReferrableElementExists(short_name, FlexrayFrame):
             frame = FlexrayFrame(self, short_name)
             self.addReferrableElement(frame)
-        return self.getReferrableElement(short_name, FlexrayFrame)
+        return cast(FlexrayFrame, self.getReferrableElement(short_name, FlexrayFrame))
 
     def createFlexrayCluster(self, short_name: str) -> FlexrayCluster:
 
         if not self.IsReferrableElementExists(short_name, FlexrayCluster):
             frame = FlexrayCluster(self, short_name)
             self.addReferrableElement(frame)
-        return self.getReferrableElement(short_name, FlexrayCluster)
+        return cast(FlexrayCluster, self.getReferrableElement(short_name, FlexrayCluster))
 
     def createDataTransformationSet(self, short_name: str) -> DataTransformationSet:
 
         if not self.IsReferrableElementExists(short_name, DataTransformationSet):
             transform_set = DataTransformationSet(self, short_name)
             self.addReferrableElement(transform_set)
-        return self.getReferrableElement(short_name, DataTransformationSet)
+        return cast(DataTransformationSet, self.getReferrableElement(short_name, DataTransformationSet))
 
     def createE2EProfileCompatibilityProps(self, short_name: str) -> E2EProfileCompatibilityProps:
 
         if not self.IsReferrableElementExists(short_name, E2EProfileCompatibilityProps):
             props = E2EProfileCompatibilityProps(self, short_name)
             self.addReferrableElement(props)
-        return self.getReferrableElement(short_name, E2EProfileCompatibilityProps)
+        return cast(E2EProfileCompatibilityProps, self.getReferrableElement(short_name, E2EProfileCompatibilityProps))
 
     def createTlvDataIdDefinitionSet(self, short_name: str) -> TlvDataIdDefinitionSet:
 
         if not self.IsReferrableElementExists(short_name, TlvDataIdDefinitionSet):
             tlv_data_id_definition_set = TlvDataIdDefinitionSet(self, short_name)
             self.addReferrableElement(tlv_data_id_definition_set)
-        return self.getReferrableElement(short_name, TlvDataIdDefinitionSet)
+        return cast(TlvDataIdDefinitionSet, self.getReferrableElement(short_name, TlvDataIdDefinitionSet))
 
     def createCollection(self, short_name: str) -> Collection:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -3938,7 +3938,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, Collection):
             collection = Collection(self, short_name)
             self.addReferrableElement(collection)
-        return self.getReferrableElement(short_name, Collection)
+        return cast(Collection, self.getReferrableElement(short_name, Collection))
 
     def createApplicationInterface(self, short_name: str) -> ApplicationInterface:
         from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationInterface
@@ -3946,7 +3946,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, ApplicationInterface):
             interface = ApplicationInterface(self, short_name)
             self.addReferrableElement(interface)
-        return self.getReferrableElement(short_name, ApplicationInterface)
+        return cast(ApplicationInterface, self.getReferrableElement(short_name, ApplicationInterface))
 
     def createAliasNameSet(self, short_name: str) -> AliasNameSet:
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameSet
@@ -3954,154 +3954,154 @@ class ARPackage(CollectableElement, VariationPointCapable):
         if not self.IsReferrableElementExists(short_name, AliasNameSet):
             alias_name_set = AliasNameSet(self, short_name)
             self.addReferrableElement(alias_name_set)
-        return self.getReferrableElement(short_name, AliasNameSet)
+        return cast(AliasNameSet, self.getReferrableElement(short_name, AliasNameSet))
 
     def createKeywordSet(self, short_name: str) -> KeywordSet:
 
         if not self.IsReferrableElementExists(short_name, KeywordSet):
             keyword_set = KeywordSet(self, short_name)
             self.addReferrableElement(keyword_set)
-        return self.getReferrableElement(short_name, KeywordSet)
+        return cast(KeywordSet, self.getReferrableElement(short_name, KeywordSet))
 
     def createPortPrototypeBlueprint(self, short_name: str) -> PortPrototypeBlueprint:
 
         if not self.IsReferrableElementExists(short_name, PortPrototypeBlueprint):
             keyword_set = PortPrototypeBlueprint(self, short_name)
             self.addReferrableElement(keyword_set)
-        return self.getReferrableElement(short_name, PortPrototypeBlueprint)
+        return cast(PortPrototypeBlueprint, self.getReferrableElement(short_name, PortPrototypeBlueprint))
 
     def createModeDeclarationMappingSet(self, short_name: str) -> ModeDeclarationMappingSet:
 
         if not self.IsReferrableElementExists(short_name, ModeDeclarationMappingSet):
             mapping_set = ModeDeclarationMappingSet(self, short_name)
             self.addReferrableElement(mapping_set)
-        return self.getReferrableElement(short_name, ModeDeclarationMappingSet)
+        return cast(ModeDeclarationMappingSet, self.getReferrableElement(short_name, ModeDeclarationMappingSet))
 
     def createAclPermission(self, short_name: str) -> AclPermission:
 
         if not self.IsReferrableElementExists(short_name, AclPermission):
             acl_permission = AclPermission(self, short_name)
             self.addReferrableElement(acl_permission)
-        return self.getReferrableElement(short_name, AclPermission)
+        return cast(AclPermission, self.getReferrableElement(short_name, AclPermission))
 
     def createAclObjectSet(self, short_name: str) -> AclObjectSet:
 
         if not self.IsReferrableElementExists(short_name, AclObjectSet):
             acl_object_set = AclObjectSet(self, short_name)
             self.addReferrableElement(acl_object_set)
-        return self.getReferrableElement(short_name, AclObjectSet)
+        return cast(AclObjectSet, self.getReferrableElement(short_name, AclObjectSet))
 
     def createAclOperation(self, short_name: str) -> AclOperation:
 
         if not self.IsReferrableElementExists(short_name, AclOperation):
             acl_operation = AclOperation(self, short_name)
             self.addReferrableElement(acl_operation)
-        return self.getReferrableElement(short_name, AclOperation)
+        return cast(AclOperation, self.getReferrableElement(short_name, AclOperation))
 
     def createAclRole(self, short_name: str) -> AclRole:
 
         if not self.IsReferrableElementExists(short_name, AclRole):
             acl_role = AclRole(self, short_name)
             self.addReferrableElement(acl_role)
-        return self.getReferrableElement(short_name, AclRole)
+        return cast(AclRole, self.getReferrableElement(short_name, AclRole))
 
     def createLifeCycleStateDefinitionGroup(self, short_name: str) -> LifeCycleStateDefinitionGroup:
 
         if not self.IsReferrableElementExists(short_name, LifeCycleStateDefinitionGroup):
             group = LifeCycleStateDefinitionGroup(self, short_name)
             self.addReferrableElement(group)
-        return self.getReferrableElement(short_name, LifeCycleStateDefinitionGroup)
+        return cast(LifeCycleStateDefinitionGroup, self.getReferrableElement(short_name, LifeCycleStateDefinitionGroup))
 
     def createViewMapSet(self, short_name: str) -> ViewMapSet:
 
         if not self.IsReferrableElementExists(short_name, ViewMapSet):
             view_map_set = ViewMapSet(self, short_name)
             self.addReferrableElement(view_map_set)
-        return self.getReferrableElement(short_name, ViewMapSet)
+        return cast(ViewMapSet, self.getReferrableElement(short_name, ViewMapSet))
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.referrableElements), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationPrimitiveDataType)), key=lambda o: o.short_name))
 
     def getApplicationDataType(self) -> List[ApplicationDataType]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ApplicationDataType), self.referrableElements), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationDataType)), key=lambda o: o.short_name))
 
     def getImplementationDataTypes(self) -> List[ImplementationDataType]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ImplementationDataType), self.referrableElements), key=lambda o: o.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ImplementationDataType)), key=lambda o: o.short_name))
 
     def getSwBaseTypes(self) -> List[SwBaseType]:
 
-        return list(filter(lambda a: isinstance(a, SwBaseType), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, SwBaseType))
 
     def getSwComponentTypes(self) -> List[SwComponentType]:
 
-        return list(filter(lambda a: isinstance(a, SwComponentType), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, SwComponentType))
 
     def getSensorActuatorSwComponentType(self) -> List[SensorActuatorSwComponentType]:
 
-        return list(filter(lambda a: isinstance(a, SensorActuatorSwComponentType), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, SensorActuatorSwComponentType))
 
     def getAtomicSwComponentTypes(self) -> List[AtomicSwComponentType]:
 
-        return list(filter(lambda a: isinstance(a, AtomicSwComponentType), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, AtomicSwComponentType))
 
     def getCompositionSwComponentTypes(self) -> List[CompositionSwComponentType]:
 
-        return list(filter(lambda a: isinstance(a, CompositionSwComponentType), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, CompositionSwComponentType))
 
     def getComplexDeviceDriverSwComponentTypes(self) -> List[ComplexDeviceDriverSwComponentType]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ComplexDeviceDriverSwComponentType), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ComplexDeviceDriverSwComponentType)), key=lambda a: a.short_name))
 
     def getSenderReceiverInterfaces(self) -> List[SenderReceiverInterface]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SenderReceiverInterface), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SenderReceiverInterface)), key=lambda a: a.short_name))
 
     def getParameterInterfaces(self) -> List[ParameterInterface]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ParameterInterface), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ParameterInterface)), key=lambda a: a.short_name))
 
     def getClientServerInterfaces(self) -> List[ClientServerInterface]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ClientServerInterface), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ClientServerInterface)), key=lambda a: a.short_name))
 
     def getDataTypeMappingSets(self) -> List[DataTypeMappingSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, DataTypeMappingSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, DataTypeMappingSet)), key=lambda a: a.short_name))
 
     def getCompuMethods(self) -> List[CompuMethod]:
 
-        return list(filter(lambda a: isinstance(a, CompuMethod), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, CompuMethod))
 
     def getBswModuleDescriptions(self) -> List[BswModuleDescription]:
 
-        return list(filter(lambda a: isinstance(a, BswModuleDescription), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, BswModuleDescription))
 
     def getBswModuleEntries(self) -> List[BswModuleEntry]:
 
-        return list(filter(lambda a: isinstance(a, BswModuleEntry), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, BswModuleEntry))
 
     def getBswImplementations(self) -> List[BswImplementation]:
 
-        return list(filter(lambda a: isinstance(a, BswImplementation), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, BswImplementation))
 
     def getSwcImplementations(self) -> List[SwcImplementation]:
 
-        return list(filter(lambda a: isinstance(a, SwcImplementation), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, SwcImplementation))
 
     def getImplementations(self) -> List[Implementation]:
 
-        return list(filter(lambda a: isinstance(a, Implementation), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, Implementation))
 
     def getSwcBswMappings(self) -> List[SwcBswMapping]:
 
-        return list(filter(lambda a: isinstance(a, SwcBswMapping), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, SwcBswMapping))
 
     def getBswEntryRelationshipSets(self) -> List[BswEntryRelationshipSet]:
 
-        return list(filter(lambda a: isinstance(a, BswEntryRelationshipSet), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, BswEntryRelationshipSet))
 
     def getMcFunctions(self) -> List[McFunction]:
         """
@@ -4111,7 +4111,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             List of McFunction instances
         """
 
-        return list(filter(lambda a: isinstance(a, McFunction), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, McFunction))
 
     def getMcGroups(self) -> List[McGroup]:
         """
@@ -4121,133 +4121,133 @@ class ARPackage(CollectableElement, VariationPointCapable):
             List of McGroup instances
         """
 
-        return list(filter(lambda a: isinstance(a, McGroup), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, McGroup))
 
     def getConstantSpecifications(self) -> List[ConstantSpecification]:
 
-        return list(filter(lambda a: isinstance(a, ConstantSpecification), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, ConstantSpecification))
 
     def getDataConstrs(self) -> List[DataConstr]:
 
-        return list(filter(lambda a: isinstance(a, DataConstr), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, DataConstr))
 
     def getUnits(self) -> List[Unit]:
 
-        return list(filter(lambda a: isinstance(a, Unit), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, Unit))
 
     def getUnitGroups(self) -> List[UnitGroup]:
 
-        return list(filter(lambda a: isinstance(a, UnitGroup), self.referrableElements))
+        return list(a for a in self.referrableElements if isinstance(a, UnitGroup))
 
     def getApplicationArrayDataTypes(self) -> List[ApplicationArrayDataType]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ApplicationArrayDataType), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationArrayDataType)), key=lambda a: a.short_name))
 
     def getSwRecordLayouts(self) -> List[SwRecordLayout]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SwRecordLayout), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwRecordLayout)), key=lambda a: a.short_name))
 
     def getSwAddrMethods(self) -> List[SwAddrMethod]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SwAddrMethod), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwAddrMethod)), key=lambda a: a.short_name))
 
     def getTriggerInterfaces(self) -> List[TriggerInterface]:
 
-        return list(sorted(filter(lambda a: isinstance(a, TriggerInterface), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, TriggerInterface)), key=lambda a: a.short_name))
 
     def getModeDeclarationGroups(self) -> List[ModeDeclarationGroup]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationGroup), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclarationGroup)), key=lambda a: a.short_name))
 
     def getModeSwitchInterfaces(self) -> List[ModeSwitchInterface]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ModeSwitchInterface), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeSwitchInterface)), key=lambda a: a.short_name))
 
     def getSwcTimings(self) -> List[SwcTiming]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SwcTiming), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwcTiming)), key=lambda a: a.short_name))
 
     def getLinClusters(self) -> List[LinCluster]:
 
-        return list(sorted(filter(lambda a: isinstance(a, LinCluster), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, LinCluster)), key=lambda a: a.short_name))
 
     def getCanClusters(self) -> List[CanCluster]:
 
-        return list(sorted(filter(lambda a: isinstance(a, CanCluster), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, CanCluster)), key=lambda a: a.short_name))
 
     def getLinUnconditionalFrames(self) -> List[LinUnconditionalFrame]:
 
-        return list(sorted(filter(lambda a: isinstance(a, LinUnconditionalFrame), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, LinUnconditionalFrame)), key=lambda a: a.short_name))
 
     def getNmPdus(self) -> List[NmPdu]:
 
-        return list(sorted(filter(lambda a: isinstance(a, NmPdu), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, NmPdu)), key=lambda a: a.short_name))
 
     def getNPdus(self) -> List[NPdu]:
 
-        return list(sorted(filter(lambda a: isinstance(a, NPdu), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, NPdu)), key=lambda a: a.short_name))
 
     def getDcmIPdus(self) -> List[DcmIPdu]:
 
-        return list(sorted(filter(lambda a: isinstance(a, DcmIPdu), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, DcmIPdu)), key=lambda a: a.short_name))
 
     def getSecuredIPdus(self) -> List[SecuredIPdu]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SecuredIPdu), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SecuredIPdu)), key=lambda a: a.short_name))
 
     def getNmConfigs(self) -> List[NmConfig]:
 
-        return list(sorted(filter(lambda a: isinstance(a, NmConfig), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, NmConfig)), key=lambda a: a.short_name))
 
     def getCanTpConfigs(self) -> List[CanTpConfig]:
 
-        return list(sorted(filter(lambda a: isinstance(a, CanTpConfig), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, CanTpConfig)), key=lambda a: a.short_name))
 
     def getCanFrames(self) -> List[CanFrame]:
 
-        return list(sorted(filter(lambda a: isinstance(a, CanFrame), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, CanFrame)), key=lambda a: a.short_name))
 
     def getEcuInstances(self) -> List[EcuInstance]:
 
-        return list(sorted(filter(lambda a: isinstance(a, EcuInstance), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcuInstance)), key=lambda a: a.short_name))
 
     def getGateways(self) -> List[Gateway]:
 
-        return list(sorted(filter(lambda a: isinstance(a, Gateway), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, Gateway)), key=lambda a: a.short_name))
 
     def getISignals(self) -> List[ISignal]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ISignal), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignal)), key=lambda a: a.short_name))
 
     def getEcucValueCollections(self) -> List[EcucValueCollection]:
 
-        return list(sorted(filter(lambda a: isinstance(a, EcucValueCollection), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucValueCollection)), key=lambda a: a.short_name))
 
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
 
-        return list(sorted(filter(lambda a: isinstance(a, EcucModuleConfigurationValues), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucModuleConfigurationValues)), key=lambda a: a.short_name))
 
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
 
-        return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucModuleDef)), key=lambda a: a.short_name))
 
     def getEcucDefinitionCollections(self) -> List[EcucDefinitionCollection]:
 
-        return list(sorted(filter(lambda a: isinstance(a, EcucDefinitionCollection), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, EcucDefinitionCollection)), key=lambda a: a.short_name))
 
     def getSwSystemConsts(self) -> List[SwSystemconst]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SwSystemconst), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwSystemconst)), key=lambda a: a.short_name))
 
     def getSwSystemconstantValueSets(self) -> List[SwSystemconstantValueSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SwSystemconstantValueSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SwSystemconstantValueSet)), key=lambda a: a.short_name))
 
     def getPredefinedVariants(self) -> List[PredefinedVariant]:
 
         return list(
             sorted(
-                filter(lambda a: isinstance(a, PredefinedVariant), self.referrableElements),
+                (a for a in self.referrableElements if isinstance(a, PredefinedVariant)),
                 key=lambda a: a.short_name,
             )
         )
@@ -4256,91 +4256,91 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(
             sorted(
-                filter(lambda a: isinstance(a, PostBuildVariantCriterion), self.referrableElements),
+                (a for a in self.referrableElements if isinstance(a, PostBuildVariantCriterion)),
                 key=lambda a: a.short_name,
             )
         )
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
 
-        return list(sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, PhysicalDimension)), key=lambda a: a.short_name))
 
     def getISignalGroups(self) -> List[ISignalGroup]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ISignalGroup), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignalGroup)), key=lambda a: a.short_name))
 
     def getSystemSignals(self) -> List[SystemSignal]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SystemSignal), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SystemSignal)), key=lambda a: a.short_name))
 
     def getSystemSignalGroups(self) -> List[SystemSignalGroup]:
 
-        return list(sorted(filter(lambda a: isinstance(a, SystemSignalGroup), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, SystemSignalGroup)), key=lambda a: a.short_name))
 
     def getISignalIPdus(self) -> List[ISignalIPdu]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ISignalIPdu), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ISignalIPdu)), key=lambda a: a.short_name))
 
     def getSystems(self) -> List[System]:
 
-        return list(sorted(filter(lambda a: isinstance(a, System), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, System)), key=lambda a: a.short_name))
 
     def getHwElements(self) -> List[HwElement]:
 
-        return list(sorted(filter(lambda a: isinstance(a, HwElement), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, HwElement)), key=lambda a: a.short_name))
 
     def getHwCategories(self) -> List[HwCategory]:
 
-        return list(sorted(filter(lambda a: isinstance(a, HwCategory), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, HwCategory)), key=lambda a: a.short_name))
 
     def getFlexrayFrames(self) -> List[FlexrayFrame]:
 
-        return list(sorted(filter(lambda a: isinstance(a, FlexrayFrame), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, FlexrayFrame)), key=lambda a: a.short_name))
 
     def getDataTransformationSets(self) -> List[DataTransformationSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, DataTransformationSet)), key=lambda a: a.short_name))
 
     def getCollections(self) -> List[Collection]:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 
-        return list(sorted(filter(lambda a: isinstance(a, Collection), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, Collection)), key=lambda a: a.short_name))
 
     def getKeywordSets(self) -> List[KeywordSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, KeywordSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, KeywordSet)), key=lambda a: a.short_name))
 
     def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
 
-        return list(sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, PortPrototypeBlueprint)), key=lambda a: a.short_name))
 
     def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ModeDeclarationMappingSet)), key=lambda a: a.short_name))
 
     def getAclPermissions(self) -> List[AclPermission]:
 
-        return list(sorted(filter(lambda a: isinstance(a, AclPermission), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclPermission)), key=lambda a: a.short_name))
 
     def getAclObjectSets(self) -> List[AclObjectSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, AclObjectSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclObjectSet)), key=lambda a: a.short_name))
 
     def getAclOperations(self) -> List[AclOperation]:
 
-        return list(sorted(filter(lambda a: isinstance(a, AclOperation), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclOperation)), key=lambda a: a.short_name))
 
     def getAclRoles(self) -> List[AclRole]:
 
-        return list(sorted(filter(lambda a: isinstance(a, AclRole), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, AclRole)), key=lambda a: a.short_name))
 
     def getLifeCycleStateDefinitionGroups(self) -> List[LifeCycleStateDefinitionGroup]:
 
-        return list(sorted(filter(lambda a: isinstance(a, LifeCycleStateDefinitionGroup), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, LifeCycleStateDefinitionGroup)), key=lambda a: a.short_name))
 
     def getViewMapSets(self) -> List[ViewMapSet]:
 
-        return list(sorted(filter(lambda a: isinstance(a, ViewMapSet), self.referrableElements), key=lambda a: a.short_name))
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ViewMapSet)), key=lambda a: a.short_name))
 
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
@@ -4452,7 +4452,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticSecurityLevel, DiagnosticSession  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvironmentalCondition  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
@@ -5026,7 +5026,7 @@ class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
             evaluation = DiagnosticAuthTransmitCertificateEvaluation(self, short_name)
             self.addReferrableElement(evaluation)
             self.certificateEvaluations.append(evaluation)
-        return self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificateEvaluation)
+        return cast(DiagnosticAuthTransmitCertificateEvaluation, self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificateEvaluation))
 
 
 class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
@@ -9595,7 +9595,7 @@ class LifeCycleStateDefinitionGroup(ARElement):
             state = LifeCycleState(self, short_name)
             self.addReferrableElement(state)
             self.lcStates.append(state)
-        return self.getReferrableElement(short_name, LifeCycleState)
+        return cast(LifeCycleState, self.getReferrableElement(short_name, LifeCycleState))
 
     def getLcStates(self) -> List[LifeCycleState]:
         """

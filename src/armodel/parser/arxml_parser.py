@@ -10593,12 +10593,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         self.readIdentifiable(element, group)
-        group.setMacMulticastAddress(
-            self.getChildElementOptionalLiteral(
-                element,
-                "MAC-MULTICAST-ADDRESS",
-            )
-        )
+        mac_address = self.getChildElementOptionalLiteral(element, "MAC-MULTICAST-ADDRESS")
+        if mac_address is not None:
+            address = MacAddressString()
+            address.setValue(mac_address.getValue())
+            group.setMacMulticastAddress(address)
 
     def readEthernetClusterMacMulticastGroups(self, element: ET.Element, cluster: EthernetCluster):
         for child_element in self.findall(element, "MAC-MULTICAST-GROUPS/*"):

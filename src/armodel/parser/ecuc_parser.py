@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Dict, List, Optional, Type, TypeVar, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -39,7 +39,7 @@ class EcucParser:
         ARXMLParser().load(str(path), document)
         return self.parseEcuc(document, warning=warning)
 
-    def parseEcuc(self, document: AUTOSAR, warning: bool = False) -> AUTOSAR:
+    def parseEcuc(self, document: AUTOSAR, warning: bool = False) -> Any:
         return document
 
     def get_modules(self, document: AUTOSAR) -> List[EcucModule]:
@@ -54,19 +54,23 @@ class EcucParser:
             if module_name is not None and self.get_definition_name(module.getDefinitionRef()) != module_name:
                 continue
             for container in module.getContainers():
-                index[self.get_path(container)] = container
+                index[self.get_path(container)] = cast(Container, container)
         return index
 
     def get_path(self, element: Identifiable) -> str:
         return "/" + element.getFullName().strip("/")
 
     def get_definition_name(self, definition_ref: Optional[RefType]) -> str:
-        if definition_ref is None or definition_ref.getValue() is None:
+        if definition_ref is None:
             return ""
-        return definition_ref.getValue().rstrip("/").rsplit("/", 1)[-1]
+        value = definition_ref.getValue()
+        if value is None:
+            return ""
+        return value.rstrip("/").rsplit("/", 1)[-1]
 
     def get_raw_value(self, parameter: EcucParameter) -> EcucScalar:
-        value = parameter.getValue()
+        getter = getattr(parameter, "getValue", None)
+        value = getter() if callable(getter) else None
         if value is None:
             return None
         return getattr(value, "value", None)
@@ -76,10 +80,14 @@ class EcucParser:
         return name or container.getShortName()
 
     def get_parameter_values(self, container: Container) -> List[EcucParameter]:
-        return container.getParameterValues()
+        return cast(List[EcucParameter], container.getParameterValues())
 
     def get_reference_values(self, container: Container) -> List[EcucReference]:
-        return container.getReferenceValues()
+        return cast(List[EcucReference], container.getReferenceValues())
+
+    def get_reference_value_ref(self, reference: EcucReference) -> Optional[RefType]:
+        getter = getattr(reference, "getValueRef", None)
+        return getter() if callable(getter) else None
 
     def get_sub_containers_by_name(self, container: Container) -> Dict[str, List[Container]]:
         result: Dict[str, List[Container]] = {}

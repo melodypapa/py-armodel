@@ -170,8 +170,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 8 — Deviations — Rule 0014 tracker entry `## MacMulticastGroup` added (No deviations; records the 2026-10-03 reader typed-`MacAddressString` fix)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-03 (G16-3): full unit suite 17486 passed / 0 failed; ruff + black clean on touched files; `eval_skill_static_checks.py` all-pass; round-trip write→parse preserves the typed `MacAddressString` value; 9b pending
 
 - [x] `IPSecConfig` — ARObject — R23-11 markdown · Table 6.221 (CP_TPS_SystemTemplate), p.571 — commit d75eb10bf (# Spec verified: R23-11, stamped 2026-10-03)
   - Rule 0001.6 shape fix at the 9b gate: `ipSecRule` is a `* aggr` whose child `IPSecRule` lists `Identifiable` in its spec `Base`, so the pair is `createIPSecRule(short_name)` + `getIPSecRules()` (dedupe by short name over the owning field list — plain `ARObject` aggregator, Rule 0004). The parser now calls `config.createIPSecRule(self.getShortName(child_element))` instead of constructing `IPSecRule(config, short_name)` + `addIPSecRule(rule)`; mirror/writer tests updated accordingly.

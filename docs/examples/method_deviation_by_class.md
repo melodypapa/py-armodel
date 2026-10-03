@@ -2851,6 +2851,13 @@ No deviations — all 9 Table 6.39 attributes modeled (`collectionSemantics`, `c
 
 No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, Kind `ref`) modeled as `modeDeclarationRefs: List[RefType]` with `getModeDeclarationRefs`/`addModeDeclarationRef` per the Kind `ref`→`Refs` suffix and singular-spec-`*`→plural rule; former `type (spec many vs py single)` row for `modeDeclarationRef` resolved in the 2026-09 sync (list shape + full reader/writer coverage via `readModeDrivenTransmissionModeCondition`/`writeModeDrivenTransmissionModeCondition` and TransmissionModeDeclaration dispatch).
 
+## `MacMulticastGroup`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 104  | **table:** Table 3.48
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+No deviations — the single Table 3.48 attribute `macMulticastAddress` (`MacAddressString 0..1`, Kind `attr`) is modeled as `macMulticastAddress: Optional[MacAddressString]` with `getMacMulticastAddress`/`setMacMulticastAddress` (scalar pair, getter-first per Rule 0001.11). Base `ARObject , Identifiable , MultilanguageReferrable , Referrable` ⇒ most-derived Python base `Identifiable`, `__init__(self, parent, short_name)`. Reader fixed 2026-10-03 (G16-3): the reader previously materialized the generic `ARLiteral` via `getChildElementOptionalLiteral`; it now constructs the declared `MacAddressString` (Rule 0013.2) — the writer keeps `setChildElementOptionalLiteral`, which accepts `ARLiteral` subclasses.
+
 ## `MultiplexedIPdu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 408
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`

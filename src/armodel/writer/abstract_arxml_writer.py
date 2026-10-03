@@ -3,7 +3,7 @@ import re
 import sys
 import xml.etree.cElementTree as ET
 from abc import ABC
-from typing import Optional
+from typing import Any, Dict, Optional
 from xml.dom import minidom
 
 from colorama import Fore
@@ -48,7 +48,7 @@ class AbstractARXMLWriter(ABC):
         if type(self) is AbstractARXMLWriter:
             raise TypeError("AbstractARXMLWriter is an abstract class.")
 
-        self.options = {}
+        self.options: Dict[str, Any] = {}
         self.options["warning"] = False
         self.options["version"] = "4.2.2"
         self.options["unescape_entities"] = False
@@ -80,10 +80,16 @@ class AbstractARXMLWriter(ABC):
             raise NotImplementedError(error_msg)
 
     def writeARObject(self, element: ET.Element, ar_obj: ARObject):
-        if ar_obj.getChecksum() is not None:
-            element.attrib["S"] = ar_obj.getChecksum().getValue()
-        if ar_obj.getTimestamp() is not None:
-            element.attrib["T"] = ar_obj.getTimestamp().getValue()
+        checksum = ar_obj.getChecksum()
+        if checksum is not None:
+            value = checksum.getValue()
+            if value is not None:
+                element.attrib["S"] = value
+        timestamp = ar_obj.getTimestamp()
+        if timestamp is not None:
+            value = timestamp.getValue()
+            if value is not None:
+                element.attrib["T"] = value
         # The uuid attribute (Table 4.4) is owned by Identifiable (see
         # Identifiable.py) and is emitted by writeIdentifiable.
 
@@ -112,8 +118,9 @@ class AbstractARXMLWriter(ABC):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, numerical)
-            if numerical.getShortLabel() is not None:
-                child_element.attrib["SHORT-LABEL"] = numerical.getShortLabel()
+            short_label = numerical.getShortLabel()
+            if short_label is not None:
+                child_element.attrib["SHORT-LABEL"] = short_label
             if numerical._text is not None:
                 child_element.text = numerical._text
             elif numerical._value is not None:
