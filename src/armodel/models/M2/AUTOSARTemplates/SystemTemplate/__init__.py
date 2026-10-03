@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
@@ -314,7 +314,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
             mapping = ApplicationPartitionToEcuPartitionMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.applicationPartitionToEcuPartitionMappings.append(mapping)
-        return self.getReferrableElement(short_name, ApplicationPartitionToEcuPartitionMapping)
+        return cast(ApplicationPartitionToEcuPartitionMapping, self.getReferrableElement(short_name, ApplicationPartitionToEcuPartitionMapping))
 
     def getAppOsTaskProxyToEcuTaskProxyMappings(self):
         return self.appOsTaskProxyToEcuTaskProxyMappings
@@ -328,7 +328,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
             mapping = AppOsTaskProxyToEcuTaskProxyMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.appOsTaskProxyToEcuTaskProxyMappings.append(mapping)
-        return self.getReferrableElement(short_name, AppOsTaskProxyToEcuTaskProxyMapping)
+        return cast(AppOsTaskProxyToEcuTaskProxyMapping, self.getReferrableElement(short_name, AppOsTaskProxyToEcuTaskProxyMapping))
 
     def getComManagementMappings(self):
         return self.comManagementMappings
@@ -342,7 +342,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
             mapping = ComManagementMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.comManagementMappings.append(mapping)
-        return self.getReferrableElement(short_name, ComManagementMapping)
+        return cast(ComManagementMapping, self.getReferrableElement(short_name, ComManagementMapping))
 
     def getCryptoServiceMappings(self):
         return self.cryptoServiceMappings
@@ -356,14 +356,14 @@ class SystemMapping(Identifiable, VariationPointCapable):
             mapping = SecOcCryptoServiceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.cryptoServiceMappings.append(mapping)
-        return self.getReferrableElement(short_name, SecOcCryptoServiceMapping)
+        return cast(SecOcCryptoServiceMapping, self.getReferrableElement(short_name, SecOcCryptoServiceMapping))
 
     def createTlsCryptoServiceMapping(self, short_name: str) -> TlsCryptoServiceMapping:
         if not self.IsReferrableElementExists(short_name, TlsCryptoServiceMapping):
             mapping = TlsCryptoServiceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.cryptoServiceMappings.append(mapping)
-        return self.getReferrableElement(short_name, TlsCryptoServiceMapping)
+        return cast(TlsCryptoServiceMapping, self.getReferrableElement(short_name, TlsCryptoServiceMapping))
 
     def getDataMappings(self):
         return self.dataMappings
@@ -387,7 +387,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
             mapping = ECUMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.ecuResourceMappings.append(mapping)
-        return self.getReferrableElement(short_name, ECUMapping)
+        return cast(ECUMapping, self.getReferrableElement(short_name, ECUMapping))
 
     def getJ1939ControllerApplicationToJ1939NmNodeMappings(self):
         return self.j1939ControllerApplicationToJ1939NmNodeMappings
@@ -488,20 +488,20 @@ class SystemMapping(Identifiable, VariationPointCapable):
             mapping = SwcToImplMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.swImplMappings.append(mapping)
-        return self.getReferrableElement(short_name, SwcToImplMapping)
+        return cast(SwcToImplMapping, self.getReferrableElement(short_name, SwcToImplMapping))
 
     def getSwMappings(self):
         return self.swMappings
 
     def getSwcToEcuMappings(self) -> List[SwcToEcuMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, SwcToEcuMapping), self.referrableElements), key=lambda o: o.short_name))
+        return list(sorted([a for a in self.referrableElements if isinstance(a, SwcToEcuMapping)], key=lambda o: o.short_name))
 
     def createSwcToEcuMapping(self, short_name: str) -> SwcToEcuMapping:
         if not self.IsReferrableElementExists(short_name, SwcToEcuMapping):
             mapping = SwcToEcuMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.swMappings.append(mapping)
-        return self.getReferrableElement(short_name, SwcToEcuMapping)
+        return cast(SwcToEcuMapping, self.getReferrableElement(short_name, SwcToEcuMapping))
 
     def getSystemSignalGroupToComResourceMappings(self):
         return self.systemSignalGroupToComResourceMappings
@@ -727,7 +727,7 @@ class ClientIdDefinitionSet(ARElement):
             id_definition = ClientIdDefinition(self, short_name)
             self.addReferrableElement(id_definition)
             self.clientIdDefinitions.append(id_definition)
-        return self.getReferrableElement(short_name, ClientIdDefinition)
+        return cast(ClientIdDefinition, self.getReferrableElement(short_name, ClientIdDefinition))
 
 
 class System(AtpStructureElement):
@@ -901,7 +901,7 @@ class System(AtpStructureElement):
             cluster = J1939SharedAddressCluster(self, short_name)
             self.addReferrableElement(cluster)
             self.j1939SharedAddressClusters.append(cluster)
-        return self.getReferrableElement(short_name, J1939SharedAddressCluster)
+        return cast(J1939SharedAddressCluster, self.getReferrableElement(short_name, J1939SharedAddressCluster))
 
     def getJ1939SharedAddressClusters(self) -> List[J1939SharedAddressCluster]:
         """
@@ -917,7 +917,7 @@ class System(AtpStructureElement):
             mapping = SystemMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.mappings.append(mapping)
-        return self.getReferrableElement(short_name, SystemMapping)
+        return cast(SystemMapping, self.getReferrableElement(short_name, SystemMapping))
 
     def getMappings(self) -> List[SystemMapping]:
         """
@@ -965,7 +965,7 @@ class System(AtpStructureElement):
             prototype = RootSwCompositionPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.rootSoftwareComposition = prototype
-        return self.getReferrableElement(short_name, RootSwCompositionPrototype)
+        return cast(RootSwCompositionPrototype, self.getReferrableElement(short_name, RootSwCompositionPrototype))
 
     def getRootSoftwareComposition(self) -> Optional[RootSwCompositionPrototype]:
         """
@@ -997,7 +997,7 @@ class System(AtpStructureElement):
             chapter = Chapter(self, short_name)
             self.addReferrableElement(chapter)
             self.systemDocumentations.append(chapter)
-        return self.getReferrableElement(short_name, Chapter)
+        return cast(Chapter, self.getReferrableElement(short_name, Chapter))
 
     def getSystemDocumentations(self) -> List[Chapter]:
         """
