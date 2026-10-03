@@ -1682,16 +1682,14 @@ class EcucFloatParamDef(EcucParameterDef):
 
 
 class EcucChoiceContainerDef(EcucContainerDef):
-    """
-    Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Value description only one of the given containers will actually be present.
-    """
+    """Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Values only one instance from the choice list will be present."""
 
     # EcucChoiceContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.5, p.41
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getChoices                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChoices                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

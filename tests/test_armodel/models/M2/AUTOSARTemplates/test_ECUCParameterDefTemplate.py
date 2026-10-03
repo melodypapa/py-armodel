@@ -158,8 +158,29 @@ class TestEcucFloatParamDef:
 
 
 class TestEcucChoiceContainerDef:
+    CLASS_NOTE = "Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Values only one instance from the choice list will be present."
+
     def test_instantiation(self):
         assert _instantiate(EcucChoiceContainerDef, "EcucChoiceContainerDef").getShortName() == "EcucChoiceContainerDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucChoiceContainerDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucChoiceContainerDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucChoiceContainerDef, "Ecc")
+        assert obj.getChoices() == []
+
+    def test_create_choices_append_and_dedupe(self):
+        obj = _instantiate(EcucChoiceContainerDef, "Ecc")
+        choice = obj.createEcucParamConfContainerDef("C1")
+        assert isinstance(choice, EcucParamConfContainerDef)
+        assert obj.getChoices() == [choice]
+        assert obj.createEcucParamConfContainerDef("C1") is choice  # duplicate returns existing
+        obj.createEcucParamConfContainerDef("C2")
+        assert len(obj.getChoices()) == 2
 
 
 class TestEcucParamConfContainerDef:
