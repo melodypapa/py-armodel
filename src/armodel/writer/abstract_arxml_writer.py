@@ -17,9 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
-    Float,
     Identifier,
-    Integer,
     NameToken,
     Numerical,
     PositiveUnlimitedInteger,
@@ -126,10 +124,10 @@ class AbstractARXMLWriter(ABC):
             elif numerical._value is not None:
                 child_element.text = str(numerical._value)
 
-    def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Optional[Integer]):
+    def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Optional[Numerical]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
-    def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Optional[Integer]):
+    def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Optional[Numerical]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str, value: Optional[PositiveUnlimitedInteger]):
@@ -171,7 +169,7 @@ class AbstractARXMLWriter(ABC):
             if ref.value is not None:
                 child_tag.text = ref.value
 
-    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: Optional[Float]):
+    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: Optional[Numerical]):
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)

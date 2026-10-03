@@ -7,14 +7,30 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucBooleanParamDef,
+    EcucChoiceReferenceDef,
     EcucDefinitionCollection,
+    EcucDerivationSpecification,
     EcucDestinationUriDefRefType,
+    EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
+    EcucDestinationUriPolicy,
+    EcucEnumerationLiteralDef,
+    EcucEnumerationParamDef,
     EcucFloatParamDef,
     EcucForeignReferenceDef,
+    EcucFunctionNameDef,
+    EcucInstanceReferenceDef,
+    EcucIntegerParamDef,
     EcucLinkerSymbolDef,
     EcucModuleDef,
+    EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
+    EcucParameterDerivationFormula,
+    EcucQuery,
+    EcucQueryExpression,
+    EcucReferenceDef,
+    EcucStringParamDef,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
@@ -346,6 +362,37 @@ class TestWriterEcucStringParamDef:
         writer.writeEcucStringParamDef(parent, None)
         assert len(parent) == 0
 
+    def test_round_trip_all_attrs(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucStringParamDef("P")
+        param.setDefaultValue(_verbatim("dv"))
+        param.setMinLength(_posint(1))
+        param.setMaxLength(_posint(64))
+        param.setRegularExpression(_regex("[a-z]*"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucStringParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "dv"
+            assert reloaded_param.getMinLength().getValue() == 1
+            assert reloaded_param.getMaxLength().getValue() == 64
+            assert reloaded_param.getRegularExpression().getValue() == "[a-z]*"
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucIntegerParamDef:
     def test_full(self, writer):
@@ -365,6 +412,36 @@ class TestWriterEcucIntegerParamDef:
         parent = _parent()
         writer.writeEcucIntegerParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_default_max_min(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucIntegerParamDef("P")
+        param.setDefaultValue(_unlimited(10))
+        param.setMax(_unlimited(100))
+        param.setMin(_unlimited(0))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucIntegerParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() == 10
+            assert reloaded_param.getMax().getValue() == 100
+            assert reloaded_param.getMin().getValue() == 0
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucFloatParamDef:
@@ -439,6 +516,40 @@ class TestWriterEcucEnumerationLiteralDef:
         writer.writeEcucEnumerationLiteralDef(parent, None)
         assert len(parent) == 0
 
+    def test_round_trip_literal_with_origin(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucEnumerationParamDef("P")
+        literal = param.createLiteral("Lit")
+        origin = _literal("AUTOSAR_ECUC")
+        literal.setOrigin(origin)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucEnumerationParamDef)
+            assert reloaded_param is not None
+            reloaded_literals = reloaded_param.getLiterals()
+            assert len(reloaded_literals) == 1
+            reloaded_literal = reloaded_literals[0]
+            assert isinstance(reloaded_literal, EcucEnumerationLiteralDef)
+            assert reloaded_literal.getShortName() == "Lit"
+            assert reloaded_literal.getOrigin() is not None
+            assert reloaded_literal.getOrigin().getValue() == "AUTOSAR_ECUC"
+            assert reloaded_literal.getEcucCond() is None
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucEnumerationParamDefLiterals:
     def test_with_literals(self, writer):
@@ -477,6 +588,35 @@ class TestWriterEcucEnumerationParamDef:
         writer.writeEcucEnumerationParamDef(parent, None)
         assert len(parent) == 0
 
+    def test_round_trip_default_value_and_literals(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucEnumerationParamDef("P")
+        param.setDefaultValue(_literal("L1"))
+        param.createLiteral("L1")
+        param.createLiteral("L2")
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucEnumerationParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "L1"
+            literal_names = [lit.getShortName() for lit in reloaded_param.getLiterals()]
+            assert literal_names == ["L1", "L2"]
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucFunctionNameDef:
     def test_full(self, writer):
@@ -497,6 +637,33 @@ class TestWriterEcucFunctionNameDef:
         assert cond.find("MIN-LENGTH").text == "1"
         assert cond.find("MAX-LENGTH").text == "64"
         assert cond.find("REGULAR-EXPRESSION").text == "[a-zA-Z_][a-zA-Z0-9_]*"
+
+    def test_round_trip_function_name_default_value(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucFunctionNameDef("P")
+        param.setDefaultValue(_verbatim("fn"))
+        param.setRegularExpression(_regex("[a-zA-Z_][a-zA-Z0-9_]*"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucFunctionNameDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "fn"
+            assert reloaded_param.getRegularExpression().getValue() == "[a-zA-Z_][a-zA-Z0-9_]*"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucMultilineStringParamDef:
@@ -519,8 +686,37 @@ class TestWriterEcucMultilineStringParamDef:
 
     def test_none(self, writer):
         parent = _parent()
-        writer.writeEcucFunctionNameDef(parent, None)
+        writer.writeEcucMultilineStringParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_multiline_default_value(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucMultilineStringParamDef("P")
+        param.setDefaultValue(_verbatim("line1\nline2"))
+        param.setMinLength(_posint(2))
+        param.setMaxLength(_posint(200))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucMultilineStringParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "line1\nline2"
+            assert reloaded_param.getMinLength().getValue() == 2
+            assert reloaded_param.getMaxLength().getValue() == 200
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucContainerDefParameters:
@@ -604,6 +800,32 @@ class TestWriterEcucAbstractReferenceDef:
         writer.writeEcucAbstractReferenceDef(parent, ref)
         assert parent.find("WITH-AUTO") is None
 
+    def test_round_trip_with_auto_via_concrete_reference(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        ref = container.createEcucReferenceDef("R")
+        ref.setWithAuto(_bool(True))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("R", EcucReferenceDef)
+            assert reloaded_ref is not None
+            assert reloaded_ref.getWithAuto() is not None
+            assert reloaded_ref.getWithAuto().getValue() is True
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucAbstractInternalReferenceDef:
     def test_writes_inherited_attributes(self, writer):
@@ -684,6 +906,36 @@ class TestWriterEcucChoiceReferenceDef:
         writer.writeEcucChoiceReferenceDef(parent, ref)
         assert parent[0].find("DESTINATION-REFS") is None
 
+    def test_round_trip_destination_refs(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        ref = container.createEcucChoiceReferenceDef("C")
+        ref.addDestinationRef(_ref("/dst1", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        ref.addDestinationRef(_ref("/dst2", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("C", EcucChoiceReferenceDef)
+            assert reloaded_ref is not None
+            reloaded_refs = reloaded_ref.getDestinationRefs()
+            assert len(reloaded_refs) == 2
+            assert reloaded_refs[0].getValue() == "/dst1"
+            assert reloaded_refs[0].getDest() == "ECUC-PARAM-CONF-CONTAINER-DEF"
+            assert reloaded_refs[1].getValue() == "/dst2"
+        finally:
+            os.unlink(tmp_path)
+
 
 class TestWriterEcucInstanceReferenceDef:
     def test_full(self, writer):
@@ -708,6 +960,33 @@ class TestWriterEcucInstanceReferenceDef:
         writer.writeEcucInstanceReferenceDef(parent, ref)
         assert parent[0].find("DESTINATION-CONTEXT") is None
         assert parent[0].find("DESTINATION-TYPE") is None
+
+    def test_round_trip_context_and_type(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        ref = container.createEcucInstanceReferenceDef("I")
+        ref.setDestinationContext(_literal("SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"))
+        ref.setDestinationType(_literal("VARIABLE-DATA-PROTOTYPE"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("I", EcucInstanceReferenceDef)
+            assert reloaded_ref is not None
+            assert reloaded_ref.getDestinationContext().getValue() == "SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"
+            assert reloaded_ref.getDestinationType().getValue() == "VARIABLE-DATA-PROTOTYPE"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucForeignReferenceDef:
@@ -935,7 +1214,91 @@ class TestWriterEcucDefinitionCollection:
 # ==================== EcucDestinationUriPolicy (Table 2.36) writer round-trip ====================
 
 
+class TestWriterEcucQuery:
+    def test_round_trip_query_with_expression(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucIntegerParamDef("P")
+        derivation = EcucDerivationSpecification()
+        query = derivation.createEcucQuery("Q1")
+        expr = EcucQueryExpression()
+        expr.setConfigElementDefGlobalRef(_ref("/Pkg/Mod/Ct", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        query.setEcucQueryExpression(expr)
+        param.setDerivation(derivation)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucIntegerParamDef)
+            reloaded_derivation = reloaded_param.getDerivation()
+            assert reloaded_derivation is not None
+            reloaded_queries = reloaded_derivation.getEcucQueries()
+            assert len(reloaded_queries) == 1
+            reloaded_query = reloaded_queries[0]
+            assert isinstance(reloaded_query, EcucQuery)
+            assert reloaded_query.getShortName() == "Q1"
+            reloaded_expr = reloaded_query.getEcucQueryExpression()
+            assert reloaded_expr is not None
+            reloaded_ref = reloaded_expr.getConfigElementDefGlobalRef()
+            assert reloaded_ref is not None
+            assert reloaded_ref.getValue() == "/Pkg/Mod/Ct"
+            assert reloaded_ref.getDest() == "ECUC-PARAM-CONF-CONTAINER-DEF"
+            assert reloaded_expr.getConfigElementDefLocalRef() is None
+        finally:
+            os.unlink(tmp_path)
+
+
 class TestEcucDestinationUriPolicyWriter:
+    def test_round_trip_full_policy(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        def_set = pkg.createEcucDestinationUriDefSet("Defs")
+        uri_def = def_set.createEcucDestinationUriDef("TargetUri")
+        policy = EcucDestinationUriPolicy()
+        policy.setDestinationUriNestingContract(EcucDestinationUriNestingContractEnum().setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER))
+        policy.createEcucParamConfContainerDef("TargetContainer")
+        policy.createEcucIntegerParamDef("TargetParam")
+        policy.createEcucReferenceDef("TargetRef")
+        uri_def.setDestinationUriPolicy(policy)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_def_set = reloaded_pkg.getReferrableElement("Defs", EcucDestinationUriDefSet)
+            reloaded_uri_def = reloaded_def_set.getDestinationUriDefs()[0]
+            reloaded_policy = reloaded_uri_def.getDestinationUriPolicy()
+            assert reloaded_policy is not None
+            assert reloaded_policy.getDestinationUriNestingContract().getValue() == "TARGET-CONTAINER"
+            assert len(reloaded_policy.getContainers()) == 1
+            assert isinstance(reloaded_policy.getContainers()[0], EcucParamConfContainerDef)
+            assert reloaded_policy.getContainers()[0].getShortName() == "TargetContainer"
+            assert len(reloaded_policy.getParameters()) == 1
+            assert isinstance(reloaded_policy.getParameters()[0], EcucIntegerParamDef)
+            assert reloaded_policy.getParameters()[0].getShortName() == "TargetParam"
+            assert len(reloaded_policy.getReferences()) == 1
+            assert isinstance(reloaded_policy.getReferences()[0], EcucReferenceDef)
+            assert reloaded_policy.getReferences()[0].getShortName() == "TargetRef"
+        finally:
+            os.unlink(tmp_path)
+
     """Writer round-trip for EcucDestinationUriDefSet -> Def -> Policy (Tables 2.34-2.36)."""
 
     def _round_trip(self, build):
@@ -976,14 +1339,14 @@ class TestEcucDestinationUriPolicyWriter:
             uri_def = uri_def_set.createEcucDestinationUriDef("Uri1")
             policy = EcucDestinationUriPolicy()
             container = EcucParamConfContainerDef(policy, "TargetContainer")
-            policy.addContainer(container)
+            policy.createEcucParamConfContainerDef(container.getShortName())
             contract = EcucDestinationUriNestingContractEnum()
             contract.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
             policy.setDestinationUriNestingContract(contract)
             param = EcucBooleanParamDef(policy, "InterestingParam1")
-            policy.addParameter(param)
+            policy.createEcucIntegerParamDef(param.getShortName())
             ref = EcucReferenceDef(policy, "Ref1")
-            policy.addReference(ref)
+            policy.createEcucReferenceDef(ref.getShortName())
             uri_def.setDestinationUriPolicy(policy)
 
         reloaded_pkg = self._round_trip(build)
@@ -1042,7 +1405,6 @@ class TestWriterEcucDerivationSpecification:
     def _build_derivation(self):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
             EcucDerivationSpecification,
-            EcucParameterDerivationFormula,
             EcucQueryExpression,
         )
         from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
@@ -1369,7 +1731,7 @@ class TestWriterEcucLinkerSymbolDef:
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriPolicy
 
         policy = EcucDestinationUriPolicy()
-        policy.addParameter(EcucLinkerSymbolDef(policy, "Sym"))
+        policy.createEcucLinkerSymbolDef("Sym")
         parent = _parent()
         writer.writeEcucDestinationUriPolicyParameters(parent, policy)
         assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF") is not None

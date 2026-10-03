@@ -374,16 +374,16 @@ class TestEcucDestinationUriDefSet:
         assert uri_def_set.getShortName() == "TestDestinationUriDefSet"
         assert uri_def_set.getDestinationUriDefs() == []
 
-    def test_add_get_destination_uri_defs(self):
+    def test_create_get_destination_uri_defs(self):
         """
-        Test addDestinationUriDef appends an EcucDestinationUriDef and returns self.
+        Test createEcucDestinationUriDef appends and dedupes by short name.
         """
         parent, uri_def_set = self._make_uri_def_set()
-        uri_def = EcucDestinationUriDef(parent, "TestDestinationUriDef")
-        result = uri_def_set.addDestinationUriDef(uri_def)
-        assert result == uri_def_set
+        uri_def = uri_def_set.createEcucDestinationUriDef("TestDestinationUriDef")
+        assert isinstance(uri_def, EcucDestinationUriDef)
         assert len(uri_def_set.getDestinationUriDefs()) == 1
         assert uri_def_set.getDestinationUriDefs()[0] is uri_def
+        assert uri_def_set.createEcucDestinationUriDef("TestDestinationUriDef") is uri_def
 
 
 class TestEcucDestinationUriPolicy:
@@ -417,44 +417,38 @@ class TestEcucDestinationUriPolicy:
         assert result == policy
         assert policy.getDestinationUriNestingContract() == EcucDestinationUriNestingContractEnum.TARGET_CONTAINER
 
-    def test_add_container(self):
+    def test_create_container_appends_and_dedupes(self):
         """
-        Test addContainer appends an EcucContainerDef and returns self.
+        Test createEcucParamConfContainerDef appends and returns self-consistent state.
         """
-        document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
         policy = self._make_policy()
-        container = EcucParamConfContainerDef(parent, "TestContainerDef")
-        result = policy.addContainer(container)
-        assert result == policy
+        container = policy.createEcucParamConfContainerDef("TestContainerDef")
+        assert isinstance(container, EcucParamConfContainerDef)
         assert len(policy.getContainers()) == 1
         assert policy.getContainers()[0] is container
+        assert policy.createEcucParamConfContainerDef("TestContainerDef") is container
 
-    def test_add_parameter(self):
+    def test_create_parameter_appends_and_dedupes(self):
         """
-        Test addParameter appends an EcucParameterDef and returns self.
+        Test createEcucBooleanParamDef appends an EcucParameterDef.
         """
-        document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
         policy = self._make_policy()
-        param = EcucBooleanParamDef(parent, "TestBooleanParamDef")
-        result = policy.addParameter(param)
-        assert result == policy
+        param = policy.createEcucBooleanParamDef("TestBooleanParamDef")
+        assert isinstance(param, EcucBooleanParamDef)
         assert len(policy.getParameters()) == 1
         assert policy.getParameters()[0] is param
+        assert policy.createEcucBooleanParamDef("TestBooleanParamDef") is param
 
-    def test_add_reference(self):
+    def test_create_reference_appends_and_dedupes(self):
         """
-        Test addReference appends an EcucAbstractReferenceDef and returns self.
+        Test createEcucReferenceDef appends an EcucAbstractReferenceDef.
         """
-        document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
         policy = self._make_policy()
-        reference = EcucReferenceDef(parent, "TestReferenceDef")
-        result = policy.addReference(reference)
-        assert result == policy
+        reference = policy.createEcucReferenceDef("TestReferenceDef")
+        assert isinstance(reference, EcucReferenceDef)
         assert len(policy.getReferences()) == 1
         assert policy.getReferences()[0] is reference
+        assert policy.createEcucReferenceDef("TestReferenceDef") is reference
 
 
 class TestEcucConfigurationClassEnum:
@@ -1602,13 +1596,11 @@ class TestEcucLinkerSymbolDef:
         """
         Test the class docstring carries the Table 2.21 Note verbatim + the class requirement [TPS_ECUC_02031].
         """
-        expected = inspect.cleandoc(
-            """
+        expected = inspect.cleandoc("""
             Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
 
             [TPS_ECUC_02031] Restriction on the length of EcucLinkerSymbolDef values and defaultValue The restriction on the length of the default value and the value of a EcucLinkerSymbolDef is set to 255 characters.
-            """
-        )
+            """)
         assert inspect.cleandoc(EcucLinkerSymbolDef.__doc__) == expected
 
 

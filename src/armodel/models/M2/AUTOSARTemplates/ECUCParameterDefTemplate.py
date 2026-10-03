@@ -758,23 +758,19 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
 
 class EcucDerivationSpecification(ARObject):
-    """
-    Allows to define configuration items that are calculated based on the value of
-    other parameter values, or of elements (attributes/classes) defined in other
-    AUTOSAR templates such as System template and SW component template.
-    """
+    """Allows to define configuration items that are calculated based on the value of • other parameter values • elements (attributes/classes) defined in other AUTOSAR templates such as System template and SW component template"""
 
     # EcucDerivationSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.38, p.87
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -811,7 +807,7 @@ class EcucDerivationSpecification(ARObject):
 
     def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
         """
-        Creates or returns an existing EcucQuery aggregated by this derivation specification.
+        Query to the ECU Configuration Description.
         """
         if short_name is None:
             return None
@@ -956,24 +952,22 @@ class EcucBooleanParamDef(EcucParameterDef):
 
 
 class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
-    """
-    Common class to gather the attributes for the definition of references.
-    """
+    """Common class to gather the attributes for the definition of references."""
 
     # EcucAbstractReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.26, p.71
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractReferenceDef")
 
         super().__init__(parent, short_name)
 
-        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO".
+        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
         self.withAuto: Optional[Boolean] = None
 
     def getWithAuto(self) -> Optional[Boolean]:
@@ -993,19 +987,16 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    """
-    Common abstract class to gather attributes for internal references (where
-    the destination is located in the Ecu Configuration Description).
-    """
+    """Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description)."""
 
     # EcucAbstractInternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.27, p.72
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractInternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractInternalReferenceDef")
         super().__init__(parent, short_name)
@@ -1030,18 +1021,14 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    """
-    Common abstract class to gather attributes for external references (where the
-    destination is not located in the ECU Configuration Description but in an
-    another AUTOSAR Template).
-    """
+    """Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template)."""
 
     # EcucAbstractExternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.28, p.72
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
 
@@ -1092,33 +1079,30 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
-    """
-    Specify alternative references where in the ECU Configuration description
-    only one of the specified references will actually be used.
-    """
+    """Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used."""
 
     # EcucChoiceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.30, p.74
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # All the possible parameter containers for the reference are specified.
+        # All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         self.destinationRefs: List[RefType] = []
 
     def getDestinationRefs(self) -> List[RefType]:
         """
-        All the possible parameter containers for the reference are specified.
+        All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         """
         return self.destinationRefs
 
     def addDestinationRef(self, value: RefType) -> EcucChoiceReferenceDef:
         """
-        All the possible parameter containers for the reference are specified.
+        All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef
         A None value is a no-op and does not overwrite an existing destinationRefs.
         """
         if value is not None:
@@ -1261,38 +1245,35 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
-    """
-    Specify a reference to an XML description of an entity described in another
-    AUTOSAR template using the INSTANCE REFERENCE semantics.
-    """
+    """Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics."""
 
     # EcucInstanceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.32, p.77
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        # The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         self.destinationContext: Optional[String] = None
 
-        # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        # The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         self.destinationType: Optional[String] = None
 
     def getDestinationContext(self) -> Optional[String]:
         """
-        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         """
         return self.destinationContext
 
     def setDestinationContext(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
-        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationContext.
         """
         if value is not None:
@@ -1301,13 +1282,13 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
     def getDestinationType(self) -> Optional[String]:
         """
-        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         """
         return self.destinationType
 
     def setDestinationType(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
-        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationType.
         """
         if value is not None:
@@ -1322,18 +1303,18 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
 
     # EcucAbstractStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.18, p.63
-    # Spec verified: R23-11
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRegularExpression [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractStringParamDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
 
@@ -1417,93 +1398,106 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
 
 
 class EcucStringParamDef(EcucAbstractStringParamDef):
-    """
-    Configuration parameter type for String.
-    """
+    """Configuration parameter type for String."""
 
     # EcucStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.19, p.64
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class EcucFunctionNameDef(EcucAbstractStringParamDef):
-    """
-    Configuration parameter type for Function Names like those used to specify callback functions.
-    """
+    """Configuration parameter type for Function Names like those used to specify callback functions."""
 
     # EcucFunctionNameDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.22, p.65
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class EcucIntegerParamDef(EcucParameterDef):
-    """
-    Configuration parameter type for Integer.
-    """
+    """Configuration parameter type for Integer."""
 
     # EcucIntegerParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.16, p.60
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMax                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMax                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Default value of the integer configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         self.defaultValue: Optional[UnlimitedInteger] = None
+
+        # Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         self.max: Optional[UnlimitedInteger] = None
+
+        # Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
         self.min: Optional[UnlimitedInteger] = None
 
     def getDefaultValue(self) -> Optional[UnlimitedInteger]:
+        """Default value of the integer configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"""
         return self.defaultValue
 
-    def setDefaultValue(self, value: UnlimitedInteger):
+    def setDefaultValue(self, value: Optional[UnlimitedInteger]) -> EcucIntegerParamDef:
+        """
+        Default value of the integer configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self
 
     def getMax(self) -> Optional[UnlimitedInteger]:
+        """Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"""
         return self.max
 
-    def setMax(self, value: UnlimitedInteger):
+    def setMax(self, value: Optional[UnlimitedInteger]) -> EcucIntegerParamDef:
+        """
+        Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing max.
+        """
         if value is not None:
             self.max = value
         return self
 
     def getMin(self) -> Optional[UnlimitedInteger]:
+        """Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"""
         return self.min
 
-    def setMin(self, value: UnlimitedInteger):
+    def setMin(self, value: Optional[UnlimitedInteger]) -> EcucIntegerParamDef:
+        """
+        Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing min.
+        """
         if value is not None:
             self.min = value
         return self
 
 
 class EcucEnumerationLiteralDef(Identifiable):
-    """
-    Configuration parameter type for enumeration literals definition.
-    """
+    """Configuration parameter type for enumeration literals definition."""
 
     # EcucEnumerationLiteralDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.24, p.67
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1515,9 +1509,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         self.origin: Optional[String] = None
 
     def getEcucCond(self) -> Optional[EcucConditionSpecification]:
-        """
-        If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored.
-        """
+        """If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored."""
         return self.ecucCond
 
     def setEcucCond(self, value: Optional[EcucConditionSpecification]) -> EcucEnumerationLiteralDef:
@@ -1530,9 +1522,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         return self
 
     def getOrigin(self) -> Optional[String]:
-        """
-        String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific.
-        """
+        """String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific."""
         return self.origin
 
     def setOrigin(self, value: Optional[String]) -> EcucEnumerationLiteralDef:
@@ -1546,18 +1536,16 @@ class EcucEnumerationLiteralDef(Identifiable):
 
 
 class EcucEnumerationParamDef(EcucParameterDef):
-    """
-    Configuration parameter type for Enumeration.
-    """
+    """Configuration parameter type for Enumeration."""
 
     # EcucEnumerationParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.66
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLiterals                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createLiteral                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLiterals                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLiteral                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1565,7 +1553,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
         # Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
         self.defaultValue: Optional[Identifier] = None
 
-        # Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
+        # Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable Tags: atp.Splitkey=literal.shortName
         self.literals: List[EcucEnumerationLiteralDef] = []
 
     def getDefaultValue(self) -> Optional[Identifier]:
@@ -1585,13 +1573,13 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
     def getLiterals(self) -> List[EcucEnumerationLiteralDef]:
         """
-        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
+        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable Tags: atp.Splitkey=literal.shortName
         """
         return self.literals
 
     def createLiteral(self, short_name: str) -> EcucEnumerationLiteralDef:
         """
-        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
+        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable Tags: atp.Splitkey=literal.shortName
         """
         if not self.IsReferrableElementExists(short_name, EcucEnumerationLiteralDef):
             literal = EcucEnumerationLiteralDef(self, short_name)
@@ -1955,14 +1943,12 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
 
 class EcucAddInfoParamDef(EcucParameterDef):
-    """
-    Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description.
-    """
+    """Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description."""
 
     # EcucAddInfoParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2056,16 +2042,14 @@ class EcucDefinitionCollection(AtpBlueprintable):
 
 
 class EcucDestinationUriDef(Identifiable):
-    """
-    Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs.
-    """
+    """Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs."""
 
     # EcucDestinationUriDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.35, p.82
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2090,17 +2074,14 @@ class EcucDestinationUriDef(Identifiable):
 
 
 class EcucDestinationUriDefSet(AtpBlueprintable):
-    """
-    This class represents a list of EcucDestinationUriDefs.
-    """
+    """This class represents a list of EcucDestinationUriDefs. Tags: atp.recommendedPackage=EcucDestinationUriDefSets"""
 
     # EcucDestinationUriDefSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.34, p.82
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addDestinationUriDef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2118,37 +2099,42 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         """
         This is one particular EcucDestinationUriDef.
         """
-        element = EcucDestinationUriDef(self, short_name)
-        self.destinationUriDefs.append(element)
-        return element
-
-    def addDestinationUriDef(self, value: EcucDestinationUriDef) -> EcucDestinationUriDefSet:
-        """
-        This is one particular EcucDestinationUriDef.
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.destinationUriDefs.append(value)
-        return self
+        if not self.IsReferrableElementExists(short_name, EcucDestinationUriDef):
+            uri_def = EcucDestinationUriDef(self, short_name)
+            self.addReferrableElement(uri_def)
+            self.destinationUriDefs.append(uri_def)
+        return cast(EcucDestinationUriDef, self.getReferrableElement(short_name, EcucDestinationUriDef))
 
 
 class EcucDestinationUriPolicy(ARObject):
-    """
-    The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute.
-    """
+    """The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute."""
 
     # EcucDestinationUriPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.36, p.83
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReference                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEcucChoiceContainerDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainers                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDestinationUriNestingContract  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriNestingContract  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucAddInfoParamDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucBooleanParamDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucEnumerationParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFloatParamDef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFunctionNameDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucIntegerParamDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucLinkerSymbolDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucMultilineStringParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucStringParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameters                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucChoiceReferenceDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucForeignReferenceDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucInstanceReferenceDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucReferenceDef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucUriReferenceDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferences                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2165,20 +2151,33 @@ class EcucDestinationUriPolicy(ARObject):
         # Description of references that are contained in the target container.
         self.references: List[EcucAbstractReferenceDef] = []
 
+    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+        """
+        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
+        """
+        for container in self.containers:
+            if type(container) is EcucChoiceContainerDef and container.getShortName() == short_name:
+                return container
+        container = EcucChoiceContainerDef(self, short_name)
+        self.containers.append(container)
+        return container
+
+    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
+        """
+        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
+        """
+        for container in self.containers:
+            if type(container) is EcucParamConfContainerDef and container.getShortName() == short_name:
+                return container
+        container = EcucParamConfContainerDef(self, short_name)
+        self.containers.append(container)
+        return container
+
     def getContainers(self) -> List[EcucContainerDef]:
         """
         Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
         """
         return self.containers
-
-    def addContainer(self, value: EcucContainerDef) -> EcucDestinationUriPolicy:
-        """
-        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.containers.append(value)
-        return self
 
     def getDestinationUriNestingContract(self) -> Optional[EcucDestinationUriNestingContractEnum]:
         """
@@ -2189,11 +2188,110 @@ class EcucDestinationUriPolicy(ARObject):
     def setDestinationUriNestingContract(self, value: Optional[EcucDestinationUriNestingContractEnum]) -> EcucDestinationUriPolicy:
         """
         This attribute defines how the referenced target EcucContainerDef is described.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing destinationUriNestingContract.
         """
         if value is not None:
             self.destinationUriNestingContract = value
         return self
+
+    def createEcucAddInfoParamDef(self, short_name: str) -> EcucAddInfoParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucAddInfoParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucAddInfoParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucBooleanParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucBooleanParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucEnumerationParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucEnumerationParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucFloatParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucFloatParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucFunctionNameDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucFunctionNameDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucIntegerParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucIntegerParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucLinkerSymbolDef(self, short_name: str) -> EcucLinkerSymbolDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucLinkerSymbolDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucLinkerSymbolDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucMultilineStringParamDef(self, short_name: str) -> EcucMultilineStringParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucMultilineStringParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucMultilineStringParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucStringParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucStringParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
 
     def getParameters(self) -> List[EcucParameterDef]:
         """
@@ -2201,29 +2299,77 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.parameters
 
-    def addParameter(self, value: EcucParameterDef) -> EcucDestinationUriPolicy:
+    def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
         """
-        Description of parameters that are contained in the target container.
-        A None value is a no-op.
+        Description of references that are contained in the target container.
         """
-        if value is not None:
-            self.parameters.append(value)
-        return self
+        for reference in self.references:
+            if type(reference) is EcucChoiceReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucChoiceReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucForeignReferenceDef(self, short_name: str) -> EcucForeignReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucForeignReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucForeignReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucInstanceReferenceDef(self, short_name: str) -> EcucInstanceReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucInstanceReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucInstanceReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucSymbolicNameReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucSymbolicNameReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucUriReferenceDef(self, short_name: str) -> EcucUriReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucUriReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucUriReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
         Description of references that are contained in the target container.
         """
         return self.references
-
-    def addReference(self, value: EcucAbstractReferenceDef) -> EcucDestinationUriPolicy:
-        """
-        Description of references that are contained in the target container.
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.references.append(value)
-        return self
 
 
 class EcucDestinationUriNestingContractEnum(AREnum):
@@ -2233,8 +2379,9 @@ class EcucDestinationUriNestingContractEnum(AREnum):
 
     # EcucDestinationUriNestingContractEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.37, p.83
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) that are directly owned by the target container. Tags: atp.EnumerationLiteralIndex=0
     LEAF_OF_TARGET_CONTAINER = "LEAF-OF-TARGET-CONTAINER"
@@ -2272,14 +2419,12 @@ class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
 
 
 class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
-    """
-    Configuration parameter type for multiline Strings (including "carriage return").
-    """
+    """Configuration parameter type for multiline Strings (including "carriage return")."""
 
     # EcucMultilineStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.20, p.64
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2341,16 +2486,14 @@ class EcucParameterDerivationFormula(FormulaExpression):
 
 
 class EcucQuery(Identifiable):
-    """
-    Defines a query to the ECUC Description.
-    """
+    """Defines a query to the ECUC Description."""
 
     # EcucQuery method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.40, p.89
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
