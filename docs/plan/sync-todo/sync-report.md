@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 745 | 39.1% |
+| [x] Done | 746 | 39.2% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 320 | 16.8% |
+| [ ] Deferred | 319 | 16.8% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1107,7 +1107,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IndicatorStatusNeeds`                                  | [ ] Implemented| N/A                                      | Group29          |
 | `InfrastructureServices`                                | [ ] Implemented| N/A                                      | Group32          |
 | `InitEvent`                                             | [x] Done    | 64ab725d50                               | Group2           |
-| `InitialSdDelayConfig`                                  | [ ] Deferred| d7240be740                               | Group16          |
+| `InitialSdDelayConfig`                                  | [x] Done    | 84dc59b646                               | Group16          |
 | `InnerPortGroupInCompositionInstanceRef`                | [x] Done    | 919fbc0d11                               | Group2           |
 | `InstantiationDataDefProps`                             | [x] Done    | e2aa88eb41                               | Group10          |
 | `InstantiationRTEEventProps`                            | [ ] Implemented| N/A                                      | Group27          |
