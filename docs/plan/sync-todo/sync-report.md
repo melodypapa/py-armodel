@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 746 | 39.2% |
+| [x] Done | 747 | 39.3% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 319 | 16.8% |
+| [ ] Deferred | 318 | 16.7% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1524,7 +1524,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ScaleConstrValidityEnum`                               | [x] Done    | 1bc8904eee                               | Group9           |
 | `ScheduleTableEntry`                                    | [ ] Implemented| N/A                                      | Group31          |
 | `SdClientConfig`                                        | [x] Done    | 8e0c8857ad                               | Group7           |
-| `SdServerConfig`                                        | [ ] Deferred| d7240be740                               | Group16          |
+| `SdServerConfig`                                        | [x] Done    | f509df9d94                               | Group16          |
 | `SdgAbstractForeignReference`                           | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAbstractPrimitiveAttribute`                         | [ ] Deferred| N/A                                      | Group21          |
 | `SdgAggregationWithVariation`                           | [ ] Deferred| N/A                                      | Group21          |

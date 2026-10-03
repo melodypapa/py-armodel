@@ -298,7 +298,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SdServerConfig` — ARObject — R4.3.1 markdown · Table 6.171 (TPS_SystemTemplate), p.355 — commit d7240be74
+- [x] `SdServerConfig` — ARObject — R4.3.1 markdown · Table 6.171 (TPS_SystemTemplate), p.355 — commit f509df9d9 (# Spec verified: R4.3.1, stamped 2026-10-03)
   - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 7 attrs; setCapabilityRecords replaced by addCapabilityRecord (aggr * mutator per Rule 0013); reader already used addCapabilityRecord
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py (relocated 2026-10-03, Rule 0007)
   - re-pass 2026-10-03: full 9-step re-run for this class (steps 1-8 walked; Step 9 stays `[ ]` pending 9b). Rule 0007 relocation `ServiceInstances.py` → `EthernetTopology.py` (placed immediately before `SdClientConfig`), all consumers re-pointed (parser L1034, writer L929, `test_SdServerConfig.py`, `test_ServiceInstances.py`, `test_event_handler.py`, `test_writer_frame_channel.py`); `SdServerConfig` added to `ServiceInstances.py`'s bottom cycle-breaker import for the `EventHandler`/`ProvidedServiceInstance` annotations; both import orders + `armodel.SdServerConfig` resolve. Reader/writer gap closed: `capabilityRecord` (`* aggr`) now read via `getTagWithOptionalValues` → `addCapabilityRecord` and written via `setTagWithOptionalValues`, in XSD `sequenceOffset` order (parser L10230-10231, writer L10235). All class/method docstrings + `__init__` member comments wiped and rewritten from the R4.3.1 markdown `Note` cells (22/22 diff clean). `# Spec:` normalised to `AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.171, p.355`; NO marker (9b gate). Accepted deviation: `ttl` `Optional[PositiveInteger]` kept per user decision (PDF Mult 1) — recorded in `docs/examples/method_deviation_by_class.md`.
@@ -311,7 +311,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-03 on the relocated class (mirror 14 passed; reader 4 + writer 8 passed; 902 passed on the touched + sibling battery; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b CONFIRMED 2026-10-03 (user); marker `# Spec verified: R4.3.1` written. 9a re-run 2026-10-03 on the relocated class (mirror 14 passed; reader 4 + writer 8 passed; 902 passed on the touched + sibling battery; ruff/black clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TcpOptionFilterList` — Identifiable — R23-11 markdown · Table 6.123 (CP_TPS_SystemTemplate), p.457 — commit 2d5b3256b
   - commit: 2d5b3256b (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11 (Rule 0016.3 — class HAS R23-11 Table 6.123): Note "White list..." → "Permitted list..."
