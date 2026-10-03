@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDestinationUriDefRefType,
     EcucFloatParamDef,
     EcucForeignReferenceDef,
+    EcucIntegerParamDef,
     EcucLinkerSymbolDef,
     EcucModuleDef,
     EcucMultiplicityConfigurationClass,
@@ -365,6 +366,36 @@ class TestWriterEcucIntegerParamDef:
         parent = _parent()
         writer.writeEcucIntegerParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_default_max_min(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucIntegerParamDef("P")
+        param.setDefaultValue(_unlimited(10))
+        param.setMax(_unlimited(100))
+        param.setMin(_unlimited(0))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucIntegerParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue() is not None
+            assert reloaded_param.getDefaultValue().getValue() == 10
+            assert reloaded_param.getMax().getValue() == 100
+            assert reloaded_param.getMin().getValue() == 0
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucFloatParamDef:

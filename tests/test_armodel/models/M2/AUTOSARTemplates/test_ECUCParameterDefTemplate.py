@@ -56,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -138,8 +138,61 @@ class TestEcucFunctionNameDef:
 
 
 class TestEcucIntegerParamDef:
+    CLASS_NOTE = "Configuration parameter type for Integer."
+    DEFAULT_VALUE_NOTE = "Default value of the integer configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"
+    MAX_NOTE = "Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"
+    MIN_NOTE = "Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"
+
     def test_instantiation(self):
         assert _instantiate(EcucIntegerParamDef, "EcucIntegerParamDef").getShortName() == "EcucIntegerParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucIntegerParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucIntegerParamDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        assert obj.getDefaultValue() is None
+        assert obj.getMax() is None
+        assert obj.getMin() is None
+
+    def test_get_set_default_value_roundtrip(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        value = UnlimitedInteger().setValue("4")
+        assert obj.setDefaultValue(value) is obj
+        assert obj.getDefaultValue() is value
+        assert obj.getDefaultValue().getValue() == 4
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() is value
+
+    def test_get_set_max_roundtrip(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        value = UnlimitedInteger().setValue("255")
+        assert obj.setMax(value) is obj
+        assert obj.getMax() is value
+        assert obj.getMax().getValue() == 255
+        obj.setMax(None)
+        assert obj.getMax() is value
+
+    def test_get_set_min_roundtrip(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        value = UnlimitedInteger().setValue("0")
+        assert obj.setMin(value) is obj
+        assert obj.getMin() is value
+        assert obj.getMin().getValue() == 0
+        obj.setMin(None)
+        assert obj.getMin() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        assert obj.getDefaultValue.__doc__ == self.DEFAULT_VALUE_NOTE
+        assert inspect.cleandoc(obj.setDefaultValue.__doc__).splitlines()[0] == self.DEFAULT_VALUE_NOTE
+        assert obj.getMax.__doc__ == self.MAX_NOTE
+        assert inspect.cleandoc(obj.setMax.__doc__).splitlines()[0] == self.MAX_NOTE
+        assert obj.getMin.__doc__ == self.MIN_NOTE
+        assert inspect.cleandoc(obj.setMin.__doc__).splitlines()[0] == self.MIN_NOTE
 
 
 class TestEcucEnumerationLiteralDef:
