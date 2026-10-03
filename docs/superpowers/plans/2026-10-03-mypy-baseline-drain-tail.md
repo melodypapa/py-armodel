@@ -27,7 +27,7 @@
 ## The two fix recipes
 
 **Recipe A — cast on lookup return (error: `Incompatible return value type (got "Referrable | None", expected "X")`):**
-wrap the returned expression, `X` = the expected type from the mypy message:
+wrap the returned expression, `X` = the expected type from the mypy message. **Only for create/lookup methods where non-None is a construction post-condition** (element just created or exists-guarded — `createSymbolProps`, `createTpConnectionIdent` style). Never apply this to plain getters over Optional fields:
 
 ```python
 # before
@@ -35,6 +35,20 @@ return self.getReferrableElement(short_name, X)
 # after
 return cast(X, self.getReferrableElement(short_name, X))
 ```
+
+**Recipe C — plain getter over an Optional field (error: `got "X | None", expected "X"` in a getter whose body is `return self.field`):**
+declare the truth — change the getter's return type to `Optional[X]` and drop any cast. Cast here is a lie that a future caller will dereference. Ripple is usually zero: callers in the unchecked writer/parser already pass results to Optional-tolerant APIs; verify with a caller grep before editing:
+
+```python
+# before
+def getCompuMethodRef(self) -> RefType:
+    return cast(RefType, self.compuMethodRef)
+# after
+def getCompuMethodRef(self) -> Optional[RefType]:
+    return self.compuMethodRef
+```
+
+(Precedent: commit `934fb76f9` — VariantHandling `getCompuMethodRef`; all 4 callers live in unchecked `arxml_writer.py` feeding `setChildElementOptionalRefType`.)
 
 **Recipe B — Optional field declaration (error: `Incompatible types in assignment (expression has type "None", variable has type "X")` in `__init__`):**
 make the declared type Optional; align the getter's return type to `Optional[X]` if it is annotated non-Optional:
