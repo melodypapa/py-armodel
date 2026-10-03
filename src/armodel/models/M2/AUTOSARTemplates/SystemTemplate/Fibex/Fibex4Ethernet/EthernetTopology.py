@@ -38,15 +38,15 @@ class MacMulticastGroup(Identifiable):
     """
 
     # MacMulticastGroup method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.48, p.104 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.48, p.104
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMacMulticastAddress    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacMulticastAddress    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getMacMulticastAddress         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setMacMulticastAddress         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # A multicast MAC address (Media Access Control address) is a identifier for a group of hosts in a network.
         self.macMulticastAddress: Optional[MacAddressString] = None
 
