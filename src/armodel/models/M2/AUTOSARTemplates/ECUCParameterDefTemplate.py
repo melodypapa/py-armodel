@@ -2046,16 +2046,14 @@ class EcucDefinitionCollection(AtpBlueprintable):
 
 
 class EcucDestinationUriDef(Identifiable):
-    """
-    Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs.
-    """
+    """Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs."""
 
     # EcucDestinationUriDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.35, p.82
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

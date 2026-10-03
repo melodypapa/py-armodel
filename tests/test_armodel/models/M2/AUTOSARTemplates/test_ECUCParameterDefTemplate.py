@@ -504,8 +504,34 @@ class TestEcucDefinitionCollection:
 
 
 class TestEcucDestinationUriDef:
+    CLASS_NOTE = "Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs."
+    POLICY_NOTE = "Description of the targeted EcucContainerDef."
+
     def test_instantiation(self):
         assert _instantiate(EcucDestinationUriDef, "EcucDestinationUriDef").getShortName() == "EcucDestinationUriDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDestinationUriDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucDestinationUriDef, "Ud")
+        assert obj.getDestinationUriPolicy() is None
+
+    def test_get_set_destination_uri_policy_roundtrip(self):
+        obj = _instantiate(EcucDestinationUriDef, "Ud")
+        policy = EcucDestinationUriPolicy()
+        assert obj.setDestinationUriPolicy(policy) is obj
+        assert obj.getDestinationUriPolicy() is policy
+        obj.setDestinationUriPolicy(None)
+        assert obj.getDestinationUriPolicy() is policy
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucDestinationUriDef, "Ud")
+        assert inspect.cleandoc(obj.getDestinationUriPolicy.__doc__) == self.POLICY_NOTE
+        assert inspect.cleandoc(obj.setDestinationUriPolicy.__doc__).splitlines()[0] == self.POLICY_NOTE
 
 
 class TestEcucDestinationUriDefSet:

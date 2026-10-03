@@ -909,15 +909,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucDestinationUriDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.35, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (626 passed battery incl. new get/set + docstring-verbatim tests; DESTINATION-URI-POLICY nested reload covered by the EcucDestinationUriPolicy row's full round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); Base Identifiable ✓; single attr destinationUriPolicy (0..1 aggr, ARObject child → setXxx shape per Rule 0001.6) ✓ note verbatim ✓; reader readEcucDestinationUriDef (readIdentifiable + DESTINATION-URI-POLICY) / writer writeEcucDestinationUriDef matched XSD; DESTINATION-URI-DEFS wrapper + ECUC-DESTINATION-URI-DEF dispatch covered on the DefSet row's round-trips
 
 - [ ] `EcucDestinationUriPolicy` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.36, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
