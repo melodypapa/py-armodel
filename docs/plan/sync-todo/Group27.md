@@ -19,9 +19,10 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
   - [ ] Step 5 — Write reader/writer round-trip test (Red)
   - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (309 passed model+annotations+ECUC-handler suites + new round-trip file; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `901e5bb4c`
+  - note (Step 1): stub was a Rule 0023 legacy block (5-col checklist, stale R23-11 stamp, non-Optional 0..1 setter params, Optional-return createEcucQuery, fabricated getEcucQuery lookup); bases/members/XSD order already spec-correct — fixed types/API, docstrings verbatim + 6-col checklist, stamp removed for batch 9b
 
 - [ ] `EcucValidationCondition` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.44, p.103
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
