@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment
@@ -173,7 +173,7 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
             block = VariableDataPrototype(self, short_name)
             self.addReferrableElement(block)
             self.bulkNvBlock = block
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def getBulkNvBlock(self) -> Optional[VariableDataPrototype]:
         """
@@ -341,7 +341,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
             element = NvBlockNeeds(self, short_name)
             self.addReferrableElement(element)
             self.nvBlockNeeds = element
-        return self.getReferrableElement(short_name, NvBlockNeeds)
+        return cast(NvBlockNeeds, self.getReferrableElement(short_name, NvBlockNeeds))
 
     def getRamBlock(self) -> Optional[VariableDataPrototype]:
         """Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType."""
@@ -353,7 +353,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
             element = VariableDataPrototype(self, short_name)
             self.addReferrableElement(element)
             self.ramBlock = element
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def getRomBlock(self) -> Optional[ParameterDataPrototype]:
         """Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType."""
@@ -365,7 +365,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
             element = ParameterDataPrototype(self, short_name)
             self.addReferrableElement(element)
             self.romBlock = element
-        return self.getReferrableElement(short_name, ParameterDataPrototype)
+        return cast(ParameterDataPrototype, self.getReferrableElement(short_name, ParameterDataPrototype))
 
     def getSupportDirtyFlag(self) -> Optional[Boolean]:
         """Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE."""
