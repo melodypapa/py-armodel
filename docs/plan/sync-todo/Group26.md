@@ -591,7 +591,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (215 passed ECUCParameterDefTemplate + member-annotation gate + ecuc parser/writer suites + new round-trip; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (215 passed ECUCParameterDefTemplate + member-annotation gate + ecuc parser/writer suites + new round-trip; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `83b697abf`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); members/display order verified (apiServicePrefix, containers, postBuildVariantSupport, refinedModuleDefRef, supportedConfigVariants); XSD group order (API-SERVICE-PREFIX → POST-BUILD-VARIANT-SUPPORT → REFINED-MODULE-DEF-REF → SUPPORTED-CONFIG-VARIANTS → CONTAINERS offset 11) already matched reader/writer; markdown word-splits joined (refinedModule Def → refinedModuleDefRef per XSD REFINED-MODULE-DEF-REF; VENDOR_SPECIFIC_MODULE_ DEFINITION; Ecuc ModuleDef)
   - note (Step 6): writer gap fixed — writeEcucModuleDefContainers emitted an empty `<CONTAINERS/>` wrapper when no containers (XSD minOccurs=0; sibling wrappers all guarded len>0); pre-existing unit test test_writer_ecuc_def.py::TestWriterEcucModuleDefContainers::test_empty updated to the guarded behavior
 
