@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterResourceToDiagFunctionIdMapping,
     CpSwClusterToDiagEventMapping,
     CpSwClusterToDiagRoutineSubfunctionMapping,
+    DiagnosticAbstractAliasEvent,
     DiagnosticAbstractDataIdentifier,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
@@ -9258,3 +9259,49 @@ class TestDiagnosticInfoType:
         assert inspect.cleandoc(DiagnosticInfoType.addDataElement.__doc__) == (self.DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not append a dataElement.")
         assert inspect.cleandoc(DiagnosticInfoType.getId.__doc__) == self.ID_NOTE
         assert inspect.cleandoc(DiagnosticInfoType.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+
+
+class TestDiagnosticAbstractAliasEvent:
+    """
+    Test class for DiagnosticAbstractAliasEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.213, p.214
+    (abstract base with no own attributes; exercised through the concrete subclass DiagnosticFimAliasEventGroup)
+    """
+
+    CLASS_NOTE = "This meta-class represents an abstract base class for all diagnostic alias events."
+
+    def _make_obj(self) -> DiagnosticFimAliasEventGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEventGroup(ar_root, "TestAliasEvent")
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass initializes through the abstract base with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestAliasEvent"
+        assert isinstance(obj, DiagnosticAbstractAliasEvent)
+        assert isinstance(obj, ARElement)
+        assert obj.getGroupedAliasEventRefs() == []
+
+    def test_abstract_instantiation_raises(self):
+        """
+        Test that the abstract DiagnosticAbstractAliasEvent cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticAbstractAliasEvent(AUTOSAR.getInstance(), "DirectInstance")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticAbstractAliasEvent.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAbstractAliasEvent.__init__.__doc__ is None

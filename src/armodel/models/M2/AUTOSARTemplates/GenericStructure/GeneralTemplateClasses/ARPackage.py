@@ -4860,7 +4860,18 @@ class DataExchangePoint(ARElement):
 
 
 class DiagnosticAbstractAliasEvent(ARElement, ABC):
-    pass
+    """This meta-class represents an abstract base class for all diagnostic alias events."""
+
+    # DiagnosticAbstractAliasEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.213, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticAbstractAliasEvent:
+            raise TypeError("DiagnosticAbstractAliasEvent is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DiagnosticAbstractDataIdentifier(ARElement, ABC):
