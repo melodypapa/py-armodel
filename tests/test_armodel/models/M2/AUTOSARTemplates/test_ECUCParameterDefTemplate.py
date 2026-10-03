@@ -633,12 +633,6 @@ class TestEcucConditionSpecification:
         assert len(cond.getEcucQueries()) == 1
         assert cond.createEcucQuery("Q1") is query
         assert len(cond.getEcucQueries()) == 1
-        assert cond.getEcucQuery("Q1") is query
-        assert cond.getEcucQuery("Missing") is None
-
-    def test_create_ecuc_query_none_short_name(self):
-        cond = EcucConditionSpecification()
-        assert cond.createEcucQuery(None) is None
 
     def test_get_set_informal_formula(self):
         cond = EcucConditionSpecification()

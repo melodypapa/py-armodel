@@ -13143,7 +13143,7 @@ class ARXMLParser(AbstractARXMLParser):
             cond.setConditionFormula(self.readEcucConditionFormula(formula_element))
         for query_element in self.findall(child_element, "ECUC-QUERYS/ECUC-QUERY"):
             query = cond.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, cast(EcucQuery, query))
+            self.readEcucQuery(query_element, query)
         cond.setInformalFormula(self.getMlFormula(child_element, "INFORMAL-FORMULA"))
         return cond
 
