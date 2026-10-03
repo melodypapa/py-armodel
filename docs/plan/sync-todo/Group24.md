@@ -1077,7 +1077,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations (markdown cell-wrap artifacts "access Permission"/"memoryHigh Address"/
     "memoryLow AddressLabel" healed per sibling convention; documented in the Step 1 note).
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1663 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_memory_identifier.py + test_writer_diagnostic_memory_identifier.py; parser+writer regression 7186 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1663 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_memory_identifier.py + test_writer_diagnostic_memory_identifier.py; parser+writer regression 7186 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `39631ea78`
 
 - [ ] `DiagnosticWriteMemoryByAddress` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.113, p.141
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)
@@ -1110,7 +1110,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note (Step 8): no open deviations (markdown cell-wrap artifacts "DiagnosticWriteMemory ByAddressClass" /
     "DiagnosticMemory AddressableRangeAccess" / Note-internal "DiagnosticWritememoryBy Address" healed per sibling
     convention; the ArObject.py stub relocation is documented in the Step 1 note, not a deviation).
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1671 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_write_memory_by_address.py + test_writer_diagnostic_write_memory_by_address.py; parser+writer regression 7192 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1671 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_write_memory_by_address.py + test_writer_diagnostic_write_memory_by_address.py; parser+writer regression 7192 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `3400bec9c`
 
 - [ ] `DiagnosticWriteMemoryByAddressClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.114, p.141
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1134,7 +1134,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
     - note (Step 8): no open deviations (markdown table rendered clean — leading-caption layout, no cell-wrap
       artifacts in Note/Base cells; attribute row is `-`).
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1344 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_diagnostic_write_memory_by_address_class.py + test_writer_diagnostic_write_memory_by_address_class.py; parser+writer regression 7198 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1344 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_diagnostic_write_memory_by_address_class.py + test_writer_diagnostic_write_memory_by_address_class.py; parser+writer regression 7198 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `223a5cbba`
 
 - [ ] `DiagnosticReadMemoryByAddress` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.115, p.142
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py (relocated from the ArObject.py stub — see Step 1 note)
@@ -1169,7 +1169,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     "DiagnosticReadMemory ByAddressClass" healed; Note-internal "DiagnosticReadMemoryBy Addresst" healed per the XSD
     documentation, which itself carries the upstream "DiagnosticReadMemoryByAddresst" quirk; the ArObject.py stub relocation
     is documented in the Step 1 note, not a deviation).
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1678 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_read_memory_by_address.py + test_writer_diagnostic_read_memory_by_address.py; parser+writer regression 7204 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1678 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_read_memory_by_address.py + test_writer_diagnostic_read_memory_by_address.py; parser+writer regression 7204 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction); sync commit `e0b679676`
 
 - [ ] `DiagnosticReadMemoryByAddressClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.116, p.142
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1193,7 +1193,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
     - note (Step 8): no open deviations (markdown table rendered clean — leading-caption layout, no cell-wrap
       artifacts in Note/Base cells; attribute row is `-`).
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1349 passed / 0 failed test_CommonService.py + parser/writer class tests + member-annotations + stub-gate; parser+writer regression 7210 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1349 passed / 0 failed test_CommonService.py + parser/writer class tests + member-annotations + stub-gate; parser+writer regression 7210 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `314e86ace`
 
 - [ ] `DiagnosticTransferExit` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.117, p.143
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1217,7 +1217,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1202 passed / 0 failed targeted incl. member-annotations + stub-gate; parser+writer regression 7215 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1202 passed / 0 failed targeted incl. member-annotations + stub-gate; parser+writer regression 7215 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `1461a0d67`
 
 - [ ] `DiagnosticTransferExitClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.118, p.143
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1237,7 +1237,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1206 passed / 0 failed targeted incl. member-annotations + stub-gate; parser+writer regression 7220 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1206 passed / 0 failed targeted incl. member-annotations + stub-gate; parser+writer regression 7220 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `4c14a1b1d`
 
 - [ ] `DiagnosticDataTransfer` — DiagnosticMemoryByAddress — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.119, p.143
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1254,7 +1254,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (targeted incl. member-annotations + stub-gate 0 failed; parser+writer regression 7230 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (targeted incl. member-annotations + stub-gate 0 failed; parser+writer regression 7230 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `8d1719c7a`
 
 - [ ] `DiagnosticDataTransferClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.120, p.144
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1271,7 +1271,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (targeted incl. member-annotations + stub-gate 0 failed; parser+writer regression 7230 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (targeted incl. member-annotations + stub-gate 0 failed; parser+writer regression 7230 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `8d1719c7a`
 
 - [ ] `DiagnosticRequestDownload` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.121, p.144
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1291,7 +1291,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1695 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_download.py + test_writer_diagnostic_request_download.py; parser+writer regression 7235 passed / 0 failed; npm run lint clean; black pre-existing branch state unchanged, new files clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1695 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_download.py + test_writer_diagnostic_request_download.py; parser+writer regression 7235 passed / 0 failed; npm run lint clean; black pre-existing branch state unchanged, new files clean); 9b deferred to batch stamp (user instruction); sync commit `b24aedab4`
 
 - [ ] `DiagnosticRequestDownloadClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.122, p.145
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py (relocated from the ArObject.py stub — see Step 1 note)
@@ -1312,7 +1312,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync; the Base row correction is recorded in the Step 1 note)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1867 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_download.py + test_diagnostic_request_download_class.py + test_writer_diagnostic_request_download.py + test_writer_diagnostic_request_download_class.py; parser+writer regression 7240 passed / 0 failed; npm run lint clean; black clean on all touched files, parser/writer black hunks pre-existing at HEAD); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1867 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_download.py + test_diagnostic_request_download_class.py + test_writer_diagnostic_request_download.py + test_writer_diagnostic_request_download_class.py; parser+writer regression 7240 passed / 0 failed; npm run lint clean; black clean on all touched files, parser/writer black hunks pre-existing at HEAD); 9b deferred to batch stamp (user instruction); sync commit `16a6c77ac`
 
 - [ ] `DiagnosticRequestUpload` — DiagnosticMemoryAddressableRangeAccess — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.123, p.145
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1332,7 +1332,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1701 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_upload.py + test_writer_diagnostic_request_upload.py; parser+writer regression 7245 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1701 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_upload.py + test_writer_diagnostic_request_upload.py; parser+writer regression 7245 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `4c29de936`
 
 - [ ] `DiagnosticRequestUploadClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.124, p.146
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1352,7 +1352,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1878 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_upload.py + test_diagnostic_request_upload_class.py + test_writer_diagnostic_request_upload.py + test_writer_diagnostic_request_upload_class.py; parser+writer regression 7250 passed / 0 failed; npm run lint clean; black clean on all touched files — one join-the-strings reformat folded into the pair commit); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1878 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_upload.py + test_diagnostic_request_upload_class.py + test_writer_diagnostic_request_upload.py + test_writer_diagnostic_request_upload_class.py; parser+writer regression 7250 passed / 0 failed; npm run lint clean; black clean on all touched files — one join-the-strings reformat folded into the pair commit); 9b deferred to batch stamp (user instruction); sync commit `a5bf545f0`
 
 - [ ] `DiagnosticRequestFileTransfer` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.125, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1377,7 +1377,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1707 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_file_transfer.py + test_writer_diagnostic_request_file_transfer.py; parser+writer regression 7255 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1707 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_file_transfer.py + test_writer_diagnostic_request_file_transfer.py; parser+writer regression 7255 passed / 0 failed; npm run lint clean); 9b deferred to batch stamp (user instruction); sync commit `d34685d2a`
 
 - [ ] `DiagnosticRequestFileTransferClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.126, p.147
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
@@ -1397,7 +1397,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync) — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1889 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_file_transfer.py + test_diagnostic_request_file_transfer_class.py + test_writer_diagnostic_request_file_transfer.py + test_writer_diagnostic_request_file_transfer_class.py; parser+writer regression 7260 passed / 0 failed; npm run lint clean; black clean on all touched files); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1889 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_CommonService.py + test_ARPackage.py + test_diagnostic_request_file_transfer.py + test_diagnostic_request_file_transfer_class.py + test_writer_diagnostic_request_file_transfer.py + test_writer_diagnostic_request_file_transfer_class.py; parser+writer regression 7260 passed / 0 failed; npm run lint clean; black clean on all touched files); 9b deferred to batch stamp (user instruction); sync commit `46f42c128`
 
 - [ ] `DiagnosticParameterIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.127, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
@@ -1435,7 +1435,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     (Group25 Table 4.129); the SUPPORT-INFO-BYTE serialization was upgraded from identity-only to the named helpers
     readDiagnosticSupportInfoByte/writeDiagnosticSupportInfoByte in this class's reader/writer call sites, with
     value-asserting round-trip (see Group25 DiagnosticSupportInfoByte row)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1717 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7266 passed / 0 failed; npm run lint clean after one ruff I001 import-sort fix in the new writer test; black clean); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1717 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7266 passed / 0 failed; npm run lint clean after one ruff I001 import-sort fix in the new writer test; black clean); 9b deferred to batch stamp (user instruction); sync commit `69777441f`
 
 - [ ] `DiagnosticParameterSupportInfo` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.128, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -1459,5 +1459,5 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none — clean sync; the parent readDiagnosticParameter/writeDiagnosticParameter call-site update resolves the prior identity-only SUPPORT-INFO placeholder per the Rule 0001.7 identity-only-debt clause, not a deviation) — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1276 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ArObject.py + test_diagnostic_parameter_support_info.py + test_writer_diagnostic_parameter_support_info.py + test_diagnostic_parameter.py + test_writer_diagnostic_parameter.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7273 passed / 0 failed; npm run lint clean; black clean on all touched files after one string-join reformat in test_ArObject.py); 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1276 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ArObject.py + test_diagnostic_parameter_support_info.py + test_writer_diagnostic_parameter_support_info.py + test_diagnostic_parameter.py + test_writer_diagnostic_parameter.py + test_diagnostic_parameter_identifier.py + test_writer_diagnostic_parameter_identifier.py; parser+writer regression 7273 passed / 0 failed; npm run lint clean; black clean on all touched files after one string-join reformat in test_ArObject.py); 9b deferred to batch stamp (user instruction); sync commit `86cc1e220`
 
