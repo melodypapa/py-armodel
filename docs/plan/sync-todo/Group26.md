@@ -775,20 +775,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (414 passed battery incl. new multiline round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (414 passed battery incl. new multiline round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `09ef1c645`
   - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); zero own attributes ✓ class docstring single-line Note verbatim (spec embedded double quotes kept); test_none was calling writeEcucFunctionNameDef (copy-paste) — fixed to writeEcucMultilineStringParamDef; full reload round-trip via MULTILINE CONDITIONAL wrapper
 
 - [ ] `EcucFunctionNameDef` — EcucAbstractStringParamDef — R23-11 CP_TPS_ECUConfiguration Table 2.22, p.65
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (418 passed battery incl. new function-name round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); zero own attributes ✓ class docstring single-line Note verbatim; full reload round-trip via ECUC-FUNCTION-NAME-DEF-VARIANTS/CONDITIONAL wrapper (createEcucFunctionNameDef factory row lives on EcucParamConfContainerDef's checklist)
 
 - [ ] `EcucEnumerationParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.23, p.66
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

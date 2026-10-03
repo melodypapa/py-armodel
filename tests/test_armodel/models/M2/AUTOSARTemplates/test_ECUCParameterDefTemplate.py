@@ -148,8 +148,23 @@ class TestEcucStringParamDef:
 
 
 class TestEcucFunctionNameDef:
+    CLASS_NOTE = "Configuration parameter type for Function Names like those used to specify callback functions."
+
     def test_instantiation(self):
         assert _instantiate(EcucFunctionNameDef, "EcucFunctionNameDef").getShortName() == "EcucFunctionNameDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucFunctionNameDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucFunctionNameDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_string_attrs(self):
+        obj = _instantiate(EcucFunctionNameDef, "Fnd")
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
 
 
 class TestEcucIntegerParamDef:

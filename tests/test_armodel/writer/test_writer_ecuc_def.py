@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDestinationUriDefRefType,
     EcucFloatParamDef,
     EcucForeignReferenceDef,
+    EcucFunctionNameDef,
     EcucIntegerParamDef,
     EcucLinkerSymbolDef,
     EcucModuleDef,
@@ -561,6 +562,33 @@ class TestWriterEcucFunctionNameDef:
         assert cond.find("MIN-LENGTH").text == "1"
         assert cond.find("MAX-LENGTH").text == "64"
         assert cond.find("REGULAR-EXPRESSION").text == "[a-zA-Z_][a-zA-Z0-9_]*"
+
+    def test_round_trip_function_name_default_value(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucFunctionNameDef("P")
+        param.setDefaultValue(_verbatim("fn"))
+        param.setRegularExpression(_regex("[a-zA-Z_][a-zA-Z0-9_]*"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucFunctionNameDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "fn"
+            assert reloaded_param.getRegularExpression().getValue() == "[a-zA-Z_][a-zA-Z0-9_]*"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucMultilineStringParamDef:
