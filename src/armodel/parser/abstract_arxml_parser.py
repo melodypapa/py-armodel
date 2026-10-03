@@ -54,11 +54,11 @@ class AbstractARXMLParser(ABC):
         self._processOptions(options=options)
 
     def getTagName(self, tag: ET.Element) -> str:
-        if isinstance(tag, ET.Element):
-            tag = tag.tag
-        if isinstance(tag, str):
-            return tag.replace("{%s}" % self.nsmap["xmlns"], "")
-        self.raiseError("Invalid Tag type <%s>" % type(tag))
+        name = tag.tag if isinstance(tag, ET.Element) else tag
+        if isinstance(name, str):
+            return name.replace("{%s}" % self.nsmap["xmlns"], "")
+        self.raiseError("Invalid Tag type <%s>" % type(name))
+        return ""
 
     def _processOptions(self, options):
         if options:
@@ -106,7 +106,7 @@ class AbstractARXMLParser(ABC):
             return child_element.text
         return None
 
-    def getChildElementLiteral(self, short_name: str, element: ET.Element, key: str) -> ARLiteral:
+    def getChildElementLiteral(self, short_name: str, element: ET.Element, key: str) -> Optional[ARLiteral]:
         child_element = self.find(element, key)
         if child_element is not None:
             literal = ARLiteral()
@@ -114,6 +114,7 @@ class AbstractARXMLParser(ABC):
             literal._value = child_element.text
             return literal
         self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
+        return None
 
     def getChildElementLiteralValueList(self, element: ET.Element, key: str) -> List[ARLiteral]:
         child_elements = self.findall(element, key)
@@ -183,7 +184,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalVerbatimString(self, element: ET.Element, key: str) -> VerbatimString:
+    def getChildElementOptionalVerbatimString(self, element: ET.Element, key: str) -> Optional[VerbatimString]:
         child_element = self.find(element, key)
         literal = None
         if child_element is not None:
@@ -195,7 +196,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalIdentifier(self, element: ET.Element, key: str) -> Identifier:
+    def getChildElementOptionalIdentifier(self, element: ET.Element, key: str) -> Optional[Identifier]:
         child_element = self.find(element, key)
         identifier = None
         if child_element is not None:
@@ -208,7 +209,7 @@ class AbstractARXMLParser(ABC):
                 identifier.setValue(child_element.text)
         return identifier
 
-    def getChildElementOptionalNameToken(self, element: ET.Element, key: str) -> NameToken:
+    def getChildElementOptionalNameToken(self, element: ET.Element, key: str) -> Optional[NameToken]:
         child_element = self.find(element, key)
         name_token = None
         if child_element is not None:
@@ -233,7 +234,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
+    def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> Optional[RevisionLabelString]:
         child_element = self.find(element, key)
         literal = None
         if (child_element is not None) and (child_element.text is not None):
@@ -250,7 +251,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalDateTime(self, element: ET.Element, key: str) -> DateTime:
+    def getChildElementOptionalDateTime(self, element: ET.Element, key: str) -> Optional[DateTime]:
         child_element = self.find(element, key)
         literal = None
         if child_element is not None:
@@ -262,7 +263,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalString(self, element: ET.Element, key: str) -> String:
+    def getChildElementOptionalString(self, element: ET.Element, key: str) -> Optional[String]:
         child_element = self.find(element, key)
         literal = None
         if child_element is not None:
@@ -274,7 +275,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalUriString(self, element: ET.Element, key: str) -> UriString:
+    def getChildElementOptionalUriString(self, element: ET.Element, key: str) -> Optional[UriString]:
         child_element = self.find(element, key)
         literal = None
         if child_element is not None:
@@ -288,7 +289,7 @@ class AbstractARXMLParser(ABC):
             return True
         return False
 
-    def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> Float:
+    def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> Optional[Float]:
         child_element = self.find(element, key)
         float_value = None
         if (child_element is not None) and (child_element.text is not None):
@@ -297,7 +298,7 @@ class AbstractARXMLParser(ABC):
             float_value.setValue(child_element.text)
         return float_value
 
-    def getChildElementFloatValueList(self, element: ET.Element, key: str) -> Float:
+    def getChildElementFloatValueList(self, element: ET.Element, key: str) -> List[Float]:
         child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
@@ -317,7 +318,7 @@ class AbstractARXMLParser(ABC):
             results.append(numerical_value)
         return results
 
-    def getChildElementOptionalTimeValue(self, element: ET.Element, key: str) -> TimeValue:
+    def getChildElementOptionalTimeValue(self, element: ET.Element, key: str) -> Optional[TimeValue]:
         child_element = self.find(element, key)
         time_value = None
         if (child_element is not None) and (child_element.text is not None):
@@ -334,7 +335,7 @@ class AbstractARXMLParser(ABC):
         return bool_value
     """
 
-    def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> Boolean:
+    def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> Optional[Boolean]:
         literal = self.getChildElementOptionalLiteral(element, key)
         if literal is None:
             return None
@@ -351,7 +352,7 @@ class AbstractARXMLParser(ABC):
             return int(m.group(1), 16)
         return int(value)
 
-    def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> Numerical:
+    def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> Optional[Numerical]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -362,7 +363,7 @@ class AbstractARXMLParser(ABC):
         numerical.setValue(child_element.text)
         return numerical
 
-    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Numerical:
+    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Optional[Numerical]:
         child_element = self.find(element, key)
         numerical_value = None
         if child_element is not None:
@@ -372,7 +373,7 @@ class AbstractARXMLParser(ABC):
                 numerical_value.setValue(child_element.text)
         return numerical_value
 
-    def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Integer:
+    def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Optional[Integer]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -381,7 +382,7 @@ class AbstractARXMLParser(ABC):
         numerical.setValue(child_element.text)
         return numerical
 
-    def getChildElementOptionalPositiveInteger(self, element: ET.Element, key: str) -> PositiveInteger:
+    def getChildElementOptionalPositiveInteger(self, element: ET.Element, key: str) -> Optional[PositiveInteger]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -390,11 +391,12 @@ class AbstractARXMLParser(ABC):
         numerical = PositiveInteger()
         self.readARType(child_element, numerical)
         numerical.setValue(child_element.text)
-        if numerical.getValue() < 0:
+        value = numerical.getValue()
+        if value is not None and value < 0:
             raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
         return numerical
 
-    def getChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str) -> PositiveUnlimitedInteger:
+    def getChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str) -> Optional[PositiveUnlimitedInteger]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -403,11 +405,12 @@ class AbstractARXMLParser(ABC):
         numerical = PositiveUnlimitedInteger()
         self.readARType(child_element, numerical)
         numerical.setValue(child_element.text)
-        if numerical.getValue() < 0:
+        value = numerical.getValue()
+        if value is not None and value < 0:
             raise ValueError("Invalid PositiveUnlimitedInteger <%s>" % child_element.text)
         return numerical
 
-    def getChildElementOptionalUnlimitedInteger(self, element: ET.Element, key: str) -> UnlimitedInteger:
+    def getChildElementOptionalUnlimitedInteger(self, element: ET.Element, key: str) -> Optional[UnlimitedInteger]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -433,12 +436,13 @@ class AbstractARXMLParser(ABC):
         for child_element in child_elements:
             numerical = PositiveInteger()
             numerical.setValue(child_element.text)
-            if numerical.getValue() < 0:
+            value = numerical.getValue()
+            if value is not None and value < 0:
                 raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
             results.append(numerical)
         return results
 
-    def getChildLimitElement(self, element: ET.Element, key: str) -> Limit:
+    def getChildLimitElement(self, element: ET.Element, key: str) -> Optional[Limit]:
         child_element = self.find(element, key)
         if child_element is not None:
             limit = Limit()
@@ -457,16 +461,18 @@ class AbstractARXMLParser(ABC):
             ref.setBase(element.attrib["BASE"])
         if "DEST" in element.attrib:
             ref.setDest(element.attrib["DEST"])
-        ref.setValue(element.text)
+        if element.text is not None:
+            ref.setValue(element.text)
         return ref
 
-    def getChildElementRefType(self, short_name: str, element: ET.Element, key: str) -> RefType:
+    def getChildElementRefType(self, short_name: str, element: ET.Element, key: str) -> Optional[RefType]:
         child_element = self.find(element, key)
         if child_element is not None:
             return self._getChildElementRefTypeDestAndValue(child_element)
         self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
+        return None
 
-    def getChildElementOptionalRefType(self, element: ET.Element, key: str) -> RefType:
+    def getChildElementOptionalRefType(self, element: ET.Element, key: str) -> Optional[RefType]:
         child_element = self.find(element, key)
         if child_element is not None:
             return self._getChildElementRefTypeDestAndValue(child_element)
@@ -481,11 +487,12 @@ class AbstractARXMLParser(ABC):
                 ref.setBase(child_element.attrib["BASE"])
             if "DEST" in child_element.attrib:
                 ref.setDest(child_element.attrib["DEST"])
-            ref.setValue(child_element.text)
+            if child_element.text is not None:
+                ref.setValue(child_element.text)
             results.append(ref)
         return results
 
-    def readElementOptionalAttrib(self, element: ET.Element, key: str) -> str:
+    def readElementOptionalAttrib(self, element: ET.Element, key: str) -> Optional[str]:
         if key in element.attrib:
             return element.attrib[key]
         return None
@@ -529,7 +536,7 @@ class AbstractARXMLParser(ABC):
 
     def getShortName(self, element: ET.Element) -> str:
         child_element = self.find(element, "SHORT-NAME")
-        if child_element is None:
+        if child_element is None or child_element.text is None:
             raise ValueError("Short Name is required")
         return child_element.text
 
@@ -540,7 +547,7 @@ class AbstractARXMLParser(ABC):
                 keys[idx] = "xmlns:%s" % item
         return "/".join(keys)
 
-    def find(self, parent: ET.Element, key: str) -> ET.Element:
+    def find(self, parent: ET.Element, key: str) -> Optional[ET.Element]:
         return parent.find(self.convert_find_key(key), self.nsmap)
 
     def findall(self, parent: ET.Element, key: str) -> List[ET.Element]:

@@ -57,10 +57,10 @@ class ConnectorXlsReader(AbstractExcelParser):
             ConnectorXls.COL_RPORT: -1,
         }
 
-        self.sw_connectors = {}  # type: Dict[str, List[DelegationSwConnectorData]]
+        self.sw_connectors: Dict[str, List[SwConnectorData]] = {}
 
     def getCompositionSwComponentList(self) -> List[str]:
-        return self.sw_connectors.keys()
+        return list(self.sw_connectors.keys())
 
     def getSwConnectorList(self, swc: str) -> List[SwConnectorData]:
         if swc not in self.sw_connectors:
@@ -87,9 +87,9 @@ class ConnectorXlsReader(AbstractExcelParser):
             connector = AssemblySwConnectorData()
             connector.short_name = row[column_list[ConnectorXls.COL_SHORT_NAME]]
             connector.provider_swc = row[column_list[ConnectorXls.COL_PROVIDER_SW_C]]
-            connector.pport = row[column_list[ConnectorXls.COL_PPORT]]
-            connector.requester_swc = row[column_list[ConnectorXls.COL_REQUESTER_SW_C]]
-            connector.rport = row[column_list[ConnectorXls.COL_RPORT]]
+            connector.p_port = row[column_list[ConnectorXls.COL_PPORT]]
+            connector.r_swc = row[column_list[ConnectorXls.COL_REQUESTER_SW_C]]
+            connector.r_port = row[column_list[ConnectorXls.COL_RPORT]]
             connectors.append(connector)
             self._logger.debug("ShortName: %s" % connector.short_name)
 
@@ -125,46 +125,46 @@ class ConnectorXlsReader(AbstractExcelParser):
     def _addAssemblySwConnector(self, swc: CompositionSwComponentType, connector: AssemblySwConnectorData):
         sw_connector = swc.createAssemblySwConnector(connector.short_name)
 
-        sw_connector.provider_iref = PPortInCompositionInstanceRef()
-        sw_connector.provider_iref.context_component_ref = RefType()
-        sw_connector.provider_iref.target_p_port_ref = RefType()
-        sw_connector.provider_iref.context_component_ref.dest = "SW-COMPONENT-PROTOTYPE"
-        sw_connector.provider_iref.context_component_ref.value = connector.provider_swc
-        sw_connector.provider_iref.target_p_port_ref.dest = "P-PORT-PROTOTYPE"
-        sw_connector.provider_iref.target_p_port_ref.value = connector.pport
+        sw_connector.providerIRef = PPortInCompositionInstanceRef()
+        sw_connector.providerIRef.contextComponentRef = RefType()
+        sw_connector.providerIRef.targetPPortRef = RefType()
+        sw_connector.providerIRef.contextComponentRef.dest = "SW-COMPONENT-PROTOTYPE"
+        sw_connector.providerIRef.contextComponentRef.value = connector.provider_swc
+        sw_connector.providerIRef.targetPPortRef.dest = "P-PORT-PROTOTYPE"
+        sw_connector.providerIRef.targetPPortRef.value = connector.p_port
 
-        sw_connector.requester_iref = RPortInCompositionInstanceRef()
-        sw_connector.requester_iref.context_component_ref = RefType()
-        sw_connector.requester_iref.target_r_port_ref = RefType()
-        sw_connector.requester_iref.context_component_ref.dest = "SW-COMPONENT-PROTOTYPE"
-        sw_connector.requester_iref.context_component_ref.value = connector.requester_swc
-        sw_connector.requester_iref.target_r_port_ref.dest = "R-PORT-PROTOTYPE"
-        sw_connector.requester_iref.target_r_port_ref.value = connector.rport
+        sw_connector.requesterIRef = RPortInCompositionInstanceRef()
+        sw_connector.requesterIRef.contextComponentRef = RefType()
+        sw_connector.requesterIRef.targetRPortRef = RefType()
+        sw_connector.requesterIRef.contextComponentRef.dest = "SW-COMPONENT-PROTOTYPE"
+        sw_connector.requesterIRef.contextComponentRef.value = connector.r_swc
+        sw_connector.requesterIRef.targetRPortRef.dest = "R-PORT-PROTOTYPE"
+        sw_connector.requesterIRef.targetRPortRef.value = connector.r_port
 
     def _addDelegationSwConnector(self, swc: CompositionSwComponentType, connector: DelegationSwConnectorData):
         sw_connector = swc.createDelegationSwConnector(connector.short_name)
         if connector.inner_pport is not None and connector.outer_pport is not None:
-            sw_connector.inner_port_iref = PPortInCompositionInstanceRef()
-            sw_connector.inner_port_iref.context_component_ref = RefType()
-            sw_connector.inner_port_iref.target_p_port_ref = RefType()
-            sw_connector.outer_port_ref = RefType()
-            sw_connector.inner_port_iref.context_component_ref.dest = "SW-COMPONENT-PROTOTYPE"
-            sw_connector.inner_port_iref.context_component_ref.value = connector.inner_swc
-            sw_connector.inner_port_iref.target_p_port_ref.dest = "P-PORT-PROTOTYPE"
-            sw_connector.inner_port_iref.target_p_port_ref.value = connector.inner_pport
-            sw_connector.outer_port_ref.dest = "P-PORT-PROTOTYPE"
-            sw_connector.outer_port_ref.value = connector.outer_pport
+            sw_connector.innerPortIRef = PPortInCompositionInstanceRef()
+            sw_connector.innerPortIRef.contextComponentRef = RefType()
+            sw_connector.innerPortIRef.targetPPortRef = RefType()
+            sw_connector.outerPortRef = RefType()
+            sw_connector.innerPortIRef.contextComponentRef.dest = "SW-COMPONENT-PROTOTYPE"
+            sw_connector.innerPortIRef.contextComponentRef.value = connector.inner_swc
+            sw_connector.innerPortIRef.targetPPortRef.dest = "P-PORT-PROTOTYPE"
+            sw_connector.innerPortIRef.targetPPortRef.value = connector.inner_pport
+            sw_connector.outerPortRef.dest = "P-PORT-PROTOTYPE"
+            sw_connector.outerPortRef.value = connector.outer_pport
         elif connector.inner_rport is not None and connector.outer_rport is not None:
-            sw_connector.inner_port_iref = RPortInCompositionInstanceRef()
-            sw_connector.inner_port_iref.context_component_ref = RefType()
-            sw_connector.inner_port_iref.target_r_port_ref = RefType()
-            sw_connector.outer_port_ref = RefType()
-            sw_connector.inner_port_iref.context_component_ref.dest = "SW-COMPONENT-PROTOTYPE"
-            sw_connector.inner_port_iref.context_component_ref.value = connector.inner_swc
-            sw_connector.inner_port_iref.target_r_port_ref.dest = "R-PORT-PROTOTYPE"
-            sw_connector.inner_port_iref.target_r_port_ref.value = connector.inner_rport
-            sw_connector.outer_port_ref.dest = "R-PORT-PROTOTYPE"
-            sw_connector.outer_port_ref.value = connector.outer_rport
+            sw_connector.innerPortIRef = RPortInCompositionInstanceRef()
+            sw_connector.innerPortIRef.contextComponentRef = RefType()
+            sw_connector.innerPortIRef.targetRPortRef = RefType()
+            sw_connector.outerPortRef = RefType()
+            sw_connector.innerPortIRef.contextComponentRef.dest = "SW-COMPONENT-PROTOTYPE"
+            sw_connector.innerPortIRef.contextComponentRef.value = connector.inner_swc
+            sw_connector.innerPortIRef.targetRPortRef.dest = "R-PORT-PROTOTYPE"
+            sw_connector.innerPortIRef.targetRPortRef.value = connector.inner_rport
+            sw_connector.outerPortRef.dest = "R-PORT-PROTOTYPE"
+            sw_connector.outerPortRef.value = connector.outer_rport
         else:
             raise ValueError("Invalid DelegationSwConnector Configuration")
 
@@ -186,7 +186,7 @@ class ConnectorXlsReader(AbstractExcelParser):
 
     def _locateCompositionSwComponent(self, swc_name: str, parent: ARPackage):
         for swc in parent.getSwComponentTypes():
-            if swc.short_name == swc_name:
+            if isinstance(swc, CompositionSwComponentType) and swc.short_name == swc_name:
                 self._updateCompositionSwComponent(swc)
         for pkg in parent.getARPackages():
             self._locateCompositionSwComponent(swc_name, pkg)
