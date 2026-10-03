@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0024*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0023*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -152,9 +152,8 @@ session** (Rule 0017).
   `python3 scripts/regen_sync_todo.py --write` so `SyncTodoIndex.md` +
   `sync-report.md` pick up the flip (then `--check` must pass) and commit the
   regenerated reports with the row flip — never hand-edit them (Rule 0017.2),
-  (4) collapse the finished row to a single `[x]` line — strip its 9-step sub-checklist
-  and write-ups, and delete the group file if every row in it is collapsed (Rule 0024) —
-  in a follow-up commit, (5) report and stop.
+  (4) report and stop. The finished row **keeps** its 9-step sub-checklist and
+  write-ups as the durable audit trail — never collapse or strip it.
 - **Termination:** after marking a row `[x]`, if **every** queue row is `[x]`, the
   sync is **finished** — report the summary (classes, commits, deviations). No
   further session needed. Any `[ ]` left → next session picks it up.
@@ -247,7 +246,7 @@ as each step finishes (*Rule 0018*).
   - docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence)
   - **blank line between every `__init__` attribute block** (*0008* — Black/ruff don't enforce a minimum, so glued-together fields pass every 9a check; verify by eye or AST audit)
   - **quota shape vs spec multiplicity** — every member's `Optional`/`List`/plain annotation matches the table's multiplicity column (0..1 → `Optional[T]`, 0..* → `List[T]`, 1 → plain `T`), checked by eye since the *0022* gate test verifies form only (*0022*)
-  - deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, collapse the row's 9-step history (*0024*), and stop the session (or, if all rows are `[x]`, report the sync complete).
+  - deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -501,7 +500,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0024*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0023*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.
