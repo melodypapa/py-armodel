@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 751 | 39.5% |
+| [x] Done | 752 | 39.5% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 314 | 16.5% |
+| [ ] Deferred | 313 | 16.4% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1780,7 +1780,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Tbody`                                                 | [x] Done    | 004d3f1259                               | Group3           |
 | `TcpIpIcmpv4Props`                                      | [x] Done    | 2cf38be61d                               | Group5           |
 | `TcpIpIcmpv6Props`                                      | [x] Done    | c53a7febdc                               | Group5           |
-| `TcpOptionFilterList`                                   | [ ] Deferred| 2d5b3256b4                               | Group16          |
+| `TcpOptionFilterList`                                   | [x] Done    | fd11862858                               | Group16          |
 | `TcpOptionFilterSet`                                    | [ ] Deferred| 2d5b3256b4                               | Group16          |
 | `TcpProps`                                              | [x] Done    | d2d5c40a16                               | Group5           |
 | `TcpRule`                                               | [x] Deferred| d3902d0e67                               | Group20          |

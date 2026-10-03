@@ -40,7 +40,7 @@
 | 4 | `NetworkEndpoint` | Rule 0001.7, Rule 0006, stale checklist | ✅ `84587c11f` |
 | 5 | `TimeSyncServerConfiguration` | Rule 0001.7 | ✅ (see queue) |
 | 6 | `IPv6ExtHeaderFilterList` | Rule 0001.7, Rule 0003 | ✅ (see queue) |
-| 7 | `TcpOptionFilterList` | Rule 0003 | pending |
+| 7 | `TcpOptionFilterList` | Rule 0003 | ✅ (see queue) |
 | 8 | `Ipv4Configuration` | Rule 0006 | pending |
 | 9 | `SocketConnectionIpduIdentifier` | Rule 0006 | pending |
 | 10 | `SocketConnectionBundle` | Rule 0001.4, Rule 0006 | pending |
