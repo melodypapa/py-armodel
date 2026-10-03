@@ -848,20 +848,18 @@ class EcucDerivationSpecification(ARObject):
 
 
 class EcucParameterDef(EcucCommonAttributes, ABC):
-    """
-    Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses.
-    """
+    """Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses."""
 
     # EcucParameterDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.14, p.57
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDerivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDerivation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSymbolicNameValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSymbolicNameValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDerivation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSymbolicNameValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getWithAuto           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDerivation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setSymbolicNameValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setWithAuto           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucParameterDef:

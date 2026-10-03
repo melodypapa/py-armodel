@@ -715,15 +715,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucParameterDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.14, p.57
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A own attrs serialized via consuming wrappers (DERIVATION/SYMBOLIC-NAME-VALUE/WITH-AUTO round-tripped on EcucCommonAttributes/EcucAbstractReferenceDef suites, Rules 0010-0011 pattern)
+  - [x] Step 6 — Update parser & writer (Green) — readEcucCommonAttributes/writeEcucCommonAttributes chain covers all 3 attrs (verified in order: DERIVATION → SYMBOLIC-NAME-VALUE → WITH-AUTO)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (189 passed ECUCParameterDefTemplate + member-annotation gate + consuming round-trips + os-ecuc; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); abstract (marker) ✓, Base most-derived EcucCommonAttributes (queue row EcucDefinitionElement claim = T2.6 arbitration artifact, per the chain EcucParameterDef(EcucCommonAttributes(EcucDefinitionElement))) ✓; attrs display order derivation, symbolicNameValue, withAuto ✓ notes verbatim (isAuto Value word-splits kept verbatim from markdown cells)
 
 - [ ] `EcucIntegerParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.16, p.60
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

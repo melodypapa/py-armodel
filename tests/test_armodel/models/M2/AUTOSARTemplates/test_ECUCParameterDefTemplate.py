@@ -924,9 +924,55 @@ class TestEcucCommonAttributes:
 
 
 class TestEcucParameterDef:
+    CLASS_NOTE = "Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucParameterDef)
+
+    def _make(self):
+        class _Concrete(EcucParameterDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEPD"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucParameterDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucParameterDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getDerivation() is None
+        assert obj.getSymbolicNameValue() is None
+        assert obj.getWithAuto() is None
+
+    def test_get_set_derivation_roundtrip(self):
+        obj = self._make()
+        derivation = EcucDerivationSpecification()
+        assert obj.setDerivation(derivation) is obj
+        assert obj.getDerivation() is derivation
+        obj.setDerivation(None)
+        assert obj.getDerivation() is derivation  # None is a no-op
+
+    def test_get_set_symbolic_name_value_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setSymbolicNameValue(value) is obj
+        assert obj.getSymbolicNameValue() is value
+        obj.setSymbolicNameValue(None)
+        assert obj.getSymbolicNameValue() is value  # None is a no-op
+
+    def test_get_set_with_auto_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setWithAuto(value) is obj
+        assert obj.getWithAuto() is value
+        obj.setWithAuto(None)
+        assert obj.getWithAuto() is value  # None is a no-op
 
 
 class TestEcucAbstractReferenceDef:
