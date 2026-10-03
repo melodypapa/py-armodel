@@ -13,8 +13,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 758 | 39.8% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 318 | 16.7% |
-| [ ] Implemented | 420 | 22.1% |
+| [ ] Deferred | 337 | 17.7% |
+| [ ] Implemented | 401 | 21.1% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
 
@@ -796,16 +796,16 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcuStateMgrUserNeeds`                                  | [x] Done    | 6b31696dff                               | Group4           |
 | `EcuTiming`                                             | [ ] Created | N/A                                      | Group35          |
 | `EcucAbstractConfigurationClass`                        | [ ] Deferred| 6549a18aee                               | Group26          |
-| `EcucAbstractExternalReferenceDef`                      | [ ] Implemented| N/A                                      | Group26          |
-| `EcucAbstractInternalReferenceDef`                      | [ ] Implemented| N/A                                      | Group26          |
-| `EcucAbstractReferenceDef`                              | [ ] Implemented| N/A                                      | Group26          |
+| `EcucAbstractExternalReferenceDef`                      | [ ] Deferred| N/A                                      | Group26          |
+| `EcucAbstractInternalReferenceDef`                      | [ ] Deferred| a571aa14a3                               | Group26          |
+| `EcucAbstractReferenceDef`                              | [ ] Deferred| a2cda5d033                               | Group26          |
 | `EcucAbstractReferenceValue`                            | [ ] Implemented| N/A                                      | Group27          |
-| `EcucAbstractStringParamDef`                            | [ ] Implemented| N/A                                      | Group26          |
-| `EcucAddInfoParamDef`                                   | [ ] Implemented| N/A                                      | Group26          |
+| `EcucAbstractStringParamDef`                            | [ ] Deferred| 59d5f3e684                               | Group26          |
+| `EcucAddInfoParamDef`                                   | [ ] Deferred| d69a037e68                               | Group26          |
 | `EcucAddInfoParamValue`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `EcucBooleanParamDef`                                   | [ ] Deferred| N/A                                      | Group19          |
 | `EcucChoiceContainerDef`                                | [ ] Deferred| 416e583ff2                               | Group26          |
-| `EcucChoiceReferenceDef`                                | [ ] Implemented| N/A                                      | Group26          |
+| `EcucChoiceReferenceDef`                                | [ ] Deferred| N/A                                      | Group26          |
 | `EcucCommonAttributes`                                  | [ ] Deferred| b5ba9d4e2f                               | Group26          |
 | `EcucConditionFormula`                                  | [x] Done    | N/A                                      | Group19          |
 | `EcucConditionSpecification`                            | [ ] Implemented| N/A                                      | Group27          |
@@ -815,37 +815,37 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucContainerValue`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `EcucDefinitionCollection`                              | [ ] Deferred| 4c76344b21                               | Group26          |
 | `EcucDefinitionElement`                                 | [ ] Deferred| ac47ae89f3                               | Group26          |
-| `EcucDerivationSpecification`                           | [ ] Implemented| N/A                                      | Group26          |
-| `EcucDestinationUriDef`                                 | [ ] Implemented| N/A                                      | Group26          |
+| `EcucDerivationSpecification`                           | [ ] Deferred| 55d1c38524                               | Group26          |
+| `EcucDestinationUriDef`                                 | [ ] Deferred| N/A                                      | Group26          |
 | `EcucDestinationUriDefRefType`                          | [ ] Implemented| N/A                                      | Group19          |
-| `EcucDestinationUriDefSet`                              | [ ] Implemented| N/A                                      | Group26          |
-| `EcucDestinationUriNestingContractEnum`                 | [ ] Implemented| N/A                                      | Group26          |
-| `EcucDestinationUriPolicy`                              | [ ] Implemented| N/A                                      | Group26          |
-| `EcucEnumerationLiteralDef`                             | [ ] Implemented| N/A                                      | Group26          |
-| `EcucEnumerationParamDef`                               | [ ] Implemented| N/A                                      | Group26          |
+| `EcucDestinationUriDefSet`                              | [ ] Deferred| N/A                                      | Group26          |
+| `EcucDestinationUriNestingContractEnum`                 | [ ] Deferred| N/A                                      | Group26          |
+| `EcucDestinationUriPolicy`                              | [ ] Deferred| N/A                                      | Group26          |
+| `EcucEnumerationLiteralDef`                             | [ ] Deferred| 3203359732                               | Group26          |
+| `EcucEnumerationParamDef`                               | [ ] Deferred| 5ef42696a3                               | Group26          |
 | `EcucFloatParamDef`                                     | [ ] Deferred| N/A                                      | Group19          |
 | `EcucForeignReferenceDef`                               | [ ] Deferred| N/A                                      | Group19          |
-| `EcucFunctionNameDef`                                   | [ ] Implemented| N/A                                      | Group26          |
+| `EcucFunctionNameDef`                                   | [ ] Deferred| 0c93caf5a8                               | Group26          |
 | `EcucIndexableValue`                                    | [ ] Implemented| N/A                                      | Group27          |
-| `EcucInstanceReferenceDef`                              | [ ] Implemented| N/A                                      | Group26          |
+| `EcucInstanceReferenceDef`                              | [ ] Deferred| N/A                                      | Group26          |
 | `EcucInstanceReferenceValue`                            | [ ] Implemented| N/A                                      | Group27          |
-| `EcucIntegerParamDef`                                   | [ ] Implemented| N/A                                      | Group26          |
+| `EcucIntegerParamDef`                                   | [ ] Deferred| 7d9d0de23f                               | Group26          |
 | `EcucLinkerSymbolDef`                                   | [ ] Deferred| N/A                                      | Group19          |
 | `EcucModuleConfigurationValues`                         | [ ] Implemented| N/A                                      | Group27          |
 | `EcucModuleDef`                                         | [ ] Deferred| 3dd8367d26                               | Group26          |
-| `EcucMultilineStringParamDef`                           | [ ] Implemented| N/A                                      | Group26          |
+| `EcucMultilineStringParamDef`                           | [ ] Deferred| 09ef1c6456                               | Group26          |
 | `EcucMultiplicityConfigurationClass`                    | [ ] Deferred| 6549a18aee                               | Group26          |
 | `EcucNumericalParamValue`                               | [ ] Implemented| N/A                                      | Group27          |
 | `EcucParamConfContainerDef`                             | [ ] Deferred| 571d1bb8d7                               | Group26          |
 | `EcucParameterDef`                                      | [ ] Deferred| bf479d9bf8                               | Group26          |
 | `EcucParameterDerivationFormula`                        | [x] Done    | N/A                                      | Group19          |
 | `EcucParameterValue`                                    | [ ] Implemented| N/A                                      | Group27          |
-| `EcucQuery`                                             | [ ] Implemented| N/A                                      | Group26          |
+| `EcucQuery`                                             | [ ] Deferred| N/A                                      | Group26          |
 | `EcucQueryExpression`                                   | [x] Done    | N/A                                      | Group19          |
 | `EcucReferenceDef`                                      | [x] Done    | 0d45067479                               | Group19          |
 | `EcucReferenceValue`                                    | [ ] Implemented| N/A                                      | Group27          |
 | `EcucScopeEnum`                                         | [ ] Deferred| N/A                                      | Group19          |
-| `EcucStringParamDef`                                    | [ ] Implemented| N/A                                      | Group26          |
+| `EcucStringParamDef`                                    | [ ] Deferred| 9b17d4e994                               | Group26          |
 | `EcucSymbolicNameReferenceDef`                          | [x] Done    | 0d45067479                               | Group19          |
 | `EcucTextualParamValue`                                 | [ ] Implemented| N/A                                      | Group27          |
 | `EcucUriReferenceDef`                                   | [x] Done    | 0d45067479                               | Group19          |
