@@ -56,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -654,9 +654,75 @@ class TestEcucDefinitionElement:
 
 
 class TestEcucContainerDef:
+    CLASS_NOTE = "Base class used to gather common attributes of configuration container definitions."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucContainerDef)
+
+    def _make(self):
+        class _Concrete(EcucContainerDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestECD"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucContainerDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucContainerDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getDestinationUriRefs() == []
+        assert obj.getMultiplicityConfigClasses() == []
+        assert obj.getOrigin() is None
+        assert obj.getPostBuildVariantMultiplicity() is None
+        assert obj.getRequiresIndex() is None
+
+    def test_add_get_destination_uri_refs(self):
+        obj = self._make()
+        ref = RefType()
+        ref.setValue("/EcucDestinationUriDefs/Uri1")
+        assert obj.addDestinationUriRef(ref) is obj
+        assert obj.getDestinationUriRefs() == [ref]
+        obj.addDestinationUriRef(None)
+        assert obj.getDestinationUriRefs() == [ref]  # None is a no-op
+
+    def test_add_get_multiplicity_config_classes(self):
+        obj = self._make()
+        cfg_class = EcucMultiplicityConfigurationClass()
+        assert obj.addMultiplicityConfigClass(cfg_class) is obj
+        assert obj.getMultiplicityConfigClasses() == [cfg_class]
+        obj.addMultiplicityConfigClass(None)
+        assert obj.getMultiplicityConfigClasses() == [cfg_class]  # None is a no-op
+
+    def test_get_set_origin_roundtrip(self):
+        obj = self._make()
+        origin = String()
+        origin.setValue("VENDOR")
+        assert obj.setOrigin(origin) is obj
+        assert obj.getOrigin() is origin
+        obj.setOrigin(None)
+        assert obj.getOrigin() is origin  # None is a no-op
+
+    def test_get_set_post_build_variant_multiplicity_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setPostBuildVariantMultiplicity(value) is obj
+        assert obj.getPostBuildVariantMultiplicity() is value
+        obj.setPostBuildVariantMultiplicity(None)
+        assert obj.getPostBuildVariantMultiplicity() is value  # None is a no-op
+
+    def test_get_set_requires_index_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(False)
+        assert obj.setRequiresIndex(value) is obj
+        assert obj.getRequiresIndex() is value
+        obj.setRequiresIndex(None)
+        assert obj.getRequiresIndex() is value  # None is a no-op
 
 
 class TestEcucCommonAttributes:

@@ -597,15 +597,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucContainerDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.3, p.37
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (159 passed ECUCParameterDefTemplate + member-annotation gate + new round-trip + definition-element/os-ecuc suites; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); TRAILING-CAPTION page-split table (attribute half sits BEFORE the caption, postBuildVariantMultiplicity/requiresIndex AFTER) — union taken; most-derived base EcucDefinitionElement ✓ unchanged; members/display order verified (destinationUriRefs, multiplicityConfigClasses, origin, postBuildVariantMultiplicity, requiresIndex); XSD group l.51599 order (DESTINATION-URI-REFS → MULTIPLICITY-CONFIG-CLASSES → ORIGIN → POST-BUILD-VARIANT-MULTIPLICITY → REQUIRES-INDEX) already matched reader/writer; XSD-only POST-BUILD-CHANGEABLE carries atp.Status="removed" — not modeled (Rule 0015)
+  - note (Step 4): docstring gaps fixed — destinationUri note was missing its `Stereotypes: atpUriDef` tail; multiplicityConfigClass note was TRUNCATED (dropped the aggregation-condition sentences + `Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES` tail); word-splits joined (Ecuc ContainerDef, EcucUriReference Defs, STANDARDIZED_MODULE_ DEFINITION, xml.name Plural)
 
 - [ ] `EcucParamConfContainerDef` — EcucContainerDef — R23-11 CP_TPS_ECUConfiguration Table 2.4, p.39
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

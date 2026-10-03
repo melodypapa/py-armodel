@@ -498,34 +498,32 @@ class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
 
 
 class EcucContainerDef(EcucDefinitionElement, ABC):
-    """
-    Base class used to gather common attributes of configuration container definitions.
-    """
+    """Base class used to gather common attributes of configuration container definitions."""
 
     # EcucContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.3, p.37
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDestinationUriRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMultiplicityConfigClass  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiresIndex            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresIndex            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDestinationUriRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMultiplicityConfigClass       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationUriRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityConfigClasses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getOrigin                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRequiresIndex                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setRequiresIndex                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucContainerDef:
             raise TypeError("EcucContainerDef is an abstract class.")
         super().__init__(parent, short_name)
 
-        # Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        # Several destinationUris can be defined for an EcucContainerDef. With such destinationUris an EcucContainerDef is applicable for several EcucUriReferenceDefs. Stereotypes: atpUriDef
         self.destinationUriRefs: List[RefType] = []
 
-        # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION and if the upperMultiplicity is greater than the lowerMultiplicity then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
 
         # This attribute specifies whether this configuration container is an AUTOSAR standardized container or whether it is vendor-specific.
@@ -539,13 +537,13 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
     def getDestinationUriRefs(self) -> List[RefType]:
         """
-        Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        Several destinationUris can be defined for an EcucContainerDef. With such destinationUris an EcucContainerDef is applicable for several EcucUriReferenceDefs. Stereotypes: atpUriDef
         """
         return self.destinationUriRefs
 
     def addDestinationUriRef(self, value: RefType) -> EcucContainerDef:
         """
-        Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        Several destinationUris can be defined for an EcucContainerDef. With such destinationUris an EcucContainerDef is applicable for several EcucUriReferenceDefs. Stereotypes: atpUriDef
         A None value is a no-op.
         """
         if value is not None:
@@ -554,13 +552,13 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
         """
-        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION and if the upperMultiplicity is greater than the lowerMultiplicity then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         """
         return self.multiplicityConfigClasses
 
     def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass) -> EcucContainerDef:
         """
-        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION and if the upperMultiplicity is greater than the lowerMultiplicity then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         A None value is a no-op.
         """
         if value is not None:
