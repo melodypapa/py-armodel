@@ -128,8 +128,23 @@ class TestEcucInstanceReferenceDef:
 
 
 class TestEcucStringParamDef:
+    CLASS_NOTE = "Configuration parameter type for String."
+
     def test_instantiation(self):
         assert _instantiate(EcucStringParamDef, "EcucStringParamDef").getShortName() == "EcucStringParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucStringParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucStringParamDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_string_attrs(self):
+        obj = _instantiate(EcucStringParamDef, "Sp")
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
 
 
 class TestEcucFunctionNameDef:
