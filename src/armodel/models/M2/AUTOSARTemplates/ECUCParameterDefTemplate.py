@@ -2490,16 +2490,14 @@ class EcucParameterDerivationFormula(FormulaExpression):
 
 
 class EcucQuery(Identifiable):
-    """
-    Defines a query to the ECUC Description.
-    """
+    """Defines a query to the ECUC Description."""
 
     # EcucQuery method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.40, p.89
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

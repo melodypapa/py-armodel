@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucBooleanParamDef,
     EcucChoiceReferenceDef,
     EcucDefinitionCollection,
+    EcucDerivationSpecification,
     EcucDestinationUriDefRefType,
     EcucDestinationUriDefSet,
     EcucDestinationUriNestingContractEnum,
@@ -25,6 +26,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
+    EcucQuery,
+    EcucQueryExpression,
     EcucReferenceDef,
     EcucStringParamDef,
     EcucValueConfigurationClass,
@@ -1208,6 +1211,50 @@ class TestWriterEcucDefinitionCollection:
 
 
 # ==================== EcucDestinationUriPolicy (Table 2.36) writer round-trip ====================
+
+
+class TestWriterEcucQuery:
+    def test_round_trip_query_with_expression(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucIntegerParamDef("P")
+        derivation = EcucDerivationSpecification()
+        query = derivation.createEcucQuery("Q1")
+        expr = EcucQueryExpression()
+        expr.setConfigElementDefGlobalRef(_ref("/Pkg/Mod/Ct", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        query.setEcucQueryExpression(expr)
+        param.setDerivation(derivation)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucIntegerParamDef)
+            reloaded_derivation = reloaded_param.getDerivation()
+            assert reloaded_derivation is not None
+            reloaded_queries = reloaded_derivation.getEcucQueries()
+            assert len(reloaded_queries) == 1
+            reloaded_query = reloaded_queries[0]
+            assert isinstance(reloaded_query, EcucQuery)
+            assert reloaded_query.getShortName() == "Q1"
+            reloaded_expr = reloaded_query.getEcucQueryExpression()
+            assert reloaded_expr is not None
+            reloaded_ref = reloaded_expr.getConfigElementDefGlobalRef()
+            assert reloaded_ref is not None
+            assert reloaded_ref.getValue() == "/Pkg/Mod/Ct"
+            assert reloaded_ref.getDest() == "ECUC-PARAM-CONF-CONTAINER-DEF"
+            assert reloaded_expr.getConfigElementDefLocalRef() is None
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestEcucDestinationUriPolicyWriter:

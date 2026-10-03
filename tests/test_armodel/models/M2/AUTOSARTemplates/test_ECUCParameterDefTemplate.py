@@ -567,8 +567,17 @@ class TestEcucDestinationUriDefSet:
 
 
 class TestEcucQuery:
+    CLASS_NOTE = "Defines a query to the ECUC Description."
+    EXPR_NOTE = "This is the EcucQuery used in the calculation formula or the condition formula."
+
     def test_instantiation(self):
         assert _instantiate(EcucQuery, "EcucQuery").getShortName() == "EcucQuery"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucQuery.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucQuery.__init__.__doc__ is None
 
     def test_initialization(self):
         query = EcucQuery(AUTOSAR.getInstance().createARPackage("Pkg"), "Q")
@@ -581,6 +590,11 @@ class TestEcucQuery:
         assert query.getEcucQueryExpression() is expr
         assert query.setEcucQueryExpression(None) is query
         assert query.getEcucQueryExpression() is expr
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        query = EcucQuery(AUTOSAR.getInstance().createARPackage("Pkg"), "Q")
+        assert inspect.cleandoc(query.getEcucQueryExpression.__doc__) == self.EXPR_NOTE
+        assert inspect.cleandoc(query.setEcucQueryExpression.__doc__).splitlines()[0] == self.EXPR_NOTE
 
 
 class TestEcucModuleDef:

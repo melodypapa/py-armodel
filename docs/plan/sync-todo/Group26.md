@@ -961,13 +961,14 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucQuery` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.40, p.89
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (485 passed battery incl. new ECUC-QUERY nested reload round-trip (DERIVATION → ECUC-QUERYS → ECUC-QUERY → ECUC-QUERY-EXPRESSION → CONFIG-ELEMENT-DEF-GLOBAL-REF) + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); SYNCED BEFORE EcucDerivationSpecification (Rule 0016.5 — it is EcucDerivationSpecification.ecucQuery's member type, also consumed by EcucConditionSpecification/EcucValidationCondition); Base Identifiable ✓; single attr ecucQueryExpression (0..1 aggr, ARObject child → setXxx) ✓ notes verbatim; reader readEcucQuery / writer writeEcucQuery matched XSD (ECUC-QUERY-EXPRESSION wrapper after writeIdentifiable; CONFIG-ELEMENT-DEF-GLOBAL-REF → CONFIG-ELEMENT-DEF-LOCAL-REF)
 
