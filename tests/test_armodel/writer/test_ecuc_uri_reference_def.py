@@ -81,7 +81,7 @@ class TestEcucUriReferenceDefRoundTrip:
 
     def test_destination_uri_policy_references_round_trip(self, writer, parser):
         policy = EcucDestinationUriPolicy()
-        policy.addReference(_uri_ref(policy, "UriRef2"))
+        policy.createEcucUriReferenceDef("UriRef2").setDestinationUriRef(_ref("/Mod/TargetContainer", "ECUC-DESTINATION-URI-DEF"))
 
         parent = ET.Element("PARENT")
         writer.writeEcucDestinationUriPolicyReferences(parent, policy)

@@ -2123,22 +2123,34 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
 
 
 class EcucDestinationUriPolicy(ARObject):
-    """
-    The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute.
-    """
+    """The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute."""
 
     # EcucDestinationUriPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.36, p.83
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReference                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEcucChoiceContainerDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainers                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDestinationUriNestingContract  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationUriNestingContract  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucAddInfoParamDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucBooleanParamDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucEnumerationParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFloatParamDef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFunctionNameDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucIntegerParamDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucLinkerSymbolDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucMultilineStringParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucStringParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameters                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createEcucChoiceReferenceDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucForeignReferenceDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucInstanceReferenceDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucReferenceDef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucUriReferenceDef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferences                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2155,20 +2167,33 @@ class EcucDestinationUriPolicy(ARObject):
         # Description of references that are contained in the target container.
         self.references: List[EcucAbstractReferenceDef] = []
 
+    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+        """
+        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
+        """
+        for container in self.containers:
+            if type(container) is EcucChoiceContainerDef and container.getShortName() == short_name:
+                return container
+        container = EcucChoiceContainerDef(self, short_name)
+        self.containers.append(container)
+        return container
+
+    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
+        """
+        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
+        """
+        for container in self.containers:
+            if type(container) is EcucParamConfContainerDef and container.getShortName() == short_name:
+                return container
+        container = EcucParamConfContainerDef(self, short_name)
+        self.containers.append(container)
+        return container
+
     def getContainers(self) -> List[EcucContainerDef]:
         """
         Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
         """
         return self.containers
-
-    def addContainer(self, value: EcucContainerDef) -> EcucDestinationUriPolicy:
-        """
-        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.containers.append(value)
-        return self
 
     def getDestinationUriNestingContract(self) -> Optional[EcucDestinationUriNestingContractEnum]:
         """
@@ -2179,11 +2204,110 @@ class EcucDestinationUriPolicy(ARObject):
     def setDestinationUriNestingContract(self, value: Optional[EcucDestinationUriNestingContractEnum]) -> EcucDestinationUriPolicy:
         """
         This attribute defines how the referenced target EcucContainerDef is described.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing destinationUriNestingContract.
         """
         if value is not None:
             self.destinationUriNestingContract = value
         return self
+
+    def createEcucAddInfoParamDef(self, short_name: str) -> EcucAddInfoParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucAddInfoParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucAddInfoParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucBooleanParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucBooleanParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucEnumerationParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucEnumerationParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucFloatParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucFloatParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucFunctionNameDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucFunctionNameDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucIntegerParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucIntegerParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucLinkerSymbolDef(self, short_name: str) -> EcucLinkerSymbolDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucLinkerSymbolDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucLinkerSymbolDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucMultilineStringParamDef(self, short_name: str) -> EcucMultilineStringParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucMultilineStringParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucMultilineStringParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
+
+    def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
+        """
+        Description of parameters that are contained in the target container.
+        """
+        for parameter in self.parameters:
+            if type(parameter) is EcucStringParamDef and parameter.getShortName() == short_name:
+                return parameter
+        parameter = EcucStringParamDef(self, short_name)
+        self.parameters.append(parameter)
+        return parameter
 
     def getParameters(self) -> List[EcucParameterDef]:
         """
@@ -2191,29 +2315,77 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.parameters
 
-    def addParameter(self, value: EcucParameterDef) -> EcucDestinationUriPolicy:
+    def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
         """
-        Description of parameters that are contained in the target container.
-        A None value is a no-op.
+        Description of references that are contained in the target container.
         """
-        if value is not None:
-            self.parameters.append(value)
-        return self
+        for reference in self.references:
+            if type(reference) is EcucChoiceReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucChoiceReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucForeignReferenceDef(self, short_name: str) -> EcucForeignReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucForeignReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucForeignReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucInstanceReferenceDef(self, short_name: str) -> EcucInstanceReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucInstanceReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucInstanceReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucSymbolicNameReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucSymbolicNameReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
+
+    def createEcucUriReferenceDef(self, short_name: str) -> EcucUriReferenceDef:
+        """
+        Description of references that are contained in the target container.
+        """
+        for reference in self.references:
+            if type(reference) is EcucUriReferenceDef and reference.getShortName() == short_name:
+                return reference
+        reference = EcucUriReferenceDef(self, short_name)
+        self.references.append(reference)
+        return reference
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
         Description of references that are contained in the target container.
         """
         return self.references
-
-    def addReference(self, value: EcucAbstractReferenceDef) -> EcucDestinationUriPolicy:
-        """
-        Description of references that are contained in the target container.
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.references.append(value)
-        return self
 
 
 class EcucDestinationUriNestingContractEnum(AREnum):

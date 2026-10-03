@@ -821,8 +821,88 @@ class TestEcucDestinationUriNestingContractEnum:
 
 
 class TestEcucDestinationUriPolicy:
+    CLASS_NOTE = "The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute."
+    CONTAINERS_NOTE = (
+        "Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here."
+    )
+    NESTING_NOTE = "This attribute defines how the referenced target EcucContainerDef is described."
+    PARAMETERS_NOTE = "Description of parameters that are contained in the target container."
+    REFERENCES_NOTE = "Description of references that are contained in the target container."
+
     def test_instantiation(self):
         assert isinstance(EcucDestinationUriPolicy(), EcucDestinationUriPolicy)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDestinationUriPolicy.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriPolicy.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        policy = EcucDestinationUriPolicy()
+        assert policy.getContainers() == []
+        assert policy.getDestinationUriNestingContract() is None
+        assert policy.getParameters() == []
+        assert policy.getReferences() == []
+
+    def test_get_set_destination_uri_nesting_contract_roundtrip(self):
+        policy = EcucDestinationUriPolicy()
+        value = EcucDestinationUriNestingContractEnum()
+        value.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+        assert policy.setDestinationUriNestingContract(value) is policy
+        assert policy.getDestinationUriNestingContract() is value
+        policy.setDestinationUriNestingContract(None)
+        assert policy.getDestinationUriNestingContract() is value
+
+    def test_create_container_factories_append_and_dedupe(self):
+        policy = EcucDestinationUriPolicy()
+        container = policy.createEcucParamConfContainerDef("C1")
+        assert isinstance(container, EcucParamConfContainerDef)
+        assert policy.getContainers() == [container]
+        assert policy.createEcucParamConfContainerDef("C1") is container
+        choice = policy.createEcucChoiceContainerDef("C2")
+        assert isinstance(choice, EcucChoiceContainerDef)
+        assert len(policy.getContainers()) == 2
+
+    def test_create_parameter_factories_append_and_dedupe(self):
+        policy = EcucDestinationUriPolicy()
+        param = policy.createEcucIntegerParamDef("P1")
+        assert isinstance(param, EcucIntegerParamDef)
+        assert policy.getParameters() == [param]
+        assert policy.createEcucIntegerParamDef("P1") is param
+        policy.createEcucBooleanParamDef("P2")
+        policy.createEcucStringParamDef("P3")
+        policy.createEcucFloatParamDef("P4")
+        policy.createEcucEnumerationParamDef("P5")
+        policy.createEcucFunctionNameDef("P6")
+        policy.createEcucMultilineStringParamDef("P7")
+        policy.createEcucLinkerSymbolDef("P8")
+        policy.createEcucAddInfoParamDef("P9")
+        assert len(policy.getParameters()) == 9
+
+    def test_create_reference_factories_append_and_dedupe(self):
+        policy = EcucDestinationUriPolicy()
+        ref = policy.createEcucReferenceDef("R1")
+        assert isinstance(ref, EcucReferenceDef)
+        assert policy.getReferences() == [ref]
+        assert policy.createEcucReferenceDef("R1") is ref
+        policy.createEcucChoiceReferenceDef("R2")
+        policy.createEcucUriReferenceDef("R3")
+        policy.createEcucSymbolicNameReferenceDef("R4")
+        policy.createEcucForeignReferenceDef("R5")
+        policy.createEcucInstanceReferenceDef("R6")
+        assert len(policy.getReferences()) == 6
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        policy = EcucDestinationUriPolicy()
+        assert inspect.cleandoc(policy.getContainers.__doc__) == self.CONTAINERS_NOTE
+        assert inspect.cleandoc(policy.createEcucParamConfContainerDef.__doc__).splitlines()[0] == self.CONTAINERS_NOTE
+        assert inspect.cleandoc(policy.getDestinationUriNestingContract.__doc__) == self.NESTING_NOTE
+        assert inspect.cleandoc(policy.setDestinationUriNestingContract.__doc__).splitlines()[0] == self.NESTING_NOTE
+        assert inspect.cleandoc(policy.getParameters.__doc__) == self.PARAMETERS_NOTE
+        assert inspect.cleandoc(policy.createEcucIntegerParamDef.__doc__).splitlines()[0] == self.PARAMETERS_NOTE
+        assert inspect.cleandoc(policy.getReferences.__doc__) == self.REFERENCES_NOTE
+        assert inspect.cleandoc(policy.createEcucReferenceDef.__doc__).splitlines()[0] == self.REFERENCES_NOTE
 
 
 class TestEcucParameterDerivationFormula:

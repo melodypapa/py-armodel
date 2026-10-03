@@ -12956,13 +12956,11 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "CONTAINERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-PARAM-CONF-CONTAINER-DEF":
-                container_def = EcucParamConfContainerDef(policy, self.getShortName(child_element))
+                container_def = policy.createEcucParamConfContainerDef(self.getShortName(child_element))
                 self.readEcucParamConfContainerDef(child_element, container_def)
-                policy.addContainer(container_def)
             elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
-                container_def = EcucChoiceContainerDef(policy, self.getShortName(child_element))
+                container_def = policy.createEcucChoiceContainerDef(self.getShortName(child_element))
                 self.readEcucChoiceContainerDef(child_element, container_def)
-                policy.addContainer(container_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Container <%s>" % tag_name)
 
@@ -12970,41 +12968,32 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PARAMETERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
-                param_def = EcucBooleanParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucBooleanParamDef(self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
-                param_def = EcucAddInfoParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucAddInfoParamDef(self.getShortName(child_element))
                 self.readEcucAddInfoParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
-                param_def = EcucStringParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucStringParamDef(self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-INTEGER-PARAM-DEF":
-                param_def = EcucIntegerParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucIntegerParamDef(self.getShortName(child_element))
                 self.readEcucIntegerParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-FLOAT-PARAM-DEF":
-                param_def = EcucFloatParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucFloatParamDef(self.getShortName(child_element))
                 self.readEcucFloatParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-ENUMERATION-PARAM-DEF":
-                param_def = EcucEnumerationParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucEnumerationParamDef(self.getShortName(child_element))
                 self.readEcucEnumerationParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-FUNCTION-NAME-DEF":
-                param_def = EcucFunctionNameDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucFunctionNameDef(self.getShortName(child_element))
                 self.readEcucFunctionNameDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-MULTILINE-STRING-PARAM-DEF":
-                param_def = EcucMultilineStringParamDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucMultilineStringParamDef(self.getShortName(child_element))
                 self.readEcucMultilineStringParamDef(child_element, param_def)
-                policy.addParameter(param_def)
             elif tag_name == "ECUC-LINKER-SYMBOL-DEF":
-                param_def = EcucLinkerSymbolDef(policy, self.getShortName(child_element))
+                param_def = policy.createEcucLinkerSymbolDef(self.getShortName(child_element))
                 self.readEcucLinkerSymbolDef(child_element, param_def)
-                policy.addParameter(param_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Parameter <%s>" % tag_name)
 
@@ -13012,29 +13001,23 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "REFERENCES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-SYMBOLIC-NAME-REFERENCE-DEF":
-                ref_def = EcucSymbolicNameReferenceDef(policy, self.getShortName(child_element))
+                ref_def = policy.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
                 self.readEcucSymbolicNameReferenceDef(child_element, ref_def)
-                policy.addReference(ref_def)
             elif tag_name == "ECUC-REFERENCE-DEF":
-                ref_def = EcucReferenceDef(policy, self.getShortName(child_element))
+                ref_def = policy.createEcucReferenceDef(self.getShortName(child_element))
                 self.readEcucReferenceDef(child_element, ref_def)
-                policy.addReference(ref_def)
             elif tag_name == "ECUC-URI-REFERENCE-DEF":
-                ref_def = EcucUriReferenceDef(policy, self.getShortName(child_element))
+                ref_def = policy.createEcucUriReferenceDef(self.getShortName(child_element))
                 self.readEcucUriReferenceDef(child_element, ref_def)
-                policy.addReference(ref_def)
             elif tag_name == "ECUC-CHOICE-REFERENCE-DEF":
-                ref_def = EcucChoiceReferenceDef(policy, self.getShortName(child_element))
+                ref_def = policy.createEcucChoiceReferenceDef(self.getShortName(child_element))
                 self.readEcucChoiceReferenceDef(child_element, ref_def)
-                policy.addReference(ref_def)
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
-                ref_def = EcucInstanceReferenceDef(policy, self.getShortName(child_element))
+                ref_def = policy.createEcucInstanceReferenceDef(self.getShortName(child_element))
                 self.readEcucInstanceReferenceDef(child_element, ref_def)
-                policy.addReference(ref_def)
             elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
-                ref_def = EcucForeignReferenceDef(policy, self.getShortName(child_element))
+                ref_def = policy.createEcucForeignReferenceDef(self.getShortName(child_element))
                 self.readEcucForeignReferenceDef(child_element, ref_def)
-                policy.addReference(ref_def)
             else:
                 self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % tag_name)
 

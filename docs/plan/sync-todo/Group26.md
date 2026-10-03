@@ -921,15 +921,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucDestinationUriPolicy` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.36, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (624 passed battery incl. full-policy reload round-trip (CONTAINERS + nesting contract + PARAMETERS + REFERENCES) + 17-factory append/dedupe tests; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); Base ARObject ✓; attrs displayed order container/destinationUriNestingContract/parameter/reference ✓ notes verbatim; RULE 0001.6 SHAPE FIX — addContainer/addParameter/addReference (Referrable children) replaced by 17 createXxx<Subtype>(short_name) factories (2 container + 9 parameter + 6 reference; inline list-scan dedupe per the createEcucQuery pattern); parser policy readers migrated construct+add → create+read, incl. 15 latent calls to never-existing policy.createBooleanParamDef-style methods (would have AttributeError'd on first parse hit); writer gap fixed — writeEcucDestinationUriPolicyParameters lacked the EcucAddInfoParamDef isinstance branch (reader accepted ADD-INFO, writer would notImplemented); empty-wrapper (CONTAINERS/PARAMETERS/REFERENCES len>0 guards) + None-noop setters covered
 
 - [ ] `EcucDestinationUriNestingContractEnum` — AREnum — R23-11 CP_TPS_ECUConfiguration Table 2.37, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

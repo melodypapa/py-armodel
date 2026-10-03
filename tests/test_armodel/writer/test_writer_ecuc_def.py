@@ -10,6 +10,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucChoiceReferenceDef,
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
+    EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
+    EcucDestinationUriPolicy,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
@@ -1208,6 +1211,46 @@ class TestWriterEcucDefinitionCollection:
 
 
 class TestEcucDestinationUriPolicyWriter:
+    def test_round_trip_full_policy(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        def_set = pkg.createEcucDestinationUriDefSet("Defs")
+        uri_def = def_set.createEcucDestinationUriDef("TargetUri")
+        policy = EcucDestinationUriPolicy()
+        policy.setDestinationUriNestingContract(EcucDestinationUriNestingContractEnum().setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER))
+        policy.createEcucParamConfContainerDef("TargetContainer")
+        policy.createEcucIntegerParamDef("TargetParam")
+        policy.createEcucReferenceDef("TargetRef")
+        uri_def.setDestinationUriPolicy(policy)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_def_set = reloaded_pkg.getReferrableElement("Defs", EcucDestinationUriDefSet)
+            reloaded_uri_def = reloaded_def_set.getDestinationUriDefs()[0]
+            reloaded_policy = reloaded_uri_def.getDestinationUriPolicy()
+            assert reloaded_policy is not None
+            assert reloaded_policy.getDestinationUriNestingContract().getValue() == "TARGET-CONTAINER"
+            assert len(reloaded_policy.getContainers()) == 1
+            assert isinstance(reloaded_policy.getContainers()[0], EcucParamConfContainerDef)
+            assert reloaded_policy.getContainers()[0].getShortName() == "TargetContainer"
+            assert len(reloaded_policy.getParameters()) == 1
+            assert isinstance(reloaded_policy.getParameters()[0], EcucIntegerParamDef)
+            assert reloaded_policy.getParameters()[0].getShortName() == "TargetParam"
+            assert len(reloaded_policy.getReferences()) == 1
+            assert isinstance(reloaded_policy.getReferences()[0], EcucReferenceDef)
+            assert reloaded_policy.getReferences()[0].getShortName() == "TargetRef"
+        finally:
+            os.unlink(tmp_path)
+
     """Writer round-trip for EcucDestinationUriDefSet -> Def -> Policy (Tables 2.34-2.36)."""
 
     def _round_trip(self, build):
@@ -1248,14 +1291,14 @@ class TestEcucDestinationUriPolicyWriter:
             uri_def = uri_def_set.createEcucDestinationUriDef("Uri1")
             policy = EcucDestinationUriPolicy()
             container = EcucParamConfContainerDef(policy, "TargetContainer")
-            policy.addContainer(container)
+            policy.createEcucParamConfContainerDef(container.getShortName())
             contract = EcucDestinationUriNestingContractEnum()
             contract.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
             policy.setDestinationUriNestingContract(contract)
             param = EcucBooleanParamDef(policy, "InterestingParam1")
-            policy.addParameter(param)
+            policy.createEcucIntegerParamDef(param.getShortName())
             ref = EcucReferenceDef(policy, "Ref1")
-            policy.addReference(ref)
+            policy.createEcucReferenceDef(ref.getShortName())
             uri_def.setDestinationUriPolicy(policy)
 
         reloaded_pkg = self._round_trip(build)
@@ -1641,7 +1684,7 @@ class TestWriterEcucLinkerSymbolDef:
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriPolicy
 
         policy = EcucDestinationUriPolicy()
-        policy.addParameter(EcucLinkerSymbolDef(policy, "Sym"))
+        policy.createEcucLinkerSymbolDef("Sym")
         parent = _parent()
         writer.writeEcucDestinationUriPolicyParameters(parent, policy)
         assert parent.find("PARAMETERS/ECUC-LINKER-SYMBOL-DEF") is not None

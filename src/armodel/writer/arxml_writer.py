@@ -11267,6 +11267,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for parameter in parameters:
                 if isinstance(parameter, EcucBooleanParamDef):
                     self.writeEcucBooleanParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucAddInfoParamDef):
+                    self.writeEcucAddInfoParamDef(parameters_element, parameter)
                 elif isinstance(parameter, EcucStringParamDef):
                     self.writeEcucStringParamDef(parameters_element, parameter)
                 elif isinstance(parameter, EcucIntegerParamDef):
