@@ -1,7 +1,9 @@
 import logging
+from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 
 
@@ -12,7 +14,7 @@ class SwComponentAnalyzer:
     """
 
     def __init__(self) -> None:
-        self.swcs = []  # type: List[AtomicSwComponentType]
+        self.swcs: List[SwComponentType] = []
 
     def parse_pkg(self, parent: ARPackage):
         for pkg in parent.getARPackages():

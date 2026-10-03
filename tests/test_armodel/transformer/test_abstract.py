@@ -29,6 +29,6 @@ class TestAbstractTransformer:
         """
         transformer = AbstractTransformer()
         # The method exists and should not raise an exception
-        result = transformer.remove()
+        result = transformer.remove(None)
         # The method doesn't return anything specific, just needs to exist
         assert result is None

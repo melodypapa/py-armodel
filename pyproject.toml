@@ -125,7 +125,6 @@ warn_unused_ignores = true
 [[tool.mypy.overrides]]
 module = [
     "armodel.cli.arxml_dump_cli",
-    "armodel.lib.sw_component",
     "armodel.models",
     "armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure",
     "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior",
@@ -149,16 +148,13 @@ module = [
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement",
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols",
     "armodel.models.M2.MSR.AsamHdo.ComputationMethod",
-    "armodel.models.utils.uuid_mgr",
     "armodel.parser.abstract_arxml_parser",
     "armodel.parser.arxml_parser",
     "armodel.parser.connector_xlsx_parser",
     "armodel.parser.ecuc_parser",
-    "armodel.parser.file_parser",
     "armodel.parser.os_ecuc_parser",
     "armodel.report.connector_xls_report",
     "armodel.report.os_export",
-    "armodel.transformer.admin_data",
     "armodel.writer.abstract_arxml_writer",
     "armodel.writer.arxml_writer",
 ]
