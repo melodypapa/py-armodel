@@ -395,14 +395,16 @@ class EcucConfigurationClassEnum(AREnum):
 
 
 class EcucConfigurationVariantEnum(AREnum):
-    """
-    Specifies which ConfigurationVariants are supported by this software module.
-    """
+    """Specifies the possible Configuration Variants used for AUTOSAR BSW Modules."""
 
     # EcucConfigurationVariantEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Preconfigured (i.e. fixed) configuration which cannot be changed. Tags: atp.EnumerationLiteralIndex=0
+    PRECONFIGURED_CONFIGURATION = "PRECONFIGURED-CONFIGURATION"
 
     # Recommended configuration for a module. Tags: atp.EnumerationLiteralIndex=1
     RECOMMENDED_CONFIGURATION = "RECOMMENDED-CONFIGURATION"
@@ -419,6 +421,7 @@ class EcucConfigurationVariantEnum(AREnum):
     def __init__(self):
         super().__init__(
             [
+                EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION,
                 EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION,
                 EcucConfigurationVariantEnum.VARIANT_LINK_TIME,
                 EcucConfigurationVariantEnum.VARIANT_POST_BUILD,
@@ -428,18 +431,16 @@ class EcucConfigurationVariantEnum(AREnum):
 
 
 class EcucAbstractConfigurationClass(ARObject, ABC):
-    """
-    Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.
-    """
+    """Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."""
 
     # EcucAbstractConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.9, p.51
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigClass               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigClass               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConfigVariant             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigVariant             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfigClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getConfigVariant  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setConfigVariant  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucAbstractConfigurationClass:
@@ -484,48 +485,44 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
 
 
 class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
-    """
-    Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.
-    """
+    """Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."""
 
     # EcucMultiplicityConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.11, p.52
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
 
 class EcucContainerDef(EcucDefinitionElement, ABC):
-    """
-    Base class used to gather common attributes of configuration container definitions.
-    """
+    """Base class used to gather common attributes of configuration container definitions."""
 
     # EcucContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.3, p.37
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDestinationUriRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMultiplicityConfigClass  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiresIndex            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresIndex            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDestinationUriRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMultiplicityConfigClass       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationUriRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMultiplicityConfigClasses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getOrigin                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRequiresIndex                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setRequiresIndex                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucContainerDef:
             raise TypeError("EcucContainerDef is an abstract class.")
         super().__init__(parent, short_name)
 
-        # Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        # Several destinationUris can be defined for an EcucContainerDef. With such destinationUris an EcucContainerDef is applicable for several EcucUriReferenceDefs. Stereotypes: atpUriDef
         self.destinationUriRefs: List[RefType] = []
 
-        # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION and if the upperMultiplicity is greater than the lowerMultiplicity then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
 
         # This attribute specifies whether this configuration container is an AUTOSAR standardized container or whether it is vendor-specific.
@@ -539,13 +536,13 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
     def getDestinationUriRefs(self) -> List[RefType]:
         """
-        Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        Several destinationUris can be defined for an EcucContainerDef. With such destinationUris an EcucContainerDef is applicable for several EcucUriReferenceDefs. Stereotypes: atpUriDef
         """
         return self.destinationUriRefs
 
     def addDestinationUriRef(self, value: RefType) -> EcucContainerDef:
         """
-        Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        Several destinationUris can be defined for an EcucContainerDef. With such destinationUris an EcucContainerDef is applicable for several EcucUriReferenceDefs. Stereotypes: atpUriDef
         A None value is a no-op.
         """
         if value is not None:
@@ -554,13 +551,13 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
         """
-        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION and if the upperMultiplicity is greater than the lowerMultiplicity then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         """
         return self.multiplicityConfigClasses
 
     def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass) -> EcucContainerDef:
         """
-        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION and if the upperMultiplicity is greater than the lowerMultiplicity then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         A None value is a no-op.
         """
         if value is not None:
@@ -614,40 +611,36 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
 
 class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
-    """
-    Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef.
-    """
+    """Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef."""
 
     # EcucValueConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.10, p.52
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
-    """
-    Attributes used by Configuration Parameters as well as References.
-    """
+    """Attributes used by Configuration Parameters as well as References."""
 
     # EcucCommonAttributes method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.8, p.49
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiresIndex             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresIndex             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValueConfigClasses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addValueConfigClass          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addMultiplicityConfigClass       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addValueConfigClass              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMultiplicityConfigClasses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getOrigin                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRequiresIndex                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValueConfigClasses            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setRequiresIndex                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucCommonAttributes:
@@ -655,7 +648,7 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
         super().__init__(parent, short_name)
 
-        # Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        # Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
 
         # String specifying if this configuration parameter is an AUTOSAR standardized configuration parameter or if the parameter is hardware- or vendor-specific.
@@ -670,18 +663,18 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
         # Used to define whether the value element for this definition shall be provided with an index.
         self.requiresIndex: Optional[Boolean] = None
 
-        # Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        # Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=VALUE-CONFIG-CLASSES
         self.valueConfigClasses: List[EcucValueConfigurationClass] = []
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
         """
-        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         """
         return self.multiplicityConfigClasses
 
     def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass):
         """
-        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         A None value is a no-op.
         """
         if value is not None:
@@ -750,13 +743,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
     def getValueConfigClasses(self) -> List[EcucValueConfigurationClass]:
         """
-        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=VALUE-CONFIG-CLASSES
         """
         return self.valueConfigClasses
 
     def addValueConfigClass(self, value: EcucValueConfigurationClass):
         """
-        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=VALUE-CONFIG-CLASSES
         A None value is a no-op.
         """
         if value is not None:
@@ -855,20 +848,18 @@ class EcucDerivationSpecification(ARObject):
 
 
 class EcucParameterDef(EcucCommonAttributes, ABC):
-    """
-    Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses.
-    """
+    """Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses."""
 
     # EcucParameterDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.14, p.57
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDerivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDerivation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSymbolicNameValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSymbolicNameValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDerivation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSymbolicNameValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getWithAuto           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDerivation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setSymbolicNameValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setWithAuto           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucParameterDef:
@@ -1684,16 +1675,14 @@ class EcucFloatParamDef(EcucParameterDef):
 
 
 class EcucChoiceContainerDef(EcucContainerDef):
-    """
-    Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Value description only one of the given containers will actually be present.
-    """
+    """Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Values only one instance from the choice list will be present."""
 
     # EcucChoiceContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.5, p.41
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getChoices                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChoices                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1719,31 +1708,32 @@ class EcucChoiceContainerDef(EcucContainerDef):
 
 
 class EcucParamConfContainerDef(EcucContainerDef):
-    """
-    Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions.
-    """
+    """Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions."""
 
     # EcucParamConfContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucAddInfoParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucBooleanParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucStringParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucIntegerParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucFloatParamDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucEnumerationParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucFunctionNameDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucMultilineStringParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucChoiceReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucInstanceReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucChoiceContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEcucAddInfoParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucBooleanParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucChoiceContainerDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucChoiceReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucEnumerationParamDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFloatParamDef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucForeignReferenceDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucFunctionNameDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucInstanceReferenceDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucIntegerParamDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucLinkerSymbolDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucMultilineStringParamDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucReferenceDef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucStringParamDef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucUriReferenceDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameters                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getReferences                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSubContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2034,16 +2024,14 @@ class EcucConditionFormula(FormulaExpression):
 
 
 class EcucDefinitionCollection(AtpBlueprintable):
-    """
-    This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections
-    """
+    """This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections"""
 
     # EcucDefinitionCollection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.1, p.25
-    # Spec verified: R23-11
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addModuleRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModuleRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addModuleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModuleRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2051,20 +2039,20 @@ class EcucDefinitionCollection(AtpBlueprintable):
         # References to the module definitions of individual software modules.
         self.moduleRefs: List[RefType] = []
 
-    def addModuleRef(self, value: RefType) -> EcucDefinitionCollection:
+    def getModuleRefs(self) -> List[RefType]:
         """
-        Adds a reference to the module definition of an individual software module.
-        A None value is a no-op and does not append anything.
+        References to the module definitions of individual software modules.
+        """
+        return self.moduleRefs
+
+    def addModuleRef(self, value: RefType):
+        """
+        References to the module definitions of individual software modules.
+        A None value is a no-op.
         """
         if value is not None:
             self.moduleRefs.append(value)
         return self
-
-    def getModuleRefs(self) -> List[RefType]:
-        """
-        Gets the references to the module definitions of individual software modules.
-        """
-        return self.moduleRefs
 
 
 class EcucDestinationUriDef(Identifiable):
@@ -2441,25 +2429,23 @@ class EcucQueryExpression(ARObject):
 
 
 class EcucModuleDef(EcucDefinitionElement):
-    """
-    Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure. Tags: atp.recommendedPackage=EcucModuleDefs
-    """
+    """Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure. Tags: atp.recommendedPackage=EcucModuleDefs"""
 
     # EcucModuleDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.2, p.32
-    # Spec verified: R23-11
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getApiServicePrefix            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setApiServicePrefix            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContainers                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEcucChoiceContainerDef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantSupport     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantSupport     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRefinedModuleDefRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRefinedModuleDefRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSupportedConfigVariants     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSupportedConfigVariant      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSupportedConfigVariant       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucChoiceContainerDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApiServicePrefix             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantSupport      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRefinedModuleDefRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSupportedConfigVariants      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApiServicePrefix             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantSupport      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setRefinedModuleDefRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2485,7 +2471,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.apiServicePrefix
 
-    def setApiServicePrefix(self, value: Optional[CIdentifier]):
+    def setApiServicePrefix(self, value: Optional[CIdentifier]) -> EcucModuleDef:
         """
         For modules where several instances of the VSMD can be defined the apiServicePrefix defines the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
         A None value is a no-op and does not overwrite an existing apiServicePrefix.
@@ -2526,7 +2512,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.postBuildVariantSupport
 
-    def setPostBuildVariantSupport(self, value: Optional[Boolean]):
+    def setPostBuildVariantSupport(self, value: Optional[Boolean]) -> EcucModuleDef:
         """
         Indicates if a module supports different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
         A None value is a no-op and does not overwrite an existing postBuildVariantSupport.
@@ -2541,7 +2527,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.refinedModuleDefRef
 
-    def setRefinedModuleDefRef(self, value: Optional[RefType]):
+    def setRefinedModuleDefRef(self, value: Optional[RefType]) -> EcucModuleDef:
         """
         Optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines. In case this EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION this reference shall not be provided. In case this EcucModuleDef has the category VENDOR_SPECIFIC_MODULE_DEFINITION this reference is mandatory. Stereotypes: atpUriDef
         A None value is a no-op and does not overwrite an existing refinedModuleDefRef.
@@ -2559,7 +2545,7 @@ class EcucModuleDef(EcucDefinitionElement):
     def addSupportedConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]):
         """
         Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this attribute is mandatory.
-        A None value is a no-op and does not append anything.
+        A None value is a no-op.
         """
         if value is not None:
             self.supportedConfigVariants.append(value)

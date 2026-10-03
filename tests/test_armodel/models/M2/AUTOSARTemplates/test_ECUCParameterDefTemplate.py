@@ -8,6 +8,7 @@ import inspect
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
     EcucAbstractExternalReferenceDef,
@@ -55,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -157,13 +158,73 @@ class TestEcucFloatParamDef:
 
 
 class TestEcucChoiceContainerDef:
+    CLASS_NOTE = "Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Values only one instance from the choice list will be present."
+
     def test_instantiation(self):
         assert _instantiate(EcucChoiceContainerDef, "EcucChoiceContainerDef").getShortName() == "EcucChoiceContainerDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucChoiceContainerDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucChoiceContainerDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucChoiceContainerDef, "Ecc")
+        assert obj.getChoices() == []
+
+    def test_create_choices_append_and_dedupe(self):
+        obj = _instantiate(EcucChoiceContainerDef, "Ecc")
+        choice = obj.createEcucParamConfContainerDef("C1")
+        assert isinstance(choice, EcucParamConfContainerDef)
+        assert obj.getChoices() == [choice]
+        assert obj.createEcucParamConfContainerDef("C1") is choice  # duplicate returns existing
+        obj.createEcucParamConfContainerDef("C2")
+        assert len(obj.getChoices()) == 2
+
 
 class TestEcucParamConfContainerDef:
+    CLASS_NOTE = "Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions."
+
     def test_instantiation(self):
         assert _instantiate(EcucParamConfContainerDef, "EcucParamConfContainerDef").getShortName() == "EcucParamConfContainerDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucParamConfContainerDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucParamConfContainerDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        assert obj.getParameters() == []
+        assert obj.getReferences() == []
+        assert obj.getSubContainers() == []
+
+    def test_create_parameter_factories_append_and_dedupe(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        param = obj.createEcucIntegerParamDef("P1")
+        assert isinstance(param, EcucIntegerParamDef)
+        assert obj.getParameters() == [param]
+        assert obj.createEcucIntegerParamDef("P1") is param  # duplicate returns existing
+        obj.createEcucBooleanParamDef("P2")
+        assert len(obj.getParameters()) == 2
+
+    def test_create_reference_factories_append(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        ref = obj.createEcucReferenceDef("R1")
+        assert isinstance(ref, EcucReferenceDef)
+        assert obj.getReferences() == [ref]
+        obj.createEcucForeignReferenceDef("R2")
+        obj.createEcucUriReferenceDef("R3")
+        assert len(obj.getReferences()) == 3
+
+    def test_create_sub_containers_append(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        sub = obj.createEcucParamConfContainerDef("S1")
+        assert obj.getSubContainers() == [sub]
+        obj.createEcucChoiceContainerDef("S2")
+        assert len(obj.getSubContainers()) == 2
 
 
 class TestEcucAddInfoParamDef:
@@ -172,8 +233,33 @@ class TestEcucAddInfoParamDef:
 
 
 class TestEcucDefinitionCollection:
+    CLASS_NOTE = "This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections"
+
     def test_instantiation(self):
         assert _instantiate(EcucDefinitionCollection, "EcucDefinitionCollection").getShortName() == "EcucDefinitionCollection"
+
+    def test_is_atp_blueprintable(self):
+        obj = _instantiate(EcucDefinitionCollection, "Ecdc")
+        assert isinstance(obj, AtpBlueprintable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDefinitionCollection.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDefinitionCollection.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucDefinitionCollection, "Ecdc")
+        assert obj.getModuleRefs() == []
+
+    def test_add_get_module_refs_roundtrip(self):
+        obj = _instantiate(EcucDefinitionCollection, "Ecdc")
+        ref = RefType()
+        ref.setValue("/EcucModuleDefs/MyModule")
+        assert obj.addModuleRef(ref) is obj
+        assert obj.getModuleRefs() == [ref]
+        obj.addModuleRef(None)
+        assert obj.getModuleRefs() == [ref]  # None is a no-op
 
 
 class TestEcucDestinationUriDef:
@@ -204,8 +290,70 @@ class TestEcucQuery:
 
 
 class TestEcucModuleDef:
+    CLASS_NOTE = "Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure. Tags: atp.recommendedPackage=EcucModuleDefs"
+
     def test_instantiation(self):
         assert _instantiate(EcucModuleDef, "EcucModuleDef").getShortName() == "EcucModuleDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucModuleDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucModuleDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        assert obj.getApiServicePrefix() is None
+        assert obj.getContainers() == []
+        assert obj.getPostBuildVariantSupport() is None
+        assert obj.getRefinedModuleDefRef() is None
+        assert obj.getSupportedConfigVariants() == []
+
+    def test_get_set_api_service_prefix_roundtrip(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        prefix = CIdentifier()
+        prefix.setValue("Com")
+        assert obj.setApiServicePrefix(prefix) is obj
+        assert obj.getApiServicePrefix() is prefix
+        obj.setApiServicePrefix(None)
+        assert obj.getApiServicePrefix() is prefix  # None is a no-op
+
+    def test_get_set_post_build_variant_support_roundtrip(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setPostBuildVariantSupport(value) is obj
+        assert obj.getPostBuildVariantSupport() is value
+        obj.setPostBuildVariantSupport(None)
+        assert obj.getPostBuildVariantSupport() is value  # None is a no-op
+
+    def test_get_set_refined_module_def_ref_roundtrip(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        ref = RefType()
+        ref.setValue("/EcucModuleDefs/Standard")
+        assert obj.setRefinedModuleDefRef(ref) is obj
+        assert obj.getRefinedModuleDefRef() is ref
+        obj.setRefinedModuleDefRef(None)
+        assert obj.getRefinedModuleDefRef() is ref  # None is a no-op
+
+    def test_add_get_supported_config_variants(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        variant = EcucConfigurationVariantEnum()
+        variant.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        assert obj.addSupportedConfigVariant(variant) is obj
+        assert obj.getSupportedConfigVariants() == [variant]
+        obj.addSupportedConfigVariant(None)
+        assert obj.getSupportedConfigVariants() == [variant]  # None is a no-op
+
+    def test_create_containers_appends_and_dedupes(self):
+        obj = _instantiate(EcucModuleDef, "Emd")
+        param_container = obj.createEcucParamConfContainerDef("C1")
+        assert isinstance(param_container, EcucParamConfContainerDef)
+        assert obj.getContainers() == [param_container]
+        assert obj.createEcucParamConfContainerDef("C1") is param_container  # duplicate returns existing
+        choice_container = obj.createEcucChoiceContainerDef("C2")
+        assert isinstance(choice_container, EcucChoiceContainerDef)
+        assert obj.getContainers() == [param_container, choice_container]
 
 
 class TestEcucBooleanParamDef:
@@ -270,18 +418,61 @@ class TestEcucConfigurationClassEnum:
 
 
 class TestEcucConfigurationVariantEnum:
+    CLASS_NOTE = "Specifies the possible Configuration Variants used for AUTOSAR BSW Modules."
+
     def test_instantiation(self):
         assert isinstance(EcucConfigurationVariantEnum(), EcucConfigurationVariantEnum)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucConfigurationVariantEnum.__doc__ == self.CLASS_NOTE
+
+    def test_literal_members(self):
+        assert EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION == "PRECONFIGURED-CONFIGURATION"
+        assert EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION == "RECOMMENDED-CONFIGURATION"
+        assert EcucConfigurationVariantEnum.VARIANT_LINK_TIME == "VARIANT-LINK-TIME"
+        assert EcucConfigurationVariantEnum.VARIANT_POST_BUILD == "VARIANT-POST-BUILD"
+        assert EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE == "VARIANT-PRE-COMPILE"
+
+    def test_enum_values_in_display_order(self):
+        obj = EcucConfigurationVariantEnum()
+        assert list(obj.getEnumValues()) == [
+            EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION,
+            EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION,
+            EcucConfigurationVariantEnum.VARIANT_LINK_TIME,
+            EcucConfigurationVariantEnum.VARIANT_POST_BUILD,
+            EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE,
+        ]
+
+    def test_set_value(self):
+        obj = EcucConfigurationVariantEnum()
+        assert obj.setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE) is obj
+        assert obj.getValue() == EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE
+
 
 class TestEcucMultiplicityConfigurationClass:
+    CLASS_NOTE = "Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."
+
     def test_instantiation(self):
         assert isinstance(EcucMultiplicityConfigurationClass(), EcucMultiplicityConfigurationClass)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucMultiplicityConfigurationClass.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucMultiplicityConfigurationClass.__init__.__doc__ is None
+
 
 class TestEcucValueConfigurationClass:
+    CLASS_NOTE = "Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef."
+
     def test_instantiation(self):
         assert isinstance(EcucValueConfigurationClass(), EcucValueConfigurationClass)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucValueConfigurationClass.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucValueConfigurationClass.__init__.__doc__ is None
 
 
 class TestEcucDerivationSpecification:
@@ -566,12 +757,80 @@ class TestEcucDefinitionElement:
 
 
 class TestEcucContainerDef:
+    CLASS_NOTE = "Base class used to gather common attributes of configuration container definitions."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucContainerDef)
 
+    def _make(self):
+        class _Concrete(EcucContainerDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestECD"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucContainerDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucContainerDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getDestinationUriRefs() == []
+        assert obj.getMultiplicityConfigClasses() == []
+        assert obj.getOrigin() is None
+        assert obj.getPostBuildVariantMultiplicity() is None
+        assert obj.getRequiresIndex() is None
+
+    def test_add_get_destination_uri_refs(self):
+        obj = self._make()
+        ref = RefType()
+        ref.setValue("/EcucDestinationUriDefs/Uri1")
+        assert obj.addDestinationUriRef(ref) is obj
+        assert obj.getDestinationUriRefs() == [ref]
+        obj.addDestinationUriRef(None)
+        assert obj.getDestinationUriRefs() == [ref]  # None is a no-op
+
+    def test_add_get_multiplicity_config_classes(self):
+        obj = self._make()
+        cfg_class = EcucMultiplicityConfigurationClass()
+        assert obj.addMultiplicityConfigClass(cfg_class) is obj
+        assert obj.getMultiplicityConfigClasses() == [cfg_class]
+        obj.addMultiplicityConfigClass(None)
+        assert obj.getMultiplicityConfigClasses() == [cfg_class]  # None is a no-op
+
+    def test_get_set_origin_roundtrip(self):
+        obj = self._make()
+        origin = String()
+        origin.setValue("VENDOR")
+        assert obj.setOrigin(origin) is obj
+        assert obj.getOrigin() is origin
+        obj.setOrigin(None)
+        assert obj.getOrigin() is origin  # None is a no-op
+
+    def test_get_set_post_build_variant_multiplicity_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setPostBuildVariantMultiplicity(value) is obj
+        assert obj.getPostBuildVariantMultiplicity() is value
+        obj.setPostBuildVariantMultiplicity(None)
+        assert obj.getPostBuildVariantMultiplicity() is value  # None is a no-op
+
+    def test_get_set_requires_index_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(False)
+        assert obj.setRequiresIndex(value) is obj
+        assert obj.getRequiresIndex() is value
+        obj.setRequiresIndex(None)
+        assert obj.getRequiresIndex() is value  # None is a no-op
+
 
 class TestEcucCommonAttributes:
+    CLASS_NOTE = "Attributes used by Configuration Parameters as well as References."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucCommonAttributes)
@@ -581,6 +840,12 @@ class TestEcucCommonAttributes:
             pass
 
         return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestECA"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucCommonAttributes.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucCommonAttributes.__init__.__doc__ is None
 
     def test_initialization_defaults(self):
         obj = self._make()
@@ -659,9 +924,55 @@ class TestEcucCommonAttributes:
 
 
 class TestEcucParameterDef:
+    CLASS_NOTE = "Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucParameterDef)
+
+    def _make(self):
+        class _Concrete(EcucParameterDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEPD"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucParameterDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucParameterDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getDerivation() is None
+        assert obj.getSymbolicNameValue() is None
+        assert obj.getWithAuto() is None
+
+    def test_get_set_derivation_roundtrip(self):
+        obj = self._make()
+        derivation = EcucDerivationSpecification()
+        assert obj.setDerivation(derivation) is obj
+        assert obj.getDerivation() is derivation
+        obj.setDerivation(None)
+        assert obj.getDerivation() is derivation  # None is a no-op
+
+    def test_get_set_symbolic_name_value_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setSymbolicNameValue(value) is obj
+        assert obj.getSymbolicNameValue() is value
+        obj.setSymbolicNameValue(None)
+        assert obj.getSymbolicNameValue() is value  # None is a no-op
+
+    def test_get_set_with_auto_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setWithAuto(value) is obj
+        assert obj.getWithAuto() is value
+        obj.setWithAuto(None)
+        assert obj.getWithAuto() is value  # None is a no-op
 
 
 class TestEcucAbstractReferenceDef:
@@ -770,6 +1081,34 @@ class TestEcucAbstractStringParamDef:
 
 
 class TestEcucAbstractConfigurationClass:
+    CLASS_NOTE = "Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             EcucAbstractConfigurationClass()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractConfigurationClass.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractConfigurationClass.__init__.__doc__ is None
+
+    def test_subclass_get_set_roundtrip(self):
+        obj = EcucValueConfigurationClass()
+        config_class = EcucConfigurationClassEnum()
+        config_class.setValue(EcucConfigurationClassEnum.POST_BUILD)
+        assert obj.setConfigClass(config_class) is obj
+        assert obj.getConfigClass() is config_class
+        obj.setConfigClass(None)
+        assert obj.getConfigClass() is config_class  # None is a no-op
+        variant = EcucConfigurationVariantEnum()
+        variant.setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
+        assert obj.setConfigVariant(variant) is obj
+        assert obj.getConfigVariant() is variant
+        obj.setConfigVariant(None)
+        assert obj.getConfigVariant() is variant  # None is a no-op
+
+    def test_initialization_defaults(self):
+        obj = EcucMultiplicityConfigurationClass()
+        assert obj.getConfigClass() is None
+        assert obj.getConfigVariant() is None
