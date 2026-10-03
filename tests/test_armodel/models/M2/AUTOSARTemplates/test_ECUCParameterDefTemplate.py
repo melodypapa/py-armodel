@@ -1201,9 +1201,38 @@ class TestEcucAbstractReferenceDef:
 
 
 class TestEcucAbstractInternalReferenceDef:
+    CLASS_NOTE = "Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description)."
+    REQUIRES_NOTE = "If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108."
+
+    def _make(self):
+        class _Concrete(EcucAbstractInternalReferenceDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEAIRD"), "sn")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractInternalReferenceDef)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractInternalReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractInternalReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_requires_symbolic_name_value_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setRequiresSymbolicNameValue(value) is obj
+        assert obj.getRequiresSymbolicNameValue() is value
+        obj.setRequiresSymbolicNameValue(None)
+        assert obj.getRequiresSymbolicNameValue() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = self._make()
+        assert inspect.cleandoc(obj.getRequiresSymbolicNameValue.__doc__) == self.REQUIRES_NOTE
+        assert inspect.cleandoc(obj.setRequiresSymbolicNameValue.__doc__).splitlines()[0] == self.REQUIRES_NOTE
 
 
 class TestEcucAbstractExternalReferenceDef:

@@ -991,19 +991,16 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    """
-    Common abstract class to gather attributes for internal references (where
-    the destination is located in the Ecu Configuration Description).
-    """
+    """Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description)."""
 
     # EcucAbstractInternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.27, p.72
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractInternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractInternalReferenceDef")
         super().__init__(parent, short_name)
