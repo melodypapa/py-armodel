@@ -8,8 +8,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IPSecConfig, NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecRule
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig, IPSecRule
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -72,6 +72,15 @@ def test_read_ip_sec_config_absent_members(parser):
     parser.readIPSecConfig(parser.find(root, "IP-SEC-CONFIG"), config)
 
     assert config.getIpSecConfigPropsRef() is None
+    assert config.getIPSecRules() == []
+
+
+def test_read_ip_sec_config_empty_rules_wrapper(parser):
+    root = _snip("<IP-SEC-CONFIG>" "<IP-SEC-CONFIG-PROPS-REF DEST='IP-SEC-CONFIG-PROPS'>/pkg/Props</IP-SEC-CONFIG-PROPS-REF>" "<IP-SEC-RULES></IP-SEC-RULES>" "</IP-SEC-CONFIG>")
+    config = IPSecConfig()
+    parser.readIPSecConfig(parser.find(root, "IP-SEC-CONFIG"), config)
+
+    assert config.getIpSecConfigPropsRef().getValue() == "/pkg/Props"
     assert config.getIPSecRules() == []
 
 

@@ -22,7 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecRule, MacSecProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig, MacSecProps
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -3012,60 +3012,6 @@ class InfrastructureServices(ARObject):
         if value is not None:
             self.timeSynchronization = value
         return self
-
-
-class IPSecConfig(ARObject):
-    """
-    IPsec is a protocol that is designed to provide "end-to-end" cryptographically-based security for IP network connections.
-    """
-
-    # IPSecConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571 (R23-11)
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addIPSecRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIPSecRules          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-
-    def __init__(self):
-        super().__init__()
-
-        # Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
-        self.ipSecConfigPropsRef: Optional[RefType] = None
-
-        # IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
-        self.ipSecRules: List[IPSecRule] = []
-
-    def getIpSecConfigPropsRef(self) -> Optional[RefType]:
-        """
-        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
-        """
-        return self.ipSecConfigPropsRef
-
-    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> IPSecConfig:
-        """
-        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
-        A None value is a no-op and does not overwrite an existing ipSecConfigPropsRef.
-        """
-        if value is not None:
-            self.ipSecConfigPropsRef = value
-        return self
-
-    def addIPSecRule(self, value: Optional[IPSecRule]) -> IPSecConfig:
-        """
-        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
-        A None value is a no-op and does not extend the ipSecRules list.
-        """
-        if value is not None:
-            self.ipSecRules.append(value)
-        return self
-
-    def getIPSecRules(self) -> List[IPSecRule]:
-        """
-        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
-        """
-        return self.ipSecRules
 
 
 class NetworkEndpoint(Identifiable):

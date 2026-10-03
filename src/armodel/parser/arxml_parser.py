@@ -1066,6 +1066,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     IPsecIpProtocolEnum,
     IPsecModeEnum,
     IPsecPolicyEnum,
+    IPSecConfig,
     IPSecConfigProps,
     IPSecRule,
     SecOcCryptoServiceMapping,
@@ -1089,7 +1090,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
-    IPSecConfig,
     Ipv4Configuration,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
@@ -15614,8 +15614,7 @@ class ARXMLParser(AbstractARXMLParser):
         wrapper = self.find(element, "IP-SEC-RULES")
         if wrapper is not None:
             for child_element in self.findall(wrapper, "IP-SEC-RULE"):
-                rule = IPSecRule(config, self.getShortName(child_element))
-                config.addIPSecRule(rule)
+                rule = config.createIPSecRule(self.getShortName(child_element))
                 self.readIPSecRule(child_element, rule)
 
     def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):

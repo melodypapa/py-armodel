@@ -1456,6 +1456,63 @@ class IPSecRule(Identifiable):
         return self
 
 
+class IPSecConfig(ARObject):
+    """
+    IPsec is a protocol that is designed to provide "end-to-end" cryptographically-based security for IP network connections.
+    """
+
+    # IPSecConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIPSecRule        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPSecRules          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        self.ipSecConfigPropsRef: Optional[RefType] = None
+
+        # IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
+        self.ipSecRules: List[IPSecRule] = []
+
+    def getIpSecConfigPropsRef(self) -> Optional[RefType]:
+        """
+        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        """
+        return self.ipSecConfigPropsRef
+
+    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> IPSecConfig:
+        """
+        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        A None value is a no-op and does not overwrite an existing ipSecConfigPropsRef.
+        """
+        if value is not None:
+            self.ipSecConfigPropsRef = value
+        return self
+
+    def createIPSecRule(self, short_name: str) -> IPSecRule:
+        """
+        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
+        """
+        for rule in self.ipSecRules:
+            if rule.getShortName() == short_name:
+                return rule
+        rule = IPSecRule(self, short_name)
+        self.ipSecRules.append(rule)
+        return rule
+
+    def getIPSecRules(self) -> List[IPSecRule]:
+        """
+        IPSec rules and filters that are defined in the IPSecConfig for a specific NetworkEndpoint.
+        """
+        return self.ipSecRules
+
+
 class IPSecConfigProps(ARElement):
     """
     This element holds all the attributes for configuration of IPsec that are independent of specific IPsec rules. Tags: atp.recommendedPackage=IPSecConfigProps
