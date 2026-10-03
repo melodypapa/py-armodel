@@ -1663,7 +1663,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for sdg in sdgs:
                 self.setSdg(sdgs_tag, sdg)
 
-    def setChildLimitElement(self, element: ET.Element, key: str, limit: Limit):
+    def setChildLimitElement(self, element: ET.Element, key: str, limit: Optional[Limit]):
         if limit is not None:
             limit_tag = ET.SubElement(element, key)
             self.writeARObject(limit_tag, limit)
@@ -1899,23 +1899,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         if content.getXref() is not None:
             self.setXref(element, "XREF", content.getXref())
 
-    def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
+    def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: Optional[SingleLanguageUnitNames]):
         if name is not None:
             child_element = ET.SubElement(element, key)
             self.writeMixedStringText(child_element, name)
             self.writeMixedContentForUnitNames(child_element, name)
 
-    def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):
-        child_element = ET.SubElement(element, key)
-        if emphasis.getColor() is not None:
-            child_element.attrib["COLOR"] = emphasis.getColor().getValue()
-        if emphasis.getSup() is not None:
-            child_element.attrib["SUP"] = emphasis.getSup().getValue()
-        if emphasis.getSub() is not None:
-            child_element.attrib["SUB"] = emphasis.getSub().getValue()
-        child_element.text = emphasis.getValue().getValue() if emphasis.getValue() is not None else None
-        if emphasis.getTt() is not None:
-            self.setTt(child_element, "TT", emphasis.getTt())
+    def setEmphasisText(self, element: ET.Element, key: str, emphasis: Optional[EmphasisText]):
+        if emphasis is not None:
+            child_element = ET.SubElement(element, key)
+            if emphasis.getColor() is not None:
+                child_element.attrib["COLOR"] = emphasis.getColor().getValue()
+            if emphasis.getSup() is not None:
+                child_element.attrib["SUP"] = emphasis.getSup().getValue()
+            if emphasis.getSub() is not None:
+                child_element.attrib["SUB"] = emphasis.getSub().getValue()
+            child_element.text = emphasis.getValue().getValue() if emphasis.getValue() is not None else None
+            if emphasis.getTt() is not None:
+                self.setTt(child_element, "TT", emphasis.getTt())
 
     def setIndexEntry(self, element: ET.Element, key: str, index_entry: IndexEntry):
         child_element = ET.SubElement(element, key)
@@ -1925,15 +1926,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element.attrib["SUB"] = index_entry.getSub().getValue()
         child_element.text = index_entry.getValue().getValue() if index_entry.getValue() is not None else None
 
-    def setTt(self, element: ET.Element, key: str, tt: Tt):
-        child_element = ET.SubElement(element, key)
-        if tt.getType() is not None:
-            child_element.attrib["TYPE"] = tt.getType().getValue()
-        if tt.getTexRender() is not None:
-            child_element.attrib["TEX-RENDER"] = tt.getTexRender().getValue()
-        child_element.text = tt.getValue().getValue() if tt.getValue() is not None else None
+    def setTt(self, element: ET.Element, key: str, tt: Optional[Tt]):
+        if tt is not None:
+            child_element = ET.SubElement(element, key)
+            if tt.getType() is not None:
+                child_element.attrib["TYPE"] = tt.getType().getValue()
+            if tt.getTexRender() is not None:
+                child_element.attrib["TEX-RENDER"] = tt.getTexRender().getValue()
+            child_element.text = tt.getValue().getValue() if tt.getValue() is not None else None
 
-    def setMultiLongName(self, element: ET.Element, key: str, long_name: MultilanguageLongName):
+    def setMultiLongName(self, element: ET.Element, key: str, long_name: Optional[MultilanguageLongName]):
         if long_name is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, long_name)
@@ -1946,7 +1948,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue().getValue()
         self.writeMixedContentForOverviewParagraph(child_element, name)
 
-    def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
+    def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: Optional[MultiLanguageOverviewParagraph]):
         if paragraph is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, paragraph)
@@ -1973,7 +1975,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = self.setLanguageSpecific(element, "L-10", text)
         self.writeWhitespaceControlled(child_element, text)
 
-    def setMultiLanguagePlainText(self, element: ET.Element, key: str, paragraph: MultiLanguagePlainText):
+    def setMultiLanguagePlainText(self, element: ET.Element, key: str, paragraph: Optional[MultiLanguagePlainText]):
         if paragraph is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, paragraph)
@@ -2019,7 +2021,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported DocRevision <%s>" % type(revision))
 
-    def setAdminData(self, element: ET.Element, admin_data: AdminData):
+    def setAdminData(self, element: ET.Element, admin_data: Optional[AdminData]):
         if admin_data is not None:
             self.logger.debug("Write AdminData")
             child_element = ET.SubElement(element, "ADMIN-DATA")
@@ -2268,7 +2270,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for vtf in contents.getVtfs():
                     self.writeNumericalOrText(child_element, "VTF", vtf)
 
-    def setValueList(self, element: ET.Element, key: str, value_list: ValueList):
+    def setValueList(self, element: ET.Element, key: str, value_list: Optional[ValueList]):
         if value_list is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, value_list)
@@ -3168,7 +3170,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeMap(child_element, map_obj)
 
-    def setUrl(self, element: ET.Element, key: str, url: Url):
+    def setUrl(self, element: ET.Element, key: str, url: Optional[Url]):
         if url is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, url)
@@ -3253,13 +3255,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if row.getValign() is not None:
             element.attrib["VALIGN"] = row.getValign().getValue()
 
-    def writeTbody(self, element: ET.Element, tbody: Tbody):
-        self.writeARObject(element, tbody)
-        for row in tbody.getRows():
-            child_element = ET.SubElement(element, "ROW")
-            self.writeRow(child_element, row)
-        if tbody.getValign() is not None:
-            element.attrib["VALIGN"] = tbody.getValign().getValue()
+    def writeTbody(self, element: ET.Element, tbody: Optional[Tbody]):
+        if tbody is not None:
+            self.writeARObject(element, tbody)
+            for row in tbody.getRows():
+                child_element = ET.SubElement(element, "ROW")
+                self.writeRow(child_element, row)
+            if tbody.getValign() is not None:
+                element.attrib["VALIGN"] = tbody.getValign().getValue()
 
     def writeTgroup(self, element: ET.Element, tgroup: Tgroup):
         self.writeARObject(element, tgroup)
@@ -3365,7 +3368,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element.attrib["HELPENTRY"] = def_item.getHelpEntry().getValue()
         self.writeDocumentationBlock(child_element, "DEF", def_item.getDef())
 
-    def setMlFormula(self, element: ET.Element, key: str, formula: MlFormula):
+    def setMlFormula(self, element: ET.Element, key: str, formula: Optional[MlFormula]):
         if formula is not None:
             child_element = ET.SubElement(element, key)
             self.writePaginateable(child_element, formula)
@@ -3471,7 +3474,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     ref_tag.text = tested_item_ref.getValue()
             self.writeVariationPoint(child_element, structured_req.getVariationPoint())
 
-    def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: MultiLanguageVerbatim):
+    def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: Optional[MultiLanguageVerbatim]):
         if verbatim is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, verbatim)
@@ -3499,13 +3502,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setMsrQueryProps(child_element, msr_query_p2.getMsrQueryProps())
             self.writeDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2", msr_query_p2.getMsrQueryResultP2())
 
-    def setMsrQueryProps(self, element: ET.Element, msr_query_props: MsrQueryProps):
-        child_element = ET.SubElement(element, "MSR-QUERY-PROPS")
-        self.writeARObject(child_element, msr_query_props)
-        self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
-        self.setChildElementOptionalLiteral(child_element, "MSR-QUERY-NAME", msr_query_props.getMsrQueryName())
-        for msr_query_arg in msr_query_props.getMsrQueryArgs():
-            self.setMsrQueryArg(child_element, msr_query_arg)
+    def setMsrQueryProps(self, element: ET.Element, msr_query_props: Optional[MsrQueryProps]):
+        if msr_query_props is not None:
+            child_element = ET.SubElement(element, "MSR-QUERY-PROPS")
+            self.writeARObject(child_element, msr_query_props)
+            self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
+            self.setChildElementOptionalLiteral(child_element, "MSR-QUERY-NAME", msr_query_props.getMsrQueryName())
+            for msr_query_arg in msr_query_props.getMsrQueryArgs():
+                self.setMsrQueryArg(child_element, msr_query_arg)
 
     def setMsrQueryArg(self, element: ET.Element, msr_query_arg: MsrQueryArg):
         child_element = ET.SubElement(element, "MSR-QUERY-ARG")
@@ -3890,7 +3894,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeNumericalOrText(child_element, "VTF", arguments.getVtf())
             self.writeVariationPointCapable(child_element, arguments)
 
-    def writeRuleBasedValueSpecification(self, element: ET.Element, key: str, value_spec: RuleBasedValueSpecification):
+    def writeRuleBasedValueSpecification(self, element: ET.Element, key: str, value_spec: Optional[RuleBasedValueSpecification]):
         if value_spec is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, value_spec)
@@ -4305,7 +4309,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", iref.getPortPrototypeRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
 
-    def setAutosarVariableRef(self, element: ET.Element, key: str, ref: AutosarVariableRef):
+    def setAutosarVariableRef(self, element: ET.Element, key: str, ref: Optional[AutosarVariableRef]):
         if ref is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, ref)
@@ -4473,7 +4477,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF", parameter_iref.getRootParameterDataPrototypeRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", parameter_iref.getTargetDataPrototypeRef())
 
-    def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: AutosarParameterRef):
+    def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: Optional[AutosarParameterRef]):
         if parameter_ref is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, parameter_ref)
@@ -6919,9 +6923,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "RPT-READ-ACCESS", access.getRptReadAccess())
         self.setChildElementOptionalLiteral(element, "RPT-WRITE-ACCESS", access.getRptWriteAccess())
 
-    def writeRptImplPolicy(self, element: ET.Element, policy: RptImplPolicy):
-        self.setChildElementOptionalLiteral(element, "RPT-ENABLER-IMPL-TYPE", policy.getRptEnablerImplType())
-        self.setChildElementOptionalLiteral(element, "RPT-PREPARATION-LEVEL", policy.getRptPreparationLevel())
+    def writeRptImplPolicy(self, element: ET.Element, policy: Optional[RptImplPolicy]):
+        if policy is not None:
+            self.setChildElementOptionalLiteral(element, "RPT-ENABLER-IMPL-TYPE", policy.getRptEnablerImplType())
+            self.setChildElementOptionalLiteral(element, "RPT-PREPARATION-LEVEL", policy.getRptPreparationLevel())
 
     def writeRptExecutableEntityProperties(self, element: ET.Element, properties: RptExecutableEntityProperties):
         self.setChildElementOptionalPositiveInteger(element, "MAX-RPT-EVENT-ID", properties.getMaxRptEventId())
@@ -7231,7 +7236,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", desc.getDataIdNibbleOffset())
 
-    def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
+    def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: Optional[VariableDataPrototypeInSystemInstanceRef]):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, instance_ref)
@@ -10092,7 +10097,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "ROUTING-GROUP-REF", ref)
 
-    def setRequestResponseDelay(self, element: ET.Element, key: str, delay: RequestResponseDelay):
+    def setRequestResponseDelay(self, element: ET.Element, key: str, delay: Optional[RequestResponseDelay]):
         if delay is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalTimeValue(child_element, "MAX-VALUE", delay.getMaxValue())
@@ -10237,7 +10242,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ConsumedServiceInstances <%s>" % type(instance))
 
-    def setInitialSdDelayConfig(self, element: ET.Element, key: str, config: InitialSdDelayConfig):
+    def setInitialSdDelayConfig(self, element: ET.Element, key: str, config: Optional[InitialSdDelayConfig]):
         if config is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, config)
@@ -12890,17 +12895,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported SubElementRef <%s>" % type(sub_element_ref).__name__)
 
-    def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping, key: str = "TEXT-TABLE-MAPPING"):
-        child_element = ET.SubElement(element, key)
-        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", mapping.getBitfieldTextTableMaskFirst())
-        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
-        self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
-        self.setChildElementOptionalLiteral(child_element, "MAPPING-DIRECTION", mapping.getMappingDirection())
-        value_pairs = mapping.getValuePairs()
-        if len(value_pairs) > 0:
-            value_pairs_element = ET.SubElement(child_element, "VALUE-PAIRS")
-            for value_pair in value_pairs:
-                self.setTextTableValuePair(value_pairs_element, value_pair)
+    def setTextTableMapping(self, element: ET.Element, mapping: Optional[TextTableMapping], key: str = "TEXT-TABLE-MAPPING"):
+        if mapping is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", mapping.getBitfieldTextTableMaskFirst())
+            self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
+            self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
+            self.setChildElementOptionalLiteral(child_element, "MAPPING-DIRECTION", mapping.getMappingDirection())
+            value_pairs = mapping.getValuePairs()
+            if len(value_pairs) > 0:
+                value_pairs_element = ET.SubElement(child_element, "VALUE-PAIRS")
+                for value_pair in value_pairs:
+                    self.setTextTableValuePair(value_pairs_element, value_pair)
 
     def setTextTableValuePair(self, element: ET.Element, value_pair: TextTableValuePair):
         child_element = ET.SubElement(element, "TEXT-TABLE-VALUE-PAIR")
@@ -13338,7 +13344,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 element.remove(child_element)
         return value
 
-    def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: AnyInstanceRef):
+    def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: Optional[AnyInstanceRef]):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef())
@@ -13895,7 +13901,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "GENERIC-ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
-    def setLifeCyclePeriod(self, element: ET.Element, key: str, period: LifeCyclePeriod):
+    def setLifeCyclePeriod(self, element: ET.Element, key: str, period: Optional[LifeCyclePeriod]):
         if period is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalDateTime(child_element, "DATE", period.getDate())
@@ -15746,7 +15752,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
                 self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
 
-    def setDataFilter(self, element: ET.Element, key: str, filter: DataFilter):
+    def setDataFilter(self, element: ET.Element, key: str, filter: Optional[DataFilter]):
         if filter is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
@@ -15765,7 +15771,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setDataFilter(child_element, "DATA-FILTER", condition.getDataFilter())
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF", condition.getISignalInIPduRef())
 
-    def setTimeRangeType(self, element: ET.Element, key: str, time_range: TimeRangeType):
+    def setTimeRangeType(self, element: ET.Element, key: str, time_range: Optional[TimeRangeType]):
         if time_range is not None:
             child_element = ET.SubElement(element, key)
             tolerance = time_range.getTolerance()
@@ -17224,19 +17230,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in sub_function_refs:
                     self.setChildElementOptionalRefType(refs_element, "SUB-FUNCTION-REF", ref)
 
-    def writeMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: McFunctionDataRefSet):
-        variants_element = ET.SubElement(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS")
-        conditional_element = ET.SubElement(variants_element, "MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
-        flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
-        if len(flat_map_entry_refs) > 0:
-            refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
-            for ref in flat_map_entry_refs:
-                self.setChildElementOptionalRefType(refs_element, "FLAT-MAP-ENTRY-REF", ref)
-        mc_data_instance_refs = data_ref_set.getMcDataInstanceRefs()
-        if len(mc_data_instance_refs) > 0:
-            refs_element = ET.SubElement(conditional_element, "MC-DATA-INSTANCE-REFS")
-            for ref in mc_data_instance_refs:
-                self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
+    def writeMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: Optional[McFunctionDataRefSet]):
+        if data_ref_set is not None:
+            variants_element = ET.SubElement(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS")
+            conditional_element = ET.SubElement(variants_element, "MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
+            flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
+            if len(flat_map_entry_refs) > 0:
+                refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
+                for ref in flat_map_entry_refs:
+                    self.setChildElementOptionalRefType(refs_element, "FLAT-MAP-ENTRY-REF", ref)
+            mc_data_instance_refs = data_ref_set.getMcDataInstanceRefs()
+            if len(mc_data_instance_refs) > 0:
+                refs_element = ET.SubElement(conditional_element, "MC-DATA-INSTANCE-REFS")
+                for ref in mc_data_instance_refs:
+                    self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
 
     def writeMcGroup(self, element: ET.Element, group: McGroup):
         if group is not None:
