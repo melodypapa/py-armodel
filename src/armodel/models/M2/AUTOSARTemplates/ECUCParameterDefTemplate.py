@@ -1962,14 +1962,12 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
 
 class EcucAddInfoParamDef(EcucParameterDef):
-    """
-    Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description.
-    """
+    """Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description."""
 
     # EcucAddInfoParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

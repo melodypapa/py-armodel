@@ -382,8 +382,22 @@ class TestEcucParamConfContainerDef:
 
 
 class TestEcucAddInfoParamDef:
+    CLASS_NOTE = "Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description."
+
     def test_instantiation(self):
         assert _instantiate(EcucAddInfoParamDef, "EcucAddInfoParamDef").getShortName() == "EcucAddInfoParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAddInfoParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAddInfoParamDef.__init__.__doc__ is None
+
+    def test_inherits_parameter_def_attrs(self):
+        obj = _instantiate(EcucAddInfoParamDef, "Add")
+        assert obj.getDerivation() is None
+        assert obj.getSymbolicNameValue() is None
+        assert obj.getWithAuto() is None
 
 
 class TestEcucDefinitionCollection:
