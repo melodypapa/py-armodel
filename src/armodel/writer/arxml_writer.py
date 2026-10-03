@@ -288,6 +288,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDataByPeriodicIDClass,
     DiagnosticReadDTCInformationClass,
     DiagnosticDataTransferClass,
+    DiagnosticRequestControlOfOnBoardDeviceClass,
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
@@ -15027,6 +15028,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS")
         self.writeIdentifiable(child_element, request_download_class)
 
+    def writeDiagnosticRequestControlOfOnBoardDeviceClass(self, element: ET.Element, request_control_of_on_board_device_class: DiagnosticRequestControlOfOnBoardDeviceClass):
+        self.logger.debug("Write DiagnosticRequestControlOfOnBoardDeviceClass %s" % request_control_of_on_board_device_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS")
+        self.writeIdentifiable(child_element, request_control_of_on_board_device_class)
+
     def writeDiagnosticRequestCurrentPowertrainDataClass(self, element: ET.Element, request_current_powertrain_data_class: DiagnosticRequestCurrentPowertrainDataClass):
         self.logger.debug("Write DiagnosticRequestCurrentPowertrainDataClass %s" % request_current_powertrain_data_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA-CLASS")
@@ -16252,6 +16258,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticTransferExitClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticDataTransferClass):
             self.writeDiagnosticDataTransferClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestControlOfOnBoardDeviceClass):
+            self.writeDiagnosticRequestControlOfOnBoardDeviceClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestCurrentPowertrainDataClass):
             self.writeDiagnosticRequestCurrentPowertrainDataClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestDownloadClass):

@@ -395,6 +395,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDTCInformationClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticDataTransferClass,
+    DiagnosticRequestControlOfOnBoardDeviceClass,
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
@@ -11613,6 +11614,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestDownloadClass <%s>" % request_download_class.getShortName())
         self.readIdentifiable(element, request_download_class)
 
+    def readDiagnosticRequestControlOfOnBoardDeviceClass(self, element: ET.Element, request_control_of_on_board_device_class: DiagnosticRequestControlOfOnBoardDeviceClass):
+        self.logger.debug("Read DiagnosticRequestControlOfOnBoardDeviceClass <%s>" % request_control_of_on_board_device_class.getShortName())
+        self.readIdentifiable(element, request_control_of_on_board_device_class)
+
     def readDiagnosticRequestCurrentPowertrainDataClass(self, element: ET.Element, request_current_powertrain_data_class: DiagnosticRequestCurrentPowertrainDataClass):
         self.logger.debug("Read DiagnosticRequestCurrentPowertrainDataClass <%s>" % request_current_powertrain_data_class.getShortName())
         self.readIdentifiable(element, request_current_powertrain_data_class)
@@ -16487,6 +16492,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-DATA-TRANSFER-CLASS":
             data_transfer_class = parent.createDiagnosticDataTransferClass(self.getShortName(child_element))
             self.readDiagnosticDataTransferClass(child_element, data_transfer_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS":
+            request_control_of_on_board_device_class = parent.createDiagnosticRequestControlOfOnBoardDeviceClass(self.getShortName(child_element))
+            self.readDiagnosticRequestControlOfOnBoardDeviceClass(child_element, request_control_of_on_board_device_class)
         elif tag_name == "DIAGNOSTIC-REQUEST-CURRENT-POWERTRAIN-DATA-CLASS":
             request_current_powertrain_data_class = parent.createDiagnosticRequestCurrentPowertrainDataClass(self.getShortName(child_element))
             self.readDiagnosticRequestCurrentPowertrainDataClass(child_element, request_current_powertrain_data_class)

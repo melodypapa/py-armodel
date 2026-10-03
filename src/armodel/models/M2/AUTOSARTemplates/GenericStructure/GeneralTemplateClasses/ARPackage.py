@@ -748,6 +748,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_control_of_on_board_device)
         return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDevice)
 
+    def createDiagnosticRequestControlOfOnBoardDeviceClass(self, short_name: str) -> DiagnosticRequestControlOfOnBoardDeviceClass:
+        """
+        Creates a new DiagnosticRequestControlOfOnBoardDeviceClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestControlOfOnBoardDeviceClass contains attributes shared by all
+        instances of the "Request Control Of On-Board Device" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestControlOfOnBoardDeviceClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestControlOfOnBoardDeviceClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestControlOfOnBoardDeviceClass):
+            request_control_of_on_board_device_class = DiagnosticRequestControlOfOnBoardDeviceClass(self, short_name)
+            self.addReferrableElement(request_control_of_on_board_device_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass)
+
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
         Creates a new DiagnosticComControlClass with the given short name,
@@ -4472,6 +4491,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticIoControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDTCInformationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDataTransferClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestControlOfOnBoardDeviceClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestCurrentPowertrainDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCClass  # noqa: E402

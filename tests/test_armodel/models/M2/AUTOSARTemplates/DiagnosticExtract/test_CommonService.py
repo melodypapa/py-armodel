@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticReadDTCInformationClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticReadScalingDataByIdentifierClass,
+    DiagnosticRequestControlOfOnBoardDeviceClass,
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
@@ -1538,4 +1539,37 @@ class Test_DiagnosticRequestOnBoardMonitoringTestResultsClass:
         assert package.getReferrableElement("Obd061", DiagnosticRequestOnBoardMonitoringTestResultsClass) is service_class
 
         duplicate = package.createDiagnosticRequestOnBoardMonitoringTestResultsClass("Obd061")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestControlOfOnBoardDeviceClass:
+    """Test cases for DiagnosticRequestControlOfOnBoardDeviceClass class (Table 4.142, p.158)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Control Of On-Board Device" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestControlOfOnBoardDeviceClass(_pkg(), "MyCoob")
+        assert service_class.getShortName() == "MyCoob"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, ARObject)
+        assert issubclass(DiagnosticRequestControlOfOnBoardDeviceClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDeviceClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestControlOfOnBoardDeviceClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_control_of_on_board_device_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestControlOfOnBoardDeviceClass("Coob1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestControlOfOnBoardDeviceClass)
+        assert service_class.getShortName() == "Coob1"
+        assert package.getReferrableElement("Coob1", DiagnosticRequestControlOfOnBoardDeviceClass) is service_class
+
+        duplicate = package.createDiagnosticRequestControlOfOnBoardDeviceClass("Coob1")
         assert duplicate is service_class
