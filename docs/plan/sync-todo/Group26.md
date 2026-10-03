@@ -840,7 +840,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (439 passed battery incl. new WITH-AUTO reload round-trip via EcucReferenceDef + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (439 passed battery incl. new WITH-AUTO reload round-trip via EcucReferenceDef + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `a2cda5d03`
   - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); most-derived base EcucCommonAttributes ✓ (spec Base chain EcucCommonAttributes > EcucDefinitionElement); inline `__init__` withAuto comment was TRUNCATED (dropped the isAuto sentences) → full Note verbatim; untyped `__init__(parent, short_name)` params annotated; attr withAuto (Boolean 0..1) ✓; reader/writer readEcucCommonAttributes+WITH-AUTO order matched XSD
 
 - [ ] `EcucAbstractInternalReferenceDef` — EcucAbstractReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.27, p.72
@@ -853,20 +853,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (passed battery incl. new requiresSymbolicNameValue get/set + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (passed battery incl. new requiresSymbolicNameValue get/set + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `a571aa14a`
   - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); abstract ✓ Base EcucAbstractReferenceDef ✓; attr requiresSymbolicNameValue (Boolean 0..1) ✓ note verbatim (TPS_ECUC_02108 kept); class docstring multi-line paraphrase → single-line verbatim; untyped `__init__` params annotated; reader/writer WITH-AUTO → REQUIRES-SYMBOLIC-NAME-VALUE order matched XSD; REQUIRES-SYMBOLIC-NAME-VALUE reload covered via concrete EcucReferenceDef round-trips
 
 - [ ] `EcucAbstractExternalReferenceDef` — EcucAbstractReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.28, p.72
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (446 passed battery; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); abstract ✓ Base EcucAbstractReferenceDef ✓; zero own attributes (`-` row) ✓ class docstring multi-line → single-line verbatim (spec 'an another' grammar quirk kept); untyped `__init__` params annotated; inherited WITH-AUTO round-trip covered on the EcucAbstractReferenceDef row; concrete subclasses (EcucForeignReferenceDef T2.31 / EcucInstanceReferenceDef T2.32) carry their own rows
 
 - [ ] `EcucChoiceReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.30, p.74
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

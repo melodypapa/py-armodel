@@ -1236,9 +1236,27 @@ class TestEcucAbstractInternalReferenceDef:
 
 
 class TestEcucAbstractExternalReferenceDef:
+    CLASS_NOTE = "Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template)."
+
+    def _make(self):
+        class _Concrete(EcucAbstractExternalReferenceDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEAERD"), "sn")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractExternalReferenceDef)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractExternalReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractExternalReferenceDef.__init__.__doc__ is None
+
+    def test_inherits_reference_attrs(self):
+        obj = self._make()
+        assert obj.getWithAuto() is None
 
 
 class TestEcucAbstractStringParamDef:

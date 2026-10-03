@@ -1025,18 +1025,14 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    """
-    Common abstract class to gather attributes for external references (where the
-    destination is not located in the ECU Configuration Description but in an
-    another AUTOSAR Template).
-    """
+    """Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template)."""
 
     # EcucAbstractExternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.28, p.72
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
 
