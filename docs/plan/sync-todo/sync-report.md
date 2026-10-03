@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 747 | 39.3% |
+| [x] Done | 748 | 39.3% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 318 | 16.7% |
+| [ ] Deferred | 317 | 16.7% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1053,7 +1053,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IEEE1722TpRvfFrameRateEnum`                            | [ ] Created | N/A                                      | Group33          |
 | `IEEE1722TpRvfPixelDepthEnum`                           | [ ] Created | N/A                                      | Group33          |
 | `IEEE1722TpRvfPixelFormatEnum`                          | [ ] Created | N/A                                      | Group33          |
-| `IPSecConfig`                                           | [ ] Deferred| 6c97ddc108                               | Group16          |
+| `IPSecConfig`                                           | [x] Done    | d75eb10bff                               | Group16          |
 | `IPSecConfigProps`                                      | [ ] Deferred| N/A                                      | Group32          |
 | `IPSecRule`                                             | [ ] Deferred| N/A                                      | Group32          |
 | `IPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
