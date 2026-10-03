@@ -896,6 +896,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
     TcpOptionFilterList,
     TcpOptionFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
+    IPv6ExtHeaderFilterList,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -10021,6 +10024,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             options_element = ET.SubElement(child_element, "ALLOWED-TCP-OPTIONS")
             for option in allowed_tcp_options:
                 self.setChildElementOptionalPositiveInteger(options_element, "ALLOWED-TCP-OPTION", option)
+
+    def writeIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
+        child_element = ET.SubElement(element, "I-PV-6-EXT-HEADER-FILTER-LIST")
+        self.writeIdentifiable(child_element, ipv6_ext_header_filter_list)
+        allowed_ipv6_ext_headers = ipv6_ext_header_filter_list.getAllowedIPv6ExtHeaders()
+        if len(allowed_ipv6_ext_headers) > 0:
+            headers_element = ET.SubElement(child_element, "ALLOWED-I-PV-6-EXT-HEADERS")
+            for value in allowed_ipv6_ext_headers:
+                self.setChildElementOptionalPositiveInteger(headers_element, "ALLOWED-I-PV-6-EXT-HEADER", value)
 
     def writeSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         bundles = config.getConnectionBundles()

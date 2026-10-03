@@ -1001,6 +1001,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
     TcpOptionFilterList,
     TcpOptionFilterSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import (
+    IPv6ExtHeaderFilterList,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
     SoAdRoutingGroup,
     SocketConnection,
@@ -9990,6 +9993,13 @@ class ARXMLParser(AbstractARXMLParser):
                 option = PositiveInteger()
                 option.setValue(str(int(value.getValue())))
                 tcp_filter_list.addAllowedTcpOption(option)
+
+    def readIPv6ExtHeaderFilterList(self, element: ET.Element, ipv6_ext_header_filter_list: IPv6ExtHeaderFilterList):
+        self.readIdentifiable(element, ipv6_ext_header_filter_list)
+        allowed_element = self.find(element, "ALLOWED-I-PV-6-EXT-HEADERS")
+        if allowed_element is not None:
+            for value in self.getChildElementPositiveIntegerValueList(allowed_element, "ALLOWED-I-PV-6-EXT-HEADER"):
+                ipv6_ext_header_filter_list.addAllowedIPv6ExtHeader(value)
 
     def readSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "CONNECTION-BUNDLES/*"):

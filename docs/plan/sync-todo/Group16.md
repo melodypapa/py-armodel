@@ -342,16 +342,16 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPv6ExtHeaderFilterList` — Identifiable — R23-11 markdown · Table 6.121 (CP_TPS_SystemTemplate), p.456 — commit 2d5b3256b
-  - commit: 2d5b3256b (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11: Note "White list..." → "Permitted list..."; reader/writer N/A (ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF) per prior arbitration
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - commit: 2d5b3256b (prior R4.3.1→R23-11 upgrade) — re-sync 2026-10-03 (Group16 Task 6): prior "reader/writer N/A (ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF)" claim was WRONG — the R23-11 table lists allowedIPv6ExtHeader as an `attr`, and XSD 00052 L66606 defines group I-PV-6-EXT-HEADER-FILTER-LIST with its own ALLOWED-I-PV-6-EXT-HEADERS wrapper of unbounded ALLOWED-I-PV-6-EXT-HEADER (AR:POSITIVE-INTEGER) items; the …-REF element (L107861) belongs to SocketAddress. Also Rule 0003 quoted return annotation. Steps 1-8 reset to `[ ]` and walked in this session.
+  - [x] Step 1 — Sync members & description from spec — own Table 6.121, p.456 (pypdf absent → page from existing `# Spec:` line); `Class` header confirmed; Base most-derived = `Identifiable` → `__init__(self, parent, short_name)`; 1 attr `allowedIPv6ExtHeader` (PositiveInteger, `*`, attr)
+  - [x] Step 2 — Write model class unit test (Red) — added `test_no_quoted_top_level_annotations` + `get_type_hints` return pin; RED 1 failed / 5 passed
+  - [x] Step 3 — Implement model class (Green) — added `from __future__ import annotations`, unquoted `-> IPv6ExtHeaderFilterList`, reordered list pair mutator-first (Rule 0001.11)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + attr inline comment + getter/add docstrings diffed verbatim vs markdown Note; `__init__` has no docstring; no legacy rows inside `__init__`
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser + writer test files; RED 7 failed (helper pair absent); covers wrapper/item values, empty wrapper not emitted, re-parse `[]`
+  - [x] Step 6 — Update parser & writer (Green) — added matched pair `readIPv6ExtHeaderFilterList`/`writeIPv6ExtHeaderFilterList` (readIdentifiable + ALLOWED-I-PV-6-EXT-HEADERS wrapper / item each; writer emits wrapper only when non-empty) + imports; 7 passed
+  - [x] Step 7 — Update checklist comment — single 6-col block at TOP, 3 rows source order (__init__, add, get); reader [x] on the mutator and writer [x] on the getter; `# Spec:` normalised (dropped the `(R23-11)` suffix); NO marker
+  - [x] Step 8 — Deviations — none; `## IPv6ExtHeaderFilterList` "No deviations" entry added to docs/examples/method_deviation_by_class.md. Report-only: `IPv6ExtHeaderFilterSet` (spec Aggregated-by parent) is a `pass` stub in ARPackage.py L9695 with no parser/writer handler (own sync); sibling `TcpOptionFilterList` accessor pair is getter-first (Rule 0001.11, Task 7)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-03** (user); marker `# Spec verified: R23-11` written. 9a re-verified independently by the orchestrator: mirror + new parser `test_ipv6_ext_header_filter_list.py` + new writer `test_ipv6_ext_header_filter_list.py` + annotation/PEP-563 gates 16 passed; full unit suite 17356 passed; ruff + black clean on 6 touched `.py` files; checklist==methods 3/3 in source order (all tested); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping*.arxml` `file_compare` fixtures only (delta 0). Report-only: `IPv6ExtHeaderFilterSet` aggregator is a `pass` stub (own sync); sibling `TcpOptionFilterList` getter-first (Rule 0001.11, Task 7).
 
 - [ ] `TimeSynchronization` — ARObject — R23-11 markdown · Table 6.145 (CP_TPS_SystemTemplate), p.469 — commit b1e4750b1
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 aggr notes; rw via getTimeSynchronization/setTimeSynchronization complete
