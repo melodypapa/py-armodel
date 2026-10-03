@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 756 | 39.7% |
+| [x] Done | 757 | 39.8% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 309 | 16.2% |
+| [ ] Deferred | 308 | 16.2% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -883,7 +883,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthernetMacLayerTypeEnum`                              | [ ] Implemented| N/A                                      | Group30          |
 | `EthernetPhysicalChannel`                               | [x] Done    | 206cf29517                               | Group5           |
 | `EthernetPhysicalLayerTypeEnum`                         | [ ] Implemented| N/A                                      | Group30          |
-| `EthernetPriorityRegeneration`                          | [ ] Deferred| b1e4750b14                               | Group16          |
+| `EthernetPriorityRegeneration`                          | [x] Done    | a513bd3ec3                               | Group16          |
 | `EthernetSwitchVlanEgressTaggingEnum`                   | [ ] Implemented| N/A                                      | Group30          |
 | `EthernetSwitchVlanIngressTagEnum`                      | [ ] Implemented| N/A                                      | Group30          |
 | `EthernetWakeupSleepOnDatalineConfig`                   | [ ] Created | N/A                                      | Group30          |

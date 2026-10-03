@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **13/29** completed
+Status: **14/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -733,7 +733,7 @@ Status: **13/29** completed
 | `DoIpEntity`                            | [ ] Pending* | b1e4750b14 |
 | `TpPort`                                | [ ] Pending* | b1e4750b14 |
 | `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
-| `EthernetPriorityRegeneration`          | [ ] Pending* | b1e4750b14 |
+| `EthernetPriorityRegeneration`          | [x] Done     | a513bd3ec3 |
 | `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
 | `CouplingPortAbstractShaper`            | [x] Done     | 929cee7081 |
 | `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
