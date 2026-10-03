@@ -121,7 +121,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TimeSyncServerConfiguration` — Referrable — R23-11 markdown · Table 6.147 (CP_TPS_SystemTemplate), p.470 — commit b1e4750b1
+- [x] `TimeSyncServerConfiguration` — Referrable — R23-11 markdown · Table 6.147 (CP_TPS_SystemTemplate), p.470 — commit 155cc2f7f (# Spec verified: R23-11, stamped 2026-10-03; Rule 0001.7 3-attribute reader/writer gap closed + malformed checklist rebuilt)
   - re-sync 2026-10-03 (Group16 Task 5): prior "steps 1-8" claim was false — zero code changes, malformed checklist, reader/writer gap. Steps 1-8 reset to `[ ]` and walked in this session.
   - Step 1 finding: own Table 6.147, p.470 (pypdf absent → page taken from existing `# Spec:` line); `Class` header confirmed; Base most-derived = `Referrable` → `__init__(self, parent, short_name)`; 4 attrs displayed order = priority/syncInterval/timeSyncServerIdentifier/timeSyncTechnology (all `0..1 attr`) matching the source. Defect: Rule 0001.7 — parser server branch set only `setTimeSyncTechnology`, writer only `TIME-SYNC-TECHNOLOGY`; PRIORITY/SYNC-INTERVAL/TIME-SYNC-SERVER-IDENTIFIER read/written nowhere. Checklist malformed — only the `__init__` row at top, accessor rows misplaced inside `__init__` as member comments.
   - [x] Step 1 — Sync members & description from spec — see finding bullet above

@@ -37,8 +37,8 @@
 | 1 | `InitialSdDelayConfig` | Rule 0007 | ✅ `84dc59b64` |
 | 2 | `SdServerConfig` | Rule 0007, Rule 0001.4 | ✅ `f509df9d9` |
 | 3 | `IPSecConfig` | Rule 0007, Rule 0001.6 | ✅ `d75eb10bf` |
-| 4 | `NetworkEndpoint` | Rule 0001.7, Rule 0006, stale checklist | pending |
-| 5 | `TimeSyncServerConfiguration` | Rule 0001.7 | pending |
+| 4 | `NetworkEndpoint` | Rule 0001.7, Rule 0006, stale checklist | ✅ `84587c11f` |
+| 5 | `TimeSyncServerConfiguration` | Rule 0001.7 | ✅ (see queue) |
 | 6 | `IPv6ExtHeaderFilterList` | Rule 0001.7, Rule 0003 | pending |
 | 7 | `TcpOptionFilterList` | Rule 0003 | pending |
 | 8 | `Ipv4Configuration` | Rule 0006 | pending |
