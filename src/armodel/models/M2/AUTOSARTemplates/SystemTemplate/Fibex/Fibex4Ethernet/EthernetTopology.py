@@ -509,20 +509,21 @@ class EthernetPriorityRegeneration(Referrable):
     """
 
     # EthernetPriorityRegeneration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.74, p.128 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.74, p.128
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIngressPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIngressPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRegeneratedPriority     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRegeneratedPriority     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getIngressPriority             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setIngressPriority             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Message priority of the incoming message. range: 0-7
         self.ingressPriority: Optional[PositiveInteger] = None
 
-        # [x] getRegeneratedPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setRegeneratedPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Regenerated message priority. range: 0-7
         self.regeneratedPriority: Optional[PositiveInteger] = None
 

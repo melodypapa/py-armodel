@@ -1,10 +1,17 @@
 import inspect
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     EthernetPriorityRegeneration,
 )
 
 CLASS_NOTE = """Defines a priority regeneration where the ingressPriority is replaced by regeneratedPriority. The ethernetPriorityRegeneration is optional in case no priority regeneration shall be performed. In case a ethernetPriorityRegeneration is defined it shall have 8 mappings, one for each priority."""
+
+
+def _pos_int(text):
+    value = PositiveInteger()
+    value.setValue(text)
+    return value
 
 
 class TestEthernetPriorityRegeneration:
@@ -18,16 +25,27 @@ class TestEthernetPriorityRegeneration:
         assert obj.getIngressPriority() is None
         assert obj.getRegeneratedPriority() is None
 
-    def test_setters_round_trip_and_none_noop(self):
+    def test_ingress_priority_round_trip_and_none_noop(self):
         obj = self._obj()
-        assert obj.setIngressPriority(7) is obj
-        assert obj.getIngressPriority() == 7
-        obj.setIngressPriority(None)
-        assert obj.getIngressPriority() == 7
-        assert obj.setRegeneratedPriority(7) is obj
-        assert obj.getRegeneratedPriority() == 7
-        obj.setRegeneratedPriority(None)
-        assert obj.getRegeneratedPriority() == 7
+        assert obj.setIngressPriority(_pos_int("7")) is obj
+        assert isinstance(obj.getIngressPriority(), PositiveInteger)
+        assert obj.getIngressPriority().getValue() == 7
+        assert obj.setIngressPriority(None) is obj
+        assert obj.getIngressPriority().getValue() == 7
+
+    def test_regenerated_priority_round_trip_and_none_noop(self):
+        obj = self._obj()
+        assert obj.setRegeneratedPriority(_pos_int("7")) is obj
+        assert isinstance(obj.getRegeneratedPriority(), PositiveInteger)
+        assert obj.getRegeneratedPriority().getValue() == 7
+        assert obj.setRegeneratedPriority(None) is obj
+        assert obj.getRegeneratedPriority().getValue() == 7
+
+    def test_scalar_pairs_are_getter_first_in_source_order(self):
+        src = inspect.getsource(EthernetPriorityRegeneration)
+        assert src.index("def getIngressPriority") < src.index("def setIngressPriority")
+        assert src.index("def setIngressPriority") < src.index("def getRegeneratedPriority")
+        assert src.index("def getRegeneratedPriority") < src.index("def setRegeneratedPriority")
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(EthernetPriorityRegeneration.__doc__).split("\n\n")[0] == CLASS_NOTE
