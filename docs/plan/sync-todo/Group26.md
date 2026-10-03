@@ -736,20 +736,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (406 passed ECUCParameterDefTemplate + ecuc writer/def + parser handlers + member-annotation gate; ruff/flake8/black clean on touched files; set-based checklist OK); 9b deferred to batch confirmation (user instruction); sync commit `7d9d0de23`
   - note (Step 1): re-sync to 6-col bar — fields had NO Note comments, methods had NO docstrings, setter params were bare `UnlimitedInteger` (→ Optional per 0..1); attrs displayed order defaultValue, max, min ✓ types UnlimitedInteger ✓; XSD group l.52553 order DEFAULT-VALUE → MAX → MIN already matched reader/writer; atpVariation RS_ECUC_00083/00084 tails kept in notes verbatim
 
 - [ ] `EcucAbstractStringParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.18, p.63
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (407 passed battery incl. new string-param full round-trip + member-annotation gate; ruff/flake8/black clean on touched files; set-based checklist OK); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); untyped `__init__(parent, short_name)` params annotated; attrs displayed order defaultValue (VerbatimString), maxLength, minLength, regularExpression (RegularExpression) ✓ all 0..1 Optional ✓ notes verbatim ✓; reader/writer ECUC-STRING-PARAM-DEF-VARIANTS/CONDITIONAL wrapper order matched XSD (subclass-specific conditional wrappers, Rule 0013); test class already at bar (abstract guard + defaults + get/set None-no-op per attr)
 
 - [ ] `EcucStringParamDef` — EcucAbstractStringParamDef — R23-11 CP_TPS_ECUConfiguration Table 2.19, p.64
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py

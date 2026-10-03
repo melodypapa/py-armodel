@@ -1322,18 +1322,18 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
 
     # EcucAbstractStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.18, p.63
-    # Spec verified: R23-11
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRegularExpression [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractStringParamDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
 

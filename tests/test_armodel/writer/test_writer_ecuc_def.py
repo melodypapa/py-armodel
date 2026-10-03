@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucModuleDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
+    EcucStringParamDef,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
@@ -346,6 +347,37 @@ class TestWriterEcucStringParamDef:
         parent = _parent()
         writer.writeEcucStringParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_all_attrs(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucStringParamDef("P")
+        param.setDefaultValue(_verbatim("dv"))
+        param.setMinLength(_posint(1))
+        param.setMaxLength(_posint(64))
+        param.setRegularExpression(_regex("[a-z]*"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucStringParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "dv"
+            assert reloaded_param.getMinLength().getValue() == 1
+            assert reloaded_param.getMaxLength().getValue() == 64
+            assert reloaded_param.getRegularExpression().getValue() == "[a-z]*"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucIntegerParamDef:
