@@ -3,6 +3,7 @@ import re
 import sys
 import xml.etree.cElementTree as ET
 from abc import ABC
+from typing import Optional
 from xml.dom import minidom
 
 from colorama import Fore
@@ -102,12 +103,12 @@ class AbstractARXMLWriter(ABC):
             child_element.text = value
     """
 
-    def setChildElementOptionalStringValue(self, element: ET.Element, key: str, value: str):
+    def setChildElementOptionalStringValue(self, element: ET.Element, key: str, value: Optional[str]):
         if value is not None:
             child_element = ET.SubElement(element, key)
             child_element.text = value
 
-    def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: Numerical):
+    def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: Optional[Numerical]):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, numerical)
@@ -118,40 +119,40 @@ class AbstractARXMLWriter(ABC):
             elif numerical._value is not None:
                 child_element.text = str(numerical._value)
 
-    def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Integer):
+    def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Optional[Integer]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
-    def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Integer):
+    def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Optional[Integer]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
-    def setChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str, value: PositiveUnlimitedInteger):
+    def setChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str, value: Optional[PositiveUnlimitedInteger]):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
-    def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: NameToken):
+    def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: Optional[NameToken]):
         self.setChildElementOptionalLiteral(element, key, value)
 
-    def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: RevisionLabelString):
+    def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: Optional[RevisionLabelString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalCseCodeType(self, element: ET.Element, key: str, literal: CseCodeType):
+    def setChildElementOptionalCseCodeType(self, element: ET.Element, key: str, literal: Optional[CseCodeType]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalAlignmentType(self, element: ET.Element, key: str, literal: AlignmentType):
+    def setChildElementOptionalAlignmentType(self, element: ET.Element, key: str, literal: Optional[AlignmentType]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalRegularExpression(self, element: ET.Element, key: str, literal: RegularExpression):
+    def setChildElementOptionalRegularExpression(self, element: ET.Element, key: str, literal: Optional[RegularExpression]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: CIdentifier):
+    def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: Optional[CIdentifier]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalString(self, element: ET.Element, key: str, value: String):
+    def setChildElementOptionalString(self, element: ET.Element, key: str, value: Optional[String]):
         self.setChildElementOptionalLiteral(element, key, value)
 
-    def setChildElementOptionalDateTime(self, element: ET.Element, key: str, literal: DateTime):
+    def setChildElementOptionalDateTime(self, element: ET.Element, key: str, literal: Optional[DateTime]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: RefType):
+    def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: Optional[RefType]):
         if ref is not None:
             child_tag = ET.SubElement(parent, child_tag_name)
             base = ref.getBase()
@@ -163,44 +164,44 @@ class AbstractARXMLWriter(ABC):
             if ref.value is not None:
                 child_tag.text = ref.value
 
-    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: Float):
+    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: Optional[Float]):
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
             child_element.text = value.getText()
 
-    def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):
+    def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: Optional[TimeValue]):
         self.setChildElementOptionalFloatValue(element, key, value)
 
-    def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: Boolean) -> ET.Element:
+    def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: Optional[Boolean]) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
-    def setChildElementOptionalUriString(self, element: ET.Element, key: str, value: UriString):
+    def setChildElementOptionalUriString(self, element: ET.Element, key: str, value: Optional[UriString]):
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
-    def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: ARLiteral) -> ET.Element:
+    def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: Optional[ARLiteral]) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
-    def setChildElementOptionalNumerical(self, element: ET.Element, key: str, value: Numerical) -> ET.Element:
+    def setChildElementOptionalNumerical(self, element: ET.Element, key: str, value: Optional[Numerical]) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
-    def setChildElementOptionalIdentifier(self, element: ET.Element, key: str, value: Identifier) -> ET.Element:
+    def setChildElementOptionalIdentifier(self, element: ET.Element, key: str, value: Optional[Identifier]) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)

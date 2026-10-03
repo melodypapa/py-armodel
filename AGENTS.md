@@ -16,7 +16,9 @@ The repo is uv-managed — `uv.lock` and a uv-managed `.venv` (Python 3.11) exis
 - Integration tests = round-trip parse → write → re-parse → compare over `tests/integration_tests/test_files/*.arxml`; add custom dirs via `tests/integration_tests/config.yaml`
 - CI runs plain `pytest` over all of `tests/` — the full suite must pass
 
-**Lint:** `npm run lint` — runs flake8 syntax checks (E9, F63, F7, F82) **and** ruff (`ruff check src tests scripts`, E/F/W/I rules per `[tool.ruff]` in pyproject.toml). Always use this; do not run flake8 alone
+**Lint:** `npm run lint` — runs flake8 syntax checks (E9, F63, F7, F82), ruff (`ruff check src tests scripts`, E/F/W/I rules per `[tool.ruff]` in pyproject.toml), **and mypy** (`npm run mypy`; config in `[tool.mypy]`, scoped to `src/armodel`). Always use this; do not run flake8 alone
+
+**mypy baseline:** 65 legacy modules carry pre-existing type debt, listed in the `[[tool.mypy.overrides]]` block in pyproject.toml with `ignore_errors = true` (mypy gradual-adoption pattern). Drain rule: fix a module's errors, delete its entry, commit — `uv run mypy` must stay green. Do NOT add new modules to the list; new/edited code in non-listed modules is fully type-checked
 - **Do NOT re-sort imports in `src/armodel/models/**`, `src/armodel/parser/arxml_parser.py`, `src/armodel/writer/arxml_writer.py`** — ruff's I001 (and E402 in parser/writer) is intentionally disabled in `[tool.ruff.lint.per-file-ignores]` because import order avoids circular imports; auto-fixing triggers ImportError at package load
 - **Exclude `build/`** from lint (generated code)
 - CI also runs flake8 `--exit-zero --max-complexity=10 --max-line-length=127` (warnings, non-blocking)
