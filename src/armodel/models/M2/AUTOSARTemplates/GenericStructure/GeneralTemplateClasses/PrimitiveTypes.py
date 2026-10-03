@@ -112,8 +112,8 @@ class ARLiteral(ARType):
         super().__init__()
 
     @property
-    def value(self) -> str:
-        """str: The literal value."""
+    def value(self) -> Any:
+        """Any: The literal value (str for ARLiteral, numeric for subclasses such as Numerical)."""
         if self._value is None:
             return ""
         return self._value
@@ -199,7 +199,7 @@ class Numerical(ARLiteral):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, str]]):
+    def value(self, val: Optional[Any]):
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
@@ -236,7 +236,7 @@ class Float(Numerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[float, int, str]]):
+    def value(self, val: Optional[Any]):
         if isinstance(val, float):
             self._value = val
         elif isinstance(val, int):
@@ -552,7 +552,7 @@ class PositiveInteger(Numerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, str]]):
+    def value(self, val: Optional[Any]):
         if isinstance(val, int):
             if val < 0:
                 raise ValueError("Invalid Positive Integer <%s>" % val)
