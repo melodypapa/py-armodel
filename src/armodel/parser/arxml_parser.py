@@ -9928,10 +9928,8 @@ class ARXMLParser(AbstractARXMLParser):
 
                 identifier.setPduCollectionTrigger(PduCollectionTriggerEnum().setValue(trigger_literal.getValue()))
             identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
-            routing_group_refs = []
             for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
-                routing_group_refs.append(ref)
-            identifier.setRoutingGroupRefs(routing_group_refs)
+                identifier.addRoutingGroupRef(ref)
         return identifier
 
     def getSocketConnectionPdus(self, element: ET.Element) -> List[SocketConnectionIpduIdentifier]:

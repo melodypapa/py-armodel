@@ -1213,6 +1213,24 @@ class TestWriteSocketConnection:
         assert tag.find("PDU-COLLECTION-TRIGGER").text == "TRIGGER"
         assert tag.find("PDU-TRIGGERING-REF") is not None
 
+    def test_set_socket_connection_ipdu_identifier_routing_groups(self, writer):
+        ident = SocketConnectionIpduIdentifier()
+        ident.addRoutingGroupRef(_ref("SO-AD-ROUTING-GROUP", "/Pkg/Rg1"))
+        ident.addRoutingGroupRef(_ref("SO-AD-ROUTING-GROUP", "/Pkg/Rg2"))
+        parent = _parent()
+        writer.setSocketConnectionIpduIdentifier(parent, ident)
+        tag = parent.find("SOCKET-CONNECTION-IPDU-IDENTIFIER")
+        refs = tag.findall("ROUTING-GROUP-REFS/ROUTING-GROUP-REF")
+        assert [ref.text for ref in refs] == ["/Pkg/Rg1", "/Pkg/Rg2"]
+
+    def test_set_socket_connection_ipdu_identifier_no_routing_group_wrapper(self, writer):
+        ident = SocketConnectionIpduIdentifier()
+        ident.setHeaderId(_pos_int("100"))
+        parent = _parent()
+        writer.setSocketConnectionIpduIdentifier(parent, ident)
+        tag = parent.find("SOCKET-CONNECTION-IPDU-IDENTIFIER")
+        assert tag.find("ROUTING-GROUP-REFS") is None
+
     def test_set_socket_connection_pdus_empty(self, writer):
         parent = _parent()
         writer.setSocketConnectionPdus(parent, "PDUS", [])

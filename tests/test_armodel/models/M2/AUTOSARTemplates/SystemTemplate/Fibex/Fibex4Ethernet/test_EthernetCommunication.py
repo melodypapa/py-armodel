@@ -151,9 +151,10 @@ class Test_Fibex4EthernetCommunication:
         assert identifier == identifier.setPduTriggeringRef("trigger_ref")  # Test method chaining
 
         # Test adding routing group refs
-        identifier.setRoutingGroupRefs(["ref1", "ref2"])
+        identifier.addRoutingGroupRef("ref1")
+        identifier.addRoutingGroupRef("ref2")
         assert identifier.getRoutingGroupRefs() == ["ref1", "ref2"]
-        assert identifier == identifier.setRoutingGroupRefs(["ref1", "ref2"])  # Test method chaining
+        assert identifier == identifier.addRoutingGroupRef("ref3")  # Test method chaining
 
     def test_SocketConnectionBundle(self):
         """Test SocketConnectionBundle class functionality."""

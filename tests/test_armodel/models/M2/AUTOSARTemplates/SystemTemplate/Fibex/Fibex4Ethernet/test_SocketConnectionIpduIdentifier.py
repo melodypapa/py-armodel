@@ -53,10 +53,14 @@ class TestSocketConnectionIpduIdentifier:
 
         other = RefType()
         other.value = "/rg"
-        assert obj.setRoutingGroupRefs([other]) is obj
+        assert obj.addRoutingGroupRef(other) is obj
         assert obj.getRoutingGroupRefs() == [other]
-        obj.setRoutingGroupRefs(None)
+        obj.addRoutingGroupRef(None)
         assert obj.getRoutingGroupRefs() == [other]
+        second = RefType()
+        second.value = "/rg2"
+        obj.addRoutingGroupRef(second)
+        assert obj.getRoutingGroupRefs() == [other, second]
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(SocketConnectionIpduIdentifier.__doc__).split("\n\n")[0] == CLASS_NOTE

@@ -1120,6 +1120,34 @@ class TestSoAdAndSocketHandlers:
         assert ident.getHeaderId() is not None
         assert ident.getHeaderId().getValue() == 100
 
+    def test_getSocketConnectionIpduIdentifier_reads_all_fields(self, parser):
+        element = _snip(
+            "<HEADER-ID>42</HEADER-ID>"
+            "<PDU-COLLECTION-PDU-TIMEOUT>10.0</PDU-COLLECTION-PDU-TIMEOUT>"
+            "<PDU-COLLECTION-SEMANTICS>queued</PDU-COLLECTION-SEMANTICS>"
+            "<PDU-COLLECTION-TRIGGER>always</PDU-COLLECTION-TRIGGER>"
+            "<PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/IT/FrTrigger</PDU-TRIGGERING-REF>"
+            "<ROUTING-GROUP-REFS>"
+            "<ROUTING-GROUP-REF DEST='SO-AD-ROUTING-GROUP'>/Pkg/Rg1</ROUTING-GROUP-REF>"
+            "<ROUTING-GROUP-REF DEST='SO-AD-ROUTING-GROUP'>/Pkg/Rg2</ROUTING-GROUP-REF>"
+            "</ROUTING-GROUP-REFS>",
+            root_tag="SOCKET-CONNECTION-IPDU-IDENTIFIER",
+        )
+        ident = parser.getSocketConnectionIpduIdentifier(element)
+        assert ident is not None
+        assert int(ident.getHeaderId().getValue()) == 42
+        assert float(ident.getPduCollectionPduTimeout().getValue()) == 10.0
+        assert ident.getPduCollectionSemantics().getValue() == "queued"
+        assert ident.getPduCollectionTrigger().getValue() == "always"
+        assert ident.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
+        refs = ident.getRoutingGroupRefs()
+        assert [ref.getValue() for ref in refs] == ["/Pkg/Rg1", "/Pkg/Rg2"]
+
+    def test_getSocketConnectionIpduIdentifier_empty_routing_groups(self, parser):
+        element = _snip("<HEADER-ID>7</HEADER-ID>", root_tag="SOCKET-CONNECTION-IPDU-IDENTIFIER")
+        ident = parser.getSocketConnectionIpduIdentifier(element)
+        assert ident.getRoutingGroupRefs() == []
+
     def test_getSocketConnectionPdus_returns_list(self, parser):
         element = _snip(
             "<PDUS>" "<SOCKET-CONNECTION-IPDU-IDENTIFIER>" "<HEADER-ID>100</HEADER-ID>" "</SOCKET-CONNECTION-IPDU-IDENTIFIER>" "</PDUS>",

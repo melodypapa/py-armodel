@@ -52,7 +52,8 @@ class SocketConnectionIpduIdentifier(ARObject):
     """
 
     # SocketConnectionIpduIdentifier method parity checklist:
-    # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 6.122, p.321 (R4.3.1)
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.122, p.321
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] getHeaderId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -65,8 +66,8 @@ class SocketConnectionIpduIdentifier(ARObject):
     # [x] setPduCollectionTrigger     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
     # [x] getPduTriggeringRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
     # [x] setPduTriggeringRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] addRoutingGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
     # [x] getRoutingGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] setRoutingGroupRefs         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         super().__init__()
@@ -164,20 +165,20 @@ class SocketConnectionIpduIdentifier(ARObject):
             self.pduTriggeringRef = value
         return self
 
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> SocketConnectionIpduIdentifier:
+        """
+        Reference to RoutingGroups that can be enabled or disabled.
+        A None value is a no-op and does not append to routingGroupRefs.
+        """
+        if value is not None:
+            self.routingGroupRefs.append(value)
+        return self
+
     def getRoutingGroupRefs(self) -> List[RefType]:
         """
         Reference to RoutingGroups that can be enabled or disabled.
         """
         return self.routingGroupRefs
-
-    def setRoutingGroupRefs(self, value: Optional[List[RefType]]) -> SocketConnectionIpduIdentifier:
-        """
-        Reference to RoutingGroups that can be enabled or disabled.
-        A None value is a no-op and leaves the existing routingGroupRefs unchanged.
-        """
-        if value is not None:
-            self.routingGroupRefs = value
-        return self
 
 
 class SocketConnectionBundle(Referrable):

@@ -179,7 +179,8 @@ class TestSoAdConfigRoundTrip:
         identifier.setPduCollectionSemantics(_literal("queued"))
         identifier.setPduCollectionTrigger(_literal("always"))
         identifier.setPduTriggeringRef(_ref("/IT/FrTrigger"))
-        identifier.setRoutingGroupRefs([_ref("/Pkg/SoAdRoutingGroup1")])
+        identifier.addRoutingGroupRef(_ref("/Pkg/SoAdRoutingGroup1"))
+        identifier.addRoutingGroupRef(_ref("/Pkg/SoAdRoutingGroup2"))
         bundle.addPdu(identifier)
         bundle.addBundledConnection(_connection())
 
@@ -204,5 +205,19 @@ class TestSoAdConfigRoundTrip:
         assert re_identifier.getPduCollectionTrigger().getValue() == "always"
         assert re_identifier.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
         refs = re_identifier.getRoutingGroupRefs()
-        assert len(refs) == 1
-        assert refs[0].getValue() == "/Pkg/SoAdRoutingGroup1"
+        assert [ref.getValue() for ref in refs] == ["/Pkg/SoAdRoutingGroup1", "/Pkg/SoAdRoutingGroup2"]
+
+    def test_round_trip_pdu_without_routing_groups(self, writer, parser):
+        config = SoAdConfig()
+        bundle = config.createSocketConnectionBundle("Bundle1")
+        identifier = SocketConnectionIpduIdentifier()
+        identifier.setHeaderId(_positive(1))
+        bundle.addPdu(identifier)
+
+        parsed = _write_and_parse(writer, parser, config)
+
+        re_identifier = parsed.getConnectionBundles()[0].getPdus()[0]
+        assert re_identifier.getRoutingGroupRefs() == []
+        parent = ET.Element("ETHERNET-PHYSICAL-CHANNEL")
+        writer.writeSoAdConfig(parent, "SO-AD-CONFIG", config)
+        assert parent.find("SO-AD-CONFIG/CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE/PDUS/SOCKET-CONNECTION-IPDU-IDENTIFIER/ROUTING-GROUP-REFS") is None
