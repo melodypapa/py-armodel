@@ -730,6 +730,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(clear_reset_emission_related_info_class)
         return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfoClass)
 
+    def createDiagnosticRequestControlOfOnBoardDevice(self, short_name: str) -> DiagnosticRequestControlOfOnBoardDevice:
+        """
+        Creates a new DiagnosticRequestControlOfOnBoardDevice with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestControlOfOnBoardDevice represents an instance of the OBD mode 0x08 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestControlOfOnBoardDevice
+
+        Returns:
+            The newly created or existing DiagnosticRequestControlOfOnBoardDevice instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestControlOfOnBoardDevice):
+            request_control_of_on_board_device = DiagnosticRequestControlOfOnBoardDevice(self, short_name)
+            self.addReferrableElement(request_control_of_on_board_device)
+        return self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDevice)
+
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
         Creates a new DiagnosticComControlClass with the given short name,
@@ -7844,8 +7862,58 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
         return self
 
 
-class DiagnosticRequestControlOfOnBoardDevice(ARElement):
-    pass
+class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x08 service. Tags: atp.recommendedPackage=DiagnosticRequestControlOfOnBoardDevices"""
+
+    # DiagnosticRequestControlOfOnBoardDevice method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.141, p.157
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestControlOfOnBoardDeviceClassRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestControlOfOnBoardDeviceClassRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTestIdRef                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTestIdRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context.
+        self.requestControlOfOnBoardDeviceClassRef: Optional[RefType] = None
+
+        # This represents the test Id for the mode 0x08.
+        self.testIdRef: Optional[RefType] = None
+
+    def getRequestControlOfOnBoardDeviceClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context.
+        """
+        return self.requestControlOfOnBoardDeviceClassRef
+
+    def setRequestControlOfOnBoardDeviceClassRef(self, value: Optional[RefType]) -> DiagnosticRequestControlOfOnBoardDevice:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestControlOfOnBoardDeviceClassRef.
+        """
+        if value is not None:
+            self.requestControlOfOnBoardDeviceClassRef = value
+        return self
+
+    def getTestIdRef(self) -> Optional[RefType]:
+        """
+        This represents the test Id for the mode 0x08.
+        """
+        return self.testIdRef
+
+    def setTestIdRef(self, value: Optional[RefType]) -> DiagnosticRequestControlOfOnBoardDevice:
+        """
+        This represents the test Id for the mode 0x08.
+
+        A None value is a no-op and does not overwrite an existing testIdRef.
+        """
+        if value is not None:
+            self.testIdRef = value
+        return self
 
 
 class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):

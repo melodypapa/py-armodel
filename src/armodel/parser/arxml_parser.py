@@ -581,6 +581,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadMemoryByAddress,
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRequestControlOfOnBoardDevice,
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
@@ -11595,6 +11596,12 @@ class ARXMLParser(AbstractARXMLParser):
             request_on_board_monitoring_test_results.addDiagnosticTestResultRef(ref)
         request_on_board_monitoring_test_results.setRequestOnBoardMonitoringTestResultsClassRef(self.getChildElementOptionalRefType(element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF"))
 
+    def readDiagnosticRequestControlOfOnBoardDevice(self, element: ET.Element, request_control_of_on_board_device: DiagnosticRequestControlOfOnBoardDevice):
+        self.logger.debug("Read DiagnosticRequestControlOfOnBoardDevice <%s>" % request_control_of_on_board_device.getShortName())
+        self.readIdentifiable(element, request_control_of_on_board_device)
+        request_control_of_on_board_device.setRequestControlOfOnBoardDeviceClassRef(self.getChildElementOptionalRefType(element, "REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF"))
+        request_control_of_on_board_device.setTestIdRef(self.getChildElementOptionalRefType(element, "TEST-ID-REF"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -17015,6 +17022,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS":
             request_on_board_monitoring_test_results = parent.createDiagnosticRequestOnBoardMonitoringTestResults(self.getShortName(child_element))
             self.readDiagnosticRequestOnBoardMonitoringTestResults(child_element, request_on_board_monitoring_test_results)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE":
+            request_control_of_on_board_device = parent.createDiagnosticRequestControlOfOnBoardDevice(self.getShortName(child_element))
+            self.readDiagnosticRequestControlOfOnBoardDevice(child_element, request_control_of_on_board_device)
             return True
         return False
 

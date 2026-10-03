@@ -454,6 +454,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadMemoryByAddress,
     DiagnosticTransferExit,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRequestControlOfOnBoardDevice,
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
@@ -15135,6 +15136,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(test_result_refs_tag, "DIAGNOSTIC-TEST-RESULT-REF", test_result_ref)
         self.setChildElementOptionalRefType(child_element, "REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS-REF", request_on_board_monitoring_test_results.getRequestOnBoardMonitoringTestResultsClassRef())
 
+    def writeDiagnosticRequestControlOfOnBoardDevice(self, element: ET.Element, request_control_of_on_board_device: DiagnosticRequestControlOfOnBoardDevice):
+        self.logger.debug("Write DiagnosticRequestControlOfOnBoardDevice %s" % request_control_of_on_board_device.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE")
+        self.writeIdentifiable(child_element, request_control_of_on_board_device)
+        self.setChildElementOptionalRefType(child_element, "REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS-REF", request_control_of_on_board_device.getRequestControlOfOnBoardDeviceClassRef())
+        self.setChildElementOptionalRefType(child_element, "TEST-ID-REF", request_control_of_on_board_device.getTestIdRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16486,6 +16494,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestOnBoardMonitoringTestResults):
             self.writeDiagnosticRequestOnBoardMonitoringTestResults(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestControlOfOnBoardDevice):
+            self.writeDiagnosticRequestControlOfOnBoardDevice(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

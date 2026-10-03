@@ -83,6 +83,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticReadDTCInformation,
     DiagnosticReadMemoryByAddress,
     DiagnosticReadScalingDataByIdentifier,
+    DiagnosticRequestControlOfOnBoardDevice,
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
@@ -8801,3 +8802,105 @@ class TestDiagnosticRequestOnBoardMonitoringTestResults:
         assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.addDiagnosticTestResultRef.__doc__) == (self.TEST_RESULT_NOTE + "\n\nA None value is a no-op and does not append a diagnosticTestResultRef.")
         assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.getRequestOnBoardMonitoringTestResultsClassRef.__doc__) == self.CLASS_REF_NOTE
         assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResults.setRequestOnBoardMonitoringTestResultsClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestOnBoardMonitoringTestResultsClassRef.")
+
+
+class TestDiagnosticRequestControlOfOnBoardDevice:
+    """
+    Test class for DiagnosticRequestControlOfOnBoardDevice functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.141, p.157
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an instance of the OBD mode 0x08 service. Tags: atp.recommendedPackage=DiagnosticRequestControlOfOnBoardDevices"
+    CLASS_REF_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestControlOfOnBoardDevice in the given context."
+    TEST_ID_NOTE = "This represents the test Id for the mode 0x08."
+
+    def _make_obj(self) -> DiagnosticRequestControlOfOnBoardDevice:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestControlOfOnBoardDevice(ar_root, "TestMode08")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestControlOfOnBoardDevice instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMode08"
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getRequestControlOfOnBoardDeviceClassRef() is None
+        assert obj.getTestIdRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestControlOfOnBoardDevice.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestControlOfOnBoardDevice.__init__.__doc__ is None
+
+    def test_get_set_request_control_of_on_board_device_class_ref(self):
+        """
+        Round-trips the requestControlOfOnBoardDeviceClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestControlOfOnBoardDeviceClasses/Class1")
+        result = obj.setRequestControlOfOnBoardDeviceClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestControlOfOnBoardDeviceClassRef() is ref
+        assert obj.getRequestControlOfOnBoardDeviceClassRef().getValue() == "/AUTOSAR/DiagnosticRequestControlOfOnBoardDeviceClasses/Class1"
+        assert obj.getRequestControlOfOnBoardDeviceClassRef().getDest() == "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS"
+
+        result = obj.setRequestControlOfOnBoardDeviceClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestControlOfOnBoardDeviceClassRef() is ref  # None is a no-op
+
+    def test_get_set_test_id_ref(self):
+        """
+        Round-trips the testId ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER")
+        ref.setValue("/AUTOSAR/DiagnosticTestRoutineIdentifiers/Tid1")
+        result = obj.setTestIdRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getTestIdRef() is ref
+        assert obj.getTestIdRef().getValue() == "/AUTOSAR/DiagnosticTestRoutineIdentifiers/Tid1"
+        assert obj.getTestIdRef().getDest() == "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER"
+
+        result = obj.setTestIdRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTestIdRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_control_of_on_board_device(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("OBDMode08Services")
+        element = package.createDiagnosticRequestControlOfOnBoardDevice("Mode08Service1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestControlOfOnBoardDevice)
+        assert element.getShortName() == "Mode08Service1"
+        assert package.getReferrableElement("Mode08Service1", DiagnosticRequestControlOfOnBoardDevice) is element
+
+        duplicate = package.createDiagnosticRequestControlOfOnBoardDevice("Mode08Service1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.getRequestControlOfOnBoardDeviceClassRef.__doc__) == self.CLASS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setRequestControlOfOnBoardDeviceClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestControlOfOnBoardDeviceClassRef.")
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.getTestIdRef.__doc__) == self.TEST_ID_NOTE
+        assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setTestIdRef.__doc__) == (self.TEST_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing testIdRef.")

@@ -337,14 +337,14 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
        TEST-ID-REF. Aggregated by ARPackage.element ⇒ ARPackage factory createDiagnosticRequestControlOfOnBoardDevice +
        readDiagnosticPackageElement/writeDiagnosticElement dispatch chains.
   - [x] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the row's original ARElement base was the pre-sync stub base, corrected per Rule 0001.2 in the Step 1 note) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-02 (1762 passed / 0 failed: test_member_annotations.py + test_group21_36_stub_classes.py + test_ARPackage.py + test_diagnostic_request_control_of_on_board_device.py + test_writer_diagnostic_request_control_of_on_board_device.py; parser+writer regression 7344 passed / 0 failed; npm run lint clean; black clean); 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestControlOfOnBoardDeviceClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.142, p.158
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py

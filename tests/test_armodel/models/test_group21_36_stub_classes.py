@@ -1613,7 +1613,7 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "DiagnosticRequestControlOfOnBoardDevice",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "DiagnosticServiceInstance",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService",
