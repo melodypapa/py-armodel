@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **5/29** completed
+Status: **6/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -740,7 +740,7 @@ Status: **5/29** completed
 | `CouplingPortCreditBasedShaper`         | [x] Done     | c5cfd1dc4e |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
 | `IPSecConfig`                           | [x] Done     | d75eb10bff |
-| `NetworkEndpoint`                       | [ ] Pending* | 6c97ddc108 |
+| `NetworkEndpoint`                       | [x] Done     | 84587c11f6 |
 | `VlanConfig`                            | [ ] Pending* | b1e4750b14 |
 | `Ipv4Configuration`                     | [ ] Pending* | 6c97ddc108 |
 | `GenericTp`                             | [ ] Pending* | N/A        |

@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 748 | 39.3% |
+| [x] Done | 749 | 39.4% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 317 | 16.7% |
+| [ ] Deferred | 316 | 16.6% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1309,7 +1309,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MultiplicityRestrictionWithSeverity`                   | [ ] Created | N/A                                      | Group36          |
 | `NPdu`                                                  | [ ] Implemented| N/A                                      | Group31          |
 | `NameTokens`                                            | [x] Done    | c8a3ff507d                               | Group3           |
-| `NetworkEndpoint`                                       | [ ] Deferred| 6c97ddc108                               | Group16          |
+| `NetworkEndpoint`                                       | [x] Done    | 84587c11f6                               | Group16          |
 | `NetworkEndpointAddress`                                | [x] Done    | c052de0226                               | Group6           |
 | `NetworkLayerRule`                                      | [ ] Deferred| 529858d9c9                               | Group20          |
 | `NetworkSegmentIdentification`                          | [ ] Created | N/A                                      | Group34          |
