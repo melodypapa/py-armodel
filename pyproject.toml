@@ -126,8 +126,6 @@ warn_unused_ignores = true
 module = [
     "armodel.cli.arxml_dump_cli",
     "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior",
-    "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping",
     "armodel.parser.abstract_arxml_parser",
     "armodel.parser.arxml_parser",
     "armodel.parser.connector_xlsx_parser",
