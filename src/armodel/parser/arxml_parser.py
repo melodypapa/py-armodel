@@ -97,7 +97,17 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.Serv
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticAudienceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswCallType, BswEntryKindEnum, BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswExecutionContext, BswModuleClientServerEntry, BswModuleEntry, SwServiceImplPolicyEnum
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswCallType,
+    BswEntryKindEnum,
+    BswEntryRelationship,
+    BswEntryRelationshipEnum,
+    BswEntryRelationshipSet,
+    BswExecutionContext,
+    BswModuleClientServerEntry,
+    BswModuleEntry,
+    SwServiceImplPolicyEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
