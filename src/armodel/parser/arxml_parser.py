@@ -9873,6 +9873,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.readIdentifiable(element, end_point)
+        end_point.setFullyQualifiedDomainName(self.getChildElementOptionalString(element, "FULLY-QUALIFIED-DOMAIN-NAME"))
         end_point.setInfrastructureServices(self.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES"))
         ip_sec_config_element = self.find(element, "IP-SEC-CONFIG")
         if ip_sec_config_element is not None:

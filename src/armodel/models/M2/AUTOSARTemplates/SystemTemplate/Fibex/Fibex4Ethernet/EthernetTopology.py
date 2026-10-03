@@ -3021,16 +3021,17 @@ class NetworkEndpoint(Identifiable):
 
     # NetworkEndpoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getInfrastructureServices   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setInfrastructureServices   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getNetworkEndpointAddresses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpSecConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addNetworkEndpointAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkEndpointAddresses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -3046,7 +3047,7 @@ class NetworkEndpoint(Identifiable):
         # Optional IPSec configuration that provides security services for IP packets.
         self.ipSecConfig: Optional[IPSecConfig] = None
 
-        # Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        # Definition of a Network Address.
         self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
 
         # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
@@ -3097,20 +3098,20 @@ class NetworkEndpoint(Identifiable):
             self.ipSecConfig = value
         return self
 
-    def getNetworkEndpointAddresses(self) -> List[NetworkEndpointAddress]:
-        """
-        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
-        """
-        return self.networkEndpointAddresses
-
     def addNetworkEndpointAddress(self, value: Optional[NetworkEndpointAddress]) -> NetworkEndpoint:
         """
-        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        Definition of a Network Address.
         A None value is a no-op and is not appended to networkEndpointAddresses.
         """
         if value is not None:
             self.networkEndpointAddresses.append(value)
         return self
+
+    def getNetworkEndpointAddresses(self) -> List[NetworkEndpointAddress]:
+        """
+        Definition of a Network Address.
+        """
+        return self.networkEndpointAddresses
 
     def getPriority(self) -> Optional[PositiveInteger]:
         """

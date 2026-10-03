@@ -9923,6 +9923,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())
         child_element = ET.SubElement(element, "NETWORK-ENDPOINT")
         self.writeIdentifiable(child_element, end_point)
+        self.setChildElementOptionalString(child_element, "FULLY-QUALIFIED-DOMAIN-NAME", end_point.getFullyQualifiedDomainName())
         self.setInfrastructureServices(child_element, "INFRASTRUCTURE-SERVICES", end_point.getInfrastructureServices())
         ip_sec_config = end_point.getIpSecConfig()
         if ip_sec_config is not None and (ip_sec_config.getIpSecConfigPropsRef() is not None or len(ip_sec_config.getIPSecRules()) > 0):
