@@ -2,7 +2,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -377,7 +377,7 @@ class TimingExtensionResource(Identifiable):
             argument = AutosarOperationArgumentInstance(self, short_name)
             self.addReferrableElement(argument)
             self.timingArguments.append(argument)
-        return self.getReferrableElement(short_name, AutosarOperationArgumentInstance)
+        return cast(AutosarOperationArgumentInstance, self.getReferrableElement(short_name, AutosarOperationArgumentInstance))
 
     def getTimingArguments(self) -> List[AutosarOperationArgumentInstance]:
         """This refers to an instance reference of an argument of an operation call."""
@@ -389,7 +389,7 @@ class TimingExtensionResource(Identifiable):
             mode = TimingModeInstance(self, short_name)
             self.addReferrableElement(mode)
             self.timingModes.append(mode)
-        return self.getReferrableElement(short_name, TimingModeInstance)
+        return cast(TimingModeInstance, self.getReferrableElement(short_name, TimingModeInstance))
 
     def getTimingModes(self) -> List[TimingModeInstance]:
         """This refers to an instance reference of a mode declaration."""
@@ -401,7 +401,7 @@ class TimingExtensionResource(Identifiable):
             variable = AutosarVariableInstance(self, short_name)
             self.addReferrableElement(variable)
             self.timingVariables.append(variable)
-        return self.getReferrableElement(short_name, AutosarVariableInstance)
+        return cast(AutosarVariableInstance, self.getReferrableElement(short_name, AutosarVariableInstance))
 
     def getTimingVariables(self) -> List[AutosarVariableInstance]:
         """This refers to an instance reference of a variable."""

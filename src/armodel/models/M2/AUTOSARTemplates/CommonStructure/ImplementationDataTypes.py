@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, AREnum, NameToken, PositiveInteger, String
@@ -169,7 +169,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement, Varia
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addReferrableElement(type_element)
             self.subElements.append(type_element)
-        return self.getReferrableElement(short_name, ImplementationDataTypeElement)
+        return cast(ImplementationDataTypeElement, self.getReferrableElement(short_name, ImplementationDataTypeElement))
 
     def getSubElements(self) -> List[ImplementationDataTypeElement]:
         """
@@ -323,7 +323,7 @@ class ImplementationDataType(AbstractImplementationDataType):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addReferrableElement(type_element)
             self.subElements.append(type_element)
-        return self.getReferrableElement(short_name, ImplementationDataTypeElement)
+        return cast(ImplementationDataTypeElement, self.getReferrableElement(short_name, ImplementationDataTypeElement))
 
     def getSubElements(self) -> List[ImplementationDataTypeElement]:
         """
@@ -349,7 +349,7 @@ class ImplementationDataType(AbstractImplementationDataType):
             symbol_props = SymbolProps(self, short_name)
             self.addReferrableElement(symbol_props)
             self.symbolProps = symbol_props
-        return self.symbolProps
+        return cast(SymbolProps, self.symbolProps)
 
     def getSymbolProps(self) -> Optional[SymbolProps]:
         """

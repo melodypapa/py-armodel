@@ -6,7 +6,7 @@ Classes:
     SwcTiming: Software component timing specification
 """
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from abc import ABC
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TimingClock, TimingClockSyncAccuracy
@@ -93,7 +93,7 @@ class TimingExtension(ARElement, ABC):
             accuracy = TimingClockSyncAccuracy(self, short_name)
             self.addReferrableElement(accuracy)
             self.timingClockSyncAccuracies.append(accuracy)
-        return self.getReferrableElement(short_name, TimingClockSyncAccuracy)
+        return cast(TimingClockSyncAccuracy, self.getReferrableElement(short_name, TimingClockSyncAccuracy))
 
     def getTimingClockSyncAccuracies(self) -> List[TimingClockSyncAccuracy]:
         """A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock."""
@@ -105,7 +105,7 @@ class TimingExtension(ARElement, ABC):
             condition = TimingCondition(self, short_name)
             self.addReferrableElement(condition)
             self.timingConditions.append(condition)
-        return self.getReferrableElement(short_name, TimingCondition)
+        return cast(TimingCondition, self.getReferrableElement(short_name, TimingCondition))
 
     def getTimingConditions(self) -> List[TimingCondition]:
         """The timing condition specifies a specific condition."""
@@ -159,7 +159,7 @@ class TimingExtension(ARElement, ABC):
             constraint = ExecutionOrderConstraint(self, short_name)
             self.addReferrableElement(constraint)
             self.timingRequirements.append(constraint)
-        return self.getReferrableElement(short_name, ExecutionOrderConstraint)
+        return cast(ExecutionOrderConstraint, self.getReferrableElement(short_name, ExecutionOrderConstraint))
 
 
 class SwcTiming(TimingExtension):
