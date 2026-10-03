@@ -2821,30 +2821,30 @@ class TimeSyncServerConfiguration(Referrable):
     """
 
     # TimeSyncServerConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.470 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.470
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncInterval                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncInterval                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Server Priority.
         self.priority: Optional[PositiveInteger] = None
 
-        # [x] getSyncInterval                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setSyncInterval                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Synchronisation interval used by the time synchronisation server (in seconds).
         self.syncInterval: Optional[TimeValue] = None
 
-        # [x] getTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Identifier of the TimeSyncServer.
         self.timeSyncServerIdentifier: Optional[String] = None
 
-        # [x] getTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Defines the time synchronisation technology used. Possible values are: NTP_RFC958, PTP_ IEEE1588_2002, PTP_IEEE1588_2008, AVB_ IEEE802_1AS and others.
         self.timeSyncTechnology: Optional[TimeSyncTechnologyEnum] = None
 
@@ -3020,7 +3020,7 @@ class NetworkEndpoint(Identifiable):
     """
 
     # NetworkEndpoint method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
