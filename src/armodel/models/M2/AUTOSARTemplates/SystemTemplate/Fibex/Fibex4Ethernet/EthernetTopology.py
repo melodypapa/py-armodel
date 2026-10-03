@@ -172,33 +172,39 @@ class CouplingPortStructuralElement(Identifiable, ABC):
 
 
 class CouplingPortAbstractShaper(Identifiable, ABC):
-    """Abstract class for the definition of coupling port shapers."""
+    """
+    Abstract class for the definition of coupling port shapers.
+    """
 
     # CouplingPortAbstractShaper method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), abstract class CouplingPortAbstractShaper, AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
+    # Spec: AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; XSD-only, no Class/Enumeration table in the repo corpora)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] registerShaper    [x] impl  [x] docstring  [—] test  [—] reader  [—] writer  R23-11
+    # [x] registerShaper    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getShaperClass    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getShaperTag      [x] impl  [x] docstring  [—] test  [—] reader  [—] writer  R23-11
+    # [x] getShaperTag      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (accepted deviation, 2026-09-30 user arbitration: the XSD models this abstract class as the
     #  empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER consumed by the CouplingPortFifo.shaper choice
     #  (xsd L23763: COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER);
     #  the repo maps that polymorphic choice to this registry-based abstract base + concrete subclasses
-    #  — the concrete children are queued in Group16 and register themselves at import time)
+    #  — the two concrete children register themselves by XSD element name at import time)
 
     _shaper_registry = {}
 
     @classmethod
     def registerShaper(cls, xml_tag: str, shaper_cls):
+        """Register the concrete shaper class for an XSD coupling-port shaper element name."""
         cls._shaper_registry[xml_tag] = shaper_cls
 
     @classmethod
     def getShaperClass(cls, xml_tag: str):
+        """Return the concrete shaper class registered for an XSD coupling-port shaper element name, or None."""
         return cls._shaper_registry.get(xml_tag)
 
     @classmethod
     def getShaperTag(cls, shaper_cls):
+        """Return the XSD coupling-port shaper element name registered for a concrete shaper class, or None."""
         for tag, shaper_class in cls._shaper_registry.items():
             if shaper_class is shaper_cls:
                 return tag
@@ -217,8 +223,8 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
     """
 
     # CouplingPortAsynchronousTrafficShaper method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortAsynchronousTrafficShaper, AUTOSAR_00052.xsd line 23458 (xsd:group COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
-    # XSD verified: AUTOSAR_00052.xsd
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.36, p.2012
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommittedBurstSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -298,8 +304,8 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
     """
 
     # CouplingPortCreditBasedShaper method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11), class CouplingPortCreditBasedShaper, AUTOSAR_00052.xsd line 23597 (xsd:group COUPLING-PORT-CREDIT-BASED-SHAPER, atp.Status="candidate"; no Class/Enumeration table in R23-11/R4.3.1/R4.4.0 corpora — XSD-only)
-    # XSD verified: AUTOSAR_00052.xsd
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.37, p.2013
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIdleSlope        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
