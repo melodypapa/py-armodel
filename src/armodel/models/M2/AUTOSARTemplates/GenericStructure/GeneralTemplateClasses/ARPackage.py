@@ -2616,6 +2616,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
 
+    def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
+        """
+        Creates a new DiagnosticAging with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAging defines the aging algorithm.
+
+        Args:
+            short_name: The short name for the new DiagnosticAging
+
+        Returns:
+            The newly created or existing DiagnosticAging instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticAging):
+            aging = DiagnosticAging(self, short_name)
+            self.addReferrableElement(aging)
+        return cast(DiagnosticAging, self.getReferrableElement(short_name, DiagnosticAging))
+
     def createDiagnosticAuthRole(self, short_name: str) -> DiagnosticAuthRole:
         """
         Creates a new DiagnosticAuthRole with the given short name,
@@ -4914,7 +4932,62 @@ class DiagnosticAbstractDataIdentifier(ARElement, ABC):
 
 
 class DiagnosticAging(ARElement):
-    pass
+    """
+    Defines the aging algorithm. Tags: atp.recommendedPackage=DiagnosticAgings
+
+    [constr_1848] Existence of attribute DiagnosticAging.agingCycle: For each DiagnosticAging, attribute agingCycle shall exist at the time when the DEXT is complete.
+    [constr_1849] Existence of attribute DiagnosticAging.threshold: For each DiagnosticAging, attribute threshold shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticAging method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.198, p.202
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAgingCycleRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAgingCycleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThreshold      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThreshold      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable aging cycle.
+        self.agingCycleRef: Optional[RefType] = None
+
+        # Number of aging cycles needed to unlearn/delete the event.
+        self.threshold: Optional[PositiveInteger] = None
+
+    def getAgingCycleRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable aging cycle.
+        """
+        return self.agingCycleRef
+
+    def setAgingCycleRef(self, value: Optional[RefType]) -> DiagnosticAging:
+        """
+        This represents the applicable aging cycle.
+
+        A None value is a no-op and does not overwrite an existing agingCycleRef.
+        """
+        if value is not None:
+            self.agingCycleRef = value
+        return self
+
+    def getThreshold(self) -> Optional[PositiveInteger]:
+        """
+        Number of aging cycles needed to unlearn/delete the event.
+        """
+        return self.threshold
+
+    def setThreshold(self, value: Optional[PositiveInteger]) -> DiagnosticAging:
+        """
+        Number of aging cycles needed to unlearn/delete the event.
+
+        A None value is a no-op and does not overwrite an existing threshold.
+        """
+        if value is not None:
+            self.threshold = value
+        return self
 
 
 class DiagnosticAuthRole(ARElement):

@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterToDiagRoutineSubfunctionMapping,
     DiagnosticAbstractAliasEvent,
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAging,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
     DiagnosticAuthRole,
@@ -9305,3 +9306,103 @@ class TestDiagnosticAbstractAliasEvent:
         Test that __init__ carries no docstring.
         """
         assert DiagnosticAbstractAliasEvent.__init__.__doc__ is None
+
+
+class TestDiagnosticAging:
+    """
+    Test class for DiagnosticAging functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.198, p.202
+    """
+
+    CLASS_NOTE = "Defines the aging algorithm. Tags: atp.recommendedPackage=DiagnosticAgings"
+    AGING_CYCLE_NOTE = "This represents the applicable aging cycle."
+    THRESHOLD_NOTE = "Number of aging cycles needed to unlearn/delete the event."
+    CONSTR_1848 = "[constr_1848] Existence of attribute DiagnosticAging.agingCycle: For each DiagnosticAging, attribute agingCycle shall exist at the time when the DEXT is complete."
+    CONSTR_1849 = "[constr_1849] Existence of attribute DiagnosticAging.threshold: For each DiagnosticAging, attribute threshold shall exist at the time when the DEXT is complete."
+
+    def _make_obj(self) -> DiagnosticAging:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticAging(ar_root, "TestAging")
+
+    def test_initialization(self):
+        """
+        Test that a concrete DiagnosticAging instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestAging"
+        assert isinstance(obj, ARElement)
+        assert obj.getAgingCycleRef() is None
+        assert obj.getThreshold() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (plus the class constr rows).
+        """
+        assert inspect.cleandoc(DiagnosticAging.__doc__) == (self.CLASS_NOTE + "\n\n" + self.CONSTR_1848 + "\n" + self.CONSTR_1849)
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticAging.__init__.__doc__ is None
+
+    def test_get_set_aging_cycle_ref(self):
+        """
+        Round-trips the agingCycleRef; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-OPERATION-CYCLE")
+        ref.setValue("/AUTOSAR/DiagnosticOperationCycles/Cycle1")
+        result = obj.setAgingCycleRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAgingCycleRef() is ref
+
+        result = obj.setAgingCycleRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAgingCycleRef() is ref  # None is a no-op
+
+    def test_get_set_threshold(self):
+        """
+        Round-trips the threshold; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        threshold = PositiveInteger()
+        threshold.setValue("5")
+        result = obj.setThreshold(threshold)
+        assert result is obj  # method chaining
+        assert obj.getThreshold() is threshold
+        assert obj.getThreshold().getValue() == 5
+
+        result = obj.setThreshold(None)
+        assert result is obj  # method chaining with None
+        assert obj.getThreshold() is threshold  # None is a no-op
+
+    def test_create_diagnostic_aging(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticAgings")
+        element = package.createDiagnosticAging("Aging1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticAging)
+        assert element.getShortName() == "Aging1"
+        assert package.getReferrableElement("Aging1", DiagnosticAging) is element
+
+        duplicate = package.createDiagnosticAging("Aging1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticAging.getAgingCycleRef.__doc__) == self.AGING_CYCLE_NOTE
+        assert inspect.cleandoc(DiagnosticAging.setAgingCycleRef.__doc__) == (self.AGING_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing agingCycleRef.")
+        assert inspect.cleandoc(DiagnosticAging.getThreshold.__doc__) == self.THRESHOLD_NOTE
+        assert inspect.cleandoc(DiagnosticAging.setThreshold.__doc__) == (self.THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing threshold.")

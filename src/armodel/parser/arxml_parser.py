@@ -552,6 +552,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import A
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAging,
     DiagnosticAuthRole,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
@@ -11499,6 +11500,16 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
             permission.addSecurityLevelRef(ref)
 
+    def readDiagnosticAging(self, element: ET.Element, aging: DiagnosticAging):
+        self.logger.debug("Read DiagnosticAging <%s>" % aging.getShortName())
+        self.readIdentifiable(element, aging)
+        aging.setAgingCycleRef(self.getChildElementOptionalRefType(element, "AGING-CYCLES/DIAGNOSTIC-OPERATION-CYCLE-REF-CONDITIONAL/DIAGNOSTIC-OPERATION-CYCLE-REF"))
+        threshold_element = self.find(element, "THRESHOLD")
+        if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
+            threshold = PositiveInteger()
+            threshold.setValue(threshold_element.text.strip())
+            aging.setThreshold(threshold)
+
     def readDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
         authentication.setAuthenticationClass(self.getChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF"))
 
@@ -16481,6 +16492,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
             permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
             self.readDiagnosticAccessPermission(child_element, permission)
+        elif tag_name == "DIAGNOSTIC-AGING":
+            aging = parent.createDiagnosticAging(self.getShortName(child_element))
+            self.readDiagnosticAging(child_element, aging)
         elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
             auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
             self.readDiagnosticAuthRole(child_element, auth_role)
@@ -16993,6 +17007,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
             permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
             self.readDiagnosticAccessPermission(child_element, permission)
+            return True
+        if tag_name == "DIAGNOSTIC-AGING":
+            aging = parent.createDiagnosticAging(self.getShortName(child_element))
+            self.readDiagnosticAging(child_element, aging)
             return True
         if tag_name == "DIAGNOSTIC-AUTH-ROLE":
             auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))

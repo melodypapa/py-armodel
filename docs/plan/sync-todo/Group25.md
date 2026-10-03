@@ -950,15 +950,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticAging` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.198, p.202
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base chain (md Table 4.198) most-derived = ARElement — matches the row. Attributes (displayed order):
+    1. agingCycle (DiagnosticOperationCycle, 0..1, ref) → agingCycleRef: Optional[RefType]. XSD wrapper AGING-CYCLES of
+       DIAGNOSTIC-OPERATION-CYCLE-REF-CONDITIONAL items (each = DIAGNOSTIC-OPERATION-CYCLE-REF + per-item VARIATION-POINT;
+       atpSplitable DirectedAssociationPattern) — the RefConditional wrapper class is NOT modeled; reader/writer flatten
+       through the wrapper path (precedent Implementation.buildActionManifestRef). The class itself is NOT VP-capable: no
+       VARIATION-POINT element in the DIAGNOSTIC-AGING group (AUTOSAR_00052.xsd l.31615).
+    2. threshold (PositiveInteger, 0..1, attr) → threshold: Optional[PositiveInteger]. XSD THRESHOLD element is of type
+       POSITIVE-INTEGER-VALUE-VARIATION-POINT (atpMixedString — value carried as element text); flattened like
+       DiagnosticAbstractDataIdentifier.id (Table 4.4). constr_1848/constr_1849 appended to the class docstring.
+       Referenced type DiagnosticOperationCycle is itself an un-synced stub (queued earlier in this file) — used directly
+       per the no-blocking rule; PositiveIntegerValueVariationPoint is stamped (FO GST Table 7.17).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the XSD-only serialization shapes — AGING-CYCLES/DIAGNOSTIC-OPERATION-CYCLE-REF-CONDITIONAL wrapper path and THRESHOLD POSITIVE-INTEGER-VALUE-VARIATION-POINT element-text form — follow established precedents and stay PDF-attribute-faithful per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1798 passed / 0 failed: test_ARPackage.py + test_diagnostic_aging.py + test_writer_diagnostic_aging.py + test_member_annotations.py + test_group21_36_stub_classes.py; parser+writer regression 7484 passed / 0 failed); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticIndicator` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.199, p.203
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

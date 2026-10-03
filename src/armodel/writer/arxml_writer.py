@@ -425,6 +425,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import A
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAging,
     DiagnosticAuthRole,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
@@ -15277,6 +15278,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS-CLASS")
         self.writeIdentifiable(child_element, write_memory_by_address_class)
 
+    def writeDiagnosticAging(self, element: ET.Element, aging: DiagnosticAging):
+        self.logger.debug("Write DiagnosticAging %s" % aging.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AGING")
+        self.writeIdentifiable(child_element, aging)
+        ref = aging.getAgingCycleRef()
+        if ref is not None:
+            aging_cycles_element = ET.SubElement(child_element, "AGING-CYCLES")
+            ref_conditional_element = ET.SubElement(aging_cycles_element, "DIAGNOSTIC-OPERATION-CYCLE-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(ref_conditional_element, "DIAGNOSTIC-OPERATION-CYCLE-REF", ref)
+        threshold = aging.getThreshold()
+        if threshold is not None:
+            threshold_element = ET.SubElement(child_element, "THRESHOLD")
+            if threshold._text is not None:
+                threshold_element.text = threshold._text
+            elif threshold._value is not None:
+                threshold_element.text = str(threshold._value)
+
     def writeDiagnosticAuthRole(self, element: ET.Element, auth_role: DiagnosticAuthRole):
         self.logger.debug("Write DiagnosticAuthRole %s" % auth_role.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE")
@@ -16316,6 +16334,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeARPackageElementRest(self, element: ET.Element, ar_element: Referrable):
         if isinstance(ar_element, DiagnosticAccessPermission):
             self.writeDiagnosticAccessPermission(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAging):
+            self.writeDiagnosticAging(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthRole):
             self.writeDiagnosticAuthRole(element, ar_element)
         elif isinstance(ar_element, DiagnosticAuthenticationClass):
@@ -16738,6 +16758,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticAccessPermission):
             self.writeDiagnosticAccessPermission(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticAging):
+            self.writeDiagnosticAging(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticAuthRole):
             self.writeDiagnosticAuthRole(element, ar_element)
