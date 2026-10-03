@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFloatParamDef,
     EcucForeignReferenceDef,
     EcucFunctionNameDef,
+    EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucLinkerSymbolDef,
     EcucModuleDef,
@@ -952,6 +953,33 @@ class TestWriterEcucInstanceReferenceDef:
         writer.writeEcucInstanceReferenceDef(parent, ref)
         assert parent[0].find("DESTINATION-CONTEXT") is None
         assert parent[0].find("DESTINATION-TYPE") is None
+
+    def test_round_trip_context_and_type(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        ref = container.createEcucInstanceReferenceDef("I")
+        ref.setDestinationContext(_literal("SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"))
+        ref.setDestinationType(_literal("VARIABLE-DATA-PROTOTYPE"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("I", EcucInstanceReferenceDef)
+            assert reloaded_ref is not None
+            assert reloaded_ref.getDestinationContext().getValue() == "SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"
+            assert reloaded_ref.getDestinationType().getValue() == "VARIABLE-DATA-PROTOTYPE"
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucForeignReferenceDef:

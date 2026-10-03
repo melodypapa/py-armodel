@@ -1249,38 +1249,35 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
-    """
-    Specify a reference to an XML description of an entity described in another
-    AUTOSAR template using the INSTANCE REFERENCE semantics.
-    """
+    """Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics."""
 
     # EcucInstanceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.32, p.77
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        # The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         self.destinationContext: Optional[String] = None
 
-        # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        # The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         self.destinationType: Optional[String] = None
 
     def getDestinationContext(self) -> Optional[String]:
         """
-        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         """
         return self.destinationContext
 
     def setDestinationContext(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
-        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        The context in the AUTOSAR Metamodel to which' this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationContext.
         """
         if value is not None:
@@ -1289,13 +1286,13 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
     def getDestinationType(self) -> Optional[String]:
         """
-        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         """
         return self.destinationType
 
     def setDestinationType(self, value: Optional[String]) -> EcucInstanceReferenceDef:
         """
-        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to.
         A None value is a no-op and does not overwrite an existing destinationType.
         """
         if value is not None:

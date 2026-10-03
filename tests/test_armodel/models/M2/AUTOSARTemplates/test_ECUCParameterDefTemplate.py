@@ -154,8 +154,49 @@ class TestEcucForeignReferenceDef:
 
 
 class TestEcucInstanceReferenceDef:
+    CLASS_NOTE = "Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics."
+    CONTEXT_NOTE = "The context in the AUTOSAR Metamodel to which' this reference is allowed to point to."
+    TYPE_NOTE = "The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to."
+
     def test_instantiation(self):
         assert _instantiate(EcucInstanceReferenceDef, "EcucInstanceReferenceDef").getShortName() == "EcucInstanceReferenceDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucInstanceReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucInstanceReferenceDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        assert obj.getDestinationContext() is None
+        assert obj.getDestinationType() is None
+        assert obj.getWithAuto() is None
+
+    def test_get_set_destination_context_roundtrip(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        value = String()
+        value.setValue("SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE")
+        assert obj.setDestinationContext(value) is obj
+        assert obj.getDestinationContext() is value
+        obj.setDestinationContext(None)
+        assert obj.getDestinationContext() is value
+
+    def test_get_set_destination_type_roundtrip(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        value = String()
+        value.setValue("PortPrototype")
+        assert obj.setDestinationType(value) is obj
+        assert obj.getDestinationType() is value
+        obj.setDestinationType(None)
+        assert obj.getDestinationType() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        assert inspect.cleandoc(obj.getDestinationContext.__doc__) == self.CONTEXT_NOTE
+        assert inspect.cleandoc(obj.setDestinationContext.__doc__).splitlines()[0] == self.CONTEXT_NOTE
+        assert inspect.cleandoc(obj.getDestinationType.__doc__) == self.TYPE_NOTE
+        assert inspect.cleandoc(obj.setDestinationType.__doc__).splitlines()[0] == self.TYPE_NOTE
 
 
 class TestEcucStringParamDef:
