@@ -37,18 +37,18 @@ return cast(X, self.getReferrableElement(short_name, X))
 ```
 
 **Recipe C — plain getter over an Optional field (error: `got "X | None", expected "X"` in a getter whose body is `return self.field`):**
-declare the truth — change the getter's return type to `Optional[X]` and drop any cast. Cast here is a lie that a future caller will dereference. Ripple is usually zero: callers in the unchecked writer/parser already pass results to Optional-tolerant APIs; verify with a caller grep before editing:
+**FIRST check the spec table's multiplicity.** Only apply this recipe when the attribute is **0..1** — then declare the truth: change the getter's return type to `Optional[X]` and drop any cast. Ripple is usually zero: callers in the unchecked writer/parser already pass results to Optional-tolerant APIs; verify with a caller grep before editing.
+
+If the spec multiplicity is **1** (mandatory — e.g. PostBuildVariantCriterion.compuMethod, Table 7.7, R23-11), the non-Optional getter `-> X` is the spec contract: keep it and keep the cast — the cast bridges the construction-phase None (spec guarantees presence in any valid model), same invariant category as the create-method post-conditions. The field may stay `Optional[X] = None` for mypy.
 
 ```python
-# before
+# 0..1 attribute — Recipe C applies
+def getFooRef(self) -> Optional[RefType]:
+    return self.fooRef
+# mult 1 attribute — cast stays (spec-mandated presence)
 def getCompuMethodRef(self) -> RefType:
     return cast(RefType, self.compuMethodRef)
-# after
-def getCompuMethodRef(self) -> Optional[RefType]:
-    return self.compuMethodRef
 ```
-
-(Precedent: commit `934fb76f9` — VariantHandling `getCompuMethodRef`; all 4 callers live in unchecked `arxml_writer.py` feeding `setChildElementOptionalRefType`.)
 
 **Recipe B — Optional field declaration (error: `Incompatible types in assignment (expression has type "None", variable has type "X")` in `__init__`):**
 make the declared type Optional; align the getter's return type to `Optional[X]` if it is annotated non-Optional:

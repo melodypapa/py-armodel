@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -36,9 +36,9 @@ class PostBuildVariantCriterion(ARElement):
         # The compuMethod specifies the possible values for the variant criterion serving as an enumerator.
         self.compuMethodRef: Optional[RefType] = None
 
-    def getCompuMethodRef(self) -> Optional[RefType]:
+    def getCompuMethodRef(self) -> RefType:
         """The compuMethod specifies the possible values for the variant criterion serving as an enumerator."""
-        return self.compuMethodRef
+        return cast(RefType, self.compuMethodRef)
 
     def setCompuMethodRef(self, value: RefType) -> "PostBuildVariantCriterion":
         """The compuMethod specifies the possible values for the variant criterion serving as an enumerator. A None value is a no-op and does not overwrite an existing compuMethodRef."""
