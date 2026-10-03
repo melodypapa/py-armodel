@@ -2223,8 +2223,9 @@ class EcucDestinationUriNestingContractEnum(AREnum):
 
     # EcucDestinationUriNestingContractEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.37, p.83
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) that are directly owned by the target container. Tags: atp.EnumerationLiteralIndex=0
     LEAF_OF_TARGET_CONTAINER = "LEAF-OF-TARGET-CONTAINER"

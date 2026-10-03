@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDestinationUriDef,
     EcucDestinationUriDefRefType,
     EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
     EcucDestinationUriPolicy,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
@@ -800,6 +801,23 @@ class TestEcucConditionFormula:
         assert formula.getEcucQueryStringRef() is ref
         assert formula.setEcucQueryStringRef(None) is formula
         assert formula.getEcucQueryStringRef() is ref
+
+
+class TestEcucDestinationUriNestingContractEnum:
+    CLASS_NOTE = "EcucDestinationUriNestingContractEnum is used to determine what is qualified by the EcucDestinationUriPolicy."
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucDestinationUriNestingContractEnum.__doc__) == self.CLASS_NOTE
+
+    def test_members_in_xsd_declaration_order(self):
+        assert EcucDestinationUriNestingContractEnum.LEAF_OF_TARGET_CONTAINER == "LEAF-OF-TARGET-CONTAINER"
+        assert EcucDestinationUriNestingContractEnum.TARGET_CONTAINER == "TARGET-CONTAINER"
+        assert EcucDestinationUriNestingContractEnum.VERTEX_OF_TARGET_CONTAINER == "VERTEX-OF-TARGET-CONTAINER"
+
+    def test_instantiation_and_set_value(self):
+        enum = EcucDestinationUriNestingContractEnum()
+        enum.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+        assert enum.getValue() == "TARGET-CONTAINER"
 
 
 class TestEcucDestinationUriPolicy:
