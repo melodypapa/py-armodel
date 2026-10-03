@@ -2118,15 +2118,16 @@ class Ipv4Configuration(NetworkEndpointAddress):
     """
 
     # Ipv4Configuration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAssignmentPriority     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setAssignmentPriority     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDefaultGateway         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDefaultGateway         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDnsServerAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addDnsServerAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIpv4Address            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2147,7 +2148,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         # IP address of the default gateway.
         self.defaultGateway: Optional[Ip4AddressString] = None
 
-        # IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        # IP addresses of preconfigured DNS servers.
         self.dnsServerAddresses: List[Ip4AddressString] = []
 
         # Defines the lifetime of a dynamically fetched IP address.
@@ -2195,20 +2196,20 @@ class Ipv4Configuration(NetworkEndpointAddress):
             self.defaultGateway = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
-        """
-        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
-        """
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
-        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        IP addresses of preconfigured DNS servers.
         A None value is a no-op and is not appended to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """
+        IP addresses of preconfigured DNS servers.
+        """
+        return self.dnsServerAddresses
 
     def getIpAddressKeepBehavior(self) -> Optional[IpAddressKeepEnum]:
         """

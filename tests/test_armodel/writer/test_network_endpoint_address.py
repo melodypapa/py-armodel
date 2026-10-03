@@ -9,7 +9,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4Configuration, NetworkEndpoint, NetworkEndpointAddress
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import IpAddressKeepEnum, Ipv4AddressSourceEnum, Ipv4Configuration, NetworkEndpoint, NetworkEndpointAddress
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -29,6 +29,18 @@ def _ipv4_address(text):
     return value
 
 
+def _ipv4_source(text):
+    value = Ipv4AddressSourceEnum()
+    value.setValue(text)
+    return value
+
+
+def _keep_behavior(text):
+    value = IpAddressKeepEnum()
+    value.setValue(text)
+    return value
+
+
 def _new_endpoint():
     endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
     config = Ipv4Configuration()
@@ -37,7 +49,9 @@ def _new_endpoint():
     config.setAssignmentPriority(priority)
     config.setDefaultGateway(_ipv4_address("192.168.0.1"))
     config.addDnsServerAddress(_ipv4_address("8.8.8.8"))
+    config.setIpAddressKeepBehavior(_keep_behavior("storePersistently"))
     config.setIpv4Address(_ipv4_address("192.168.0.10"))
+    config.setIpv4AddressSource(_ipv4_source("fixed"))
     config.setNetworkMask(_ipv4_address("255.255.255.0"))
     ttl = PositiveInteger()
     ttl.setValue(64)
@@ -60,11 +74,31 @@ class TestWriteNetworkEndpointAddress:
         dns = node.findall("DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS")
         assert len(dns) == 1
         assert dns[0].text == "8.8.8.8"
+        assert node.find("IP-ADDRESS-KEEP-BEHAVIOR").text == "storePersistently"
         assert node.find("IPV-4-ADDRESS").text == "192.168.0.10"
+        assert node.find("IPV-4-ADDRESS-SOURCE").text == "fixed"
         assert node.find("NETWORK-MASK").text == "255.255.255.0"
         assert node.find("TTL").text == "64"
         children = [child.tag for child in node]
-        assert children == ["ASSIGNMENT-PRIORITY", "DEFAULT-GATEWAY", "DNS-SERVER-ADDRESSES", "IPV-4-ADDRESS", "NETWORK-MASK", "TTL"]
+        assert children == ["ASSIGNMENT-PRIORITY", "DEFAULT-GATEWAY", "DNS-SERVER-ADDRESSES", "IP-ADDRESS-KEEP-BEHAVIOR", "IPV-4-ADDRESS", "IPV-4-ADDRESS-SOURCE", "NETWORK-MASK", "TTL"]
+
+    def test_write_ipv4_configuration_empty_wrapper(self):
+        endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
+        config = Ipv4Configuration()
+        config.addDnsServerAddress(None)
+        endpoint.addNetworkEndpointAddress(config)
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeNetworkEndPointNetworkEndPointAddresses(parent, endpoint.getNetworkEndpointAddresses())
+        node = parent.find("NETWORK-ENDPOINT-ADDRESSES/IPV-4-CONFIGURATION")
+        assert node is not None
+        assert node.find("DNS-SERVER-ADDRESSES") is None
+        assert [child.tag for child in node] == []
+
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring(inner.replace("<PARENT>", "<PARENT xmlns='%s'>" % NS, 1))
+        reloaded = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
+        ARXMLParser().readNetworkEndPointNetworkEndPointAddress(root, reloaded)
+        assert reloaded.getNetworkEndpointAddresses()[0].getDnsServerAddresses() == []
 
     def test_round_trip_preserves_values(self):
         endpoint = _new_endpoint()
@@ -84,4 +118,7 @@ class TestWriteNetworkEndpointAddress:
         assert address.getNetworkMask().getValue() == "255.255.255.0"
         assert address.getDefaultGateway().getValue() == "192.168.0.1"
         assert address.getDnsServerAddresses()[0].getValue() == "8.8.8.8"
+        assert address.getIpAddressKeepBehavior().getValue() == "storePersistently"
+        assert address.getIpv4AddressSource().getValue() == "fixed"
         assert address.getTtl().getValue() == 64
+        assert isinstance(address.getIpv4AddressSource(), Ipv4AddressSourceEnum)

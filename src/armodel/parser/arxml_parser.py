@@ -1093,6 +1093,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
+    Ipv4AddressSourceEnum,
     Ipv4Configuration,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
@@ -9762,20 +9763,36 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             configuration = Ipv4Configuration()
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
-            configuration.setDefaultGateway(self.getChildElementOptionalLiteral(element, "DEFAULT-GATEWAY"))
+            default_gateway = self.getChildElementOptionalLiteral(element, "DEFAULT-GATEWAY")
+            if default_gateway is not None:
+                ip4_address = Ip4AddressString()
+                ip4_address.setValue(default_gateway.getValue())
+                configuration.setDefaultGateway(ip4_address)
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
-                literal = ARLiteral()
-                self.readARType(address, literal)
-                literal.setValue(address.text)
-                configuration.addDnsServerAddress(literal)
+                dns_address = Ip4AddressString()
+                self.readARType(address, dns_address)
+                dns_address.setValue(address.text)
+                configuration.addDnsServerAddress(dns_address)
             keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
             if keep_literal is not None:
                 keep = IpAddressKeepEnum()
                 keep.setValue(keep_literal.getValue())
                 configuration.setIpAddressKeepBehavior(keep)
-            configuration.setIpv4Address(self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS"))
-            configuration.setIpv4AddressSource(self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-SOURCE"))
-            configuration.setNetworkMask(self.getChildElementOptionalLiteral(element, "NETWORK-MASK"))
+            ipv4_address = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS")
+            if ipv4_address is not None:
+                ip4_address = Ip4AddressString()
+                ip4_address.setValue(ipv4_address.getValue())
+                configuration.setIpv4Address(ip4_address)
+            source_literal = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-SOURCE")
+            if source_literal is not None:
+                source = Ipv4AddressSourceEnum()
+                source.setValue(source_literal.getValue())
+                configuration.setIpv4AddressSource(source)
+            network_mask = self.getChildElementOptionalLiteral(element, "NETWORK-MASK")
+            if network_mask is not None:
+                ip4_address = Ip4AddressString()
+                ip4_address.setValue(network_mask.getValue())
+                configuration.setNetworkMask(ip4_address)
             configuration.setTtl(self.getChildElementOptionalPositiveInteger(element, "TTL"))
         return configuration
 
