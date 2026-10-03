@@ -1159,9 +1159,45 @@ class TestEcucParameterDef:
 
 
 class TestEcucAbstractReferenceDef:
+    CLASS_NOTE = "Common class to gather the attributes for the definition of references."
+    WITH_AUTO_NOTE = (
+        'Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". '
+        'If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". '
+        "This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. "
+        "These implicit updated values might require a re-generation of other modules which reference these values. "
+        'If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". '
+        'If withAuto is not present the default is "false".'
+    )
+
+    def _make(self):
+        class _Concrete(EcucAbstractReferenceDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEARD"), "sn")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractReferenceDef)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_with_auto_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setWithAuto(value) is obj
+        assert obj.getWithAuto() is value
+        obj.setWithAuto(None)
+        assert obj.getWithAuto() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = self._make()
+        assert inspect.cleandoc(obj.getWithAuto.__doc__) == self.WITH_AUTO_NOTE
+        assert inspect.cleandoc(obj.setWithAuto.__doc__).splitlines()[0] == self.WITH_AUTO_NOTE
 
 
 class TestEcucAbstractInternalReferenceDef:

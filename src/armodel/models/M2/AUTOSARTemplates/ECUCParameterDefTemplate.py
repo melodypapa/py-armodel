@@ -956,24 +956,22 @@ class EcucBooleanParamDef(EcucParameterDef):
 
 
 class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
-    """
-    Common class to gather the attributes for the definition of references.
-    """
+    """Common class to gather the attributes for the definition of references."""
 
     # EcucAbstractReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.26, p.71
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucAbstractReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractReferenceDef")
 
         super().__init__(parent, short_name)
 
-        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO".
+        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
         self.withAuto: Optional[Boolean] = None
 
     def getWithAuto(self) -> Optional[Boolean]:

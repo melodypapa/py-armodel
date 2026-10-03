@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
+    EcucReferenceDef,
     EcucStringParamDef,
     EcucValueConfigurationClass,
 )
@@ -789,6 +790,32 @@ class TestWriterEcucAbstractReferenceDef:
         parent = _parent()
         writer.writeEcucAbstractReferenceDef(parent, ref)
         assert parent.find("WITH-AUTO") is None
+
+    def test_round_trip_with_auto_via_concrete_reference(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        ref = container.createEcucReferenceDef("R")
+        ref.setWithAuto(_bool(True))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_ref = reloaded_container.getReferrableElement("R", EcucReferenceDef)
+            assert reloaded_ref is not None
+            assert reloaded_ref.getWithAuto() is not None
+            assert reloaded_ref.getWithAuto().getValue() is True
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucAbstractInternalReferenceDef:
