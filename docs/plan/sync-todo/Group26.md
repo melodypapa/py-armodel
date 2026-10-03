@@ -957,7 +957,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (638 passed battery; full derivation reload round-trip pre-existing in TestWriterEcucDerivationSpecification.test_round_trip (CALCULATION-FORMULA refs + ECUC-QUERYS + expression + INFORMAL-FORMULA) re-verified green; ruff/black clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (638 passed battery; full derivation reload round-trip pre-existing in TestWriterEcucDerivationSpecification.test_round_trip (CALCULATION-FORMULA refs + ECUC-QUERYS + expression + INFORMAL-FORMULA) re-verified green; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `55d1c3852`
   - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); LAST ROW of the batch; Base ARObject ✓; attrs displayed order calculationFormula/ecucQuery/informalFormula ✓; class docstring was a PARAPHRASE ("or of elements...") → spec Note verbatim with the markdown bullet separators `•` kept; createEcucQuery factory docstring was a helper paraphrase → attr Note verbatim (aligns with the EcucParamConfContainerDef factory convention; NOTE: same paraphrase remains on the stamped EcucConditionSpecification/EcucValidationCondition createEcucQuery — sibling deviation to reconcile when T2.42/T2.44 re-sync); getEcucQuery convenience lookup has no XML element ([—]/[—])
 
 - [ ] `EcucQuery` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.40, p.89
