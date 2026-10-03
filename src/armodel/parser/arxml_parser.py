@@ -573,6 +573,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939Spn,
     DiagnosticEcuReset,
     DiagnosticIOControl,
+    DiagnosticInfoType,
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
@@ -11619,6 +11620,17 @@ class ARXMLParser(AbstractARXMLParser):
         request_vehicle_info.setInfoTypeRef(self.getChildElementOptionalRefType(element, "INFO-TYPE-REF"))
         request_vehicle_info.setRequestVehicleInformationClassRef(self.getChildElementOptionalRefType(element, "REQUEST-VEHICLE-INFORMATION-CLASS-REF"))
 
+    def readDiagnosticInfoType(self, element: ET.Element, info_type: DiagnosticInfoType):
+        self.logger.debug("Read DiagnosticInfoType <%s>" % info_type.getShortName())
+        self.readIdentifiable(element, info_type)
+        data_elements_element = self.find(element, "DATA-ELEMENTS")
+        if data_elements_element is not None:
+            for child_element in self.findall(data_elements_element, "DIAGNOSTIC-PARAMETER"):
+                data_element = DiagnosticParameter()
+                self.readDiagnosticParameter(child_element, data_element)
+                info_type.addDataElement(data_element)
+        info_type.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+
     def readDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Read DiagnosticReadMemoryByAddressClass <%s>" % read_memory_by_address_class.getShortName())
         self.readIdentifiable(element, read_memory_by_address_class)
@@ -17065,6 +17077,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO":
             request_vehicle_info = parent.createDiagnosticRequestVehicleInfo(self.getShortName(child_element))
             self.readDiagnosticRequestVehicleInfo(child_element, request_vehicle_info)
+            return True
+        if tag_name == "DIAGNOSTIC-INFO-TYPE":
+            info_type = parent.createDiagnosticInfoType(self.getShortName(child_element))
+            self.readDiagnosticInfoType(child_element, info_type)
             return True
         return False
 

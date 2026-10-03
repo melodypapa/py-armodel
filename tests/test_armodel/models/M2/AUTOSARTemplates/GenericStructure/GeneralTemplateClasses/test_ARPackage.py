@@ -58,6 +58,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventMapping,
     DiagnosticFimEventGroup,
     DiagnosticFimFunctionMapping,
+    DiagnosticInfoType,
     DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
     DiagnosticIumprToFunctionIdentifierMapping,
@@ -9127,3 +9128,99 @@ class TestDiagnosticRequestVehicleInfo:
         assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setInfoTypeRef.__doc__) == (self.INFO_TYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing infoTypeRef.")
         assert inspect.cleandoc(DiagnosticRequestVehicleInfo.getRequestVehicleInformationClassRef.__doc__) == self.CLASS_REF_NOTE
         assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setRequestVehicleInformationClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestVehicleInformationClassRef.")
+
+
+class TestDiagnosticInfoType:
+    """
+    Test class for DiagnosticInfoType functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.146, p.160
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an OBD info type. Tags: atp.recommendedPackage=DiagnosticInfoTypes"
+    DATA_ELEMENT_NOTE = "This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName"
+    ID_NOTE = "This attribute represents the value of InfoType (see SAE J1979-DA)."
+
+    def _make_obj(self) -> DiagnosticInfoType:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticInfoType(ar_root, "TestInfoType")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticInfoType instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestInfoType"
+        assert isinstance(obj, ARElement)
+        assert obj.getDataElements() == []
+        assert obj.getId() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticInfoType.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticInfoType.__init__.__doc__ is None
+
+    def test_add_get_data_elements(self):
+        """
+        Appends DiagnosticParameter data elements; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        data_element = DiagnosticParameter()
+        result = obj.addDataElement(data_element)
+        assert result is obj  # method chaining
+        assert obj.getDataElements() == [data_element]
+
+        result = obj.addDataElement(None)
+        assert result is obj  # None is a no-op
+        assert obj.getDataElements() == [data_element]
+
+    def test_get_set_id(self):
+        """
+        Round-trips the id; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        id_value = PositiveInteger()
+        id_value.setValue("6")
+        result = obj.setId(id_value)
+        assert result is obj  # method chaining
+        assert obj.getId() is id_value
+        assert obj.getId().getValue() == 6
+
+        result = obj.setId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getId() is id_value  # None is a no-op
+
+    def test_create_diagnostic_info_type(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticInfoTypes")
+        element = package.createDiagnosticInfoType("InfoType1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticInfoType)
+        assert element.getShortName() == "InfoType1"
+        assert package.getReferrableElement("InfoType1", DiagnosticInfoType) is element
+
+        duplicate = package.createDiagnosticInfoType("InfoType1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticInfoType.getDataElements.__doc__) == self.DATA_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticInfoType.addDataElement.__doc__) == (self.DATA_ELEMENT_NOTE + "\n\nA None value is a no-op and does not append a dataElement.")
+        assert inspect.cleandoc(DiagnosticInfoType.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticInfoType.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")

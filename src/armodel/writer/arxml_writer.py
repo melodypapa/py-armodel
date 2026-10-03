@@ -446,6 +446,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939Spn,
     DiagnosticEcuReset,
     DiagnosticIOControl,
+    DiagnosticInfoType,
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
@@ -15172,6 +15173,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "INFO-TYPE-REF", request_vehicle_info.getInfoTypeRef())
         self.setChildElementOptionalRefType(child_element, "REQUEST-VEHICLE-INFORMATION-CLASS-REF", request_vehicle_info.getRequestVehicleInformationClassRef())
 
+    def writeDiagnosticInfoType(self, element: ET.Element, info_type: DiagnosticInfoType):
+        self.logger.debug("Write DiagnosticInfoType %s" % info_type.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-INFO-TYPE")
+        self.writeIdentifiable(child_element, info_type)
+        data_elements = info_type.getDataElements()
+        if len(data_elements) > 0:
+            data_elements_tag = ET.SubElement(child_element, "DATA-ELEMENTS")
+            for data_element in data_elements:
+                self.writeDiagnosticParameter(data_elements_tag, data_element)
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", info_type.getId())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16536,6 +16548,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestVehicleInfo):
             self.writeDiagnosticRequestVehicleInfo(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticInfoType):
+            self.writeDiagnosticInfoType(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)

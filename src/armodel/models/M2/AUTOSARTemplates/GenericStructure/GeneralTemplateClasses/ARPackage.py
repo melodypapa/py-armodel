@@ -785,6 +785,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(test_routine_identifier)
         return self.getReferrableElement(short_name, DiagnosticTestRoutineIdentifier)
 
+    def createDiagnosticInfoType(self, short_name: str) -> DiagnosticInfoType:
+        """
+        Creates a new DiagnosticInfoType with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticInfoType represents the ability to model an OBD info type.
+
+        Args:
+            short_name: The short name for the new DiagnosticInfoType
+
+        Returns:
+            The newly created or existing DiagnosticInfoType instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticInfoType):
+            info_type = DiagnosticInfoType(self, short_name)
+            self.addReferrableElement(info_type)
+        return self.getReferrableElement(short_name, DiagnosticInfoType)
+
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
         Creates a new DiagnosticComControlClass with the given short name,
@@ -6787,7 +6805,57 @@ class DiagnosticIndicator(ARElement):
 
 
 class DiagnosticInfoType(ARElement):
-    pass
+    """This meta-class represents the ability to model an OBD info type. Tags: atp.recommendedPackage=DiagnosticInfoTypes"""
+
+    # DiagnosticInfoType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.146, p.160
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElements              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataElement               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName
+        self.dataElements: List[DiagnosticParameter] = []
+
+        # This attribute represents the value of InfoType (see SAE J1979-DA).
+        self.id: Optional[PositiveInteger] = None
+
+    def getDataElements(self) -> List[DiagnosticParameter]:
+        """
+        This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName
+        """
+        return self.dataElements
+
+    def addDataElement(self, value: Optional[DiagnosticParameter]) -> DiagnosticInfoType:
+        """
+        This represents the data associated with the enclosing DiagnosticInfoType. Stereotypes: atpSplitable Tags: atp.Splitkey=dataElement.bitOffset, dataElement.ident.shortName
+
+        A None value is a no-op and does not append a dataElement.
+        """
+        if value is not None:
+            self.dataElements.append(value)
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the value of InfoType (see SAE J1979-DA).
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticInfoType:
+        """
+        This attribute represents the value of InfoType (see SAE J1979-DA).
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
 
 
 class DiagnosticIumpr(ARElement):
