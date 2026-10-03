@@ -226,8 +226,48 @@ class TestEcucIntegerParamDef:
 
 
 class TestEcucEnumerationLiteralDef:
+    CLASS_NOTE = "Configuration parameter type for enumeration literals definition."
+    ECUC_COND_NOTE = "If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored."
+    ORIGIN_NOTE = "String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific."
+
     def test_instantiation(self):
         assert _instantiate(EcucEnumerationLiteralDef, "EcucEnumerationLiteralDef").getShortName() == "EcucEnumerationLiteralDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucEnumerationLiteralDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucEnumerationLiteralDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        assert obj.getEcucCond() is None
+        assert obj.getOrigin() is None
+
+    def test_get_set_ecuc_cond_roundtrip(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        cond = EcucConditionSpecification()
+        assert obj.setEcucCond(cond) is obj
+        assert obj.getEcucCond() is cond
+        obj.setEcucCond(None)
+        assert obj.getEcucCond() is cond
+
+    def test_get_set_origin_roundtrip(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        origin = String()
+        origin.setValue("AUTOSAR_ECUC")
+        assert obj.setOrigin(origin) is obj
+        assert obj.getOrigin() is origin
+        assert obj.getOrigin().getValue() == "AUTOSAR_ECUC"
+        obj.setOrigin(None)
+        assert obj.getOrigin() is origin
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        assert obj.getEcucCond.__doc__ == self.ECUC_COND_NOTE
+        assert inspect.cleandoc(obj.setEcucCond.__doc__).splitlines()[0] == self.ECUC_COND_NOTE
+        assert obj.getOrigin.__doc__ == self.ORIGIN_NOTE
+        assert inspect.cleandoc(obj.setOrigin.__doc__).splitlines()[0] == self.ORIGIN_NOTE
 
 
 class TestEcucEnumerationParamDef:

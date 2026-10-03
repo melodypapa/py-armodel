@@ -1507,18 +1507,16 @@ class EcucIntegerParamDef(EcucParameterDef):
 
 
 class EcucEnumerationLiteralDef(Identifiable):
-    """
-    Configuration parameter type for enumeration literals definition.
-    """
+    """Configuration parameter type for enumeration literals definition."""
 
     # EcucEnumerationLiteralDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.24, p.67
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1530,9 +1528,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         self.origin: Optional[String] = None
 
     def getEcucCond(self) -> Optional[EcucConditionSpecification]:
-        """
-        If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored.
-        """
+        """If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored."""
         return self.ecucCond
 
     def setEcucCond(self, value: Optional[EcucConditionSpecification]) -> EcucEnumerationLiteralDef:
@@ -1545,9 +1541,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         return self
 
     def getOrigin(self) -> Optional[String]:
-        """
-        String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific.
-        """
+        """String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific."""
         return self.origin
 
     def setOrigin(self, value: Optional[String]) -> EcucEnumerationLiteralDef:

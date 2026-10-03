@@ -9,6 +9,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucBooleanParamDef,
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
+    EcucEnumerationLiteralDef,
+    EcucEnumerationParamDef,
     EcucFloatParamDef,
     EcucForeignReferenceDef,
     EcucFunctionNameDef,
@@ -503,6 +505,40 @@ class TestWriterEcucEnumerationLiteralDef:
         parent = _parent()
         writer.writeEcucEnumerationLiteralDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_literal_with_origin(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucEnumerationParamDef("P")
+        literal = param.createLiteral("Lit")
+        origin = _literal("AUTOSAR_ECUC")
+        literal.setOrigin(origin)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucEnumerationParamDef)
+            assert reloaded_param is not None
+            reloaded_literals = reloaded_param.getLiterals()
+            assert len(reloaded_literals) == 1
+            reloaded_literal = reloaded_literals[0]
+            assert isinstance(reloaded_literal, EcucEnumerationLiteralDef)
+            assert reloaded_literal.getShortName() == "Lit"
+            assert reloaded_literal.getOrigin() is not None
+            assert reloaded_literal.getOrigin().getValue() == "AUTOSAR_ECUC"
+            assert reloaded_literal.getEcucCond() is None
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucEnumerationParamDefLiterals:
