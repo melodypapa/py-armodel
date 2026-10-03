@@ -91,6 +91,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
+    DiagnosticRequestVehicleInfo,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -9024,3 +9025,105 @@ class TestDiagnosticTestRoutineIdentifier:
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setRequestDataSize.__doc__) == (self.REQUEST_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestDataSize.")
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.getResponseDataSize.__doc__) == self.RESPONSE_DATA_SIZE_NOTE
         assert inspect.cleandoc(DiagnosticTestRoutineIdentifier.setResponseDataSize.__doc__) == (self.RESPONSE_DATA_SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing responseDataSize.")
+
+
+class TestDiagnosticRequestVehicleInfo:
+    """
+    Test class for DiagnosticRequestVehicleInfo functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.144, p.160
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an instance of the OBD mode 0x09 service. Tags: atp.recommendedPackage=DiagnosticRequestVehicleInfos"
+    INFO_TYPE_NOTE = "This represents the info type associated with the mode 0x09 service."
+    CLASS_REF_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context."
+
+    def _make_obj(self) -> DiagnosticRequestVehicleInfo:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestVehicleInfo(ar_root, "TestMode09")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestVehicleInfo instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMode09"
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getInfoTypeRef() is None
+        assert obj.getRequestVehicleInformationClassRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestVehicleInfo.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestVehicleInfo.__init__.__doc__ is None
+
+    def test_get_set_info_type_ref(self):
+        """
+        Round-trips the infoType ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-INFO-TYPE")
+        ref.setValue("/AUTOSAR/DiagnosticInfoTypes/InfoType1")
+        result = obj.setInfoTypeRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getInfoTypeRef() is ref
+        assert obj.getInfoTypeRef().getValue() == "/AUTOSAR/DiagnosticInfoTypes/InfoType1"
+        assert obj.getInfoTypeRef().getDest() == "DIAGNOSTIC-INFO-TYPE"
+
+        result = obj.setInfoTypeRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInfoTypeRef() is ref  # None is a no-op
+
+    def test_get_set_request_vehicle_information_class_ref(self):
+        """
+        Round-trips the requestVehicleInformationClass ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestVehicleInfoClasses/Class1")
+        result = obj.setRequestVehicleInformationClassRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestVehicleInformationClassRef() is ref
+        assert obj.getRequestVehicleInformationClassRef().getValue() == "/AUTOSAR/DiagnosticRequestVehicleInfoClasses/Class1"
+        assert obj.getRequestVehicleInformationClassRef().getDest() == "DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS"
+
+        result = obj.setRequestVehicleInformationClassRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestVehicleInformationClassRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_vehicle_info(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("OBDMode09Services")
+        element = package.createDiagnosticRequestVehicleInfo("Mode09Service1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestVehicleInfo)
+        assert element.getShortName() == "Mode09Service1"
+        assert package.getReferrableElement("Mode09Service1", DiagnosticRequestVehicleInfo) is element
+
+        duplicate = package.createDiagnosticRequestVehicleInfo("Mode09Service1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfo.getInfoTypeRef.__doc__) == self.INFO_TYPE_NOTE
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setInfoTypeRef.__doc__) == (self.INFO_TYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing infoTypeRef.")
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfo.getRequestVehicleInformationClassRef.__doc__) == self.CLASS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfo.setRequestVehicleInformationClassRef.__doc__) == (self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestVehicleInformationClassRef.")

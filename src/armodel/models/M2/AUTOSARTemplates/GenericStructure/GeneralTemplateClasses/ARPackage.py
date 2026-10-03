@@ -1289,6 +1289,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_upload_class)
         return self.getReferrableElement(short_name, DiagnosticRequestUploadClass)
 
+    def createDiagnosticRequestVehicleInfo(self, short_name: str) -> DiagnosticRequestVehicleInfo:
+        """
+        Creates a new DiagnosticRequestVehicleInfo with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestVehicleInfo represents an instance of the OBD mode 0x09 service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestVehicleInfo
+
+        Returns:
+            The newly created or existing DiagnosticRequestVehicleInfo instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestVehicleInfo):
+            request_vehicle_info = DiagnosticRequestVehicleInfo(self, short_name)
+            self.addReferrableElement(request_vehicle_info)
+        return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfo)
+
     def createDiagnosticRequestFileTransfer(self, short_name: str) -> DiagnosticRequestFileTransfer:
         """
         Creates a new DiagnosticRequestFileTransfer with the given short name, or
@@ -8165,8 +8183,58 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
         return self
 
 
-class DiagnosticRequestVehicleInfo(ARElement):
-    pass
+class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x09 service. Tags: atp.recommendedPackage=DiagnosticRequestVehicleInfos"""
+
+    # DiagnosticRequestVehicleInfo method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.144, p.160
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInfoTypeRef                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInfoTypeRef                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestVehicleInformationClassRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestVehicleInformationClassRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the info type associated with the mode 0x09 service.
+        self.infoTypeRef: Optional[RefType] = None
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context.
+        self.requestVehicleInformationClassRef: Optional[RefType] = None
+
+    def getInfoTypeRef(self) -> Optional[RefType]:
+        """
+        This represents the info type associated with the mode 0x09 service.
+        """
+        return self.infoTypeRef
+
+    def setInfoTypeRef(self, value: Optional[RefType]) -> DiagnosticRequestVehicleInfo:
+        """
+        This represents the info type associated with the mode 0x09 service.
+
+        A None value is a no-op and does not overwrite an existing infoTypeRef.
+        """
+        if value is not None:
+            self.infoTypeRef = value
+        return self
+
+    def getRequestVehicleInformationClassRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context.
+        """
+        return self.requestVehicleInformationClassRef
+
+    def setRequestVehicleInformationClassRef(self, value: Optional[RefType]) -> DiagnosticRequestVehicleInfo:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequesVehicleInfo in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestVehicleInformationClassRef.
+        """
+        if value is not None:
+            self.requestVehicleInformationClassRef = value
+        return self
 
 
 class DiagnosticResponseOnEvent(ARElement):

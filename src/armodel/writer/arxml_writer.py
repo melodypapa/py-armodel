@@ -463,6 +463,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
     DiagnosticRequestUpload,
+    DiagnosticRequestVehicleInfo,
     DiagnosticResponseOnEvent,
     DiagnosticRoutine,
     DiagnosticRoutineControl,
@@ -15158,6 +15159,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-DATA-SIZE", test_routine_identifier.getRequestDataSize())
         self.setChildElementOptionalPositiveInteger(child_element, "RESPONSE-DATA-SIZE", test_routine_identifier.getResponseDataSize())
 
+    def writeDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
+        self.logger.debug("Write DiagnosticRequestVehicleInfo %s" % request_vehicle_info.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-VEHICLE-INFO")
+        self.writeIdentifiable(child_element, request_vehicle_info)
+        self.setChildElementOptionalRefType(child_element, "INFO-TYPE-REF", request_vehicle_info.getInfoTypeRef())
+        self.setChildElementOptionalRefType(child_element, "REQUEST-VEHICLE-INFORMATION-CLASS-REF", request_vehicle_info.getRequestVehicleInformationClassRef())
+
     def writeDiagnosticReadMemoryByAddressClass(self, element: ET.Element, read_memory_by_address_class: DiagnosticReadMemoryByAddressClass):
         self.logger.debug("Write DiagnosticReadMemoryByAddressClass %s" % read_memory_by_address_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-READ-MEMORY-BY-ADDRESS-CLASS")
@@ -16517,6 +16525,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticTestRoutineIdentifier):
             self.writeDiagnosticTestRoutineIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestVehicleInfo):
+            self.writeDiagnosticRequestVehicleInfo(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticWriteMemoryByAddress):
             self.writeDiagnosticWriteMemoryByAddress(element, ar_element)
