@@ -435,8 +435,23 @@ class TestEcucLinkerSymbolDef:
 
 
 class TestEcucMultilineStringParamDef:
+    CLASS_NOTE = 'Configuration parameter type for multiline Strings (including "carriage return").'
+
     def test_instantiation(self):
         assert _instantiate(EcucMultilineStringParamDef, "EcucMultilineStringParamDef").getShortName() == "EcucMultilineStringParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucMultilineStringParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucMultilineStringParamDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_string_attrs(self):
+        obj = _instantiate(EcucMultilineStringParamDef, "Msp")
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
 
 
 class TestEcucDestinationUriDefRefType:

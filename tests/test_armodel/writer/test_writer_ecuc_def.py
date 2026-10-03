@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucIntegerParamDef,
     EcucLinkerSymbolDef,
     EcucModuleDef,
+    EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
     EcucStringParamDef,
@@ -582,8 +583,37 @@ class TestWriterEcucMultilineStringParamDef:
 
     def test_none(self, writer):
         parent = _parent()
-        writer.writeEcucFunctionNameDef(parent, None)
+        writer.writeEcucMultilineStringParamDef(parent, None)
         assert len(parent) == 0
+
+    def test_round_trip_multiline_default_value(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        container = _make_container()
+        param = container.createEcucMultilineStringParamDef("P")
+        param.setDefaultValue(_verbatim("line1\nline2"))
+        param.setMinLength(_posint(2))
+        param.setMaxLength(_posint(200))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getReferrableElement("P", EcucMultilineStringParamDef)
+            assert reloaded_param is not None
+            assert reloaded_param.getDefaultValue().getValue() == "line1\nline2"
+            assert reloaded_param.getMinLength().getValue() == 2
+            assert reloaded_param.getMaxLength().getValue() == 200
+        finally:
+            os.unlink(tmp_path)
 
 
 class TestWriterEcucContainerDefParameters:
