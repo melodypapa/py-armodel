@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 754 | 39.6% |
+| [x] Done | 755 | 39.7% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 311 | 16.3% |
+| [ ] Deferred | 310 | 16.3% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1615,7 +1615,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SoAdRoutingGroup`                                      | [ ] Deferred| 89363ebe2b                               | Group20          |
 | `SoConIPduIdentifier`                                   | [ ] Created | N/A                                      | Group32          |
 | `SocketAddress`                                         | [ ] Implemented| N/A                                      | Group32          |
-| `SocketConnectionBundle`                                | [ ] Deferred| 4b7c8dc79c                               | Group16          |
+| `SocketConnectionBundle`                                | [x] Done    | 01f37f105c                               | Group16          |
 | `SocketConnectionIpduIdentifier`                        | [x] Done    | c02cad3bb9                               | Group16          |
 | `SocketConnectionIpduIdentifierSet`                     | [ ] Created | N/A                                      | Group32          |
 | `SoftwareContext`                                       | [ ] Deferred| 23884479e9                               | Group20          |
