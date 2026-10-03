@@ -41,7 +41,7 @@
 | 5 | `TimeSyncServerConfiguration` | Rule 0001.7 | ✅ (see queue) |
 | 6 | `IPv6ExtHeaderFilterList` | Rule 0001.7, Rule 0003 | ✅ (see queue) |
 | 7 | `TcpOptionFilterList` | Rule 0003 | ✅ (see queue) |
-| 8 | `Ipv4Configuration` | Rule 0006 | pending |
+| 8 | `Ipv4Configuration` | Rule 0006 | ✅ (see queue) |
 | 9 | `SocketConnectionIpduIdentifier` | Rule 0006 | pending |
 | 10 | `SocketConnectionBundle` | Rule 0001.4, Rule 0006 | pending |
 | 11 | `CouplingPortAbstractShaper` (+ 2 stamped siblings) | Rule 0006 | pending |

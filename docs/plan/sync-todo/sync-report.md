@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 752 | 39.5% |
+| [x] Done | 753 | 39.6% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 313 | 16.4% |
+| [ ] Deferred | 312 | 16.4% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1130,7 +1130,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Ipv4AddressSourceEnum`                                 | [ ] Deferred| 6c97ddc108                               | Group16          |
 | `Ipv4ArpProps`                                          | [ ] Created | N/A                                      | Group30          |
 | `Ipv4AutoIpProps`                                       | [ ] Created | N/A                                      | Group30          |
-| `Ipv4Configuration`                                     | [ ] Deferred| 6c97ddc108                               | Group16          |
+| `Ipv4Configuration`                                     | [x] Done    | dcebacccb1                               | Group16          |
 | `Ipv4DhcpServerConfiguration`                           | [ ] Implemented| N/A                                      | Group30          |
 | `Ipv4FragmentationProps`                                | [ ] Created | N/A                                      | Group30          |
 | `Ipv4Props`                                             | [ ] Created | N/A                                      | Group30          |
