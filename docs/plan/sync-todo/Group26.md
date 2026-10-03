@@ -723,7 +723,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — readEcucCommonAttributes/writeEcucCommonAttributes chain covers all 3 attrs (verified in order: DERIVATION → SYMBOLIC-NAME-VALUE → WITH-AUTO)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (189 passed ECUCParameterDefTemplate + member-annotation gate + consuming round-trips + os-ecuc; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `PENDING`
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-03 (189 passed ECUCParameterDefTemplate + member-annotation gate + consuming round-trips + os-ecuc; ruff/flake8 clean, black clean); 9b deferred to batch confirmation (user instruction); sync commit `739c114ea`
   - note (Step 1): Rule 0023-style re-sync — stale 5-col stamp removed (re-written at batch 9b); abstract (marker) ✓, Base most-derived EcucCommonAttributes (queue row EcucDefinitionElement claim = T2.6 arbitration artifact, per the chain EcucParameterDef(EcucCommonAttributes(EcucDefinitionElement))) ✓; attrs display order derivation, symbolicNameValue, withAuto ✓ notes verbatim (isAuto Value word-splits kept verbatim from markdown cells)
 
 - [ ] `EcucIntegerParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.16, p.60
