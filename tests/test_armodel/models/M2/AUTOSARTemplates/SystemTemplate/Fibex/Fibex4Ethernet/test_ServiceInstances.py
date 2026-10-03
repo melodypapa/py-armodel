@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
     GenericTp,
-    InitialSdDelayConfig,
     SdClientConfig,
     TcpTp,
     TcpUdpConfig,
@@ -27,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
+    InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     RequestResponseDelay,

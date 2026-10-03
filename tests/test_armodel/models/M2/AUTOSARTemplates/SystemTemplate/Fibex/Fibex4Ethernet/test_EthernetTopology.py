@@ -41,7 +41,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     GlobalTimeCouplingPortProps,
     InfrastructureServices,
-    InitialSdDelayConfig,
     IpAddressKeepEnum,
     Ipv4Configuration,
     Ipv4DhcpServerConfiguration,
@@ -60,7 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TimeSyncTechnologyEnum,
     VlanMembership,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay, SoAdConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import InitialSdDelayConfig, RequestResponseDelay, SoAdConfig
 
 
 def _pos_int(text):

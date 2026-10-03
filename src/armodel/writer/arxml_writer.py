@@ -922,7 +922,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
     DhcpServerConfiguration,
-    InitialSdDelayConfig,
     Ipv4DhcpServerConfiguration,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
@@ -977,6 +976,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventHandler,
+    InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
@@ -10223,6 +10223,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setInitialSdDelayConfig(self, element: ET.Element, key: str, config: InitialSdDelayConfig):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE", config.getInitialDelayMaxValue())
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE", config.getInitialDelayMinValue())
             self.setChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY", config.getInitialRepetitionsBaseDelay())

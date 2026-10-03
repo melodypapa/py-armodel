@@ -1029,7 +1029,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     DhcpServerConfiguration,
     Ipv4DhcpServerConfiguration,
     Ipv6DhcpServerConfiguration,
-    InitialSdDelayConfig,
     MacMulticastGroup,
     SdClientConfig,
     VlanMembership,
@@ -1107,6 +1106,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
+    InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
@@ -10171,6 +10171,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = InitialSdDelayConfig()
+            self.readARObject(child_element, config)
             config.setInitialDelayMaxValue(self.getChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE"))
             config.setInitialDelayMinValue(self.getChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE"))
             config.setInitialRepetitionsBaseDelay(self.getChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY"))
