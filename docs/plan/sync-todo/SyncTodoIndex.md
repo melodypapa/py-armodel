@@ -1324,25 +1324,25 @@ Status: **1/75** completed
 | `EcucMultiplicityConfigurationClass`            | [ ] Pending* | 6549a18aee |
 | `EcucConfigurationVariantEnum`                  | [ ] Pending* | 5ce1bb021e |
 | `EcucParameterDef`                              | [ ] Pending* | bf479d9bf8 |
-| `EcucIntegerParamDef`                           | [ ] Pending* | 7d9d0de23f |
-| `EcucAbstractStringParamDef`                    | [ ] Pending* | 59d5f3e684 |
-| `EcucStringParamDef`                            | [ ] Pending* | 9b17d4e994 |
-| `EcucMultilineStringParamDef`                   | [ ] Pending* | 09ef1c6456 |
-| `EcucFunctionNameDef`                           | [ ] Pending* | 0c93caf5a8 |
-| `EcucEnumerationParamDef`                       | [ ] Pending* | 5ef42696a3 |
-| `EcucEnumerationLiteralDef`                     | [ ] Pending* | 3203359732 |
-| `EcucAddInfoParamDef`                           | [ ] Pending* | d69a037e68 |
-| `EcucAbstractReferenceDef`                      | [ ] Pending* | a2cda5d033 |
-| `EcucAbstractInternalReferenceDef`              | [ ] Pending* | a571aa14a3 |
-| `EcucAbstractExternalReferenceDef`              | [ ] Pending* | N/A        |
-| `EcucChoiceReferenceDef`                        | [ ] Pending* | N/A        |
-| `EcucInstanceReferenceDef`                      | [ ] Pending* | N/A        |
-| `EcucDestinationUriDefSet`                      | [ ] Pending* | N/A        |
-| `EcucDestinationUriDef`                         | [ ] Pending* | N/A        |
-| `EcucDestinationUriPolicy`                      | [ ] Pending* | N/A        |
-| `EcucDestinationUriNestingContractEnum`         | [ ] Pending* | N/A        |
-| `EcucDerivationSpecification`                   | [ ] Pending* | 55d1c38524 |
-| `EcucQuery`                                     | [ ] Pending* | N/A        |
+| `EcucIntegerParamDef`                           | [ ] Pending* | 62c89e7a96 |
+| `EcucAbstractStringParamDef`                    | [ ] Pending* | 024153f73a |
+| `EcucStringParamDef`                            | [ ] Pending* | 0e1c4660e5 |
+| `EcucMultilineStringParamDef`                   | [ ] Pending* | fdee6f9a41 |
+| `EcucFunctionNameDef`                           | [ ] Pending* | e44edd9d6d |
+| `EcucEnumerationParamDef`                       | [ ] Pending* | 5085d038de |
+| `EcucEnumerationLiteralDef`                     | [ ] Pending* | 48d98b4b49 |
+| `EcucAddInfoParamDef`                           | [ ] Pending* | cf5c0e3618 |
+| `EcucAbstractReferenceDef`                      | [ ] Pending* | 1475d37c0d |
+| `EcucAbstractInternalReferenceDef`              | [ ] Pending* | 0035a3d952 |
+| `EcucAbstractExternalReferenceDef`              | [ ] Pending* | af8e9109c7 |
+| `EcucChoiceReferenceDef`                        | [ ] Pending* | b85e3d5202 |
+| `EcucInstanceReferenceDef`                      | [ ] Pending* | c27549b512 |
+| `EcucDestinationUriDefSet`                      | [ ] Pending* | f580ebdeec |
+| `EcucDestinationUriDef`                         | [ ] Pending* | 2f69e3cc20 |
+| `EcucDestinationUriPolicy`                      | [ ] Pending* | 37330e12c0 |
+| `EcucDestinationUriNestingContractEnum`         | [ ] Pending* | 9a8cb02be7 |
+| `EcucDerivationSpecification`                   | [ ] Pending* | 91a9e3ee35 |
+| `EcucQuery`                                     | [ ] Pending* | 8bb9dbd181 |
 
 ## Group27
 
