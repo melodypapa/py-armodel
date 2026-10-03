@@ -1,6 +1,8 @@
 # This module contains the TcpOptionFilterSet package classes for Fibex4Ethernet
 # (M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet).
 
+from __future__ import annotations
+
 from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -15,12 +17,12 @@ class TcpOptionFilterList(Identifiable):
     """
 
     # TcpOptionFilterList method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.123, p.457 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.123, p.457
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getAllowedTcpOptions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addAllowedTcpOption    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # (serialized as TCP-OPTION-FILTER-LIST within TcpOptionFilterSet; prior R4.3.1 sync Table 6.131 p.326 upgraded per Rule 0016.3)
+    # [x] getAllowedTcpOptions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -28,11 +30,7 @@ class TcpOptionFilterList(Identifiable):
         # TCP option kind allowed by this filter.
         self.allowedTcpOptions: List[PositiveInteger] = []
 
-    def getAllowedTcpOptions(self) -> List[PositiveInteger]:
-        """TCP option kind allowed by this filter."""
-        return self.allowedTcpOptions
-
-    def addAllowedTcpOption(self, value: PositiveInteger) -> "TcpOptionFilterList":
+    def addAllowedTcpOption(self, value: PositiveInteger) -> TcpOptionFilterList:
         """
         TCP option kind allowed by this filter.
         A None value is a no-op and does not extend allowedTcpOptions.
@@ -40,6 +38,10 @@ class TcpOptionFilterList(Identifiable):
         if value is not None:
             self.allowedTcpOptions.append(value)
         return self
+
+    def getAllowedTcpOptions(self) -> List[PositiveInteger]:
+        """TCP option kind allowed by this filter."""
+        return self.allowedTcpOptions
 
 
 class TcpOptionFilterSet(ARElement):
