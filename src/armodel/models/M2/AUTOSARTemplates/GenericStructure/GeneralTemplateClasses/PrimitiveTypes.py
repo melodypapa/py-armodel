@@ -1747,7 +1747,29 @@ class DiagPduType(AREnum):
 
 
 class DiagnosticClearDtcLimitationEnum(AREnum):
-    pass
+    """
+    Scope of the DEM_ClearDTC Api.
+    """
+
+    # DiagnosticClearDtcLimitationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.169, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # DEM_ClearDtc API accepts all supported DTC values. Tags: atp.EnumerationLiteralIndex=0
+    ALL_SUPPORTED_DTCS = "allSupportedDtcs"
+
+    # DEM_ClearDtc API accepts ClearAllDTCs only. Tags: atp.EnumerationLiteralIndex=1
+    CLEAR_ALL_DTCS = "clearAllDtcs"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS,
+                DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS,
+            ]
+        )
 
 
 class DiagnosticClearEventAllowedBehaviorEnum(AREnum):

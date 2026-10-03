@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagnosticClearDtcLimitationEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
@@ -2237,3 +2238,43 @@ class TestDiagnosticResponseOnEventActionEnum:
         enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
 
         assert enum.getValue() == "onChangeOfDataIdentifier"
+
+
+class TestDiagnosticClearDtcLimitationEnum:
+    """
+    Test class for DiagnosticClearDtcLimitationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.169, p.183
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticClearDtcLimitationEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticClearDtcLimitationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["allSupportedDtcs", "clearAllDtcs"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticClearDtcLimitationEnum member values.
+        """
+        enum = DiagnosticClearDtcLimitationEnum()
+
+        assert DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS == "allSupportedDtcs"
+        assert DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS == "clearAllDtcs"
+
+        assert enum.validateEnumValue("allSupportedDtcs") is True
+        assert enum.validateEnumValue("clearAllDtcs") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticClearDtcLimitationEnum instantiability and getValue.
+        """
+        enum = DiagnosticClearDtcLimitationEnum()
+        enum.setValue(DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS)
+
+        assert enum.getValue() == "clearAllDtcs"
