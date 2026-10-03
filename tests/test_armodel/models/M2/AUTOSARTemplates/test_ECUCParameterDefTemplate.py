@@ -163,8 +163,47 @@ class TestEcucChoiceContainerDef:
 
 
 class TestEcucParamConfContainerDef:
+    CLASS_NOTE = "Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions."
+
     def test_instantiation(self):
         assert _instantiate(EcucParamConfContainerDef, "EcucParamConfContainerDef").getShortName() == "EcucParamConfContainerDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucParamConfContainerDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucParamConfContainerDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        assert obj.getParameters() == []
+        assert obj.getReferences() == []
+        assert obj.getSubContainers() == []
+
+    def test_create_parameter_factories_append_and_dedupe(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        param = obj.createEcucIntegerParamDef("P1")
+        assert isinstance(param, EcucIntegerParamDef)
+        assert obj.getParameters() == [param]
+        assert obj.createEcucIntegerParamDef("P1") is param  # duplicate returns existing
+        obj.createEcucBooleanParamDef("P2")
+        assert len(obj.getParameters()) == 2
+
+    def test_create_reference_factories_append(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        ref = obj.createEcucReferenceDef("R1")
+        assert isinstance(ref, EcucReferenceDef)
+        assert obj.getReferences() == [ref]
+        obj.createEcucForeignReferenceDef("R2")
+        obj.createEcucUriReferenceDef("R3")
+        assert len(obj.getReferences()) == 3
+
+    def test_create_sub_containers_append(self):
+        obj = _instantiate(EcucParamConfContainerDef, "Epc")
+        sub = obj.createEcucParamConfContainerDef("S1")
+        assert obj.getSubContainers() == [sub]
+        obj.createEcucChoiceContainerDef("S2")
+        assert len(obj.getSubContainers()) == 2
 
 
 class TestEcucAddInfoParamDef:
