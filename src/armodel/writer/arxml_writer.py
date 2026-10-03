@@ -520,6 +520,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticParameter,
@@ -14677,6 +14678,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticClearResetEmissionRelatedInfoClass %s" % clear_reset_emission_related_info_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS")
         self.writeIdentifiable(child_element, clear_reset_emission_related_info_class)
+
+    def writeDiagnosticConnectedIndicator(self, element: ET.Element, connected_indicator: DiagnosticConnectedIndicator):
+        self.logger.debug("Write DiagnosticConnectedIndicator")
+        connected_indicator_element = ET.SubElement(element, "DIAGNOSTIC-CONNECTED-INDICATOR")
+        self.setChildElementOptionalLiteral(connected_indicator_element, "BEHAVIOR", connected_indicator.getBehavior())
+        threshold = connected_indicator.getHealingCycleCounterThreshold()
+        if threshold is not None:
+            threshold_element = ET.SubElement(connected_indicator_element, "HEALING-CYCLE-COUNTER-THRESHOLD")
+            avp_element = ET.SubElement(threshold_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if threshold._text is not None:
+                avp_element.text = threshold._text
+            elif threshold._value is not None:
+                avp_element.text = str(threshold._value)
+        self.setChildElementOptionalRefType(connected_indicator_element, "HEALING-CYCLE-REF", connected_indicator.getHealingCycleRef())
+        self.setChildElementOptionalPositiveInteger(connected_indicator_element, "INDICATOR-FAILURE-CYCLE-COUNTER-THRESHOLD", connected_indicator.getIndicatorFailureCycleCounterThreshold())
+        self.setChildElementOptionalRefType(connected_indicator_element, "INDICATOR-REF", connected_indicator.getIndicatorRef())
 
     def writeDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Write DiagnosticComControl %s" % com_control.getShortName())

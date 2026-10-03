@@ -621,7 +621,120 @@ class DiagnosticCommonProps(ARObject):
 
 
 class DiagnosticConnectedIndicator(ARObject):
-    pass
+    """Description of indicators that are defined per DiagnosticEvent."""
+
+    # DiagnosticConnectedIndicator method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.152, p.167
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBehavior                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBehavior                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHealingCycleRef                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHealingCycleRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHealingCycleCounterThreshold            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHealingCycleCounterThreshold            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndicatorRef                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndicatorRef                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndicatorFailureCycleCounterThreshold   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndicatorFailureCycleCounterThreshold   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Behavior of the linked indicator.
+        self.behavior: Optional[DiagnosticConnectedIndicatorBehaviorEnum] = None
+
+        # The deactivation of indicators per event is defined as healing of a diagnostic event. The operation cycle in which the warning indicator will be switched off is defined here.
+        self.healingCycleRef: Optional[RefType] = None
+
+        # This attribute defines the number of healing cycles for the WarningIndicatorOffCriteria Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.healingCycleCounterThreshold: Optional[PositiveInteger] = None
+
+        # Reference to the used indicator.
+        self.indicatorRef: Optional[RefType] = None
+
+        # This attribute defines the number of failure cycles for the WarningIndicatorOnCriteria. Please note that this attribute is not relevant for the Adaptive Platform.
+        self.indicatorFailureCycleCounterThreshold: Optional[PositiveInteger] = None
+
+    def getBehavior(self) -> Optional[DiagnosticConnectedIndicatorBehaviorEnum]:
+        """
+        Behavior of the linked indicator.
+        """
+        return self.behavior
+
+    def setBehavior(self, value: Optional[DiagnosticConnectedIndicatorBehaviorEnum]) -> DiagnosticConnectedIndicator:
+        """
+        Behavior of the linked indicator.
+
+        A None value is a no-op and does not overwrite an existing behavior.
+        """
+        if value is not None:
+            self.behavior = value
+        return self
+
+    def getHealingCycleRef(self) -> Optional[RefType]:
+        """
+        The deactivation of indicators per event is defined as healing of a diagnostic event. The operation cycle in which the warning indicator will be switched off is defined here.
+        """
+        return self.healingCycleRef
+
+    def setHealingCycleRef(self, value: Optional[RefType]) -> DiagnosticConnectedIndicator:
+        """
+        The deactivation of indicators per event is defined as healing of a diagnostic event. The operation cycle in which the warning indicator will be switched off is defined here.
+
+        A None value is a no-op and does not overwrite an existing healingCycleRef.
+        """
+        if value is not None:
+            self.healingCycleRef = value
+        return self
+
+    def getHealingCycleCounterThreshold(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the number of healing cycles for the WarningIndicatorOffCriteria Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.healingCycleCounterThreshold
+
+    def setHealingCycleCounterThreshold(self, value: Optional[PositiveInteger]) -> DiagnosticConnectedIndicator:
+        """
+        This attribute defines the number of healing cycles for the WarningIndicatorOffCriteria Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing healingCycleCounterThreshold.
+        """
+        if value is not None:
+            self.healingCycleCounterThreshold = value
+        return self
+
+    def getIndicatorRef(self) -> Optional[RefType]:
+        """
+        Reference to the used indicator.
+        """
+        return self.indicatorRef
+
+    def setIndicatorRef(self, value: Optional[RefType]) -> DiagnosticConnectedIndicator:
+        """
+        Reference to the used indicator.
+
+        A None value is a no-op and does not overwrite an existing indicatorRef.
+        """
+        if value is not None:
+            self.indicatorRef = value
+        return self
+
+    def getIndicatorFailureCycleCounterThreshold(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the number of failure cycles for the WarningIndicatorOnCriteria. Please note that this attribute is not relevant for the Adaptive Platform.
+        """
+        return self.indicatorFailureCycleCounterThreshold
+
+    def setIndicatorFailureCycleCounterThreshold(self, value: Optional[PositiveInteger]) -> DiagnosticConnectedIndicator:
+        """
+        This attribute defines the number of failure cycles for the WarningIndicatorOnCriteria. Please note that this attribute is not relevant for the Adaptive Platform.
+
+        A None value is a no-op and does not overwrite an existing indicatorFailureCycleCounterThreshold.
+        """
+        if value is not None:
+            self.indicatorFailureCycleCounterThreshold = value
+        return self
 
 
 class DiagnosticControlEnableMaskBit(ARObject):
@@ -1468,6 +1581,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     ByteOrderEnum,
+    DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventWindowTimeEnum,

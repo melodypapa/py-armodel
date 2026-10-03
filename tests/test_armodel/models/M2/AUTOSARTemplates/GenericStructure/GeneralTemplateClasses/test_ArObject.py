@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
     DiagnosticCommonProps,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticParameter,
@@ -26,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DateTime,
+    DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventWindowTimeEnum,
@@ -1048,3 +1050,160 @@ class TestDiagnosticSupportInfoByte:
         assert inspect.cleandoc(DiagnosticSupportInfoByte.setPosition.__doc__) == (self.POSITION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing position.")
         assert inspect.cleandoc(DiagnosticSupportInfoByte.getSize.__doc__) == self.SIZE_NOTE
         assert inspect.cleandoc(DiagnosticSupportInfoByte.setSize.__doc__) == (self.SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing size.")
+
+
+class TestDiagnosticConnectedIndicator:
+    """
+    Test class for DiagnosticConnectedIndicator functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.152, p.167
+    """
+
+    CLASS_NOTE = "Description of indicators that are defined per DiagnosticEvent."
+    BEHAVIOR_NOTE = "Behavior of the linked indicator."
+    HEALING_CYCLE_NOTE = (
+        "The deactivation of indicators per event is defined as healing of a diagnostic event. The operation cycle in which the warning indicator will be switched off is defined here."
+    )
+    HEALING_CYCLE_COUNTER_THRESHOLD_NOTE = "This attribute defines the number of healing cycles for the WarningIndicatorOffCriteria Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    INDICATOR_NOTE = "Reference to the used indicator."
+    INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE = (
+        "This attribute defines the number of failure cycles for the WarningIndicatorOnCriteria. Please note that this attribute is not relevant for the Adaptive Platform."
+    )
+
+    def _create_connected_indicator(self) -> DiagnosticConnectedIndicator:
+        return DiagnosticConnectedIndicator()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticConnectedIndicator initializes all attributes to their defaults.
+        """
+        obj = self._create_connected_indicator()
+
+        assert obj.getBehavior() is None
+        assert obj.getHealingCycleRef() is None
+        assert obj.getHealingCycleCounterThreshold() is None
+        assert obj.getIndicatorRef() is None
+        assert obj.getIndicatorFailureCycleCounterThreshold() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticConnectedIndicator derives from ARObject (confirmed queue row Base; the spec Base chain's Referrable/Identifiable is unreachable from ArObject.py).
+        """
+        assert issubclass(DiagnosticConnectedIndicator, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticConnectedIndicator.__init__.__doc__ is None
+
+    def test_get_set_behavior(self):
+        """
+        Test getBehavior and setBehavior round-trip and None no-op.
+
+        DiagnosticConnectedIndicatorBehaviorEnum is a stub until its own sync
+        (Table 4.155, queued in Group25) — it is instantiated through the
+        AREnum constructor with an empty literal sequence.
+        """
+        obj = self._create_connected_indicator()
+
+        value = DiagnosticConnectedIndicatorBehaviorEnum([]).setValue("blinkMode")
+        result = obj.setBehavior(value)
+        assert result is obj  # method chaining
+        assert obj.getBehavior() is value
+        assert obj.getBehavior().getValue() == "blinkMode"
+
+        result = obj.setBehavior(None)
+        assert result is obj  # method chaining with None
+        assert obj.getBehavior() is value  # None is a no-op
+
+    def test_get_set_healing_cycle_ref(self):
+        """
+        Test getHealingCycleRef and setHealingCycleRef round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = RefType().setValue("/Dem/DiagnosticOperationCycle")
+        result = obj.setHealingCycleRef(value)
+        assert result is obj  # method chaining
+        assert obj.getHealingCycleRef() is value
+        assert obj.getHealingCycleRef().getValue() == "/Dem/DiagnosticOperationCycle"
+
+        result = obj.setHealingCycleRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHealingCycleRef() is value  # None is a no-op
+
+    def test_get_set_healing_cycle_counter_threshold(self):
+        """
+        Test getHealingCycleCounterThreshold and setHealingCycleCounterThreshold round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = PositiveInteger().setValue("3")
+        result = obj.setHealingCycleCounterThreshold(value)
+        assert result is obj  # method chaining
+        assert obj.getHealingCycleCounterThreshold() is value
+        assert obj.getHealingCycleCounterThreshold().getValue() == 3
+
+        result = obj.setHealingCycleCounterThreshold(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHealingCycleCounterThreshold() is value  # None is a no-op
+
+    def test_get_set_indicator_ref(self):
+        """
+        Test getIndicatorRef and setIndicatorRef round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = RefType().setValue("/Dem/DiagnosticIndicator")
+        result = obj.setIndicatorRef(value)
+        assert result is obj  # method chaining
+        assert obj.getIndicatorRef() is value
+        assert obj.getIndicatorRef().getValue() == "/Dem/DiagnosticIndicator"
+
+        result = obj.setIndicatorRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIndicatorRef() is value  # None is a no-op
+
+    def test_get_set_indicator_failure_cycle_counter_threshold(self):
+        """
+        Test getIndicatorFailureCycleCounterThreshold and setIndicatorFailureCycleCounterThreshold round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = PositiveInteger().setValue("2")
+        result = obj.setIndicatorFailureCycleCounterThreshold(value)
+        assert result is obj  # method chaining
+        assert obj.getIndicatorFailureCycleCounterThreshold() is value
+        assert obj.getIndicatorFailureCycleCounterThreshold().getValue() == 2
+
+        result = obj.setIndicatorFailureCycleCounterThreshold(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIndicatorFailureCycleCounterThreshold() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getBehavior.__doc__) == self.BEHAVIOR_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setBehavior.__doc__) == (self.BEHAVIOR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing behavior.")
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getHealingCycleRef.__doc__) == self.HEALING_CYCLE_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setHealingCycleRef.__doc__) == (
+            self.HEALING_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing healingCycleRef."
+        )
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getHealingCycleCounterThreshold.__doc__) == self.HEALING_CYCLE_COUNTER_THRESHOLD_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setHealingCycleCounterThreshold.__doc__) == (
+            self.HEALING_CYCLE_COUNTER_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing healingCycleCounterThreshold."
+        )
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getIndicatorRef.__doc__) == self.INDICATOR_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setIndicatorRef.__doc__) == (self.INDICATOR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing indicatorRef.")
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getIndicatorFailureCycleCounterThreshold.__doc__) == self.INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setIndicatorFailureCycleCounterThreshold.__doc__) == (
+            self.INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing indicatorFailureCycleCounterThreshold."
+        )

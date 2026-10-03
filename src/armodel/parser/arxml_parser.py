@@ -520,6 +520,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticParameter,
@@ -11214,6 +11215,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticClearResetEmissionRelatedInfoClass(self, element: ET.Element, clear_reset_emission_related_info_class: DiagnosticClearResetEmissionRelatedInfoClass):
         self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfoClass <%s>" % clear_reset_emission_related_info_class.getShortName())
         self.readIdentifiable(element, clear_reset_emission_related_info_class)
+
+    def readDiagnosticConnectedIndicator(self, element: ET.Element, connected_indicator: DiagnosticConnectedIndicator):
+        self.logger.debug("Read DiagnosticConnectedIndicator")
+        # BEHAVIOR is round-tripped as a raw literal until DiagnosticConnectedIndicatorBehaviorEnum (Table 4.155, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        connected_indicator.setBehavior(self.getChildElementOptionalLiteral(element, "BEHAVIOR"))
+        threshold_element = self.find(element, "HEALING-CYCLE-COUNTER-THRESHOLD/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
+            threshold = PositiveInteger()
+            threshold.setValue(threshold_element.text.strip())
+            connected_indicator.setHealingCycleCounterThreshold(threshold)
+        connected_indicator.setHealingCycleRef(self.getChildElementOptionalRefType(element, "HEALING-CYCLE-REF"))
+        connected_indicator.setIndicatorFailureCycleCounterThreshold(self.getChildElementOptionalPositiveInteger(element, "INDICATOR-FAILURE-CYCLE-COUNTER-THRESHOLD"))
+        connected_indicator.setIndicatorRef(self.getChildElementOptionalRefType(element, "INDICATOR-REF"))
 
     def readDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Read DiagnosticComControl <%s>" % com_control.getShortName())
