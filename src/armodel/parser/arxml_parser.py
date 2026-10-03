@@ -9847,6 +9847,9 @@ class ARXMLParser(AbstractARXMLParser):
             if server_element is not None:
                 server = TimeSyncServerConfiguration(None, self.getShortName(server_element))
                 self.readReferrable(server_element, server)
+                server.setPriority(self.getChildElementOptionalPositiveInteger(server_element, "PRIORITY"))
+                server.setSyncInterval(self.getChildElementOptionalTimeValue(server_element, "SYNC-INTERVAL"))
+                server.setTimeSyncServerIdentifier(self.getChildElementOptionalString(server_element, "TIME-SYNC-SERVER-IDENTIFIER"))
                 time_sync_technology = self.getChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY")
                 if time_sync_technology is not None:
                     e = TimeSyncTechnologyEnum()

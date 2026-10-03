@@ -9900,6 +9900,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             if server is not None:
                 server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
                 self.writeReferrable(server_element, server)
+                self.setChildElementOptionalPositiveInteger(server_element, "PRIORITY", server.getPriority())
+                self.setChildElementOptionalTimeValue(server_element, "SYNC-INTERVAL", server.getSyncInterval())
+                self.setChildElementOptionalString(server_element, "TIME-SYNC-SERVER-IDENTIFIER", server.getTimeSyncServerIdentifier())
                 self.setChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY", server.getTimeSyncTechnology())
 
     def writeTimeSyncClientConfigurationOrderedMasters(self, element: ET.Element, client: TimeSyncClientConfiguration):

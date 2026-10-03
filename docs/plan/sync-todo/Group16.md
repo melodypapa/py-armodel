@@ -122,16 +122,17 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TimeSyncServerConfiguration` — Referrable — R23-11 markdown · Table 6.147 (CP_TPS_SystemTemplate), p.470 — commit b1e4750b1
-  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 4 attr notes; parsed within readTimeSynchronization (server construction at parser:9458)
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - re-sync 2026-10-03 (Group16 Task 5): prior "steps 1-8" claim was false — zero code changes, malformed checklist, reader/writer gap. Steps 1-8 reset to `[ ]` and walked in this session.
+  - Step 1 finding: own Table 6.147, p.470 (pypdf absent → page taken from existing `# Spec:` line); `Class` header confirmed; Base most-derived = `Referrable` → `__init__(self, parent, short_name)`; 4 attrs displayed order = priority/syncInterval/timeSyncServerIdentifier/timeSyncTechnology (all `0..1 attr`) matching the source. Defect: Rule 0001.7 — parser server branch set only `setTimeSyncTechnology`, writer only `TIME-SYNC-TECHNOLOGY`; PRIORITY/SYNC-INTERVAL/TIME-SYNC-SERVER-IDENTIFIER read/written nowhere. Checklist malformed — only the `__init__` row at top, accessor rows misplaced inside `__init__` as member comments.
+  - [x] Step 1 — Sync members & description from spec — see finding bullet above
+  - [x] Step 2 — Write model class unit test (Red) — model layer already spec-correct (prior stamped pass); strengthened mirror test (typed primitives + getter-first order pin) 5 passed — no model-layer RED exhibitable; real RED is Step 5
+  - [x] Step 3 — Implement model class (Green) — no model change needed (fields/accessors already correct)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — misplaced checklist rows wiped from `__init__`; class docstring + 8 accessor docstrings diffed verbatim vs markdown Note cells (no textual delta); `__init__` has no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser + writer test files; RED 3 failed / 2 passed (PRIORITY absent in writer; getPriority() None on round-trip; reader attrs None)
+  - [x] Step 6 — Update parser & writer (Green) — added 6 call sites (priority/syncInterval/timeSyncServerIdentifier read+write) in XSD order PRIORITY, SYNC-INTERVAL, TIME-SYNC-SERVER-IDENTIFIER, TIME-SYNC-TECHNOLOGY; 8 passed
+  - [x] Step 7 — Update checklist comment — 6-col block rebuilt at TOP, 9 rows source order, reader [x] on setters / writer [x] on getters; `# Spec:` suffix normalised; NO marker
+  - [x] Step 8 — Deviations — none; `## TimeSyncServerConfiguration` "No deviations" entry added to docs/examples/method_deviation_by_class.md. Report-only: `TimeSynchronization.timeSyncServer` uses set/get for a Referrable child (Rule 0001.6, own queue row)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-03** (user; instruction was to match the `TimeSyncClientConfiguration` checklist style, whose only difference was the `# Spec verified:` line ⇒ marker written). 9a re-verified independently by the orchestrator: mirror + new parser `test_time_sync_server_configuration.py` + new writer `test_time_sync_server_configuration.py` + `test_member_annotations.py` 13 passed; full unit suite 17347 passed; `ruff check` + `black --check` clean on 6 touched `.py` files; set-based checklist==methods 9/9 in source order (all methods tested); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping*.arxml` `file_compare` fixtures only (delta 0). All four attrs now round-trip by value. Report-only: `TimeSynchronization.timeSyncServer` uses set/get for a `Referrable` child (Rule 0001.6, own queue row).
 
 - [ ] `CouplingPortAbstractShaper` — Identifiable — XSD-only abstract class — R23-11 XSD · xsd:group COUPLING-PORT-ABSTRACT-SHAPER (00052.xsd L23449, atp.Status="candidate")
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
