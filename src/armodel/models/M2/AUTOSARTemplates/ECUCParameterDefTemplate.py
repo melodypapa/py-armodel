@@ -395,14 +395,16 @@ class EcucConfigurationClassEnum(AREnum):
 
 
 class EcucConfigurationVariantEnum(AREnum):
-    """
-    Specifies which ConfigurationVariants are supported by this software module.
-    """
+    """Specifies the possible Configuration Variants used for AUTOSAR BSW Modules."""
 
     # EcucConfigurationVariantEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Preconfigured (i.e. fixed) configuration which cannot be changed. Tags: atp.EnumerationLiteralIndex=0
+    PRECONFIGURED_CONFIGURATION = "PRECONFIGURED-CONFIGURATION"
 
     # Recommended configuration for a module. Tags: atp.EnumerationLiteralIndex=1
     RECOMMENDED_CONFIGURATION = "RECOMMENDED-CONFIGURATION"
@@ -419,6 +421,7 @@ class EcucConfigurationVariantEnum(AREnum):
     def __init__(self):
         super().__init__(
             [
+                EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION,
                 EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION,
                 EcucConfigurationVariantEnum.VARIANT_LINK_TIME,
                 EcucConfigurationVariantEnum.VARIANT_POST_BUILD,

@@ -418,8 +418,35 @@ class TestEcucConfigurationClassEnum:
 
 
 class TestEcucConfigurationVariantEnum:
+    CLASS_NOTE = "Specifies the possible Configuration Variants used for AUTOSAR BSW Modules."
+
     def test_instantiation(self):
         assert isinstance(EcucConfigurationVariantEnum(), EcucConfigurationVariantEnum)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucConfigurationVariantEnum.__doc__ == self.CLASS_NOTE
+
+    def test_literal_members(self):
+        assert EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION == "PRECONFIGURED-CONFIGURATION"
+        assert EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION == "RECOMMENDED-CONFIGURATION"
+        assert EcucConfigurationVariantEnum.VARIANT_LINK_TIME == "VARIANT-LINK-TIME"
+        assert EcucConfigurationVariantEnum.VARIANT_POST_BUILD == "VARIANT-POST-BUILD"
+        assert EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE == "VARIANT-PRE-COMPILE"
+
+    def test_enum_values_in_display_order(self):
+        obj = EcucConfigurationVariantEnum()
+        assert list(obj.getEnumValues()) == [
+            EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION,
+            EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION,
+            EcucConfigurationVariantEnum.VARIANT_LINK_TIME,
+            EcucConfigurationVariantEnum.VARIANT_POST_BUILD,
+            EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE,
+        ]
+
+    def test_set_value(self):
+        obj = EcucConfigurationVariantEnum()
+        assert obj.setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE) is obj
+        assert obj.getValue() == EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE
 
 
 class TestEcucMultiplicityConfigurationClass:
