@@ -80,7 +80,7 @@ class Referrable(ARObject, ABC):
         """
         str: The full name of this element, including the parent's full name.
         """
-        return self.parent.full_name + "/" + self.short_name
+        return cast(Identifiable, self.parent).full_name + "/" + self.short_name
 
     def getFullName(self) -> str:
         """
