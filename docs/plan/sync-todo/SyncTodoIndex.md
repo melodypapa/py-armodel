@@ -722,7 +722,7 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **7/29** completed
+Status: **8/29** completed
 
 | Class Name                              | Status       | Commit ID  |
 | --------------------------------------- | ------------ | ---------- |
@@ -753,7 +753,7 @@ Status: **7/29** completed
 | `SdServerConfig`                        | [x] Done     | f509df9d94 |
 | `TcpOptionFilterList`                   | [ ] Pending* | 2d5b3256b4 |
 | `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
-| `IPv6ExtHeaderFilterList`               | [ ] Pending* | 2d5b3256b4 |
+| `IPv6ExtHeaderFilterList`               | [x] Done     | d8127416ac |
 | `TimeSynchronization`                   | [ ] Pending* | b1e4750b14 |
 
 ## Group17

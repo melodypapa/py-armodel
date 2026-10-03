@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 750 | 39.4% |
+| [x] Done | 751 | 39.5% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 315 | 16.6% |
+| [ ] Deferred | 314 | 16.5% |
 | [ ] Implemented | 431 | 22.6% |
 | [ ] Created | 397 | 20.9% |
 | [ ] Pending | 0 | 0.0% |
@@ -1066,7 +1066,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IPsecIpProtocolEnum`                                   | [ ] Deferred| N/A                                      | Group32          |
 | `IPsecModeEnum`                                         | [ ] Deferred| N/A                                      | Group32          |
 | `IPsecPolicyEnum`                                       | [ ] Deferred| N/A                                      | Group32          |
-| `IPv6ExtHeaderFilterList`                               | [ ] Deferred| 2d5b3256b4                               | Group16          |
+| `IPv6ExtHeaderFilterList`                               | [x] Done    | d8127416ac                               | Group16          |
 | `IPv6ExtHeaderFilterSet`                                | [ ] Created | N/A                                      | Group32          |
 | `ISignal`                                               | [ ] Implemented| N/A                                      | Group31          |
 | `ISignalGroup`                                          | [ ] Implemented| N/A                                      | Group31          |

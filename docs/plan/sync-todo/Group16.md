@@ -341,7 +341,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `IPv6ExtHeaderFilterList` — Identifiable — R23-11 markdown · Table 6.121 (CP_TPS_SystemTemplate), p.456 — commit 2d5b3256b
+- [x] `IPv6ExtHeaderFilterList` — Identifiable — R23-11 markdown · Table 6.121 (CP_TPS_SystemTemplate), p.456 — commit d8127416a (# Spec verified: R23-11, stamped 2026-10-03; Rule 0001.7 wrapper-list reader/writer added, Rule 0003 quoted annotation removed)
   - commit: 2d5b3256b (prior R4.3.1→R23-11 upgrade) — re-sync 2026-10-03 (Group16 Task 6): prior "reader/writer N/A (ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF)" claim was WRONG — the R23-11 table lists allowedIPv6ExtHeader as an `attr`, and XSD 00052 L66606 defines group I-PV-6-EXT-HEADER-FILTER-LIST with its own ALLOWED-I-PV-6-EXT-HEADERS wrapper of unbounded ALLOWED-I-PV-6-EXT-HEADER (AR:POSITIVE-INTEGER) items; the …-REF element (L107861) belongs to SocketAddress. Also Rule 0003 quoted return annotation. Steps 1-8 reset to `[ ]` and walked in this session.
   - [x] Step 1 — Sync members & description from spec — own Table 6.121, p.456 (pypdf absent → page from existing `# Spec:` line); `Class` header confirmed; Base most-derived = `Identifiable` → `__init__(self, parent, short_name)`; 1 attr `allowedIPv6ExtHeader` (PositiveInteger, `*`, attr)
   - [x] Step 2 — Write model class unit test (Red) — added `test_no_quoted_top_level_annotations` + `get_type_hints` return pin; RED 1 failed / 5 passed
