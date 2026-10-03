@@ -572,8 +572,9 @@ class TestEcucConfigurationVariantEnum:
 
     def test_literal_members(self):
         """
-        Test that the four spec literals are defined with their XSD value strings.
+        Test that the five spec literals are defined with their XSD value strings.
         """
+        assert EcucConfigurationVariantEnum.PRECONFIGURED_CONFIGURATION == "PRECONFIGURED-CONFIGURATION"
         assert EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION == "RECOMMENDED-CONFIGURATION"
         assert EcucConfigurationVariantEnum.VARIANT_LINK_TIME == "VARIANT-LINK-TIME"
         assert EcucConfigurationVariantEnum.VARIANT_POST_BUILD == "VARIANT-POST-BUILD"
@@ -586,6 +587,7 @@ class TestEcucConfigurationVariantEnum:
         config_variant_enum = EcucConfigurationVariantEnum()
 
         assert config_variant_enum.getEnumValues() == [
+            "PRECONFIGURED-CONFIGURATION",
             "RECOMMENDED-CONFIGURATION",
             "VARIANT-LINK-TIME",
             "VARIANT-POST-BUILD",
