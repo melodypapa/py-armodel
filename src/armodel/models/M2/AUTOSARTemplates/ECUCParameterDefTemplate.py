@@ -2034,16 +2034,14 @@ class EcucConditionFormula(FormulaExpression):
 
 
 class EcucDefinitionCollection(AtpBlueprintable):
-    """
-    This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections
-    """
+    """This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections"""
 
     # EcucDefinitionCollection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.1, p.25
-    # Spec verified: R23-11
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addModuleRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModuleRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addModuleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModuleRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2051,20 +2049,20 @@ class EcucDefinitionCollection(AtpBlueprintable):
         # References to the module definitions of individual software modules.
         self.moduleRefs: List[RefType] = []
 
-    def addModuleRef(self, value: RefType) -> EcucDefinitionCollection:
+    def getModuleRefs(self) -> List[RefType]:
         """
-        Adds a reference to the module definition of an individual software module.
-        A None value is a no-op and does not append anything.
+        References to the module definitions of individual software modules.
+        """
+        return self.moduleRefs
+
+    def addModuleRef(self, value: RefType):
+        """
+        References to the module definitions of individual software modules.
+        A None value is a no-op.
         """
         if value is not None:
             self.moduleRefs.append(value)
         return self
-
-    def getModuleRefs(self) -> List[RefType]:
-        """
-        Gets the references to the module definitions of individual software modules.
-        """
-        return self.moduleRefs
 
 
 class EcucDestinationUriDef(Identifiable):

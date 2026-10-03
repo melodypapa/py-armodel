@@ -8,6 +8,7 @@ import inspect
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
     EcucAbstractExternalReferenceDef,
@@ -172,8 +173,33 @@ class TestEcucAddInfoParamDef:
 
 
 class TestEcucDefinitionCollection:
+    CLASS_NOTE = "This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections"
+
     def test_instantiation(self):
         assert _instantiate(EcucDefinitionCollection, "EcucDefinitionCollection").getShortName() == "EcucDefinitionCollection"
+
+    def test_is_atp_blueprintable(self):
+        obj = _instantiate(EcucDefinitionCollection, "Ecdc")
+        assert isinstance(obj, AtpBlueprintable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDefinitionCollection.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDefinitionCollection.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucDefinitionCollection, "Ecdc")
+        assert obj.getModuleRefs() == []
+
+    def test_add_get_module_refs_roundtrip(self):
+        obj = _instantiate(EcucDefinitionCollection, "Ecdc")
+        ref = RefType()
+        ref.setValue("/EcucModuleDefs/MyModule")
+        assert obj.addModuleRef(ref) is obj
+        assert obj.getModuleRefs() == [ref]
+        obj.addModuleRef(None)
+        assert obj.getModuleRefs() == [ref]  # None is a no-op
 
 
 class TestEcucDestinationUriDef:
