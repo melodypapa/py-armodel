@@ -2,7 +2,7 @@
 # It defines connections for diagnostic services and communication between diagnostic entities
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
@@ -55,7 +55,7 @@ class TpConnection(ARObject, ABC):
     def createTpConnectionIdent(self, short_name: str) -> TpConnectionIdent:
         """This adds the ability to become referrable to Tp Connection."""
         if self.getIdent() is not None:
-            return self.getIdent()
+            return cast(TpConnectionIdent, self.getIdent())
         ident = TpConnectionIdent(self, short_name)
         self.ident = ident
         return ident

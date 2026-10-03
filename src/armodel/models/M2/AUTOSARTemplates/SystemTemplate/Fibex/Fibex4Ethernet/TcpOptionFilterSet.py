@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -72,7 +72,7 @@ class TcpOptionFilterSet(ARElement):
             tcp_filter_list = TcpOptionFilterList(self, short_name)
             self.addReferrableElement(tcp_filter_list)
             self.tcpOptionFilterLists.append(tcp_filter_list)
-        return self.getReferrableElement(short_name, TcpOptionFilterList)
+        return cast(TcpOptionFilterList, self.getReferrableElement(short_name, TcpOptionFilterList))
 
     def getTcpOptionFilterLists(self) -> List[TcpOptionFilterList]:
         """Collection of permitted lists for the filtering of TCP options."""

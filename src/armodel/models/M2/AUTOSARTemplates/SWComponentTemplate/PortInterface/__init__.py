@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
@@ -165,7 +165,7 @@ class NvDataInterface(DataInterface):
     def createNvData(self, short_name: str) -> VariableDataPrototype:
         """The VariableDataPrototype of this nv data interface."""
         if self.IsReferrableElementExists(short_name, VariableDataPrototype):
-            return self.getReferrableElement(short_name, VariableDataPrototype)
+            return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
         prototype = VariableDataPrototype(self, short_name)
         self.addReferrableElement(prototype)
         self.nvDatas.append(prototype)
@@ -173,7 +173,7 @@ class NvDataInterface(DataInterface):
 
     def getNvData(self, short_name: str) -> VariableDataPrototype:
         """The VariableDataPrototype of this nv data interface."""
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
 
 class ParameterInterface(DataInterface):
@@ -200,7 +200,7 @@ class ParameterInterface(DataInterface):
     def createParameterDataPrototype(self, short_name: str) -> ParameterDataPrototype:
         """The ParameterDataPrototype of this ParameterInterface."""
         if self.IsReferrableElementExists(short_name, ParameterDataPrototype):
-            return self.getReferrableElement(short_name, ParameterDataPrototype)
+            return cast(ParameterDataPrototype, self.getReferrableElement(short_name, ParameterDataPrototype))
         prototype = ParameterDataPrototype(self, short_name)
         self.addReferrableElement(prototype)
         self.parameters.append(prototype)
@@ -399,7 +399,7 @@ class SenderReceiverInterface(DataInterface):
             data_element = VariableDataPrototype(self, short_name)
             self.addReferrableElement(data_element)
             self.dataElements.append(data_element)
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def getDataElements(self) -> List[VariableDataPrototype]:
         """
@@ -411,7 +411,7 @@ class SenderReceiverInterface(DataInterface):
         """
         The data elements of this SenderReceiverInterface.
         """
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def addInvalidationPolicy(self, value: InvalidationPolicy) -> SenderReceiverInterface:
         """
@@ -625,7 +625,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
             prototype = ArgumentDataPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.arguments.append(prototype)
-        return self.getReferrableElement(short_name, ArgumentDataPrototype)
+        return cast(ArgumentDataPrototype, self.getReferrableElement(short_name, ArgumentDataPrototype))
 
     def getArguments(self) -> List[ArgumentDataPrototype]:
         """
@@ -696,7 +696,7 @@ class ClientServerInterface(PortInterface):
             operation = ClientServerOperation(self, short_name)
             self.addReferrableElement(operation)
             self.operations.append(operation)
-        return self.getReferrableElement(short_name, ClientServerOperation)
+        return cast(ClientServerOperation, self.getReferrableElement(short_name, ClientServerOperation))
 
     def getOperations(self) -> List[ClientServerOperation]:
         """
@@ -719,7 +719,7 @@ class ClientServerInterface(PortInterface):
             error = ApplicationError(self, short_name)
             self.addReferrableElement(error)
             self.possibleErrors.append(error)
-        return self.getReferrableElement(short_name, ApplicationError)
+        return cast(ApplicationError, self.getReferrableElement(short_name, ApplicationError))
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         """
@@ -751,7 +751,7 @@ class TriggerInterface(PortInterface):
             trigger = Trigger(self, short_name)
             self.addReferrableElement(trigger)
             self.triggers.append(trigger)
-        return self.getReferrableElement(short_name, Trigger)
+        return cast(Trigger, self.getReferrableElement(short_name, Trigger))
 
     def getTriggers(self) -> List[Trigger]:
         """The Trigger of this trigger interface."""
@@ -793,7 +793,7 @@ class ModeSwitchInterface(PortInterface):
         if not self.IsReferrableElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addReferrableElement(prototype)
-        mode_group = self.getReferrableElement(short_name, ModeDeclarationGroupPrototype)
+        mode_group = cast(ModeDeclarationGroupPrototype, self.getReferrableElement(short_name, ModeDeclarationGroupPrototype))
         self.modeGroup = mode_group
         return mode_group
 
@@ -1717,7 +1717,7 @@ class ModeDeclarationMappingSet(AtpType):
             mapping = ModeDeclarationMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.modeDeclarationMappings.append(mapping)
-        return self.getReferrableElement(short_name, ModeDeclarationMapping)
+        return cast(ModeDeclarationMapping, self.getReferrableElement(short_name, ModeDeclarationMapping))
 
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement  # noqa: E402
@@ -1759,7 +1759,7 @@ class PortInterfaceMappingSet(ARElement):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getReferrableElement(short_name, VariableAndParameterInterfaceMapping)
+        return cast(VariableAndParameterInterfaceMapping, self.getReferrableElement(short_name, VariableAndParameterInterfaceMapping))
 
     def createClientServerInterfaceMapping(self, short_name: str) -> ClientServerInterfaceMapping:
         """
@@ -1769,7 +1769,7 @@ class PortInterfaceMappingSet(ARElement):
             mapping = ClientServerInterfaceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getReferrableElement(short_name, ClientServerInterfaceMapping)
+        return cast(ClientServerInterfaceMapping, self.getReferrableElement(short_name, ClientServerInterfaceMapping))
 
     def createModeInterfaceMapping(self, short_name: str) -> ModeInterfaceMapping:
         """
@@ -1779,7 +1779,7 @@ class PortInterfaceMappingSet(ARElement):
             mapping = ModeInterfaceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getReferrableElement(short_name, ModeInterfaceMapping)
+        return cast(ModeInterfaceMapping, self.getReferrableElement(short_name, ModeInterfaceMapping))
 
     def createTriggerInterfaceMapping(self, short_name: str) -> TriggerInterfaceMapping:
         """
@@ -1789,7 +1789,7 @@ class PortInterfaceMappingSet(ARElement):
             mapping = TriggerInterfaceMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getReferrableElement(short_name, TriggerInterfaceMapping)
+        return cast(TriggerInterfaceMapping, self.getReferrableElement(short_name, TriggerInterfaceMapping))
 
 
 class ImplementationDataTypeSubElementRef(SubElementRef):

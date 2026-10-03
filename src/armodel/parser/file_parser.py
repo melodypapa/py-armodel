@@ -13,7 +13,7 @@ class FileListParser:
     """
 
     def __init__(self) -> None:
-        self.file_list = []
+        self.file_list: List[str] = []
         self.logger = logging.getLogger()
 
     def get_file_list(self) -> List[str]:

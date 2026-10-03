@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
@@ -980,7 +980,7 @@ class DataTransformationSet(ARElement):
             dfs = DataTransformation(self, short_name)
             self.addReferrableElement(dfs)
             self.dataTransformations.append(dfs)
-        return self.getReferrableElement(short_name, DataTransformation)
+        return cast(DataTransformation, self.getReferrableElement(short_name, DataTransformation))
 
     def getTransformationTechnologies(self) -> List[TransformationTechnology]:
         """
@@ -993,7 +993,7 @@ class DataTransformationSet(ARElement):
             tech = TransformationTechnology(self, short_name)
             self.addReferrableElement(tech)
             self.transformationTechnologies.append(tech)
-        return self.getReferrableElement(short_name, TransformationTechnology)
+        return cast(TransformationTechnology, self.getReferrableElement(short_name, TransformationTechnology))
 
 
 class CSTransformerErrorReactionEnum(AREnum):

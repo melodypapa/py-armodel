@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
@@ -550,7 +550,7 @@ class LinPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.busIdleTimeoutPeriod: TimeValue = None
+        self.busIdleTimeoutPeriod: Optional[TimeValue] = None
         self.scheduleTables: List[LinScheduleTable] = []
 
     def getBusIdleTimeoutPeriod(self):
@@ -571,7 +571,7 @@ class LinPhysicalChannel(PhysicalChannel):
             end_point = LinScheduleTable(self, short_name)
             self.addReferrableElement(end_point)
             self.scheduleTables.append(end_point)
-        return self.getReferrableElement(short_name, LinScheduleTable)
+        return cast(LinScheduleTable, self.getReferrableElement(short_name, LinScheduleTable))
 
 
 class LinSlave(LinCommunicationController):

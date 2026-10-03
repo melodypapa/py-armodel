@@ -4,7 +4,7 @@ from __future__ import annotations
 # It defines logic address properties and configurations for DoIP communication
 
 from abc import ABC
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -254,7 +254,7 @@ class DoIpInterface(Identifiable):
             activation = DoIpRoutingActivation(self, short_name)
             self.addReferrableElement(activation)
             self.doIpRoutingActivations.append(activation)
-        return self.getReferrableElement(short_name, DoIpRoutingActivation)
+        return cast(DoIpRoutingActivation, self.getReferrableElement(short_name, DoIpRoutingActivation))
 
     def getDoIpRoutingActivations(self) -> List[DoIpRoutingActivation]:
         """

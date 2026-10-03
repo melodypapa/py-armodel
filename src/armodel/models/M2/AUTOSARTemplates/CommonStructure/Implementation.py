@@ -8,7 +8,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McSupportData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
@@ -156,7 +156,7 @@ class Code(Identifiable):
         if category == "":
             return self.artifactDescriptors
         else:
-            return list(filter(lambda a: a.getCategory().getText() == category, self.artifactDescriptors))
+            return [a for a in self.artifactDescriptors if (category_token := a.getCategory()) is not None and category_token.getText() == category]
 
     def getCallbackHeaderRefs(self) -> List[RefType]:
         """The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files."""
@@ -494,7 +494,7 @@ class Implementation(ARElement, ABC):
             code_descriptor = Code(self, short_name)
             self.addReferrableElement(code_descriptor)
             self.codeDescriptors.append(code_descriptor)
-        return self.getReferrableElement(short_name, Code)
+        return cast(Code, self.getReferrableElement(short_name, Code))
 
     def getCompilers(self) -> List[Compiler]:
         """Specifies the compiler for which this implementation has been released."""
@@ -514,7 +514,7 @@ class Implementation(ARElement, ABC):
             compiler = Compiler(self, short_name)
             self.addReferrableElement(compiler)
             self.compilers.append(compiler)
-        return self.getReferrableElement(short_name, Compiler)
+        return cast(Compiler, self.getReferrableElement(short_name, Compiler))
 
     def getGeneratedArtifacts(self) -> List[DependencyOnArtifact]:
         """Relates to an artifact that will be generated during the integration of this Implementation by an associated generator tool."""
@@ -534,7 +534,7 @@ class Implementation(ARElement, ABC):
             artifact = DependencyOnArtifact(self, short_name)
             self.addReferrableElement(artifact)
             self.generatedArtifacts.append(artifact)
-        return self.getReferrableElement(short_name, DependencyOnArtifact)
+        return cast(DependencyOnArtifact, self.getReferrableElement(short_name, DependencyOnArtifact))
 
     def getHwElementRefs(self) -> List[RefType]:
         """The hardware elements (e.g. the processor) required for this implementation."""
@@ -564,7 +564,7 @@ class Implementation(ARElement, ABC):
             linker = Linker(self, short_name)
             self.addReferrableElement(linker)
             self.linkers.append(linker)
-        return self.getReferrableElement(short_name, Linker)
+        return cast(Linker, self.getReferrableElement(short_name, Linker))
 
     def getMcSupport(self) -> Optional[McSupportData]:
         """The measurement & calibration support data belonging to this implementation."""
@@ -604,7 +604,7 @@ class Implementation(ARElement, ABC):
             artifact = DependencyOnArtifact(self, short_name)
             self.addReferrableElement(artifact)
             self.requiredArtifacts.append(artifact)
-        return self.getReferrableElement(short_name, DependencyOnArtifact)
+        return cast(DependencyOnArtifact, self.getReferrableElement(short_name, DependencyOnArtifact))
 
     def getRequiredGeneratorTools(self) -> List[DependencyOnArtifact]:
         """Relates this Implementation to a generator tool in order to generate additional artifacts during integration."""
@@ -624,7 +624,7 @@ class Implementation(ARElement, ABC):
             tool = DependencyOnArtifact(self, short_name)
             self.addReferrableElement(tool)
             self.requiredGeneratorTools.append(tool)
-        return self.getReferrableElement(short_name, DependencyOnArtifact)
+        return cast(DependencyOnArtifact, self.getReferrableElement(short_name, DependencyOnArtifact))
 
     def getResourceConsumption(self) -> Optional[ResourceConsumption]:
         """All static and dynamic resources for each implementation are described within the ResourceConsumption class."""
@@ -646,7 +646,7 @@ class Implementation(ARElement, ABC):
             consumption = ResourceConsumption(self, short_name)
             self.addReferrableElement(consumption)
             self.resourceConsumption = consumption
-        return self.getReferrableElement(short_name, ResourceConsumption)
+        return cast(ResourceConsumption, self.getReferrableElement(short_name, ResourceConsumption))
 
     def getSwcBswMappingRef(self) -> Optional[RefType]:
         """This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both."""

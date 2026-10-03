@@ -378,8 +378,8 @@ class TimingEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.offset: TimeValue = None
-        self.period: TimeValue = None
+        self.offset: Optional[TimeValue] = None
+        self.period: Optional[TimeValue] = None
 
     @property
     def periodMs(self):
@@ -503,7 +503,7 @@ class ModeSwitchedAckEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        self.eventSourceRef: Optional[RefType] = None
 
     def getEventSourceRef(self):
         """

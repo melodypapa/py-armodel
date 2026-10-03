@@ -25,6 +25,8 @@ class UUIDMgr:
         if uuid is None:
             return
         uuid = uuid.getValue()
+        if uuid is None:
+            return
         if uuid not in self.uuid_object_mappings:
             self.uuid_object_mappings[uuid] = []
 

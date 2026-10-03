@@ -2,7 +2,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, List, Optional, cast
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
@@ -40,10 +40,14 @@ if TYPE_CHECKING:
 
     # Rule 0001.10 placeholders - referenced classes not yet implemented; TYPE_CHECKING imports
     # satisfy the forward annotations and are never executed at runtime.
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate import V2xSupportEnum
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
+
+    class V2xSupportEnum:
+        # Rule 0001.10 placeholder (see above); the real enum is queued for a later sync group.
+        ...
+
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -302,7 +306,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             triggering = CanFrameTriggering(self, short_name)
             self.addReferrableElement(triggering)
             self.frameTriggerings.append(triggering)
-        return self.getReferrableElement(short_name, CanFrameTriggering)
+        return cast(CanFrameTriggering, self.getReferrableElement(short_name, CanFrameTriggering))
 
     def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
         """
@@ -314,7 +318,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             triggering = LinFrameTriggering(self, short_name)
             self.addReferrableElement(triggering)
             self.frameTriggerings.append(triggering)
-        return self.getReferrableElement(short_name, LinFrameTriggering)
+        return cast(LinFrameTriggering, self.getReferrableElement(short_name, LinFrameTriggering))
 
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
         """
@@ -326,7 +330,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             triggering = FlexrayFrameTriggering(self, short_name)
             self.addReferrableElement(triggering)
             self.frameTriggerings.append(triggering)
-        return self.getReferrableElement(short_name, FlexrayFrameTriggering)
+        return cast(FlexrayFrameTriggering, self.getReferrableElement(short_name, FlexrayFrameTriggering))
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
         """
@@ -344,7 +348,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             triggering = ISignalTriggering(self, short_name)
             self.addReferrableElement(triggering)
             self.iSignalTriggerings.append(triggering)
-        return self.getReferrableElement(short_name, ISignalTriggering)
+        return cast(ISignalTriggering, self.getReferrableElement(short_name, ISignalTriggering))
 
     def getManagedPhysicalChannelRefs(self) -> List[RefType]:
         """
@@ -377,7 +381,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             triggering = PduTriggering(self, short_name)
             self.addReferrableElement(triggering)
             self.pduTriggerings.append(triggering)
-        return self.getReferrableElement(short_name, PduTriggering)
+        return cast(PduTriggering, self.getReferrableElement(short_name, PduTriggering))
 
 
 class FlexrayChannelName(AREnum):
@@ -470,7 +474,7 @@ class CommunicationCluster(FibexElement, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 
-        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
+        return list(sorted([a for a in self.physicalChannel if isinstance(a, CanPhysicalChannel)], key=lambda o: o.getShortName()))
 
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
         """
@@ -478,7 +482,7 @@ class CommunicationCluster(FibexElement, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 
-        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
+        return list(sorted([a for a in self.physicalChannel if isinstance(a, LinPhysicalChannel)], key=lambda o: o.getShortName()))
 
     def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
         """
@@ -486,7 +490,7 @@ class CommunicationCluster(FibexElement, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 
-        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
+        return list(sorted([a for a in self.physicalChannel if isinstance(a, EthernetPhysicalChannel)], key=lambda o: o.getShortName()))
 
     def createCanPhysicalChannel(self, short_name: str):
         """
@@ -835,7 +839,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             port = FramePort(self, short_name)
             self.addReferrableElement(port)
             self.ecuCommPortInstances.append(port)
-        return self.getReferrableElement(short_name)
+        return cast(FramePort, self.getReferrableElement(short_name))
 
     def createIPduPort(self, short_name) -> IPduPort:
         """
@@ -847,7 +851,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             port = IPduPort(self, short_name)
             self.addReferrableElement(port)
             self.ecuCommPortInstances.append(port)
-        return self.getReferrableElement(short_name)
+        return cast(IPduPort, self.getReferrableElement(short_name))
 
     def createISignalPort(self, short_name) -> ISignalPort:
         """
@@ -859,7 +863,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             port = ISignalPort(self, short_name)
             self.addReferrableElement(port)
             self.ecuCommPortInstances.append(port)
-        return self.getReferrableElement(short_name)
+        return cast(ISignalPort, self.getReferrableElement(short_name))
 
     def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
         """
@@ -1249,7 +1253,7 @@ class EcuInstance(FibexElement):
             controller = CanCommunicationController(self, short_name)
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
-        return self.getReferrableElement(short_name, CanCommunicationController)
+        return cast(CanCommunicationController, self.getReferrableElement(short_name, CanCommunicationController))
 
     def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
         """
@@ -1261,7 +1265,7 @@ class EcuInstance(FibexElement):
             controller = EthernetCommunicationController(self, short_name)
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
-        return self.getReferrableElement(short_name, EthernetCommunicationController)
+        return cast(EthernetCommunicationController, self.getReferrableElement(short_name, EthernetCommunicationController))
 
     def createFlexrayCommunicationController(self, short_name: str) -> FlexrayCommunicationController:
         """
@@ -1273,7 +1277,7 @@ class EcuInstance(FibexElement):
             controller = FlexrayCommunicationController(self, short_name)
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
-        return self.getReferrableElement(short_name, FlexrayCommunicationController)
+        return cast(FlexrayCommunicationController, self.getReferrableElement(short_name, FlexrayCommunicationController))
 
     def createLinMaster(self, short_name: str) -> LinMaster:
         """
@@ -1285,7 +1289,7 @@ class EcuInstance(FibexElement):
             controller = LinMaster(self, short_name)
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
-        return self.getReferrableElement(short_name, LinMaster)
+        return cast(LinMaster, self.getReferrableElement(short_name, LinMaster))
 
     def getCommControllers(self) -> List[CommunicationController]:
         """
@@ -1303,7 +1307,7 @@ class EcuInstance(FibexElement):
             connector = CanCommunicationConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, CanCommunicationConnector)
+        return cast(CanCommunicationConnector, self.getReferrableElement(short_name, CanCommunicationConnector))
 
     def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
         """
@@ -1315,7 +1319,7 @@ class EcuInstance(FibexElement):
             connector = EthernetCommunicationConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, EthernetCommunicationConnector)
+        return cast(EthernetCommunicationConnector, self.getReferrableElement(short_name, EthernetCommunicationConnector))
 
     def createFlexrayCommunicationConnector(self, short_name: str) -> FlexrayCommunicationConnector:
         """
@@ -1327,7 +1331,7 @@ class EcuInstance(FibexElement):
             connector = FlexrayCommunicationConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, FlexrayCommunicationConnector)
+        return cast(FlexrayCommunicationConnector, self.getReferrableElement(short_name, FlexrayCommunicationConnector))
 
     def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
         """
@@ -1339,7 +1343,7 @@ class EcuInstance(FibexElement):
             connector = LinCommunicationConnector(self, short_name)
             self.addReferrableElement(connector)
             self.connectors.append(connector)
-        return self.getReferrableElement(short_name, LinCommunicationConnector)
+        return cast(LinCommunicationConnector, self.getReferrableElement(short_name, LinCommunicationConnector))
 
     def getConnectors(self) -> List[CommunicationConnector]:
         """
@@ -1437,7 +1441,7 @@ class EcuInstance(FibexElement):
             partition = EcuPartition(self, short_name)
             self.addReferrableElement(partition)
             self.partitions.append(partition)
-        return self.getReferrableElement(short_name, EcuPartition)
+        return cast(EcuPartition, self.getReferrableElement(short_name, EcuPartition))
 
     def addPartition(self, value: Optional[EcuPartition]) -> EcuInstance:
         """

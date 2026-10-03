@@ -2,7 +2,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -172,10 +172,10 @@ class Frame(FibexElement, ABC):
             mapping = PduToFrameMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.pduToFrameMappings.append(mapping)
-        return self.getReferrableElement(short_name, PduToFrameMapping)
+        return cast(PduToFrameMapping, self.getReferrableElement(short_name, PduToFrameMapping))
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.referrableElements), key=lambda o: o.short_name))
+        return list(sorted([a for a in self.referrableElements if isinstance(a, PduToFrameMapping)], key=lambda o: o.short_name))
 
 
 class ContainedIPduCollectionSemanticsEnum(AREnum):
@@ -627,10 +627,10 @@ class Pdu(FibexElement, ABC):
         super().__init__(parent, short_name)
 
         # This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
-        self.hasDynamicLength: Boolean = None
+        self.hasDynamicLength: Optional[Boolean] = None
 
         # Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
-        self.length: UnlimitedInteger = None
+        self.length: Optional[UnlimitedInteger] = None
 
     def setHasDynamicLength(self, value: Optional[Boolean]) -> Pdu:
         """
@@ -1344,7 +1344,7 @@ class NmPdu(Pdu):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
-        return self.getReferrableElement(short_name, ISignalToIPduMapping)
+        return cast(ISignalToIPduMapping, self.getReferrableElement(short_name, ISignalToIPduMapping))
 
     def getNmDataInformation(self) -> Optional[Boolean]:
         """
@@ -1421,7 +1421,7 @@ class DcmIPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.diagPduType: ARLiteral = None
+        self.diagPduType: Optional[ARLiteral] = None
 
     def getDiagPduType(self):
         return self.diagPduType
@@ -1544,7 +1544,7 @@ class ISignalIPdu(IPdu):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addReferrableElement(mapping)
             self.iSignalToPduMappings.append(mapping)
-        return self.getReferrableElement(short_name, ISignalToIPduMapping)
+        return cast(ISignalToIPduMapping, self.getReferrableElement(short_name, ISignalToIPduMapping))
 
     def getUnusedBitPattern(self) -> Optional[Integer]:
         """
@@ -2811,7 +2811,7 @@ class SecureCommunicationPropsSet(FibexElement):
             props = SecureCommunicationAuthenticationProps(self, short_name)
             self.addReferrableElement(props)
             self.authenticationProps.append(props)
-        return self.getReferrableElement(short_name, SecureCommunicationAuthenticationProps)
+        return cast(SecureCommunicationAuthenticationProps, self.getReferrableElement(short_name, SecureCommunicationAuthenticationProps))
 
     def getAuthenticationProps(self) -> List[SecureCommunicationAuthenticationProps]:
         """
@@ -2827,7 +2827,7 @@ class SecureCommunicationPropsSet(FibexElement):
             props = SecureCommunicationFreshnessProps(self, short_name)
             self.addReferrableElement(props)
             self.freshnessProps.append(props)
-        return self.getReferrableElement(short_name, SecureCommunicationFreshnessProps)
+        return cast(SecureCommunicationFreshnessProps, self.getReferrableElement(short_name, SecureCommunicationFreshnessProps))
 
     def getFreshnessProps(self) -> List[SecureCommunicationFreshnessProps]:
         """

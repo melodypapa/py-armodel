@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
@@ -132,7 +132,7 @@ class ExecutableEntity(Identifiable, ABC):
             reason = ExecutableEntityActivationReason(self, short_name)
             self.addReferrableElement(reason)
             self.activationReasons.append(reason)
-        return self.getReferrableElement(short_name, ExecutableEntityActivationReason)
+        return cast(ExecutableEntityActivationReason, self.getReferrableElement(short_name, ExecutableEntityActivationReason))
 
     def getActivationReasons(self) -> List[ExecutableEntityActivationReason]:
         """
@@ -238,7 +238,9 @@ class ExecutableEntity(Identifiable, ABC):
             int: The minimum start interval in milliseconds, or None if not set
         """
         if self.minimumStartInterval is not None:
-            return int(self.minimumStartInterval.getValue() * 1000)
+            value = self.minimumStartInterval.getValue()
+            if value is not None:
+                return int(value * 1000)
         return None
 
     def getReentrancyLevel(self) -> Optional[ReentrancyLevelEnum]:
@@ -366,7 +368,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             prototype = ParameterDataPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.constantMemories.append(prototype)
-        return self.getReferrableElement(short_name, ParameterDataPrototype)
+        return cast(ParameterDataPrototype, self.getReferrableElement(short_name, ParameterDataPrototype))
 
     def getConstantMemories(self) -> List[ParameterDataPrototype]:
         """
@@ -439,7 +441,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             area = ExclusiveArea(self, short_name)
             self.addReferrableElement(area)
             self.exclusiveAreas.append(area)
-        return self.getReferrableElement(short_name, ExclusiveArea)
+        return cast(ExclusiveArea, self.getReferrableElement(short_name, ExclusiveArea))
 
     def getExclusiveAreas(self) -> List[ExclusiveArea]:
         """
@@ -464,7 +466,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             nesting_order = ExclusiveAreaNestingOrder(self, short_name)
             self.addReferrableElement(nesting_order)
             self.exclusiveAreaNestingOrders.append(nesting_order)
-        return self.getReferrableElement(short_name, ExclusiveAreaNestingOrder)
+        return cast(ExclusiveAreaNestingOrder, self.getReferrableElement(short_name, ExclusiveAreaNestingOrder))
 
     def getExclusiveAreaNestingOrders(self) -> List[ExclusiveAreaNestingOrder]:
         """
@@ -489,7 +491,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             prototype = VariableDataPrototype(self, short_name)
             self.addReferrableElement(prototype)
             self.staticMemories.append(prototype)
-        return self.getReferrableElement(short_name, VariableDataPrototype)
+        return cast(VariableDataPrototype, self.getReferrableElement(short_name, VariableDataPrototype))
 
     def getStaticMemories(self) -> List[VariableDataPrototype]:
         """

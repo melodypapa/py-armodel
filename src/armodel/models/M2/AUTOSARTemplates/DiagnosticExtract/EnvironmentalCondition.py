@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -300,7 +300,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
         """
         This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: ModeInBswModuleDescriptionInstanceRef
         """
-        return self.modeIRef
+        return cast(Optional[RefType], self.modeIRef)
 
     def setModeIRef(self, value: Optional[RefType]):
         """
@@ -309,7 +309,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
         A None value is a no-op and does not overwrite an existing modeIRef.
         """
         if value is not None:
-            self.modeIRef = value
+            self.modeIRef = cast(ModeInBswModuleDescriptionInstanceRef, value)
         return self
 
 
@@ -517,7 +517,7 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
         """
         This reference identifies both the ModeDeclarationGroupPrototype and the ModeDeclaration for the specific mode comparison. InstanceRef implemented by: PModeInSystemInstanceRef
         """
-        return self.modeIRef
+        return cast(Optional[RefType], self.modeIRef)
 
     def setModeIRef(self, value: Optional[RefType]):
         """
@@ -526,7 +526,7 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
         A None value is a no-op and does not overwrite an existing modeIRef.
         """
         if value is not None:
-            self.modeIRef = value
+            self.modeIRef = cast(PModeInSystemInstanceRef, value)
         return self
 
 

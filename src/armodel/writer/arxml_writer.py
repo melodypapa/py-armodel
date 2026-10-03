@@ -11158,14 +11158,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucModuleDefContainers(self, element: ET.Element, module_def: EcucModuleDef):
         container_defs = module_def.getContainers()
-        child_element = ET.SubElement(element, "CONTAINERS")
-        for container_def in container_defs:
-            if isinstance(container_def, EcucParamConfContainerDef):
-                self.writeEcucParamConfContainerDef(child_element, container_def)
-            elif isinstance(container_def, EcucChoiceContainerDef):
-                self.writeEcucChoiceContainerDef(child_element, container_def)
-            else:
-                self.notImplemented("Unsupported Container <%s>" % type(container_def))
+        if len(container_defs) > 0:
+            child_element = ET.SubElement(element, "CONTAINERS")
+            for container_def in container_defs:
+                if isinstance(container_def, EcucParamConfContainerDef):
+                    self.writeEcucParamConfContainerDef(child_element, container_def)
+                elif isinstance(container_def, EcucChoiceContainerDef):
+                    self.writeEcucChoiceContainerDef(child_element, container_def)
+                else:
+                    self.notImplemented("Unsupported Container <%s>" % type(container_def))
 
     def writeEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
         if module_def is not None:
