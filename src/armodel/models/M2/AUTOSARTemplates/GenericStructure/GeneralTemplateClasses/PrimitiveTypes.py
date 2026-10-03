@@ -1773,7 +1773,29 @@ class DiagnosticClearDtcLimitationEnum(AREnum):
 
 
 class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
-    pass
+    """
+    This enumeration defines the possible behavior for clear event allowed
+    """
+
+    # DiagnosticClearEventAllowedBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.150, p.166
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The event status byte keeps unchanged. Tags: atp.EnumerationLiteralIndex=0
+    NO_STATUS_BYTE_CHANGE = "noStatusByteChange"
+
+    # The OperationCycle and readiness bits of the event status byte are reset. Tags: atp.EnumerationLiteralIndex=1
+    ONLY_THIS_CYCLE_AND_READINESS = "onlyThisCycleAndReadiness"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE,
+                DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS,
+            ]
+        )
 
 
 class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):

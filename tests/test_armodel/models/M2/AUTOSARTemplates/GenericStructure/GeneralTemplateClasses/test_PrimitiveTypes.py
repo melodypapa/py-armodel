@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CseCodeType,
     DateTime,
     DiagnosticClearDtcLimitationEnum,
+    DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
@@ -2278,3 +2279,43 @@ class TestDiagnosticClearDtcLimitationEnum:
         enum.setValue(DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS)
 
         assert enum.getValue() == "clearAllDtcs"
+
+
+class TestDiagnosticClearEventAllowedBehaviorEnum:
+    """
+    Test class for DiagnosticClearEventAllowedBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.150, p.166
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticClearEventAllowedBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticClearEventAllowedBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["noStatusByteChange", "onlyThisCycleAndReadiness"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticClearEventAllowedBehaviorEnum member values.
+        """
+        enum = DiagnosticClearEventAllowedBehaviorEnum()
+
+        assert DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE == "noStatusByteChange"
+        assert DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS == "onlyThisCycleAndReadiness"
+
+        assert enum.validateEnumValue("noStatusByteChange") is True
+        assert enum.validateEnumValue("onlyThisCycleAndReadiness") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticClearEventAllowedBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticClearEventAllowedBehaviorEnum()
+        enum.setValue(DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS)
+
+        assert enum.getValue() == "onlyThisCycleAndReadiness"
