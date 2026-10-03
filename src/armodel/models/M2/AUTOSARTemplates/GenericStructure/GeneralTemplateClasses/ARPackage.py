@@ -1307,6 +1307,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_vehicle_info)
         return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfo)
 
+    def createDiagnosticRequestVehicleInfoClass(self, short_name: str) -> DiagnosticRequestVehicleInfoClass:
+        """
+        Creates a new DiagnosticRequestVehicleInfoClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestVehicleInfoClass contains attributes shared by all
+        instances of the "Request Vehicle Info" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestVehicleInfoClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestVehicleInfoClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestVehicleInfoClass):
+            request_vehicle_info_class = DiagnosticRequestVehicleInfoClass(self, short_name)
+            self.addReferrableElement(request_vehicle_info_class)
+        return self.getReferrableElement(short_name, DiagnosticRequestVehicleInfoClass)
+
     def createDiagnosticRequestFileTransfer(self, short_name: str) -> DiagnosticRequestFileTransfer:
         """
         Creates a new DiagnosticRequestFileTransfer with the given short name, or
@@ -4540,6 +4559,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByIdentifierClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadDataByPeriodicIDClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticReadScalingDataByIdentifierClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestVehicleInfoClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticResponseOnEventClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRoutineControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticWriteDataByIdentifierClass  # noqa: E402

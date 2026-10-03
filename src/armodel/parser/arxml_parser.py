@@ -403,6 +403,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
+    DiagnosticRequestVehicleInfoClass,
     DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
     DiagnosticResponseOnEventClass,
@@ -11649,6 +11650,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResultsClass <%s>" % request_on_board_monitoring_test_results_class.getShortName())
         self.readIdentifiable(element, request_on_board_monitoring_test_results_class)
 
+    def readDiagnosticRequestVehicleInfoClass(self, element: ET.Element, request_vehicle_info_class: DiagnosticRequestVehicleInfoClass):
+        self.logger.debug("Read DiagnosticRequestVehicleInfoClass <%s>" % request_vehicle_info_class.getShortName())
+        self.readIdentifiable(element, request_vehicle_info_class)
+
     def readDiagnosticRequestUploadClass(self, element: ET.Element, request_upload_class: DiagnosticRequestUploadClass):
         self.logger.debug("Read DiagnosticRequestUploadClass <%s>" % request_upload_class.getShortName())
         self.readIdentifiable(element, request_upload_class)
@@ -16522,6 +16527,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS":
             request_on_board_monitoring_test_results_class = parent.createDiagnosticRequestOnBoardMonitoringTestResultsClass(self.getShortName(child_element))
             self.readDiagnosticRequestOnBoardMonitoringTestResultsClass(child_element, request_on_board_monitoring_test_results_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS":
+            request_vehicle_info_class = parent.createDiagnosticRequestVehicleInfoClass(self.getShortName(child_element))
+            self.readDiagnosticRequestVehicleInfoClass(child_element, request_vehicle_info_class)
         elif tag_name == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS":
             request_upload_class = parent.createDiagnosticRequestUploadClass(self.getShortName(child_element))
             self.readDiagnosticRequestUploadClass(child_element, request_upload_class)

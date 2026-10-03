@@ -296,6 +296,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
+    DiagnosticRequestVehicleInfoClass,
     DiagnosticReadMemoryByAddressClass,
     DiagnosticTransferExitClass,
     DiagnosticReadScalingDataByIdentifierClass,
@@ -15045,6 +15046,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-UPLOAD-CLASS")
         self.writeIdentifiable(child_element, request_upload_class)
 
+    def writeDiagnosticRequestVehicleInfoClass(self, element: ET.Element, request_vehicle_info_class: DiagnosticRequestVehicleInfoClass):
+        self.logger.debug("Write DiagnosticRequestVehicleInfoClass %s" % request_vehicle_info_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-VEHICLE-INFO-CLASS")
+        self.writeIdentifiable(child_element, request_vehicle_info_class)
+
     def writeDiagnosticRequestFileTransferClass(self, element: ET.Element, request_file_transfer_class: DiagnosticRequestFileTransferClass):
         self.logger.debug("Write DiagnosticRequestFileTransferClass %s" % request_file_transfer_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-FILE-TRANSFER-CLASS")
@@ -16285,6 +16291,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRequestEmissionRelatedDTCClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestUploadClass):
             self.writeDiagnosticRequestUploadClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestVehicleInfoClass):
+            self.writeDiagnosticRequestVehicleInfoClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestFileTransferClass):
             self.writeDiagnosticRequestFileTransferClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestOnBoardMonitoringTestResultsClass):

@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
+    DiagnosticRequestVehicleInfoClass,
     DiagnosticResponseOnEventClass,
     DiagnosticRoutineControlClass,
     DiagnosticSecurityAccessClass,
@@ -1572,4 +1573,37 @@ class Test_DiagnosticRequestControlOfOnBoardDeviceClass:
         assert package.getReferrableElement("Coob1", DiagnosticRequestControlOfOnBoardDeviceClass) is service_class
 
         duplicate = package.createDiagnosticRequestControlOfOnBoardDeviceClass("Coob1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestVehicleInfoClass:
+    """Test cases for DiagnosticRequestVehicleInfoClass class (Table 4.145, p.160)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request Vehicle Info" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestVehicleInfoClass(_pkg(), "MyRvi")
+        assert service_class.getShortName() == "MyRvi"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestVehicleInfoClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestVehicleInfoClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestVehicleInfoClass, ARObject)
+        assert issubclass(DiagnosticRequestVehicleInfoClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestVehicleInfoClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestVehicleInfoClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_vehicle_info_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestVehicleInfoClass("Rvi1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestVehicleInfoClass)
+        assert service_class.getShortName() == "Rvi1"
+        assert package.getReferrableElement("Rvi1", DiagnosticRequestVehicleInfoClass) is service_class
+
+        duplicate = package.createDiagnosticRequestVehicleInfoClass("Rvi1")
         assert duplicate is service_class
