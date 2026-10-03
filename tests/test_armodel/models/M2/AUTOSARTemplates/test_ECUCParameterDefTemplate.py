@@ -786,6 +786,8 @@ class TestEcucContainerDef:
 
 
 class TestEcucCommonAttributes:
+    CLASS_NOTE = "Attributes used by Configuration Parameters as well as References."
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucCommonAttributes)
@@ -795,6 +797,12 @@ class TestEcucCommonAttributes:
             pass
 
         return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestECA"), "sn")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucCommonAttributes.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucCommonAttributes.__init__.__doc__ is None
 
     def test_initialization_defaults(self):
         obj = self._make()

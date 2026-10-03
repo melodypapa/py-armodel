@@ -626,26 +626,24 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
 
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
-    """
-    Attributes used by Configuration Parameters as well as References.
-    """
+    """Attributes used by Configuration Parameters as well as References."""
 
     # EcucCommonAttributes method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.8, p.49
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiresIndex             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresIndex             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValueConfigClasses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addValueConfigClass          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addMultiplicityConfigClass       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addValueConfigClass              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMultiplicityConfigClasses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getOrigin                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPostBuildVariantValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRequiresIndex                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValueConfigClasses            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrigin                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantMultiplicity  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setPostBuildVariantValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setRequiresIndex                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucCommonAttributes:
@@ -653,7 +651,7 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
         super().__init__(parent, short_name)
 
-        # Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        # Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
 
         # String specifying if this configuration parameter is an AUTOSAR standardized configuration parameter or if the parameter is hardware- or vendor-specific.
@@ -668,18 +666,18 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
         # Used to define whether the value element for this definition shall be provided with an index.
         self.requiresIndex: Optional[Boolean] = None
 
-        # Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        # Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=VALUE-CONFIG-CLASSES
         self.valueConfigClasses: List[EcucValueConfigurationClass] = []
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
         """
-        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         """
         return self.multiplicityConfigClasses
 
     def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass):
         """
-        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=MULTIPLICITY-CONFIG-CLASSES
         A None value is a no-op.
         """
         if value is not None:
@@ -748,13 +746,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
     def getValueConfigClasses(self) -> List[EcucValueConfigurationClass]:
         """
-        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=VALUE-CONFIG-CLASSES
         """
         return self.valueConfigClasses
 
     def addValueConfigClass(self, value: EcucValueConfigurationClass):
         """
-        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory. Tags: xml.namePlural=VALUE-CONFIG-CLASSES
         A None value is a no-op.
         """
         if value is not None:
