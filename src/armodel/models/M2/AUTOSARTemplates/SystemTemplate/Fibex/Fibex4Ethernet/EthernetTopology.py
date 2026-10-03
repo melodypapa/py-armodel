@@ -2924,20 +2924,21 @@ class TimeSynchronization(ARObject):
     """
 
     # TimeSynchronization method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.145, p.469 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.145, p.469
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeSyncClient         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncClient         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTimeSyncServer      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncServer         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getTimeSyncClient              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncClient              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Configuration of the time synchronisation client.
         self.timeSyncClient: Optional[TimeSyncClientConfiguration] = None
 
-        # [x] getTimeSyncServer              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTimeSyncServer              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Configuration of the time synchronisation server.
         self.timeSyncServer: Optional[TimeSyncServerConfiguration] = None
 
@@ -2956,20 +2957,21 @@ class TimeSynchronization(ARObject):
             self.timeSyncClient = value
         return self
 
+    def createTimeSyncServer(self, short_name: str) -> TimeSyncServerConfiguration:
+        """
+        Configuration of the time synchronisation server.
+        """
+        if self.timeSyncServer is not None and self.timeSyncServer.getShortName() == short_name:
+            return self.timeSyncServer
+        server = TimeSyncServerConfiguration(self, short_name)
+        self.timeSyncServer = server
+        return server
+
     def getTimeSyncServer(self) -> Optional[TimeSyncServerConfiguration]:
         """
         Configuration of the time synchronisation server.
         """
         return self.timeSyncServer
-
-    def setTimeSyncServer(self, value: Optional[TimeSyncServerConfiguration]) -> TimeSynchronization:
-        """
-        Configuration of the time synchronisation server.
-        A None value is a no-op and does not overwrite an existing timeSyncServer.
-        """
-        if value is not None:
-            self.timeSyncServer = value
-        return self
 
 
 class InfrastructureServices(ARObject):

@@ -1100,7 +1100,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     NetworkEndpoint,
     OrderedMaster,
     TimeSyncClientConfiguration,
-    TimeSyncServerConfiguration,
     TimeSyncTechnologyEnum,
     TimeSynchronization,
 )
@@ -9865,7 +9864,7 @@ class ARXMLParser(AbstractARXMLParser):
                 sync.setTimeSyncClient(client)
             server_element = self.find(child_element, "TIME-SYNC-SERVER")
             if server_element is not None:
-                server = TimeSyncServerConfiguration(None, self.getShortName(server_element))
+                server = sync.createTimeSyncServer(self.getShortName(server_element))
                 self.readReferrable(server_element, server)
                 server.setPriority(self.getChildElementOptionalPositiveInteger(server_element, "PRIORITY"))
                 server.setSyncInterval(self.getChildElementOptionalTimeValue(server_element, "SYNC-INTERVAL"))
@@ -9875,7 +9874,6 @@ class ARXMLParser(AbstractARXMLParser):
                     e = TimeSyncTechnologyEnum()
                     e.setValue(time_sync_technology.getValue())
                     server.setTimeSyncTechnology(e)
-                sync.setTimeSyncServer(server)
         return sync
 
     def readOrderedMaster(self, element: ET.Element, master: OrderedMaster):

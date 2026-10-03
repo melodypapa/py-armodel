@@ -1325,12 +1325,10 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert sync.getTimeSyncClient() == client_config
         assert result == sync  # Test method chaining
 
-        autosar = AUTOSAR.getInstance()
-        ar_package = autosar.createARPackage("TEST")
-        server_config = TimeSyncServerConfiguration(ar_package, "time_sync_server")
-        result = sync.setTimeSyncServer(server_config)
+        server_config = sync.createTimeSyncServer("time_sync_server")
         assert sync.getTimeSyncServer() == server_config
-        assert result == sync  # Test method chaining
+        assert server_config.getShortName() == "time_sync_server"
+        assert server_config.getParent() == sync
 
     def test_InfrastructureServices(self):
         """Test InfrastructureServices class functionality (Table 6.144, p.469)."""
