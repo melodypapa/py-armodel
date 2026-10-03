@@ -399,6 +399,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
     DiagnosticRequestFileTransferClass,
+    DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
     DiagnosticTransferExitClass,
@@ -11617,6 +11618,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCClass <%s>" % request_emission_related_dtc_class.getShortName())
         self.readIdentifiable(element, request_emission_related_dtc_class)
 
+    def readDiagnosticRequestOnBoardMonitoringTestResultsClass(self, element: ET.Element, request_on_board_monitoring_test_results_class: DiagnosticRequestOnBoardMonitoringTestResultsClass):
+        self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResultsClass <%s>" % request_on_board_monitoring_test_results_class.getShortName())
+        self.readIdentifiable(element, request_on_board_monitoring_test_results_class)
+
     def readDiagnosticRequestUploadClass(self, element: ET.Element, request_upload_class: DiagnosticRequestUploadClass):
         self.logger.debug("Read DiagnosticRequestUploadClass <%s>" % request_upload_class.getShortName())
         self.readIdentifiable(element, request_upload_class)
@@ -16484,6 +16489,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS":
             request_powertrain_freeze_frame_data_class = parent.createDiagnosticRequestPowertrainFreezeFrameDataClass(self.getShortName(child_element))
             self.readDiagnosticRequestPowertrainFreezeFrameDataClass(child_element, request_powertrain_freeze_frame_data_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS":
+            request_on_board_monitoring_test_results_class = parent.createDiagnosticRequestOnBoardMonitoringTestResultsClass(self.getShortName(child_element))
+            self.readDiagnosticRequestOnBoardMonitoringTestResultsClass(child_element, request_on_board_monitoring_test_results_class)
         elif tag_name == "DIAGNOSTIC-REQUEST-UPLOAD-CLASS":
             request_upload_class = parent.createDiagnosticRequestUploadClass(self.getShortName(child_element))
             self.readDiagnosticRequestUploadClass(child_element, request_upload_class)

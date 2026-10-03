@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
     DiagnosticRequestFileTransferClass,
+    DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
     DiagnosticResponseOnEventClass,
@@ -1504,4 +1505,37 @@ class Test_DiagnosticClearResetEmissionRelatedInfoClass:
         assert package.getReferrableElement("Cre1", DiagnosticClearResetEmissionRelatedInfoClass) is service_class
 
         duplicate = package.createDiagnosticClearResetEmissionRelatedInfoClass("Cre1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticRequestOnBoardMonitoringTestResultsClass:
+    """Test cases for DiagnosticRequestOnBoardMonitoringTestResultsClass class (Table 4.140, p.157)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Request On-Board Monitoring Test Results" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticRequestOnBoardMonitoringTestResultsClass(_pkg(), "MyObd06")
+        assert service_class.getShortName() == "MyObd06"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, ARObject)
+        assert issubclass(DiagnosticRequestOnBoardMonitoringTestResultsClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticRequestOnBoardMonitoringTestResultsClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticRequestOnBoardMonitoringTestResultsClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_request_on_board_monitoring_test_results_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticRequestOnBoardMonitoringTestResultsClass("Obd061")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticRequestOnBoardMonitoringTestResultsClass)
+        assert service_class.getShortName() == "Obd061"
+        assert package.getReferrableElement("Obd061", DiagnosticRequestOnBoardMonitoringTestResultsClass) is service_class
+
+        duplicate = package.createDiagnosticRequestOnBoardMonitoringTestResultsClass("Obd061")
         assert duplicate is service_class

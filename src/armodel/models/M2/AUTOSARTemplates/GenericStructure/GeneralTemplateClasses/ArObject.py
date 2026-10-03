@@ -883,10 +883,6 @@ class DiagnosticPeriodicRate(ARObject):
         return self
 
 
-class DiagnosticRequestOnBoardMonitoringTestResultsClass(ARObject):
-    pass
-
-
 class DiagnosticServiceMappingDiagTarget(ARObject, ABC):
     pass
 

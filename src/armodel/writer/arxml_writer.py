@@ -292,6 +292,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
     DiagnosticRequestFileTransferClass,
+    DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
     DiagnosticRequestUploadClass,
     DiagnosticReadMemoryByAddressClass,
@@ -15050,6 +15051,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-CLASS")
         self.writeIdentifiable(child_element, request_emission_related_dtc_class)
 
+    def writeDiagnosticRequestOnBoardMonitoringTestResultsClass(self, element: ET.Element, request_on_board_monitoring_test_results_class: DiagnosticRequestOnBoardMonitoringTestResultsClass):
+        self.logger.debug("Write DiagnosticRequestOnBoardMonitoringTestResultsClass %s" % request_on_board_monitoring_test_results_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-ON-BOARD-MONITORING-TEST-RESULTS-CLASS")
+        self.writeIdentifiable(child_element, request_on_board_monitoring_test_results_class)
+
     def writeDiagnosticRequestDownload(self, element: ET.Element, request_download: DiagnosticRequestDownload):
         self.logger.debug("Write DiagnosticRequestDownload %s" % request_download.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD")
@@ -16248,6 +16254,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRequestUploadClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestFileTransferClass):
             self.writeDiagnosticRequestFileTransferClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestOnBoardMonitoringTestResultsClass):
+            self.writeDiagnosticRequestOnBoardMonitoringTestResultsClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestPowertrainFreezeFrameDataClass):
             self.writeDiagnosticRequestPowertrainFreezeFrameDataClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticResponseOnEvent):
