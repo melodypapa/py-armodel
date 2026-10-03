@@ -117,7 +117,15 @@ class DiagnosticClearDiagnosticInformationClass(DiagnosticServiceClass):
 
 
 class DiagnosticClearResetEmissionRelatedInfoClass(DiagnosticServiceClass):
-    pass
+    """This meta-class represents the ability to define common properties for all instances of the "Clear Reset Emission Related Data" OBD diagnostic service."""
+
+    # DiagnosticClearResetEmissionRelatedInfoClass method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.138, p.155
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticComControlClass(DiagnosticServiceClass):

@@ -711,6 +711,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(clear_reset_emission_related_info)
         return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfo)
 
+    def createDiagnosticClearResetEmissionRelatedInfoClass(self, short_name: str) -> DiagnosticClearResetEmissionRelatedInfoClass:
+        """
+        Creates a new DiagnosticClearResetEmissionRelatedInfoClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticClearResetEmissionRelatedInfoClass contains attributes shared by all
+        instances of the "Clear Reset Emission Related Data" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticClearResetEmissionRelatedInfoClass
+
+        Returns:
+            The newly created or existing DiagnosticClearResetEmissionRelatedInfoClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticClearResetEmissionRelatedInfoClass):
+            clear_reset_emission_related_info_class = DiagnosticClearResetEmissionRelatedInfoClass(self, short_name)
+            self.addReferrableElement(clear_reset_emission_related_info_class)
+        return self.getReferrableElement(short_name, DiagnosticClearResetEmissionRelatedInfoClass)
+
     def createDiagnosticComControlClass(self, short_name: str) -> DiagnosticComControlClass:
         """
         Creates a new DiagnosticComControlClass with the given short name,
@@ -4391,6 +4410,7 @@ ViewMapSet.__bases__ = (ARElement,)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearResetEmissionRelatedInfoClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticComControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticControlDTCSettingClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticDynamicallyDefineDataIdentifierClass  # noqa: E402

@@ -277,6 +277,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticClearDiagnosticInformationClass,
+    DiagnosticClearResetEmissionRelatedInfoClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -14592,6 +14593,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-DIAGNOSTIC-INFORMATION-CLASS")
         self.writeIdentifiable(child_element, clear_diagnostic_information_class)
 
+    def writeDiagnosticClearResetEmissionRelatedInfoClass(self, element: ET.Element, clear_reset_emission_related_info_class: DiagnosticClearResetEmissionRelatedInfoClass):
+        self.logger.debug("Write DiagnosticClearResetEmissionRelatedInfoClass %s" % clear_reset_emission_related_info_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS")
+        self.writeIdentifiable(child_element, clear_reset_emission_related_info_class)
+
     def writeDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Write DiagnosticComControl %s" % com_control.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-COM-CONTROL")
@@ -16184,6 +16190,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticClearDiagnosticInformation(element, ar_element)
         elif isinstance(ar_element, DiagnosticClearDiagnosticInformationClass):
             self.writeDiagnosticClearDiagnosticInformationClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticClearResetEmissionRelatedInfoClass):
+            self.writeDiagnosticClearResetEmissionRelatedInfoClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticComControl):
             self.writeDiagnosticComControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticComControlClass):

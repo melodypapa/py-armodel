@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticClearDiagnosticInformationClass,
+    DiagnosticClearResetEmissionRelatedInfoClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -1470,4 +1471,37 @@ class Test_DiagnosticRequestEmissionRelatedDTCClass:
         assert package.getReferrableElement("Red1", DiagnosticRequestEmissionRelatedDTCClass) is service_class
 
         duplicate = package.createDiagnosticRequestEmissionRelatedDTCClass("Red1")
+        assert duplicate is service_class
+
+
+class Test_DiagnosticClearResetEmissionRelatedInfoClass:
+    """Test cases for DiagnosticClearResetEmissionRelatedInfoClass class (Table 4.138, p.155)."""
+
+    CLASS_DOCSTRING = 'This meta-class represents the ability to define common properties for all instances of the "Clear Reset Emission Related Data" OBD diagnostic service.'
+
+    def test_is_concrete(self):
+        service_class = DiagnosticClearResetEmissionRelatedInfoClass(_pkg(), "MyCre")
+        assert service_class.getShortName() == "MyCre"
+
+    def test_is_diagnostic_service_class_subclass(self):
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, DiagnosticServiceClass)
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, DiagnosticCommonElement)
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, ARObject)
+        assert issubclass(DiagnosticClearResetEmissionRelatedInfoClass, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(DiagnosticClearResetEmissionRelatedInfoClass.__doc__) == self.CLASS_DOCSTRING
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticClearResetEmissionRelatedInfoClass.__init__.__doc__ is None
+
+    def test_create_diagnostic_clear_reset_emission_related_info_class(self):
+        package = _pkg()
+        service_class = package.createDiagnosticClearResetEmissionRelatedInfoClass("Cre1")
+        assert service_class is not None
+        assert isinstance(service_class, DiagnosticClearResetEmissionRelatedInfoClass)
+        assert service_class.getShortName() == "Cre1"
+        assert package.getReferrableElement("Cre1", DiagnosticClearResetEmissionRelatedInfoClass) is service_class
+
+        duplicate = package.createDiagnosticClearResetEmissionRelatedInfoClass("Cre1")
         assert duplicate is service_class

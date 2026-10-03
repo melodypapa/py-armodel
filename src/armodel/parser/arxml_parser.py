@@ -383,6 +383,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
     DiagnosticClearDiagnosticInformationClass,
+    DiagnosticClearResetEmissionRelatedInfoClass,
     DiagnosticComControlClass,
     DiagnosticControlDTCSettingClass,
     DiagnosticCustomServiceClass,
@@ -11162,6 +11163,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticClearDiagnosticInformationClass <%s>" % clear_diagnostic_information_class.getShortName())
         self.readIdentifiable(element, clear_diagnostic_information_class)
 
+    def readDiagnosticClearResetEmissionRelatedInfoClass(self, element: ET.Element, clear_reset_emission_related_info_class: DiagnosticClearResetEmissionRelatedInfoClass):
+        self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfoClass <%s>" % clear_reset_emission_related_info_class.getShortName())
+        self.readIdentifiable(element, clear_reset_emission_related_info_class)
+
     def readDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Read DiagnosticComControl <%s>" % com_control.getShortName())
         self.readIdentifiable(element, com_control)
@@ -16405,6 +16410,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-COM-CONTROL":
             com_control = parent.createDiagnosticComControl(self.getShortName(child_element))
             self.readDiagnosticComControl(child_element, com_control)
+        elif tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO-CLASS":
+            clear_reset_emission_related_info_class = parent.createDiagnosticClearResetEmissionRelatedInfoClass(self.getShortName(child_element))
+            self.readDiagnosticClearResetEmissionRelatedInfoClass(child_element, clear_reset_emission_related_info_class)
         elif tag_name == "DIAGNOSTIC-COM-CONTROL-CLASS":
             com_control_class = parent.createDiagnosticComControlClass(self.getShortName(child_element))
             self.readDiagnosticComControlClass(child_element, com_control_class)
