@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6Configuration,
     NetworkEndpoint,
     SdClientConfig,
+    SdServerConfig,
     TcpTp,
     TpPort,
     UdpTp,
@@ -54,7 +55,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     InitialSdDelayConfig,
     ProvidedServiceInstance,
     RequestResponseDelay,
-    SdServerConfig,
     SoAdConfig,
     SocketAddress,
 )

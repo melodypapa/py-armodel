@@ -1031,6 +1031,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
     SdClientConfig,
+    SdServerConfig,
     VlanMembership,
     GenericTp,
     TcpTp,
@@ -1109,7 +1110,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
-    SdServerConfig,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     StaticSocketConnection,
@@ -10227,6 +10227,9 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = SdServerConfig()
+            self.readARObject(child_element, config)
+            for tag in self.getTagWithOptionalValues(child_element, "CAPABILITY-RECORDS"):
+                config.addCapabilityRecord(tag)
             config.setInitialOfferBehavior(self.getInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR"))
             config.setOfferCyclicDelay(self.getChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY"))
             config.setRequestResponseDelay(self.getRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY"))

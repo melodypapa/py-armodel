@@ -926,6 +926,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
     SdClientConfig,
+    SdServerConfig,
     VlanMembership,
     TcpProps,
     UdpProps,
@@ -979,7 +980,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
-    SdServerConfig,
     SoAdConfig,
     StaticSocketConnection,
     SocketAddress,
@@ -10232,6 +10232,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSdServerConfig(self, element: ET.Element, key: str, config: SdServerConfig):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
+            self.setTagWithOptionalValues(child_element, "CAPABILITY-RECORDS", config.getCapabilityRecords())
             self.setInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR", config.getInitialOfferBehavior())
             self.setChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY", config.getOfferCyclicDelay())
             self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
