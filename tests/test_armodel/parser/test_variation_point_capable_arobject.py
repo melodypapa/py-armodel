@@ -120,12 +120,14 @@ class TestVariationPointCapableARObjectReaders:
         _assert_variation_point(point)
 
     def test_instantiation_rte_event_props(self, parser):
+        """Table 3.17 has no variationPoint row (Rule 0015), so an incoming VARIATION-POINT element is ignored, not read."""
         element = _snip(VP_SNIPPET, root_tag="INSTANTIATION-TIMING-EVENT-PROPS")
 
         props = InstantiationTimingEventProps()
         parser.readInstantiationRTEEventProps(element, props)
 
-        _assert_variation_point(props)
+        assert props.getShortLabel() is None
+        assert props.getRefinedEventIRef() is None
 
     def test_instantiation_data_def_props(self, parser):
         from armodel.models import ApplicationSwComponentType

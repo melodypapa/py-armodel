@@ -3114,7 +3114,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeInstanceEventInCompositionInstanceRef(refined_event_tag, refined_event)
         self.setChildElementOptionalLiteral(props_tag, "SHORT-LABEL", props.getShortLabel())
         self.setChildElementOptionalTimeValue(props_tag, "PERIOD", props.getPeriod())
-        self.writeVariationPointCapable(props_tag, props)
 
     def writeCompositionSwComponentTypeInstantiationRTEEventProps(self, element: ET.Element, parent: CompositionSwComponentType):
         props_list = parent.getInstantiationRTEEventProps()

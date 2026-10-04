@@ -8467,7 +8467,6 @@ class ARXMLParser(AbstractARXMLParser):
             self.readInstanceEventInCompositionInstanceRef(refined_event_element, refined_event)
             props.setRefinedEventIRef(refined_event)
         props.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
-        self.readVariationPointCapable(element, props)
 
     def readInstantiationTimingEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
         self.readInstantiationRTEEventProps(element, props)

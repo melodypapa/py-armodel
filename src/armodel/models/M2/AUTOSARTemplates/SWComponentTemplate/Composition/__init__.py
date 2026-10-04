@@ -307,20 +307,19 @@ class PassThroughSwConnector(SwConnector):
         return self
 
 
-class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
+class InstantiationRTEEventProps(ARObject, ABC):
     """
     This meta-class represents the ability to refine the properties of RTEEvents for particular instances of a software component.
     """
 
     # InstantiationRTEEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.17, p.85
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRefinedEventIRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRefinedEventIRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRefinedEventIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRefinedEventIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is InstantiationRTEEventProps:
@@ -336,23 +335,14 @@ class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
 
     def getRefinedEventIRef(self) -> Optional[InstanceEventInCompositionInstanceRef]:
         """
-        Gets the instance reference denoting the Timing Event for which the period shall be refined on an instance level.
-
-        Returns:
-            InstanceEventInCompositionInstanceRef, or None if not set
+        This instance ref denotes the Timing Event for which the period shall be refined on an instance level. InstanceRef implemented by: InstanceEventInCompositionInstanceRef
         """
         return self.refinedEventIRef
 
     def setRefinedEventIRef(self, value: Optional[InstanceEventInCompositionInstanceRef]) -> "InstantiationRTEEventProps":
         """
-        Sets the instance reference denoting the Timing Event for which the period shall be refined on an instance level.
+        This instance ref denotes the Timing Event for which the period shall be refined on an instance level. InstanceRef implemented by: InstanceEventInCompositionInstanceRef
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The InstanceEventInCompositionInstanceRef to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.refinedEventIRef = value
@@ -360,23 +350,14 @@ class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
 
     def getShortLabel(self) -> Optional[Identifier]:
         """
-        Gets the short label that contributes to the splitkey of aggregations that are <<atpSplitable>>.
-
-        Returns:
-            Identifier representing the short label, or None if not set
+        The main purpose of the shortLabel is to contribute to the splitkey of aggregations that are <<atpSplitable>>.
         """
         return self.shortLabel
 
     def setShortLabel(self, value: Optional[Identifier]) -> "InstantiationRTEEventProps":
         """
-        Sets the short label that contributes to the splitkey of aggregations that are <<atpSplitable>>.
+        The main purpose of the shortLabel is to contribute to the splitkey of aggregations that are <<atpSplitable>>.
         A None value is a no-op and does not overwrite an existing short label.
-
-        Args:
-            value: The short label identifier to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.shortLabel = value
