@@ -10121,8 +10121,8 @@ class TestDiagnosticExtendedDataRecord:
 
     DiagnosticExtendedDataRecord is concrete (XSD complexType
     DIAGNOSTIC-EXTENDED-DATA-RECORD abstract="false") with five own Attribute
-    rows in displayed order. trigger (DiagnosticRecordTriggerEnum, Table 4.182)
-    is still a queued stub and is exercised as a raw-valued enum literal.
+    rows in displayed order. trigger round-trips as the typed
+    DiagnosticRecordTriggerEnum (Table 4.182) literal.
     """
 
     CLASS_NOTE = "Description of an extended data record. Tags: atp.recommendedPackage=DiagnosticExtendedDataRecords"
@@ -10222,14 +10222,10 @@ class TestDiagnosticExtendedDataRecord:
     def test_get_set_trigger(self):
         """
         Round-trips trigger; None is a no-op.
-
-        DiagnosticRecordTriggerEnum is a stub until its own sync
-        (Table 4.182, queued in Group25) — it is instantiated through the
-        AREnum constructor with an empty literal sequence.
         """
         obj = self._make_obj()
 
-        value = DiagnosticRecordTriggerEnum([]).setValue("confirmed")
+        value = DiagnosticRecordTriggerEnum().setValue(DiagnosticRecordTriggerEnum.CONFIRMED)
         result = obj.setTrigger(value)
         assert result is obj  # method chaining
         assert obj.getTrigger() is value
@@ -10351,8 +10347,8 @@ class TestDiagnosticFreezeFrame:
 
     DiagnosticFreezeFrame is concrete (XSD complexType
     DIAGNOSTIC-FREEZE-FRAME abstract="false") with four own Attribute
-    rows in displayed order. trigger (DiagnosticRecordTriggerEnum, Table 4.182)
-    is still a queued stub and is exercised as a raw-valued enum literal.
+    rows in displayed order. trigger round-trips as the typed
+    DiagnosticRecordTriggerEnum (Table 4.182) literal.
     """
 
     CLASS_NOTE = "This element describes combinations of DIDs for a non OBD relevant freeze frame. Tags: atp.recommendedPackage=DiagnosticFreezeFrames"
@@ -10428,14 +10424,10 @@ class TestDiagnosticFreezeFrame:
     def test_get_set_trigger(self):
         """
         Round-trips trigger; None is a no-op.
-
-        DiagnosticRecordTriggerEnum is a stub until its own sync
-        (Table 4.182, queued in Group25) — it is instantiated through the
-        AREnum constructor with an empty literal sequence.
         """
         obj = self._make_obj()
 
-        value = DiagnosticRecordTriggerEnum([]).setValue("confirmed")
+        value = DiagnosticRecordTriggerEnum().setValue(DiagnosticRecordTriggerEnum.CONFIRMED)
         result = obj.setTrigger(value)
         assert result is obj  # method chaining
         assert obj.getTrigger() is value

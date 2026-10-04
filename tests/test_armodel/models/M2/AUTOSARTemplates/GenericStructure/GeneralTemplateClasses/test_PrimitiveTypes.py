@@ -43,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticOperationCycleTypeEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -2184,6 +2185,64 @@ class TestDiagnosticEventWindowTimeEnum:
         enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
 
         assert enum.getValue() == "powerWindowTime"
+
+
+class TestDiagnosticRecordTriggerEnum:
+    """
+    Test class for DiagnosticRecordTriggerEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.182, p.191
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticRecordTriggerEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticRecordTriggerEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "confirmed",
+            "custom",
+            "fdcThreshold",
+            "pending",
+            "testFailed",
+            "testFailedThisOperationCycle",
+            "testPassed",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticRecordTriggerEnum member values.
+        """
+        enum = DiagnosticRecordTriggerEnum()
+
+        assert DiagnosticRecordTriggerEnum.CONFIRMED == "confirmed"
+        assert DiagnosticRecordTriggerEnum.CUSTOM == "custom"
+        assert DiagnosticRecordTriggerEnum.FDC_THRESHOLD == "fdcThreshold"
+        assert DiagnosticRecordTriggerEnum.PENDING == "pending"
+        assert DiagnosticRecordTriggerEnum.TEST_FAILED == "testFailed"
+        assert DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE == "testFailedThisOperationCycle"
+        assert DiagnosticRecordTriggerEnum.TEST_PASSED == "testPassed"
+
+        assert enum.validateEnumValue("confirmed") is True
+        assert enum.validateEnumValue("custom") is True
+        assert enum.validateEnumValue("fdcThreshold") is True
+        assert enum.validateEnumValue("pending") is True
+        assert enum.validateEnumValue("testFailed") is True
+        assert enum.validateEnumValue("testFailedThisOperationCycle") is True
+        assert enum.validateEnumValue("testPassed") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticRecordTriggerEnum instantiability and getValue.
+        """
+        enum = DiagnosticRecordTriggerEnum()
+        enum.setValue(DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE)
+
+        assert enum.getValue() == "testFailedThisOperationCycle"
 
 
 class TestDiagnosticResponseOnEventActionEnum:

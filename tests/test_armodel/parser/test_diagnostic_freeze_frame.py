@@ -13,14 +13,14 @@ POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); the value is read through
 the wrapper element (DiagnosticConnectedIndicator HEALING-CYCLE-COUNTER-THRESHOLD
 precedent).
 
-TRIGGER round-trips as a raw literal until DiagnosticRecordTriggerEnum
-(Table 4.182, queued in Group25) gains its literals.
+TRIGGER round-trips as the typed DiagnosticRecordTriggerEnum (Table 4.182)
+literal — the TRIGGER XSD token maps to the enum value.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_freeze_frame.py
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticRecordTriggerEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -47,11 +47,11 @@ class TestReadDiagnosticFreezeFrame:
         assert freeze_frame.getRecordNumber() is not None
         assert freeze_frame.getRecordNumber().value == 40
 
-    def test_read_sets_trigger_as_raw_literal(self, parser):
-        """Test that TRIGGER is read as a raw literal while DiagnosticRecordTriggerEnum is a stub."""
-        freeze_frame = self._read(parser, "<TRIGGER>confirmed</TRIGGER>")
+    def test_read_sets_trigger(self, parser):
+        """Test that the TRIGGER token is read as the typed enum literal."""
+        freeze_frame = self._read(parser, "<TRIGGER>CONFIRMED</TRIGGER>")
         assert freeze_frame.getTrigger() is not None
-        assert isinstance(freeze_frame.getTrigger(), ARLiteral)
+        assert isinstance(freeze_frame.getTrigger(), DiagnosticRecordTriggerEnum)
         assert freeze_frame.getTrigger().getValue() == "confirmed"
 
     def test_read_sets_update(self, parser):

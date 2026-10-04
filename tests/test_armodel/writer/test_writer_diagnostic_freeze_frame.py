@@ -12,8 +12,8 @@ POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); the value is written
 through the wrapper element (DiagnosticConnectedIndicator HEALING-CYCLE-COUNTER-THRESHOLD
 precedent).
 
-TRIGGER round-trips as a raw literal until DiagnosticRecordTriggerEnum
-(Table 4.182, queued in Group25) gains its literals.
+TRIGGER round-trips as the typed DiagnosticRecordTriggerEnum (Table 4.182)
+literal — the enum value maps back to its TRIGGER XSD token.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_freeze_frame.py
 """
@@ -55,7 +55,7 @@ class TestWriteDiagnosticFreezeFrame:
     def _populate(self, freeze_frame: DiagnosticFreezeFrame) -> DiagnosticFreezeFrame:
         freeze_frame.setCustomTrigger(String().setValue("custom trigger description"))
         freeze_frame.setRecordNumber(PositiveInteger().setValue(40))
-        freeze_frame.setTrigger(DiagnosticRecordTriggerEnum([]).setValue("confirmed"))
+        freeze_frame.setTrigger(DiagnosticRecordTriggerEnum().setValue(DiagnosticRecordTriggerEnum.CONFIRMED))
         freeze_frame.setUpdate(Boolean().setValue(True))
         return freeze_frame
 
@@ -80,7 +80,7 @@ class TestWriteDiagnosticFreezeFrame:
         record_number = child.find("RECORD-NUMBER")
         assert record_number is not None
         assert record_number.find("POSITIVE-INTEGER-VALUE-VARIATION-POINT").text == "40"
-        assert child.find("TRIGGER").text == "confirmed"
+        assert child.find("TRIGGER").text == "CONFIRMED"
         assert child.find("UPDATE").text == "true"
 
     def test_write_unset_fields_emit_no_children(self):
@@ -129,6 +129,7 @@ class TestWriteDiagnosticFreezeFrame:
             assert freeze_frame_2.getRecordNumber() is not None
             assert freeze_frame_2.getRecordNumber().value == 40
             assert freeze_frame_2.getTrigger() is not None
+            assert isinstance(freeze_frame_2.getTrigger(), DiagnosticRecordTriggerEnum)
             assert freeze_frame_2.getTrigger().getValue() == "confirmed"
             assert freeze_frame_2.getUpdate() is not None
             assert freeze_frame_2.getUpdate().value is True

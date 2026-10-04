@@ -1403,6 +1403,18 @@ DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP = {
     "testFailed": "TEST-FAILED",
 }
 
+#: Mapping between DiagnosticRecordTriggerEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RECORD-TRIGGER-ENUM--SIMPLE).
+DIAGNOSTIC_RECORD_TRIGGER_XML_MAP = {
+    "confirmed": "CONFIRMED",
+    "custom": "CUSTOM",
+    "fdcThreshold": "FDC-THRESHOLD",
+    "pending": "PENDING",
+    "testFailed": "TEST-FAILED",
+    "testFailedThisOperationCycle": "TEST-FAILED-THIS-OPERATION-CYCLE",
+    "testPassed": "TEST-PASSED",
+}
+
 DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
     "iso11992_4": "ISO-11992-4",
     "iso14229_1": "ISO-14229-1",
@@ -14299,7 +14311,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for record_element in record_elements:
                 self.writeDiagnosticParameter(record_elements_element, record_element)
         self.setChildElementOptionalPositiveInteger(child_element, "RECORD-NUMBER", record.getRecordNumber())
-        self.setChildElementOptionalLiteral(child_element, "TRIGGER", cast(ARLiteral, record.getTrigger()))
+        self._writeEnumToken(child_element, "TRIGGER", record.getTrigger(), DIAGNOSTIC_RECORD_TRIGGER_XML_MAP)
         self.setChildElementOptionalBooleanValue(child_element, "UPDATE", record.getUpdate())
 
     def writeDiagnosticFreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticFreezeFrame):
@@ -14315,7 +14327,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 avp_element.text = record_number._text
             elif record_number._value is not None:
                 avp_element.text = str(record_number._value)
-        self.setChildElementOptionalLiteral(child_element, "TRIGGER", cast(ARLiteral, freeze_frame.getTrigger()))
+        self._writeEnumToken(child_element, "TRIGGER", freeze_frame.getTrigger(), DIAGNOSTIC_RECORD_TRIGGER_XML_MAP)
         self.setChildElementOptionalBooleanValue(child_element, "UPDATE", freeze_frame.getUpdate())
 
     def writeDiagnosticFunctionIdentifier(self, element: ET.Element, identifier: DiagnosticFunctionIdentifier):

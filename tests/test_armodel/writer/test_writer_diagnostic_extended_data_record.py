@@ -7,8 +7,8 @@ the element order CUSTOM-TRIGGER → RECORD-ELEMENTS (wrapper of
 DIAGNOSTIC-PARAMETER) → RECORD-NUMBER → TRIGGER → UPDATE.
 The dispatch entry is writeARPackageElement → writeDiagnosticExtendedDataRecord.
 
-TRIGGER round-trips as a raw literal until DiagnosticRecordTriggerEnum
-(Table 4.182, queued in Group25) gains its literals.
+TRIGGER round-trips as the typed DiagnosticRecordTriggerEnum (Table 4.182)
+literal — the enum value maps back to its TRIGGER XSD token.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_extended_data_record.py
 """
@@ -54,7 +54,7 @@ class TestWriteDiagnosticExtendedDataRecord:
         parameter.createIdent("Param1")
         record.addRecordElement(parameter)
         record.setRecordNumber(PositiveInteger().setValue(40))
-        record.setTrigger(DiagnosticRecordTriggerEnum([]).setValue("confirmed"))
+        record.setTrigger(DiagnosticRecordTriggerEnum().setValue(DiagnosticRecordTriggerEnum.CONFIRMED))
         record.setUpdate(Boolean().setValue(True))
         return record
 
@@ -82,7 +82,7 @@ class TestWriteDiagnosticExtendedDataRecord:
         assert record_elements[0].tag == "DIAGNOSTIC-PARAMETER"
         assert record_elements[0].find("IDENT/SHORT-NAME").text == "Param1"
         assert child.find("RECORD-NUMBER").text == "40"
-        assert child.find("TRIGGER").text == "confirmed"
+        assert child.find("TRIGGER").text == "CONFIRMED"
         assert child.find("UPDATE").text == "true"
 
     def test_write_unset_fields_emit_no_children(self):
@@ -135,6 +135,7 @@ class TestWriteDiagnosticExtendedDataRecord:
             assert record_2.getRecordNumber() is not None
             assert record_2.getRecordNumber().value == 40
             assert record_2.getTrigger() is not None
+            assert isinstance(record_2.getTrigger(), DiagnosticRecordTriggerEnum)
             assert record_2.getTrigger().getValue() == "confirmed"
             assert record_2.getUpdate() is not None
             assert record_2.getUpdate().value is True

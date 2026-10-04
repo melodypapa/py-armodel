@@ -2289,7 +2289,49 @@ class DiagnosticPeriodicRateCategoryEnum(AREnum):
 
 
 class DiagnosticRecordTriggerEnum(AREnum):
-    pass
+    """
+    Triggers to allocate an event memory entry.
+    """
+
+    # DiagnosticRecordTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.182, p.191
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # capture on "Confirmed" Tags: atp.EnumerationLiteralIndex=0
+    CONFIRMED = "confirmed"
+
+    # implement custom capture Tags: atp.EnumerationLiteralIndex=4
+    CUSTOM = "custom"
+
+    # capture on "FDC Threshold" Tags: atp.EnumerationLiteralIndex=1
+    FDC_THRESHOLD = "fdcThreshold"
+
+    # capture on "Pending" Tags: atp.EnumerationLiteralIndex=2
+    PENDING = "pending"
+
+    # capture on "Test Failed" Tags: atp.EnumerationLiteralIndex=3
+    TEST_FAILED = "testFailed"
+
+    # Test Failed This Operation Cycle. Tags: atp.EnumerationLiteralIndex=5
+    TEST_FAILED_THIS_OPERATION_CYCLE = "testFailedThisOperationCycle"
+
+    # Capture on testFailed bit transition 1 -> 0. Tags: atp.EnumerationLiteralIndex=6
+    TEST_PASSED = "testPassed"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticRecordTriggerEnum.CONFIRMED,
+                DiagnosticRecordTriggerEnum.CUSTOM,
+                DiagnosticRecordTriggerEnum.FDC_THRESHOLD,
+                DiagnosticRecordTriggerEnum.PENDING,
+                DiagnosticRecordTriggerEnum.TEST_FAILED,
+                DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE,
+                DiagnosticRecordTriggerEnum.TEST_PASSED,
+            ]
+        )
 
 
 class DiagnosticResponseOnEventActionEnum(AREnum):

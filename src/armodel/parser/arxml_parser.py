@@ -1584,6 +1584,18 @@ DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP = {
     "testFailed": "TEST-FAILED",
 }
 
+#: Mapping between DiagnosticRecordTriggerEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RECORD-TRIGGER-ENUM--SIMPLE).
+DIAGNOSTIC_RECORD_TRIGGER_XML_MAP = {
+    "confirmed": "CONFIRMED",
+    "custom": "CUSTOM",
+    "fdcThreshold": "FDC-THRESHOLD",
+    "pending": "PENDING",
+    "testFailed": "TEST-FAILED",
+    "testFailedThisOperationCycle": "TEST-FAILED-THIS-OPERATION-CYCLE",
+    "testPassed": "TEST-PASSED",
+}
+
 DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
     "iso11992_4": "ISO-11992-4",
     "iso14229_1": "ISO-14229-1",
@@ -10813,8 +10825,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticParameter(parameter_element, parameter)
             record.addRecordElement(parameter)
         record.setRecordNumber(self.getChildElementOptionalPositiveInteger(element, "RECORD-NUMBER"))
-        # TRIGGER is round-tripped as a raw literal until DiagnosticRecordTriggerEnum (Table 4.182, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        record.setTrigger(cast(Optional[DiagnosticRecordTriggerEnum], self.getChildElementOptionalLiteral(element, "TRIGGER")))
+        record.setTrigger(self._readEnumToken(element, "TRIGGER", DiagnosticRecordTriggerEnum, DIAGNOSTIC_RECORD_TRIGGER_XML_MAP))
         record.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
 
     def readDiagnosticFreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticFreezeFrame):
@@ -10826,8 +10837,7 @@ class ARXMLParser(AbstractARXMLParser):
             record_number = PositiveInteger()
             record_number.setValue(record_number_element.text.strip())
             freeze_frame.setRecordNumber(record_number)
-        # TRIGGER is round-tripped as a raw literal until DiagnosticRecordTriggerEnum (Table 4.182, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        freeze_frame.setTrigger(cast(Optional[DiagnosticRecordTriggerEnum], self.getChildElementOptionalLiteral(element, "TRIGGER")))
+        freeze_frame.setTrigger(self._readEnumToken(element, "TRIGGER", DiagnosticRecordTriggerEnum, DIAGNOSTIC_RECORD_TRIGGER_XML_MAP))
         freeze_frame.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
 
     def readDiagnosticFunctionIdentifier(self, element: ET.Element, identifier: DiagnosticFunctionIdentifier):

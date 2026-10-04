@@ -8,14 +8,14 @@ Attribute rows in displayed order. The XSD group DIAGNOSTIC-EXTENDED-DATA-RECORD
 RECORD-ELEMENTS (wrapper of DIAGNOSTIC-PARAMETER) → RECORD-NUMBER → TRIGGER →
 UPDATE.
 
-TRIGGER round-trips as a raw literal until DiagnosticRecordTriggerEnum
-(Table 4.182, queued in Group25) gains its literals.
+TRIGGER round-trips as the typed DiagnosticRecordTriggerEnum (Table 4.182)
+literal — the TRIGGER XSD token maps to the enum value.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_extended_data_record.py
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticRecordTriggerEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -58,12 +58,12 @@ class TestReadDiagnosticExtendedDataRecord:
         assert record.getRecordNumber() is not None
         assert record.getRecordNumber().value == 40
 
-    def test_read_sets_trigger_as_raw_literal(self, parser):
-        """Test that TRIGGER is read as a raw literal while DiagnosticRecordTriggerEnum is a stub."""
+    def test_read_sets_trigger(self, parser):
+        """Test that the TRIGGER token is read as the typed enum literal."""
         record = self._read(parser, "<TRIGGER>CONFIRMED</TRIGGER>")
         assert record.getTrigger() is not None
-        assert isinstance(record.getTrigger(), ARLiteral)
-        assert record.getTrigger().getValue() == "CONFIRMED"
+        assert isinstance(record.getTrigger(), DiagnosticRecordTriggerEnum)
+        assert record.getTrigger().getValue() == "confirmed"
 
     def test_read_sets_update(self, parser):
         """Test that UPDATE is read into update."""
