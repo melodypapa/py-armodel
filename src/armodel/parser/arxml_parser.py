@@ -6149,7 +6149,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readConsistencyNeedsRegRequiresStabilitys(element, consistency_needs)
 
     def getModeGroupIRef(self, element: ET.Element, key: str) -> Optional[ModeGroupInAtomicSwcInstanceRef]:
-        instance_ref: Optional[Union[PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef]] = None
+        instance_ref: Optional[ModeGroupInAtomicSwcInstanceRef] = None
         for child_element in self.findall(element, "%s/*" % key):
             tag_name = self.getTagName(child_element)
             if tag_name == "P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF":
@@ -7510,7 +7510,7 @@ class ARXMLParser(AbstractARXMLParser):
         tag_name = self.getTagName(child)
         if tag_name == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS":
             props: Union[EndToEndTransformationComSpecProps, UserDefinedTransformationComSpecProps] = EndToEndTransformationComSpecProps()
-            self.readTransformationComSpecProps(child, cast(TransformationComSpecProps, props))
+            self.readTransformationComSpecProps(child, props)
             return props
         elif tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
             props = UserDefinedTransformationComSpecProps()
@@ -8628,7 +8628,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getCompuConstContent(self, element: ET.Element) -> Optional[CompuConstContent]:
         child_element = self.find(element, "*")
-        content: Optional[Union[CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent]] = None
+        content: Optional[CompuConstContent] = None
         if child_element is not None:
             tag_name = self.getTagName(child_element)
             if tag_name == "VF":
