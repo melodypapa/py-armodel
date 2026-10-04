@@ -76,15 +76,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucParameterValue` — EcucIndexableValue — R23-11 CP_TPS_ECUConfiguration Table 2.49, p.125
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (65 passed model+annotations+new round-trip; ecuc+variation-point subset 589; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `de8db969b`
+  - note (Step 1): abstract Class, Base most-derived EcucIndexableValue (page-split table: Base + annotation rows before the caption, definition + isAutoValue after); Rule 0023 legacy block + stale stamp removed; VariationPointCapable mixin dropped per Rule 0015 (Table 2.49 has no variationPoint row; XSD ECUC-PARAMETER-VALUE VARIATION-POINT is an atpVariation artifact "Applicable for: EcucContainerValue.parameterValue") — writer emission + reader call removed symmetrically, 2 variation-point suite tests re-pinned, arbitration flagged for batch 9b; no stamp (batch 9b)
 
 - [ ] `EcucTextualParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.50, p.127
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
