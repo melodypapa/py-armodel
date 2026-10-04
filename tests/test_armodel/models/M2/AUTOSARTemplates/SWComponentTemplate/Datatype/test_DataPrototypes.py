@@ -97,7 +97,7 @@ class TestDataPrototypeHeritage:
 
 
 class TestAutosarDataPrototype:
-    """Test class for AutosarDataPrototype abstract class."""
+    """Test class for AutosarDataPrototype abstract class (R23-11 Table 5.29)."""
 
     def test_autosar_data_prototype_abstract(self):
         """Test that AutosarDataPrototype is an abstract class."""
@@ -106,23 +106,43 @@ class TestAutosarDataPrototype:
         with pytest.raises(TypeError):
             AutosarDataPrototype(ar_root, "TestAutosarDataPrototype")
 
-    def test_autosar_data_prototype_type_t_ref_via_concrete_subclass(self):
-        """Test typeTRef accessors through a concrete subclass."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
-
+    def test_autosar_data_prototype_initialization_defaults(self):
+        """typeTRef (tref, 0..1) defaults to None on a concrete subclass."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         prototype = VariableDataPrototype(ar_root, "TestAutosarDataPrototype")
 
+        assert isinstance(prototype, AutosarDataPrototype)
+        assert prototype.typeTRef is None
         assert prototype.getTypeTRef() is None
 
+    def test_get_set_type_t_ref(self):
+        """setTypeTRef chains, round-trips the TRefType, and None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = VariableDataPrototype(ar_root, "TestAutosarDataPrototype")
+
         type_ref = TRefType()
-        type_ref.setValue("/Type/Ref")
-        prototype.setTypeTRef(type_ref)
-        assert prototype.getTypeTRef() == type_ref
+        type_ref.setValue("/DataTypes/UInt8")
+        type_ref.setDest("IMPLEMENTATION-DATA-TYPE")
+
+        assert prototype.setTypeTRef(type_ref) is prototype
+        assert prototype.getTypeTRef() is type_ref
+        assert prototype.getTypeTRef().getValue() == "/DataTypes/UInt8"
+        assert prototype.getTypeTRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
 
         prototype.setTypeTRef(None)
-        assert prototype.getTypeTRef() == type_ref
+        assert prototype.getTypeTRef() is type_ref
+
+    def test_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 5.29)."""
+        assert AutosarDataPrototype.__doc__.strip() == "Base class for prototypical roles of an AutosarDataType."
+
+    def test_get_type_t_ref_docstring_verbatim(self):
+        assert AutosarDataPrototype.getTypeTRef.__doc__.strip() == "This represents the corresponding data type."
+
+    def test_set_type_t_ref_docstring_verbatim(self):
+        assert AutosarDataPrototype.setTypeTRef.__doc__.strip() == ("This represents the corresponding data type. " "A None value is a no-op and does not overwrite an existing typeTRef.")
 
 
 class TestVariableDataPrototype:

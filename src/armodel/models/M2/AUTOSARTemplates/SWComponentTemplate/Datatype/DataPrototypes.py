@@ -82,11 +82,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
     # AutosarDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.29, p.306
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTypeTRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTypeTRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTypeTRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeTRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataPrototype:
@@ -94,27 +93,18 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
         super().__init__(parent, short_name)
 
-        # This represents the corresponding data type. Stereotypes: isOfType
+        # This represents the corresponding data type.
         self.typeTRef: Optional[TRefType] = None
 
     def getTypeTRef(self) -> Optional[TRefType]:
         """
         This represents the corresponding data type.
-
-        Returns:
-            Optional[TRefType]: The typeTRef
         """
         return self.typeTRef
 
     def setTypeTRef(self, value: Optional[TRefType]) -> AutosarDataPrototype:
         """
         This represents the corresponding data type. A None value is a no-op and does not overwrite an existing typeTRef.
-
-        Args:
-            value: The typeTRef to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.typeTRef = value
