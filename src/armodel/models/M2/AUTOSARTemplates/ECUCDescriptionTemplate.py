@@ -250,11 +250,10 @@ class EcucNumericalParamValue(EcucParameterValue):
 
     # EcucNumericalParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.51, p.128
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -267,7 +266,10 @@ class EcucNumericalParamValue(EcucParameterValue):
         return self.value
 
     def setValue(self, value: Optional[Numerical]) -> EcucNumericalParamValue:
-        """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime A None value is a no-op and does not overwrite an existing value."""
+        """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
         if value is not None:
             self.value = value
         return self

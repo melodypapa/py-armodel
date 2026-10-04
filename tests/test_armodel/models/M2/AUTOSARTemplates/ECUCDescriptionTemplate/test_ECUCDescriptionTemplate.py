@@ -1368,6 +1368,40 @@ def test_ecuc_textual_param_value_setter_docstring_split_paragraphs():
     assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing value.", "setValue docstring must carry the no-op sentence as its own paragraph"
 
 
+def test_ecuc_numerical_param_value_member_annotations():
+    """
+    Member annotations must match the Table 2.51 multiplicities (Rule 0022 gate pins).
+
+    Test Steps:
+    1. Assert the value getter return type and setter value type via get_type_hints
+    2. Assert the VariationPointCapable mixin is not modeled (Table 2.51 has no VP aggr row;
+       the atpVariation on the `value` attr row is an attribute-value variation)
+    """
+    import typing
+
+    assert typing.get_type_hints(EcucNumericalParamValue.getValue)["return"] == typing.Optional[Numerical]
+    assert typing.get_type_hints(EcucNumericalParamValue.setValue)["value"] == typing.Optional[Numerical]
+
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+    assert VariationPointCapable not in EcucNumericalParamValue.__bases__
+
+
+def test_ecuc_numerical_param_value_setter_docstring_split_paragraphs():
+    """
+    The setter docstring must follow the batch-2 split-paragraph style: the spec Note,
+    a blank line, then the None no-op sentence (EcucParameterValue setter convention).
+
+    Test Steps:
+    1. Assert the setter docstring carries the no-op sentence as its own paragraph
+    """
+    doc = EcucNumericalParamValue.setValue.__doc__
+    assert doc is not None, "setValue must have a docstring"
+    paragraphs = [paragraph.strip() for paragraph in doc.split("\n\n")]
+    assert len(paragraphs) >= 2, "setValue docstring must split the Note and the no-op sentence into separate paragraphs"
+    assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing value.", "setValue docstring must carry the no-op sentence as its own paragraph"
+
+
 if __name__ == "__main__":
     test_ecuc_value_collection_initialization_defaults()
     test_ecuc_value_collection_add_ecuc_value_ref()
@@ -1414,4 +1448,6 @@ if __name__ == "__main__":
     test_ecuc_parameter_value_member_annotations()
     test_ecuc_textual_param_value_member_annotations()
     test_ecuc_textual_param_value_setter_docstring_split_paragraphs()
+    test_ecuc_numerical_param_value_member_annotations()
+    test_ecuc_numerical_param_value_setter_docstring_split_paragraphs()
     print("All ECUCDescriptionTemplate tests passed!")
