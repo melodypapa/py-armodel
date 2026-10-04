@@ -21,9 +21,8 @@ def shaper():
 
 
 class TestCouplingPortAsynchronousTrafficShaper:
-    def test_registered_in_shaper_registry(self):
-        assert CouplingPortAbstractShaper.getShaperClass("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER") is CouplingPortAsynchronousTrafficShaper
-        assert CouplingPortAbstractShaper.getShaperTag(CouplingPortAsynchronousTrafficShaper) == "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER"
+    def test_is_coupling_port_fifo_shaper_choice_member(self):
+        assert issubclass(CouplingPortAsynchronousTrafficShaper, CouplingPortAbstractShaper)
 
     def test_initialization_defaults(self, shaper):
         assert shaper.getShortName() == "AtsShaper"

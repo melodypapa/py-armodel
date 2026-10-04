@@ -2,7 +2,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import TYPE_CHECKING, Dict, List, Optional, cast
+from typing import TYPE_CHECKING, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -179,35 +179,11 @@ class CouplingPortAbstractShaper(Identifiable, ABC):
     # Spec: AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; XSD-only, no Class/Enumeration table in the repo corpora)
     # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] registerShaper    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getShaperClass    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getShaperTag      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # (accepted deviation, 2026-09-30 user arbitration: the XSD models this abstract class as the
-    #  empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER consumed by the CouplingPortFifo.shaper choice
-    #  (xsd L23763: COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER);
-    #  the repo maps that polymorphic choice to this registry-based abstract base + concrete subclasses
-    #  — the two concrete children register themselves by XSD element name at import time)
-
-    _shaper_registry: Dict[str, type] = {}
-
-    @classmethod
-    def registerShaper(cls, xml_tag: str, shaper_cls):
-        """Register the concrete shaper class for an XSD coupling-port shaper element name."""
-        cls._shaper_registry[xml_tag] = shaper_cls
-
-    @classmethod
-    def getShaperClass(cls, xml_tag: str):
-        """Return the concrete shaper class registered for an XSD coupling-port shaper element name, or None."""
-        return cls._shaper_registry.get(xml_tag)
-
-    @classmethod
-    def getShaperTag(cls, shaper_cls):
-        """Return the XSD coupling-port shaper element name registered for a concrete shaper class, or None."""
-        for tag, shaper_class in cls._shaper_registry.items():
-            if shaper_class is shaper_cls:
-                return tag
-        return None
+    # (the XSD models this abstract class as the empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER,
+    #  consumed by the CouplingPortFifo.shaper choice (xsd L23763:
+    #  COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER); the reader and
+    #  writer dispatch that choice by comparing the element name against those two XSD tags)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortAbstractShaper:
@@ -233,8 +209,8 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
     # [x] getTrafficShaperGroupRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTrafficShaperGroupRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (concrete child of the abstract CouplingPortAbstractShaper: the XSD models the polymorphic
-    #  CouplingPortFifo.shaper choice via this class's xsd:group — the repo maps that choice to the
-    #  shaper registry; accepted deviation, 2026-09-30 user arbitration, recorded on the parent)
+    #  CouplingPortFifo.shaper choice via this class's xsd:group — the reader and writer dispatch that
+    #  choice by matching the element name against this class's XSD tag)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -294,9 +270,6 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
         return self
 
 
-CouplingPortAbstractShaper.registerShaper("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER", CouplingPortAsynchronousTrafficShaper)
-
-
 class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
     """
     Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.
@@ -314,8 +287,8 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
     # [x] getUpperBoundary    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUpperBoundary    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (concrete child of the abstract CouplingPortAbstractShaper: the XSD models the polymorphic
-    #  CouplingPortFifo.shaper choice via this class's xsd:group — the repo maps that choice to the
-    #  shaper registry; accepted deviation, 2026-09-30 user arbitration, recorded on the parent)
+    #  CouplingPortFifo.shaper choice via this class's xsd:group — the reader and writer dispatch that
+    #  choice by matching the element name against this class's XSD tag)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -373,9 +346,6 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
         if value is not None:
             self.upperBoundary = value
         return self
-
-
-CouplingPortAbstractShaper.registerShaper("COUPLING-PORT-CREDIT-BASED-SHAPER", CouplingPortCreditBasedShaper)
 
 
 class CouplingPortFifo(CouplingPortStructuralElement):
