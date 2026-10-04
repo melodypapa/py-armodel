@@ -259,15 +259,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ArraySizeSemanticsEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.10, p.253; also CP_TPS_DiagnosticExtractTemplate Table 4.10, p.43
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (5-column, no release column) — stale `# Spec verified:
+    R23-11` marker removed at session start, full re-sync, stamp WITHHELD this batch.
+    Placement KEPT in CommonStructure/ImplementationDataTypes.py — the spec's own Package
+    row (SWCT Table 5.10 and DEXT Table 4.10 alike) is
+    M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes, so the module hint IS
+    the spec package. DEXT Table 4.10 rendering is split (header pre-caption, literals
+    post-caption) but content-identical to SWCT — defining doc SWCT wins, no conflict.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 6 passed
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (AREnum base, literals FIXED_SIZE="fixedSize" / VARIABLE_SIZE="variableSize" exactly as spec, __init__ passes values; field-to-spec cross-check both directions clean); 43 passed test_ImplementationDataTypes.py
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum block's doc-bearing surfaces (class docstring + 2 literal inline comments) diffed character-for-character against the SWCT markdown Notes — already verbatim, rewrite is content-identical (no stale wording); no other docstrings in the block (enum __init__ has none)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; round-trips as the ARRAY-SIZE-SEMANTICS value on consuming classes, all 4 synced earlier/elsewhere: reader test_ApplicationArrayElement.py + test_SwTextProps.py, writer test_writer_ApplicationArrayElement.py + test_writer_SwTextProps.py verified this batch, no consumer gap)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — value form via generic literal helpers; parser sites arxml_parser.py:6499 SwTextProps / 7406 ImplementationDataTypeElement / 9183 ApplicationArrayElement (getChildElementOptionalLiteral + cast) and 11145 DiagnosticDataElement (typed ArraySizeSemanticsEnum().setValue), writer sites arxml_writer.py:3915/8640/8787/14791 (setChildElementOptionalLiteral on getArraySizeSemantics); literals "fixedSize"/"variableSize" round-trip, no enum-specific token map to fix; typed-vs-cast materialization on the reader side is the consumer pattern shared with sibling ArraySizeHandlingEnum, not an enum value-mapping gap — flagged for 9b, no fix)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; `(no methods)` line naming the 4 consuming attributes with (R23-11); stale `# Spec verified: R23-11` removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md, `## ArraySizeSemanticsEnum`, No-deviations summary + batch Note); no stale rows (none existed for this class)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (43 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/test_ImplementationDataTypes.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 2141 passed CommonStructure + SWComponentTemplate/Datatype + MSR/DataDictionary model dirs, 14 passed consumer reader/writer test_ApplicationArrayElement + test_SwTextProps + test_writer_ApplicationArrayElement + test_writer_SwTextProps; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), `(no methods)` checklist convention + literal values + Spec line + stamp-WITHHELD verified via set-based script); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ArraySizeHandlingEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.11, p.254
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py

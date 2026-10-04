@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
     ImplementationDataTypeElement,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, NameToken, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, NameToken, PositiveInteger, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ArraySizeHandlingEnum, AutosarDataType
@@ -374,13 +374,47 @@ class TestArraySizeSemanticsEnum:
     """Test class for ArraySizeSemanticsEnum functionality (Table 5.10, p.253)."""
 
     def test_initialization(self):
+        """Test enum instantiability per Rule 0011"""
         enum = ArraySizeSemanticsEnum()
-        enum.setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
-        assert enum.getValue() == "fixedSize"
+        assert enum is not None
+        assert isinstance(enum, AREnum)
 
-    def test_enum_values(self):
+    def test_literal_values(self):
+        """Test literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.10"""
         assert ArraySizeSemanticsEnum.FIXED_SIZE == "fixedSize"
         assert ArraySizeSemanticsEnum.VARIABLE_SIZE == "variableSize"
+        enum = ArraySizeSemanticsEnum()
+        assert list(enum.getEnumValues()) == ["fixedSize", "variableSize"]
+
+    def test_set_value_round_trip(self):
+        """Test instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ArraySizeSemanticsEnum()
+        assert enum == enum.setValue(None)
+        assert enum.getValue() == ""
+        assert enum == enum.setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
+        assert enum.getValue() == "fixedSize"
+        assert enum == enum.setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
+        assert enum.getValue() == "variableSize"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ArraySizeSemanticsEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""
+        enum.setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
+        enum.setValue(None)
+        assert enum.getValue() == "variableSize"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ArraySizeSemanticsEnum()
+        assert enum.validateEnumValue("fixedSize") is True
+        assert enum.validateEnumValue("variableSize") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.10 class note."""
+        assert ArraySizeSemanticsEnum.__doc__.strip() == "This type controls how the information about the number of elements in an ApplicationArrayDataType is to be interpreted."
 
 
 class TestArrayImplPolicyEnum:
