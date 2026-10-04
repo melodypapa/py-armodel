@@ -151,15 +151,16 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
 class BaseType(ARElement, ABC):
     """
     This abstract meta-class represents the ability to specify a platform dependent base type.
+
+    [constr_1910] Existence of attribute BaseType.baseTypeDefinition: For each BaseType (which will be utilized in the form of SwBaseType), the aggregation in the role baseTypeDefinition shall exist at the time when the contract phase generation is executed.
     """
 
     # BaseType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.26, p.291
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBaseTypeDefinition     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseTypeDefinition     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.26, p.292
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseTypeDefinition     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeDefinition     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BaseType:
@@ -178,9 +179,7 @@ class BaseType(ARElement, ABC):
 
     def setBaseTypeDefinition(self, value: Optional[BaseTypeDirectDefinition]) -> "BaseType":
         """
-        This is the actual definition of the base type.
-
-        A None value is a no-op and does not overwrite an existing baseTypeDefinition.
+        This is the actual definition of the base type. A None value is a no-op and does not overwrite an existing baseTypeDefinition.
         """
         if value is not None:
             self.baseTypeDefinition = value
@@ -194,9 +193,8 @@ class SwBaseType(BaseType):
 
     # SwBaseType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.22, p.290
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

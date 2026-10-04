@@ -352,15 +352,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwBaseType` — BaseType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.22, p.290
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified: R23-11` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Concrete Class, zero Attribute rows (empty table);
+    Base most-derived = BaseType (parallel AtpBlueprint/AtpBlueprintable chain → role-matching branch selects
+    BaseType, Rule 0001.2). Base `BaseType` (Table 5.26) was itself a Rule 0023 legacy block (stale marker) →
+    synced ahead of SwBaseType in the same pass per Rule 0001.10/0016.5 (its own Group28 row below remains for
+    its own near-no-op re-verification pass). §5.2.6.2 constr_1011/1422/1012 reference `SwBaseType.category` —
+    no Attribute row in Table 5.22, no element in the XSD group (removed upstream) → not modeled (Rule
+    0015/0001.3). XSD group SW-BASE-TYPE empty → no own XML elements; not VP-capable; ARPackage dispatch
+    (parser SW-BASE-TYPE branch / writer isinstance branch) pre-existed and conforms.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 4 passed incl. base-shape/defaults/docstring pins
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (field-to-spec cross-check both directions clean: zero own attrs, most-derived base BaseType, verbatim class docstring)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — SwBaseType block's single doc-bearing surface (class docstring) wiped and rewritten verbatim from the markdown Note (Tags tail dropped); content-identical, no stale wording
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — vacuous Red (parser/writer coverage pre-existed and conforms; noted): extended tests/test_armodel/parser/test_SwBaseType.py (field values incl. one-level-down definition + empty-element case) and tests/test_armodel/writer/test_writer_SwBaseType.py (XSD-order assertion + unset-omits + populated/empty save→reload round-trips through the ARPackage dispatch)
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: reader mutator-driven via readBaseTypeDirectDefinition (BASE-TYPE-SIZE/ENCODING/MEM-ALIGNMENT/BYTE-ORDER/NATIVE-DECLARATION = XSD sequenceOffset order, MAX-BASE-TYPE-SIZE atp.Status=removed not modeled), writer getter-driven via setBaseTypeDirectDefinition, dispatch branches present both sides, no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md, `## SwBaseType`, No-deviations summary + batch Note incl. the category removed-attribute finding and the BaseType sub-sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (25 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/test_BaseTypes.py, tests/test_armodel/parser/test_SwBaseType.py, tests/test_armodel/writer/test_writer_SwBaseType.py + 3 passed member_annotations; neighbors: 2249 passed / 0 failed across all 33 test files referencing SwBaseType/SW-BASE-TYPE; targeted lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml + AUTOSAR_Datatypes.arxml: 16 SwBaseType elements field-identical; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BaseTypeDefinition` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.23, p.290
   - module: M2/MSR/AsamHdo/BaseTypes.py

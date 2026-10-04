@@ -4,7 +4,9 @@ This module contains tests for the BaseTypes module in MSR.AsamHdo.
 
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     BaseTypeEncodingString,
     ByteOrderEnum,
@@ -138,57 +140,118 @@ class TestBaseTypeDirectDefinition:
 
 
 class TestBaseType:
-    """Test class for BaseType abstract class."""
+    """Heritage / API tests for the synced BaseType (Swc TPS Table 5.26, p.292)."""
 
     def test_base_type_abstract_class(self):
         """Test that BaseType cannot be instantiated directly."""
-        # This should raise NotImplementedError
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError, match="BaseType is an abstract class"):
             BaseType(None, "test_name")
 
-    def test_base_type_definition_methods(self):
-        """Test the getBaseTypeDefinition and setBaseTypeDefinition methods."""
-
-        # Create a concrete subclass for testing
-        class ConcreteBaseType(BaseType):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
-        concrete_type = ConcreteBaseType(parent_obj, "test_type")
-
-        # Test initial baseTypeDefinition
-        assert concrete_type.getBaseTypeDefinition() is not None
-
-        # Create a new definition to test setter
-        new_def = BaseTypeDirectDefinition()
-        result = concrete_type.setBaseTypeDefinition(new_def)
-        assert concrete_type.getBaseTypeDefinition() == new_def
-        assert result == concrete_type
-
-    def test_base_type_definition_none_noop(self):
-        """A None value must not overwrite an existing baseTypeDefinition."""
-
-        class ConcreteBaseType(BaseType):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
+    def test_base_shape(self):
+        """Base column most-derived class is ARElement (Table 5.26)."""
+        assert BaseType.__bases__[0] is ARElement
         parent_obj = ARPackage(None, "parent_test")
-        concrete_type = ConcreteBaseType(parent_obj, "test_type")
-        existing = concrete_type.getBaseTypeDefinition()
+        sw_base_type = SwBaseType(parent_obj, "test_type")
+        assert isinstance(sw_base_type, BaseType)
+        assert isinstance(sw_base_type, ARElement)
+        assert isinstance(sw_base_type, Identifiable)
+        assert isinstance(sw_base_type, ARObject)
 
-        result = concrete_type.setBaseTypeDefinition(None)
-        assert concrete_type.getBaseTypeDefinition() == existing
-        assert result == concrete_type
+    def test_initialization(self):
+        """Defaults through the concrete subclass SwBaseType (Table 5.26 baseTypeDefinition row)."""
+        parent_obj = ARPackage(None, "parent_test")
+        sw_base_type = SwBaseType(parent_obj, "test_type")
+
+        assert sw_base_type.parent is parent_obj
+        assert sw_base_type.short_name == "test_type"
+
+        definition = sw_base_type.getBaseTypeDefinition()
+        assert isinstance(definition, BaseTypeDirectDefinition)
+        assert definition.getBaseTypeEncoding() is None
+        assert definition.getBaseTypeSize() is None
+        assert definition.getByteOrder() is None
+        assert definition.getMemAlignment() is None
+        assert definition.getNativeDeclaration() is None
+
+    def test_class_docstring_matches_spec_note(self):
+        assert BaseType.__doc__.strip() == (
+            "This abstract meta-class represents the ability to specify a platform dependent base type.\n\n"
+            "    [constr_1910] Existence of attribute BaseType.baseTypeDefinition: For each BaseType "
+            "(which will be utilized in the form of SwBaseType), the aggregation in the role baseTypeDefinition "
+            "shall exist at the time when the contract phase generation is executed."
+        )
+
+    def test_base_type_definition_docstrings_match_spec_note(self):
+        note = "This is the actual definition of the base type."
+        assert BaseType.getBaseTypeDefinition.__doc__.strip() == note
+        assert BaseType.setBaseTypeDefinition.__doc__.strip() == (note + " A None value is a no-op and does not overwrite an existing baseTypeDefinition.")
+
+    def test_get_set_base_type_definition(self):
+        """Setter returns self, value round-trips, None is a no-op."""
+        parent_obj = ARPackage(None, "parent_test")
+        sw_base_type = SwBaseType(parent_obj, "test_type")
+
+        definition = BaseTypeDirectDefinition()
+        result = sw_base_type.setBaseTypeDefinition(definition)
+        assert sw_base_type.getBaseTypeDefinition() is definition
+        assert result is sw_base_type
+
+        result = sw_base_type.setBaseTypeDefinition(None)
+        assert sw_base_type.getBaseTypeDefinition() is definition
+        assert result is sw_base_type
+
+    def test_base_type_definition_value_round_trip(self):
+        """Values set on the aggregated definition are visible one level up."""
+        parent_obj = ARPackage(None, "parent_test")
+        sw_base_type = SwBaseType(parent_obj, "test_type")
+
+        definition = sw_base_type.getBaseTypeDefinition()
+        definition.setBaseTypeSize(PositiveInteger().setValue("32"))
+        definition.setBaseTypeEncoding(BaseTypeEncodingString().setValue("IEEE754"))
+
+        assert sw_base_type.getBaseTypeDefinition().getBaseTypeSize().getValue() == 32
+        assert sw_base_type.getBaseTypeDefinition().getBaseTypeEncoding().getValue() == "IEEE754"
 
 
 class TestSwBaseType:
-    """Test class for SwBaseType class."""
+    """Heritage / API tests for the synced SwBaseType (Swc TPS Table 5.22, p.290)."""
 
-    def test_sw_base_type_initialization(self):
-        """Test that a SwBaseType object can be initialized with default values."""
-        parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
-        sw_base_type = SwBaseType(parent_obj, "test_name")
+    def test_base_shape(self):
+        """Base column most-derived class is BaseType (Table 5.22)."""
+        assert SwBaseType.__bases__[0] is BaseType
+        parent_obj = ARPackage(None, "parent_test")
+        sw_base_type = SwBaseType(parent_obj, "uint8")
+        assert isinstance(sw_base_type, BaseType)
+        assert isinstance(sw_base_type, ARElement)
+        assert isinstance(sw_base_type, Identifiable)
+        assert isinstance(sw_base_type, ARObject)
 
-        # Check that it inherits from BaseType and has baseTypeDefinition
-        assert sw_base_type.getBaseTypeDefinition() is not None
+    def test_initialization(self):
+        """SwBaseType declares no own attributes (Table 5.22 Attribute rows: none)."""
+        parent_obj = ARPackage(None, "parent_test")
+        sw_base_type = SwBaseType(parent_obj, "uint8")
+
+        assert sw_base_type.parent is parent_obj
+        assert sw_base_type.short_name == "uint8"
+
+        definition = sw_base_type.getBaseTypeDefinition()
+        assert isinstance(definition, BaseTypeDirectDefinition)
+        assert definition.getBaseTypeEncoding() is None
+        assert definition.getBaseTypeSize() is None
+        assert definition.getByteOrder() is None
+        assert definition.getMemAlignment() is None
+        assert definition.getNativeDeclaration() is None
+
+    def test_class_docstring_matches_spec_note(self):
+        assert SwBaseType.__doc__.strip() == "This meta-class represents a base type used within ECU software."
+
+    def test_set_base_type_definition_via_concrete_class(self):
+        """Base accessors exercised through the concrete subclass; setter returns self; None no-op."""
+        parent_obj = ARPackage(None, "parent_test")
+        sw_base_type = SwBaseType(parent_obj, "uint8")
+
+        definition = BaseTypeDirectDefinition()
+        assert sw_base_type.setBaseTypeDefinition(definition) is sw_base_type
+        assert sw_base_type.getBaseTypeDefinition() is definition
+        assert sw_base_type.setBaseTypeDefinition(None) is sw_base_type
+        assert sw_base_type.getBaseTypeDefinition() is definition
