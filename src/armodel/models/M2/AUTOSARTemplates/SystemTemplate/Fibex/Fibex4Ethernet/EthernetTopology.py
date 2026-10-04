@@ -3605,20 +3605,21 @@ class GenericTp(TransportProtocolConfiguration):
     """
 
     # GenericTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.126, p.459 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.126, p.459
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddress     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddress     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpTechnology  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpTechnology  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getTpAddress                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTpAddress                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Transport Protocol dependent Address.
         self.tpAddress: Optional[String] = None
 
-        # [x] getTpTechnology                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTpTechnology                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Name of the used Transport Protocol.
         self.tpTechnology: Optional[String] = None
 

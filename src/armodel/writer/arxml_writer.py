@@ -10314,6 +10314,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeGenericTp(self, element: ET.Element, tp: GenericTp):
         child_element = ET.SubElement(element, "GENERIC-TP")
+        self.writeARObject(child_element, tp)
         self.setChildElementOptionalLiteral(child_element, "TP-ADDRESS", tp.getTpAddress())
         self.setChildElementOptionalLiteral(child_element, "TP-TECHNOLOGY", tp.getTpTechnology())
 
