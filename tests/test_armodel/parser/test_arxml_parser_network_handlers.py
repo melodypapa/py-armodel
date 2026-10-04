@@ -1258,13 +1258,15 @@ class TestSoAdAndSocketHandlers:
 
     def test_getRequestResponseDelay_sets_maxValue(self, parser):
         element = _snip(
-            "<REQUEST-RESPONSE-DELAY>" "<MAX-VALUE>0.1</MAX-VALUE>" "<MIN-VALUE>0.01</MIN-VALUE>" "</REQUEST-RESPONSE-DELAY>",
+            '<REQUEST-RESPONSE-DELAY S="1234" T="2024-01-01T00:00:00Z">' "<MAX-VALUE>0.1</MAX-VALUE>" "<MIN-VALUE>0.01</MIN-VALUE>" "</REQUEST-RESPONSE-DELAY>",
             root_tag="ROOT",
         )
         delay = parser.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY")
         assert delay is not None
         assert delay.getMaxValue() is not None
         assert delay.getMaxValue().getValue() == 0.1
+        assert delay.getChecksum().getValue() == "1234"
+        assert delay.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestTransportProtocolHandlers:

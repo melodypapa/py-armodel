@@ -10344,6 +10344,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setRequestResponseDelay(self, element: ET.Element, key: str, delay: Optional[RequestResponseDelay]):
         if delay is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, delay)
             self.setChildElementOptionalTimeValue(child_element, "MAX-VALUE", delay.getMaxValue())
             self.setChildElementOptionalTimeValue(child_element, "MIN-VALUE", delay.getMinValue())
 

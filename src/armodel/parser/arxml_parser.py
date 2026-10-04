@@ -10125,6 +10125,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             delay = RequestResponseDelay()
+            self.readARObject(child_element, delay)
             delay.setMaxValue(self.getChildElementOptionalTimeValue(child_element, "MAX-VALUE"))
             delay.setMinValue(self.getChildElementOptionalTimeValue(child_element, "MIN-VALUE"))
         return delay
