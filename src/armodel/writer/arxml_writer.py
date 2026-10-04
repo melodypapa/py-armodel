@@ -475,6 +475,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatus,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
@@ -15531,6 +15532,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, request_emission_related_dtc)
         self.setChildElementOptionalRefType(child_element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF", request_emission_related_dtc.getRequestEmissionRelatedDtcClassRef())
 
+    def writeDiagnosticRequestEmissionRelatedDTCPermanentStatus(self, element: ET.Element, request_emission_related_dtc_permanent_status: DiagnosticRequestEmissionRelatedDTCPermanentStatus):
+        self.logger.debug("Write DiagnosticRequestEmissionRelatedDTCPermanentStatus %s" % request_emission_related_dtc_permanent_status.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS")
+        self.writeIdentifiable(child_element, request_emission_related_dtc_permanent_status)
+        self.writeDiagnosticServiceInstance(child_element, request_emission_related_dtc_permanent_status)
+        self.setChildElementOptionalRefType(
+            child_element, "REQUEST-EMISSION-RELATED-DTC-CLASS-PERMANENT-STATUS-REF", request_emission_related_dtc_permanent_status.getRequestEmissionRelatedDtcClassPermanentStatusRef()
+        )
+
     def writeDiagnosticClearResetEmissionRelatedInfo(self, element: ET.Element, clear_reset_emission_related_info: DiagnosticClearResetEmissionRelatedInfo):
         self.logger.debug("Write DiagnosticClearResetEmissionRelatedInfo %s" % clear_reset_emission_related_info.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO")
@@ -17024,6 +17034,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticRequestEmissionRelatedDTC):
             self.writeDiagnosticRequestEmissionRelatedDTC(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticRequestEmissionRelatedDTCPermanentStatus):
+            self.writeDiagnosticRequestEmissionRelatedDTCPermanentStatus(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticClearResetEmissionRelatedInfo):
             self.writeDiagnosticClearResetEmissionRelatedInfo(element, ar_element)

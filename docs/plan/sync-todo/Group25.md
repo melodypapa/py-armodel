@@ -470,15 +470,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestEmissionRelatedDTCPermanentStatus` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.147, p.161
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 findings:
+    - The R23-11 markdown's Table 4.147 section is corrupted — its Class/Note cells carry Table 4.148's content (the `...PermanentStatusClass` name and the "define common properties" note) and its Base/Attribute rows are missing; the PDF p.161 render is authoritative (Class `DiagnosticRequestEmissionRelatedDTCPermanentStatus`, Note "This meta-class represents the ability to model an instance of the OBD mode 0x0A service.", one `ref` attribute `requestEmissionRelatedDtcClassPermanentStatus` : `DiagnosticRequestEmissionRelatedDTCPermanentStatusClass` 0..1) and agrees with the XSD documentation strings (Rule 0015).
+    - The stub batch placed the class with base `ARElement`; the spec Base chain (`ARElement, ARObject, CollectableElement, DiagnosticCommonElement, DiagnosticServiceInstance, Identifiable, MultilanguageReferrable, PackageableElement, Referrable`) has `DiagnosticServiceInstance` as most-derived — corrected per Rule 0001.2, same as the sibling OBD mode service instances; the stub-batch heritage gate test still passes (`issubclass`).
+    - Reader/writer also cover the inherited DiagnosticServiceInstance base-group elements (`ACCESS-PERMISSION-REF`, `SERVICE-CLASS-REF`) via the stamped base helpers `readDiagnosticServiceInstance`/`writeDiagnosticServiceInstance` (no double-read: the helper does not call `readIdentifiable`), matching the de-stub precedent of DiagnosticMemoryDestinationPrimary calling `readDiagnosticMemoryDestination`.
+    - Referenced class `DiagnosticRequestEmissionRelatedDTCPermanentStatusClass` (Table 4.148, next row) is still a stub — not blocking: the ref field is typed `Optional[RefType]` like every sibling class-ref; the XSD `--SUBTYPES-ENUM` literal `DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS` is used as the DEST value in tests.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; findings above are Step 1 notes, not deviations) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1928 passed / 0 failed: test_ARPackage.py, test_diagnostic_request_emission_related_dtc_permanent_status.py, test_writer_diagnostic_request_emission_related_dtc_permanent_status.py, test_member_annotations.py, test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticRequestEmissionRelatedDTCPermanentStatusClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.148, p.162
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py

@@ -1299,6 +1299,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_emission_related_dtc_class)
         return cast(DiagnosticRequestEmissionRelatedDTCClass, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCClass))
 
+    def createDiagnosticRequestEmissionRelatedDTCPermanentStatus(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTCPermanentStatus with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTCPermanentStatus represents an instance of the OBD mode 0x0A service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTCPermanentStatus
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTCPermanentStatus instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatus):
+            request_emission_related_dtc_permanent_status = DiagnosticRequestEmissionRelatedDTCPermanentStatus(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc_permanent_status)
+        return cast(DiagnosticRequestEmissionRelatedDTCPermanentStatus, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatus))
+
     def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
         """
         Creates a new DiagnosticRequestUpload with the given short name, or
@@ -9325,8 +9343,37 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
         return self
 
 
-class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
-    pass
+class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x0A service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCPermanentStatuss"""
+
+    # DiagnosticRequestEmissionRelatedDTCPermanentStatus method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.147, p.161
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestEmissionRelatedDtcClassPermanentStatusRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestEmissionRelatedDtcClassPermanentStatusRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context.
+        self.requestEmissionRelatedDtcClassPermanentStatusRef: Optional[RefType] = None
+
+    def getRequestEmissionRelatedDtcClassPermanentStatusRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context.
+        """
+        return self.requestEmissionRelatedDtcClassPermanentStatusRef
+
+    def setRequestEmissionRelatedDtcClassPermanentStatusRef(self, value: Optional[RefType]) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassPermanentStatusRef.
+        """
+        if value is not None:
+            self.requestEmissionRelatedDtcClassPermanentStatusRef = value
+        return self
 
 
 class DiagnosticRequestFileTransfer(ARElement):

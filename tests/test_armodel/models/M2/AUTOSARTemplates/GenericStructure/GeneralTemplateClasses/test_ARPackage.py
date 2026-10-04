@@ -113,6 +113,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatus,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
@@ -11375,3 +11376,84 @@ class TestDiagnosticOperationCycle:
 
         duplicate = ar_root.createDiagnosticOperationCycle("OperationCycle1")
         assert duplicate is obj
+
+
+class TestDiagnosticRequestEmissionRelatedDTCPermanentStatus:
+    """
+    Test class for DiagnosticRequestEmissionRelatedDTCPermanentStatus functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.147, p.161
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model an instance of the OBD mode 0x0A service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCPermanentStatuss"
+    CLASS_REF_NOTE = "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context."
+
+    def _make_obj(self) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticRequestEmissionRelatedDTCPermanentStatus(ar_root, "TestMode0A")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticRequestEmissionRelatedDTCPermanentStatus instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMode0A"
+        assert isinstance(obj, DiagnosticServiceInstance)
+        assert obj.getRequestEmissionRelatedDtcClassPermanentStatusRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticRequestEmissionRelatedDTCPermanentStatus.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticRequestEmissionRelatedDTCPermanentStatus.__init__.__doc__ is None
+
+    def test_get_set_request_emission_related_dtc_class_permanent_status_ref(self):
+        """
+        Round-trips the requestEmissionRelatedDtcClassPermanentStatus ref; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS")
+        ref.setValue("/AUTOSAR/DiagnosticRequestEmissionRelatedDTCPermanentStatusClasss/Class1")
+        result = obj.setRequestEmissionRelatedDtcClassPermanentStatusRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getRequestEmissionRelatedDtcClassPermanentStatusRef() is ref
+        assert obj.getRequestEmissionRelatedDtcClassPermanentStatusRef().getValue() == "/AUTOSAR/DiagnosticRequestEmissionRelatedDTCPermanentStatusClasss/Class1"
+        assert obj.getRequestEmissionRelatedDtcClassPermanentStatusRef().getDest() == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS"
+
+        result = obj.setRequestEmissionRelatedDtcClassPermanentStatusRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRequestEmissionRelatedDtcClassPermanentStatusRef() is ref  # None is a no-op
+
+    def test_create_diagnostic_request_emission_related_dtc_permanent_status(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("OBDMode0AServices")
+        element = package.createDiagnosticRequestEmissionRelatedDTCPermanentStatus("Mode0AService1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticRequestEmissionRelatedDTCPermanentStatus)
+        assert element.getShortName() == "Mode0AService1"
+        assert package.getReferrableElement("Mode0AService1", DiagnosticRequestEmissionRelatedDTCPermanentStatus) is element
+
+        duplicate = package.createDiagnosticRequestEmissionRelatedDTCPermanentStatus("Mode0AService1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTCPermanentStatus.getRequestEmissionRelatedDtcClassPermanentStatusRef.__doc__) == self.CLASS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTCPermanentStatus.setRequestEmissionRelatedDtcClassPermanentStatusRef.__doc__) == (
+            self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassPermanentStatusRef."
+        )

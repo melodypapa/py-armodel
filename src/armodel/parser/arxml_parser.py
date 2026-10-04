@@ -605,6 +605,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatus,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
@@ -11940,6 +11941,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_emission_related_dtc)
         request_emission_related_dtc.setRequestEmissionRelatedDtcClassRef(self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF"))
 
+    def readDiagnosticRequestEmissionRelatedDTCPermanentStatus(self, element: ET.Element, request_emission_related_dtc_permanent_status: DiagnosticRequestEmissionRelatedDTCPermanentStatus):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCPermanentStatus <%s>" % request_emission_related_dtc_permanent_status.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc_permanent_status)
+        self.readDiagnosticServiceInstance(element, request_emission_related_dtc_permanent_status)
+        request_emission_related_dtc_permanent_status.setRequestEmissionRelatedDtcClassPermanentStatusRef(
+            self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-PERMANENT-STATUS-REF")
+        )
+
     def readDiagnosticClearResetEmissionRelatedInfo(self, element: ET.Element, clear_reset_emission_related_info: DiagnosticClearResetEmissionRelatedInfo):
         self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfo <%s>" % clear_reset_emission_related_info.getShortName())
         self.readIdentifiable(element, clear_reset_emission_related_info)
@@ -17526,6 +17535,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC":
             request_emission_related_dtc = parent.createDiagnosticRequestEmissionRelatedDTC(self.getShortName(child_element))
             self.readDiagnosticRequestEmissionRelatedDTC(child_element, request_emission_related_dtc)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS":
+            request_emission_related_dtc_permanent_status = parent.createDiagnosticRequestEmissionRelatedDTCPermanentStatus(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTCPermanentStatus(child_element, request_emission_related_dtc_permanent_status)
             return True
         if tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO":
             clear_reset_emission_related_info = parent.createDiagnosticClearResetEmissionRelatedInfo(self.getShortName(child_element))
