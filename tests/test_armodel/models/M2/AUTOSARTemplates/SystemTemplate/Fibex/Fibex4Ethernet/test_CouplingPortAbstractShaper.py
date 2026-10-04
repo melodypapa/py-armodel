@@ -6,6 +6,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPortAbstractShaper,
+    CouplingPortAsynchronousTrafficShaper,
+    CouplingPortCreditBasedShaper,
 )
 
 
@@ -16,14 +18,6 @@ class MockParent(ARObject):
 
 class ConcreteShaper(CouplingPortAbstractShaper):
     pass
-
-
-@pytest.fixture(autouse=True)
-def isolated_registry():
-    saved = dict(CouplingPortAbstractShaper._shaper_registry)
-    yield
-    CouplingPortAbstractShaper._shaper_registry.clear()
-    CouplingPortAbstractShaper._shaper_registry.update(saved)
 
 
 class TestCouplingPortAbstractShaper:
@@ -44,25 +38,12 @@ class TestCouplingPortAbstractShaper:
         assert isinstance(shaper, CouplingPortAbstractShaper)
         assert isinstance(shaper, Identifiable)
 
-    def test_registry_round_trips_tag_to_class(self):
-        CouplingPortAbstractShaper.registerShaper("CONCRETE-COUPLING-PORT-SHAPER", ConcreteShaper)
-        assert CouplingPortAbstractShaper.getShaperClass("CONCRETE-COUPLING-PORT-SHAPER") is ConcreteShaper
-        assert CouplingPortAbstractShaper.getShaperTag(ConcreteShaper) == "CONCRETE-COUPLING-PORT-SHAPER"
+    def test_builtin_concrete_shapers_derive_from_abstract_base(self):
+        assert issubclass(CouplingPortAsynchronousTrafficShaper, CouplingPortAbstractShaper)
+        assert issubclass(CouplingPortCreditBasedShaper, CouplingPortAbstractShaper)
 
-    def test_registry_unknown_tag_returns_none(self):
-        assert CouplingPortAbstractShaper.getShaperClass("NO-SUCH-SHAPER") is None
-
-    def test_registry_unregistered_class_returns_none(self):
-        class OtherShaper(CouplingPortAbstractShaper):
-            pass
-
-        assert CouplingPortAbstractShaper.getShaperTag(OtherShaper) is None
-
-    def test_builtin_shapers_registered_at_import(self):
-        assert CouplingPortAbstractShaper.getShaperClass("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER") is not None
-        assert CouplingPortAbstractShaper.getShaperClass("COUPLING-PORT-CREDIT-BASED-SHAPER") is not None
-
-    def test_registry_helpers_have_docstrings(self):
-        assert CouplingPortAbstractShaper.registerShaper.__doc__
-        assert CouplingPortAbstractShaper.getShaperClass.__doc__
-        assert CouplingPortAbstractShaper.getShaperTag.__doc__
+    def test_builtin_concrete_shapers_instantiable(self):
+        for cls in (CouplingPortAsynchronousTrafficShaper, CouplingPortCreditBasedShaper):
+            shaper = cls(MockParent(), "Shaper1")
+            assert shaper.getShortName() == "Shaper1"
+            assert isinstance(shaper, CouplingPortAbstractShaper)

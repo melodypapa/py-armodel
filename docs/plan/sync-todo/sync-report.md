@@ -354,7 +354,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CouplingElementEnum`                                   | [ ] Created | N/A                                      | Group30          |
 | `CouplingElementSwitchDetails`                          | [ ] Created | N/A                                      | Group30          |
 | `CouplingPort`                                          | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortAbstractShaper`                            | [x] Done    | 929cee7081                               | Group16          |
+| `CouplingPortAbstractShaper`                            | [x] Done    | f02e111f65                               | Group16          |
 | `CouplingPortAsynchronousTrafficShaper`                 | [x] Done    | 929cee7081                               | Group16          |
 | `CouplingPortConnection`                                | [ ] Implemented| N/A                                      | Group30          |
 | `CouplingPortCreditBasedShaper`                         | [x] Done    | 929cee7081                               | Group16          |

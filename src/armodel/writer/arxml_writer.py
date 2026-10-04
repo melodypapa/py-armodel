@@ -909,7 +909,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
-    CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
     CouplingPortCreditBasedShaper,
@@ -11766,11 +11765,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingPortFifoShaper(self, element: ET.Element, fifo: CouplingPortFifo):
         shaper = fifo.getShaper()
         if shaper is not None:
-            shaper_element = ET.SubElement(element, "SHAPER")
-            tag = CouplingPortAbstractShaper.getShaperTag(type(shaper))
-            if tag is None:
+            if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
+                tag = "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER"
+            elif isinstance(shaper, CouplingPortCreditBasedShaper):
+                tag = "COUPLING-PORT-CREDIT-BASED-SHAPER"
+            else:
                 self.notImplemented("Unsupported CouplingPort shaper <%s>" % type(shaper).__name__)
                 return
+            shaper_element = ET.SubElement(element, "SHAPER")
             child = ET.SubElement(shaper_element, tag)
             self.writeIdentifiable(child, shaper)
             if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):

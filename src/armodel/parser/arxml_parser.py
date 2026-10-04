@@ -13749,17 +13749,21 @@ class ARXMLParser(AbstractARXMLParser):
         if shaper_element is not None:
             for child in shaper_element:
                 tag = self.getTagName(child)
-                shaper_cls = CouplingPortAbstractShaper.getShaperClass(tag)
-                if shaper_cls is not None:
-                    shaper = shaper_cls(fifo, self.getShortName(child))
-                    self.readIdentifiable(child, shaper)
-                    if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
-                        self.readCouplingPortAsynchronousTrafficShaper(child, shaper)
-                    elif isinstance(shaper, CouplingPortCreditBasedShaper):
-                        self.readCouplingPortCreditBasedShaper(child, shaper)
-                    fifo.setShaper(shaper)
+                shaper: Optional[CouplingPortAbstractShaper] = None
+                if tag == "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER":
+                    ats = CouplingPortAsynchronousTrafficShaper(fifo, self.getShortName(child))
+                    self.readIdentifiable(child, ats)
+                    self.readCouplingPortAsynchronousTrafficShaper(child, ats)
+                    shaper = ats
+                elif tag == "COUPLING-PORT-CREDIT-BASED-SHAPER":
+                    cbs = CouplingPortCreditBasedShaper(fifo, self.getShortName(child))
+                    self.readIdentifiable(child, cbs)
+                    self.readCouplingPortCreditBasedShaper(child, cbs)
+                    shaper = cbs
                 else:
                     self.notImplemented("Unsupported CouplingPort shaper <%s>" % tag)
+                    continue
+                fifo.setShaper(shaper)
 
     def readCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
         shaper.setCommittedBurstSize(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE"))
