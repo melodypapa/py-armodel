@@ -191,12 +191,14 @@ class TestVariationPointCapableARObjectReaders:
         _assert_variation_point(tp_ecu)
 
     def test_ecuc_textual_param_value(self, parser):
+        """Table 2.49 has no variationPoint row (Rule 0015), so an incoming VARIATION-POINT element is ignored, not read."""
         element = _snip("<DEFINITION-REF DEST='ECUC-STRING-PARAM-DEF'>/Def</DEFINITION-REF>" + VP_SNIPPET, root_tag="ECUC-TEXTUAL-PARAM-VALUE")
 
         param_value = EcucTextualParamValue()
         parser.readEcucTextualParamValue(element, param_value)
 
-        _assert_variation_point(param_value)
+        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinitionRef().getValue() == "/Def"
 
     def test_ecuc_reference_value(self, parser):
         element = _snip("<DEFINITION-REF DEST='ECUC-REFERENCE-DEF'>/Def</DEFINITION-REF>" + VP_SNIPPET, root_tag="ECUC-REFERENCE-VALUE")

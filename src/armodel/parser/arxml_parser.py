@@ -14811,7 +14811,6 @@ class ARXMLParser(AbstractARXMLParser):
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
         param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
-        self.readVariationPointCapable(element, param_value)
 
     def readEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         self.readEcucParameterValue(element, param_value)

@@ -13566,7 +13566,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcucIndexableValue(element, param_value)
         self.setAnnotations(element, param_value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
-        self.writeVariationPointCapable(element, param_value)
 
     def writeEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")

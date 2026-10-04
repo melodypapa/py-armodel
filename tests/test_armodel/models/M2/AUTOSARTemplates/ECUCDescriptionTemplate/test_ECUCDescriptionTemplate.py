@@ -1237,6 +1237,104 @@ def test_ecuc_module_def():
     assert module_def.getSupportedConfigVariants() == [config_variant]
 
 
+def test_ecuc_parameter_value_base_properties():
+    """
+    EcucParameterValue (Table 2.49) base accessors via a concrete subclass.
+
+    Test Steps:
+    1. Create an EcucTextualParamValue instance (concrete subclass)
+    2. Assert the annotations/definitionRef/isAutoValue defaults
+    3. Round-trip addAnnotation/getAnnotations, setDefinitionRef and setIsAutoValue with chaining
+    4. Assert None is a no-op on all three mutators
+    """
+    param_value = EcucTextualParamValue()
+
+    assert param_value.annotations == []
+    assert param_value.getAnnotations() == []
+    assert param_value.definitionRef is None
+    assert param_value.getDefinitionRef() is None
+    assert param_value.isAutoValue is None
+    assert param_value.getIsAutoValue() is None
+
+    annotation = Annotation()
+    assert param_value.addAnnotation(annotation) is param_value
+    assert param_value.getAnnotations() == [annotation]
+    param_value.addAnnotation(None)
+    assert param_value.getAnnotations() == [annotation]
+
+    definition_ref = RefType().setValue("/EcucDefs/Rte/Param")
+    assert param_value.setDefinitionRef(definition_ref) is param_value
+    assert param_value.getDefinitionRef() == definition_ref
+    param_value.setDefinitionRef(None)
+    assert param_value.getDefinitionRef() == definition_ref
+
+    auto_value = Boolean().setValue(True)
+    assert param_value.setIsAutoValue(auto_value) is param_value
+    assert param_value.getIsAutoValue() == auto_value
+    param_value.setIsAutoValue(None)
+    assert param_value.getIsAutoValue() == auto_value
+
+
+def test_ecuc_parameter_value_not_variation_point_capable():
+    """
+    Table 2.49 has no variationPoint row, so EcucParameterValue must not model the
+    VariationPointCapable mixin (Rule 0015 — the PDF/markdown table wins; the VARIATION-POINT
+    element in the XSD ECUC-PARAMETER-VALUE group is an atpVariation artifact documented as
+    "Applicable for: EcucContainerValue.parameterValue", i.e. it belongs to the container,
+    not to parameter values).
+
+    Test Steps:
+    1. Assert VariationPointCapable is not among EcucParameterValue's bases
+    2. Assert EcucIndexableValue is the most-derived spec base
+    """
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+    assert VariationPointCapable not in EcucParameterValue.__bases__
+    assert EcucIndexableValue in EcucParameterValue.__bases__
+
+
+def test_ecuc_parameter_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.49 Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/adder docstring carries the spec attribute Note verbatim
+    """
+    assert EcucParameterValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Common class to all types of configuration values." in EcucParameterValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+    notes = {
+        "addAnnotation": "Possibility to provide additional notes while defining the ECU Configuration Parameter Values. These are not intended as documentation but are mere design notes. Tags: xml.sequenceOffset=10",
+        "getAnnotations": "Possibility to provide additional notes while defining the ECU Configuration Parameter Values. These are not intended as documentation but are mere design notes. Tags: xml.sequenceOffset=10",
+        "getDefinitionRef": "Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10",
+        "setDefinitionRef": "Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10",
+        "getIsAutoValue": 'If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20',
+        "setIsAutoValue": 'If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20',
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucParameterValue, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_ecuc_parameter_value_member_annotations():
+    """
+    Member annotations must match the Table 2.49 multiplicities (Rule 0022 gate pins).
+
+    Test Steps:
+    1. Assert getter return types and mutator value types via get_type_hints
+    """
+    import typing
+
+    assert typing.get_type_hints(EcucParameterValue.getAnnotations)["return"] == typing.List[Annotation]
+    assert typing.get_type_hints(EcucParameterValue.addAnnotation)["value"] == typing.Optional[Annotation]
+    assert typing.get_type_hints(EcucParameterValue.getDefinitionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucParameterValue.setDefinitionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucParameterValue.getIsAutoValue)["return"] == typing.Optional[Boolean]
+    assert typing.get_type_hints(EcucParameterValue.setIsAutoValue)["value"] == typing.Optional[Boolean]
+
+
 if __name__ == "__main__":
     test_ecuc_value_collection_initialization_defaults()
     test_ecuc_value_collection_add_ecuc_value_ref()
@@ -1277,4 +1375,8 @@ if __name__ == "__main__":
     test_ecuc_module_configuration_values_member_annotations()
     test_ecuc_configuration_variant_enum()
     test_ecuc_module_def()
+    test_ecuc_parameter_value_base_properties()
+    test_ecuc_parameter_value_not_variation_point_capable()
+    test_ecuc_parameter_value_member_docstrings_verbatim()
+    test_ecuc_parameter_value_member_annotations()
     print("All ECUCDescriptionTemplate tests passed!")

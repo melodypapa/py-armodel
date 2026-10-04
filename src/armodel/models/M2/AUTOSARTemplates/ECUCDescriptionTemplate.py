@@ -113,22 +113,21 @@ class EcucIndexableValue(ARObject, ABC):
         return self
 
 
-class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
+class EcucParameterValue(EcucIndexableValue, ABC):
     """
     Common class to all types of configuration values.
     """
 
     # EcucParameterValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.49, p.125
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucParameterValue:
@@ -160,7 +159,10 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         return self.definitionRef
 
     def setDefinitionRef(self, value: Optional[RefType]) -> EcucParameterValue:
-        """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
@@ -170,7 +172,10 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         return self.isAutoValue
 
     def setIsAutoValue(self, value: Optional[Boolean]) -> EcucParameterValue:
-        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing flag."""
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing flag.
+        """
         if value is not None:
             self.isAutoValue = value
         return self
