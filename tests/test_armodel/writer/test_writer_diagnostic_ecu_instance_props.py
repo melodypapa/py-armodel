@@ -7,9 +7,9 @@ fixes the element structure: the ECU-INSTANCE-REFS wrapper (choice of
 unbounded ECU-INSTANCE-REF with DEST ECU-INSTANCE--SUBTYPES-ENUM) precedes
 the optional OBD-SUPPORT element (DIAGNOSTIC-OBD-SUPPORT-ENUM); the wrapper
 is emitted only when ecuInstanceRefs is non-empty, OBD-SUPPORT only when
-obdSupport is present. DiagnosticObdSupportEnum is still a stub queued later
-in Group25 — the value round-trips as a raw literal until it gains its
-literals (DiagnosticExtendedDataRecord TRIGGER precedent). The XSD elements
+obdSupport is present. obdSupport round-trips as the typed
+DiagnosticObdSupportEnum (Table 4.206) literal — the enum value maps back
+to its OBD-SUPPORT XSD token. The XSD elements
 DTC-STATUS-AVAILABILITY-MASK and SEND-RESP-PEND-ON-TRANS-TO-BOOT carry
 atp.Status="removed" and are not modeled (Rule 0015).
 The dispatch entry is writeARPackageElement → writeDiagnosticEcuInstanceProps.
@@ -55,7 +55,7 @@ class TestWriteDiagnosticEcuInstanceProps:
     def _populate(self, props: DiagnosticEcuInstanceProps) -> DiagnosticEcuInstanceProps:
         props.addEcuInstanceRef(self._make_ref("/AUTOSAR/EcuInstances/Ecu1"))
         props.addEcuInstanceRef(self._make_ref("/AUTOSAR/EcuInstances/Ecu2"))
-        props.setObdSupport(DiagnosticObdSupportEnum([]).setValue("primaryEcu"))
+        props.setObdSupport(DiagnosticObdSupportEnum().setValue(DiagnosticObdSupportEnum.PRIMARY_ECU))
         return props
 
     def test_write_ecu_instance_refs_wrapper(self):
@@ -80,7 +80,7 @@ class TestWriteDiagnosticEcuInstanceProps:
     def test_write_empty_refs_emits_no_wrapper(self):
         """Test that an empty ecuInstanceRefs list emits no ECU-INSTANCE-REFS wrapper (empty wrapper case)."""
         props = self._make_props()
-        props.setObdSupport(DiagnosticObdSupportEnum([]).setValue("noObdSupport"))
+        props.setObdSupport(DiagnosticObdSupportEnum().setValue(DiagnosticObdSupportEnum.NO_OBD_SUPPORT))
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeDiagnosticEcuInstanceProps(parent, props)
@@ -88,7 +88,7 @@ class TestWriteDiagnosticEcuInstanceProps:
         child = parent.find("DIAGNOSTIC-ECU-INSTANCE-PROPS")
         assert child is not None
         assert child.find("ECU-INSTANCE-REFS") is None
-        assert child.find("OBD-SUPPORT").text == "noObdSupport"
+        assert child.find("OBD-SUPPORT").text == "NO-OBD-SUPPORT"
 
     def test_write_unset_own_fields_emit_no_own_elements(self):
         """Test that an unpopulated props emits no ECU-INSTANCE-REFS and no OBD-SUPPORT element."""
@@ -114,7 +114,7 @@ class TestWriteDiagnosticEcuInstanceProps:
         assert child is not None
         assert child.find("SHORT-NAME").text == "EcuInstanceProps1"
         assert child.find("ECU-INSTANCE-REFS") is not None
-        assert child.find("OBD-SUPPORT").text == "primaryEcu"
+        assert child.find("OBD-SUPPORT").text == "PRIMARY-ECU"
 
     def test_round_trip_preserves_field_values(self):
         """Test the full set → save → reload → assert cycle over an ARPackage with field values."""
@@ -137,7 +137,9 @@ class TestWriteDiagnosticEcuInstanceProps:
             assert refs[0].getValue() == "/AUTOSAR/EcuInstances/Ecu1"
             assert refs[0].getDest() == "ECU-INSTANCE"
             assert refs[1].getValue() == "/AUTOSAR/EcuInstances/Ecu2"
-            assert str(props_2.getObdSupport()) == "primaryEcu"
+            assert props_2.getObdSupport() is not None
+            assert isinstance(props_2.getObdSupport(), DiagnosticObdSupportEnum)
+            assert props_2.getObdSupport().getValue() == "primaryEcu"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

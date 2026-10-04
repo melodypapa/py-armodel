@@ -1724,6 +1724,15 @@ DIAGNOSTIC_IUMPR_KIND_XML_MAP = {
     "observerBased": "OBSERVER-BASED",
 }
 
+#: Mapping between DiagnosticObdSupportEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-OBD-SUPPORT-ENUM--SIMPLE).
+DIAGNOSTIC_OBD_SUPPORT_XML_MAP = {
+    "masterEcu": "MASTER-ECU",
+    "noObdSupport": "NO-OBD-SUPPORT",
+    "primaryEcu": "PRIMARY-ECU",
+    "secondaryEcu": "SECONDARY-ECU",
+}
+
 
 class ARXMLParser(AbstractARXMLParser):
     """
@@ -11406,8 +11415,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, props)
         for ref in self.getChildElementRefTypeList(element, "ECU-INSTANCE-REFS/ECU-INSTANCE-REF"):
             props.addEcuInstanceRef(ref)
-        # OBD-SUPPORT is round-tripped as a raw literal until DiagnosticObdSupportEnum (Table 4.206, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        props.setObdSupport(cast(Optional[DiagnosticObdSupportEnum], self.getChildElementOptionalLiteral(element, "OBD-SUPPORT")))
+        props.setObdSupport(self._readEnumToken(element, "OBD-SUPPORT", DiagnosticObdSupportEnum, DIAGNOSTIC_OBD_SUPPORT_XML_MAP))
 
     def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())

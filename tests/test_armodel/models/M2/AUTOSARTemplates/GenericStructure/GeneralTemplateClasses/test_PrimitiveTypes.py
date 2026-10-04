@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticInhibitionMaskEnum,
     DiagnosticIumprKindEnum,
     DiagnosticMemoryEntryStorageTriggerEnum,
+    DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseOnEventActionEnum,
@@ -2642,3 +2643,52 @@ class TestDiagnosticMemoryEntryStorageTriggerEnum:
         enum.setValue(DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD)
 
         assert enum.getValue() == "fdcThreshold"
+
+
+class TestDiagnosticObdSupportEnum:
+    """
+    Test class for DiagnosticObdSupportEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.206, p.207
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticObdSupportEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticObdSupportEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "masterEcu",
+            "noObdSupport",
+            "primaryEcu",
+            "secondaryEcu",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticObdSupportEnum member values.
+        """
+        enum = DiagnosticObdSupportEnum()
+
+        assert DiagnosticObdSupportEnum.MASTER_ECU == "masterEcu"
+        assert DiagnosticObdSupportEnum.NO_OBD_SUPPORT == "noObdSupport"
+        assert DiagnosticObdSupportEnum.PRIMARY_ECU == "primaryEcu"
+        assert DiagnosticObdSupportEnum.SECONDARY_ECU == "secondaryEcu"
+
+        assert enum.validateEnumValue("masterEcu") is True
+        assert enum.validateEnumValue("noObdSupport") is True
+        assert enum.validateEnumValue("primaryEcu") is True
+        assert enum.validateEnumValue("secondaryEcu") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticObdSupportEnum instantiability and getValue.
+        """
+        enum = DiagnosticObdSupportEnum()
+        enum.setValue(DiagnosticObdSupportEnum.PRIMARY_ECU)
+
+        assert enum.getValue() == "primaryEcu"

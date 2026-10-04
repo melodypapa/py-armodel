@@ -2165,7 +2165,37 @@ class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
 
 
 class DiagnosticObdSupportEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to model the roles in which a participation in OBD is foreseen. At the moment, this applies exclusively to the Dem. However, future extension of the Dcm may require this setting as well.
+    """
+
+    # DiagnosticObdSupportEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.206, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This represent the role "master ECU". Tags: atp.EnumerationLiteralIndex=0
+    MASTER_ECU = "masterEcu"
+
+    # This represents the ability to explicitly specify that no participation in OBD is foreseen. Tags: atp.EnumerationLiteralIndex=1
+    NO_OBD_SUPPORT = "noObdSupport"
+
+    # This represents the role "primary ECU". Tags: atp.EnumerationLiteralIndex=2
+    PRIMARY_ECU = "primaryEcu"
+
+    # This represents the role "secondary ECU". Tags: atp.EnumerationLiteralIndex=3
+    SECONDARY_ECU = "secondaryEcu"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticObdSupportEnum.MASTER_ECU,
+                DiagnosticObdSupportEnum.NO_OBD_SUPPORT,
+                DiagnosticObdSupportEnum.PRIMARY_ECU,
+                DiagnosticObdSupportEnum.SECONDARY_ECU,
+            ]
+        )
 
 
 class DiagnosticOccurrenceCounterProcessingEnum(AREnum):

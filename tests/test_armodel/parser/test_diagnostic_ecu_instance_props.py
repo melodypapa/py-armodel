@@ -7,10 +7,9 @@ Attribute rows: ecuInstance (kind ref, multiplicity *) round-trips as the
 ECU-INSTANCE-REFS wrapper (choice of unbounded ECU-INSTANCE-REF, DEST
 ECU-INSTANCE--SUBTYPES-ENUM — XSD group DIAGNOSTIC-ECU-INSTANCE-PROPS,
 AUTOSAR_00052.xsd l.35261); obdSupport (kind attr, multiplicity 0..1, markdown
-Type DiagnosticObdSupportEnum) round-trips as the OBD-SUPPORT element text.
-DiagnosticObdSupportEnum is still a stub queued later in Group25 — the value
-round-trips as a raw literal until it gains its literals
-(DiagnosticExtendedDataRecord TRIGGER precedent). The XSD elements
+Type DiagnosticObdSupportEnum) round-trips as the typed
+DiagnosticObdSupportEnum (Table 4.206) literal — the OBD-SUPPORT XSD token
+maps to the enum value. The XSD elements
 DTC-STATUS-AVAILABILITY-MASK and SEND-RESP-PEND-ON-TRANS-TO-BOOT carry
 atp.Status="removed" and are not modeled (Rule 0015).
 
@@ -18,6 +17,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_ecu_ins
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticObdSupportEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -55,11 +55,12 @@ class TestReadDiagnosticEcuInstanceProps:
         assert props.getEcuInstanceRefs() == []
 
     def test_read_obd_support(self, parser):
-        """Test that the OBD-SUPPORT element text is read into obdSupport as a raw literal."""
-        props = self._read(parser, "<SHORT-NAME>EcuInstanceProps1</SHORT-NAME><OBD-SUPPORT>primaryEcu</OBD-SUPPORT>")
+        """Test that the OBD-SUPPORT token is read as the typed enum literal."""
+        props = self._read(parser, "<SHORT-NAME>EcuInstanceProps1</SHORT-NAME><OBD-SUPPORT>PRIMARY-ECU</OBD-SUPPORT>")
         obd_support = props.getObdSupport()
         assert obd_support is not None
-        assert str(obd_support) == "primaryEcu"
+        assert isinstance(obd_support, DiagnosticObdSupportEnum)
+        assert obd_support.getValue() == "primaryEcu"
 
     def test_read_without_own_fields_leaves_defaults(self, parser):
         """Test that an element without own fields leaves ecuInstanceRefs empty and obdSupport None."""
@@ -75,7 +76,8 @@ class TestReadDiagnosticEcuInstanceProps:
             "<ECU-INSTANCE-REFS>"
             '<ECU-INSTANCE-REF DEST="ECU-INSTANCE">/AUTOSAR/EcuInstances/Ecu1</ECU-INSTANCE-REF>'
             "</ECU-INSTANCE-REFS>"
-            "<OBD-SUPPORT>masterEcu</OBD-SUPPORT>",
+            "<OBD-SUPPORT>MASTER-ECU</OBD-SUPPORT>",
         )
         assert len(props.getEcuInstanceRefs()) == 1
-        assert str(props.getObdSupport()) == "masterEcu"
+        assert isinstance(props.getObdSupport(), DiagnosticObdSupportEnum)
+        assert props.getObdSupport().getValue() == "masterEcu"

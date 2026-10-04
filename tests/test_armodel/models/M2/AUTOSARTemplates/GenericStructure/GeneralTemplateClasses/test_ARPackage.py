@@ -10978,9 +10978,8 @@ class TestDiagnosticEcuInstanceProps:
     getEcuInstanceRefs (DiagnosticDataIdentifierSet precedent); obdSupport
     (kind attr, multiplicity 0..1) is typed Optional[DiagnosticObdSupportEnum]
     (markdown Type column wins over the XSD element type, Rule 0015).
-    DiagnosticObdSupportEnum is still a stub queued later in Group25 — tests
-    construct it with the interim raw-literal shape until it gains its
-    literals.
+    obdSupport round-trips as the typed DiagnosticObdSupportEnum (Table 4.206)
+    literal.
     """
 
     CLASS_NOTE = (
@@ -11004,7 +11003,7 @@ class TestDiagnosticEcuInstanceProps:
         return ref
 
     def _make_obd_support(self, value: str) -> DiagnosticObdSupportEnum:
-        return DiagnosticObdSupportEnum([]).setValue(value)
+        return DiagnosticObdSupportEnum().setValue(value)
 
     def test_initialization(self):
         """
@@ -11060,12 +11059,12 @@ class TestDiagnosticEcuInstanceProps:
         Round-trips the attribute through the setter/getter; chaining returns the object.
         """
         obj = self._make_obj()
-        obd_support = self._make_obd_support("primaryEcu")
+        obd_support = DiagnosticObdSupportEnum().setValue(DiagnosticObdSupportEnum.PRIMARY_ECU)
 
         result = obj.setObdSupport(obd_support)
         assert result is obj  # method chaining
         assert obj.getObdSupport() is obd_support
-        assert str(obj.getObdSupport()) == "primaryEcu"
+        assert obj.getObdSupport().getValue() == "primaryEcu"
 
     def test_set_obd_support_none_no_op(self):
         """
