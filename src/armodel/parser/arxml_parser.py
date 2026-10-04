@@ -14848,7 +14848,6 @@ class ARXMLParser(AbstractARXMLParser):
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
         value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
-        self.readVariationPointCapable(element, value)
 
     def readEcucReferenceValue(self, element: ET.Element, value: EcucReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)

@@ -13601,7 +13601,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcucIndexableValue(element, value)
         self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
-        self.writeVariationPointCapable(element, value)
 
     def writeEcucReferenceValue(self, element: ET.Element, value=None):
         if value is not None:

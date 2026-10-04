@@ -201,12 +201,14 @@ class TestVariationPointCapableARObjectReaders:
         assert param_value.getDefinitionRef().getValue() == "/Def"
 
     def test_ecuc_reference_value(self, parser):
+        """Table 2.53 has no variationPoint row (Rule 0015), so an incoming VARIATION-POINT element is ignored, not read."""
         element = _snip("<DEFINITION-REF DEST='ECUC-REFERENCE-DEF'>/Def</DEFINITION-REF>" + VP_SNIPPET, root_tag="ECUC-REFERENCE-VALUE")
 
         value = EcucReferenceValue()
         parser.readEcucReferenceValue(element, value)
 
-        _assert_variation_point(value)
+        assert value.getDefinitionRef() is not None
+        assert value.getDefinitionRef().getValue() == "/Def"
 
     def test_absent_variation_point_leaves_field_unset(self, parser):
         element = _snip("<ROLE>WriteBlock</ROLE>", root_tag="MODE-SWITCH-EVENT-TRIGGERED-ACTIVITY")

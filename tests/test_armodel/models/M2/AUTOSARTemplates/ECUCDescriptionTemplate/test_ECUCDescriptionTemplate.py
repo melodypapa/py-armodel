@@ -1435,6 +1435,128 @@ def test_ecuc_numerical_param_value_setter_docstring_split_paragraphs():
     assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing value.", "setValue docstring must carry the no-op sentence as its own paragraph"
 
 
+def test_ecuc_abstract_reference_value_not_variation_point_capable():
+    """
+    Table 2.53 has no variationPoint row, so EcucAbstractReferenceValue must not model the
+    VariationPointCapable mixin (Rule 0015 — the PDF/markdown table wins; the VARIATION-POINT
+    element in the XSD group ECUC-ABSTRACT-REFERENCE-VALUE is an atpVariation artifact documented
+    as "Applicable for: EcucContainerValue.referenceValue", i.e. it belongs to the container's
+    referenceValue aggregation, not to the reference values themselves).
+
+    Test Steps:
+    1. Assert VariationPointCapable is not among EcucAbstractReferenceValue's bases
+    2. Assert EcucIndexableValue is the most-derived spec base
+    """
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+    assert VariationPointCapable not in EcucAbstractReferenceValue.__bases__
+    assert EcucIndexableValue in EcucAbstractReferenceValue.__bases__
+
+
+def test_ecuc_abstract_reference_value_base_properties():
+    """
+    EcucAbstractReferenceValue (Table 2.53) base accessors via a concrete subclass.
+
+    Test Steps:
+    1. Create an EcucInstanceReferenceValue instance (concrete subclass)
+    2. Assert the annotations/definitionRef/isAutoValue defaults
+    3. Round-trip addAnnotation/getAnnotations, setDefinitionRef and setIsAutoValue with chaining
+    4. Assert None is a no-op on all three mutators
+    """
+    ref_value = EcucInstanceReferenceValue()
+
+    assert ref_value.annotations == []
+    assert ref_value.getAnnotations() == []
+    assert ref_value.definitionRef is None
+    assert ref_value.getDefinitionRef() is None
+    assert ref_value.isAutoValue is None
+    assert ref_value.getIsAutoValue() is None
+
+    annotation = Annotation()
+    assert ref_value.addAnnotation(annotation) is ref_value
+    assert ref_value.getAnnotations() == [annotation]
+    ref_value.addAnnotation(None)
+    assert ref_value.getAnnotations() == [annotation]
+
+    definition_ref = RefType().setValue("/EcucDefs/Rte/Ref")
+    assert ref_value.setDefinitionRef(definition_ref) is ref_value
+    assert ref_value.getDefinitionRef() == definition_ref
+    ref_value.setDefinitionRef(None)
+    assert ref_value.getDefinitionRef() == definition_ref
+
+    auto_value = Boolean().setValue(True)
+    assert ref_value.setIsAutoValue(auto_value) is ref_value
+    assert ref_value.getIsAutoValue() == auto_value
+    ref_value.setIsAutoValue(None)
+    assert ref_value.getIsAutoValue() == auto_value
+
+
+def test_ecuc_abstract_reference_value_member_docstrings_verbatim_full():
+    """
+    Member docstrings must carry the full Table 2.53 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/adder docstring carries the complete spec attribute Note verbatim
+    """
+    assert EcucAbstractReferenceValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert (
+        "Abstract class to be used as common parent for all reference values in the ECU Configuration Description." in EcucAbstractReferenceValue.__doc__
+    ), "Class docstring must contain spec Note verbatim"
+
+    notes = {
+        "addAnnotation": "Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.",
+        "getAnnotations": "Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.",
+        "getDefinitionRef": "Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10",
+        "setDefinitionRef": "Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10",
+        "getIsAutoValue": 'If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false".',
+        "setIsAutoValue": 'If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false".',
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucAbstractReferenceValue, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_ecuc_abstract_reference_value_member_annotations():
+    """
+    Member annotations must match the Table 2.53 multiplicities (Rule 0022 gate pins).
+
+    Test Steps:
+    1. Assert getter return types and mutator value types via get_type_hints
+    """
+    import typing
+
+    assert typing.get_type_hints(EcucAbstractReferenceValue.getAnnotations)["return"] == typing.List[Annotation]
+    assert typing.get_type_hints(EcucAbstractReferenceValue.addAnnotation)["value"] == typing.Optional[Annotation]
+    assert typing.get_type_hints(EcucAbstractReferenceValue.getDefinitionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucAbstractReferenceValue.setDefinitionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucAbstractReferenceValue.getIsAutoValue)["return"] == typing.Optional[Boolean]
+    assert typing.get_type_hints(EcucAbstractReferenceValue.setIsAutoValue)["value"] == typing.Optional[Boolean]
+
+
+def test_ecuc_abstract_reference_value_setter_docstring_split_paragraphs():
+    """
+    The setter docstrings must follow the batch-2 split-paragraph style: the spec Note,
+    a blank line, then the None no-op sentence (EcucParameterValue setter convention).
+
+    Test Steps:
+    1. Assert the setDefinitionRef docstring carries the no-op sentence as its own paragraph
+    2. Assert the setIsAutoValue docstring carries the no-op sentence as its own paragraph
+    """
+    doc = EcucAbstractReferenceValue.setDefinitionRef.__doc__
+    assert doc is not None, "setDefinitionRef must have a docstring"
+    paragraphs = [paragraph.strip() for paragraph in doc.split("\n\n")]
+    assert len(paragraphs) >= 2, "setDefinitionRef docstring must split the Note and the no-op sentence into separate paragraphs"
+    assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing reference.", "setDefinitionRef docstring must carry the no-op sentence as its own paragraph"
+
+    doc = EcucAbstractReferenceValue.setIsAutoValue.__doc__
+    assert doc is not None, "setIsAutoValue must have a docstring"
+    paragraphs = [paragraph.strip() for paragraph in doc.split("\n\n")]
+    assert len(paragraphs) >= 2, "setIsAutoValue docstring must split the Note and the no-op sentence into separate paragraphs"
+    assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing flag.", "setIsAutoValue docstring must carry the no-op sentence as its own paragraph"
+
+
 if __name__ == "__main__":
     test_ecuc_value_collection_initialization_defaults()
     test_ecuc_value_collection_add_ecuc_value_ref()
@@ -1485,4 +1607,9 @@ if __name__ == "__main__":
     test_ecuc_numerical_param_value_setter_docstring_split_paragraphs()
     test_ecuc_add_info_param_value_member_annotations()
     test_ecuc_add_info_param_value_setter_docstring_split_paragraphs()
+    test_ecuc_abstract_reference_value_not_variation_point_capable()
+    test_ecuc_abstract_reference_value_base_properties()
+    test_ecuc_abstract_reference_value_member_docstrings_verbatim_full()
+    test_ecuc_abstract_reference_value_member_annotations()
+    test_ecuc_abstract_reference_value_setter_docstring_split_paragraphs()
     print("All ECUCDescriptionTemplate tests passed!")
