@@ -421,7 +421,7 @@ class ServerArgumentImplPolicyEnum(AREnum):
     """
 
     # ServerArgumentImplPolicyEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.10, p.105
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.10, p.105 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -432,15 +432,7 @@ class ServerArgumentImplPolicyEnum(AREnum):
     # The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2
     USE_VOID = "useVoid"
 
-    # (accepted deviation, pending user arbitration 2026-10-02): the R23-11 table also defines
-    #  innerPort, while the model carries bidirectional / firstToSecond / secondToFirst which are
-    #  absent from the R23-11 table (cross-corpus drift). Resolved literals require the user's
-    #  9b decision; nothing stamped meanwhile.
-
     def __init__(self):
-        """
-        Initializes a ServerArgumentImplPolicyEnum instance with the spec-defined literals.
-        """
         super().__init__((ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE, ServerArgumentImplPolicyEnum.USE_VOID))
 
 

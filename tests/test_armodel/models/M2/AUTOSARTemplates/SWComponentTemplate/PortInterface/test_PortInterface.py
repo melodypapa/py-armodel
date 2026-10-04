@@ -1223,3 +1223,40 @@ class TestArgumentDataPrototypeSpecSync:
         init_source = inspect.getsource(ArgumentDataPrototype.__init__)
         assert self.DIRECTION_NOTE in init_source
         assert self.POLICY_NOTE in init_source
+
+
+class TestServerArgumentImplPolicyEnumSpecSync:
+    """Spec-sync pins for ServerArgumentImplPolicyEnum (CP_TPS_SoftwareComponentTemplate Table 4.10, p.105)."""
+
+    def test_literals_match_spec_table_exactly(self):
+        """Table 4.10 defines exactly two literals: useArgumentType (index 0) and useVoid (index 2)"""
+        assert ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE == "useArgumentType"
+        assert ServerArgumentImplPolicyEnum.USE_VOID == "useVoid"
+
+    def test_enum_values_in_spec_display_order(self):
+        enum = ServerArgumentImplPolicyEnum()
+        assert enum.getEnumValues() == (
+            ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE,
+            ServerArgumentImplPolicyEnum.USE_VOID,
+        )
+        assert enum.enumValues == ("useArgumentType", "useVoid")
+
+    def test_no_extra_members(self):
+        members = {name for name, value in vars(ServerArgumentImplPolicyEnum).items() if name.isupper()}
+        assert members == {"USE_ARGUMENT_TYPE", "USE_VOID"}
+
+    def test_instantiation_set_value(self):
+        enum = ServerArgumentImplPolicyEnum()
+        result = enum.setValue(ServerArgumentImplPolicyEnum.USE_VOID)
+        assert result is enum
+        assert enum.getValue() == "useVoid"
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ServerArgumentImplPolicyEnum.__doc__.strip() == "This defines how the argument type of the servers RunnableEntity is implemented."
+
+    def test_literal_comments_carry_spec_descriptions(self):
+        import inspect
+
+        source = inspect.getsource(ServerArgumentImplPolicyEnum)
+        assert "The argument type of the RunnableEntity is derived from the AutosarDataType of the Argument Prototype. Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2" in source
