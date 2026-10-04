@@ -8670,8 +8670,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeAutosarDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
         self.setChildElementOptionalBooleanValue(child_element, "IS-STRUCT-WITH-OPTIONAL-ELEMENT", data_type.getIsStructWithOptionalElement())
-        self.writeImplementationDataTypeSymbolProps(child_element, data_type)
         self.writeImplementationDataTypeSubElements(child_element, data_type)
+        self.writeImplementationDataTypeSymbolProps(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
 
     def writeArgumentDataPrototype(self, element: ET.Element, prototype: ArgumentDataPrototype):

@@ -290,15 +290,65 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ImplementationDataType` — AbstractImplementationDataType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.15, p.268; also CP_TPS_DiagnosticExtractTemplate Table 5.7, p.231
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) + stale `# Spec verified: R23-11` with wrong
+    citation (BSWModuleDescriptionTemplate Table D.37, p.321 — a reproduction; defining doc SWCT wins)
+    removed at session start, full re-sync, stamp WITHHELD this batch. Placement KEPT in
+    CommonStructure/ImplementationDataTypes.py — spec Package row is
+    M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (the InstanceRef.py misplacement
+    hint was stale; only ImplementationDataTypeElementInPortInterfaceRef lives there). Base
+    AbstractImplementationDataType already stamped R23-11 (Table 5.14, no own attrs) — not a stub, no
+    base sync. 5 attrs: dynamicArraySizeProfile (String 0..1 attr), isStructWithOptionalElement
+    (Boolean 0..1 attr), subElement (ImplementationDataTypeElement * aggr → wrapper SUB-ELEMENTS),
+    symbolProps (SymbolProps 0..1 aggr), typeEmitter (NameToken 0..1 attr). XSD group order =
+    DYNAMIC-ARRAY-SIZE-PROFILE, IS-STRUCT-WITH-OPTIONAL-ELEMENT, SUB-ELEMENTS, SYMBOL-PROPS,
+    TYPE-EMITTER; writer emits SYMBOL-PROPS before SUB-ELEMENTS → order fix needed (Step 6). No
+    VARIATION-POINT in the class's XSD group → not VP-capable (subElement atpVariation lands on
+    ImplementationDataTypeElement, already VP-capable). DEXT Table 5.7 rendering is page-split,
+    content-identical. Pre-existing CATEGORY_* class constants kept (consumed by
+    AutosarTopLevelStructure.getDataType) — recorded as added convenience constants.
+  - [x] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red) — 11 failed / 8 passed: genuine Red on the class
+    docstring pin + 10 accessor docstring-verbatim pins (stale reflowed/paraphrased docstrings,
+    Args/Returns blocks, wrong None-no-op wording); behavioral tests passed (impl already conforms —
+    vacuous behavioral Red portion, noted)
+  - [ ] Step 3 — Implement model class (Green) — no behavioral model changes needed (field-to-spec
+    cross-check both directions clean: 5 own attrs all Optional[T]/List[T] 0..1/0..* → PEP 526
+    members, guarded self-returning setters, create+get shape for the two Referrable children
+    subElement/symbolProps, most-derived base AbstractImplementationDataType; behavioral subset
+    8 passed; one Rule 0008 fix — blank lines inserted between the 5 glued __init__ member blocks;
+    docstring Green lands with Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — ImplementationDataType block wiped (class
+    docstring reflow removed, __init__ Args/Returns docstring removed, 10 accessor docstrings'
+    paraphrases/Args/Returns blocks dropped, 5 inline __init__ comments rewritten) and rewritten
+    verbatim from the markdown Notes (Stereotypes/Tags tails dropped per 0012.2.5.2; subElement Note
+    keeps the spec's "ImplementionDataTypeElement"/"Implementation DataType" spellings; guarded
+    setters carry the None-no-op sentence naming the attribute); stale `# Spec verified: R23-11`
+    removed per Rule 0023 (session start); 48 passed test_ImplementationDataTypes.py
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+    test_ImplementationDataType.py (2 reader tests: field values incl. one-level-down sub-elements
+    arraySize/arraySizeSemantics/isOptional + symbolProps + empty-wrapper no-element case) and
+    tests/test_armodel/writer/test_writer_ImplementationDataType.py (XSD-order + unset-omits + 2
+    save→reload round-trips through the ARPackage dispatch incl. empty-wrapper-list). First run:
+    1 failed / 5 passed — the failure is the genuine Red `SUB-ELEMENTS < SYMBOL-PROPS` order
+    assertion (writer emits SYMBOL-PROPS before SUB-ELEMENTS); reader tests passed (vacuous Red,
+    find-based read is order-independent)
+  - [ ] Step 6 — Update parser & writer (Green) — writer only: writeImplementationDataType reordered
+    to the XSD group order (DYNAMIC-ARRAY-SIZE-PROFILE, IS-STRUCT-WITH-OPTIONAL-ELEMENT,
+    SUB-ELEMENTS, SYMBOL-PROPS, TYPE-EMITTER — SUB-ELEMENTS moved before SYMBOL-PROPS); parser
+    unchanged (readImplementationDataType/readImplementationDataTypeSubElements/
+    readImplementationDataTypeSymbolProps already call all 5 mutators, find-based order-independent);
+    no chained mutators; 14 passed incl. test_implementation_data_type +
+    test_implementation_data_type_element neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column added (was Rule
+    0023 legacy 5-column); rows in source order; citation FIXED to defining SWCT Table 5.15 p.268
+    (was BSWModuleDescriptionTemplate Table D.37 p.321); stale `# Spec verified: R23-11` removed at
+    session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry rewritten (docs/examples/method_deviation_by_class.md):
+    citation moved D.37 p.320 → SWCT Table 5.15 p.268, stale row `symbolProps / type (spec one vs
+    py list)` removed (field is the spec-shaped Optional[SymbolProps] single), No-deviations summary
+    + batch Note (placement kept, writer order fix, CATEGORY_* kept as added convenience constants,
+    DEXT cross-check, not VP-capable); no missing referenced classes
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (48 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/test_ImplementationDataTypes.py, 2 passed / 0 failed tests/test_armodel/parser/test_ImplementationDataType.py, 4 passed / 0 failed tests/test_armodel/writer/test_writer_ImplementationDataType.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 2710 passed CommonStructure + SWComponentTemplate/Datatype model dirs + parser/writer test_implementation_data_type + test_implementation_data_type_element + test_arxml_parser_dispatch + test_arxml_parser_orchestrators + test_writer_impl_types_ports + test_writer_arpackage_dispatch + test_writer_data_types + test_writer_implementation; black/ruff clean on all 5 changed files, mypy model clean + 1 pre-existing error only (writer L7526, prior EndToEndProtection commit); checklist==methods verified via set-based script + stamp WITHHELD + Rule 0008 spacing verified via AST audit; targeted lossless round-trip over AUTOSAR_Datatypes.arxml: 15 ImplementationDataType elements identical (model-compare + byte file-compare, TYPE-EMITTER values intact); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwBaseType` — BaseType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.22, p.290
   - module: M2/MSR/AsamHdo/BaseTypes.py

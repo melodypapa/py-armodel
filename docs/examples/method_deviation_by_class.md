@@ -1358,13 +1358,13 @@ Table 4.6).
 | — *(missing)* | `—` | `bitPosition` | `PositiveInteger` | — | missing |
 
 ## `ImplementationDataType`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 320
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 268
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `symbolProps` | `—` | `symbolProps` | `SymbolProps` | — | type (spec one vs py list) |
+No deviations — all 5 `Attribute` rows modeled 1:1 in displayed order: `dynamicArraySizeProfile` (`Optional[String]`, 0..1 attr), `isStructWithOptionalElement` (`Optional[Boolean]`, 0..1 attr), `subElement` (`subElements: List[ImplementationDataTypeElement]` + `createImplementationDataTypeElement`/`getSubElements`, `*` aggr via the `SUB-ELEMENTS` wrapper), `symbolProps` (`Optional[SymbolProps]` + `createSymbolProps`/`getSymbolProps`, 0..1 aggr), `typeEmitter` (`Optional[NameToken]`, 0..1 attr); concrete Class, most-derived base `AbstractImplementationDataType` (Table 5.14 — already stamped R23-11, no own attributes).
+
+**Note:** Batch sync 2026-10-04 (Group28 row; re-sync of a pre-existing class — the checklist carried a stale `# Spec verified: R23-11` stamp in the 5-column pre-release-column format with a wrong citation (BSWModuleDescriptionTemplate Table D.37, p.321 — a reproduction of the same class table); the stamp was removed at session start (Rule 0023) and stays WITHHELD pending the 9b batch confirmation, user instruction; `# Spec:` citation corrected to the defining document SWCT Table 5.15, p.268; the prior stale tracker row `symbolProps / type (spec one vs py list)` was removed — the field is the spec-shaped `Optional[SymbolProps]` single). Placement kept in `CommonStructure/ImplementationDataTypes.py` — the spec Package row is `M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes`; the queue's InstanceRef.py misplacement hint was stale (only `ImplementationDataTypeElementInPortInterfaceRef` lives there). Cross-checked the second rendering AUTOSAR_CP_TPS_DiagnosticExtractTemplate.md Table 5.7, p.231 — content-identical page-split (header rows before the caption, `symbolProps`/`typeEmitter` after); defining doc SWCT wins. Writer fix: `writeImplementationDataType` reordered to the XSD group order (`SUB-ELEMENTS` before `SYMBOL-PROPS`, per `AUTOSAR_00052.xsd` group IMPLEMENTATION-DATA-TYPE); parser unchanged (find-based, all 5 mutators already called). The pre-existing `CATEGORY_*` class constants are kept as added convenience constants (not spec attributes, no checklist rows; consumed by `AutosarTopLevelStructure.getDataType`). No VARIATION-POINT anchor in the class's XSD group — not VP-capable (the `subElement` atpVariation lands on `ImplementationDataTypeElement`, already VP-capable via the mixin). No Rule 0001.10 missing referenced classes (`SymbolProps`, `NameToken`, `ImplementationDataTypeElement` all synced/stamped).
 
 ## `Integer`
 - **PDF:** *no own spec table*  |  **page:** —
