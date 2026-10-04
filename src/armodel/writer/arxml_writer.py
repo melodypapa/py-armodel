@@ -534,6 +534,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticIumprGroupIdentifier,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -14402,15 +14403,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticIumprGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR-GROUP")
         self.writeIdentifiable(child_element, group)
-        # iumprGroupIdentifier round-trips as wrapper presence until DiagnosticIumprGroupIdentifier (Table 4.210, Group25) gains its own fields; write its children there then.
-        if group.getIumprGroupIdentifier() is not None:
+        identifier = group.getIumprGroupIdentifier()
+        if identifier is not None:
             identifiers_tag = ET.SubElement(child_element, "IUMPR-GROUP-IDENTIFIERS")
-            ET.SubElement(identifiers_tag, "DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
+            self.writeDiagnosticIumprGroupIdentifier(identifiers_tag, identifier)
         refs = group.getIumprRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "IUMPR-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "IUMPR-REF", ref)
+
+    def writeDiagnosticIumprGroupIdentifier(self, element: ET.Element, identifier: DiagnosticIumprGroupIdentifier):
+        self.logger.debug("Write DiagnosticIumprGroupIdentifier")
+        identifier_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
+        self.setChildElementOptionalNameToken(identifier_element, "GROUP-ID", identifier.getGroupId())
 
     def writeDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.logger.debug("Write DiagnosticIumprToFunctionIdentifierMapping %s" % mapping.getShortName())

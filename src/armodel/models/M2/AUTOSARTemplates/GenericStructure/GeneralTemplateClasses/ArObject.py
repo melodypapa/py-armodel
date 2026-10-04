@@ -908,7 +908,36 @@ class DiagnosticFunctionIdentifierInhibit(ARObject):
 
 
 class DiagnosticIumprGroupIdentifier(ARObject):
-    pass
+    """This meta-class provides the ability to the define the group identifier for an IumprGroup."""
+
+    # DiagnosticIumprGroupIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.210, p.211
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGroupId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGroupId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute shall be taken to define an identifier for the IUMPR group. Please note that the value of this identifier is driven by regulations outside the scope of AUTOSAR and can therefore not be limited to the set of characters suitable for a shortName. Stereotypes: atpIdentityContributor
+        self.groupId: Optional[NameToken] = None
+
+    def getGroupId(self) -> Optional[NameToken]:
+        """
+        This attribute shall be taken to define an identifier for the IUMPR group. Please note that the value of this identifier is driven by regulations outside the scope of AUTOSAR and can therefore not be limited to the set of characters suitable for a shortName. Stereotypes: atpIdentityContributor
+        """
+        return self.groupId
+
+    def setGroupId(self, value: Optional[NameToken]) -> DiagnosticIumprGroupIdentifier:
+        """
+        This attribute shall be taken to define an identifier for the IUMPR group. Please note that the value of this identifier is driven by regulations outside the scope of AUTOSAR and can therefore not be limited to the set of characters suitable for a shortName. Stereotypes: atpIdentityContributor
+
+        A None value is a no-op and does not overwrite an existing groupId.
+        """
+        if value is not None:
+            self.groupId = value
+        return self
 
 
 class DiagnosticMemoryDestination(ARObject, ABC):
@@ -1664,6 +1693,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     Identifier,
+    NameToken,
     PositiveInteger,
     RefType,
     TimeValue,

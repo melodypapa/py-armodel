@@ -12,10 +12,9 @@ of IUMPR-REF elements (DEST DIAGNOSTIC-IUMPR, atpSplitable). The XSD-only
 GROUP-IDENTIFIER element carries atp.Status="removed" and is not modeled
 (Rule 0015).
 
-The referenced type DiagnosticIumpr (Table 4.207) is fully synced on this
-branch. DiagnosticIumprGroupIdentifier (Table 4.210) is still an empty stub
-queued later in Group25 — the reader instantiates the typed field from the
-wrapper presence until that row syncs.
+The referenced type DiagnosticIumpr (Table 4.207) and the aggregated
+DiagnosticIumprGroupIdentifier (Table 4.210) are fully synced on this branch —
+GROUP-ID round-trips as a NameToken field value.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_iumpr_group.py
 """
@@ -53,16 +52,33 @@ class TestReadDiagnosticIumprGroup:
         assert refs[1].getDest() == "DIAGNOSTIC-IUMPR"
 
     def test_read_sets_iumpr_group_identifier(self, parser):
-        """Test that the IUMPR-GROUP-IDENTIFIERS wrapper instantiates the iumprGroupIdentifier aggregation (typed field over the Table 4.210 stub)."""
+        """Test that the IUMPR-GROUP-IDENTIFIERS/DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER element is read into iumprGroupIdentifier with its GROUP-ID field value (Table 4.210)."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticIumprGroupIdentifier
 
+        group = self._read(
+            parser,
+            "<SHORT-NAME>IumprGroup1</SHORT-NAME>"
+            "<IUMPR-GROUP-IDENTIFIERS>"
+            "<DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER>"
+            "<GROUP-ID>IUMPR_GROUP_1</GROUP-ID>"
+            "</DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER>"
+            "</IUMPR-GROUP-IDENTIFIERS>",
+        )
+        identifier = group.getIumprGroupIdentifier()
+        assert identifier is not None
+        assert isinstance(identifier, DiagnosticIumprGroupIdentifier)
+        assert identifier.getGroupId() is not None
+        assert identifier.getGroupId().getValue() == "IUMPR_GROUP_1"
+
+    def test_read_identifier_without_group_id_leaves_field_none(self, parser):
+        """Test that a DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER element without GROUP-ID leaves groupId None (0..1 attribute)."""
         group = self._read(
             parser,
             "<SHORT-NAME>IumprGroup1</SHORT-NAME>" "<IUMPR-GROUP-IDENTIFIERS>" "<DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER></DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER>" "</IUMPR-GROUP-IDENTIFIERS>",
         )
         identifier = group.getIumprGroupIdentifier()
         assert identifier is not None
-        assert isinstance(identifier, DiagnosticIumprGroupIdentifier)
+        assert identifier.getGroupId() is None
 
     def test_read_empty_identifier_wrapper_leaves_aggregation_none(self, parser):
         """Test that an empty IUMPR-GROUP-IDENTIFIERS wrapper leaves iumprGroupIdentifier None (empty wrapper case)."""

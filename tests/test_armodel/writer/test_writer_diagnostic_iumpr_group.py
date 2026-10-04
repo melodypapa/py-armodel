@@ -13,9 +13,9 @@ GROUP-IDENTIFIER element carries atp.Status="removed" and is not written
 (Rule 0015).
 The dispatch entry is writeARPackageElement → writeDiagnosticIumprGroup.
 
-DiagnosticIumprGroupIdentifier (Table 4.210) is still an empty stub queued
-later in Group25 — the writer emits the wrapper presence until that row
-syncs.
+DiagnosticIumprGroupIdentifier (Table 4.210) is fully synced on this branch —
+the writer serializes its GROUP-ID child through
+writeDiagnosticIumprGroupIdentifier inside the wrapper.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_iumpr_group.py
 """
@@ -57,8 +57,11 @@ class TestWriteDiagnosticIumprGroup:
 
     def _populate(self, group: DiagnosticIumprGroup) -> DiagnosticIumprGroup:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticIumprGroupIdentifier
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 
-        group.setIumprGroupIdentifier(DiagnosticIumprGroupIdentifier())
+        identifier = DiagnosticIumprGroupIdentifier()
+        identifier.setGroupId(NameToken().setValue("IUMPR_GROUP_1"))
+        group.setIumprGroupIdentifier(identifier)
         group.addIumprRef(self._make_ref("/AUTOSAR/DiagnosticIumprs/Iumpr1"))
         group.addIumprRef(self._make_ref("/AUTOSAR/DiagnosticIumprs/Iumpr2"))
         return group
@@ -79,7 +82,11 @@ class TestWriteDiagnosticIumprGroup:
         ]
         identifiers_tag = child.find("IUMPR-GROUP-IDENTIFIERS")
         assert identifiers_tag is not None
-        assert identifiers_tag.find("DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER") is not None
+        identifier_element = identifiers_tag.find("DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
+        assert identifier_element is not None
+        group_id_element = identifier_element.find("GROUP-ID")
+        assert group_id_element is not None
+        assert group_id_element.text == "IUMPR_GROUP_1"
         refs_tag = child.find("IUMPR-REFS")
         assert refs_tag is not None
         ref_elements = refs_tag.findall("IUMPR-REF")
@@ -133,6 +140,8 @@ class TestWriteDiagnosticIumprGroup:
             assert group_2.getShortName() == "IumprGroup1"
             identifier = group_2.getIumprGroupIdentifier()
             assert identifier is not None
+            assert identifier.getGroupId() is not None
+            assert identifier.getGroupId().getValue() == "IUMPR_GROUP_1"
             refs = group_2.getIumprRefs()
             assert len(refs) == 2
             assert refs[0].getValue() == "/AUTOSAR/DiagnosticIumprs/Iumpr1"

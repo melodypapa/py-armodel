@@ -1188,7 +1188,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticIumprGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.209, p.210
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - note (Step 1): two Attribute rows in displayed order — iumpr (DiagnosticIumpr, *, ref) → plural dedicated typed-list field `iumprRefs` behind addIumprRef/getIumprRefs (DiagnosticIumprDenominatorGroup precedent, e1a516d39); iumprGroupIdentifier (DiagnosticIumprGroupIdentifier, 0..1, aggr) → Optional typed field behind get/setIumprGroupIdentifier (markdown 0..1 wins over the XSD unbounded choice per Rule 0015). XSD group DIAGNOSTIC-IUMPR-GROUP (AUTOSAR_00052.xsd l.38728) fixes wrapper structure + XML element order: optional IUMPR-GROUP-IDENTIFIERS wrapper (choice DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER) before optional IUMPR-REFS wrapper (unbounded IUMPR-REF, DEST DIAGNOSTIC-IUMPR, atpSplitable); wrappers emitted only when populated. XSD-only element GROUP-IDENTIFIER (NAME-TOKEN-VALUE-VARIATION-POINT) carries atp.Status="removed" and is absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). Member docstrings keep the markdown Note verbatim incl. the line-wrap space artifacts "Diagnostic IumprGroup" and "iumprGroup Identifier.variationPoint.shortLabel" (established verbatim policy, ARPackage.py precedent). Pending reference: DiagnosticIumprGroupIdentifier (Table 4.210, queued later in Group25) is still an empty stub — iumprGroupIdentifier round-trips as wrapper presence (reader instantiates the empty typed instance, writer emits the empty DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER element); switch to its own read/write helpers when that row syncs. Added the ARPackage.createDiagnosticIumprGroup factory per the DiagnosticIumprDenominatorGroup precedent.
+  - note (Step 1): two Attribute rows in displayed order — iumpr (DiagnosticIumpr, *, ref) → plural dedicated typed-list field `iumprRefs` behind addIumprRef/getIumprRefs (DiagnosticIumprDenominatorGroup precedent, e1a516d39); iumprGroupIdentifier (DiagnosticIumprGroupIdentifier, 0..1, aggr) → Optional typed field behind get/setIumprGroupIdentifier (markdown 0..1 wins over the XSD unbounded choice per Rule 0015). XSD group DIAGNOSTIC-IUMPR-GROUP (AUTOSAR_00052.xsd l.38728) fixes wrapper structure + XML element order: optional IUMPR-GROUP-IDENTIFIERS wrapper (choice DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER) before optional IUMPR-REFS wrapper (unbounded IUMPR-REF, DEST DIAGNOSTIC-IUMPR, atpSplitable); wrappers emitted only when populated. XSD-only element GROUP-IDENTIFIER (NAME-TOKEN-VALUE-VARIATION-POINT) carries atp.Status="removed" and is absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). Member docstrings keep the markdown Note verbatim incl. the line-wrap space artifacts "Diagnostic IumprGroup" and "iumprGroup Identifier.variationPoint.shortLabel" (established verbatim policy, ARPackage.py precedent). Pending reference: DiagnosticIumprGroupIdentifier (Table 4.210, queued later in Group25) is still an empty stub — iumprGroupIdentifier round-trips as wrapper presence (reader instantiates the empty typed instance, writer emits the empty DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER element); switch to its own read/write helpers when that row syncs. RESOLVED 2026-10-04: DiagnosticIumprGroupIdentifier synced (Table 4.210) — reader/writer now populate/serialize GROUP-ID via readDiagnosticIumprGroupIdentifier/writeDiagnosticIumprGroupIdentifier. Added the ARPackage.createDiagnosticIumprGroup factory per the DiagnosticIumprDenominatorGroup precedent.
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -1201,15 +1201,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticIumprGroupIdentifier` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.210, p.211
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): single Attribute row — groupId (NameToken, 0..1, attr) → Optional[NameToken] field behind get/setGroupId (setter None no-op, chaining). XSD group DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER (AUTOSAR_00052.xsd l.38800) adds a VARIATION-POINT element (sequenceOffset 10000) absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). constr_1854 (groupId shall exist when the DEXT is complete) is an informational constraint, no field impact. Reader/writer coverage via the consuming parent: readDiagnosticIumprGroup/writeDiagnosticIumprGroup call the new readDiagnosticIumprGroupIdentifier/writeDiagnosticIumprGroupIdentifier helpers inside the IUMPR-GROUP-IDENTIFIERS wrapper (b2e6b6341 consumer-credit pattern); consumer DiagnosticIumprGroup interim wrapper-presence round-trip upgraded to field values (02133e7e7 pending reference resolved).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; XSD VARIATION-POINT finding recorded above as a note)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1298 passed / 0 failed: test_ArObject.py + test_diagnostic_iumpr_group.py + test_writer_diagnostic_iumpr_group.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticIumprDenominatorGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.211, p.211
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

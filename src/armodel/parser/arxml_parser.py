@@ -10970,12 +10970,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticIumprGroup(self, element: ET.Element, group: DiagnosticIumprGroup):
         self.logger.debug("Read DiagnosticIumprGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
-        # iumprGroupIdentifier round-trips as wrapper presence until DiagnosticIumprGroupIdentifier (Table 4.210, Group25) gains its own fields; read its children there then.
         identifier_element = self.find(element, "IUMPR-GROUP-IDENTIFIERS/DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
         if identifier_element is not None:
-            group.setIumprGroupIdentifier(DiagnosticIumprGroupIdentifier())
+            identifier = DiagnosticIumprGroupIdentifier()
+            self.readDiagnosticIumprGroupIdentifier(identifier_element, identifier)
+            group.setIumprGroupIdentifier(identifier)
         for ref in self.getChildElementRefTypeList(element, "IUMPR-REFS/IUMPR-REF"):
             group.addIumprRef(ref)
+
+    def readDiagnosticIumprGroupIdentifier(self, element: ET.Element, identifier: DiagnosticIumprGroupIdentifier):
+        self.logger.debug("Read DiagnosticIumprGroupIdentifier")
+        identifier.setGroupId(self.getChildElementOptionalNameToken(element, "GROUP-ID"))
 
     def readDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.readDiagnosticMapping(element, mapping)
