@@ -38,27 +38,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucIndexableValue` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.46, p.110
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (63 passed model+annotations+new round-trip; ecuc subset 430; full suite 17,525; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `7fa66d34f`
+  - note (Step 1): abstract Class, Base ARObject (+ABC guard), single attr index (PositiveInteger 0..1, sequenceOffset -5); owns reusable read/writeEcucIndexableValue helpers (Rule 0001.7) replacing the inline-duplicated INDEX handling in the parameter/reference/container value handlers; Rule 0023 legacy 5-col block + stale stamp removed; no stamp (batch 9b)
 
 - [ ] `EcucModuleConfigurationValues` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.47, p.111
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (66 passed model+annotations+new round-trip; ecuc subset 433; full suite 17,528; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `963ae8fcf`
+  - note (Step 1): concrete Class, Base ARElement; 6 attrs (container * aggr, definition/moduleDescription refs, ecucDefEdition, implementationConfigVariant, postBuildVariantUsed); 5 setters Optional-ized, getContainers returns typed field (Rule 0004), ECUC-DEF-EDITION via RevisionLabelString helper pair; XSD order DEFINITION-REF→ECUC-DEF-EDITION→IMPLEMENTATION-CONFIG-VARIANT→MODULE-DESCRIPTION-REF→POST-BUILD-VARIANT-USED→CONTAINERS; no deviations (tracker entry 3dcbb390d); no stamp (batch 9b)
 
 - [ ] `EcucContainerValue` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.48, p.119
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
