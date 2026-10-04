@@ -809,7 +809,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
     SwcInternalBehavior,
     SynchronousServerCallPoint,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArParameterInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
@@ -4538,6 +4538,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(implementation_element, "TARGET-DATA-PROTOTYPE-REF", implementation_ref.getTargetDataPrototypeRef())
             self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF", ref.getLocalVariableRef())
+
+    def writeArParameterInImplementationDataInstanceRef(self, element: ET.Element, instance_ref: ArParameterInImplementationDataInstanceRef):
+        self.writeARObject(element, instance_ref)
+        context_refs = instance_ref.getContextDataPrototypeRefs()
+        if len(context_refs) > 0:
+            wrapper_element = ET.SubElement(element, "CONTEXT-DATA-PROTOTYPE-REFS")
+            for context_ref in context_refs:
+                self.setChildElementOptionalRefType(wrapper_element, "CONTEXT-DATA-PROTOTYPE-REF", context_ref)
+        self.setChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF", instance_ref.getPortPrototypeRef())
+        self.setChildElementOptionalRefType(element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF", instance_ref.getRootParameterDataPrototypeRef())
+        self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", instance_ref.getTargetDataPrototypeRef())
 
     def writeNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
         child_element = ET.SubElement(element, "NV-BLOCK-DATA-MAPPING")

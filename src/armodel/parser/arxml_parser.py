@@ -968,7 +968,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
     SwcInternalBehavior,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+    ArParameterInImplementationDataInstanceRef,
+    ArVariableInImplementationDataInstanceRef,
+    AutosarVariableRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess, VariableAccessScopeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
@@ -2426,6 +2430,14 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(cast(ET.Element, self.find(child_element, "AUTOSAR-VARIABLE-IREF"))))
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
+
+    def readArParameterInImplementationDataInstanceRef(self, element: ET.Element, instance_ref: ArParameterInImplementationDataInstanceRef):
+        self.readARObject(element, instance_ref)
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-REFS/CONTEXT-DATA-PROTOTYPE-REF"):
+            instance_ref.addContextDataPrototypeRef(ref)
+        instance_ref.setPortPrototypeRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF"))
+        instance_ref.setRootParameterDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF"))
+        instance_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
 
     def getNvBlockDataMapping(self, element: ET.Element, key: str) -> Optional[NvBlockDataMapping]:
         child_element = self.find(element, key)

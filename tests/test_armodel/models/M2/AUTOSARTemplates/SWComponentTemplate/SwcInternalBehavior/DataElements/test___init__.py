@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+    ArParameterInImplementationDataInstanceRef,
     ArVariableInImplementationDataInstanceRef,
     AutosarParameterRef,
     AutosarVariableRef,
@@ -391,3 +392,127 @@ class TestAutosarVariableRef:
         assert ref.getLocalVariableRef().getValue() == "/SwcInternalBehavior/LocalVariableDataPrototype"
         ref.setLocalVariableRef(None)
         assert ref.getLocalVariableRef() is local_ref
+
+
+AR_PARAMETER_CLASS_NOTE = (
+    "This class represents the ability to navigate into an element inside of an ParameterDataPrototype "
+    "typed by an ImplementationDatatype. Note that it shall not be used if the target is the "
+    "ParameterDataPrototype itself (e.g. if the target is a primitive data type). Note that this class "
+    "follows the pattern of an InstanceRef but is not implemented based on the abstract classes because "
+    "the ImplementationDataType isn't either, especially because ImplementationDataTypeElement "
+    "(intentionally) isn't derived from AtpPrototype."
+)
+
+CONTEXT_DATA_PROTOTYPE_NOTE = "This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."
+PORT_PROTOTYPE_NOTE = "This reference points to the PortPrototype providing/receiving the root of the parameter."
+ROOT_PARAMETER_NOTE = "This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found."
+TARGET_DATA_PROTOTYPE_NOTE = "This reference points to the target ImplementationDataTypeElement."
+
+
+class TestArParameterInImplementationDataInstanceRef:
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 5.38)"""
+        assert ArParameterInImplementationDataInstanceRef.__doc__.strip() == AR_PARAMETER_CLASS_NOTE
+        assert ArParameterInImplementationDataInstanceRef.getContextDataPrototypeRefs.__doc__.strip() == CONTEXT_DATA_PROTOTYPE_NOTE
+        assert ArParameterInImplementationDataInstanceRef.addContextDataPrototypeRef.__doc__.strip() == (CONTEXT_DATA_PROTOTYPE_NOTE + " A None value is a no-op and does not append anything.")
+        assert ArParameterInImplementationDataInstanceRef.getPortPrototypeRef.__doc__.strip() == PORT_PROTOTYPE_NOTE
+        assert ArParameterInImplementationDataInstanceRef.setPortPrototypeRef.__doc__.strip() == (PORT_PROTOTYPE_NOTE + " A None value is a no-op and does not overwrite an existing portPrototypeRef.")
+        assert ArParameterInImplementationDataInstanceRef.getRootParameterDataPrototypeRef.__doc__.strip() == ROOT_PARAMETER_NOTE
+        assert ArParameterInImplementationDataInstanceRef.setRootParameterDataPrototypeRef.__doc__.strip() == (
+            ROOT_PARAMETER_NOTE + " A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef."
+        )
+        assert ArParameterInImplementationDataInstanceRef.getTargetDataPrototypeRef.__doc__.strip() == TARGET_DATA_PROTOTYPE_NOTE
+        assert ArParameterInImplementationDataInstanceRef.setTargetDataPrototypeRef.__doc__.strip() == (
+            TARGET_DATA_PROTOTYPE_NOTE + " A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."
+        )
+
+    def test_base_shape(self):
+        """Test the base chain, no-arg __init__ and typed accessor signatures"""
+        assert issubclass(ArParameterInImplementationDataInstanceRef, ARObject)
+        iref = ArParameterInImplementationDataInstanceRef()
+        assert iref.contextDataPrototypeRefs == []
+        assert iref.portPrototypeRef is None
+        assert iref.rootParameterDataPrototypeRef is None
+        assert iref.targetDataPrototypeRef is None
+
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.getContextDataPrototypeRefs)
+        assert hints["return"] == typing.List[RefType]
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.addContextDataPrototypeRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ArParameterInImplementationDataInstanceRef
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.getPortPrototypeRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.setPortPrototypeRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ArParameterInImplementationDataInstanceRef
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.getRootParameterDataPrototypeRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.setRootParameterDataPrototypeRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ArParameterInImplementationDataInstanceRef
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.getTargetDataPrototypeRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(ArParameterInImplementationDataInstanceRef.setTargetDataPrototypeRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ArParameterInImplementationDataInstanceRef
+
+    def test_initialization(self):
+        """Test that all fields start at their spec-multiplicity defaults."""
+        iref = ArParameterInImplementationDataInstanceRef()
+
+        assert iref.getContextDataPrototypeRefs() == []
+        assert iref.getPortPrototypeRef() is None
+        assert iref.getRootParameterDataPrototypeRef() is None
+        assert iref.getTargetDataPrototypeRef() is None
+
+    def test_get_set_context_data_prototype_refs(self):
+        """Test getContextDataPrototypeRefs and addContextDataPrototypeRef methods"""
+        iref = ArParameterInImplementationDataInstanceRef()
+
+        assert iref.getContextDataPrototypeRefs() == []
+        context_ref = RefType()
+        context_ref.setValue("/SwcInternalBehavior/ContextImplDataTypeElement")
+        assert iref.addContextDataPrototypeRef(context_ref) is iref
+        assert iref.getContextDataPrototypeRefs() == [context_ref]
+        assert iref.getContextDataPrototypeRefs()[0].getValue() == "/SwcInternalBehavior/ContextImplDataTypeElement"
+        iref.addContextDataPrototypeRef(None)
+        assert iref.getContextDataPrototypeRefs() == [context_ref]
+
+    def test_get_set_port_prototype_ref(self):
+        """Test getPortPrototypeRef and setPortPrototypeRef methods"""
+        iref = ArParameterInImplementationDataInstanceRef()
+
+        assert iref.getPortPrototypeRef() is None
+        port_ref = RefType()
+        port_ref.setValue("/Comp/InnerPort")
+        assert iref.setPortPrototypeRef(port_ref) is iref
+        assert iref.getPortPrototypeRef() is port_ref
+        assert iref.getPortPrototypeRef().getValue() == "/Comp/InnerPort"
+        iref.setPortPrototypeRef(None)
+        assert iref.getPortPrototypeRef() is port_ref
+
+    def test_get_set_root_parameter_data_prototype_ref(self):
+        """Test getRootParameterDataPrototypeRef and setRootParameterDataPrototypeRef methods"""
+        iref = ArParameterInImplementationDataInstanceRef()
+
+        assert iref.getRootParameterDataPrototypeRef() is None
+        root_ref = RefType()
+        root_ref.setValue("/Swc/RootParameterDataPrototype")
+        assert iref.setRootParameterDataPrototypeRef(root_ref) is iref
+        assert iref.getRootParameterDataPrototypeRef() is root_ref
+        assert iref.getRootParameterDataPrototypeRef().getValue() == "/Swc/RootParameterDataPrototype"
+        iref.setRootParameterDataPrototypeRef(None)
+        assert iref.getRootParameterDataPrototypeRef() is root_ref
+
+    def test_get_set_target_data_prototype_ref(self):
+        """Test getTargetDataPrototypeRef and setTargetDataPrototypeRef methods"""
+        iref = ArParameterInImplementationDataInstanceRef()
+
+        assert iref.getTargetDataPrototypeRef() is None
+        target_ref = RefType()
+        target_ref.setValue("/DataTypes/TargetImplDataTypeElement")
+        assert iref.setTargetDataPrototypeRef(target_ref) is iref
+        assert iref.getTargetDataPrototypeRef() is target_ref
+        assert iref.getTargetDataPrototypeRef().getValue() == "/DataTypes/TargetImplDataTypeElement"
+        iref.setTargetDataPrototypeRef(None)
+        assert iref.getTargetDataPrototypeRef() is target_ref

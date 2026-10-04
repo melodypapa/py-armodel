@@ -109,10 +109,6 @@ class AggregationCondition(AttributeCondition):
     pass
 
 
-class ArParameterInImplementationDataInstanceRef(ARObject):
-    pass
-
-
 class Baseline(ARObject):
     pass
 
