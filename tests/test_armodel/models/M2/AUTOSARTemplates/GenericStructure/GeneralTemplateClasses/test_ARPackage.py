@@ -9633,6 +9633,96 @@ class TestDiagnosticEnableCondition:
         assert duplicate is obj
 
 
+class TestDiagnosticEnableConditionGroup:
+    """
+    Test class for DiagnosticEnableConditionGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.194, p.200
+
+    DiagnosticEnableConditionGroup is concrete (XSD complexType abstract="false")
+    with a single Attribute row: enableCondition (DiagnosticEnableCondition, *, ref)
+    — modeled as the enableConditionRefs list of RefType. Fields inherited from the
+    abstract base DiagnosticConditionGroup (Table 4.193) carry no rows of their own.
+    """
+
+    CLASS_NOTE = (
+        "Enable condition group which includes one or several enable conditions. "
+        "Tags: atp.recommendedPackage=DiagnosticConditions\n"
+        "\n"
+        "[constr_1841] Existence of attribute DiagnosticEnableConditionGroup.enableCondition: "
+        "For each DiagnosticEnableConditionGroup, attribute enableCondition shall exist "
+        "at the time when the DEXT is complete."
+    )
+
+    def _make_obj(self) -> DiagnosticEnableConditionGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEnableConditionGroup(ar_root, "TestEnableConditionGroup")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEnableConditionGroup"
+        assert isinstance(obj, DiagnosticEnableConditionGroup)
+        assert isinstance(obj, DiagnosticConditionGroup)
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert isinstance(obj, ARElement)
+        assert obj.getEnableConditionRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class constraint.
+        """
+        assert inspect.cleandoc(DiagnosticEnableConditionGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEnableConditionGroup.__init__.__doc__ is None
+
+    def test_add_get_enable_condition_refs(self):
+        """
+        Round-trips enableCondition refs; None is a no-op and chaining returns self.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType().setValue("/DiagnosticConditions/EnableCondition1")
+        ref2 = RefType().setValue("/DiagnosticConditions/EnableCondition2")
+
+        result = obj.addEnableConditionRef(ref1)
+        assert result is obj  # method chaining
+        obj.addEnableConditionRef(ref2)
+
+        refs = obj.getEnableConditionRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[0].getValue() == "/DiagnosticConditions/EnableCondition1"
+        assert refs[1].getValue() == "/DiagnosticConditions/EnableCondition2"
+
+        result = obj.addEnableConditionRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getEnableConditionRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_enable_condition_group(self):
+        """
+        Test that ARPackage.createDiagnosticEnableConditionGroup appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticEnableConditionGroup("EnableConditionGroup1")
+
+        assert isinstance(obj, DiagnosticEnableConditionGroup)
+        assert obj.getShortName() == "EnableConditionGroup1"
+        assert ar_root.getReferrableElement("EnableConditionGroup1", DiagnosticEnableConditionGroup) is obj
+
+        duplicate = ar_root.createDiagnosticEnableConditionGroup("EnableConditionGroup1")
+        assert duplicate is obj
+
+
 class TestDiagnosticDataIdentifierSet:
     """
     Test class for DiagnosticDataIdentifierSet functionality.

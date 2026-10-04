@@ -3662,6 +3662,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticEnableCondition, self.getReferrableElement(short_name, DiagnosticEnableCondition))
 
+    def createDiagnosticEnableConditionGroup(self, short_name: str) -> DiagnosticEnableConditionGroup:
+        """
+        Creates a new DiagnosticEnableConditionGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEnableConditionGroup: Enable condition group which includes one or several enable conditions..
+
+        Args:
+            short_name: The short name for the new DiagnosticEnableConditionGroup
+
+        Returns:
+            The newly created or existing DiagnosticEnableConditionGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEnableConditionGroup):
+            element = DiagnosticEnableConditionGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEnableConditionGroup, self.getReferrableElement(short_name, DiagnosticEnableConditionGroup))
+
     def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
         """
         Creates a new DiagnosticEnableConditionPortMapping with the given short name,
@@ -6057,7 +6075,40 @@ class DiagnosticEnableCondition(DiagnosticCondition):
 
 
 class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):
-    pass
+    """
+    Enable condition group which includes one or several enable conditions. Tags: atp.recommendedPackage=DiagnosticConditions
+
+    [constr_1841] Existence of attribute DiagnosticEnableConditionGroup.enableCondition: For each DiagnosticEnableConditionGroup, attribute enableCondition shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnableConditionGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.194, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEnableConditionRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnableConditionRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to enableConditions that are part of the Enable ConditionGroup.
+        self.enableConditionRefs: List[RefType] = []
+
+    def addEnableConditionRef(self, ref: Optional[RefType]) -> DiagnosticEnableConditionGroup:
+        """
+        Reference to enableConditions that are part of the Enable ConditionGroup.
+
+        A None value is a no-op and does not extend the enableConditionRefs list.
+        """
+        if ref is not None:
+            self.enableConditionRefs.append(ref)
+        return self
+
+    def getEnableConditionRefs(self) -> List[RefType]:
+        """
+        Reference to enableConditions that are part of the Enable ConditionGroup.
+        """
+        return self.enableConditionRefs
 
 
 class DiagnosticEvent(ARElement):

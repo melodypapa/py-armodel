@@ -573,6 +573,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEnableCondition,
+    DiagnosticEnableConditionGroup,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -10675,6 +10676,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, enable_condition)
         self.readDiagnosticCondition(element, enable_condition)
 
+    def readDiagnosticEnableConditionGroup(self, element: ET.Element, enable_condition_group: DiagnosticEnableConditionGroup):
+        self.logger.debug("Read DiagnosticEnableConditionGroup <%s>" % enable_condition_group.getShortName())
+        self.readIdentifiable(element, enable_condition_group)
+        self.readDiagnosticConditionGroup(element, enable_condition_group)
+        for ref in self.getChildElementRefTypeList(element, "ENABLE-CONDITIONS/DIAGNOSTIC-ENABLE-CONDITION-REF-CONDITIONAL/DIAGNOSTIC-ENABLE-CONDITION-REF"):  # noqa E501
+            enable_condition_group.addEnableConditionRef(ref)
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -16610,6 +16618,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION":
             enable_condition = parent.createDiagnosticEnableCondition(self.getShortName(child_element))
             self.readDiagnosticEnableCondition(child_element, enable_condition)
+        elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-GROUP":
+            enable_condition_group = parent.createDiagnosticEnableConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticEnableConditionGroup(child_element, enable_condition_group)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -16974,6 +16985,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-ENABLE-CONDITION":
             enable_condition = parent.createDiagnosticEnableCondition(self.getShortName(child_element))
             self.readDiagnosticEnableCondition(child_element, enable_condition)
+            return True
+        if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-GROUP":
+            enable_condition_group = parent.createDiagnosticEnableConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticEnableConditionGroup(child_element, enable_condition_group)
             return True
         if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
             mapping = parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element))

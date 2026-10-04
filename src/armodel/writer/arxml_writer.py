@@ -445,6 +445,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEnableCondition,
+    DiagnosticEnableConditionGroup,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -14011,6 +14012,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, enable_condition)
         self.writeDiagnosticCondition(child_element, enable_condition)
 
+    def writeDiagnosticEnableConditionGroup(self, element: ET.Element, enable_condition_group: DiagnosticEnableConditionGroup):
+        self.logger.debug("Write DiagnosticEnableConditionGroup %s" % enable_condition_group.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENABLE-CONDITION-GROUP")
+        self.writeIdentifiable(child_element, enable_condition_group)
+        self.writeDiagnosticConditionGroup(child_element, enable_condition_group)
+        refs = enable_condition_group.getEnableConditionRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "ENABLE-CONDITIONS")
+            for ref in refs:
+                conditional_element = ET.SubElement(refs_element, "DIAGNOSTIC-ENABLE-CONDITION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DIAGNOSTIC-ENABLE-CONDITION-REF", ref)
+
     def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         refs = connection.getFunctionalRequestRefs()
         if len(refs) > 0:
@@ -16446,6 +16459,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuResetClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnableCondition):
             self.writeDiagnosticEnableCondition(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEnableConditionGroup):
+            self.writeDiagnosticEnableConditionGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
@@ -16873,6 +16888,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticEnableCondition):
             self.writeDiagnosticEnableCondition(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEnableConditionGroup):
+            self.writeDiagnosticEnableConditionGroup(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
