@@ -44,6 +44,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     PortGroup,
     PPortPrototype,
     PRPortPrototype,
@@ -1204,3 +1205,129 @@ class Test_SwComponentType_Spec:
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype as PortPrototype
 
         assert hints["return"] == typing.List[PortPrototype]
+
+
+PARAMETER_SW_COMPONENT_TYPE_CLASS_NOTE = (
+    "The ParameterSwComponentType defines parameters and characteristic values accessible via provided Ports. The provided values are the same for all connected SwComponentPrototypes"
+)
+
+PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "constantMapping": "Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType",
+    "dataTypeMapping": "Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType",
+    "instantiationDataDefProps": "The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of PortPrototypes",
+}
+
+PARAMETER_SW_COMPONENT_TYPE_MEMBERS = [
+    "constantMappingRefs",
+    "dataTypeMappingRefs",
+    "instantiationDataDefProps",
+]
+
+
+class Test_ParameterSwComponentType_Spec:
+    """Spec pins for ParameterSwComponentType (CP_TPS_SoftwareComponentTemplate Table 2.1, p.41)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        return ParameterSwComponentType(ar_root, "ParamSwc")
+
+    def _make_component(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
+
+        return InstantiationDataDefProps()
+
+    def test_inheritance(self):
+        assert issubclass(ParameterSwComponentType, SwComponentType)
+        assert issubclass(ParameterSwComponentType, ARObject)
+
+    def test_concrete(self):
+        assert self._make() is not None
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(ParameterSwComponentType.__doc__) == PARAMETER_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert ParameterSwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getConstantMappingRefs() == []
+        assert swc.getDataTypeMappingRefs() == []
+        assert swc.getInstantiationDataDefProps() == []
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(PARAMETER_SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == PARAMETER_SW_COMPONENT_TYPE_MEMBERS
+
+    def test_add_get_constant_mapping_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Pkg/ConstantMapping1")
+        assert swc == swc.addConstantMappingRef(ref)
+        assert swc.getConstantMappingRefs() == [ref]
+        swc.addConstantMappingRef(None)
+        assert swc.getConstantMappingRefs() == [ref]
+
+    def test_add_get_data_type_mapping_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Pkg/DataTypeMapping1")
+        assert swc == swc.addDataTypeMappingRef(ref)
+        assert swc.getDataTypeMappingRefs() == [ref]
+        swc.addDataTypeMappingRef(None)
+        assert swc.getDataTypeMappingRefs() == [ref]
+
+    def test_add_get_instantiation_data_def_props(self):
+        swc = self._make()
+        props = self._make_component()
+        assert swc == swc.addInstantiationDataDefProps(props)
+        assert swc.getInstantiationDataDefProps() == [props]
+        swc.addInstantiationDataDefProps(None)
+        assert swc.getInstantiationDataDefProps() == [props]
+
+    def test_docstrings_verbatim(self):
+        getter_notes = {
+            ParameterSwComponentType.getConstantMappingRefs: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["constantMapping"],
+            ParameterSwComponentType.getDataTypeMappingRefs: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["dataTypeMapping"],
+            ParameterSwComponentType.getInstantiationDataDefProps: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["instantiationDataDefProps"],
+        }
+        for getter, note in getter_notes.items():
+            assert getter.__doc__ is not None, getter.__name__
+            assert getter.__doc__.strip().split("\n")[0] == note, getter.__name__
+        setter_notes = {
+            ParameterSwComponentType.addConstantMappingRef: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["constantMapping"],
+            ParameterSwComponentType.addDataTypeMappingRef: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["dataTypeMapping"],
+            ParameterSwComponentType.addInstantiationDataDefProps: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["instantiationDataDefProps"],
+        }
+        for setter, note in setter_notes.items():
+            assert setter.__doc__ is not None, setter.__name__
+            assert note in setter.__doc__, setter.__name__
+        for setter, member in [
+            (ParameterSwComponentType.addConstantMappingRef, "constantMappingRefs"),
+            (ParameterSwComponentType.addDataTypeMappingRef, "dataTypeMappingRefs"),
+            (ParameterSwComponentType.addInstantiationDataDefProps, "instantiationDataDefProps"),
+        ]:
+            assert "A None value is a no-op and does not append anything." in setter.__doc__, setter.__name__
+
+    def test_type_hints(self):
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
+
+        hints = typing.get_type_hints(ParameterSwComponentType.addConstantMappingRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ParameterSwComponentType
+        hints = typing.get_type_hints(ParameterSwComponentType.getDataTypeMappingRefs)
+        assert hints["return"] == typing.List[RefType]
+        hints = typing.get_type_hints(ParameterSwComponentType.addInstantiationDataDefProps)
+        assert hints["value"] == typing.Optional[InstantiationDataDefProps]
+        hints = typing.get_type_hints(ParameterSwComponentType.getInstantiationDataDefProps)
+        assert hints["return"] == typing.List[InstantiationDataDefProps]
+
+    def test_inherited_base_accessors(self):
+        swc = self._make()
+        swc.createPPortPrototype("P1")
+        assert [p.short_name for p in swc.getPorts()] == ["P1"]

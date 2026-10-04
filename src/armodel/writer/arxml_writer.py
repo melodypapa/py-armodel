@@ -691,6 +691,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     PortGroup,
     PortPrototype,
     PPortPrototype,
@@ -2947,6 +2948,43 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "CONSISTENCY-NEEDSS")
             for consistency_needs in consistency_needs_list:
                 self.writeConsistencyNeeds(child_element, consistency_needs)
+
+    def writeParameterSwComponentTypeConstantMappingRefs(self, element: ET.Element, parent: ParameterSwComponentType):
+        refs = parent.getConstantMappingRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "CONSTANT-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "CONSTANT-MAPPING-REF", ref)
+
+    def writeParameterSwComponentTypeDataTypeMappingRefs(self, element: ET.Element, parent: ParameterSwComponentType):
+        refs = parent.getDataTypeMappingRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "DATA-TYPE-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "DATA-TYPE-MAPPING-REF", ref)
+
+    def writeParameterSwComponentTypeInstantiationDataDefProps(self, element: ET.Element, parent: ParameterSwComponentType):
+        props_list = parent.getInstantiationDataDefProps()
+        if len(props_list) > 0:
+            props_tag = ET.SubElement(element, "INSTANTIATION-DATA-DEF-PROPSS")
+            for props in props_list:
+                if isinstance(props, InstantiationDataDefProps):
+                    child_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.writeARObject(child_element, props)
+                    self.setAutosarParameterRef(child_element, "PARAMETER-INSTANCE", props.getParameterInstance())
+                    self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
+                    self.setAutosarVariableRef(child_element, "VARIABLE-INSTANCE", props.getVariableInstance())
+                    self.writeVariationPointCapable(child_element, props)
+                else:
+                    self.notImplemented("Unsupported InstantiationDataDefProps <%s>" % type(props))
+
+    def writeParameterSwComponentType(self, element: ET.Element, sw_component: ParameterSwComponentType):
+        self.logger.debug("writeParameterSwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "PARAMETER-SW-COMPONENT-TYPE")
+        self.writeSwComponentType(child_element, sw_component)
+        self.writeParameterSwComponentTypeConstantMappingRefs(child_element, sw_component)
+        self.writeParameterSwComponentTypeDataTypeMappingRefs(child_element, sw_component)
+        self.writeParameterSwComponentTypeInstantiationDataDefProps(child_element, sw_component)
 
     def writeSwComponentType(self, element: ET.Element, sw_component: SwComponentType):
         self.writeIdentifiable(element, sw_component)
@@ -16451,6 +16489,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeClientServerInterface(element, ar_element)
         elif isinstance(ar_element, ApplicationSwComponentType):
             self.writeApplicationSwComponentType(element, ar_element)
+        elif isinstance(ar_element, ParameterSwComponentType):
+            self.writeParameterSwComponentType(element, ar_element)
         elif isinstance(ar_element, EcuAbstractionSwComponentType):
             self.writeEcuAbstractionSwComponentType(element, ar_element)
         elif isinstance(ar_element, ApplicationArrayDataType):

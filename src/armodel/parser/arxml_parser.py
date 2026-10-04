@@ -845,6 +845,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     PortGroup,
     PortPrototype,
     PPortPrototype,
@@ -8248,6 +8249,31 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwComponentTypePortGroups(element, parent)
         self.readSwComponentTypeSwcMappingConstraints(element, parent)
         self.readSwComponentTypeUnitGroups(element, parent)
+
+    def readParameterSwComponentTypeConstantMappings(self, element: ET.Element, parent: ParameterSwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "CONSTANT-MAPPING-REFS/CONSTANT-MAPPING-REF"):
+            parent.addConstantMappingRef(ref)
+
+    def readParameterSwComponentTypeDataTypeMappings(self, element: ET.Element, parent: ParameterSwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "DATA-TYPE-MAPPING-REFS/DATA-TYPE-MAPPING-REF"):
+            parent.addDataTypeMappingRef(ref)
+
+    def readParameterSwComponentTypeInstantiationDataDefProps(self, element: ET.Element, parent: ParameterSwComponentType):
+        for child_element in self.findall(element, "INSTANTIATION-DATA-DEF-PROPSS/INSTANTIATION-DATA-DEF-PROPS"):
+            props = InstantiationDataDefProps()
+            self.readARObject(child_element, props)
+            props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
+            props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            self.readVariationPointCapable(child_element, props)
+            parent.addInstantiationDataDefProps(props)
+
+    def readParameterSwComponentType(self, element: ET.Element, parent: ParameterSwComponentType):
+        self.logger.debug("Read ParameterSwComponentType <%s>" % parent.getShortName())
+        self.readSwComponentType(element, parent)
+        self.readParameterSwComponentTypeConstantMappings(element, parent)
+        self.readParameterSwComponentTypeDataTypeMappings(element, parent)
+        self.readParameterSwComponentTypeInstantiationDataDefProps(element, parent)
 
     def readAtomicSwComponentTypeSymbolProps(self, element: ET.Element, sw_component: AtomicSwComponentType):
         child_element = self.find(element, "SYMBOL-PROPS")
@@ -16265,6 +16291,8 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "APPLICATION-SW-COMPONENT-TYPE":
                 sw_component = parent.createApplicationSwComponentType(self.getShortName(child_element))
                 self.readApplicationSwComponentType(child_element, sw_component)
+            elif tag_name == "PARAMETER-SW-COMPONENT-TYPE":
+                self.readParameterSwComponentType(child_element, parent.createParameterSwComponentType(self.getShortName(child_element)))
             elif tag_name == "ECU-ABSTRACTION-SW-COMPONENT-TYPE":
                 self.readEcuAbstractionSwComponentType(child_element, parent.createEcuAbstractionSwComponentType(self.getShortName(child_element)))
             elif tag_name == "APPLICATION-ARRAY-DATA-TYPE":

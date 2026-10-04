@@ -20,10 +20,12 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ApplicationSwComponentType,
+    ParameterSwComponentType,
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -125,3 +127,65 @@ class TestSwComponentTypeBaseRoundTrip:
         assert swc_tag.find("UNIT-GROUP-REFS") is None
         assert swc_tag.find("CONSISTENCY-NEEDSS") is None
         assert swc_tag.find("SW-COMPONENT-DOCUMENTATIONS") is None
+
+
+class TestParameterSwComponentTypeRoundTrip:
+    def _build(self, with_content=True):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        swc = pkg.createParameterSwComponentType("Param")
+        if with_content:
+            swc.addConstantMappingRef(_ref("/Pkg/ConstMap1", "CONSTANT-SPECIFICATION-MAPPING-SET"))
+            swc.addDataTypeMappingRef(_ref("/Pkg/DataTypeMap1", "DATA-TYPE-MAPPING-SET"))
+            props = InstantiationDataDefProps()
+            swc.addInstantiationDataDefProps(props)
+        return swc
+
+    def _write_read(self, swc):
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, swc.parent)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+        parsed_pkg = AUTOSAR.getInstance().createARPackage("Parsed")
+        ARXMLParser().readARPackageElements(root[0], parsed_pkg)
+        return parsed_pkg
+
+    def test_round_trip_content(self):
+        swc = self._build()
+        parsed_pkg = self._write_read(swc)
+        parsed = parsed_pkg.getReferrableElement("Param", ParameterSwComponentType)
+        assert parsed is not None
+        constant_refs = parsed.getConstantMappingRefs()
+        assert len(constant_refs) == 1
+        assert constant_refs[0].getValue() == "/Pkg/ConstMap1"
+        assert constant_refs[0].dest == "CONSTANT-SPECIFICATION-MAPPING-SET"
+        data_type_refs = parsed.getDataTypeMappingRefs()
+        assert len(data_type_refs) == 1
+        assert data_type_refs[0].getValue() == "/Pkg/DataTypeMap1"
+        assert data_type_refs[0].dest == "DATA-TYPE-MAPPING-SET"
+        props_list = parsed.getInstantiationDataDefProps()
+        assert len(props_list) == 1
+        assert isinstance(props_list[0], InstantiationDataDefProps)
+
+    def test_xsd_element_order(self):
+        swc = self._build()
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, swc.parent)
+        swc_tag = parent.find("ELEMENTS/PARAMETER-SW-COMPONENT-TYPE")
+        children = [child.tag for child in swc_tag]
+        assert children.index("CONSTANT-MAPPING-REFS") < children.index("DATA-TYPE-MAPPING-REFS")
+        assert children.index("DATA-TYPE-MAPPING-REFS") < children.index("INSTANTIATION-DATA-DEF-PROPSS")
+
+    def test_round_trip_empty_component(self):
+        swc = self._build(with_content=False)
+        parsed_pkg = self._write_read(swc)
+        parsed = parsed_pkg.getReferrableElement("Param", ParameterSwComponentType)
+        assert parsed is not None
+        assert parsed.getConstantMappingRefs() == []
+        assert parsed.getDataTypeMappingRefs() == []
+        assert parsed.getInstantiationDataDefProps() == []
+        wrapper = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(wrapper, swc.parent)
+        swc_tag = wrapper.find("ELEMENTS/PARAMETER-SW-COMPONENT-TYPE")
+        assert swc_tag.find("CONSTANT-MAPPING-REFS") is None
+        assert swc_tag.find("DATA-TYPE-MAPPING-REFS") is None
+        assert swc_tag.find("INSTANTIATION-DATA-DEF-PROPSS") is None

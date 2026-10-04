@@ -1704,6 +1704,12 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(sw_component)
         return cast(EcuAbstractionSwComponentType, self.getReferrableElement(short_name, EcuAbstractionSwComponentType))
 
+    def createParameterSwComponentType(self, short_name: str) -> ParameterSwComponentType:
+        if not self.IsReferrableElementExists(short_name, ParameterSwComponentType):
+            sw_component = ParameterSwComponentType(self, short_name)
+            self.addReferrableElement(sw_component)
+        return cast(ParameterSwComponentType, self.getReferrableElement(short_name, ParameterSwComponentType))
+
     def createApplicationSwComponentType(self, short_name: str) -> ApplicationSwComponentType:
         """
         Creates a new Application Software Component Type with the given short name,
@@ -4420,6 +4426,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ( 
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     SensorActuatorSwComponentType,
     ServiceProxySwComponentType,
     ServiceSwComponentType,

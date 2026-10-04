@@ -1219,7 +1219,79 @@ class ServiceSwComponentType(AtomicSwComponentType):
 
 
 class ParameterSwComponentType(SwComponentType):
-    pass
+    """
+    The ParameterSwComponentType defines parameters and characteristic values accessible via provided Ports. The provided values are the same for all connected SwComponentPrototypes
+    """
+
+    # ParameterSwComponentType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 2.1, p.41
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConstantMappingRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstantMappingRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataTypeMappingRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataTypeMappingRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInstantiationDataDefProps   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstantiationDataDefProps   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType
+        self.constantMappingRefs: List[RefType] = []
+
+        # Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType
+        self.dataTypeMappingRefs: List[RefType] = []
+
+        # The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of PortPrototypes
+        self.instantiationDataDefProps: List[InstantiationDataDefProps] = []
+
+    def addConstantMappingRef(self, value: Optional[RefType]) -> ParameterSwComponentType:
+        """
+        Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.constantMappingRefs.append(value)
+        return self
+
+    def getConstantMappingRefs(self) -> List[RefType]:
+        """
+        Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType
+        """
+        return self.constantMappingRefs
+
+    def addDataTypeMappingRef(self, value: Optional[RefType]) -> ParameterSwComponentType:
+        """
+        Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.dataTypeMappingRefs.append(value)
+        return self
+
+    def getDataTypeMappingRefs(self) -> List[RefType]:
+        """
+        Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType
+        """
+        return self.dataTypeMappingRefs
+
+    def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> ParameterSwComponentType:
+        """
+        The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of PortPrototypes
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.instantiationDataDefProps.append(value)
+        return self
+
+    def getInstantiationDataDefProps(self) -> List[InstantiationDataDefProps]:
+        """
+        The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of PortPrototypes
+        """
+        return self.instantiationDataDefProps
 
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation  # noqa: E402
+
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps  # noqa: E402
