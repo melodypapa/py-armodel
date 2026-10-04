@@ -6,10 +6,8 @@ The XSD group DIAGNOSTIC-IUMPR (AUTOSAR_00052.xsd l.38622) fixes
 the element order EVENT-REF; RATIO-KIND.
 The dispatch entry is writeARPackageElement → writeDiagnosticIumpr.
 
-ratioKind — DiagnosticIumprKindEnum (Table 4.208) is a stub queued
-later in Group25; the RATIO-KIND literal is written as the element
-text from the enum value until its own sync (DiagnosticEvent
-EVENT-KIND interim precedent).
+ratioKind round-trips as the typed DiagnosticIumprKindEnum (Table 4.208)
+literal — the enum value maps back to its RATIO-KIND XSD token.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_iumpr.py
 """
@@ -45,7 +43,7 @@ class TestWriteDiagnosticIumpr:
 
     def _populate(self, iumpr: DiagnosticIumpr) -> DiagnosticIumpr:
         iumpr.setEventRef(RefType().setValue("/AUTOSAR/DiagnosticEvent").setDest("DIAGNOSTIC-EVENT"))
-        iumpr.setRatioKind(DiagnosticIumprKindEnum([]).setValue("OBSERVER-BASED"))
+        iumpr.setRatioKind(DiagnosticIumprKindEnum().setValue(DiagnosticIumprKindEnum.OBSERVER_BASED))
         return iumpr
 
     def test_write_all_fields_in_xsd_order(self):
@@ -114,7 +112,8 @@ class TestWriteDiagnosticIumpr:
             assert iumpr_2.getEventRef().getValue() == "/AUTOSAR/DiagnosticEvent"
             assert iumpr_2.getEventRef().getDest() == "DIAGNOSTIC-EVENT"
             assert iumpr_2.getRatioKind() is not None
-            assert iumpr_2.getRatioKind().getValue() == "OBSERVER-BASED"
+            assert isinstance(iumpr_2.getRatioKind(), DiagnosticIumprKindEnum)
+            assert iumpr_2.getRatioKind().getValue() == "observerBased"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

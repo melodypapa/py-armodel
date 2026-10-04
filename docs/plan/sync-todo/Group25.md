@@ -1161,7 +1161,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     2. ratioKind (DiagnosticIumprKindEnum, 0..1, attr) → ratioKind: Optional[DiagnosticIumprKindEnum]; the enum is a stub
        queued later in Group25 (Table 4.208), so RATIO-KIND is round-tripped as a raw literal via
        getChildElementOptionalLiteral / setChildElementOptionalLiteral + cast (DiagnosticEvent EVENT-KIND interim
-       precedent); switch to _readEnumToken/_writeEnumToken when the enum gains its literals.
+       precedent); switch to _readEnumToken/_writeEnumToken when the enum gains its literals. RESOLVED 2026-10-04: DiagnosticIumprKindEnum synced (Table 4.208) — RATIO-KIND now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_IUMPR_KIND_XML_MAP (API-BASED/OBSERVER-BASED); XML form unchanged.
     3. XSD group DIAGNOSTIC-IUMPR (AUTOSAR_00052.xsd l.38622) declares exactly EVENT-REF; RATIO-KIND — no
        atp.Status="removed" elements; reader/writer element order matches the markdown displayed order.
   - [x] Step 1 — Sync members & description from spec
@@ -1176,15 +1176,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticIumprKindEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.208, p.210
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum — no own XML element; round-tripped on the consuming class (DiagnosticIumpr RATIO-KIND asserts strengthened in test_diagnostic_iumpr.py / test_writer_diagnostic_iumpr.py)
+  - [x] Step 6 — Update parser & writer (Green) — N/A for the enum itself (no own XML element); consumer rewire done: DiagnosticIumpr RATIO-KIND flipped from getChildElementOptionalLiteral/setChildElementOptionalLiteral+cast to _readEnumToken/_writeEnumToken with DIAGNOSTIC_IUMPR_KIND_XML_MAP in both parser and writer (2bae14448 precedent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; both XSD literals API-BASED / OBSERVER-BASED (AUTOSAR_00052.xsd l.134613) are present in the markdown table — no removed-literal finding)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2094 passed / 0 failed: test_PrimitiveTypes.py + test_ARPackage.py + test_diagnostic_iumpr.py + test_writer_diagnostic_iumpr.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticIumprGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.209, p.210
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

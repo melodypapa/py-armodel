@@ -2109,7 +2109,29 @@ class DiagnosticInhibitionMaskEnum(AREnum):
 
 
 class DiagnosticIumprKindEnum(AREnum):
-    pass
+    """
+    This enumeration is used to control the ratio calculation behavior.
+    """
+
+    # DiagnosticIumprKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.208, p.210
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The calculation is based on the usage of an API. Tags: atp.EnumerationLiteralIndex=0
+    API_BASED = "apiBased"
+
+    # The calculation is based on the usage of an observer. Tags: atp.EnumerationLiteralIndex=1
+    OBSERVER_BASED = "observerBased"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticIumprKindEnum.API_BASED,
+                DiagnosticIumprKindEnum.OBSERVER_BASED,
+            ]
+        )
 
 
 class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):

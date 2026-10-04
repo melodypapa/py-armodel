@@ -37,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticInhibitionMaskEnum,
+    DiagnosticIumprKindEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseOnEventActionEnum,
@@ -2551,3 +2552,46 @@ class TestDiagnosticEventKindEnum:
         enum.setValue(DiagnosticEventKindEnum.SWC)
 
         assert enum.getValue() == "swc"
+
+
+class TestDiagnosticIumprKindEnum:
+    """
+    Test class for DiagnosticIumprKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.208, p.210
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticIumprKindEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticIumprKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "apiBased",
+            "observerBased",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticIumprKindEnum member values.
+        """
+        enum = DiagnosticIumprKindEnum()
+
+        assert DiagnosticIumprKindEnum.API_BASED == "apiBased"
+        assert DiagnosticIumprKindEnum.OBSERVER_BASED == "observerBased"
+
+        assert enum.validateEnumValue("apiBased") is True
+        assert enum.validateEnumValue("observerBased") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticIumprKindEnum instantiability and getValue.
+        """
+        enum = DiagnosticIumprKindEnum()
+        enum.setValue(DiagnosticIumprKindEnum.OBSERVER_BASED)
+
+        assert enum.getValue() == "observerBased"

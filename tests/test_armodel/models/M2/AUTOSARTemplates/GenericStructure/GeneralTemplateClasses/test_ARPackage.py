@@ -10525,10 +10525,8 @@ class TestDiagnosticIumpr:
     DiagnosticIumpr is concrete (XSD complexType
     DIAGNOSTIC-IUMPR abstract="false") with two own Attribute
     rows in displayed order. event (kind ref) is modeled as the typed
-    reference eventRef; ratioKind (DiagnosticIumprKindEnum,
-    Table 4.208) is a stub until its own sync (queued in Group25) —
-    it is instantiated through the AREnum constructor with an empty
-    literal sequence.
+    reference eventRef; ratioKind round-trips as the typed
+    DiagnosticIumprKindEnum (Table 4.208) literal.
     """
 
     CLASS_NOTE = "This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled. Tags: atp.recommendedPackage=DiagnosticIumprs"
@@ -10585,14 +10583,10 @@ class TestDiagnosticIumpr:
     def test_get_set_ratio_kind(self):
         """
         Round-trips ratioKind; None is a no-op.
-
-        DiagnosticIumprKindEnum is a stub until its own sync
-        (Table 4.208, queued in Group25) — it is instantiated through the
-        AREnum constructor with an empty literal sequence.
         """
         obj = self._make_obj()
 
-        value = DiagnosticIumprKindEnum([]).setValue("observerBased")
+        value = DiagnosticIumprKindEnum().setValue(DiagnosticIumprKindEnum.OBSERVER_BASED)
         result = obj.setRatioKind(value)
         assert result is obj  # method chaining
         assert obj.getRatioKind() is value

@@ -1513,6 +1513,13 @@ DIAGNOSTIC_EVENT_KIND_XML_MAP = {
     "swc": "SWC",
 }
 
+#: Mapping between DiagnosticIumprKindEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-IUMPR-KIND-ENUM--SIMPLE).
+DIAGNOSTIC_IUMPR_KIND_XML_MAP = {
+    "apiBased": "API-BASED",
+    "observerBased": "OBSERVER-BASED",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -14386,8 +14393,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR")
         self.writeIdentifiable(child_element, iumpr)
         self.setChildElementOptionalRefType(child_element, "EVENT-REF", iumpr.getEventRef())
-        # RATIO-KIND is round-tripped as a raw literal until DiagnosticIumprKindEnum (Table 4.208, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        self.setChildElementOptionalLiteral(child_element, "RATIO-KIND", cast(ARLiteral, iumpr.getRatioKind()))
+        self._writeEnumToken(child_element, "RATIO-KIND", iumpr.getRatioKind(), DIAGNOSTIC_IUMPR_KIND_XML_MAP)
 
     def writeDiagnosticIumprDenominatorGroup(self, element: ET.Element, group: DiagnosticIumprDenominatorGroup):
         self.logger.debug("Write DiagnosticIumprDenominatorGroup %s" % group.getShortName())

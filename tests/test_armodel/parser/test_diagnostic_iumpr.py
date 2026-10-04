@@ -7,15 +7,14 @@ Attribute rows in displayed order (event, ratioKind). The XSD group
 DIAGNOSTIC-IUMPR (AUTOSAR_00052.xsd l.38622) fixes the element order
 EVENT-REF; RATIO-KIND.
 
-ratioKind — DiagnosticIumprKindEnum (Table 4.208) is a stub queued
-later in Group25; the RATIO-KIND literal is read as a raw literal and
-cast to the enum type until its own sync (DiagnosticEvent EVENT-KIND
-interim precedent).
+ratioKind round-trips as the typed DiagnosticIumprKindEnum (Table 4.208)
+literal — the RATIO-KIND XSD token maps to the enum value.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_iumpr.py
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticIumprKindEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -38,10 +37,11 @@ class TestReadDiagnosticIumpr:
         assert iumpr.getEventRef().getDest() == "DIAGNOSTIC-EVENT"
 
     def test_read_sets_ratio_kind(self, parser):
-        """Test that RATIO-KIND is read into ratioKind as the raw literal."""
+        """Test that the RATIO-KIND token is read as the typed enum literal."""
         iumpr = self._read(parser, "<SHORT-NAME>Iumpr1</SHORT-NAME><RATIO-KIND>OBSERVER-BASED</RATIO-KIND>")
         assert iumpr.getRatioKind() is not None
-        assert iumpr.getRatioKind().getValue() == "OBSERVER-BASED"
+        assert isinstance(iumpr.getRatioKind(), DiagnosticIumprKindEnum)
+        assert iumpr.getRatioKind().getValue() == "observerBased"
 
     def test_read_empty_leaves_fields_unset(self, parser):
         """Test that an element without own children leaves every field unset (empty wrapper case)."""
