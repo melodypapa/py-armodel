@@ -3654,8 +3654,7 @@ class ServiceProviderEnum(AREnum):
     """
 
     # ServiceProviderEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.20, p.90
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.20, p.90 (R23-11; page-split table — caption on p.91)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -3761,6 +3760,7 @@ class ServiceProviderEnum(AREnum):
                 ServiceProviderEnum.V2X_FACILITIES,
                 ServiceProviderEnum.V2X_MANAGEMENT,
                 ServiceProviderEnum.VENDOR_SPECIFIC,
+                ServiceProviderEnum.WATCH_DOG_MANAGER,
             )
         )
 
