@@ -254,3 +254,42 @@ class TestHwPinGroupConnectorReadWrite:
         group_2 = element_2.getHwElementConnections()[0].getHwPinGroupConnections()[0]
         assert group_2.getHwPinConnections() == []
         assert group_2.getHwPinGroupRefs() == []
+
+
+class TestHwPinConnectorReadWrite:
+    def test_round_trip_pin_connector_refs_and_xsd_order(self):
+        """hwPinRefs survive a write/read cycle; element order per the XSD group HW-PIN-CONNECTOR: HW-PIN-REFS (choice of HW-PIN-REF) (Table 2.10)."""
+        pin_connector = HwPinConnector()
+        pin_connector.addHwPinRef(make_ref("/Elements/ElemA/Pin1", "HW-PIN"))
+        pin_connector.addHwPinRef(make_ref("/Elements/ElemA/Pin2", "HW-PIN"))
+        connector = HwElementConnector()
+        connector.addHwPinConnection(pin_connector)
+        element = HwElement(None, "TestEntity")
+        element.addHwElementConnection(connector)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeHwElement(parent, element)
+        pin_element = parent.find("HW-ELEMENT").find("HW-ELEMENT-CONNECTIONS").find("HW-ELEMENT-CONNECTOR").find("HW-PIN-CONNECTIONS").find("HW-PIN-CONNECTOR")
+        assert [_strip_ns(e.tag) for e in pin_element] == ["HW-PIN-REFS"]
+        assert [_strip_ns(e.tag) for e in pin_element.find("HW-PIN-REFS")] == ["HW-PIN-REF", "HW-PIN-REF"]
+
+        element_2 = _save_and_reload(element)
+        pin_2 = element_2.getHwElementConnections()[0].getHwPinConnections()[0]
+        assert [r.getValue() for r in pin_2.getHwPinRefs()] == ["/Elements/ElemA/Pin1", "/Elements/ElemA/Pin2"]
+        assert all(r.getDest() == "HW-PIN" for r in pin_2.getHwPinRefs())
+
+    def test_round_trip_empty_pin_connector(self):
+        """A pin connector with no refs emits no HW-PIN-REFS wrapper and reloads empty."""
+        connector = HwElementConnector()
+        connector.addHwPinConnection(HwPinConnector())
+        element = HwElement(None, "TestEntity")
+        element.addHwElementConnection(connector)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeHwElement(parent, element)
+        pin_element = parent.find("HW-ELEMENT").find("HW-ELEMENT-CONNECTIONS").find("HW-ELEMENT-CONNECTOR").find("HW-PIN-CONNECTIONS").find("HW-PIN-CONNECTOR")
+        assert [_strip_ns(e.tag) for e in pin_element] == []
+
+        element_2 = _save_and_reload(element)
+        pin_2 = element_2.getHwElementConnections()[0].getHwPinConnections()[0]
+        assert pin_2.getHwPinRefs() == []

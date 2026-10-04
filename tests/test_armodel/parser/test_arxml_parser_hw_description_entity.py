@@ -75,7 +75,9 @@ class TestReadHwDescriptionEntity:
                   </HW-ELEMENT-REFS>
                   <HW-PIN-CONNECTIONS>
                     <HW-PIN-CONNECTOR>
-                      <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                      <HW-PIN-REFS>
+                        <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                      </HW-PIN-REFS>
                     </HW-PIN-CONNECTOR>
                   </HW-PIN-CONNECTIONS>
                   <HW-PIN-GROUP-CONNECTIONS>
@@ -133,7 +135,9 @@ class TestReadHwDescriptionEntity:
               </HW-ELEMENT-REFS>
               <HW-PIN-CONNECTIONS>
                 <HW-PIN-CONNECTOR>
-                  <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                  <HW-PIN-REFS>
+                    <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                  </HW-PIN-REFS>
                 </HW-PIN-CONNECTOR>
               </HW-PIN-CONNECTIONS>
             </HW-ELEMENT-CONNECTOR>

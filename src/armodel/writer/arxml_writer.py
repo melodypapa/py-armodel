@@ -15869,8 +15869,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeHwPinConnector(self, parent: ET.Element, pin: HwPinConnector):
         child_element = ET.SubElement(parent, "HW-PIN-CONNECTOR")
         self.writeDescribable(child_element, pin)
-        for ref in pin.getHwPinRefs():
-            self.setChildElementOptionalRefType(child_element, "HW-PIN-REF", ref)
+        refs = pin.getHwPinRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "HW-PIN-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "HW-PIN-REF", ref)
 
     def writeHwPinGroupConnector(self, parent: ET.Element, group: HwPinGroupConnector):
         child_element = ET.SubElement(parent, "HW-PIN-GROUP-CONNECTOR")

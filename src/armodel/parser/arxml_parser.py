@@ -12044,7 +12044,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readHwPinConnector(self, element: ET.Element) -> HwPinConnector:
         pin = HwPinConnector()
         self.readDescribable(element, pin)
-        for ref in self.getChildElementRefTypeList(element, "HW-PIN-REF"):
+        for ref in self.getChildElementRefTypeList(element, "HW-PIN-REFS/HW-PIN-REF"):
             pin.addHwPinRef(ref)
         return pin
 

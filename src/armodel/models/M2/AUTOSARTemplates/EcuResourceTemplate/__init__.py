@@ -266,7 +266,7 @@ class HwPinGroup(Identifiable, HwDescriptionEntity, VariationPointCapable):
         return self
 
 
-class HwPinConnector(Describable, VariationPointCapable):
+class HwPinConnector(Describable):
     """
     This meta-class represents the ability to connect two pins.
 
@@ -275,11 +275,10 @@ class HwPinConnector(Describable, VariationPointCapable):
 
     # HwPinConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.10, p.22
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwPinRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwPinRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -287,14 +286,11 @@ class HwPinConnector(Describable, VariationPointCapable):
         # This association connects two hardware pins.
         self.hwPinRefs: List[RefType] = []
 
-    def addHwPinRef(self, value: RefType):
+    def addHwPinRef(self, value: Optional[RefType]) -> HwPinConnector:
         """
         This association connects two hardware pins.
 
         A None value is a no-op and does not add an hwPinRef.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.hwPinRefs.append(value)
@@ -303,9 +299,6 @@ class HwPinConnector(Describable, VariationPointCapable):
     def getHwPinRefs(self) -> List[RefType]:
         """
         This association connects two hardware pins.
-
-        Returns:
-            The list of hwPinRefs, or an empty list if none are set
         """
         return self.hwPinRefs
 
