@@ -1073,6 +1073,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
     CouplingPortConnection,
     CouplingPortCreditBasedShaper,
@@ -12994,8 +12995,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "CONTAINERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-PARAM-CONF-CONTAINER-DEF":
-                container_def = policy.createEcucParamConfContainerDef(self.getShortName(child_element))
-                self.readEcucParamConfContainerDef(child_element, container_def)
+                container_def: ARObject = policy.createEcucParamConfContainerDef(self.getShortName(child_element))
+                self.readEcucParamConfContainerDef(child_element, cast(EcucParamConfContainerDef, container_def))
             elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
                 container_def = policy.createEcucChoiceContainerDef(self.getShortName(child_element))
                 self.readEcucChoiceContainerDef(child_element, container_def)
@@ -13006,8 +13007,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PARAMETERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
-                param_def = policy.createEcucBooleanParamDef(self.getShortName(child_element))
-                self.readEcucBooleanParamDef(child_element, param_def)
+                param_def: ARObject = policy.createEcucBooleanParamDef(self.getShortName(child_element))
+                self.readEcucBooleanParamDef(child_element, cast(EcucBooleanParamDef, param_def))
             elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
                 param_def = policy.createEcucAddInfoParamDef(self.getShortName(child_element))
                 self.readEcucAddInfoParamDef(child_element, param_def)
@@ -13039,8 +13040,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "REFERENCES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-SYMBOLIC-NAME-REFERENCE-DEF":
-                ref_def = policy.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
-                self.readEcucSymbolicNameReferenceDef(child_element, ref_def)
+                ref_def: ARObject = policy.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
+                self.readEcucSymbolicNameReferenceDef(child_element, cast(EcucSymbolicNameReferenceDef, ref_def))
             elif tag_name == "ECUC-REFERENCE-DEF":
                 ref_def = policy.createEcucReferenceDef(self.getShortName(child_element))
                 self.readEcucReferenceDef(child_element, ref_def)
@@ -13748,18 +13749,17 @@ class ARXMLParser(AbstractARXMLParser):
         if shaper_element is not None:
             for child in shaper_element:
                 tag = self.getTagName(child)
-                if tag == "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER":
-                    shaper = CouplingPortAsynchronousTrafficShaper(fifo, self.getShortName(child))
+                shaper_cls = CouplingPortAbstractShaper.getShaperClass(tag)
+                if shaper_cls is not None:
+                    shaper = shaper_cls(fifo, self.getShortName(child))
                     self.readIdentifiable(child, shaper)
-                    self.readCouplingPortAsynchronousTrafficShaper(child, shaper)
-                elif tag == "COUPLING-PORT-CREDIT-BASED-SHAPER":
-                    shaper = CouplingPortCreditBasedShaper(fifo, self.getShortName(child))
-                    self.readIdentifiable(child, shaper)
-                    self.readCouplingPortCreditBasedShaper(child, shaper)
+                    if isinstance(shaper, CouplingPortAsynchronousTrafficShaper):
+                        self.readCouplingPortAsynchronousTrafficShaper(child, shaper)
+                    elif isinstance(shaper, CouplingPortCreditBasedShaper):
+                        self.readCouplingPortCreditBasedShaper(child, shaper)
+                    fifo.setShaper(shaper)
                 else:
                     self.notImplemented("Unsupported CouplingPort shaper <%s>" % tag)
-                    continue
-                fifo.setShaper(shaper)
 
     def readCouplingPortAsynchronousTrafficShaper(self, element: ET.Element, shaper: CouplingPortAsynchronousTrafficShaper):
         shaper.setCommittedBurstSize(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE"))
