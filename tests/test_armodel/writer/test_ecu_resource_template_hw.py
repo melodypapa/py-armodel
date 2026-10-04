@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwPinGroup, HwPinGroupContent
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwElementConnector, HwPinConnector, HwPinGroup, HwPinGroupConnector, HwPinGroupContent
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, Numerical, RefType
 from armodel.parser.arxml_parser import ARXMLParser
@@ -164,3 +164,49 @@ class TestHwPinGroupContentReadWrite:
         group_2 = element_2.getHwPinGroups()[0]
         assert group_2.getShortName() == "EmptyGroup"
         assert group_2.getHwPinGroupContent() is None
+
+
+class TestHwElementConnectorReadWrite:
+    def test_round_trip_connector_content_and_xsd_order(self):
+        """hwElementRefs, hwPinConnections and hwPinGroupConnections survive a write/read cycle; element order per the XSD group HW-ELEMENT-CONNECTOR: HW-ELEMENT-REFS, HW-PIN-GROUP-CONNECTIONS, HW-PIN-CONNECTIONS (Table 2.8)."""
+        connector = HwElementConnector()
+        connector.addHwElementRef(make_ref("/Elements/ElemA", "HW-ELEMENT"))
+        connector.addHwElementRef(make_ref("/Elements/ElemB", "HW-ELEMENT"))
+        pin_connector = HwPinConnector()
+        pin_connector.addHwPinRef(make_ref("/Elements/ElemA/Pin1", "HW-PIN"))
+        connector.addHwPinConnection(pin_connector)
+        group_connector = HwPinGroupConnector()
+        group_connector.addHwPinGroupRef(make_ref("/Elements/ElemA/Group1", "HW-PIN-GROUP"))
+        connector.addHwPinGroupConnection(group_connector)
+        element = HwElement(None, "TestEntity")
+        element.addHwElementConnection(connector)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeHwElement(parent, element)
+        connector_element = parent.find("HW-ELEMENT").find("HW-ELEMENT-CONNECTIONS").find("HW-ELEMENT-CONNECTOR")
+        assert [_strip_ns(e.tag) for e in connector_element] == ["HW-ELEMENT-REFS", "HW-PIN-GROUP-CONNECTIONS", "HW-PIN-CONNECTIONS"]
+        assert [_strip_ns(e.tag) for e in connector_element.find("HW-ELEMENT-REFS")] == ["HW-ELEMENT-REF", "HW-ELEMENT-REF"]
+
+        element_2 = _save_and_reload(element)
+        connector_2 = element_2.getHwElementConnections()[0]
+        assert [r.getValue() for r in connector_2.getHwElementRefs()] == ["/Elements/ElemA", "/Elements/ElemB"]
+        assert all(r.getDest() == "HW-ELEMENT" for r in connector_2.getHwElementRefs())
+        assert connector_2.getHwPinConnections()[0].getHwPinRefs()[0].getValue() == "/Elements/ElemA/Pin1"
+        assert connector_2.getHwPinGroupConnections()[0].getHwPinGroupRefs()[0].getValue() == "/Elements/ElemA/Group1"
+
+    def test_round_trip_empty_connector_wrappers(self):
+        """A connector with no content emits no HW-ELEMENT-REFS/HW-PIN-CONNECTIONS/HW-PIN-GROUP-CONNECTIONS wrappers and reloads empty."""
+        connector = HwElementConnector()
+        element = HwElement(None, "TestEntity")
+        element.addHwElementConnection(connector)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeHwElement(parent, element)
+        connector_element = parent.find("HW-ELEMENT").find("HW-ELEMENT-CONNECTIONS").find("HW-ELEMENT-CONNECTOR")
+        assert [_strip_ns(e.tag) for e in connector_element] == []
+
+        element_2 = _save_and_reload(element)
+        connector_2 = element_2.getHwElementConnections()[0]
+        assert connector_2.getHwElementRefs() == []
+        assert connector_2.getHwPinConnections() == []
+        assert connector_2.getHwPinGroupConnections() == []

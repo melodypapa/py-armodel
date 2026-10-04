@@ -15867,13 +15867,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Hw Pin Group <%s>" % type(pin_group))
 
     def writeHwPinConnector(self, parent: ET.Element, pin: HwPinConnector):
-        child_element = ET.SubElement(parent, "HW-PIN-CONNECTION")
+        child_element = ET.SubElement(parent, "HW-PIN-CONNECTOR")
         self.writeDescribable(child_element, pin)
         for ref in pin.getHwPinRefs():
             self.setChildElementOptionalRefType(child_element, "HW-PIN-REF", ref)
 
     def writeHwPinGroupConnector(self, parent: ET.Element, group: HwPinGroupConnector):
-        child_element = ET.SubElement(parent, "HW-PIN-GROUP-CONNECTION")
+        child_element = ET.SubElement(parent, "HW-PIN-GROUP-CONNECTOR")
         self.writeDescribable(child_element, group)
         for connection in group.getHwPinConnections():
             self.writeHwPinConnector(child_element, connection)
@@ -15883,12 +15883,21 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeHwElementConnector(self, parent: ET.Element, connector: HwElementConnector):
         child_element = ET.SubElement(parent, "HW-ELEMENT-CONNECTOR")
         self.writeDescribable(child_element, connector)
-        for ref in connector.getHwElementRefs():
-            self.setChildElementOptionalRefType(child_element, "HW-ELEMENT-REF", ref)
-        for connection in connector.getHwPinConnections():
-            self.writeHwPinConnector(child_element, connection)
-        for group in connector.getHwPinGroupConnections():
-            self.writeHwPinGroupConnector(child_element, group)
+        refs = connector.getHwElementRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "HW-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "HW-ELEMENT-REF", ref)
+        groups = connector.getHwPinGroupConnections()
+        if len(groups) > 0:
+            groups_element = ET.SubElement(child_element, "HW-PIN-GROUP-CONNECTIONS")
+            for group in groups:
+                self.writeHwPinGroupConnector(groups_element, group)
+        connections = connector.getHwPinConnections()
+        if len(connections) > 0:
+            connections_element = ET.SubElement(child_element, "HW-PIN-CONNECTIONS")
+            for connection in connections:
+                self.writeHwPinConnector(connections_element, connection)
 
     def writeHwElementHwElementConnections(self, element: ET.Element, hw_element: HwElement):
         connections = hw_element.getHwElementConnections()
