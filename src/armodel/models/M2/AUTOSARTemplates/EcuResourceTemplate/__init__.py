@@ -10,16 +10,13 @@ from __future__ import annotations
 
 
 from abc import ABC
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 
 
 class HwDescriptionEntity(Referrable, ABC):
@@ -29,14 +26,14 @@ class HwDescriptionEntity(Referrable, ABC):
 
     # HwDescriptionEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.1, p.15
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwAttributeValue          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwAttributeValues         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwCategoryRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwCategoryRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getHwTypeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHwTypeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwAttributeValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwAttributeValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwCategoryRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwCategoryRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getHwTypeRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwTypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         if type(self) is HwDescriptionEntity:
@@ -52,14 +49,11 @@ class HwDescriptionEntity(Referrable, ABC):
         # This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
         self.hwTypeRef: Optional[RefType] = None
 
-    def addHwAttributeValue(self, value: HwAttributeValue):
+    def addHwAttributeValue(self, value: Optional[HwAttributeValue]) -> HwDescriptionEntity:
         """
         This aggregation represents a particular hardware attribute value.
 
         A None value is a no-op and does not add an hwAttributeValue.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.hwAttributeValues.append(value)
@@ -68,20 +62,14 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwAttributeValues(self) -> List[HwAttributeValue]:
         """
         This aggregation represents a particular hardware attribute value.
-
-        Returns:
-            The list of hwAttributeValues, or an empty list if none are set
         """
         return self.hwAttributeValues
 
-    def addHwCategoryRef(self, value: RefType):
+    def addHwCategoryRef(self, value: Optional[RefType]) -> HwDescriptionEntity:
         """
         One of the associations representing one particular category of the hardware entity.
 
         A None value is a no-op and does not add an hwCategoryRef.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.hwCategoryRefs.append(value)
@@ -90,29 +78,20 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwCategoryRefs(self) -> List[RefType]:
         """
         One of the associations representing one particular category of the hardware entity.
-
-        Returns:
-            The list of hwCategoryRefs, or an empty list if none are set
         """
         return self.hwCategoryRefs
 
     def getHwTypeRef(self) -> Optional[RefType]:
         """
         This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
-
-        Returns:
-            The hwTypeRef, or None if not set
         """
         return self.hwTypeRef
 
-    def setHwTypeRef(self, value: Optional[RefType]):
+    def setHwTypeRef(self, value: Optional[RefType]) -> HwDescriptionEntity:
         """
         This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
 
         A None value is a no-op and does not overwrite an existing hwTypeRef.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.hwTypeRef = value
@@ -616,3 +595,9 @@ class HwElement(ARElement, HwDescriptionEntity):
         if value is not None:
             self.nestedElementRefs.append(value)
         return self
+
+
+# Runtime cycle-breaker: HwElementCategory imports HwDescriptionEntity from this package, so the
+# HwAttributeValue name used in HwDescriptionEntity's annotations is imported here at the bottom of
+# the module (after every class definition) for the get_type_hints pin tests (Rule 0003/0005).
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue  # noqa: E402
