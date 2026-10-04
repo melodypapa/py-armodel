@@ -108,6 +108,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14951 passed / 0
     failed, lint clean, black clean on touched files); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based check passed (checklist == methods, all covered, no
       marker in batch mode); repo-wide black-check reports 8 files would-reformat that
       ALREADY fail at HEAD in other rows' modules (AdaptivePlatform + subpackage
@@ -219,6 +220,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14956 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based check passed (checklist == methods — __init__,
       addEcucValueRef, getEcucValueRefs, getEcuExtractRef, setEcuExtractRef —
       all test-covered, no `# type:` comments, member order = displayed row
@@ -361,6 +363,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14964 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based check passed (checklist == methods — __init__,
       createContainer, getContainers, get/setDefinitionRef,
       get/setImplementationConfigVariant, get/setModuleDescriptionRef —
@@ -454,6 +457,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14967 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based enum check passed (`# (no methods)` form,
       class body defines only `__init__`, no stale method rows, no `# type:`
       comments); the subdirectory legacy tests
@@ -538,6 +542,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14970 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based enum check passed (`# (no methods)` form,
       class body defines only `__init__`, no stale method rows, no `# type:`
       comments); the subdirectory legacy tests
@@ -547,18 +552,94 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
       0 failed (integration round-trips incl.); npm run lint clean; black
       clean on all touched files; no marker in batch mode.
 
-- [ ] `EcucDestinationUriDefRefType` — RefType — source TBC (locate table at Step 1)
+- [ ] `EcucDestinationUriDefRefType` — RefType — XSD-only (resolved at Step 1; no own table in any corpus)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only class — no PDF/markdown table in R23-11 or R4.3.1 markdown;
+    the model-side type of the anonymous DESTINATION-URI-REF nested complexType
+    (AUTOSAR_00052.xsd l.51614: simpleContent extension of AR:REF + DEST attr
+    use="required" of ECUC-DESTINATION-URI-DEF--SUBTYPES-ENUM) inside the
+    DESTINATION-URI-REFS wrapper of group ECUC-CONTAINER-DEF
+    (mmt.qualifiedName EcucContainerDef.destinationUri, 0..*). Concrete
+    complexType → RefType subclass (same shape as the sibling TRefType);
+    ZERO own attributes — element content + BASE/DEST attribs live on the
+    inherited RefType value/base/dest. Retire-or-keep arbitration RESOLVED to
+    keep: the class is required for the DEST-typed isinstance dispatch in
+    parser getEcucDestinationUriRefs (l.12948) / writer setEcucDestinationUriRefs
+    (l.11283) — retiring it would untype the EcucContainerDef.destinationUriRefs
+    round-trip. Provenance form: `# XSD verified: AUTOSAR_00052.xsd`
+    (written at 9b batch confirmation — batch mode). Drift found: fabricated
+    pre-sync docstring + legacy 4-column checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): extended TestEcucDestinationUriDefRefType in the mirrored
+      test_ECUCParameterDefTemplate.py — added test_inheritance (isinstance
+      RefType pin), test_inherited_accessors_roundtrip (setValue/setBase/
+      setDest round-trip + None defaults — the inherited members carry the
+      nested type's content + attribs), test_class_docstring (XSD-evidence
+      pin) + test_init_has_no_docstring. Seen Red 1 failed / 4 passed — the
+      docstring pin failed on the fabricated pre-sync docstring.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES as-is —
+      the nested complexType contributes no own attribute (DEST maps to the
+      inherited RefType.dest; base AR:REF → RefType base, src matches), zero
+      own fields declared (no fabrication, no flattening), `__init__` calls
+      super() only. Net code change: none; structural tests Green 4 passed
+      (the remaining Red is the Step 4 docstring scope).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): wiped the fabricated class docstring, rewrote from the
+      XSD evidence (single-line form — the pin compares raw `__doc__`):
+      names the DESTINATION-URI-REF nested complexType, its AR:REF extension
+      base + required DEST attribute, the DESTINATION-URI-REFS wrapper and
+      the EcucContainerDef.destinationUri aggregation (PModeInSystemInstanceRef
+      hand-written-XSD-evidence convention; the nested element carries no
+      xsd:documentation of its own, so no spec Note exists to copy verbatim).
+      `__init__` has no docstring (nothing else to wipe). Green: mirrored
+      module 240 passed.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Steps 5/6): ADDED parser test_arxml_parser_ecuc_handlers.py
+      TestEcucContainerDefDestinationUriRefs (full read of 2 DESTINATION-URI-REF
+      via readEcucContainerDef with value/DEST/BASE asserts + absent-wrapper
+      empty case) + writer test_writer_ecuc_def.py TestWriterEcucDestinationUriRefs
+      (emit with DEST/BASE attribs + text, omits-when-empty, save→reload
+      round-trip through EcucParamConfContainerDef asserting
+      isinstance EcucDestinationUriDefRefType + all field values). No Red
+      observable — getEcucDestinationUriRefs/setEcucDestinationUriRefs
+      pre-existed and pass; the tests are the lossless end-to-end proof.
+      5 passed.
+  - [x] Step 6 — Update parser & writer (Green) (no change needed — parser
+    getEcucDestinationUriRefs l.12948 (BASE/DEST attribs + text into the
+    constructed EcucDestinationUriDefRefType, notImplemented guard for foreign
+    tags) and writer setEcucDestinationUriRefs l.11283 (DESTINATION-URI-REFS
+    wrapper only when non-empty, isinstance dispatch, attribs written when
+    present) are matched Rule 0013.2 pairs, single mutator statements, called
+    from readEcucContainerDef l.12934 / writeEcucContainerDef in XSD group
+    order; no receiver chains added)
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): checklist rebuilt to the final batch-mode 6-column
+      XSD-only shape — `# Spec: R23-11/AUTOSAR_00052.xsd, DESTINATION-URI-REF
+      nested type (group ECUC-CONTAINER-DEF), line 51614 (XSD-only; no own
+      table in repo corpus)`; single `__init__` row [x] impl/docstring/test
+      with `[—]` reader/writer (no own accessors — the element round-trips via
+      the consuming class EcucContainerDef.destinationUriRefs helpers, note
+      line added); `# XSD verified:` marker NOT written (batch mode — deferred
+      to batch confirmation).
+  - [x] Step 8 — Deviations
+    - note (Step 8): ONE accepted deviation, mirrored inline + tracker
+      (docs/examples/method_deviation_by_class.md, new EcucDestinationUriDefRefType
+      section): DEST optional in the model (inherited `RefType.dest:
+      Optional[str]`) vs XSD use="required" on the nested type — per-subclass
+      attribute requiredness cannot be expressed on the shared RefType base;
+      no integration fixture carries DESTINATION-URI-REF (no Rule 0019 case).
+      Retire-or-keep arbitration resolution recorded (keep — see Step 1).
+      No Rule 0001.10 missing referenced classes (RefType is the stamped base;
+      EcucDestinationUriDef Table 2.35 p.82 is the destination-side class,
+      stamped separately). v2 tracker lists the class only in its generated
+      "classes without a spec attribute table" appendix — left to the script's
+      next regen.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a runs in the batch verification
+    pass (2026-10-04); 9b deferred to batch confirmation (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS (single __init__ row), member-annotation gate PASS; 9b still deferred to batch confirmation.
 
 - [ ] `EcucBooleanParamDef` — EcucParameterDef — R23-11 markdown · Table 2.15
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
@@ -646,6 +727,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14973 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based check passed; `# type:` grep clean on the
       class body; blank line between attribute blocks verified by eye
       (single attr); full suite 14973 passed / 0 failed (integration
@@ -753,6 +835,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14977 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based check passed; `# type:` grep clean on the
       class body; blank line between every attribute block verified by eye
       (three blocks, spec row order); full suite 14977 passed / 0 failed
@@ -881,6 +964,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14985 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
     - note (Step 9): set-based check passed (checklist == {__init__,
       getDestinationType, setDestinationType}, all test-covered, no
       `# type:` comments, member order = displayed row order, getter-first
@@ -1005,6 +1089,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14995 passed / 0
       failed incl. integration round-trips; npm run lint clean; black clean on all
       touched files); 9b deferred to batch confirmation (user instruction)
+    - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
 
 - [x] `EcucReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 markdown · Table 2.29 (CP_TPS_ECUConfiguration), p.73 — commit 0d4506747 (stamped 2026-10-02, # Spec verified: R23-11)
 
