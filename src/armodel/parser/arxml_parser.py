@@ -590,6 +590,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticIOControl,
     DiagnosticInfoType,
     DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
@@ -713,6 +714,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseToEcuResetEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     Identifier,
     Integer,
@@ -1570,6 +1572,14 @@ DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
     "full": "FULL",
     "none": "NONE",
     "prioOcc": "PRIO-OCC",
+}
+
+DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
+    "iso11992_4": "ISO-11992-4",
+    "iso14229_1": "ISO-14229-1",
+    "iso15031_6": "ISO-15031-6",
+    "saeJ1939_73": "SAE-J-1939-73",
+    "saeJ2012_da": "SAE-J-2012-DA",
 }
 
 DTC_FORMAT_TYPE_XML_MAP = {
@@ -11424,6 +11434,12 @@ class ARXMLParser(AbstractARXMLParser):
             cast(Optional[DiagnosticTypeOfFreezeFrameRecordNumerationEnum], self.getChildElementOptionalLiteral(element, "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION"))
         )
 
+    def readDiagnosticMemoryDestinationPrimary(self, element: ET.Element, primary: DiagnosticMemoryDestinationPrimary):
+        self.logger.debug("Read DiagnosticMemoryDestinationPrimary <%s>" % primary.getShortName())
+        self.readIdentifiable(element, primary)
+        self.readDiagnosticMemoryDestination(element, primary)
+        primary.setTypeOfDtcSupported(self._readEnumToken(element, "TYPE-OF-DTC-SUPPORTED", DiagnosticTypeOfDtcSupportedEnum, DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP))
+
     def readDiagnosticMeasurementIdentifier(self, element: ET.Element, identifier: DiagnosticMeasurementIdentifier):
         self.logger.debug("Read DiagnosticMeasurementIdentifier <%s>" % identifier.getShortName())
         self.readIdentifiable(element, identifier)
@@ -16833,6 +16849,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-MEASUREMENT-IDENTIFIER":
             identifier = parent.createDiagnosticMeasurementIdentifier(self.getShortName(child_element))
             self.readDiagnosticMeasurementIdentifier(child_element, identifier)
+        elif tag_name == "DIAGNOSTIC-MEMORY-DESTINATION-PRIMARY":
+            primary = parent.createDiagnosticMemoryDestinationPrimary(self.getShortName(child_element))
+            self.readDiagnosticMemoryDestinationPrimary(child_element, primary)
         elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
             read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
@@ -17403,6 +17422,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-MEASUREMENT-IDENTIFIER":
             identifier = parent.createDiagnosticMeasurementIdentifier(self.getShortName(child_element))
             self.readDiagnosticMeasurementIdentifier(child_element, identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-MEMORY-DESTINATION-PRIMARY":
+            primary = parent.createDiagnosticMemoryDestinationPrimary(self.getShortName(child_element))
+            self.readDiagnosticMemoryDestinationPrimary(child_element, primary)
             return True
         if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
             identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))

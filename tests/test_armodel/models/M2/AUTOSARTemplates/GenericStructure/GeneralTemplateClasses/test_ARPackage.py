@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
 )
@@ -94,6 +95,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMeasurementIdentifier,
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryByAddress,
+    DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
     DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
@@ -158,6 +160,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DiagnosticTypeOfDtcSupportedEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -7377,6 +7380,111 @@ class TestDiagnosticMemoryAddressableRangeAccess:
         """
         assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.getMemoryRanges.__doc__) == self.MEMORY_RANGE_NOTE
         assert inspect.cleandoc(DiagnosticMemoryAddressableRangeAccess.addMemoryRange.__doc__) == (self.MEMORY_RANGE_NOTE + "\n\nA None value is a no-op and does not append a memoryRange.")
+
+
+class TestDiagnosticMemoryDestinationPrimary:
+    """
+    Test class for DiagnosticMemoryDestinationPrimary functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.173, p.184
+
+    DiagnosticMemoryDestinationPrimary is the concrete ARElement branch of the
+    abstract DiagnosticMemoryDestination (Table 4.167, synced in ArObject.py as
+    an ARObject-derived value container): the class joins the ARElement
+    Identifiable chain with the base's nine inherited attributes plus its single
+    own attribute typeOfDtcSupported (XSD group
+    DIAGNOSTIC-MEMORY-DESTINATION-PRIMARY, AUTOSAR_00052.xsd l.39661).
+    """
+
+    CLASS_NOTE = "This represents a primary memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"
+    TYPE_OF_DTC_SUPPORTED_NOTE = "This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality."
+
+    def _make_obj(self) -> DiagnosticMemoryDestinationPrimary:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticMemoryDestinationPrimary(ar_root, "TestMemoryDestinationPrimary")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates on the ARElement x DiagnosticMemoryDestination chain with the own and inherited defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMemoryDestinationPrimary"
+        assert isinstance(obj, DiagnosticMemoryDestinationPrimary)
+        assert isinstance(obj, DiagnosticMemoryDestination)
+        assert isinstance(obj, ARElement)
+        assert obj.getTypeOfDtcSupported() is None
+        assert obj.getAgingRequiresTestedCycle() is None
+        assert obj.getMaxNumberOfEventEntries() is None
+        assert obj.getStatusBitStorageTestFailed() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestinationPrimary.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryDestinationPrimary.__init__.__doc__ is None
+
+    def test_get_set_type_of_dtc_supported(self):
+        """
+        Round-trips the own typeOfDtcSupported; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticTypeOfDtcSupportedEnum().setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1)
+        result = obj.setTypeOfDtcSupported(value)
+        assert result is obj  # method chaining
+        assert obj.getTypeOfDtcSupported() is value
+        assert obj.getTypeOfDtcSupported().getValue() == "iso14229_1"
+
+        result = obj.setTypeOfDtcSupported(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTypeOfDtcSupported() is value  # None is a no-op
+
+    def test_get_set_inherited_attribute(self):
+        """
+        Spot-checks the inherited base attribute maxNumberOfEventEntries (Table 4.167); None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setMaxNumberOfEventEntries(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfEventEntries() is value
+        assert obj.getMaxNumberOfEventEntries().getValue() == 10
+
+        result = obj.setMaxNumberOfEventEntries(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberOfEventEntries() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestinationPrimary.getTypeOfDtcSupported.__doc__) == self.TYPE_OF_DTC_SUPPORTED_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestinationPrimary.setTypeOfDtcSupported.__doc__) == (
+            self.TYPE_OF_DTC_SUPPORTED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing typeOfDtcSupported."
+        )
+
+    def test_create_diagnostic_memory_destination_primary(self):
+        """
+        Test that ARPackage.createDiagnosticMemoryDestinationPrimary appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticMemoryDestinationPrimary("MemoryDestinationPrimary1")
+
+        assert isinstance(obj, DiagnosticMemoryDestinationPrimary)
+        assert obj.getShortName() == "MemoryDestinationPrimary1"
+        assert ar_root.getReferrableElement("MemoryDestinationPrimary1", DiagnosticMemoryDestinationPrimary) is obj
+
+        duplicate = ar_root.createDiagnosticMemoryDestinationPrimary("MemoryDestinationPrimary1")
+        assert duplicate is obj
 
 
 class TestDiagnosticMemoryIdentifier:

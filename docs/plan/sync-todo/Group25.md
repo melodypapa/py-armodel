@@ -736,15 +736,41 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMemoryDestinationPrimary` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.173, p.184
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): md page-split render puts the Table 4.173 caption (l.5638) AFTER its body (l.5629-5636, Class row =
+    DiagnosticMemoryDestinationPrimary, Note "This represents a primary memory for a diagnostic event. Tags:
+    atp.recommendedPackage=DiagnosticMemoryDestinations"); the block after the caption (Class=...UserDefined + authRole/
+    memoryId rows) belongs to Table 4.174. Base chain (family row): ARElement, ARObject, CollectableElement,
+    DiagnosticCommonElement, DiagnosticMemoryDestination, Identifiable, MultilanguageReferrable, PackageableElement,
+    Referrable — model class = concrete subclass of the abstract DiagnosticMemoryDestination (synced be5b392c4 in
+    ArObject.py as ARObject-derived per its accepted queue note) + ARElement (XSD complexType l.39677 embeds the
+    IDENTIFIABLE group; aggregated by ARPackage.element), i.e. `class DiagnosticMemoryDestinationPrimary(ARElement,
+    DiagnosticMemoryDestination)` in ARPackage.py — first cross-file ARElement×ArObject-multiple-inheritance pair;
+    DMD.__init__ called explicitly BEFORE super().__init__(parent, short_name) because Referrable.__init__ ends the
+    cooperative super() chain at ARObject.__init__ (a later ARObject re-init from DMD's super() would wipe parent).
+    Own attribute (displayed order; single row): 1. typeOfDtcSupported (DiagnosticTypeOfDtcSupportedEnum — synced
+    PrimitiveTypes.py Table 4.21 p.66, 0..1 attr, XSD TYPE-OF-DTC-SUPPORTED l.39668, no atp.Status tag). XSD element
+    order = readIdentifiable → group DIAGNOSTIC-MEMORY-DESTINATION (base helper) → TYPE-OF-DTC-SUPPORTED. New XML
+    token map DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP (iso11992_4→ISO-11992-4, iso14229_1→ISO-14229-1,
+    iso15031_6→ISO-15031-6, saeJ1939_73→SAE-J-1939-73, saeJ2012_da→SAE-J-2012-DA). md body l.5629-5636 (caption
+    l.5638; PDF p.184 via pdf_page.py). Table body's "Base" row also confirms DiagnosticMemoryDestination inheritance.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; concrete ARElement branch of the abstract DiagnosticMemoryDestination: the
+    class joins ARElement with the ArObject-homed base via multiple inheritance `class DiagnosticMemoryDestinationPrimary(ARElement,
+    DiagnosticMemoryDestination)`; DiagnosticMemoryDestination.__init__ is called explicitly BEFORE super().__init__(parent,
+    short_name) so the base group attributes are initialized exactly once and Referrable's ARObject.__init__ keeps the parent
+    (Referrable.__init__ ends the cooperative super() chain at ARObject.__init__, so DMD's own super() call would otherwise run
+    ARObject.__init__ a second time and wipe parent). Reader calls the base helper readDiagnosticMemoryDestination ONCE (no
+    double-read) + the own TYPE-OF-DTC-SUPPORTED child via _readEnumToken against the new DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP
+    (synced enum DiagnosticTypeOfDtcSupportedEnum, Table 4.21); writer mirrors via writeDiagnosticMemoryDestination +
+    _writeEnumToken. Dispatch entries: parser readARPackageElements + readDiagnosticPackageElement, writer writeARPackageElement +
+    writeARPackageElementRest; ARPackage factory createDiagnosticMemoryDestinationPrimary added.)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1923 passed / 0 failed: test_ARPackage.py + test_diagnostic_memory_destination_primary.py + test_writer_diagnostic_memory_destination_primary.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticMemoryDestinationUserDefined` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.174, p.185
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

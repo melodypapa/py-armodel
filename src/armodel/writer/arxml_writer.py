@@ -460,6 +460,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticIOControl,
     DiagnosticInfoType,
     DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
@@ -1391,6 +1392,14 @@ DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
     "full": "FULL",
     "none": "NONE",
     "prioOcc": "PRIO-OCC",
+}
+
+DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
+    "iso11992_4": "ISO-11992-4",
+    "iso14229_1": "ISO-14229-1",
+    "iso15031_6": "ISO-15031-6",
+    "saeJ1939_73": "SAE-J-1939-73",
+    "saeJ2012_da": "SAE-J-2012-DA",
 }
 
 DTC_FORMAT_TYPE_XML_MAP = {
@@ -14897,6 +14906,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         # TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION is round-tripped as a raw literal until DiagnosticTypeOfFreezeFrameRecordNumerationEnum (Table 4.172, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
         self.setChildElementOptionalLiteral(element, "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION", cast(ARLiteral, destination.getTypeOfFreezeFrameRecordNumeration()))
 
+    def writeDiagnosticMemoryDestinationPrimary(self, element: ET.Element, primary: DiagnosticMemoryDestinationPrimary):
+        self.logger.debug("Write DiagnosticMemoryDestinationPrimary %s" % primary.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-MEMORY-DESTINATION-PRIMARY")
+        self.writeIdentifiable(child_element, primary)
+        self.writeDiagnosticMemoryDestination(child_element, primary)
+        self._writeEnumToken(child_element, "TYPE-OF-DTC-SUPPORTED", primary.getTypeOfDtcSupported(), DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP)
+
     def writeDiagnosticMeasurementIdentifier(self, element: ET.Element, identifier: DiagnosticMeasurementIdentifier):
         self.logger.debug("Write DiagnosticMeasurementIdentifier %s" % identifier.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-MEASUREMENT-IDENTIFIER")
@@ -16670,6 +16686,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticIumprGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticMeasurementIdentifier):
             self.writeDiagnosticMeasurementIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticMemoryDestinationPrimary):
+            self.writeDiagnosticMemoryDestinationPrimary(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
@@ -16919,6 +16937,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticMeasurementIdentifier):
             self.writeDiagnosticMeasurementIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticMemoryDestinationPrimary):
+            self.writeDiagnosticMemoryDestinationPrimary(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticMemoryIdentifier):
             self.writeDiagnosticMemoryIdentifier(element, ar_element)

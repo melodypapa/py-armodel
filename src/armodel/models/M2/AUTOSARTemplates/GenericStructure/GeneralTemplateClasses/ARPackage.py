@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
 )
@@ -422,6 +423,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DiagnosticTypeOfDtcSupportedEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -3741,6 +3743,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticMeasurementIdentifier(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticMeasurementIdentifier, self.getReferrableElement(short_name, DiagnosticMeasurementIdentifier))
+
+    def createDiagnosticMemoryDestinationPrimary(self, short_name: str) -> DiagnosticMemoryDestinationPrimary:
+        """
+        Creates a new DiagnosticMemoryDestinationPrimary with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMemoryDestinationPrimary: This represents a primary memory for a diagnostic event.
+
+        Args:
+            short_name: The short name for the new DiagnosticMemoryDestinationPrimary
+
+        Returns:
+            The newly created or existing DiagnosticMemoryDestinationPrimary instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticMemoryDestinationPrimary):
+            element = DiagnosticMemoryDestinationPrimary(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticMemoryDestinationPrimary, self.getReferrableElement(short_name, DiagnosticMemoryDestinationPrimary))
 
     def createDiagnosticMemoryIdentifier(self, short_name: str) -> DiagnosticMemoryIdentifier:
         """
@@ -8532,8 +8552,38 @@ class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
         return self.memoryRanges
 
 
-class DiagnosticMemoryDestinationPrimary(ARElement):
-    pass
+class DiagnosticMemoryDestinationPrimary(ARElement, DiagnosticMemoryDestination):
+    """This represents a primary memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"""
+
+    # DiagnosticMemoryDestinationPrimary method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.173, p.184
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTypeOfDtcSupported          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeOfDtcSupported          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        DiagnosticMemoryDestination.__init__(self)
+        super().__init__(parent, short_name)
+
+        # This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
+        self.typeOfDtcSupported: Optional[DiagnosticTypeOfDtcSupportedEnum] = None
+
+    def getTypeOfDtcSupported(self) -> Optional[DiagnosticTypeOfDtcSupportedEnum]:
+        """
+        This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
+        """
+        return self.typeOfDtcSupported
+
+    def setTypeOfDtcSupported(self, value: Optional[DiagnosticTypeOfDtcSupportedEnum]) -> DiagnosticMemoryDestinationPrimary:
+        """
+        This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
+
+        A None value is a no-op and does not overwrite an existing typeOfDtcSupported.
+        """
+        if value is not None:
+            self.typeOfDtcSupported = value
+        return self
 
 
 class DiagnosticMemoryIdentifier(ARElement):
