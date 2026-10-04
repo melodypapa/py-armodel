@@ -90,6 +90,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939SwMapping,
     DiagnosticMapping,
     DiagnosticMasterToSlaveEventMapping,
+    DiagnosticMeasurementIdentifier,
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryByAddress,
     DiagnosticMemoryIdentifier,
@@ -10851,6 +10852,111 @@ class TestDiagnosticIumprGroup:
         assert package.getReferrableElement("IumprGroup1", DiagnosticIumprGroup) is element
 
         duplicate = package.createDiagnosticIumprGroup("IumprGroup1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticMeasurementIdentifier:
+    """
+    Test class for DiagnosticMeasurementIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.204, p.206
+
+    DiagnosticMeasurementIdentifier is concrete (XSD complexType
+    DIAGNOSTIC-MEASUREMENT-IDENTIFIER abstract="false") with one own
+    Attribute row: obdMid (kind attr, multiplicity 0..1) is modeled as the
+    optional typed field obdMid behind get/setObdMid. The markdown Type
+    column PositiveInteger wins over the XSD element type
+    POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); the value
+    round-trips flattened as the OBD-MID element text (DiagnosticAging
+    THRESHOLD precedent).
+    """
+
+    CLASS_NOTE = (
+        "This meta-class represents the ability to describe a measurement identifier.\n"
+        "\n"
+        "[constr_10414] Existence of attribute DiagnosticMeasurementIdentifier.obdMid: "
+        "For each DiagnosticMeasurementIdentifier, attribute obdMid shall exist at the time when the DEXT is complete."
+    )
+
+    OBD_MID_NOTE = "This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _make_obj(self) -> DiagnosticMeasurementIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticMeasurementIdentifier(ar_root, "TestMeasurementIdentifier")
+
+    def _make_obd_mid(self, value: int) -> PositiveInteger:
+        obd_mid = PositiveInteger()
+        obd_mid.setValue(value)
+        return obd_mid
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestMeasurementIdentifier"
+        assert isinstance(obj, DiagnosticMeasurementIdentifier)
+        assert isinstance(obj, ARElement)
+        assert obj.getObdMid() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticMeasurementIdentifier.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMeasurementIdentifier.__init__.__doc__ is None
+
+    def test_get_set_obd_mid(self):
+        """
+        Round-trips the attribute through the setter/getter; chaining returns the object.
+        """
+        obj = self._make_obj()
+        obd_mid = self._make_obd_mid(300)
+
+        result = obj.setObdMid(obd_mid)
+        assert result is obj  # method chaining
+        assert obj.getObdMid() is obd_mid
+        assert obj.getObdMid().value == 300
+
+    def test_set_obd_mid_none_no_op(self):
+        """
+        Test that a None value is a no-op and does not overwrite an existing obdMid.
+        """
+        obj = self._make_obj()
+        obd_mid = self._make_obd_mid(300)
+        obj.setObdMid(obd_mid)
+
+        result = obj.setObdMid(None)
+        assert result is obj  # method chaining with None
+        assert obj.getObdMid() is obd_mid
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (get/set pair; setter adds the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMeasurementIdentifier.getObdMid.__doc__) == self.OBD_MID_NOTE
+        assert inspect.cleandoc(DiagnosticMeasurementIdentifier.setObdMid.__doc__) == (self.OBD_MID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing obdMid.")
+
+    def test_create_diagnostic_measurement_identifier(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMeasurementIdentifiers")
+        element = package.createDiagnosticMeasurementIdentifier("MeasurementIdentifier1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticMeasurementIdentifier)
+        assert element.getShortName() == "MeasurementIdentifier1"
+        assert package.getReferrableElement("MeasurementIdentifier1", DiagnosticMeasurementIdentifier) is element
+
+        duplicate = package.createDiagnosticMeasurementIdentifier("MeasurementIdentifier1")
         assert duplicate is element  # duplicate short name returns the existing element
 
 

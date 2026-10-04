@@ -644,6 +644,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
     DiagnosticJ1939SwMapping,
+    DiagnosticMeasurementIdentifier,
     DiagnosticFimFunctionMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
@@ -11378,6 +11379,11 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "MEMORY-RANGE-REFS/MEMORY-RANGE-REF"):
             range_access.addMemoryRange(ref)
 
+    def readDiagnosticMeasurementIdentifier(self, element: ET.Element, identifier: DiagnosticMeasurementIdentifier):
+        self.logger.debug("Read DiagnosticMeasurementIdentifier <%s>" % identifier.getShortName())
+        self.readIdentifiable(element, identifier)
+        identifier.setObdMid(self.getChildElementOptionalPositiveInteger(element, "OBD-MID"))
+
     def readDiagnosticMemoryIdentifier(self, element: ET.Element, identifier: DiagnosticMemoryIdentifier):
         self.logger.debug("Read DiagnosticMemoryIdentifier <%s>" % identifier.getShortName())
         self.readIdentifiable(element, identifier)
@@ -16776,6 +16782,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-IUMPR-GROUP":
             iumpr_group = parent.createDiagnosticIumprGroup(self.getShortName(child_element))
             self.readDiagnosticIumprGroup(child_element, iumpr_group)
+        elif tag_name == "DIAGNOSTIC-MEASUREMENT-IDENTIFIER":
+            identifier = parent.createDiagnosticMeasurementIdentifier(self.getShortName(child_element))
+            self.readDiagnosticMeasurementIdentifier(child_element, identifier)
         elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
             read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
@@ -17338,6 +17347,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
             verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
             self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+            return True
+        if tag_name == "DIAGNOSTIC-MEASUREMENT-IDENTIFIER":
+            identifier = parent.createDiagnosticMeasurementIdentifier(self.getShortName(child_element))
+            self.readDiagnosticMeasurementIdentifier(child_element, identifier)
             return True
         if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
             identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))

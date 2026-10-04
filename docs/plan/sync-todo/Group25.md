@@ -1120,15 +1120,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMeasurementIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.204, p.206
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; Step 1 findings recorded as note bullets below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1903 passed / 0 failed: test_ARPackage.py + test_diagnostic_measurement_identifier.py + test_writer_diagnostic_measurement_identifier.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - note (Step 1 finding, rule-compliant, no deviation): the markdown table carries no class-level Note row — class docstring taken verbatim from the XSD complexType documentation ("This meta-class represents the ability to describe a measurement identifier."; DiagnosticEvent precedent, Group25 DiagnosticEvent row) plus the [constr_10414] existence-constraint line that follows the table (DiagnosticAging docstring precedent).
+  - note (Step 1 finding, rule-compliant, no deviation): obdMid — markdown Type column PositiveInteger wins over the XSD element type POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); modeled Optional[PositiveInteger], round-tripped flattened as the OBD-MID element text via the getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger pair (DiagnosticMemoryIdentifier.ID precedent — same XSD element type; DiagnosticAging THRESHOLD precedent in the Group25 notes).
 
 - [ ] `DiagnosticEcuInstanceProps` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.205, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

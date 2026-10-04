@@ -3705,6 +3705,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticMasterToSlaveEventMapping, self.getReferrableElement(short_name, DiagnosticMasterToSlaveEventMapping))
 
+    def createDiagnosticMeasurementIdentifier(self, short_name: str) -> DiagnosticMeasurementIdentifier:
+        """
+        Creates a new DiagnosticMeasurementIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMeasurementIdentifier: This meta-class represents the ability to describe a measurement identifier.
+
+        Args:
+            short_name: The short name for the new DiagnosticMeasurementIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticMeasurementIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticMeasurementIdentifier):
+            element = DiagnosticMeasurementIdentifier(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticMeasurementIdentifier, self.getReferrableElement(short_name, DiagnosticMeasurementIdentifier))
+
     def createDiagnosticMemoryIdentifier(self, short_name: str) -> DiagnosticMemoryIdentifier:
         """
         Creates a new DiagnosticMemoryIdentifier with the given short name,
@@ -8371,7 +8389,40 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
 
 
 class DiagnosticMeasurementIdentifier(ARElement):
-    pass
+    """
+    This meta-class represents the ability to describe a measurement identifier.
+
+    [constr_10414] Existence of attribute DiagnosticMeasurementIdentifier.obdMid: For each DiagnosticMeasurementIdentifier, attribute obdMid shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticMeasurementIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.204, p.206
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdMid  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setObdMid  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.obdMid: Optional[PositiveInteger] = None
+
+    def getObdMid(self) -> Optional[PositiveInteger]:
+        """
+        This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.obdMid
+
+    def setObdMid(self, value: Optional[PositiveInteger]) -> DiagnosticMeasurementIdentifier:
+        """
+        This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing obdMid.
+        """
+        if value is not None:
+            self.obdMid = value
+        return self
 
 
 class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):

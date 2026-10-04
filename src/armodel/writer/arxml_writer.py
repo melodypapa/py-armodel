@@ -514,6 +514,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
     DiagnosticJ1939SwMapping,
+    DiagnosticMeasurementIdentifier,
     DiagnosticFimFunctionMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
@@ -14857,6 +14858,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for memory_range in memory_ranges:
                 self.setChildElementOptionalRefType(child_element, "MEMORY-RANGE-REF", memory_range)
 
+    def writeDiagnosticMeasurementIdentifier(self, element: ET.Element, identifier: DiagnosticMeasurementIdentifier):
+        self.logger.debug("Write DiagnosticMeasurementIdentifier %s" % identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-MEASUREMENT-IDENTIFIER")
+        self.writeIdentifiable(child_element, identifier)
+        self.setChildElementOptionalPositiveInteger(child_element, "OBD-MID", identifier.getObdMid())
+
     def writeDiagnosticMemoryIdentifier(self, element: ET.Element, identifier: DiagnosticMemoryIdentifier):
         self.logger.debug("Write DiagnosticMemoryIdentifier %s" % identifier.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-MEMORY-IDENTIFIER")
@@ -16620,6 +16627,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticIumprDenominatorGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticIumprGroup):
             self.writeDiagnosticIumprGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticMeasurementIdentifier):
+            self.writeDiagnosticMeasurementIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
@@ -16866,6 +16875,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticMeasurementIdentifier):
+            self.writeDiagnosticMeasurementIdentifier(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticMemoryIdentifier):
             self.writeDiagnosticMemoryIdentifier(element, ar_element)
