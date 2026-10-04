@@ -242,15 +242,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CommunicationController` — Identifiable — R23-11 CP_TPS_ECUResourceTemplate Table 3.3, p.31; also CP_TPS_SystemTemplate Table 3.3, p.53
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2030 passed model+annotations; round-trip 6; fibex/controller/ecuc/VP subset 775; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `f3e797c45`
+  - note (Step 1): defining table = SystemTemplate Table 3.3 p.53 (ECUResourceTemplate Table 3.3 p.31 is a same-number caption collision on the HwType class — no content taken, no combine case); abstract Class, Base most-derived Identifiable; single attr wakeUpByControllerSupported (Boolean 0..1); VP mixin KEPT (Rule 0020: XSD group l.20388 VARIATION-POINT "Applicable for: EcuInstance.commController" — applies to this class’s own instances); reader/writer pre-existing correct, no code change; observation: UserDefinedCommunicationController has no dispatch branch in read/writeEcuInstanceCommControllers (pre-existing gap, recorded in tracker); no deviations; no stamp (batch 9b)
 
 - [ ] `ParameterSwComponentType` — SwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 2.1, p.41
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
