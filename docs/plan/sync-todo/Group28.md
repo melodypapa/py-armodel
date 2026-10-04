@@ -74,15 +74,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EndToEndProtection` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.97, p.215; also CP_TPS_SystemTemplate Table 6.55, p.384
   - module: M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (rows end at `test`, no `# Spec:` line) — full re-sync, stamp WITHHELD this batch. Both renderings (SWCT 4.97 / SystemTemplate 6.55) identical. XSD complexType END-TO-END-PROTECTION (AUTOSAR_00052.xsd L54284) refs AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE groups → base `Identifiable` (not ARElement); group END-TO-END-PROTECTION (L54229) anchors VARIATION-POINT ("Applicable for: EndToEndProtectionSet.endToEndProtection") → VP-capable mixin kept. 3 attrs: endToEndProfile (0..1 aggr), endToEndProtectionISignalIPdu (* aggr, wrapper), endToEndProtectionVariablePrototype (* aggr, wrapper). Reader/writer pre-exist; VARIATION-POINT handling missing both sides.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (27 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/test_EndToEndProtection.py, 3 passed / 0 failed tests/test_armodel/parser/test_EndToEndProtection.py, 5 passed / 0 failed tests/test_armodel/writer/test_writer_EndToEndProtection.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 1473 passed SWComponentTemplate model dir + test_arxml_parser_e2e + test_end_to_end_protection_i_signal_i_pdu + test_end_to_end_description + test_variation_point_capable_arobject (parser+writer) + test_arxml_parser_comspec + test_writer_sw_component + test_arxml_parser_dispatch + test_writer_arpackage_dispatch, 1 passed integration round-trip incl. SoftwareComponents.arxml; black/ruff/mypy clean, checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ConsistencyNeeds` — AtpBlueprint — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.99, p.222
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py

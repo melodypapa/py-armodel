@@ -7519,10 +7519,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEndToEndProtection(self, element: ET.Element, protection: EndToEndProtection):
         if protection is not None:
             child_element = ET.SubElement(element, "END-TO-END-PROTECTION")
-            self.writeIdentifiable(child_element, protection)
+            self.writeIdentifiable(child_element, protection, write_variation_point=False)
             self.setEndToEndDescription(child_element, "END-TO-END-PROFILE", protection.getEndToEndProfile())
             self.writeEndToEndProtectionEndToEndProtectionISignalIPdus(child_element, protection)
             self.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(child_element, protection)
+            self.writeVariationPointCapable(child_element, protection)
 
     def writeEndToEndProtections(self, element: ET.Element, protection_set: EndToEndProtectionSet):
         protections = protection_set.getEndToEndProtections()
