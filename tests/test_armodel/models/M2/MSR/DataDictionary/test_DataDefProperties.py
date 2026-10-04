@@ -139,28 +139,99 @@ class TestDisplayPresentationEnum:
 
 
 class TestSwBitRepresentation:
-    """Test class for SwBitRepresentation class."""
+    """Test class for SwBitRepresentation class (SWCT Table 5.41, p.333, R23-11)."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.41 (R23-11).
+    SPEC_MEMBER_ORDER = [
+        "bitPosition",
+        "numberOfBits",
+    ]
+
+    def _init_field_order(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwBitRepresentation")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_bit_representation_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.41 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_bit_representation_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getBitPosition",
+            "setBitPosition",
+            "getNumberOfBits",
+            "setNumberOfBits",
+        ]
+        for name in expected:
+            assert hasattr(SwBitRepresentation, name), f"missing accessor {name}"
+
+    def test_sw_bit_representation_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getBitPosition", "setBitPosition", "getNumberOfBits", "setNumberOfBits"):
+            hints = typing.get_type_hints(getattr(SwBitRepresentation, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+
+    def test_sw_bit_representation_class_note_verbatim(self):
+        """The class docstring carries the Table 5.41 Note verbatim (Tags/Stereotypes tails dropped)."""
+        expected = (
+            "Description of the structure of a bit variable: Comprises of the bitPosition in a memory object "
+            "(e.g. sw HostVariable, which stands parallel to swBitRepresentation) and the numberOfBits . "
+            "In this way, interrelated memory areas can be described. Non-related memory areas are not supported."
+        )
+        assert cleandoc(SwBitRepresentation.__doc__) == expected
 
     def test_sw_bit_representation_initialization(self):
         sw_bit_representation = SwBitRepresentation()
         assert sw_bit_representation.getBitPosition() is None
         assert sw_bit_representation.getNumberOfBits() is None
 
-    def test_sw_bit_representation_methods(self):
+    def test_sw_bit_representation_get_set_bit_position(self):
         sw_bit_representation = SwBitRepresentation()
         bit_position = Integer().setValue("3")
-        number_of_bits = Integer().setValue("5")
 
         assert sw_bit_representation.setBitPosition(bit_position) == sw_bit_representation
         assert sw_bit_representation.getBitPosition() == bit_position
+
+    def test_sw_bit_representation_get_set_number_of_bits(self):
+        sw_bit_representation = SwBitRepresentation()
+        number_of_bits = Integer().setValue("5")
+
         assert sw_bit_representation.setNumberOfBits(number_of_bits) == sw_bit_representation
         assert sw_bit_representation.getNumberOfBits() == number_of_bits
 
     def test_sw_bit_representation_none_noop(self):
+        """Every scalar setter is a no-op on None and keeps the previously set value (Rule 0004)."""
         sw_bit_representation = SwBitRepresentation()
-        sw_bit_representation.setBitPosition(Integer().setValue("3"))
+        bit_position = Integer().setValue("3")
+        number_of_bits = Integer().setValue("5")
+        sw_bit_representation.setBitPosition(bit_position)
+        sw_bit_representation.setNumberOfBits(number_of_bits)
+
         sw_bit_representation.setBitPosition(None)
-        assert sw_bit_representation.getBitPosition().getValue() == 3
+        sw_bit_representation.setNumberOfBits(None)
+        assert sw_bit_representation.getBitPosition() == bit_position
+        assert sw_bit_representation.getNumberOfBits() == number_of_bits
 
 
 class TestSwDataDependencyArgs:

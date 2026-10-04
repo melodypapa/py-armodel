@@ -511,15 +511,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwBitRepresentation` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.41, p.333
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: concrete Class; Base = ARObject. Both spec attrs (bitPosition, numberOfBits — Integer 0..1 attr) already modeled with correct shape; fixes this pass = legacy checklist → 6-column + stale stamp removed (Rule 0023), inline `__init__` comments drop stale `Tags:` tails (Rule 0012.2.5.2), model tests upgraded to the current bar. XSD group SW-BIT-REPRESENTATION (AUTOSAR_00052.xsd L114714/L114736) holds exactly the 2 elements, markdown order = XSD sequence order (20/30); reader/writer already covered via the SwDataDefProps call sites.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (102 passed / 0 failed: test_DataDefProperties.py [79] + test_sw_data_def_props.py [parser, 15] + test_sw_data_def_props.py [writer, 8]; plus test_member_annotations.py gate 3, DataDictionary dir 188, black/ruff clean on all 4 changed py files, mypy 1 pre-existing error only [writer:7537, EndToEndProtection commit — not chased], set-based checklist==methods 5, stamp correctly WITHHELD); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwCalibrationAccessEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.44, p.335
   - module: M2/MSR/DataDictionary/DataDefProperties.py

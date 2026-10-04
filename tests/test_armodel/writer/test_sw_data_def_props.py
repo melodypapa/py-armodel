@@ -287,6 +287,39 @@ class TestWriteSwDataDefProps:
         raw = _save_and_reload()
         assert "SW-DATA-DEF-PROPS" not in raw
 
+    def test_write_sw_bit_representation_partial_fields_roundtrip(self):
+        """Only NUMBER-OF-BITS set: BIT-POSITION absent from the XML and None after reload (Table 5.41, both attrs 0..1)."""
+        package = AUTOSAR.getInstance().createARPackage("PartialBits")
+        data_type = package.createImplementationDataType("Partial")
+        props = SwDataDefProps()
+        bit_repr = SwBitRepresentation()
+        bit_repr.setNumberOfBits(Integer().setValue("5"))
+        props.setSwBitRepresentation(bit_repr)
+        data_type.setSwDataDefProps(props)
+        raw = _save_and_reload()
+        assert "BIT-POSITION" not in raw
+        assert "NUMBER-OF-BITS" in raw
+        reloaded = AUTOSAR.getInstance().getARPackages()[0].getImplementationDataTypes()[0].getSwDataDefProps().getSwBitRepresentation()
+        assert isinstance(reloaded, SwBitRepresentation)
+        assert reloaded.getBitPosition() is None
+        assert reloaded.getNumberOfBits().getValue() == 5
+
+    def test_write_sw_bit_representation_empty_roundtrip(self):
+        """An empty SwBitRepresentation emits the wrapper with no children and reloads with both fields None."""
+        package = AUTOSAR.getInstance().createARPackage("EmptyBits")
+        data_type = package.createImplementationDataType("Empty")
+        props = SwDataDefProps()
+        props.setSwBitRepresentation(SwBitRepresentation())
+        data_type.setSwDataDefProps(props)
+        raw = _save_and_reload()
+        assert "SW-BIT-REPRESENTATION" in raw
+        assert "BIT-POSITION" not in raw
+        assert "NUMBER-OF-BITS" not in raw
+        reloaded = AUTOSAR.getInstance().getARPackages()[0].getImplementationDataTypes()[0].getSwDataDefProps().getSwBitRepresentation()
+        assert isinstance(reloaded, SwBitRepresentation)
+        assert reloaded.getBitPosition() is None
+        assert reloaded.getNumberOfBits() is None
+
     def test_empty_props_roundtrip(self):
         package = AUTOSAR.getInstance().createARPackage("EmptyProps")
         data_type = package.createImplementationDataType("Empty")

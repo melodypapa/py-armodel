@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwBitRepresentation,
@@ -120,6 +121,30 @@ DOCUMENT_XML = """
 </AUTOSAR>
 """ % CONDITIONAL_XML  # noqa E501
 
+PARTIAL_BIT_REPRESENTATION_XML = """
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
+    <AR-PACKAGES>
+        <AR-PACKAGE>
+            <SHORT-NAME>DataDefProps</SHORT-NAME>
+            <ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE>
+                    <SHORT-NAME>PartialBits</SHORT-NAME>
+                    <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                            <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <SW-BIT-REPRESENTATION>
+                                    <NUMBER-OF-BITS>5</NUMBER-OF-BITS>
+                                </SW-BIT-REPRESENTATION>
+                            </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                    </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE>
+            </ELEMENTS>
+        </AR-PACKAGE>
+    </AR-PACKAGES>
+</AUTOSAR>
+"""  # noqa E501
+
 
 def _load_props():
     parser = ARXMLParser()
@@ -131,6 +156,17 @@ def _load_props():
     data_type = ar_package.getImplementationDataTypes()[0]
     assert isinstance(data_type, ImplementationDataType)
     return data_type.getSwDataDefProps()
+
+
+def _load_partial_bit_representation():
+    parser = ARXMLParser()
+    parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
+    element = ET.fromstring(PARTIAL_BIT_REPRESENTATION_XML)
+    document = AUTOSARDoc()
+    parser.readARPackages(element, document)
+    ar_package = document.getARPackages()[0]
+    data_type = ar_package.getImplementationDataTypes()[0]
+    return data_type.getSwDataDefProps().getSwBitRepresentation()
 
 
 class TestSwDataDefPropsParser:
@@ -177,7 +213,16 @@ class TestSwDataDefPropsParser:
         props = _load_props()
         bit_repr = props.getSwBitRepresentation()
         assert isinstance(bit_repr, SwBitRepresentation)
+        assert isinstance(bit_repr.getBitPosition(), Integer)
         assert bit_repr.getBitPosition().getValue() == 3
+        assert isinstance(bit_repr.getNumberOfBits(), Integer)
+        assert bit_repr.getNumberOfBits().getValue() == 5
+
+    def test_read_sw_bit_representation_partial_fields(self):
+        """A SW-BIT-REPRESENTATION carrying only NUMBER-OF-BITS leaves bitPosition unset (Table 5.41, both attrs 0..1)."""
+        bit_repr = _load_partial_bit_representation()
+        assert isinstance(bit_repr, SwBitRepresentation)
+        assert bit_repr.getBitPosition() is None
         assert bit_repr.getNumberOfBits().getValue() == 5
 
     def test_read_sw_data_def_props_sw_value_block_size_mults(self):

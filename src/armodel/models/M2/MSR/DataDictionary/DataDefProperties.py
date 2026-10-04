@@ -108,21 +108,20 @@ class SwBitRepresentation(ARObject):
 
     # SwBitRepresentation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.41, p.333
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBitPosition           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBitPosition           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNumberOfBits          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNumberOfBits          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitPosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitPosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNumberOfBits  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfBits  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # If the "bit data object" is hosted within another data object (e.g. if the memory can be accessed via byte as well as bit address), this attribute specifies the position of the data object. The count starts at zero (0). Tags: xml.sequenceOffset=20
+        # If the "bit data object" is hosted within another data object (e.g. if the memory can be accessed via byte as well as bit address), this attribute specifies the position of the data object. The count starts at zero (0).
         self.bitPosition: Optional[Integer] = None
 
-        # Number of bits allocated by a "bit data object" within its host data object. Tags: xml.sequenceOffset=30
+        # Number of bits allocated by a "bit data object" within its host data object.
         self.numberOfBits: Optional[Integer] = None
 
     def getBitPosition(self) -> Optional[Integer]:
