@@ -53,11 +53,14 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         assert primary.getClearDtcLimitation() is not None
         assert primary.getClearDtcLimitation().getValue() == "allSupportedDtcs"
 
-    def test_read_sets_inherited_base_group_raw_literal(self, parser):
-        """Test that MEMORY-ENTRY-STORAGE-TRIGGER is read as a raw literal while its enum is a stub."""
+    def test_read_sets_inherited_base_group_storage_trigger_token(self, parser):
+        """Test that MEMORY-ENTRY-STORAGE-TRIGGER is read through the base helper's enum token path."""
         primary = self._read(parser, "<MEMORY-ENTRY-STORAGE-TRIGGER>CONFIRMED</MEMORY-ENTRY-STORAGE-TRIGGER>")
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticMemoryEntryStorageTriggerEnum
+
         assert primary.getMemoryEntryStorageTrigger() is not None
-        assert primary.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
+        assert isinstance(primary.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
+        assert primary.getMemoryEntryStorageTrigger().getValue() == "confirmed"
 
     def test_read_empty_leaves_fields_none(self, parser):
         """Test that an element without own or base group children leaves every field None (empty wrapper case)."""
@@ -95,7 +98,7 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         assert primary.getDtcStatusAvailabilityMask().getValue() == 255
         assert primary.getEventDisplacementStrategy().getValue() == "full"
         assert primary.getMaxNumberOfEventEntries().getValue() == 10
-        assert primary.getMemoryEntryStorageTrigger().getValue() == "FDC-THRESHOLD"
+        assert primary.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
         assert primary.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-AGING-AND-DISPLACEMENT"
         assert primary.getStatusBitStorageTestFailed().value is True
         assert primary.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"
