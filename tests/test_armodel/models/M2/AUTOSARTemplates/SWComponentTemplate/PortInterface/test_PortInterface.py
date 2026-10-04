@@ -1002,3 +1002,68 @@ class TestPortInterfaceSpecSync:
         init_source = inspect.getsource(PortInterface.__init__)
         assert self.IS_SERVICE_NOTE in init_source
         assert self.SERVICE_KIND_NOTE in init_source
+
+
+class TestClientServerInterfaceSpecSync:
+    """Spec-sync pins for ClientServerInterface (CP_TPS_SoftwareComponentTemplate Table 4.6, p.101)."""
+
+    CLASS_NOTE = "A client/server interface declares a number of operations that can be invoked on a server by a client."
+    OPERATION_NOTE = "ClientServerOperation(s) of this ClientServerInterface."
+    POSSIBLE_ERROR_NOTE = "Application errors that are defined as part of this interface."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ClientServerInterface.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_port_interface(self):
+        assert issubclass(ClientServerInterface, PortInterface)
+
+    def test_initialization_defaults(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs = ClientServerInterface(ar_root, "CS")
+        assert cs.getOperations() == []
+        assert cs.getPossibleErrors() == []
+
+    def test_create_operation_appends_and_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs = ClientServerInterface(ar_root, "CS")
+        operation = cs.createOperation("Op")
+        assert isinstance(operation, ClientServerOperation)
+        assert operation.parent is cs
+        assert cs.getOperations() == [operation]
+        assert cs.createOperation("Op") is operation
+        assert len(cs.getOperations()) == 1
+
+    def test_create_application_error_appends_and_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs = ClientServerInterface(ar_root, "CS")
+        error = cs.createApplicationError("E1")
+        assert isinstance(error, ApplicationError)
+        assert error.parent is cs
+        assert cs.getPossibleErrors() == [error]
+        assert cs.createApplicationError("E1") is error
+        assert len(cs.getPossibleErrors()) == 1
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ClientServerInterface.createOperation)["short_name"] is str
+        assert typing.get_type_hints(ClientServerInterface.createOperation)["return"] == ClientServerOperation
+        assert typing.get_type_hints(ClientServerInterface.getOperations)["return"] == List[ClientServerOperation]
+        assert typing.get_type_hints(ClientServerInterface.createApplicationError)["return"] == ApplicationError
+        assert typing.get_type_hints(ClientServerInterface.getPossibleErrors)["return"] == List[ApplicationError]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ClientServerInterface.__init__.__doc__ is None
+        for method in ("createOperation", "getOperations"):
+            assert getattr(ClientServerInterface, method).__doc__.strip() == self.OPERATION_NOTE, method
+        for method in ("createApplicationError", "getPossibleErrors"):
+            assert getattr(ClientServerInterface, method).__doc__.strip() == self.POSSIBLE_ERROR_NOTE, method
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(ClientServerInterface.__init__)
+        assert self.OPERATION_NOTE in init_source
+        assert self.POSSIBLE_ERROR_NOTE in init_source
+        assert "Stereotypes" not in init_source

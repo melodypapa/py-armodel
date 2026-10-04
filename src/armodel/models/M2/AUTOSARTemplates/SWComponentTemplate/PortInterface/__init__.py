@@ -631,23 +631,22 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
 class ClientServerInterface(PortInterface):
     """
-    A client/server interface declares a number of operations that can be invoked on a server by a client. Tags: atp.recommendedPackage=PortInterfaces
+    A client/server interface declares a number of operations that can be invoked on a server by a client.
     """
 
     # ClientServerInterface method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getOperations               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] createOperation             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPossibleErrors           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] createApplicationError      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createOperation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createApplicationError [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPossibleErrors      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        # ClientServerOperation(s) of this ClientServerInterface.
         self.operations: List[ClientServerOperation] = []
 
         # Application errors that are defined as part of this interface.
@@ -655,7 +654,7 @@ class ClientServerInterface(PortInterface):
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
         """
-        ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        ClientServerOperation(s) of this ClientServerInterface.
         """
         if not self.IsReferrableElementExists(short_name, ClientServerOperation):
             operation = ClientServerOperation(self, short_name)
@@ -665,20 +664,13 @@ class ClientServerInterface(PortInterface):
 
     def getOperations(self) -> List[ClientServerOperation]:
         """
-        ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        ClientServerOperation(s) of this ClientServerInterface.
         """
         return self.operations
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
         """
-        Creates an ApplicationError of this ClientServerInterface with the
-        given short name, or returns the existing one if it already exists.
-
-        Args:
-            short_name: The short name for the new ApplicationError
-
-        Returns:
-            The created (or existing) ApplicationError
+        Application errors that are defined as part of this interface.
         """
         if not self.IsReferrableElementExists(short_name, ApplicationError):
             error = ApplicationError(self, short_name)
