@@ -312,51 +312,59 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwConnector` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.12, p.80
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,702/0); 9b deferred to batch confirmation (user instruction); sync commit `9c9cfd33e`
+  - note (Step 1): abstract Class, Base AtpStructureElement (exists: AbstractStructure.py:194); single attr mapping (0..1 ref → mappingRef); VP mixin removed (no table row; subclasses AssemblySwConnector/DelegationSwConnector inherit removal — their tables also VP-less); read/writeSwConnector own MAPPING-REF (XSD l.115280); no deviations; no stamp (batch 9b)
 
 - [ ] `PassThroughSwConnector` — SwConnector — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.15, p.83
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,702/0); 9b deferred to batch confirmation (user instruction); sync commit `1c0ee7d63`
+  - note (Step 1): concrete Class, Base SwConnector; attrs providedOuterPort/requiredOuterPort (0..1 ref each); reader/writer already complete (XSD l.88376 order); stale tracker `missing` row for serviceInterfaceElementMappingRefs removed (Table 3.15 lists no such attr); no stamp (batch 9b)
 
 - [ ] `InstantiationTimingEventProps` — InstantiationRTEEventProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.16, p.85
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,702/0); 9b deferred to batch confirmation (user instruction); sync commit `38df536d9`
+  - note (Step 1): concrete Class, Base InstantiationRTEEventProps; single attr period (TimeValue 0..1 attr); reader/writer already complete (PERIOD last per XSD); constr_1864 recorded in base tracker note; no deviations; no stamp (batch 9b)
 
 - [ ] `InstantiationRTEEventProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.17, p.85
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (composition+gate+round-trip 1076; broad subset 1291; whole unit tree 17,702/0; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `aaffe85cb`
+  - note (Step 1): abstract Class, bases (ARObject, ABC); attrs refinedEvent (0..1 iref → refinedEventIRef), shortLabel (0..1 attr); VP mixin removed per Rule 0015 (no table row; XSD l.72743 VP artifact), parser call removed + VP test re-pinned; no deviations; no stamp (batch 9b)
 
 - [ ] `PortInterface` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.18, p.87; also FO_TPS_AbstractPlatformSpecification Table 3.6, p.27
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
