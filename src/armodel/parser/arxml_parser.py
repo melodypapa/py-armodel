@@ -674,6 +674,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     CIdentifier,
     DateTime,
+    DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
@@ -1618,6 +1619,16 @@ DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
     "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
     "start": "START",
     "stop": "STOP",
+}
+
+#: Mapping between DiagnosticConnectedIndicatorBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-CONNECTED-INDICATOR-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP = {
+    "blinkMode": "BLINK-MODE",
+    "blinkOrContinuousOnMode": "BLINK-OR-CONTINUOUS-ON-MODE",
+    "continuousOnMode": "CONTINUOUS-ON-MODE",
+    "fastFlashingMode": "FAST-FLASHING-MODE",
+    "slowFlashingMode": "SLOW-FLASHING-MODE",
 }
 
 
@@ -11218,8 +11229,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticConnectedIndicator(self, element: ET.Element, connected_indicator: DiagnosticConnectedIndicator):
         self.logger.debug("Read DiagnosticConnectedIndicator")
-        # BEHAVIOR is round-tripped as a raw literal until DiagnosticConnectedIndicatorBehaviorEnum (Table 4.155, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        connected_indicator.setBehavior(self.getChildElementOptionalLiteral(element, "BEHAVIOR"))
+        connected_indicator.setBehavior(self._readEnumToken(element, "BEHAVIOR", DiagnosticConnectedIndicatorBehaviorEnum, DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP))
         threshold_element = self.find(element, "HEALING-CYCLE-COUNTER-THRESHOLD/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
         if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
             threshold = PositiveInteger()

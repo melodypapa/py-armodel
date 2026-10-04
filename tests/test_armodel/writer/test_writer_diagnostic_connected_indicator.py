@@ -41,7 +41,7 @@ def reset_autosar():
 
 def _make_connected_indicator() -> DiagnosticConnectedIndicator:
     connected_indicator = DiagnosticConnectedIndicator()
-    connected_indicator.setBehavior(DiagnosticConnectedIndicatorBehaviorEnum([]).setValue("BLINK-MODE"))
+    connected_indicator.setBehavior(DiagnosticConnectedIndicatorBehaviorEnum().setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE))
     connected_indicator.setHealingCycleCounterThreshold(PositiveInteger().setValue("3"))
     healing_cycle_ref = RefType().setValue("/Dem/DiagnosticOperationCycle")
     healing_cycle_ref.setDest("DIAGNOSTIC-OPERATION-CYCLE")
@@ -92,7 +92,8 @@ class TestWriteDiagnosticConnectedIndicator:
         ARXMLParser().readDiagnosticConnectedIndicator(element, reloaded)
 
         assert reloaded.getBehavior() is not None
-        assert reloaded.getBehavior().getValue() == "BLINK-MODE"
+        assert isinstance(reloaded.getBehavior(), DiagnosticConnectedIndicatorBehaviorEnum)
+        assert reloaded.getBehavior().getValue() == "blinkMode"
         assert reloaded.getHealingCycleCounterThreshold() is not None
         assert reloaded.getHealingCycleCounterThreshold().getValue() == 3
         assert reloaded.getHealingCycleRef() is not None

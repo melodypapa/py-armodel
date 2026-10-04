@@ -22,6 +22,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticConnectedIndicator
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticConnectedIndicatorBehaviorEnum
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -59,7 +60,8 @@ class TestReadDiagnosticConnectedIndicator:
         connected_indicator = self._read(parser, FULL_INNER)
 
         assert connected_indicator.getBehavior() is not None
-        assert connected_indicator.getBehavior().getValue() == "BLINK-MODE"
+        assert isinstance(connected_indicator.getBehavior(), DiagnosticConnectedIndicatorBehaviorEnum)
+        assert connected_indicator.getBehavior().getValue() == "blinkMode"
         assert connected_indicator.getHealingCycleCounterThreshold() is not None
         assert connected_indicator.getHealingCycleCounterThreshold().getValue() == 3
         assert connected_indicator.getHealingCycleRef() is not None

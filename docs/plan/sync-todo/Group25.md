@@ -527,7 +527,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations (2 accepted, recorded as note bullets below; nothing blocking)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1279 passed / 0 failed: test_ArObject.py + test_diagnostic_connected_indicator.py + test_writer_diagnostic_connected_indicator.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
   - note (deviation, accepted): Base — spec Base chain lists ARObject, Identifiable, MultilanguageReferrable, Referrable (XSD complexType DIAGNOSTIC-CONNECTED-INDICATOR includes the REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE groups, so items carry SHORT-NAME), but the class is modeled as a plain ARObject container per the confirmed queue row (module: ArObject.py); an Identifiable/Referrable base is structurally unreachable from ArObject.py (Identifiable.py imports ArObject.py at module top). Same-Base siblings (DiagnosticFunctionInhibitSource Table 4.216, DiagnosticRoutineSubfunction Table 4.84, CpSoftwareClusterResource Table 5.44) are Identifiable-based in Identifiable.py. Consequence: the SHORT-NAME of aggregated items is not carried by this model — revisit on the DiagnosticEvent row (Table 4.149) if SHORT-NAME round-trip of CONNECTED-INDICATORS items is required.
-  - note (deviation, accepted): behavior placeholder — DiagnosticConnectedIndicatorBehaviorEnum (Table 4.155, queued later in this file) is a literal-less stub, so BEHAVIOR round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair; flip to _readEnumToken/_writeEnumToken with the XSD token map when the enum's literals land.
+  - note (deviation, accepted): behavior placeholder — DiagnosticConnectedIndicatorBehaviorEnum (Table 4.155, queued later in this file) is a literal-less stub, so BEHAVIOR round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair; flip to _readEnumToken/_writeEnumToken with the XSD token map when the enum's literals land. RESOLVED 2026-10-04: DiagnosticConnectedIndicatorBehaviorEnum synced (Table 4.155) — BEHAVIOR now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP; XML form unchanged.
   - note (Step 1 finding, rule-compliant, no deviation): healingCycleCounterThreshold — markdown Type column PositiveInteger wins over the XSD element type POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); modeled Optional[PositiveInteger], serialized through the VALUE-VARIATION-POINT wrapper element (precedent readDiagnosticAbstractDataIdentifier ID).
 
 - [ ] `DiagnosticEventClearAllowedEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.153, p.167
@@ -556,15 +556,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticConnectedIndicatorBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.155, p.168
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; round-tripped on the consuming class DiagnosticConnectedIndicator, whose behavior wiring was flipped from raw literal to the typed-enum form with XML output unchanged)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no own XML element; consumer flip applied: arxml_parser.py readDiagnosticConnectedIndicator now reads BEHAVIOR via _readEnumToken and arxml_writer.py writeDiagnosticConnectedIndicator writes it via _writeEnumToken, both with DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP — this enum's consumer-coverage note)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; markdown renders literal 1 as "blinkOrContinuous OnMode" (line-wrap artifact), the XSD mmt.qualifiedName confirms blinkOrContinuousOnMode, which was modeled; consumer DiagnosticConnectedIndicator.behavior already synced at Table 4.152 — nothing referenced is missing)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1462 passed / 0 failed: test_PrimitiveTypes.py + test_ArObject.py + test_diagnostic_connected_indicator.py + test_writer_diagnostic_connected_indicator.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticTroubleCodeUds` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.158, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

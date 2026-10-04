@@ -1799,7 +1799,41 @@ class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
 
 
 class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
-    pass
+    """
+    Behavior of the indicator.
+    """
+
+    # DiagnosticConnectedIndicatorBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.155, p.168
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The indicator blinks when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=0
+    BLINK_MODE = "blinkMode"
+
+    # The indicator is active and blinks when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=1
+    BLINK_OR_CONTINUOUS_ON_MODE = "blinkOrContinuousOnMode"
+
+    # The indicator is active when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=2
+    CONTINUOUS_ON_MODE = "continuousOnMode"
+
+    # Flash Indicator Lamp should be set to "Fast Flash". Tags: atp.EnumerationLiteralIndex=3
+    FAST_FLASHING_MODE = "fastFlashingMode"
+
+    # Flash Indicator Lamp should be set to "Slow Flash". Tags: atp.EnumerationLiteralIndex=4
+    SLOW_FLASHING_MODE = "slowFlashingMode"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE,
+            ]
+        )
 
 
 class DiagnosticDebounceBehaviorEnum(AREnum):

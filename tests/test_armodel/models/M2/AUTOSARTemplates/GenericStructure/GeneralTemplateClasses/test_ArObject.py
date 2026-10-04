@@ -1106,14 +1106,10 @@ class TestDiagnosticConnectedIndicator:
     def test_get_set_behavior(self):
         """
         Test getBehavior and setBehavior round-trip and None no-op.
-
-        DiagnosticConnectedIndicatorBehaviorEnum is a stub until its own sync
-        (Table 4.155, queued in Group25) — it is instantiated through the
-        AREnum constructor with an empty literal sequence.
         """
         obj = self._create_connected_indicator()
 
-        value = DiagnosticConnectedIndicatorBehaviorEnum([]).setValue("blinkMode")
+        value = DiagnosticConnectedIndicatorBehaviorEnum().setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE)
         result = obj.setBehavior(value)
         assert result is obj  # method chaining
         assert obj.getBehavior() is value

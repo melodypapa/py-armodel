@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
+    DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
@@ -2319,3 +2320,55 @@ class TestDiagnosticClearEventAllowedBehaviorEnum:
         enum.setValue(DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS)
 
         assert enum.getValue() == "onlyThisCycleAndReadiness"
+
+
+class TestDiagnosticConnectedIndicatorBehaviorEnum:
+    """
+    Test class for DiagnosticConnectedIndicatorBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.155, p.168
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticConnectedIndicatorBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticConnectedIndicatorBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "blinkMode",
+            "blinkOrContinuousOnMode",
+            "continuousOnMode",
+            "fastFlashingMode",
+            "slowFlashingMode",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticConnectedIndicatorBehaviorEnum member values.
+        """
+        enum = DiagnosticConnectedIndicatorBehaviorEnum()
+
+        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE == "blinkMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE == "blinkOrContinuousOnMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE == "continuousOnMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE == "fastFlashingMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE == "slowFlashingMode"
+
+        assert enum.validateEnumValue("blinkMode") is True
+        assert enum.validateEnumValue("blinkOrContinuousOnMode") is True
+        assert enum.validateEnumValue("continuousOnMode") is True
+        assert enum.validateEnumValue("fastFlashingMode") is True
+        assert enum.validateEnumValue("slowFlashingMode") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticConnectedIndicatorBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticConnectedIndicatorBehaviorEnum()
+        enum.setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE)
+
+        assert enum.getValue() == "blinkOrContinuousOnMode"

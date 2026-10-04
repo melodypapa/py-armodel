@@ -1462,6 +1462,16 @@ DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
     "stop": "STOP",
 }
 
+#: Mapping between DiagnosticConnectedIndicatorBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-CONNECTED-INDICATOR-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP = {
+    "blinkMode": "BLINK-MODE",
+    "blinkOrContinuousOnMode": "BLINK-OR-CONTINUOUS-ON-MODE",
+    "continuousOnMode": "CONTINUOUS-ON-MODE",
+    "fastFlashingMode": "FAST-FLASHING-MODE",
+    "slowFlashingMode": "SLOW-FLASHING-MODE",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -14682,7 +14692,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticConnectedIndicator(self, element: ET.Element, connected_indicator: DiagnosticConnectedIndicator):
         self.logger.debug("Write DiagnosticConnectedIndicator")
         connected_indicator_element = ET.SubElement(element, "DIAGNOSTIC-CONNECTED-INDICATOR")
-        self.setChildElementOptionalLiteral(connected_indicator_element, "BEHAVIOR", connected_indicator.getBehavior())
+        self._writeEnumToken(connected_indicator_element, "BEHAVIOR", connected_indicator.getBehavior(), DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP)
         threshold = connected_indicator.getHealingCycleCounterThreshold()
         if threshold is not None:
             threshold_element = ET.SubElement(connected_indicator_element, "HEALING-CYCLE-COUNTER-THRESHOLD")
