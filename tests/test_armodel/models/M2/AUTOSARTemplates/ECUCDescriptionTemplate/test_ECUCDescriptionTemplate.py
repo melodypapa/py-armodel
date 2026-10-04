@@ -1335,6 +1335,39 @@ def test_ecuc_parameter_value_member_annotations():
     assert typing.get_type_hints(EcucParameterValue.setIsAutoValue)["value"] == typing.Optional[Boolean]
 
 
+def test_ecuc_textual_param_value_member_annotations():
+    """
+    Member annotations must match the Table 2.50 multiplicities (Rule 0022 gate pins).
+
+    Test Steps:
+    1. Assert the value getter return type and setter value type via get_type_hints
+    2. Assert the VariationPointCapable mixin is not modeled (Table 2.50 has no VP aggr row)
+    """
+    import typing
+
+    assert typing.get_type_hints(EcucTextualParamValue.getValue)["return"] == typing.Optional[VerbatimString]
+    assert typing.get_type_hints(EcucTextualParamValue.setValue)["value"] == typing.Optional[VerbatimString]
+
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+    assert VariationPointCapable not in EcucTextualParamValue.__bases__
+
+
+def test_ecuc_textual_param_value_setter_docstring_split_paragraphs():
+    """
+    The setter docstring must follow the batch-2 split-paragraph style: the spec Note,
+    a blank line, then the None no-op sentence (EcucParameterValue setter convention).
+
+    Test Steps:
+    1. Assert the setter docstring carries the no-op sentence as its own paragraph
+    """
+    doc = EcucTextualParamValue.setValue.__doc__
+    assert doc is not None, "setValue must have a docstring"
+    paragraphs = [paragraph.strip() for paragraph in doc.split("\n\n")]
+    assert len(paragraphs) >= 2, "setValue docstring must split the Note and the no-op sentence into separate paragraphs"
+    assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing value.", "setValue docstring must carry the no-op sentence as its own paragraph"
+
+
 if __name__ == "__main__":
     test_ecuc_value_collection_initialization_defaults()
     test_ecuc_value_collection_add_ecuc_value_ref()
@@ -1379,4 +1412,6 @@ if __name__ == "__main__":
     test_ecuc_parameter_value_not_variation_point_capable()
     test_ecuc_parameter_value_member_docstrings_verbatim()
     test_ecuc_parameter_value_member_annotations()
+    test_ecuc_textual_param_value_member_annotations()
+    test_ecuc_textual_param_value_setter_docstring_split_paragraphs()
     print("All ECUCDescriptionTemplate tests passed!")

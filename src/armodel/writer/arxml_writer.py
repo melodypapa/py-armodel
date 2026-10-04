@@ -13570,7 +13570,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
         self.writeEcucParameterValue(child_element, param_value)
-        self.setChildElementOptionalLiteral(child_element, "VALUE", param_value.getValue())
+        self.setChildElementOptionalVerbatimString(child_element, "VALUE", param_value.getValue())
 
     def writeEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
         child_element = ET.SubElement(element, "ECUC-NUMERICAL-PARAM-VALUE")
