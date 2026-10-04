@@ -1462,7 +1462,118 @@ class DiagnosticTestIdentifier(ARObject):
 
 
 class DiagnosticTroubleCodeObd(ARObject):
-    pass
+    """This element is used to define OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"""
+
+    # DiagnosticTroubleCodeObd method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.159, p.175
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConsiderPtoStatus    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setConsiderPtoStatus    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcPropsRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setDtcPropsRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventReadinessGroup  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setEventReadinessGroup  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdDtcValue          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setObdDtcValue          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — DIAGNOSTIC-TROUBLE-CODE-OBD appears in the ARPackage
+    # ELEMENTS choice only (AUTOSAR_00052.xsd l.5250; no other parent aggregation in the XSD), whose loop
+    # requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row
+    # homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach
+    # it — the future consumer wires it (cf. DiagnosticMemoryDestinationUserDefined,
+    # DiagnosticFunctionIdentifierInhibit, commit 27e01b079).
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute describes the affection of the event by the Dem PTO handling.
+        #
+        # true: the event is affected by the Dem PTO handling.
+        #
+        # false: the event is not affected by the Dem PTO handling.
+        self.considerPtoStatus: Optional[Boolean] = None
+
+        # Defined properties associated with the DemDTC.
+        self.dtcPropsRef: Optional[RefType] = None
+
+        # This aggregation allows for the variant definition of the attribute eventObdReadinessGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventReadinessGroup.eventObdReadiness Group, eventReadinessGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.eventReadinessGroup: Optional[EventObdReadinessGroup] = None
+
+        # Unique Diagnostic Trouble Code value for OBD. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.obdDtcValue: Optional[PositiveInteger] = None
+
+    def getConsiderPtoStatus(self) -> Optional[Boolean]:
+        """
+        This attribute describes the affection of the event by the Dem PTO handling.
+
+        true: the event is affected by the Dem PTO handling.
+
+        false: the event is not affected by the Dem PTO handling.
+        """
+        return self.considerPtoStatus
+
+    def setConsiderPtoStatus(self, value: Optional[Boolean]) -> DiagnosticTroubleCodeObd:
+        """
+        This attribute describes the affection of the event by the Dem PTO handling.
+
+        true: the event is affected by the Dem PTO handling.
+
+        false: the event is not affected by the Dem PTO handling.
+
+        A None value is a no-op and does not overwrite an existing considerPtoStatus.
+        """
+        if value is not None:
+            self.considerPtoStatus = value
+        return self
+
+    def getDtcPropsRef(self) -> Optional[RefType]:
+        """
+        Defined properties associated with the DemDTC.
+        """
+        return self.dtcPropsRef
+
+    def setDtcPropsRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeObd:
+        """
+        Defined properties associated with the DemDTC.
+
+        A None value is a no-op and does not overwrite an existing dtcProps reference.
+        """
+        if value is not None:
+            self.dtcPropsRef = value
+        return self
+
+    def getEventReadinessGroup(self) -> Optional[EventObdReadinessGroup]:
+        """
+        This aggregation allows for the variant definition of the attribute eventObdReadinessGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventReadinessGroup.eventObdReadiness Group, eventReadinessGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.eventReadinessGroup
+
+    def setEventReadinessGroup(self, value: Optional[EventObdReadinessGroup]) -> DiagnosticTroubleCodeObd:
+        """
+        This aggregation allows for the variant definition of the attribute eventObdReadinessGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventReadinessGroup.eventObdReadiness Group, eventReadinessGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing eventReadinessGroup.
+        """
+        if value is not None:
+            self.eventReadinessGroup = value
+        return self
+
+    def getObdDtcValue(self) -> Optional[PositiveInteger]:
+        """
+        Unique Diagnostic Trouble Code value for OBD. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.obdDtcValue
+
+    def setObdDtcValue(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeObd:
+        """
+        Unique Diagnostic Trouble Code value for OBD. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing obdDtcValue.
+        """
+        if value is not None:
+            self.obdDtcValue = value
+        return self
 
 
 class DiagnosticTroubleCodeProps(ARObject):

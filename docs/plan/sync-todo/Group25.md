@@ -603,15 +603,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTroubleCodeObd` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.159, p.175
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A — see note)
+  - [x] Step 6 — Update parser & writer (Green) (N/A — see note)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; notes below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1326 passed / 0 failed: test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 1): Table 4.159 renders page-split in the markdown (header rows Class/Package/Note/Base/Aggregated-by + the considerPtoStatus/dtcProps attribute rows above the title at l.5316-5324, the eventReadinessGroup/obdDTCValue rows below at l.5336-5337): class Note "This element is used to define OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes" (matches the XSD group annotation verbatim). Attributes in displayed order: considerPtoStatus (Boolean, 0..1, attr → Optional[Boolean]; XSD CONSIDER-PTO-STATUS is BOOLEAN-VALUE-VARIATION-POINT — markdown Type column wins per Rule 0015, serialize through the VALUE-VARIATION-POINT wrapper at the future consumer pass), dtcProps (DiagnosticTroubleCodeProps, 0..1, XSD DTC-PROPS-REF → dtcPropsRef: Optional[RefType], J-1939 dtcPropsRef precedent), eventReadinessGroup (EventObdReadinessGroup, 0..1, aggr → Optional[EventObdReadinessGroup]; markdown 0..1 wins over the XSD unbounded wrapper per Rule 0015, iumprGroupIdentifier precedent — wrapper structure recorded for the consumer pass: optional EVENT-READINESS-GROUPS (l.46391) holding an unbounded EVENT-OBD-READINESS-GROUP choice of type AR:EVENT-OBD-READINESS-GROUP), obdDtcValue (PositiveInteger, 0..1, attr → Optional[PositiveInteger]; XSD OBD-DTC-VALUE is POSITIVE-INTEGER-VALUE-VARIATION-POINT).
+  - Note (Step 1): considerPtoStatus and dtcProps render 2-col (Attribute | Type) in the header block with no Note column; their Note text is taken verbatim from the XSD documentation (AUTOSAR_00052.xsd l.46364 / l.46374).
+  - Note (Step 1): XSD group DIAGNOSTIC-TROUBLE-CODE-OBD (AUTOSAR_00052.xsd l.46355) also carries EVENT-OBD-READINESS-GROUP (NAME-TOKEN-VALUE-VARIATION-POINT, l.46385) and OBD-DTC-VALUE-3-BYTE (l.46410), both atp.Status="removed" and absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). The header block's Base listing (ARElement … Referrable) is the transitive chain; per the confirmed queue row the class stays ARObject-family and derives directly from ARObject — the abstract base DiagnosticTroubleCode is ARElement-homed in ARPackage.py, unreachable from ArObject.py (DiagnosticMemoryDestinationUserDefined precedent).
+  - Note (Steps 5/6): N/A this pass — DIAGNOSTIC-TROUBLE-CODE-OBD appears in the ARPackage ELEMENTS choice only (AUTOSAR_00052.xsd l.5250; no other parent aggregation in the XSD), whose loop requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach it — the future consumer wires it (cf. DiagnosticFunctionIdentifierInhibit, Table 4.215).
+  - note (pending reference, not a deviation): DiagnosticTroubleCodeProps (Table 4.175) and EventObdReadinessGroup (Table 4.160) are queued later in this file and still empty stubs — dtcPropsRef/eventReadinessGroup are typed fields over the stubs (same module, ArObject.py); no reader/writer impact this pass (Steps 5/6 N/A).
 
 - [ ] `EventObdReadinessGroup` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.160, p.176
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

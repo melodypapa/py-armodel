@@ -26,6 +26,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    DiagnosticTroubleCodeObd,
+    DiagnosticTroubleCodeProps,
+    EventObdReadinessGroup,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -1862,3 +1865,155 @@ class TestDiagnosticTestIdentifier:
         assert inspect.cleandoc(DiagnosticTestIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
         assert inspect.cleandoc(DiagnosticTestIdentifier.getUasId.__doc__) == self.UAS_ID_NOTE
         assert inspect.cleandoc(DiagnosticTestIdentifier.setUasId.__doc__) == (self.UAS_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing uasId.")
+
+
+class TestDiagnosticTroubleCodeObd:
+    """
+    Test class for DiagnosticTroubleCodeObd functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.159, p.175
+    """
+
+    CLASS_NOTE = "This element is used to define OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"
+    CONSIDER_PTO_STATUS_NOTE = (
+        "This attribute describes the affection of the event by the Dem PTO handling.\n\n"
+        "true: the event is affected by the Dem PTO handling.\n\n"
+        "false: the event is not affected by the Dem PTO handling."
+    )
+    DTC_PROPS_REF_NOTE = "Defined properties associated with the DemDTC."
+    EVENT_READINESS_GROUP_NOTE = "This aggregation allows for the variant definition of the attribute eventObdReadinessGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventReadinessGroup.eventObdReadiness Group, eventReadinessGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    OBD_DTC_VALUE_NOTE = "Unique Diagnostic Trouble Code value for OBD. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _create_trouble_code(self) -> DiagnosticTroubleCodeObd:
+        return DiagnosticTroubleCodeObd()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTroubleCodeObd initializes all attributes to their defaults.
+        """
+        obj = self._create_trouble_code()
+
+        assert obj.getConsiderPtoStatus() is None
+        assert obj.getDtcPropsRef() is None
+        assert obj.getEventReadinessGroup() is None
+        assert obj.getObdDtcValue() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTroubleCodeObd derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTroubleCodeObd, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeObd.__init__.__doc__ is None
+
+    def test_get_set_consider_pto_status(self):
+        """
+        Test getConsiderPtoStatus and setConsiderPtoStatus round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = Boolean().setValue(True)
+        result = obj.setConsiderPtoStatus(value)
+        assert result is obj  # method chaining
+        assert obj.getConsiderPtoStatus() is value
+        assert obj.getConsiderPtoStatus().getValue() is True
+
+        result = obj.setConsiderPtoStatus(None)
+        assert result is obj  # method chaining with None
+        assert obj.getConsiderPtoStatus() is value  # None is a no-op
+
+    def test_get_set_dtc_props_ref(self):
+        """
+        Test getDtcPropsRef and setDtcPropsRef round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-TROUBLE-CODE-PROPS")
+        ref.setValue("/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1")
+        result = obj.setDtcPropsRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDtcPropsRef() is ref
+        assert obj.getDtcPropsRef().getValue() == "/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1"
+        assert obj.getDtcPropsRef().getDest() == "DIAGNOSTIC-TROUBLE-CODE-PROPS"
+
+        result = obj.setDtcPropsRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcPropsRef() is ref  # None is a no-op
+
+    def test_get_set_event_readiness_group(self):
+        """
+        Test getEventReadinessGroup and setEventReadinessGroup round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = EventObdReadinessGroup()
+        result = obj.setEventReadinessGroup(value)
+        assert result is obj  # method chaining
+        assert obj.getEventReadinessGroup() is value
+
+        result = obj.setEventReadinessGroup(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventReadinessGroup() is value  # None is a no-op
+
+    def test_get_set_obd_dtc_value(self):
+        """
+        Test getObdDtcValue and setObdDtcValue round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(30511)
+        result = obj.setObdDtcValue(value)
+        assert result is obj  # method chaining
+        assert obj.getObdDtcValue() is value
+        assert obj.getObdDtcValue().getValue() == 30511
+
+        result = obj.setObdDtcValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getObdDtcValue() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getConsiderPtoStatus.__doc__) == self.CONSIDER_PTO_STATUS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setConsiderPtoStatus.__doc__) == (
+            self.CONSIDER_PTO_STATUS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing considerPtoStatus."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getDtcPropsRef.__doc__) == self.DTC_PROPS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setDtcPropsRef.__doc__) == (self.DTC_PROPS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcProps reference.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getEventReadinessGroup.__doc__) == self.EVENT_READINESS_GROUP_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setEventReadinessGroup.__doc__) == (
+            self.EVENT_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventReadinessGroup."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getObdDtcValue.__doc__) == self.OBD_DTC_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setObdDtcValue.__doc__) == (self.OBD_DTC_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing obdDtcValue.")
+
+
+class TestDiagnosticTroubleCodeObdPendingReferences:
+    """
+    Test class for the still-stub reference targets of DiagnosticTroubleCodeObd.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.159, p.175
+
+    DiagnosticTroubleCodeProps (Table 4.175) and EventObdReadinessGroup (Table 4.160)
+    are queued later in Group25 and still empty stubs; the typed fields reference them
+    directly (same module, ArObject.py).
+    """
+
+    def test_reference_targets_are_stub_classes(self):
+        """
+        Test that the referenced types exist and are ARObject-family stubs.
+        """
+        assert issubclass(DiagnosticTroubleCodeProps, ARObject)
+        assert issubclass(EventObdReadinessGroup, ARObject)
