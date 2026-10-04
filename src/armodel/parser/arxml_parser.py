@@ -10079,9 +10079,11 @@ class ARXMLParser(AbstractARXMLParser):
         return port
 
     def readUdpTp(self, element: ET.Element, tp: UdpTp):
+        self.readARObject(element, tp)
         tp.setUdpTpPort(self.getTpPort(element, "UDP-TP-PORT"))
 
     def readTcpTp(self, element: ET.Element, tp: TcpTp):
+        self.readARObject(element, tp)
         tp.setKeepAliveInterval(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-INTERVAL"))
         tp.setKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX"))
         tp.setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME"))

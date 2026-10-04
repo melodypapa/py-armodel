@@ -31,8 +31,8 @@ def warning_parser():
     return ARXMLParser(options={"warning": True})
 
 
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
+def _snip(inner: str, root_tag: str = "ROOT", attrs: str = "") -> ET.Element:
+    return ET.fromstring(f"<{root_tag} xmlns='{NS}'{attrs}>{inner}</{root_tag}>")
 
 
 def _autosar_root():
@@ -1287,11 +1287,14 @@ class TestTransportProtocolHandlers:
         element = _snip(
             "<UDP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</UDP-TP-PORT>",
             root_tag="UDP-TP",
+            attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
         parser.readUdpTp(element, tp)
         assert tp.getUdpTpPort() is not None
         assert tp.getUdpTpPort().getPortNumber() is not None
         assert tp.getUdpTpPort().getPortNumber().getValue() == 5000
+        assert tp.getChecksum().getValue() == "1234"
+        assert tp.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readTcpTp_sets_tcpTpPort(self, parser):
         from armodel.models import TcpTp

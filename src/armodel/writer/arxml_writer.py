@@ -10299,10 +10299,12 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeUdpTp(self, element: ET.Element, tp: UdpTp):
         child_element = ET.SubElement(element, "UDP-TP")
+        self.writeARObject(child_element, tp)
         self.setTpPort(child_element, "UDP-TP-PORT", tp.getUdpTpPort())
 
     def writeTcpTp(self, element: ET.Element, tp: TcpTp):
         child_element = ET.SubElement(element, "TCP-TP")
+        self.writeARObject(child_element, tp)
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-INTERVAL", tp.getKeepAliveInterval())
         self.setChildElementOptionalPositiveInteger(child_element, "KEEP-ALIVE-PROBES-MAX", tp.getKeepAliveProbesMax())
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
