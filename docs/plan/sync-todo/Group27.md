@@ -89,39 +89,42 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucTextualParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.50, p.127
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (67 passed model+gate+round-trip; ecuc+VP subset 592; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `b4a24a5d8`
+  - note (Step 1): concrete Class, Base EcucParameterValue; single attr value (VerbatimString 0..1, XSD l.53629); writer fixed from generic literal helper to spec-typed setChildElementOptionalVerbatimString pair (Rule 0013.2); Rule 0023 stale stamp removed; no deviations; no stamp (batch 9b)
 
 - [ ] `EcucNumericalParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.51, p.128
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (73 passed model+gate+round-trips; ecuc+VP subset 596; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `c2eb1c04d`
+  - note (Step 1): concrete Class, Base EcucParameterValue; single attr value (Numerical 0..1; XSD VALUE type NUMERICAL-VALUE-VARIATION-POINT is the atpVariation artifact — PDF Numerical kept per Rule 0015); reader/writer pair already spec-typed (verified, no change); Rule 0023 stale stamp removed; no deviations; no stamp (batch 9b)
 
 - [ ] `EcucAddInfoParamValue` — EcucParameterValue — R23-11 CP_TPS_ECUConfiguration Table 2.52, p.129
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (77 passed model+gate+round-trips; ecuc+VP subset 598; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `0c30fe6b6`
+  - note (Step 1): concrete Class, Base EcucParameterValue; single attr value (DocumentationBlock 0..1 aggr, XSD l.51185); aggr kind but non-Referrable child → set/get shape per Rule 0001.6; getDocumentationBlock/writeDocumentationBlock repo-wide convention verified; Rule 0023 stale stamp removed; no deviations; no stamp (batch 9b)
 
 - [ ] `EcucAbstractReferenceValue` — EcucIndexableValue — R23-11 CP_TPS_ECUConfiguration Table 2.53, p.131
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
