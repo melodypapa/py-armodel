@@ -1247,15 +1247,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticFunctionIdentifierInhibit` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.215, p.216
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no wireable consumer this pass (see note bullet below)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason as Step 5
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (1 accepted (Base), recorded as note bullet below; nothing blocking)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1281 passed / 0 failed: test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - note (deviation, accepted): Base — spec Base chain lists ARElement, ARObject, CollectableElement, DiagnosticCommonElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable (XSD complexType DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT, AUTOSAR_00052.xsd l.37954, includes the REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE groups, so elements carry SHORT-NAME), but the class is modeled as a plain ARObject container per the confirmed queue row (module: ArObject.py; pinned by test_group21_36_stub_classes.py). An Identifiable/ARElement base is structurally unreachable from ArObject.py (Identifiable.py imports ArObject.py at module top) — same constraint as DiagnosticConnectedIndicator (b2e6b6341). Same-spec-closure sibling DiagnosticFunctionIdentifier (Table 4.214) is ARElement-based in ARPackage.py. Consequence: when the AR-PACKAGE ELEMENTS wiring lands, the SHORT-NAME/UUID of DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT elements is not carried by this model — revisit Base on the consumer pass.
+  - note (Steps 5/6 N/A, no wireable consumer this pass): the XSD aggregates DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT only via ARPackage.element (AUTOSAR_00052.xsd l.5124, AR-PACKAGE/ELEMENTS choice) — no nested-sequence parent carries it, so the b2e6b6341 DiagnosticConnectedIndicator→DiagnosticEvent pattern does not apply; the AR-PACKAGE ELEMENTS reader/writer loop requires a Referrable child (createXxx(short_name) + readIdentifiable/writeIdentifiable, cf. the DiagnosticFunctionIdentifier dispatch), which the queue-confirmed ARObject base cannot satisfy. Reader/writer coverage lands with the future consumer pass (e.g. if Base is revisited to ARElement/Identifiable in ARPackage.py); the checklist keeps reader/writer [—] accordingly.
+  - note (pending reference, not a deviation): inhibitSources is typed to DiagnosticFunctionInhibitSource (Table 4.216, queued next in this file), still an empty stub in Identifiable.py — the typed List field + addInhibitSource accessor are in place; with Steps 5/6 N/A above no interim raw-literal round-trip is needed. All other referenced classes are fully synced: DiagnosticFunctionIdentifier (Table 4.214), DiagnosticInhibitionMaskEnum (Table 4.217), RefType/ARObject bases.
 
 - [ ] `DiagnosticFunctionInhibitSource` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.216, p.216
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

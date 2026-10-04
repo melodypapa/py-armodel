@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         String,
     )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource
 
 
 class ARObject(ABC):
@@ -829,7 +829,82 @@ class DiagnosticFimFunctionMapping(ARObject):
 
 
 class DiagnosticFunctionIdentifierInhibit(ARObject):
-    pass
+    """This meta-class represents the ability to define the inhibition of a specific function identifier within the Fim configuration. Tags: atp.recommendedPackage=DiagnosticFunctionIdentifierInhibits"""
+
+    # DiagnosticFunctionIdentifierInhibit method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.215, p.216
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionIdentifierRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setFunctionIdentifierRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInhibitionMask         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setInhibitionMask         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addInhibitSource          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInhibitSources         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — the XSD carries DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT only
+    # via ARPackage.element (AUTOSAR_00052.xsd l.5124), whose ELEMENTS loop requires a Referrable child; the
+    # future consumer wires it (cf. DiagnosticConnectedIndicator Base note, commit b2e6b6341).
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the corresponding function identifier.
+        self.functionIdentifierRef: Optional[RefType] = None
+
+        # This represents the value of the inhibition mask behavior.
+        self.inhibitionMask: Optional[DiagnosticInhibitionMaskEnum] = None
+
+        # This represents a collection of DiagnosticFunctionInhibitSource that contribute to the configuration of the enclosing DiagnosticFunctionIdentiferInhibit.
+        self.inhibitSources: List[DiagnosticFunctionInhibitSource] = []
+
+    def getFunctionIdentifierRef(self) -> Optional[RefType]:
+        """
+        This represents the corresponding function identifier.
+        """
+        return self.functionIdentifierRef
+
+    def setFunctionIdentifierRef(self, value: Optional[RefType]) -> DiagnosticFunctionIdentifierInhibit:
+        """
+        This represents the corresponding function identifier.
+
+        A None value is a no-op and does not overwrite an existing functionIdentifierRef.
+        """
+        if value is not None:
+            self.functionIdentifierRef = value
+        return self
+
+    def getInhibitionMask(self) -> Optional[DiagnosticInhibitionMaskEnum]:
+        """
+        This represents the value of the inhibition mask behavior.
+        """
+        return self.inhibitionMask
+
+    def setInhibitionMask(self, value: Optional[DiagnosticInhibitionMaskEnum]) -> DiagnosticFunctionIdentifierInhibit:
+        """
+        This represents the value of the inhibition mask behavior.
+
+        A None value is a no-op and does not overwrite an existing inhibitionMask.
+        """
+        if value is not None:
+            self.inhibitionMask = value
+        return self
+
+    def addInhibitSource(self, value: Optional[DiagnosticFunctionInhibitSource]) -> DiagnosticFunctionIdentifierInhibit:
+        """
+        This represents a collection of DiagnosticFunctionInhibitSource that contribute to the configuration of the enclosing DiagnosticFunctionIdentiferInhibit.
+
+        A None value is a no-op and does not append an inhibitSource.
+        """
+        if value is not None:
+            self.inhibitSources.append(value)
+        return self
+
+    def getInhibitSources(self) -> List[DiagnosticFunctionInhibitSource]:
+        """
+        This represents a collection of DiagnosticFunctionInhibitSource that contribute to the configuration of the enclosing DiagnosticFunctionIdentiferInhibit.
+        """
+        return self.inhibitSources
 
 
 class DiagnosticIumprGroupIdentifier(ARObject):
@@ -1585,6 +1660,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventWindowTimeEnum,
+    DiagnosticInhibitionMaskEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     Identifier,

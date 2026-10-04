@@ -17,12 +17,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticFunctionIdentifierInhibit,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticParameterElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     ByteOrderEnum,
@@ -31,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventWindowTimeEnum,
+    DiagnosticInhibitionMaskEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     PositiveInteger,
@@ -1203,3 +1205,112 @@ class TestDiagnosticConnectedIndicator:
         assert inspect.cleandoc(DiagnosticConnectedIndicator.setIndicatorFailureCycleCounterThreshold.__doc__) == (
             self.INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing indicatorFailureCycleCounterThreshold."
         )
+
+
+class TestDiagnosticFunctionIdentifierInhibit:
+    """
+    Test class for DiagnosticFunctionIdentifierInhibit functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.215, p.216
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define the inhibition of a specific function identifier within the Fim configuration. Tags: atp.recommendedPackage=DiagnosticFunctionIdentifierInhibits"
+    FUNCTION_IDENTIFIER_NOTE = "This represents the corresponding function identifier."
+    INHIBITION_MASK_NOTE = "This represents the value of the inhibition mask behavior."
+    INHIBIT_SOURCE_NOTE = "This represents a collection of DiagnosticFunctionInhibitSource that contribute to the configuration of the enclosing DiagnosticFunctionIdentiferInhibit."
+
+    def _create_inhibit(self) -> DiagnosticFunctionIdentifierInhibit:
+        return DiagnosticFunctionIdentifierInhibit()
+
+    def _create_inhibit_source(self) -> DiagnosticFunctionInhibitSource:
+        return DiagnosticFunctionInhibitSource(AUTOSAR.getInstance(), "InhibitSource")
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticFunctionIdentifierInhibit initializes all attributes to their defaults.
+        """
+        obj = self._create_inhibit()
+
+        assert obj.getFunctionIdentifierRef() is None
+        assert obj.getInhibitionMask() is None
+        assert obj.getInhibitSources() == []
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticFunctionIdentifierInhibit derives from ARObject (confirmed queue row Base; the spec Base chain's Referrable/Identifiable is unreachable from ArObject.py).
+        """
+        assert issubclass(DiagnosticFunctionIdentifierInhibit, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFunctionIdentifierInhibit.__init__.__doc__ is None
+
+    def test_get_set_function_identifier_ref(self):
+        """
+        Test getFunctionIdentifierRef and setFunctionIdentifierRef round-trip and None no-op.
+        """
+        obj = self._create_inhibit()
+
+        value = RefType().setValue("/Fim/DiagnosticFunctionIdentifiers/FID1")
+        result = obj.setFunctionIdentifierRef(value)
+        assert result is obj  # method chaining
+        assert obj.getFunctionIdentifierRef() is value
+        assert obj.getFunctionIdentifierRef().getValue() == "/Fim/DiagnosticFunctionIdentifiers/FID1"
+
+        result = obj.setFunctionIdentifierRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFunctionIdentifierRef() is value  # None is a no-op
+
+    def test_get_set_inhibition_mask(self):
+        """
+        Test getInhibitionMask and setInhibitionMask round-trip and None no-op.
+        """
+        obj = self._create_inhibit()
+
+        value = DiagnosticInhibitionMaskEnum().setValue(DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED)
+        result = obj.setInhibitionMask(value)
+        assert result is obj  # method chaining
+        assert obj.getInhibitionMask() is value
+        assert obj.getInhibitionMask().getValue() == "testedAndFailed"
+
+        result = obj.setInhibitionMask(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInhibitionMask() is value  # None is a no-op
+
+    def test_add_inhibit_source(self):
+        """
+        Test addInhibitSource appends to the collection and None is a no-op.
+        """
+        obj = self._create_inhibit()
+
+        source = self._create_inhibit_source()
+        result = obj.addInhibitSource(source)
+        assert result is obj  # method chaining
+        assert obj.getInhibitSources() == [source]
+
+        result = obj.addInhibitSource(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInhibitSources() == [source]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.getFunctionIdentifierRef.__doc__) == self.FUNCTION_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.setFunctionIdentifierRef.__doc__) == (
+            self.FUNCTION_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing functionIdentifierRef."
+        )
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.getInhibitionMask.__doc__) == self.INHIBITION_MASK_NOTE
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.setInhibitionMask.__doc__) == (
+            self.INHIBITION_MASK_NOTE + "\n\nA None value is a no-op and does not overwrite an existing inhibitionMask."
+        )
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.addInhibitSource.__doc__) == (self.INHIBIT_SOURCE_NOTE + "\n\nA None value is a no-op and does not append an inhibitSource.")
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.getInhibitSources.__doc__) == self.INHIBIT_SOURCE_NOTE
