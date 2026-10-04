@@ -1491,6 +1491,13 @@ DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP = {
     "slowFlashingMode": "SLOW-FLASHING-MODE",
 }
 
+#: Mapping between DiagnosticEventClearAllowedEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-CLEAR-ALLOWED-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP = {
+    "always": "ALWAYS",
+    "requiresCallbackExecution": "REQUIRES-CALLBACK-EXECUTION",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -14203,7 +14210,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             indicators_element = ET.SubElement(child_element, "CONNECTED-INDICATORS")
             for indicator in indicators:
                 self.writeDiagnosticConnectedIndicator(indicators_element, indicator)
-        self.setChildElementOptionalLiteral(child_element, "EVENT-CLEAR-ALLOWED", cast(ARLiteral, event.getEventClearAllowed()))
+        self._writeEnumToken(child_element, "EVENT-CLEAR-ALLOWED", event.getEventClearAllowed(), DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP)
         self.setChildElementOptionalLiteral(child_element, "EVENT-KIND", cast(ARLiteral, event.getEventKind()))
         self.setChildElementOptionalBooleanValue(child_element, "PRESTORAGE-FREEZE-FRAME", event.getPrestorageFreezeFrame())
         self.setChildElementOptionalBooleanValue(child_element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM", event.getPrestoredFreezeframeStoredInNvm())

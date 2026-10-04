@@ -1893,7 +1893,29 @@ class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
 
 
 class DiagnosticEventClearAllowedEnum(AREnum):
-    pass
+    """
+    Denotes whether clearing of events is allowed.
+    """
+
+    # DiagnosticEventClearAllowedEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.153, p.167
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The clearing is allowed unconditionally. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # In case the clearing of a Diagnostic Event has to be allowed or prohibited through the SWC interface CallbackClearEventAllowed, the SWC has to indicate this by defining appropriate ServiceNeeds (i.e. DiagnosticEventNeeds). Tags: atp.EnumerationLiteralIndex=2
+    REQUIRES_CALLBACK_EXECUTION = "requiresCallbackExecution"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventClearAllowedEnum.ALWAYS,
+                DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION,
+            ]
+        )
 
 
 class DiagnosticEventCombinationBehaviorEnum(AREnum):

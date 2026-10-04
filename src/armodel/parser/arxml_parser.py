@@ -1654,6 +1654,13 @@ DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP = {
     "reset": "RESET",
 }
 
+#: Mapping between DiagnosticEventClearAllowedEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-CLEAR-ALLOWED-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP = {
+    "always": "ALWAYS",
+    "requiresCallbackExecution": "REQUIRES-CALLBACK-EXECUTION",
+}
+
 
 class ARXMLParser(AbstractARXMLParser):
     """
@@ -10708,8 +10715,7 @@ class ARXMLParser(AbstractARXMLParser):
             indicator = DiagnosticConnectedIndicator()
             self.readDiagnosticConnectedIndicator(indicator_element, indicator)
             event.addConnectedIndicator(indicator)
-        # EVENT-CLEAR-ALLOWED is round-tripped as a raw literal until DiagnosticEventClearAllowedEnum (Table 4.153, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        event.setEventClearAllowed(cast(Optional[DiagnosticEventClearAllowedEnum], self.getChildElementOptionalLiteral(element, "EVENT-CLEAR-ALLOWED")))
+        event.setEventClearAllowed(self._readEnumToken(element, "EVENT-CLEAR-ALLOWED", DiagnosticEventClearAllowedEnum, DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP))
         # EVENT-KIND is round-tripped as a raw literal until DiagnosticEventKindEnum (Table 4.154, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
         event.setEventKind(cast(Optional[DiagnosticEventKindEnum], self.getChildElementOptionalLiteral(element, "EVENT-KIND")))
         event.setPrestorageFreezeFrame(self.getChildElementOptionalBooleanValue(element, "PRESTORAGE-FREEZE-FRAME"))

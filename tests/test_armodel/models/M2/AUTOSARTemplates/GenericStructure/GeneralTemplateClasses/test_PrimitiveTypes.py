@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticDebounceBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
+    DiagnosticEventClearAllowedEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventWindowTimeEnum,
@@ -2416,3 +2417,46 @@ class TestDiagnosticDebounceBehaviorEnum:
         enum.setValue(DiagnosticDebounceBehaviorEnum.RESET)
 
         assert enum.getValue() == "reset"
+
+
+class TestDiagnosticEventClearAllowedEnum:
+    """
+    Test class for DiagnosticEventClearAllowedEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.153, p.167
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventClearAllowedEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventClearAllowedEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "always",
+            "requiresCallbackExecution",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventClearAllowedEnum member values.
+        """
+        enum = DiagnosticEventClearAllowedEnum()
+
+        assert DiagnosticEventClearAllowedEnum.ALWAYS == "always"
+        assert DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION == "requiresCallbackExecution"
+
+        assert enum.validateEnumValue("always") is True
+        assert enum.validateEnumValue("requiresCallbackExecution") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventClearAllowedEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventClearAllowedEnum()
+        enum.setValue(DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION)
+
+        assert enum.getValue() == "requiresCallbackExecution"

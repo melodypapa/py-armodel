@@ -10,9 +10,9 @@ EVENT-CLEAR-ALLOWED → EVENT-KIND → PRESTORAGE-FREEZE-FRAME →
 PRESTORED-FREEZEFRAME-STORED-IN-NVM → RECOVERABLE-IN-SAME-OPERATION-CYCLE.
 The dispatch entry is writeARPackageElement → writeDiagnosticEvent.
 
-EVENT-CLEAR-ALLOWED and EVENT-KIND round-trip as raw literals until
-DiagnosticEventClearAllowedEnum (Table 4.153) / DiagnosticEventKindEnum
-(Table 4.154) gain their literals (both queued in Group25).
+EVENT-CLEAR-ALLOWED round-trips as the typed DiagnosticEventClearAllowedEnum
+(Table 4.153) literal; EVENT-KIND still round-trips as a raw literal until
+DiagnosticEventKindEnum (Table 4.154) gains its literals (queued in Group25).
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_event.py
 """
@@ -63,7 +63,7 @@ class TestWriteDiagnosticEvent:
         indicator = DiagnosticConnectedIndicator()
         indicator.setIndicatorRef(RefType().setValue("/DiagnosticExtract/Indicator1"))
         event.addConnectedIndicator(indicator)
-        event.setEventClearAllowed(DiagnosticEventClearAllowedEnum([]).setValue("ALWAYS"))
+        event.setEventClearAllowed(DiagnosticEventClearAllowedEnum().setValue(DiagnosticEventClearAllowedEnum.ALWAYS))
         event.setEventKind(DiagnosticEventKindEnum([]).setValue("BSW"))
         event.setPrestorageFreezeFrame(Boolean().setValue(True))
         event.setPrestoredFreezeframeStoredInNvm(Boolean().setValue(False))
@@ -151,7 +151,9 @@ class TestWriteDiagnosticEvent:
             indicators = event_2.getConnectedIndicators()
             assert len(indicators) == 1
             assert indicators[0].getIndicatorRef().getValue() == "/DiagnosticExtract/Indicator1"
-            assert event_2.getEventClearAllowed().getValue() == "ALWAYS"
+            assert event_2.getEventClearAllowed() is not None
+            assert isinstance(event_2.getEventClearAllowed(), DiagnosticEventClearAllowedEnum)
+            assert event_2.getEventClearAllowed().getValue() == "always"
             assert event_2.getEventKind().getValue() == "BSW"
             assert event_2.getPrestorageFreezeFrame().value is True
             assert event_2.getPrestoredFreezeframeStoredInNvm().value is False

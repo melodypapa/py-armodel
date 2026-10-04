@@ -9737,9 +9737,9 @@ class TestDiagnosticEvent:
     DiagnosticEvent is concrete (XSD complexType DIAGNOSTIC-EVENT abstract="false")
     with nine own Attribute rows in displayed order. The markdown table carries no
     class-level Note row — the class docstring is the XSD complexType documentation
-    verbatim. DiagnosticEventClearAllowedEnum (Table 4.153) and DiagnosticEventKindEnum
-    (Table 4.154) are literal-less stubs queued in Group25 — they are instantiated
-    through the AREnum constructor with an empty literal sequence.
+    verbatim. DiagnosticEventKindEnum (Table 4.154) is a literal-less stub queued in
+    Group25 — it is instantiated through the AREnum constructor with an empty literal
+    sequence.
     """
 
     CLASS_NOTE = "This element is used to configure DiagnosticEvents."
@@ -9863,14 +9863,10 @@ class TestDiagnosticEvent:
     def test_get_set_event_clear_allowed(self):
         """
         Round-trips eventClearAllowed; None is a no-op.
-
-        DiagnosticEventClearAllowedEnum is a stub until its own sync
-        (Table 4.153, queued in Group25) — it is instantiated through the
-        AREnum constructor with an empty literal sequence.
         """
         obj = self._make_obj()
 
-        value = DiagnosticEventClearAllowedEnum([]).setValue("always")
+        value = DiagnosticEventClearAllowedEnum().setValue(DiagnosticEventClearAllowedEnum.ALWAYS)
         result = obj.setEventClearAllowed(value)
         assert result is obj  # method chaining
         assert obj.getEventClearAllowed() is value
