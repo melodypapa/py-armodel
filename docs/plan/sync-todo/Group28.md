@@ -307,11 +307,11 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     content-identical. Pre-existing CATEGORY_* class constants kept (consumed by
     AutosarTopLevelStructure.getDataType) — recorded as added convenience constants.
   - [x] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red) — 11 failed / 8 passed: genuine Red on the class
+  - [x] Step 2 — Write model class unit test (Red) — 11 failed / 8 passed: genuine Red on the class
     docstring pin + 10 accessor docstring-verbatim pins (stale reflowed/paraphrased docstrings,
     Args/Returns blocks, wrong None-no-op wording); behavioral tests passed (impl already conforms —
     vacuous behavioral Red portion, noted)
-  - [ ] Step 3 — Implement model class (Green) — no behavioral model changes needed (field-to-spec
+  - [x] Step 3 — Implement model class (Green) — no behavioral model changes needed (field-to-spec
     cross-check both directions clean: 5 own attrs all Optional[T]/List[T] 0..1/0..* → PEP 526
     members, guarded self-returning setters, create+get shape for the two Referrable children
     subElement/symbolProps, most-derived base AbstractImplementationDataType; behavioral subset
@@ -324,7 +324,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     keeps the spec's "ImplementionDataTypeElement"/"Implementation DataType" spellings; guarded
     setters carry the None-no-op sentence naming the attribute); stale `# Spec verified: R23-11`
     removed per Rule 0023 (session start); 48 passed test_ImplementationDataTypes.py
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
     test_ImplementationDataType.py (2 reader tests: field values incl. one-level-down sub-elements
     arraySize/arraySizeSemantics/isOptional + symbolProps + empty-wrapper no-element case) and
     tests/test_armodel/writer/test_writer_ImplementationDataType.py (XSD-order + unset-omits + 2
@@ -332,7 +332,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     1 failed / 5 passed — the failure is the genuine Red `SUB-ELEMENTS < SYMBOL-PROPS` order
     assertion (writer emits SYMBOL-PROPS before SUB-ELEMENTS); reader tests passed (vacuous Red,
     find-based read is order-independent)
-  - [ ] Step 6 — Update parser & writer (Green) — writer only: writeImplementationDataType reordered
+  - [x] Step 6 — Update parser & writer (Green) — writer only: writeImplementationDataType reordered
     to the XSD group order (DYNAMIC-ARRAY-SIZE-PROFILE, IS-STRUCT-WITH-OPTIONAL-ELEMENT,
     SUB-ELEMENTS, SYMBOL-PROPS, TYPE-EMITTER — SUB-ELEMENTS moved before SYMBOL-PROPS); parser
     unchanged (readImplementationDataType/readImplementationDataTypeSubElements/
