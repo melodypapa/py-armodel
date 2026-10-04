@@ -779,7 +779,7 @@ class TestEthernetClusterHandlers:
             "</NETWORK-ENDPOINT>"
             "</NETWORK-ENDPOINTS>"
             "<SO-AD-CONFIG/>"
-            "<VLAN>"
+            '<VLAN S="1234" T="2024-01-01T00:00:00Z">'
             "<SHORT-NAME>vlan1</SHORT-NAME>"
             "<VLAN-IDENTIFIER>100</VLAN-IDENTIFIER>"
             "</VLAN>",
@@ -793,6 +793,8 @@ class TestEthernetClusterHandlers:
         assert isinstance(channel.getSoAdConfig(), SoAdConfig)
         assert channel.getVlan().getShortName() == "vlan1"
         assert channel.getVlan().getVlanIdentifier().getValue() == 100
+        assert channel.getVlan().getChecksum().getValue() == "1234"
+        assert channel.getVlan().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readCommunicationClusterPhysicalChannels_ethernet_dispatch_reads_content(self, parser):
         from armodel.models import EthernetCluster

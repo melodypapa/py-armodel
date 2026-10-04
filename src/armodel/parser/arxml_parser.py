@@ -10442,6 +10442,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "VLAN")
         if child_element is not None:
             vlan = channel.createVlanConfig(self.getShortName(child_element))
+            self.readIdentifiable(child_element, vlan)
             vlan.setVlanIdentifier(self.getChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER"))
 
     def readEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):

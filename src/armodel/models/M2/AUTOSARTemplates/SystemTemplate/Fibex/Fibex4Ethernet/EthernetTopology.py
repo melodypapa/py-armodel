@@ -3940,15 +3940,16 @@ class VlanConfig(Identifiable):
     """
 
     # VlanConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.50, p.106 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.50, p.106
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVlanIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getVlanIdentifier              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setVlanIdentifier              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # A VLAN is identified by this attribute according to IEEE 802.1Q. The allowed values range is from 0..4095.
         self.vlanIdentifier: Optional[PositiveInteger] = None
 
