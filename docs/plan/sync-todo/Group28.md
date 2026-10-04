@@ -87,15 +87,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ConsistencyNeeds` — AtpBlueprint — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.99, p.222
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Base FIXED AtpBlueprintable -> AtpBlueprint
+    (Rule 0001.2; XSD complexType L22071 refs ATP-BLUEPRINT group before ATP-BLUEPRINTABLE; AtpBlueprint
+    already stamped R23-11 — no base sync needed). 4 attrs, all `*` aggr, singular spec names -> plural
+    fields (Rule 0001.4). XSD group L22004 anchors VARIATION-POINT (sequenceOffset 10000, last) ->
+    VP-capable kept; writer fix needed (write_variation_point=False + writeVariationPointCapable after
+    wrappers, EndToEndProtection precedent); reader VP already covered inside readIdentifiable.
+    Inherited placeholder: AtpBlueprint.blueprintPolicys reader/writer rows [ ] (accepted 2026-09-26
+    deviation on the base; concrete BlueprintPolicy subtypes unsynced) — BLUEPRINT-POLICYS not
+    round-tripped.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (10 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/test_ConsistencyNeeds.py, 3 passed / 0 failed tests/test_armodel/parser/test_ConsistencyNeeds.py, 5 passed / 0 failed tests/test_armodel/writer/test_writer_consistency_needs.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 3033 passed SWComponentTemplate + CommonStructure model dirs + ImplicitCommunicationBehavior dir + test_writer_sw_component + Components test___init__; black/ruff clean, checklist==methods verified, docstrings verbatim-diffed vs markdown Notes, mypy 1 pre-existing error only (writer L7524, prior EndToEndProtection commit)); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RunnableEntityGroup` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.100, p.223
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py

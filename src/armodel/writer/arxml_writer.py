@@ -4917,11 +4917,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeConsistencyNeeds(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
         self.logger.debug("writeConsistencyNeeds %s" % consistency_needs.getShortName())
         child_element = ET.SubElement(element, "CONSISTENCY-NEEDS")
-        self.writeIdentifiable(child_element, consistency_needs)
+        self.writeIdentifiable(child_element, consistency_needs, write_variation_point=False)
         self.writeConsistencyNeedsDpgDoesNotRequireCoherencys(child_element, consistency_needs)
         self.writeConsistencyNeedsDpgRequiresCoherencys(child_element, consistency_needs)
         self.writeConsistencyNeedsRegDoesNotRequireStabilitys(child_element, consistency_needs)
         self.writeConsistencyNeedsRegRequiresStabilitys(child_element, consistency_needs)
+        self.writeVariationPointCapable(child_element, consistency_needs)
 
     def setPModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, key: str, instance_ref: Optional[PModeGroupInAtomicSwcInstanceRef]):
         if instance_ref is not None:

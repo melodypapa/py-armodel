@@ -2,9 +2,11 @@
 
 import os
 import tempfile
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
     ConsistencyNeeds,
     DataPrototypeGroup,
@@ -131,6 +133,67 @@ class TestWriteConsistencyNeeds:
             assert consistency_needs_2.getDpgRequiresCoherencys() == []
             assert consistency_needs_2.getRegDoesNotRequireStabilitys() == []
             assert consistency_needs_2.getRegRequiresStabilitys() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestWriteConsistencyNeedsVariationPoint:
+    """VARIATION-POINT is anchored in the XSD group CONSISTENCY-NEEDS with
+    xml.sequenceOffset="10000" — it serializes last, after the four wrapper
+    lists (AUTOSAR_00052.xsd)."""
+
+    def test_write_variation_point_last(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        consistency_needs = ConsistencyNeeds(ar_root, "ConsistencyNeeds")
+        consistency_needs.createDpgRequiresCoherency("DpgCoherent")
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VP1")
+        variation_point.setShortLabel(vp_label)
+        consistency_needs.setVariationPoint(variation_point)
+
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeConsistencyNeeds(parent_element, consistency_needs)
+
+        child = parent_element[0]
+        assert child.tag == "CONSISTENCY-NEEDS"
+        tags = [element.tag for element in child]
+        assert tags.index("DPG-REQUIRES-COHERENCYS") < tags.index("VARIATION-POINT")
+        assert tags[-1] == "VARIATION-POINT"
+        assert child.find("DPG-REQUIRES-COHERENCYS/DATA-PROTOTYPE-GROUP/SHORT-NAME").text == "DpgCoherent"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_no_variation_point_omits_element(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        consistency_needs = ConsistencyNeeds(ar_root, "ConsistencyNeeds")
+
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeConsistencyNeeds(parent_element, consistency_needs)
+
+        child = parent_element[0]
+        assert child.find("VARIATION-POINT") is None
+
+    def test_round_trip_variation_point(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        consistency_needs = ConsistencyNeeds(ar_root, "ConsistencyNeeds")
+        consistency_needs.createRegRequiresStability("RegStable")
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VP2")
+        variation_point.setShortLabel(vp_label)
+        consistency_needs.setVariationPoint(variation_point)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, _build_document(consistency_needs))
+            consistency_needs_2 = _reload(file_path)
+            assert consistency_needs_2.getVariationPoint() is not None
+            assert consistency_needs_2.getVariationPoint().getShortLabel().getValue() == "VP2"
+            assert consistency_needs_2.getRegRequiresStabilitys()[0].getShortName() == "RegStable"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
