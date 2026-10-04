@@ -386,11 +386,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
     # EcucReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.54, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -403,7 +402,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         return self.valueRef
 
     def setValueRef(self, value: Optional[RefType]) -> EcucReferenceValue:
-        """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
+        """Specifies the destination of the reference.
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.valueRef = value
         return self
