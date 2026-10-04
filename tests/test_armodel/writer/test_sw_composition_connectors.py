@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import InstantiationTimingEventProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import InstanceEventInCompositionInstanceRef
 from armodel.parser.arxml_parser import ARXMLParser
@@ -74,7 +74,27 @@ class TestInstantiationRTEEventPropsRoundTrip:
         assert [ref.getValue() for ref in parsed_iref.getContextComponentPrototypeRefs()] == ["/Pkg/Comp/Swc1"]
         assert parsed_iref.getTargetEventRef().getValue() == "/Pkg/App/Ib/TimingEvent1"
         assert parsed_iref.getTargetEventRef().getDest() == "TIMING-EVENT"
-        assert parsed.getShortLabel().getValue() == "splitKey1"
+        assert props.getShortLabel().getValue() == "splitKey1"
+
+    def test_period_round_trip_and_element_order(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        composition = pkg.createCompositionSwComponentType("Comp")
+        props = InstantiationTimingEventProps()
+        props.setPeriod(TimeValue().setValue("0.02"))
+        composition.addInstantiationRTEEventProps(props)
+
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, composition.parent)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+        parser = ARXMLParser(options={"warning": True})
+        parsed_pkg = AUTOSAR.getInstance().createARPackage("Parsed")
+        parser.readARPackageElements(root.find("{%s}AR-PACKAGE" % NS), parsed_pkg)
+
+        props_tag = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}COMPOSITION-SW-COMPONENT-TYPE/{%s}INSTANTIATION-RTE-EVENT-PROPSS/{%s}INSTANTIATION-TIMING-EVENT-PROPS" % tuple([NS] * 5))
+        assert [child.tag.split("}")[-1] for child in props_tag] == ["PERIOD"]
+        parsed_props = parsed_pkg.getCompositionSwComponentTypes()[0].getInstantiationRTEEventProps()[0]
+        assert parsed_props.getPeriod().getValue() == 0.02
 
     def test_empty_instantiation_props_wrapper_not_written(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")

@@ -371,11 +371,10 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     # InstantiationTimingEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.16, p.85
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -385,23 +384,14 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the value of the refined activation period.
-
-        Returns:
-            TimeValue representing the period, or None if not set
+        This attribute represents the value of the refined activation period.
         """
         return self.period
 
     def setPeriod(self, value: Optional[TimeValue]) -> "InstantiationTimingEventProps":
         """
-        Sets the value of the refined activation period.
+        This attribute represents the value of the refined activation period.
         A None value is a no-op and does not overwrite an existing period.
-
-        Args:
-            value: The period TimeValue to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.period = value
