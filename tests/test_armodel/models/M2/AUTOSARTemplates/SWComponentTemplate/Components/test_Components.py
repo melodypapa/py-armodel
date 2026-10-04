@@ -1418,3 +1418,47 @@ class Test_AtomicSwComponentType_Spec:
         assert hints["return"] == typing.Optional[SymbolProps]
         hints = typing.get_type_hints(AtomicSwComponentType.createSymbolProps)
         assert hints["return"] is SymbolProps
+
+
+APPLICATION_SW_COMPONENT_TYPE_CLASS_NOTE = "The ApplicationSwComponentType is used to represent the application software."
+
+
+class Test_ApplicationSwComponentType_Spec:
+    """Spec pins for ApplicationSwComponentType (CP_TPS_SoftwareComponentTemplate Table 3.9, p.71)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        return document.createARPackage("AUTOSAR").createApplicationSwComponentType("App")
+
+    def test_inheritance(self):
+        assert issubclass(ApplicationSwComponentType, AtomicSwComponentType)
+        assert issubclass(ApplicationSwComponentType, SwComponentType)
+
+    def test_concrete(self):
+        assert self._make() is not None
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(ApplicationSwComponentType.__doc__) == APPLICATION_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert ApplicationSwComponentType.__init__.__doc__ is None
+
+    def test_no_own_spec_attributes(self):
+        swc = self._make()
+
+        class ConcreteAtomicProbeSwComponentType(AtomicSwComponentType):
+            pass
+
+        probe = ConcreteAtomicProbeSwComponentType(swc.parent, "Probe")
+        assert set(vars(swc)) == set(vars(probe))
+
+    def test_inherited_accessors_via_concrete_class(self):
+        swc = self._make()
+        swc.createPPortPrototype("P1")
+        assert [p.short_name for p in swc.getPorts()] == ["P1"]
+        behavior = swc.createSwcInternalBehavior("B")
+        assert swc.getInternalBehavior() is behavior
+        assert swc.createSymbolProps("S") is swc.getSymbolProps()

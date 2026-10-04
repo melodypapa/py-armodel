@@ -236,3 +236,26 @@ class TestAtomicSwComponentTypeRoundTrip:
         parsed = parsed_pkg.getReferrableElement("Atomic", ApplicationSwComponentType)
         assert parsed.getSymbolProps() is None
         assert parsed.getInternalBehavior() is not None
+
+
+class TestApplicationSwComponentTypeRoundTrip:
+    def test_round_trip_via_ar_package_dispatch(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        swc = pkg.createApplicationSwComponentType("App")
+        port = swc.createPPortPrototype("P1")
+        assert port is not None
+
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, swc.parent)
+        swc_tag = parent.find("ELEMENTS/APPLICATION-SW-COMPONENT-TYPE")
+        assert swc_tag is not None
+        assert swc_tag.find("SHORT-NAME").text == "App"
+
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+        parsed_pkg = AUTOSAR.getInstance().createARPackage("Parsed")
+        ARXMLParser().readARPackageElements(root[0], parsed_pkg)
+        parsed = parsed_pkg.getReferrableElement("App", ApplicationSwComponentType)
+        assert parsed is not None
+        assert isinstance(parsed, ApplicationSwComponentType)
+        assert [p.short_name for p in parsed.getPorts()] == ["P1"]
