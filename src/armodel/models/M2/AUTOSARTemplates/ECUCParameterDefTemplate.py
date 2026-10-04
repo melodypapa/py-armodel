@@ -347,16 +347,13 @@ class EcucDefinitionElement(Identifiable, ABC):
 
 
 class EcucDestinationUriDefRefType(RefType):
-    """
-    EcucDestinationUriDefRefType is a class that represents a reference type
-    specific to ECUC Destination URI definitions.
-
-    This class inherits from the `RefType` base class and is used to define
-    references to ECUC Destination URI definitions in the AUTOSAR model.
-    """
+    """Typed reference to an EcucDestinationUriDef, modeled after the anonymous DESTINATION-URI-REF nested complexType (simpleContent extension of AR:REF with a required DEST attribute of ECUC-DESTINATION-URI-DEF--SUBTYPES-ENUM) inside the DESTINATION-URI-REFS wrapper of the XSD group ECUC-CONTAINER-DEF. Aggregated by EcucContainerDef.destinationUri (0..*)."""
 
     # EcucDestinationUriDefRefType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_00052.xsd, DESTINATION-URI-REF nested type (group ECUC-CONTAINER-DEF), line 51614 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own accessors — the DESTINATION-URI-REF element round-trips via the consuming class EcucContainerDef.destinationUriRefs reader/writer helpers)
 
     def __init__(self):
         super().__init__()

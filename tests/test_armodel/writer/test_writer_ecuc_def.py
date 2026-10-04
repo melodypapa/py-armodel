@@ -1764,3 +1764,62 @@ class TestWriterEcucLinkerSymbolDef:
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
+
+
+class TestWriterEcucDestinationUriRefs:
+    def test_emit_with_refs(self, writer):
+        refs = [EcucDestinationUriDefRefType(), EcucDestinationUriDefRefType()]
+        refs[0].setValue("/Mod/UriDef1")
+        refs[0].setDest("ECUC-DESTINATION-URI-DEF")
+        refs[0].setBase("BASE1")
+        refs[1].setValue("/Mod/UriDef2")
+        refs[1].setDest("ECUC-DESTINATION-URI-DEF")
+        parent = _parent()
+        writer.setEcucDestinationUriRefs(parent, refs)
+        wrapper = parent.find("DESTINATION-URI-REFS")
+        assert wrapper is not None
+        children = wrapper.findall("DESTINATION-URI-REF")
+        assert len(children) == 2
+        assert children[0].attrib["DEST"] == "ECUC-DESTINATION-URI-DEF"
+        assert children[0].attrib["BASE"] == "BASE1"
+        assert children[0].text == "/Mod/UriDef1"
+        assert children[1].attrib["DEST"] == "ECUC-DESTINATION-URI-DEF"
+        assert "BASE" not in children[1].attrib
+        assert children[1].text == "/Mod/UriDef2"
+
+    def test_omits_when_empty(self, writer):
+        parent = _parent()
+        writer.setEcucDestinationUriRefs(parent, [])
+        assert len(parent) == 0
+
+    def test_round_trip(self, writer):
+        import os
+        import tempfile
+
+        autosar = AUTOSAR.getInstance()
+        autosar.setARRelease("R23-11")
+        container = _make_container()
+        uri_ref = EcucDestinationUriDefRefType()
+        uri_ref.setValue("/Mod/UriDef")
+        uri_ref.setDest("ECUC-DESTINATION-URI-DEF")
+        uri_ref.setBase("BASE1")
+        container.addDestinationUriRef(uri_ref)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
+            refs = reloaded_container.getDestinationUriRefs()
+            assert len(refs) == 1
+            assert isinstance(refs[0], EcucDestinationUriDefRefType)
+            assert refs[0].getValue() == "/Mod/UriDef"
+            assert refs[0].getDest() == "ECUC-DESTINATION-URI-DEF"
+            assert refs[0].getBase() == "BASE1"
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
