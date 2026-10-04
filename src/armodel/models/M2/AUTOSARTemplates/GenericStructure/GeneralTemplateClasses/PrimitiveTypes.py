@@ -1967,7 +1967,33 @@ class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
 
 
 class DiagnosticEventDisplacementStrategyEnum(AREnum):
-    pass
+    """
+    Defines the displacement strategy.
+    """
+
+    # DiagnosticEventDisplacementStrategyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.170, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Event memory entry displacement is enabled, by consideration of priority active/passive status, and occurrence. Tags: atp.EnumerationLiteralIndex=0
+    FULL = "full"
+
+    # Event memory entry displacement is disabled. Tags: atp.EnumerationLiteralIndex=1
+    NONE = "none"
+
+    # Event memory entry displacement is enabled, by consideration of priority and occurrence (but without active/passive status). Tags: atp.EnumerationLiteralIndex=2
+    PRIO_OCC = "prioOcc"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventDisplacementStrategyEnum.FULL,
+                DiagnosticEventDisplacementStrategyEnum.NONE,
+                DiagnosticEventDisplacementStrategyEnum.PRIO_OCC,
+            ]
+        )
 
 
 class DiagnosticEventKindEnum(AREnum):

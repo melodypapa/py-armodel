@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticInhibitionMaskEnum,
@@ -2460,3 +2461,49 @@ class TestDiagnosticEventClearAllowedEnum:
         enum.setValue(DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION)
 
         assert enum.getValue() == "requiresCallbackExecution"
+
+
+class TestDiagnosticEventDisplacementStrategyEnum:
+    """
+    Test class for DiagnosticEventDisplacementStrategyEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.170, p.183
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventDisplacementStrategyEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventDisplacementStrategyEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "full",
+            "none",
+            "prioOcc",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventDisplacementStrategyEnum member values.
+        """
+        enum = DiagnosticEventDisplacementStrategyEnum()
+
+        assert DiagnosticEventDisplacementStrategyEnum.FULL == "full"
+        assert DiagnosticEventDisplacementStrategyEnum.NONE == "none"
+        assert DiagnosticEventDisplacementStrategyEnum.PRIO_OCC == "prioOcc"
+
+        assert enum.validateEnumValue("full") is True
+        assert enum.validateEnumValue("none") is True
+        assert enum.validateEnumValue("prioOcc") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventDisplacementStrategyEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventDisplacementStrategyEnum()
+        enum.setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC)
+
+        assert enum.getValue() == "prioOcc"
