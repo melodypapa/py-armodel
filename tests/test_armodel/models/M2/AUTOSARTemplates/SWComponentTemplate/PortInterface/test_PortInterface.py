@@ -1067,3 +1067,88 @@ class TestClientServerInterfaceSpecSync:
         assert self.OPERATION_NOTE in init_source
         assert self.POSSIBLE_ERROR_NOTE in init_source
         assert "Stereotypes" not in init_source
+
+
+class TestClientServerOperationSpecSync:
+    """Spec-sync pins for ClientServerOperation (CP_TPS_SoftwareComponentTemplate Table 4.7, p.102)."""
+
+    CLASS_NOTE = "An operation declared within the scope of a client/server interface."
+    ARGUMENT_NOTE = "An argument of this ClientServerOperation"
+    DIAG_NOTE_PREFIX = "This attribute shall only be used in the implementation of diagnostic routines"
+    POSSIBLE_ERROR_NOTE = "Possible errors that may by raised by the referring operation."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ClientServerOperation.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_atp_structure_element_and_vp_capable(self):
+        assert issubclass(ClientServerOperation, AtpStructureElement)
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        assert issubclass(ClientServerOperation, VariationPointCapable)
+
+    def test_initialization_defaults(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        assert operation.getArguments() == []
+        assert operation.getDiagArgIntegrity() is None
+        assert operation.getPossibleErrorRefs() == []
+
+    def test_create_argument_data_prototype_appends_and_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        argument = operation.createArgumentDataPrototype("Arg")
+        assert isinstance(argument, ArgumentDataPrototype)
+        assert argument.parent is operation
+        assert operation.getArguments() == [argument]
+        assert operation.createArgumentDataPrototype("Arg") is argument
+        assert len(operation.getArguments()) == 1
+
+    def test_get_set_diag_arg_integrity(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        value = Boolean()
+        value.setValue("true")
+        assert operation.setDiagArgIntegrity(value) is operation
+        assert operation.getDiagArgIntegrity() is value
+        operation.setDiagArgIntegrity(None)
+        assert operation.getDiagArgIntegrity() is value
+
+    def test_add_possible_error_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        ref = RefType()
+        ref.setValue("/Pkg/CSI/E1")
+        assert operation.addPossibleErrorRef(ref) is operation
+        assert operation.getPossibleErrorRefs() == [ref]
+        operation.addPossibleErrorRef(None)
+        assert operation.getPossibleErrorRefs() == [ref]
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ClientServerOperation.createArgumentDataPrototype)["return"] == ArgumentDataPrototype
+        assert typing.get_type_hints(ClientServerOperation.getArguments)["return"] == List[ArgumentDataPrototype]
+        assert typing.get_type_hints(ClientServerOperation.getDiagArgIntegrity)["return"] == Optional[Boolean]
+        assert typing.get_type_hints(ClientServerOperation.setDiagArgIntegrity)["value"] == Optional[Boolean]
+        assert typing.get_type_hints(ClientServerOperation.addPossibleErrorRef)["value"] == Optional[RefType]
+        assert typing.get_type_hints(ClientServerOperation.getPossibleErrorRefs)["return"] == List[RefType]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ClientServerOperation.__init__.__doc__ is None
+        for method in ("createArgumentDataPrototype", "getArguments"):
+            assert getattr(ClientServerOperation, method).__doc__.strip() == self.ARGUMENT_NOTE, method
+        assert self.DIAG_NOTE_PREFIX in ClientServerOperation.getDiagArgIntegrity.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing diagArgIntegrity." in ClientServerOperation.setDiagArgIntegrity.__doc__.strip()
+        for method in ("addPossibleErrorRef", "getPossibleErrorRefs"):
+            assert getattr(ClientServerOperation, method).__doc__.strip().startswith(self.POSSIBLE_ERROR_NOTE), method
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(ClientServerOperation.__init__)
+        assert self.ARGUMENT_NOTE in init_source
+        assert self.POSSIBLE_ERROR_NOTE in init_source
+        assert "Stereotypes" not in init_source
+        assert "Tags" not in init_source

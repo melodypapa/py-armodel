@@ -551,20 +551,20 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
     """
 
     # ClientServerOperation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getArguments                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPossibleErrorRefs        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addPossibleErrorRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createArgumentDataPrototype  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDiagArgIntegrity          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagArgIntegrity          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPossibleErrorRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPossibleErrorRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # An argument of this ClientServerOperation Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        # An argument of this ClientServerOperation
         self.arguments: List[ArgumentDataPrototype] = []
 
         # This attribute shall only be used in the implementation of diagnostic routines to support the case where input and output arguments are allocated in a shared buffer and might unintentionally overwrite input arguments by tentative write operations to output arguments. This situation can happen during sliced execution or while output parameters are arrays (call by reference). The value true means that the ClientServerOperation is aware of the usage of a shared buffer and takes precautions to avoid unintentional overwrite of input arguments. If the attribute does not exist or is set to false the Client ServerOperation does not have to consider the usage of a shared buffer.
@@ -575,16 +575,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def createArgumentDataPrototype(self, short_name: str) -> ArgumentDataPrototype:
         """
-        Creates an ArgumentDataPrototype of this ClientServerOperation with the given short name,
-        or returns the existing one if it already exists.
-
-        An argument of this ClientServerOperation.
-
-        Args:
-            short_name: The short name for the new ArgumentDataPrototype
-
-        Returns:
-            The created (or existing) ArgumentDataPrototype
+        An argument of this ClientServerOperation
         """
         if not self.IsReferrableElementExists(short_name, ArgumentDataPrototype):
             prototype = ArgumentDataPrototype(self, short_name)
@@ -594,7 +585,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def getArguments(self) -> List[ArgumentDataPrototype]:
         """
-        An argument of this ClientServerOperation Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        An argument of this ClientServerOperation
         """
         return self.arguments
 
