@@ -1143,8 +1143,65 @@ class DiagnosticMemoryDestination(ARObject, ABC):
         return self
 
 
-class DiagnosticMemoryDestinationUserDefined(ARObject):
-    pass
+class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
+    """This represents a user-defined memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"""
+
+    # DiagnosticMemoryDestinationUserDefined method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.174, p.185
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAuthRoleRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthRoleRefs  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryId      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMemoryId      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — the XSD carries DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED only
+    # via ARPackage.element (AUTOSAR_00052.xsd l.5149), whose ELEMENTS loop requires a Referrable child; the confirmed
+    # queue row homes the class ARObject-family in ArObject.py (concrete branch of the abstract DiagnosticMemoryDestination,
+    # not Identifiable — cf. DiagnosticFunctionIdentifierInhibit), so no ARPackage factory/dispatch can reach it —
+    # the future consumer wires it. The XSD's own group also carries AUTHENTICATION-ROLE-REF with atp.Status="removed"
+    # (AUTOSAR_00052.xsd l.39720) — not modeled (Rule 0015).
+
+    def __init__(self):
+        super().__init__()
+
+        # This reference identifies the collection of applicable DiagnosticAuthRole Stereotypes: atpSplitable Tags: atp.Splitkey=authRole
+        self.authRoleRefs: List[RefType] = []
+
+        # This represents the identifier of the user-defined memory.
+        self.memoryId: Optional[PositiveInteger] = None
+
+    def addAuthRoleRef(self, ref: Optional[RefType]) -> DiagnosticMemoryDestinationUserDefined:
+        """
+        This reference identifies the collection of applicable DiagnosticAuthRole Stereotypes: atpSplitable Tags: atp.Splitkey=authRole
+
+        A None value is a no-op and does not extend the authRoleRefs list.
+        """
+        if ref is not None:
+            self.authRoleRefs.append(ref)
+        return self
+
+    def getAuthRoleRefs(self) -> List[RefType]:
+        """
+        This reference identifies the collection of applicable DiagnosticAuthRole Stereotypes: atpSplitable Tags: atp.Splitkey=authRole
+        """
+        return self.authRoleRefs
+
+    def getMemoryId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the identifier of the user-defined memory.
+        """
+        return self.memoryId
+
+    def setMemoryId(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryDestinationUserDefined:
+        """
+        This represents the identifier of the user-defined memory.
+
+        A None value is a no-op and does not overwrite an existing memoryId.
+        """
+        if value is not None:
+            self.memoryId = value
+        return self
 
 
 class DiagnosticParameter(DiagnosticAbstractParameter, VariationPointCapable):

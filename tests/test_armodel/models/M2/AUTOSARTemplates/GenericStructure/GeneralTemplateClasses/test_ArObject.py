@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFunctionIdentifierInhibit,
     DiagnosticIumprGroupIdentifier,
     DiagnosticMemoryDestination,
+    DiagnosticMemoryDestinationUserDefined,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -1654,3 +1655,126 @@ class TestDiagnosticMemoryDestination:
         assert inspect.cleandoc(DiagnosticMemoryDestination.setTypeOfFreezeFrameRecordNumeration.__doc__) == (
             self.TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing typeOfFreezeFrameRecordNumeration."
         )
+
+
+class TestDiagnosticMemoryDestinationUserDefined:
+    """
+    Test class for DiagnosticMemoryDestinationUserDefined functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.174, p.185
+
+    DiagnosticMemoryDestinationUserDefined is the concrete ARObject-homed branch
+    of the abstract DiagnosticMemoryDestination (Table 4.167, synced in
+    ArObject.py): the class derives directly from the base and inherits its nine
+    attributes, adding its own authRole reference collection (* ref, XSD wrapper
+    AUTH-ROLE-REFS with AUTH-ROLE-REF entries) and memoryId attribute (XSD group
+    DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED, AUTOSAR_00052.xsd l.39699). The
+    XSD's AUTHENTICATION-ROLE-REF element carries atp.Status="removed" and is not
+    modeled (Rule 0015).
+    """
+
+    CLASS_NOTE = "This represents a user-defined memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"
+    AUTH_ROLE_NOTE = "This reference identifies the collection of applicable DiagnosticAuthRole Stereotypes: atpSplitable Tags: atp.Splitkey=authRole"
+    MEMORY_ID_NOTE = "This represents the identifier of the user-defined memory."
+
+    def _make_obj(self) -> DiagnosticMemoryDestinationUserDefined:
+        return DiagnosticMemoryDestinationUserDefined()
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with its own and the inherited base defaults.
+        """
+        obj = self._make_obj()
+
+        assert isinstance(obj, DiagnosticMemoryDestinationUserDefined)
+        assert isinstance(obj, DiagnosticMemoryDestination)
+        assert isinstance(obj, ARObject)
+        assert obj.getAuthRoleRefs() == []
+        assert obj.getMemoryId() is None
+        assert obj.getAgingRequiresTestedCycle() is None
+        assert obj.getClearDtcLimitation() is None
+        assert obj.getDtcStatusAvailabilityMask() is None
+        assert obj.getEventDisplacementStrategy() is None
+        assert obj.getMaxNumberOfEventEntries() is None
+        assert obj.getMemoryEntryStorageTrigger() is None
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is None
+        assert obj.getStatusBitStorageTestFailed() is None
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryDestinationUserDefined.__init__.__doc__ is None
+
+    def test_add_auth_role_ref(self):
+        """
+        Test addAuthRoleRef append and None no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTH-ROLE")
+        ref.setValue("/AUTOSAR/DiagnosticAuthRoles/AuthRole1")
+        result = obj.addAuthRoleRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthRoleRefs() == [ref]
+        assert obj.getAuthRoleRefs()[0].getValue() == "/AUTOSAR/DiagnosticAuthRoles/AuthRole1"
+        assert obj.getAuthRoleRefs()[0].getDest() == "DIAGNOSTIC-AUTH-ROLE"
+
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-AUTH-ROLE")
+        ref2.setValue("/AUTOSAR/DiagnosticAuthRoles/AuthRole2")
+        obj.addAuthRoleRef(ref2)
+        assert obj.getAuthRoleRefs() == [ref, ref2]
+
+        result = obj.addAuthRoleRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthRoleRefs() == [ref, ref2]  # None is a no-op
+
+    def test_get_set_memory_id(self):
+        """
+        Test getMemoryId and setMemoryId round-trip and None no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(1)
+        result = obj.setMemoryId(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryId() is value
+        assert obj.getMemoryId().getValue() == 1
+
+        result = obj.setMemoryId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMemoryId() is value  # None is a no-op
+
+    def test_get_set_inherited_attribute(self):
+        """
+        Spot-checks the inherited base attribute maxNumberOfEventEntries (Table 4.167); None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setMaxNumberOfEventEntries(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfEventEntries() is value
+        assert obj.getMaxNumberOfEventEntries().getValue() == 10
+
+        result = obj.setMaxNumberOfEventEntries(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberOfEventEntries() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.addAuthRoleRef.__doc__) == self.AUTH_ROLE_NOTE + "\n\nA None value is a no-op and does not extend the authRoleRefs list."
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.getAuthRoleRefs.__doc__) == self.AUTH_ROLE_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.getMemoryId.__doc__) == self.MEMORY_ID_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.setMemoryId.__doc__) == (self.MEMORY_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryId.")

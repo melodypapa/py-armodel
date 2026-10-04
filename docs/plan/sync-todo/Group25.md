@@ -774,15 +774,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMemoryDestinationUserDefined` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.174, p.185
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A — see note)
+  - [x] Step 6 — Update parser & writer (Green) (N/A — see note)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; two notes below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1309 passed / 0 failed: test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 1): Table 4.174 renders page-split in the markdown (header rows Package/Note/Base above the title at l.5640, attribute rows below at l.5654): class Note "This represents a user-defined memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"; Base row's transitive listing (ARElement … DiagnosticMemoryDestination …) is the same as the Primary sibling's — per the confirmed queue row the class stays ARObject-family and derives directly from the abstract DiagnosticMemoryDestination (concrete, ArObject.py). Attributes in displayed order: authRole (DiagnosticAuthRole, *, ref → `authRoleRefs: List[RefType]` + addAuthRoleRef/getAuthRoleRefs) then memoryId (PositiveInteger, 0..1, attr). XSD group DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED (AUTOSAR_00052.xsd l.39699) also carries AUTHENTICATION-ROLE-REF with atp.Status="removed" (l.39720) — not modeled (Rule 0015).
+  - Note (Steps 5/6): N/A this pass — DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED appears in the ARPackage ELEMENTS choice only (AUTOSAR_00052.xsd l.5149; no other parent aggregation in the XSD), whose loop requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach it — the future consumer wires it (cf. DiagnosticFunctionIdentifierInhibit, Table 4.215).
 
 - [ ] `DiagnosticTroubleCodeProps` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.175, p.186
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
