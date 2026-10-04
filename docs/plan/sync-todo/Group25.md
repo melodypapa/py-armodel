@@ -1262,13 +1262,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticFunctionInhibitSource` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.216, p.216
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no wireable consumer this pass
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason as Step 5
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; Steps 5/6 N/A recorded as note bullet below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1410 passed / 0 failed: test_Identifiable.py + test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - note (Steps 5/6 N/A, no wireable consumer this pass): the XSD carries DIAGNOSTIC-FUNCTION-INHIBIT-SOURCE only via the INHIBIT-SOURCES wrapper of DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT (AUTOSAR_00052.xsd l.37933-37944 — the element name occurs nowhere else; the l.68232/l.97073 hits are IDENTIFIABLE--/REFERRABLE--SUBTYPES-ENUM values, not element declarations), and that parent is itself reachable only via the not-yet-wired AR-PACKAGE/ELEMENTS choice (cf. DiagnosticFunctionIdentifierInhibit 27e01b079). Reader/writer coverage lands with the future consumer pass; the checklist keeps reader/writer [—] accordingly.
+  - note (references, all synced): event/eventGroup are 0..1 ref kind → Optional[RefType] fields with Ref-suffixed accessors (setEventRef/setEventGroupRef), mirroring the parent's functionIdentifierRef; ref DEST targets DiagnosticFimAliasEvent (Table 4.219) and DiagnosticFimAliasEventGroup (Table 4.218) are already synced in ARPackage.py, RefType base synced. XSD group order is EVENT-GROUP-REF then EVENT-REF (l.37977-38010) — reader/writer element order for the future consumer pass; model member order follows the markdown displayed order (event, eventGroup).
 

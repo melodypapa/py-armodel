@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
     DiagnosticDebounceAlgorithmProps,
+    DiagnosticFunctionInhibitSource,
     DiagnosticParameterElement,
     DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
@@ -1799,3 +1800,103 @@ class TestDiagnosticDebounceAlgorithmProps:
             inspect.cleandoc(DiagnosticDebounceAlgorithmProps.setDebounceCounterStorage.__doc__)
             == "Switch to store the debounce counter value non-volatile or not. true: debounce counter value shall be stored non-volatile false: debounce counter value is volatile Please note that this attribute is not relevant for the adaptive platform.\nA None value is a no-op and does not overwrite an existing debounceCounterStorage."
         )
+
+
+class TestDiagnosticFunctionInhibitSource:
+    """
+    Test class for DiagnosticFunctionInhibitSource functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.216, p.216
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define an inhibition source in the context of the Fim configuration."
+    EVENT_NOTE = "This represents the alias event applicable for the referencing inhibition source."
+    EVENT_GROUP_NOTE = "This represents the event group applicable for the referencing inhibition source."
+
+    def _make_obj(self) -> DiagnosticFunctionInhibitSource:
+        return DiagnosticFunctionInhibitSource(AUTOSAR.getInstance(), "InhibitSource1")
+
+    def test_subclass_chain(self):
+        """
+        Test that DiagnosticFunctionInhibitSource derives from Identifiable.
+        """
+        assert issubclass(DiagnosticFunctionInhibitSource, Identifiable)
+
+    def test_initialization_defaults(self):
+        """
+        Test that DiagnosticFunctionInhibitSource is initialized with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "InhibitSource1"
+        assert obj.getEventRef() is None
+        assert obj.getEventGroupRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFunctionInhibitSource.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFunctionInhibitSource.__init__.__doc__ is None
+
+    def test_get_set_event_ref(self):
+        """
+        Setter returns self, value round-trips, None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType().setValue("/Fim/DiagnosticFimAliasEvents/AliasEvent1")
+        result = obj.setEventRef(value)
+        assert result is obj  # method chaining
+        assert obj.getEventRef() is value
+        assert obj.getEventRef().getValue() == "/Fim/DiagnosticFimAliasEvents/AliasEvent1"
+
+        obj.setEventRef(None)
+        assert obj.getEventRef() is value  # None is a no-op
+
+    def test_get_set_event_group_ref(self):
+        """
+        Setter returns self, value round-trips, None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType().setValue("/Fim/DiagnosticFimAliasEventGroups/AliasEventGroup1")
+        result = obj.setEventGroupRef(value)
+        assert result is obj  # method chaining
+        assert obj.getEventGroupRef() is value
+        assert obj.getEventGroupRef().getValue() == "/Fim/DiagnosticFimAliasEventGroups/AliasEventGroup1"
+
+        obj.setEventGroupRef(None)
+        assert obj.getEventGroupRef() is value  # None is a no-op
+
+    def test_get_set_type_hints(self):
+        """
+        Pin the accessor annotations to the spec types (Rule 0003).
+        """
+        setter_hints = typing.get_type_hints(DiagnosticFunctionInhibitSource.setEventRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DiagnosticFunctionInhibitSource
+
+        getter_hints = typing.get_type_hints(DiagnosticFunctionInhibitSource.getEventRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(DiagnosticFunctionInhibitSource.setEventGroupRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DiagnosticFunctionInhibitSource
+
+        getter_hints = typing.get_type_hints(DiagnosticFunctionInhibitSource.getEventGroupRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticFunctionInhibitSource.getEventRef.__doc__) == self.EVENT_NOTE
+        assert inspect.cleandoc(DiagnosticFunctionInhibitSource.setEventRef.__doc__) == (self.EVENT_NOTE + "\nA None value is a no-op and does not overwrite an existing eventRef.")
+        assert inspect.cleandoc(DiagnosticFunctionInhibitSource.getEventGroupRef.__doc__) == self.EVENT_GROUP_NOTE
+        assert inspect.cleandoc(DiagnosticFunctionInhibitSource.setEventGroupRef.__doc__) == (self.EVENT_GROUP_NOTE + "\nA None value is a no-op and does not overwrite an existing eventGroupRef.")

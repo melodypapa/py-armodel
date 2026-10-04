@@ -1044,7 +1044,61 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
 
 
 class DiagnosticFunctionInhibitSource(Identifiable):
-    pass
+    """This meta-class represents the ability to define an inhibition source in the context of the Fim configuration."""
+
+    # DiagnosticFunctionInhibitSource method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.216, p.216
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setEventGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — the XSD carries DIAGNOSTIC-FUNCTION-INHIBIT-SOURCE
+    # only via the INHIBIT-SOURCES wrapper of DIAGNOSTIC-FUNCTION-IDENTIFIER-INHIBIT
+    # (AUTOSAR_00052.xsd l.37933-37944), whose parent is itself reachable only via the not-yet-wired
+    # AR-PACKAGE/ELEMENTS choice (cf. DiagnosticFunctionIdentifierInhibit, commit 27e01b079);
+    # reader/writer coverage lands with the consumer pass.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the alias event applicable for the referencing inhibition source.
+        self.eventRef: Optional[RefType] = None
+
+        # This represents the event group applicable for the referencing inhibition source.
+        self.eventGroupRef: Optional[RefType] = None
+
+    def getEventRef(self) -> Optional[RefType]:
+        """
+        This represents the alias event applicable for the referencing inhibition source.
+        """
+        return self.eventRef
+
+    def setEventRef(self, value: Optional[RefType]) -> DiagnosticFunctionInhibitSource:
+        """
+        This represents the alias event applicable for the referencing inhibition source.
+        A None value is a no-op and does not overwrite an existing eventRef.
+        """
+        if value is not None:
+            self.eventRef = value
+        return self
+
+    def getEventGroupRef(self) -> Optional[RefType]:
+        """
+        This represents the event group applicable for the referencing inhibition source.
+        """
+        return self.eventGroupRef
+
+    def setEventGroupRef(self, value: Optional[RefType]) -> DiagnosticFunctionInhibitSource:
+        """
+        This represents the event group applicable for the referencing inhibition source.
+        A None value is a no-op and does not overwrite an existing eventGroupRef.
+        """
+        if value is not None:
+            self.eventGroupRef = value
+        return self
 
 
 class DiagnosticParameterElement(DiagnosticAbstractParameter, Identifiable):
