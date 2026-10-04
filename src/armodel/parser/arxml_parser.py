@@ -524,6 +524,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -690,6 +691,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     CIdentifier,
     DateTime,
+    DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticDebounceBehaviorEnum,
@@ -697,17 +699,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
     DiagnosticEventKindEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticIumprKindEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -1553,6 +1559,17 @@ DIAGNOSTIC_PROCESSING_STYLE_XML_MAP = {
 DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
     "start": "START",
     "finish": "FINISH",
+}
+
+DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP = {
+    "allSupportedDtcs": "ALL-SUPPORTED-DTCS",
+    "clearAllDtcs": "CLEAR-ALL-DTCS",
+}
+
+DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
+    "full": "FULL",
+    "none": "NONE",
+    "prioOcc": "PRIO-OCC",
 }
 
 DTC_FORMAT_TYPE_XML_MAP = {
@@ -11388,6 +11405,24 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticMemoryAddressableRangeAccess(self, element: ET.Element, range_access: DiagnosticMemoryAddressableRangeAccess):
         for ref in self.getChildElementRefTypeList(element, "MEMORY-RANGE-REFS/MEMORY-RANGE-REF"):
             range_access.addMemoryRange(ref)
+
+    def readDiagnosticMemoryDestination(self, element: ET.Element, destination: DiagnosticMemoryDestination):
+        destination.setAgingRequiresTestedCycle(self.getChildElementOptionalBooleanValue(element, "AGING-REQUIRES-TESTED-CYCLE"))
+        destination.setClearDtcLimitation(self._readEnumToken(element, "CLEAR-DTC-LIMITATION", DiagnosticClearDtcLimitationEnum, DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP))
+        destination.setDtcStatusAvailabilityMask(self.getChildElementOptionalPositiveInteger(element, "DTC-STATUS-AVAILABILITY-MASK"))
+        destination.setEventDisplacementStrategy(self._readEnumToken(element, "EVENT-DISPLACEMENT-STRATEGY", DiagnosticEventDisplacementStrategyEnum, DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP))
+        destination.setMaxNumberOfEventEntries(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-EVENT-ENTRIES"))
+        # MEMORY-ENTRY-STORAGE-TRIGGER is round-tripped as a raw literal until DiagnosticMemoryEntryStorageTriggerEnum (Table 4.168, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        destination.setMemoryEntryStorageTrigger(cast(Optional[DiagnosticMemoryEntryStorageTriggerEnum], self.getChildElementOptionalLiteral(element, "MEMORY-ENTRY-STORAGE-TRIGGER")))
+        # STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR is round-tripped as a raw literal until DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum (Table 4.171, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        destination.setStatusBitHandlingTestFailedSinceLastClear(
+            cast(Optional[DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum], self.getChildElementOptionalLiteral(element, "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR"))
+        )
+        destination.setStatusBitStorageTestFailed(self.getChildElementOptionalBooleanValue(element, "STATUS-BIT-STORAGE-TEST-FAILED"))
+        # TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION is round-tripped as a raw literal until DiagnosticTypeOfFreezeFrameRecordNumerationEnum (Table 4.172, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        destination.setTypeOfFreezeFrameRecordNumeration(
+            cast(Optional[DiagnosticTypeOfFreezeFrameRecordNumerationEnum], self.getChildElementOptionalLiteral(element, "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION"))
+        )
 
     def readDiagnosticMeasurementIdentifier(self, element: ET.Element, identifier: DiagnosticMeasurementIdentifier):
         self.logger.debug("Read DiagnosticMeasurementIdentifier <%s>" % identifier.getShortName())

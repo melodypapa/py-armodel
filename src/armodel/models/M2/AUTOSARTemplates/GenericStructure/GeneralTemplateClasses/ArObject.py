@@ -941,7 +941,206 @@ class DiagnosticIumprGroupIdentifier(ARObject):
 
 
 class DiagnosticMemoryDestination(ARObject, ABC):
-    pass
+    """This abstract meta-class represents a possible memory destination for a diagnostic event."""
+
+    # DiagnosticMemoryDestination method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.167, p.182
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAgingRequiresTestedCycle                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAgingRequiresTestedCycle                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClearDtcLimitation                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearDtcLimitation                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDtcStatusAvailabilityMask                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDtcStatusAvailabilityMask                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventDisplacementStrategy                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventDisplacementStrategy                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfEventEntries                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfEventEntries                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemoryEntryStorageTrigger                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryEntryStorageTrigger                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStatusBitHandlingTestFailedSinceLastClear          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStatusBitHandlingTestFailedSinceLastClear          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStatusBitStorageTestFailed                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStatusBitStorageTestFailed                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeOfFreezeFrameRecordNumeration                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeOfFreezeFrameRecordNumeration                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is DiagnosticMemoryDestination:
+            raise TypeError("DiagnosticMemoryDestination is an abstract class.")
+        super().__init__()
+
+        # Defines whether the aging cycle counter is processed every aging cycles or else only tested aging cycle are considered. If the attribute is set to TRUE: only tested aging cycle are considered for aging cycle counter. If the attribute is set to FALSE: aging cycle counter is processed every aging cycle. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+        self.agingRequiresTestedCycle: Optional[Boolean] = None
+
+        # Defines the scope of the DEM_ClearDTC Api. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+        self.clearDtcLimitation: Optional[DiagnosticClearDtcLimitationEnum] = None
+
+        # Mask for the supported DTC status bits by the Dem.
+        self.dtcStatusAvailabilityMask: Optional[PositiveInteger] = None
+
+        # This attribute defines, whether support for event displacement is enabled or not, and which displacement strategy is followed.
+        self.eventDisplacementStrategy: Optional[DiagnosticEventDisplacementStrategyEnum] = None
+
+        # This attribute fixes the maximum number of event entries in the fault memory.
+        self.maxNumberOfEventEntries: Optional[PositiveInteger] = None
+
+        # Describes the trigger to allocate an event memory entry.
+        self.memoryEntryStorageTrigger: Optional[DiagnosticMemoryEntryStorageTriggerEnum] = None
+
+        # This attribute defines, whether the aging and displacement mechanism shall be applied to the "TestFailedSinceLastClear" status bits. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+        self.statusBitHandlingTestFailedSinceLastClear: Optional[DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum] = None
+
+        # This parameter is used to activate/deactivate the permanent storage of the "TestFailed" status bits. true: storage activated false: storage deactivated
+        self.statusBitStorageTestFailed: Optional[Boolean] = None
+
+        # This attribute defines the type of assigning freeze frame record numbers for event-specific freeze frame records.
+        self.typeOfFreezeFrameRecordNumeration: Optional[DiagnosticTypeOfFreezeFrameRecordNumerationEnum] = None
+
+    def getAgingRequiresTestedCycle(self) -> Optional[Boolean]:
+        """
+        Defines whether the aging cycle counter is processed every aging cycles or else only tested aging cycle are considered. If the attribute is set to TRUE: only tested aging cycle are considered for aging cycle counter. If the attribute is set to FALSE: aging cycle counter is processed every aging cycle. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+        """
+        return self.agingRequiresTestedCycle
+
+    def setAgingRequiresTestedCycle(self, value: Optional[Boolean]) -> DiagnosticMemoryDestination:
+        """
+        Defines whether the aging cycle counter is processed every aging cycles or else only tested aging cycle are considered. If the attribute is set to TRUE: only tested aging cycle are considered for aging cycle counter. If the attribute is set to FALSE: aging cycle counter is processed every aging cycle. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+
+        A None value is a no-op and does not overwrite an existing agingRequiresTestedCycle.
+        """
+        if value is not None:
+            self.agingRequiresTestedCycle = value
+        return self
+
+    def getClearDtcLimitation(self) -> Optional[DiagnosticClearDtcLimitationEnum]:
+        """
+        Defines the scope of the DEM_ClearDTC Api. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+        """
+        return self.clearDtcLimitation
+
+    def setClearDtcLimitation(self, value: Optional[DiagnosticClearDtcLimitationEnum]) -> DiagnosticMemoryDestination:
+        """
+        Defines the scope of the DEM_ClearDTC Api. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+
+        A None value is a no-op and does not overwrite an existing clearDtcLimitation.
+        """
+        if value is not None:
+            self.clearDtcLimitation = value
+        return self
+
+    def getDtcStatusAvailabilityMask(self) -> Optional[PositiveInteger]:
+        """
+        Mask for the supported DTC status bits by the Dem.
+        """
+        return self.dtcStatusAvailabilityMask
+
+    def setDtcStatusAvailabilityMask(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryDestination:
+        """
+        Mask for the supported DTC status bits by the Dem.
+
+        A None value is a no-op and does not overwrite an existing dtcStatusAvailabilityMask.
+        """
+        if value is not None:
+            self.dtcStatusAvailabilityMask = value
+        return self
+
+    def getEventDisplacementStrategy(self) -> Optional[DiagnosticEventDisplacementStrategyEnum]:
+        """
+        This attribute defines, whether support for event displacement is enabled or not, and which displacement strategy is followed.
+        """
+        return self.eventDisplacementStrategy
+
+    def setEventDisplacementStrategy(self, value: Optional[DiagnosticEventDisplacementStrategyEnum]) -> DiagnosticMemoryDestination:
+        """
+        This attribute defines, whether support for event displacement is enabled or not, and which displacement strategy is followed.
+
+        A None value is a no-op and does not overwrite an existing eventDisplacementStrategy.
+        """
+        if value is not None:
+            self.eventDisplacementStrategy = value
+        return self
+
+    def getMaxNumberOfEventEntries(self) -> Optional[PositiveInteger]:
+        """
+        This attribute fixes the maximum number of event entries in the fault memory.
+        """
+        return self.maxNumberOfEventEntries
+
+    def setMaxNumberOfEventEntries(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryDestination:
+        """
+        This attribute fixes the maximum number of event entries in the fault memory.
+
+        A None value is a no-op and does not overwrite an existing maxNumberOfEventEntries.
+        """
+        if value is not None:
+            self.maxNumberOfEventEntries = value
+        return self
+
+    def getMemoryEntryStorageTrigger(self) -> Optional[DiagnosticMemoryEntryStorageTriggerEnum]:
+        """
+        Describes the trigger to allocate an event memory entry.
+        """
+        return self.memoryEntryStorageTrigger
+
+    def setMemoryEntryStorageTrigger(self, value: Optional[DiagnosticMemoryEntryStorageTriggerEnum]) -> DiagnosticMemoryDestination:
+        """
+        Describes the trigger to allocate an event memory entry.
+
+        A None value is a no-op and does not overwrite an existing memoryEntryStorageTrigger.
+        """
+        if value is not None:
+            self.memoryEntryStorageTrigger = value
+        return self
+
+    def getStatusBitHandlingTestFailedSinceLastClear(self) -> Optional[DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum]:
+        """
+        This attribute defines, whether the aging and displacement mechanism shall be applied to the "TestFailedSinceLastClear" status bits. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+        """
+        return self.statusBitHandlingTestFailedSinceLastClear
+
+    def setStatusBitHandlingTestFailedSinceLastClear(self, value: Optional[DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum]) -> DiagnosticMemoryDestination:
+        """
+        This attribute defines, whether the aging and displacement mechanism shall be applied to the "TestFailedSinceLastClear" status bits. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.
+
+        A None value is a no-op and does not overwrite an existing statusBitHandlingTestFailedSinceLastClear.
+        """
+        if value is not None:
+            self.statusBitHandlingTestFailedSinceLastClear = value
+        return self
+
+    def getStatusBitStorageTestFailed(self) -> Optional[Boolean]:
+        """
+        This parameter is used to activate/deactivate the permanent storage of the "TestFailed" status bits. true: storage activated false: storage deactivated
+        """
+        return self.statusBitStorageTestFailed
+
+    def setStatusBitStorageTestFailed(self, value: Optional[Boolean]) -> DiagnosticMemoryDestination:
+        """
+        This parameter is used to activate/deactivate the permanent storage of the "TestFailed" status bits. true: storage activated false: storage deactivated
+
+        A None value is a no-op and does not overwrite an existing statusBitStorageTestFailed.
+        """
+        if value is not None:
+            self.statusBitStorageTestFailed = value
+        return self
+
+    def getTypeOfFreezeFrameRecordNumeration(self) -> Optional[DiagnosticTypeOfFreezeFrameRecordNumerationEnum]:
+        """
+        This attribute defines the type of assigning freeze frame record numbers for event-specific freeze frame records.
+        """
+        return self.typeOfFreezeFrameRecordNumeration
+
+    def setTypeOfFreezeFrameRecordNumeration(self, value: Optional[DiagnosticTypeOfFreezeFrameRecordNumerationEnum]) -> DiagnosticMemoryDestination:
+        """
+        This attribute defines the type of assigning freeze frame record numbers for event-specific freeze frame records.
+
+        A None value is a no-op and does not overwrite an existing typeOfFreezeFrameRecordNumeration.
+        """
+        if value is not None:
+            self.typeOfFreezeFrameRecordNumeration = value
+        return self
 
 
 class DiagnosticMemoryDestinationUserDefined(ARObject):
@@ -1685,13 +1884,18 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     ByteOrderEnum,
+    DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticInhibitionMaskEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     Identifier,
     NameToken,
     PositiveInteger,

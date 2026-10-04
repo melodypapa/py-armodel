@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventWindow,
     DiagnosticFunctionIdentifierInhibit,
     DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -29,13 +30,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DateTime,
+    DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticInhibitionMaskEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     NameToken,
     PositiveInteger,
     RefType,
@@ -1379,3 +1385,272 @@ class TestDiagnosticIumprGroupIdentifier:
         """
         assert inspect.cleandoc(DiagnosticIumprGroupIdentifier.getGroupId.__doc__) == self.GROUP_ID_NOTE
         assert inspect.cleandoc(DiagnosticIumprGroupIdentifier.setGroupId.__doc__) == (self.GROUP_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing groupId.")
+
+
+class ConcreteDiagnosticMemoryDestination(DiagnosticMemoryDestination):
+    pass
+
+
+class TestDiagnosticMemoryDestination:
+    """
+    Test class for DiagnosticMemoryDestination functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.167, p.182
+
+    DiagnosticMemoryDestination is abstract (spec Class row marks it
+    "(abstract)"; subclasses: DiagnosticMemoryDestinationPrimary,
+    DiagnosticMemoryDestinationUserDefined — both queued later in Group25), so
+    __init__ defaults and base accessors are exercised through the minimal
+    concrete subclass ConcreteDiagnosticMemoryDestination (Rule 0006
+    abstract-class clause). Its XML flows through the concrete subclass
+    elements (XSD group DIAGNOSTIC-MEMORY-DESTINATION, AUTOSAR_00052.xsd
+    l.39458), so the reusable reader/writer helpers are round-tripped in
+    tests/test_armodel/parser/test_diagnostic_memory_destination.py and
+    tests/test_armodel/writer/test_writer_diagnostic_memory_destination.py.
+    The Base row's Identifiable branch is unreachable from ArObject.py —
+    ARObject (nested value container) is the most-derived reachable base.
+    memoryEntryStorageTrigger, statusBitHandlingTestFailedSinceLastClear and
+    typeOfFreezeFrameRecordNumeration are typed by their spec enums, which are
+    still stubs queued later in Group25 — tests construct them with the
+    interim raw-literal shape until they gain their literals.
+    """
+
+    CLASS_NOTE = "This abstract meta-class represents a possible memory destination for a diagnostic event."
+    AGING_REQUIRES_TESTED_CYCLE_NOTE = "Defines whether the aging cycle counter is processed every aging cycles or else only tested aging cycle are considered. If the attribute is set to TRUE: only tested aging cycle are considered for aging cycle counter. If the attribute is set to FALSE: aging cycle counter is processed every aging cycle. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination."
+    CLEAR_DTC_LIMITATION_NOTE = "Defines the scope of the DEM_ClearDTC Api. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination."
+    DTC_STATUS_AVAILABILITY_MASK_NOTE = "Mask for the supported DTC status bits by the Dem."
+    EVENT_DISPLACEMENT_STRATEGY_NOTE = "This attribute defines, whether support for event displacement is enabled or not, and which displacement strategy is followed."
+    MAX_NUMBER_OF_EVENT_ENTRIES_NOTE = "This attribute fixes the maximum number of event entries in the fault memory."
+    MEMORY_ENTRY_STORAGE_TRIGGER_NOTE = "Describes the trigger to allocate an event memory entry."
+    STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_NOTE = 'This attribute defines, whether the aging and displacement mechanism shall be applied to the "TestFailedSinceLastClear" status bits. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.'
+    STATUS_BIT_STORAGE_TEST_FAILED_NOTE = 'This parameter is used to activate/deactivate the permanent storage of the "TestFailed" status bits. true: storage activated false: storage deactivated'
+    TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE = "This attribute defines the type of assigning freeze frame record numbers for event-specific freeze frame records."
+
+    def _create_destination(self) -> DiagnosticMemoryDestination:
+        return ConcreteDiagnosticMemoryDestination()
+
+    def test_abstract_instantiation_blocked(self):
+        """
+        Test that instantiating the abstract DiagnosticMemoryDestination directly raises TypeError.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMemoryDestination()
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass initializes all attributes to their defaults.
+        """
+        obj = self._create_destination()
+
+        assert obj.getAgingRequiresTestedCycle() is None
+        assert obj.getClearDtcLimitation() is None
+        assert obj.getDtcStatusAvailabilityMask() is None
+        assert obj.getEventDisplacementStrategy() is None
+        assert obj.getMaxNumberOfEventEntries() is None
+        assert obj.getMemoryEntryStorageTrigger() is None
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is None
+        assert obj.getStatusBitStorageTestFailed() is None
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticMemoryDestination derives from ARObject (confirmed queue row Base; nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticMemoryDestination, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestination.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryDestination.__init__.__doc__ is None
+
+    def test_get_set_aging_requires_tested_cycle(self):
+        """
+        Test getAgingRequiresTestedCycle and setAgingRequiresTestedCycle round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = Boolean().setValue(True)
+        result = obj.setAgingRequiresTestedCycle(value)
+        assert result is obj  # method chaining
+        assert obj.getAgingRequiresTestedCycle() is value
+        assert obj.getAgingRequiresTestedCycle().value is True
+
+        result = obj.setAgingRequiresTestedCycle(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAgingRequiresTestedCycle() is value  # None is a no-op
+
+    def test_get_set_clear_dtc_limitation(self):
+        """
+        Test getClearDtcLimitation and setClearDtcLimitation round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticClearDtcLimitationEnum().setValue(DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS)
+        result = obj.setClearDtcLimitation(value)
+        assert result is obj  # method chaining
+        assert obj.getClearDtcLimitation() is value
+        assert obj.getClearDtcLimitation().getValue() == "allSupportedDtcs"
+
+        result = obj.setClearDtcLimitation(None)
+        assert result is obj  # method chaining with None
+        assert obj.getClearDtcLimitation() is value  # None is a no-op
+
+    def test_get_set_dtc_status_availability_mask(self):
+        """
+        Test getDtcStatusAvailabilityMask and setDtcStatusAvailabilityMask round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = PositiveInteger().setValue(255)
+        result = obj.setDtcStatusAvailabilityMask(value)
+        assert result is obj  # method chaining
+        assert obj.getDtcStatusAvailabilityMask() is value
+        assert obj.getDtcStatusAvailabilityMask().getValue() == 255
+
+        result = obj.setDtcStatusAvailabilityMask(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcStatusAvailabilityMask() is value  # None is a no-op
+
+    def test_get_set_event_displacement_strategy(self):
+        """
+        Test getEventDisplacementStrategy and setEventDisplacementStrategy round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticEventDisplacementStrategyEnum().setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC)
+        result = obj.setEventDisplacementStrategy(value)
+        assert result is obj  # method chaining
+        assert obj.getEventDisplacementStrategy() is value
+        assert obj.getEventDisplacementStrategy().getValue() == "prioOcc"
+
+        result = obj.setEventDisplacementStrategy(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventDisplacementStrategy() is value  # None is a no-op
+
+    def test_get_set_max_number_of_event_entries(self):
+        """
+        Test getMaxNumberOfEventEntries and setMaxNumberOfEventEntries round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setMaxNumberOfEventEntries(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfEventEntries() is value
+        assert obj.getMaxNumberOfEventEntries().getValue() == 10
+
+        result = obj.setMaxNumberOfEventEntries(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberOfEventEntries() is value  # None is a no-op
+
+    def test_get_set_memory_entry_storage_trigger(self):
+        """
+        Test getMemoryEntryStorageTrigger and setMemoryEntryStorageTrigger round-trip and None no-op (interim raw-literal shape — the enum is a stub).
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticMemoryEntryStorageTriggerEnum([]).setValue("confirmed")
+        result = obj.setMemoryEntryStorageTrigger(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryEntryStorageTrigger() is value
+        assert obj.getMemoryEntryStorageTrigger().getValue() == "confirmed"
+
+        result = obj.setMemoryEntryStorageTrigger(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMemoryEntryStorageTrigger() is value  # None is a no-op
+
+    def test_get_set_status_bit_handling_test_failed_since_last_clear(self):
+        """
+        Test getStatusBitHandlingTestFailedSinceLastClear and setStatusBitHandlingTestFailedSinceLastClear round-trip and None no-op (interim raw-literal shape — the enum is a stub).
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum([]).setValue("statusBitNormal")
+        result = obj.setStatusBitHandlingTestFailedSinceLastClear(value)
+        assert result is obj  # method chaining
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is value
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
+
+        result = obj.setStatusBitHandlingTestFailedSinceLastClear(None)
+        assert result is obj  # method chaining with None
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is value  # None is a no-op
+
+    def test_get_set_status_bit_storage_test_failed(self):
+        """
+        Test getStatusBitStorageTestFailed and setStatusBitStorageTestFailed round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = Boolean().setValue(False)
+        result = obj.setStatusBitStorageTestFailed(value)
+        assert result is obj  # method chaining
+        assert obj.getStatusBitStorageTestFailed() is value
+        assert obj.getStatusBitStorageTestFailed().value is False
+
+        result = obj.setStatusBitStorageTestFailed(None)
+        assert result is obj  # method chaining with None
+        assert obj.getStatusBitStorageTestFailed() is value  # None is a no-op
+
+    def test_get_set_type_of_freeze_frame_record_numeration(self):
+        """
+        Test getTypeOfFreezeFrameRecordNumeration and setTypeOfFreezeFrameRecordNumeration round-trip and None no-op (interim raw-literal shape — the enum is a stub).
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("calculated")
+        result = obj.setTypeOfFreezeFrameRecordNumeration(value)
+        assert result is obj  # method chaining
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is value
+        assert obj.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
+
+        result = obj.setTypeOfFreezeFrameRecordNumeration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getAgingRequiresTestedCycle.__doc__) == self.AGING_REQUIRES_TESTED_CYCLE_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setAgingRequiresTestedCycle.__doc__) == (
+            self.AGING_REQUIRES_TESTED_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing agingRequiresTestedCycle."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getClearDtcLimitation.__doc__) == self.CLEAR_DTC_LIMITATION_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setClearDtcLimitation.__doc__) == (
+            self.CLEAR_DTC_LIMITATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearDtcLimitation."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getDtcStatusAvailabilityMask.__doc__) == self.DTC_STATUS_AVAILABILITY_MASK_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setDtcStatusAvailabilityMask.__doc__) == (
+            self.DTC_STATUS_AVAILABILITY_MASK_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcStatusAvailabilityMask."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getEventDisplacementStrategy.__doc__) == self.EVENT_DISPLACEMENT_STRATEGY_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setEventDisplacementStrategy.__doc__) == (
+            self.EVENT_DISPLACEMENT_STRATEGY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventDisplacementStrategy."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getMaxNumberOfEventEntries.__doc__) == self.MAX_NUMBER_OF_EVENT_ENTRIES_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setMaxNumberOfEventEntries.__doc__) == (
+            self.MAX_NUMBER_OF_EVENT_ENTRIES_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumberOfEventEntries."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getMemoryEntryStorageTrigger.__doc__) == self.MEMORY_ENTRY_STORAGE_TRIGGER_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setMemoryEntryStorageTrigger.__doc__) == (
+            self.MEMORY_ENTRY_STORAGE_TRIGGER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryEntryStorageTrigger."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getStatusBitHandlingTestFailedSinceLastClear.__doc__) == self.STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setStatusBitHandlingTestFailedSinceLastClear.__doc__) == (
+            self.STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing statusBitHandlingTestFailedSinceLastClear."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getStatusBitStorageTestFailed.__doc__) == self.STATUS_BIT_STORAGE_TEST_FAILED_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setStatusBitStorageTestFailed.__doc__) == (
+            self.STATUS_BIT_STORAGE_TEST_FAILED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing statusBitStorageTestFailed."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getTypeOfFreezeFrameRecordNumeration.__doc__) == self.TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setTypeOfFreezeFrameRecordNumeration.__doc__) == (
+            self.TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing typeOfFreezeFrameRecordNumeration."
+        )
