@@ -16,8 +16,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecific
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
+
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
@@ -40,24 +41,20 @@ class PortInterface(AtpType, ABC):
     """Abstract base class for an interface that is either provided or required by a port of a software component."""
 
     # PortInterface method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.18, p.87
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIsService   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsService   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getServiceKind [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setServiceKind [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.18, p.87 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIsService   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsService   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceKind [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceKind [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterface:
             raise TypeError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-        # This flag is set if the PortInterface is to be used for communication between an
-        # ApplicationSwComponentType or ServiceProxySwComponentType or SensorActuatorSwComponentType or
-        # ComplexDeviceDriverSwComponentType or ServiceSwComponentType or EcuAbstractionSwComponentType and a
-        # ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
+        # This flag is set if the PortInterface is to be used for communication between an • ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or • ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
         self.isService: Optional[Boolean] = None
 
         # This attribute provides further details about the nature of the applied service.
@@ -65,33 +62,14 @@ class PortInterface(AtpType, ABC):
 
     def getIsService(self) -> Optional[Boolean]:
         """
-        Gets the isService flag of this PortInterface.
-
-        This flag is set if the PortInterface is to be used for communication between an ApplicationSwComponentType or
-        ServiceProxySwComponentType or SensorActuatorSwComponentType or ComplexDeviceDriverSwComponentType or
-        ServiceSwComponentType or EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service)
-        located on the same ECU. Otherwise the flag is not set.
-
-        Returns:
-            Optional[Boolean]: The isService flag, or None if not set
+        This flag is set if the PortInterface is to be used for communication between an • ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or • ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
         """
         return self.isService
 
     def setIsService(self, value: Optional[Boolean]) -> PortInterface:
         """
-        Sets the isService flag of this PortInterface.
-
-        This flag is set if the PortInterface is to be used for communication between an ApplicationSwComponentType or
-        ServiceProxySwComponentType or SensorActuatorSwComponentType or ComplexDeviceDriverSwComponentType or
-        ServiceSwComponentType or EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service)
-        located on the same ECU. Otherwise the flag is not set.
+        This flag is set if the PortInterface is to be used for communication between an • ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or • ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
         A None value is a no-op and does not overwrite an existing isService.
-
-        Args:
-            value: The isService flag to set
-
-        Returns:
-            PortInterface: self for method chaining
         """
         if value is not None:
             self.isService = value
@@ -99,27 +77,14 @@ class PortInterface(AtpType, ABC):
 
     def getServiceKind(self) -> Optional[ServiceProviderEnum]:
         """
-        Gets the serviceKind of this PortInterface.
-
         This attribute provides further details about the nature of the applied service.
-
-        Returns:
-            Optional[ServiceProviderEnum]: The serviceKind, or None if not set
         """
         return self.serviceKind
 
     def setServiceKind(self, value: Optional[ServiceProviderEnum]) -> PortInterface:
         """
-        Sets the serviceKind of this PortInterface.
-
         This attribute provides further details about the nature of the applied service.
         A None value is a no-op and does not overwrite an existing serviceKind.
-
-        Args:
-            value: The serviceKind to set
-
-        Returns:
-            PortInterface: self for method chaining
         """
         if value is not None:
             self.serviceKind = value

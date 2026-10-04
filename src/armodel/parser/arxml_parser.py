@@ -8561,8 +8561,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSenderReceiverInterface(self, element, sr_interface: SenderReceiverInterface):
         self.logger.debug("Read SenderReceiverInterface <%s>" % sr_interface.getShortName())
-        self.readIdentifiable(element, sr_interface)
-        sr_interface.setIsService(self.getChildElementOptionalBooleanValue(element, "IS-SERVICE"))
+        self.readDataInterface(element, sr_interface)
         self.readSenderReceiverInterfaceDataElements(element, sr_interface)
         self.readSenderReceiverInterfaceInvalidationPolicies(element, sr_interface)
         self.readSenderReceiverInterfaceMetaDataItemSets(element, sr_interface)
@@ -9286,7 +9285,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("Read TriggerInterface <%s>" % trigger_if.getShortName())
-        self.readIdentifiable(element, trigger_if)
+        self.readDataInterface(element, trigger_if)
         self.readTriggerInterfaceTriggers(element, trigger_if)
 
     def readModeDeclarationGroupModeDeclaration(self, element: ET.Element, parent: ModeDeclarationGroup):

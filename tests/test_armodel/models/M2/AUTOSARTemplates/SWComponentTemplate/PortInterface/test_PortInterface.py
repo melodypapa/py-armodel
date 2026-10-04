@@ -952,3 +952,53 @@ class TestVariableAndParameterInterfaceMappingSpecContract:
             doc = getattr(VariableAndParameterInterfaceMapping, method).__doc__.strip()
             assert self.DATA_MAPPING_NOTE in doc, "%s docstring must carry the spec Note verbatim" % method
         assert "A None value is a no-op and does not append anything." in VariableAndParameterInterfaceMapping.addDataMapping.__doc__.strip()
+
+
+class TestPortInterfaceSpecSync:
+    """Spec-sync pins for the abstract PortInterface base (CP_TPS_SoftwareComponentTemplate Table 3.18, p.87)."""
+
+    IS_SERVICE_NOTE = (
+        "This flag is set if the PortInterface is to be used for communication between an "
+        "• ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or "
+        "• ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a "
+        "ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set."
+    )
+    SERVICE_KIND_NOTE = "This attribute provides further details about the nature of the applied service."
+    CLASS_NOTE = "Abstract base class for an interface that is either provided or required by a port of a software component."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert PortInterface.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_most_derived_atp_type_branch(self):
+        assert issubclass(PortInterface, AtpType)
+
+    def test_field_annotations_match_spec_multiplicity(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        pi = TriggerInterface(ar_root, "PI")
+        assert pi.isService is None
+        assert pi.serviceKind is None
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(PortInterface.getIsService)["return"] == Optional[Boolean]
+        assert typing.get_type_hints(PortInterface.setIsService)["value"] == Optional[Boolean]
+        assert typing.get_type_hints(PortInterface.setIsService)["return"] == PortInterface
+        assert typing.get_type_hints(PortInterface.getServiceKind)["return"] == Optional[ServiceProviderEnum]
+        assert typing.get_type_hints(PortInterface.setServiceKind)["value"] == Optional[ServiceProviderEnum]
+        assert typing.get_type_hints(PortInterface.setServiceKind)["return"] == PortInterface
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert PortInterface.__init__.__doc__ is None
+        assert PortInterface.getIsService.__doc__.strip() == self.IS_SERVICE_NOTE
+        assert self.IS_SERVICE_NOTE in PortInterface.setIsService.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing isService." in PortInterface.setIsService.__doc__.strip()
+        assert PortInterface.getServiceKind.__doc__.strip() == self.SERVICE_KIND_NOTE
+        assert self.SERVICE_KIND_NOTE in PortInterface.setServiceKind.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing serviceKind." in PortInterface.setServiceKind.__doc__.strip()
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(PortInterface.__init__)
+        assert self.IS_SERVICE_NOTE in init_source
+        assert self.SERVICE_KIND_NOTE in init_source

@@ -7648,8 +7648,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSenderReceiverInterface(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.getShortName())
         child_element = ET.SubElement(element, "SENDER-RECEIVER-INTERFACE")
-        self.writeIdentifiable(child_element, sr_interface)
-        self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.getIsService())
+        self.writePortInterface(child_element, sr_interface)
         self.writeSenderReceiverInterfaceDataElements(child_element, sr_interface)
         self.writeSenderReceiverInterfaceInvalidationPolicies(child_element, sr_interface)
         self.writeSenderReceiverInterfaceMetaDataItemSets(child_element, sr_interface)
@@ -8778,8 +8777,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writePortInterface(self, element: ET.Element, port_interface: PortInterface):
         self.writeIdentifiable(element, port_interface)
-        self.setChildElementOptionalBooleanValue(element, "IS-SERVICE", port_interface.isService)
-        self.setChildElementOptionalLiteral(element, "SERVICE-KIND", port_interface.serviceKind)
+        self.setChildElementOptionalBooleanValue(element, "IS-SERVICE", port_interface.getIsService())
+        self.setChildElementOptionalLiteral(element, "SERVICE-KIND", port_interface.getServiceKind())
 
     def writeDataInterface(self, element: ET.Element, interface: DataInterface):
         self.writePortInterface(element, interface)
@@ -8905,7 +8904,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("writeTriggerInterface %s" % trigger_if.getShortName())
         child_element = ET.SubElement(element, "TRIGGER-INTERFACE")
-        self.writeIdentifiable(child_element, trigger_if)
+        self.writePortInterface(child_element, trigger_if)
         self.writeTriggerInterfaceTriggers(child_element, trigger_if)
 
     def writeServiceSwComponentType(self, element: ET.Element, sw_component: ServiceSwComponentType):
