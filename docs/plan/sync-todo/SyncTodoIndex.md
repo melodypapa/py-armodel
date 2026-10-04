@@ -735,7 +735,7 @@ Status: **15/29** completed
 | `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
 | `EthernetPriorityRegeneration`          | [x] Done     | a513bd3ec3 |
 | `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
-| `CouplingPortAbstractShaper`            | [x] Done     | 929cee7081 |
+| `CouplingPortAbstractShaper`            | [x] Done     | f02e111f65 |
 | `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
 | `CouplingPortCreditBasedShaper`         | [x] Done     | 929cee7081 |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
