@@ -373,15 +373,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BaseTypeDefinition` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.23, p.290
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified: R23-11` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Abstract Class confirmed (header "BaseTypeDefinition
+    (abstract)"); zero Attribute rows (empty table); Base = ARObject only (impl `(ARObject, ABC)` matches);
+    Subclasses row names BaseTypeDirectDefinition (own Group28 row follows later — untouched). XSD group
+    BASE-TYPE-DEFINITION (AUTOSAR_00052.xsd L8395) is EMPTY (`<xsd:sequence/>`) → no own XML element, no own
+    XML-bearing attributes → Steps 5/6 N/A; not VP-capable. Aggregation realized through the concrete subclass:
+    readSwBaseType/writeSwBaseType → readBaseTypeDirectDefinition/setBaseTypeDirectDefinition (SwBaseType pass).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 4 passed
+    test_BaseTypes.py::TestBaseTypeDefinition (abstract-instantiation guard, base-shape pin ARObject+ABC,
+    concrete-subclass relationship, verbatim class-docstring pin; no own attrs/accessors exist to pin)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (field-to-spec cross-check both
+    directions clean: zero own attrs, Base ARObject → `(ARObject, ABC)`, `__init__(self)` signature per
+    ARObject-only base, abstract instantiation guard in place; 20 passed test_BaseTypes.py)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — BaseTypeDefinition block's single doc-bearing surface
+    (class docstring) wiped and rewritten verbatim from the markdown Note — content-identical, no stale
+    wording; no method docstrings or inline `__init__` member comments exist in the block (zero own attrs)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: abstract class, XSD group BASE-TYPE-DEFINITION
+    is EMPTY — `<xsd:sequence/>`, AUTOSAR_00052.xsd L8395 — no own XML element, no own XML-bearing attributes;
+    serialized through the concrete subclass BaseTypeDirectDefinition whose round-trip is covered by the
+    SwBaseType pass: tests/test_armodel/parser/test_SwBaseType.py + tests/test_armodel/writer/test_writer_SwBaseType.py
+    field-value assertions incl. one-level-down definition, 7 passed re-run this step)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: no readBaseTypeDefinition/writeBaseTypeDefinition helpers
+    exist or are needed — the abstract class owns no XML group content; concrete-subclass helpers
+    readBaseTypeDirectDefinition (arxml_parser.py:7428) / setBaseTypeDirectDefinition (arxml_writer.py:3979)
+    pre-exist and are called from readSwBaseType/writeSwBaseType, no parser/writer edit)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column (`__init__` row only, reader/
+    writer `[—]`); citation `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.23, p.290` (markdown caption
+    + pdf_page.py); stale legacy `# Spec verified: R23-11` (5-column block) removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md,
+    `## BaseTypeDefinition`, No-deviations summary + batch Note); no stale rows for this class (no prior entry
+    existed; the legacy `## BaseType`/`## BaseTypeDirectDefinition` entries are other classes' rows, owned by
+    their own queued Group28 passes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (767 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/test_BaseTypes.py, tests/test_armodel/parser/test_SwBaseType.py, tests/test_armodel/writer/test_writer_SwBaseType.py, tests/test_armodel/parser/test_arxml_parser_handlers.py, tests/test_armodel/parser/test_arxml_parser_orchestrators.py, tests/test_armodel/writer/test_writer_data_types.py + AsamHdo dir + tests/test_armodel/models/test_member_annotations.py; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified, targeted lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml + AUTOSAR_Datatypes.arxml byte-identical); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BaseTypeDirectDefinition` — BaseTypeDefinition — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.24, p.291
   - module: M2/MSR/AsamHdo/BaseTypes.py

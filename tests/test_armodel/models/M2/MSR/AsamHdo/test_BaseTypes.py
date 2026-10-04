@@ -2,6 +2,8 @@
 This module contains tests for the BaseTypes module in MSR.AsamHdo.
 """
 
+from abc import ABC
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -22,18 +24,28 @@ from armodel.models.M2.MSR.AsamHdo.BaseTypes import (
 
 
 class TestBaseTypeDefinition:
-    """Test class for BaseTypeDefinition class."""
+    """Heritage / API tests for the synced BaseTypeDefinition (Swc TPS Table 5.23, p.290)."""
 
     def test_base_type_definition_abstract_class(self):
         """Test that BaseTypeDefinition cannot be instantiated directly."""
         with pytest.raises(TypeError, match="BaseTypeDefinition is an abstract class"):
             BaseTypeDefinition()
 
+    def test_base_shape(self):
+        """Base column is ARObject only (Table 5.23); ABC marks the abstract convention."""
+        assert BaseTypeDefinition.__bases__[0] is ARObject
+        assert ABC in BaseTypeDefinition.__bases__
+
     def test_base_type_definition_concrete_subclass(self):
         """Test that a concrete subclass of BaseTypeDefinition can be instantiated."""
         base_type_def = BaseTypeDirectDefinition()
-        # BaseTypeDefinition inherits from ARObject, so we just check it's created
-        assert base_type_def is not None
+        assert isinstance(base_type_def, BaseTypeDefinition)
+        assert isinstance(base_type_def, ARObject)
+        # BaseTypeDefinition declares no own attributes (Table 5.23 Attribute rows: none)
+        assert not any(name in BaseTypeDirectDefinition.__dict__ for name in ("baseTypeDefinition", "definition"))
+
+    def test_class_docstring_matches_spec_note(self):
+        assert BaseTypeDefinition.__doc__.strip() == "This meta-class represents the ability to define a basetype."
 
 
 class TestBaseTypeDirectDefinition:
