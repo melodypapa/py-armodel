@@ -620,6 +620,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStorageCondition,
     DiagnosticStorageConditionGroup,
     DiagnosticTestRoutineIdentifier,
+    DiagnosticTroubleCode,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -10930,8 +10931,12 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SPN-REFS/SPN-REF"):
             expanded_freeze_frame.addSpnRef(ref)
 
-    def readDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
+    def readDiagnosticTroubleCode(self, element: ET.Element, trouble_code: DiagnosticTroubleCode):
+        self.logger.debug("Read DiagnosticTroubleCode <%s>" % trouble_code.getShortName())
         self.readIdentifiable(element, trouble_code)
+
+    def readDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
+        self.readDiagnosticTroubleCode(element, trouble_code)
         trouble_code.setDtcPropsRef(self.getChildElementOptionalRefType(element, "DTC-PROPS-REF"))
         trouble_code.setFmi(self.getChildElementOptionalPositiveInteger(element, "FMI"))
         trouble_code.setKind(self._readEnumToken(element, "KIND", DiagnosticTroubleCodeJ1939DtcKindEnum, DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP))
@@ -17036,6 +17041,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-GROUP":
             storage_condition_group = parent.createDiagnosticStorageConditionGroup(self.getShortName(child_element))
             self.readDiagnosticStorageConditionGroup(child_element, storage_condition_group)
+        elif tag_name == "DIAGNOSTIC-TROUBLE-CODE":
+            trouble_code = parent.createDiagnosticTroubleCode(self.getShortName(child_element))
+            self.readDiagnosticTroubleCode(child_element, trouble_code)
         elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
             proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
             self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
@@ -17284,6 +17292,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-TROUBLE-CODE-J-1939":
             trouble_code = parent.createDiagnosticTroubleCodeJ1939(self.getShortName(child_element))
             self.readDiagnosticTroubleCodeJ1939(child_element, trouble_code)
+            return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE":
+            trouble_code = parent.createDiagnosticTroubleCode(self.getShortName(child_element))
+            self.readDiagnosticTroubleCode(child_element, trouble_code)
             return True
         if tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
             service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))

@@ -3330,6 +3330,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(freeze_frame)
         return cast(DiagnosticJ1939FreezeFrame, self.getReferrableElement(short_name, DiagnosticJ1939FreezeFrame))
 
+    def createDiagnosticTroubleCode(self, short_name: str) -> DiagnosticTroubleCode:
+        """
+        Creates a new DiagnosticTroubleCode with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCode: A diagnostic trouble code defines a unique identifier that is shown to the diagnostic tester.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCode
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCode instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCode):
+            trouble_code = DiagnosticTroubleCode(self, short_name)
+            self.addReferrableElement(trouble_code)
+        return cast(DiagnosticTroubleCode, self.getReferrableElement(short_name, DiagnosticTroubleCode))
+
     def createDiagnosticTroubleCodeJ1939(self, short_name: str) -> DiagnosticTroubleCodeJ1939:
         """
         Creates a new DiagnosticTroubleCodeJ1939 with the given short name,
@@ -10673,7 +10691,15 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
 
 
 class DiagnosticTroubleCode(ARElement, ABC):
-    pass
+    """A diagnostic trouble code defines a unique identifier that is shown to the diagnostic tester."""
+
+    # DiagnosticTroubleCode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.161, p.176
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticTroubleCodeGroup(ARElement):

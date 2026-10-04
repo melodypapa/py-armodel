@@ -627,15 +627,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTroubleCode` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.161, p.176
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): spec marks the class **abstract** (Table 4.161 Class row "DiagnosticTroubleCode (abstract)"; subclasses
+    DiagnosticTroubleCodeJ1939 (Table 4.223, already synced), DiagnosticTroubleCodeObd (Table 4.159) and
+    DiagnosticTroubleCodeUds (Table 4.158) — Obd/Uds queued later, still stubs, untouched here). The table carries NO
+    Attribute rows and the XSD group DIAGNOSTIC-TROUBLE-CODE (AUTOSAR_00052.xsd l.46194) is an empty <xsd:sequence/>;
+    no standalone DIAGNOSTIC-TROUBLE-CODE element exists in the ARPackage ELEMENTS choice (only -GROUP/-J-1939/-OBD/-PROPS/-UDS
+    variants). Class is "Aggregated by ARPackage.element" per its own table row, so the ARElement wiring
+    (createDiagnosticTroubleCode factory + DIAGNOSTIC-TROUBLE-CODE dispatch entries in readARPackageElementsRest /
+    readDiagnosticPackageElement / writeARPackageElementRest / writeDiagnosticElement) was added following the
+    DiagnosticStorageCondition precedent (bd5949a41); the writer dispatch places the concrete writeDiagnosticTroubleCodeJ1939
+    branch before the abstract-base branch so J-1939 elements keep their own tag (guarded by
+    test_j1939_dispatch_not_shadowed_by_base in test_writer_diagnostic_trouble_code.py).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — consumer rewire done: readDiagnosticTroubleCodeJ1939 now calls
+    readDiagnosticTroubleCode instead of readIdentifiable (single base read, no double-read); the J-1939 writer keeps its
+    own tag + writeIdentifiable since writeDiagnosticTroubleCode owns the DIAGNOSTIC-TROUBLE-CODE subelement
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; nothing modeled beyond the empty group; no atp.Status="removed" XSD elements involved)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1946 passed / 0 failed: test_ARPackage.py + test_diagnostic_trouble_code.py + test_writer_diagnostic_trouble_code.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticTroubleCodeGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.162, p.177
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

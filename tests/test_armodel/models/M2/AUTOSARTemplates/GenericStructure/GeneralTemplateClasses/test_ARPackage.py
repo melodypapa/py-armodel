@@ -134,6 +134,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSwMapping,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTransferExit,
+    DiagnosticTroubleCode,
     DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
@@ -3448,6 +3449,63 @@ class TestDiagnosticJ1939ExpandedFreezeFrame:
 
         duplicate = package.createDiagnosticJ1939ExpandedFreezeFrame("ExpandedFreezeFrame1")
         assert duplicate is expanded_freeze_frame  # duplicate short name returns the existing element
+
+
+class TestDiagnosticTroubleCode:
+    """
+    Test class for DiagnosticTroubleCode functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.161, p.176
+
+    DiagnosticTroubleCode is abstract and carries no Attribute rows of its own
+    (the XSD group DIAGNOSTIC-TROUBLE-CODE is an empty sequence) — the only
+    members are the Identifiable defaults inherited from ARElement, so defaults
+    and the factory shape are exercised directly on the class.
+    """
+
+    CLASS_NOTE = "A diagnostic trouble code defines a unique identifier that is shown to the diagnostic tester."
+
+    def _make_obj(self) -> DiagnosticTroubleCode:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTroubleCode(ar_root, "TestTroubleCode")
+
+    def test_initialization(self):
+        """
+        Test that the abstract class instantiates with the most-derived base chain and the inherited defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestTroubleCode"
+        assert isinstance(obj, DiagnosticTroubleCode)
+        assert isinstance(obj, ARElement)
+        assert isinstance(obj, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCode.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCode.__init__.__doc__ is None
+
+    def test_create_diagnostic_trouble_code(self):
+        """
+        Test that ARPackage.createDiagnosticTroubleCode appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticTroubleCode("TroubleCode1")
+
+        assert isinstance(obj, DiagnosticTroubleCode)
+        assert obj.getShortName() == "TroubleCode1"
+        assert ar_root.getReferrableElement("TroubleCode1", DiagnosticTroubleCode) is obj
+
+        duplicate = ar_root.createDiagnosticTroubleCode("TroubleCode1")
+        assert duplicate is obj
 
 
 class TestDiagnosticTroubleCodeJ1939:

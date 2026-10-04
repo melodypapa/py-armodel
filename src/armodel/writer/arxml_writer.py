@@ -487,6 +487,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticTestRoutineIdentifier,
+    DiagnosticTroubleCode,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -14257,6 +14258,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in spn_refs:
                 self.setChildElementOptionalRefType(refs_tag, "SPN-REF", ref)
 
+    def writeDiagnosticTroubleCode(self, element: ET.Element, trouble_code: DiagnosticTroubleCode):
+        self.logger.debug("Write DiagnosticTroubleCode %s" % trouble_code.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE")
+        self.writeIdentifiable(child_element, trouble_code)
+
     def writeDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
         self.logger.debug("Write DiagnosticTroubleCodeJ1939 %s" % trouble_code.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE-J-1939")
@@ -16831,6 +16837,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticStorageCondition(element, ar_element)
         elif isinstance(ar_element, DiagnosticStorageConditionGroup):
             self.writeDiagnosticStorageConditionGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticTroubleCodeJ1939):
+            self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
+        elif isinstance(ar_element, DiagnosticTroubleCode):
+            self.writeDiagnosticTroubleCode(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
@@ -16995,6 +17005,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticTroubleCodeJ1939):
             self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTroubleCode):
+            self.writeDiagnosticTroubleCode(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticServiceDataMapping):
             self.writeDiagnosticServiceDataMapping(element, ar_element)
