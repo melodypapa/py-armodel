@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticIumprGroupIdentifier,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
 )
@@ -3469,6 +3470,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticIumprDenominatorGroup(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticIumprDenominatorGroup, self.getReferrableElement(short_name, DiagnosticIumprDenominatorGroup))
+
+    def createDiagnosticIumprGroup(self, short_name: str) -> DiagnosticIumprGroup:
+        """
+        Creates a new DiagnosticIumprGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumprGroup: This meta-class represents the ability to model a IUMPR groups. Tags: atp.recommendedPackage=DiagnosticIumprGroups
+
+        Args:
+            short_name: The short name for the new DiagnosticIumprGroup
+
+        Returns:
+            The newly created or existing DiagnosticIumprGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIumprGroup):
+            element = DiagnosticIumprGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIumprGroup, self.getReferrableElement(short_name, DiagnosticIumprGroup))
 
     def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
         """
@@ -7808,7 +7827,59 @@ class DiagnosticIumprDenominatorGroup(ARElement):
 
 
 class DiagnosticIumprGroup(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model a IUMPR groups. Tags: atp.recommendedPackage=DiagnosticIumprGroups
+    """
+
+    # DiagnosticIumprGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.209, p.210
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addIumprRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIumprRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIumprGroupIdentifier  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIumprGroupIdentifier  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference collects DiagnosticIumpr to a Diagnostic IumprGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        self.iumprRefs: List[RefType] = []
+
+        # This aggregation allows for the variant modeling of the groupIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iumprGroupIdentifier.groupId, iumprGroup Identifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iumprGroupIdentifier: Optional[DiagnosticIumprGroupIdentifier] = None
+
+    def addIumprRef(self, ref: Optional[RefType]) -> DiagnosticIumprGroup:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+
+        A None value is a no-op and does not extend the iumprRefs list.
+        """
+        if ref is not None:
+            self.iumprRefs.append(ref)
+        return self
+
+    def getIumprRefs(self) -> List[RefType]:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        """
+        return self.iumprRefs
+
+    def getIumprGroupIdentifier(self) -> Optional[DiagnosticIumprGroupIdentifier]:
+        """
+        This aggregation allows for the variant modeling of the groupIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iumprGroupIdentifier.groupId, iumprGroup Identifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.iumprGroupIdentifier
+
+    def setIumprGroupIdentifier(self, value: Optional[DiagnosticIumprGroupIdentifier]) -> DiagnosticIumprGroup:
+        """
+        This aggregation allows for the variant modeling of the groupIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iumprGroupIdentifier.groupId, iumprGroup Identifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing iumprGroupIdentifier.
+        """
+        if value is not None:
+            self.iumprGroupIdentifier = value
+        return self
 
 
 class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):

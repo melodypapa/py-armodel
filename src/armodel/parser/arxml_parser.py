@@ -523,6 +523,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticIumprGroupIdentifier,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -638,6 +639,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterResourceToDiagFunctionIdMapping,
     DiagnosticIumpr,
     DiagnosticIumprDenominatorGroup,
+    DiagnosticIumprGroup,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -10965,6 +10967,16 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "IUMPR-REFS/IUMPR-REF"):
             group.addIumprRef(ref)
 
+    def readDiagnosticIumprGroup(self, element: ET.Element, group: DiagnosticIumprGroup):
+        self.logger.debug("Read DiagnosticIumprGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        # iumprGroupIdentifier round-trips as wrapper presence until DiagnosticIumprGroupIdentifier (Table 4.210, Group25) gains its own fields; read its children there then.
+        identifier_element = self.find(element, "IUMPR-GROUP-IDENTIFIERS/DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
+        if identifier_element is not None:
+            group.setIumprGroupIdentifier(DiagnosticIumprGroupIdentifier())
+        for ref in self.getChildElementRefTypeList(element, "IUMPR-REFS/IUMPR-REF"):
+            group.addIumprRef(ref)
+
     def readDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setFunctionIdentifierRef(self.getChildElementOptionalRefType(element, "FUNCTION-IDENTIFIER-REF"))
@@ -16750,6 +16762,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP":
             denominator_group = parent.createDiagnosticIumprDenominatorGroup(self.getShortName(child_element))
             self.readDiagnosticIumprDenominatorGroup(child_element, denominator_group)
+        elif tag_name == "DIAGNOSTIC-IUMPR-GROUP":
+            iumpr_group = parent.createDiagnosticIumprGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprGroup(child_element, iumpr_group)
         elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
             read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
@@ -17128,6 +17143,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP":
             denominator_group = parent.createDiagnosticIumprDenominatorGroup(self.getShortName(child_element))
             self.readDiagnosticIumprDenominatorGroup(child_element, denominator_group)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR-GROUP":
+            iumpr_group = parent.createDiagnosticIumprGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprGroup(child_element, iumpr_group)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

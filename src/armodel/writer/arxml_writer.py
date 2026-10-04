@@ -509,6 +509,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterResourceToDiagFunctionIdMapping,
     DiagnosticIumpr,
     DiagnosticIumprDenominatorGroup,
+    DiagnosticIumprGroup,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -14397,6 +14398,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "IUMPR-REF", ref)
 
+    def writeDiagnosticIumprGroup(self, element: ET.Element, group: DiagnosticIumprGroup):
+        self.logger.debug("Write DiagnosticIumprGroup %s" % group.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR-GROUP")
+        self.writeIdentifiable(child_element, group)
+        # iumprGroupIdentifier round-trips as wrapper presence until DiagnosticIumprGroupIdentifier (Table 4.210, Group25) gains its own fields; write its children there then.
+        if group.getIumprGroupIdentifier() is not None:
+            identifiers_tag = ET.SubElement(child_element, "IUMPR-GROUP-IDENTIFIERS")
+            ET.SubElement(identifiers_tag, "DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
+        refs = group.getIumprRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "IUMPR-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "IUMPR-REF", ref)
+
     def writeDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.logger.debug("Write DiagnosticIumprToFunctionIdentifierMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING")
@@ -16591,6 +16606,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticIumpr(element, ar_element)
         elif isinstance(ar_element, DiagnosticIumprDenominatorGroup):
             self.writeDiagnosticIumprDenominatorGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIumprGroup):
+            self.writeDiagnosticIumprGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
@@ -16831,6 +16848,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticIumprDenominatorGroup):
             self.writeDiagnosticIumprDenominatorGroup(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticIumprGroup):
+            self.writeDiagnosticIumprGroup(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)
