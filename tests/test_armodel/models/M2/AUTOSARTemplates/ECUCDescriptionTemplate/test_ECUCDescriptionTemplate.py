@@ -1612,6 +1612,55 @@ def test_ecuc_reference_value_setter_docstring_split_paragraphs():
     assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing reference.", "setValueRef docstring must carry the no-op sentence as its own paragraph"
 
 
+def test_ecuc_instance_reference_value_member_docstrings_verbatim_full():
+    """
+    Member docstrings must carry the Table 2.55 Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter docstring carries the complete spec attribute Note verbatim
+    """
+    assert EcucInstanceReferenceValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "InstanceReference representation in the ECU Configuration." in EcucInstanceReferenceValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+    note = "InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef"
+    for method_name in ("getValueIRef", "setValueIRef"):
+        method = getattr(EcucInstanceReferenceValue, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_ecuc_instance_reference_value_member_annotations():
+    """
+    Member annotations must match the Table 2.55 multiplicities (Rule 0022 gate pins).
+
+    Test Steps:
+    1. Assert the value getter return type and setter value type via get_type_hints
+    2. Assert EcucAbstractReferenceValue is the most-derived spec base
+    """
+    import typing
+
+    assert typing.get_type_hints(EcucInstanceReferenceValue.getValueIRef)["return"] == typing.Optional[AnyInstanceRef]
+    assert typing.get_type_hints(EcucInstanceReferenceValue.setValueIRef)["value"] == typing.Optional[AnyInstanceRef]
+
+    assert EcucAbstractReferenceValue in EcucInstanceReferenceValue.__bases__
+
+
+def test_ecuc_instance_reference_value_setter_docstring_split_paragraphs():
+    """
+    The setter docstring must follow the batch-2 split-paragraph style: the spec Note,
+    a blank line, then the None no-op sentence (EcucParameterValue setter convention).
+
+    Test Steps:
+    1. Assert the setValueIRef docstring carries the no-op sentence as its own paragraph
+    """
+    doc = EcucInstanceReferenceValue.setValueIRef.__doc__
+    assert doc is not None, "setValueIRef must have a docstring"
+    paragraphs = [paragraph.strip() for paragraph in doc.split("\n\n")]
+    assert len(paragraphs) >= 2, "setValueIRef docstring must split the Note and the no-op sentence into separate paragraphs"
+    assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing instance reference.", "setValueIRef docstring must carry the no-op sentence as its own paragraph"
+
+
 if __name__ == "__main__":
     test_ecuc_value_collection_initialization_defaults()
     test_ecuc_value_collection_add_ecuc_value_ref()
@@ -1670,4 +1719,7 @@ if __name__ == "__main__":
     test_ecuc_reference_value_member_docstrings_verbatim_full()
     test_ecuc_reference_value_member_annotations()
     test_ecuc_reference_value_setter_docstring_split_paragraphs()
+    test_ecuc_instance_reference_value_member_docstrings_verbatim_full()
+    test_ecuc_instance_reference_value_member_annotations()
+    test_ecuc_instance_reference_value_setter_docstring_split_paragraphs()
     print("All ECUCDescriptionTemplate tests passed!")

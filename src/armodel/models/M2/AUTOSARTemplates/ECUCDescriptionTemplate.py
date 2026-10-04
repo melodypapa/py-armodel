@@ -356,11 +356,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # EcucInstanceReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.55, p.134
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -373,7 +372,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
         return self.valueIRef
 
     def setValueIRef(self, value: Optional[AnyInstanceRef]) -> EcucInstanceReferenceValue:
-        """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef A None value is a no-op and does not overwrite an existing reference."""
+        """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef
+
+        A None value is a no-op and does not overwrite an existing instance reference.
+        """
         if value is not None:
             self.valueIRef = value
         return self

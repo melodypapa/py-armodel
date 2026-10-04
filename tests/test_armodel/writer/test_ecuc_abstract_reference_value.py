@@ -155,8 +155,8 @@ class TestEcucAbstractReferenceValueReadWrite:
         """VALUE-IREF (AnyInstanceRef) survives a write/read cycle inside an EcucInstanceReferenceValue."""
         ref_value = EcucInstanceReferenceValue()
         instance_ref = AnyInstanceRef()
-        instance_ref.setBaseRef(RefType().setValue("/Base").setDest("IDENTIFIABLE"))
         instance_ref.addContextElementRef(RefType().setValue("/SoftwareComponents/RootComposition/DoorFr").setDest("SW-COMPONENT-PROTOTYPE"))
+        instance_ref.addContextElementRef(RefType().setValue("/SoftwareComponents/DoorType").setDest("COMPOSITION-PROTOTYPE"))
         instance_ref.setTargetRef(RefType().setValue("/SoftwareComponents/DoorType/DoorAntenna").setDest("R-PORT-PROTOTYPE"))
         ref_value.setValueIRef(instance_ref)
 
@@ -170,8 +170,7 @@ class TestEcucAbstractReferenceValueReadWrite:
         reloaded = EcucInstanceReferenceValue()
         parser.readEcucInstanceReferenceValue(_ns_wrap(parent), reloaded)
         assert reloaded.getValueIRef() is not None
-        assert reloaded.getValueIRef().getBaseRef().getValue() == "/Base"
-        assert [ref.getValue() for ref in reloaded.getValueIRef().getContextElementRefs()] == ["/SoftwareComponents/RootComposition/DoorFr"]
+        assert [ref.getValue() for ref in reloaded.getValueIRef().getContextElementRefs()] == ["/SoftwareComponents/RootComposition/DoorFr", "/SoftwareComponents/DoorType"]
         assert reloaded.getValueIRef().getTargetRef().getValue() == "/SoftwareComponents/DoorType/DoorAntenna"
 
 
