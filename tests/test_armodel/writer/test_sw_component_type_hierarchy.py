@@ -189,3 +189,50 @@ class TestParameterSwComponentTypeRoundTrip:
         assert swc_tag.find("CONSTANT-MAPPING-REFS") is None
         assert swc_tag.find("DATA-TYPE-MAPPING-REFS") is None
         assert swc_tag.find("INSTANTIATION-DATA-DEF-PROPSS") is None
+
+
+class TestAtomicSwComponentTypeRoundTrip:
+    def _build(self, with_symbol_props=True):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        swc = pkg.createApplicationSwComponentType("Atomic")
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        assert behavior is not None
+        if with_symbol_props:
+            swc.createSymbolProps("Sym")
+        return swc
+
+    def _write_read(self, swc):
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, swc.parent)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+        parsed_pkg = AUTOSAR.getInstance().createARPackage("Parsed")
+        ARXMLParser().readARPackageElements(root[0], parsed_pkg)
+        return parsed_pkg
+
+    def test_round_trip_symbol_props_and_behavior(self):
+        swc = self._build()
+        parsed_pkg = self._write_read(swc)
+        parsed = parsed_pkg.getReferrableElement("Atomic", ApplicationSwComponentType)
+        assert parsed is not None
+        behavior = parsed.getInternalBehavior()
+        assert behavior is not None
+        assert behavior.short_name == "Behavior"
+        symbol_props = parsed.getSymbolProps()
+        assert symbol_props is not None
+        assert symbol_props.short_name == "Sym"
+
+    def test_xsd_element_order_behavior_before_symbol_props(self):
+        swc = self._build()
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, swc.parent)
+        swc_tag = parent.find("ELEMENTS/APPLICATION-SW-COMPONENT-TYPE")
+        children = [child.tag for child in swc_tag]
+        assert children.index("INTERNAL-BEHAVIORS") < children.index("SYMBOL-PROPS")
+
+    def test_round_trip_no_symbol_props(self):
+        swc = self._build(with_symbol_props=False)
+        parsed_pkg = self._write_read(swc)
+        parsed = parsed_pkg.getReferrableElement("Atomic", ApplicationSwComponentType)
+        assert parsed.getSymbolProps() is None
+        assert parsed.getInternalBehavior() is not None

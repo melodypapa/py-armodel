@@ -604,7 +604,11 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test AtomicSwComponentType full functionality."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        swc = AtomicSwComponentType(ar_root, "TestAtomicSwc")
+
+        class ConcreteAtomicFullSwComponentType(AtomicSwComponentType):
+            pass
+
+        swc = ConcreteAtomicFullSwComponentType(ar_root, "TestAtomicSwc")
 
         # Test internal behavior creation returns the existing element on re-create
         behavior = swc.createSwcInternalBehavior("TestBehavior")
@@ -1331,3 +1335,86 @@ class Test_ParameterSwComponentType_Spec:
         swc = self._make()
         swc.createPPortPrototype("P1")
         assert [p.short_name for p in swc.getPorts()] == ["P1"]
+
+
+ATOMIC_SW_COMPONENT_TYPE_CLASS_NOTE = "An atomic software component is atomic in the sense that it cannot be further decomposed and distributed across multiple ECUs."
+
+ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "internalBehavior": "The SwcInternalBehaviors owned by an AtomicSwComponentType can be located in a different physical file. Therefore the aggregation is <<atpSplitable>>.",
+    "symbolProps": "This represents the SymbolProps for the AtomicSwComponentType.",
+}
+
+ATOMIC_SW_COMPONENT_TYPE_MEMBERS = [
+    "internalBehavior",
+    "symbolProps",
+]
+
+
+class Test_AtomicSwComponentType_Spec:
+    """Spec pins for AtomicSwComponentType (CP_TPS_SoftwareComponentTemplate Table 3.8, p.70)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+
+        class ConcreteAtomicSwComponentType(AtomicSwComponentType):
+            pass
+
+        return ConcreteAtomicSwComponentType(ar_root, "AtomicSwc")
+
+    def test_inheritance(self):
+        assert issubclass(AtomicSwComponentType, SwComponentType)
+        assert issubclass(AtomicSwComponentType, ARObject)
+
+    def test_abstract_guard(self):
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        with pytest.raises(TypeError, match="AtomicSwComponentType is an abstract class"):
+            AtomicSwComponentType(ar_root, "atomic")
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(AtomicSwComponentType.__doc__) == ATOMIC_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert AtomicSwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getInternalBehavior() is None
+        assert swc.getSymbolProps() is None
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(ATOMIC_SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == ATOMIC_SW_COMPONENT_TYPE_MEMBERS
+
+    def test_create_swc_internal_behavior_duplicate_returns_existing(self):
+        swc = self._make()
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        assert behavior.short_name == "Behavior"
+        assert swc.createSwcInternalBehavior("Behavior") is behavior
+        assert swc.getInternalBehavior() is behavior
+
+    def test_create_symbol_props_duplicate_returns_existing(self):
+        swc = self._make()
+        props = swc.createSymbolProps("Sym")
+        assert props.short_name == "Sym"
+        assert swc.createSymbolProps("Sym") is props
+        assert swc.getSymbolProps() is props
+
+    def test_docstrings_verbatim(self):
+        assert AtomicSwComponentType.getInternalBehavior.__doc__.strip().split("\n")[0] == ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["internalBehavior"]
+        assert AtomicSwComponentType.createSwcInternalBehavior.__doc__ is not None
+        assert ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["internalBehavior"] in AtomicSwComponentType.createSwcInternalBehavior.__doc__
+        assert AtomicSwComponentType.getSymbolProps.__doc__.strip().split("\n")[0] == ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["symbolProps"]
+        assert ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["symbolProps"] in AtomicSwComponentType.createSymbolProps.__doc__
+
+    def test_type_hints(self):
+        import typing
+
+        hints = typing.get_type_hints(AtomicSwComponentType.getSymbolProps)
+        assert hints["return"] == typing.Optional[SymbolProps]
+        hints = typing.get_type_hints(AtomicSwComponentType.createSymbolProps)
+        assert hints["return"] is SymbolProps

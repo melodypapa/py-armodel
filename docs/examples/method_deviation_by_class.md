@@ -1280,10 +1280,11 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
-No deviations — Table 3.8 attributes (`internalBehavior`, `symbolProps`) are implemented
-with parser/writer coverage. The previously recorded `internalBehavior`
-`type (spec many vs py single)` row is removed: the PDF table states `0..1` (the XSD `*`
-is only the atpVariation flattening), so the single-value model is PDF-correct.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 3.8 attributes (`internalBehavior`, `symbolProps`, each `0..1` aggr) are modeled as `Optional[T]` with `createXxx(short_name)` + getter (children are Referrable), with full reader/writer coverage. The previously recorded `internalBehavior` `type (spec many vs py single)` row stays removed: the PDF table states `0..1` (the XSD `*` is only the atpVariation flattening), so the single-value model is PDF-correct. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 4-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.8, p.70 (abstract Class; Base chain most-derived `SwComponentType`). Docstrings wiped and rewritten verbatim from the markdown Notes; the instantiation guard (`type(self) is AtomicSwComponentType`) added per the abstract table header — one pre-existing test that instantiated the abstract class directly was re-pinned to a concrete subclass. VP: not an XSD anchor (the atpVariation on the internalBehavior row lands on SwcInternalBehavior, Rule 0020); mixin correctly absent. `SwcInternalBehavior` stays a `TYPE_CHECKING`-only import (a runtime bottom import cannot break the Components↔SwcInternalBehavior cycle, and no test resolves that hint at runtime — Rule 0005 exemption). Reader `readAtomicSwComponentType` (readSwComponentType + INTERNAL-BEHAVIORS/SWC-INTERNAL-BEHAVIOR dispatch + SYMBOL-PROPS) and writer `writeAtomicSwComponentType` verified against the XSD group ATOMIC-SW-COMPONENT-TYPE order (INTERNAL-BEHAVIORS before SYMBOL-PROPS) — no edit needed. Round-trip coverage in tests/test_armodel/writer/test_sw_component_type_hierarchy.py (via the dispatched ApplicationSwComponentType). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
 
 ## `AtpBlueprint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 305
