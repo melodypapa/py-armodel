@@ -756,7 +756,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DltUserNeeds`                                          | [x] Done    | cc86c1002b                               | Group4           |
 | `DoIpActivationLineNeeds`                               | [x] Done    | bf846cce70                               | Group4           |
 | `DoIpConfig`                                            | [x] Done    | fce66955f5                               | Group5           |
-| `DoIpEntity`                                            | [x] Done    | cc485a79df                               | Group16          |
+| `DoIpEntity`                                            | [x] Done    | a20bd931eb                               | Group16          |
 | `DoIpEntityRoleEnum`                                    | [ ] Implemented| N/A                                      | Group32          |
 | `DoIpGidNeeds`                                          | [x] Done    | 6c31e0057f                               | Group4           |
 | `DoIpGidSynchronizationNeeds`                           | [x] Done    | c64cb6318c                               | Group4           |
@@ -985,7 +985,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `GeneralPurposeIPdu`                                    | [x] Done    | 75683a2ede                               | Group5           |
 | `GeneralPurposePdu`                                     | [x] Done    | 75683a2ede                               | Group5           |
 | `GenericEthernetFrame`                                  | [x] Done    | 675a97e967                               | Group6           |
-| `GenericTp`                                             | [x] Done    | b9aa7cceca                               | Group16          |
+| `GenericTp`                                             | [x] Done    | 627b5c3a94                               | Group16          |
 | `GlobalSupervisionNeeds`                                | [x] Done    | 5c4c0963af                               | Group4           |
 | `GlobalTimeCanMaster`                                   | [ ] Created | N/A                                      | Group34          |
 | `GlobalTimeCanSlave`                                    | [ ] Created | N/A                                      | Group34          |
@@ -1126,8 +1126,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IoHwAbstractionServerAnnotation`                       | [ ] Implemented| N/A                                      | Group27          |
 | `Ip4AddressString`                                      | [ ] Deferred| N/A                                      | Group21          |
 | `Ip6AddressString`                                      | [ ] Deferred| N/A                                      | Group21          |
-| `IpAddressKeepEnum`                                     | [x] Done    | e60a31bcdb                               | Group16          |
-| `Ipv4AddressSourceEnum`                                 | [x] Done    | eb1c70461a                               | Group16          |
+| `IpAddressKeepEnum`                                     | [x] Done    | 161a1b8215                               | Group16          |
+| `Ipv4AddressSourceEnum`                                 | [x] Done    | 8c0771cafd                               | Group16          |
 | `Ipv4ArpProps`                                          | [ ] Created | N/A                                      | Group30          |
 | `Ipv4AutoIpProps`                                       | [ ] Created | N/A                                      | Group30          |
 | `Ipv4Configuration`                                     | [x] Done    | dcebacccb1                               | Group16          |
@@ -1135,7 +1135,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Ipv4FragmentationProps`                                | [ ] Created | N/A                                      | Group30          |
 | `Ipv4Props`                                             | [ ] Created | N/A                                      | Group30          |
 | `Ipv4Rule`                                              | [x] Deferred| b4096068d6                               | Group20          |
-| `Ipv6AddressSourceEnum`                                 | [x] Done    | 92355aadff                               | Group16          |
+| `Ipv6AddressSourceEnum`                                 | [x] Done    | a8fad12113                               | Group16          |
 | `Ipv6Configuration`                                     | [ ] Implemented| N/A                                      | Group32          |
 | `Ipv6DhcpServerConfiguration`                           | [ ] Implemented| N/A                                      | Group30          |
 | `Ipv6FragmentationProps`                                | [ ] Created | N/A                                      | Group30          |
@@ -1213,7 +1213,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LogTraceDefaultLogLevelEnum`                           | [x] Done    | f1eb819e47                               | Group5           |
 | `MacAddressString`                                      | [x] Deferred| 1fd0b00607                               | Group20          |
 | `MacMulticastConfiguration`                             | [ ] Created | N/A                                      | Group32          |
-| `MacMulticastGroup`                                     | [x] Done    | cd3fe71010                               | Group16          |
+| `MacMulticastGroup`                                     | [x] Done    | 9ee3f1b66a                               | Group16          |
 | `MacSecCapabilityEnum`                                  | [ ] Implemented| N/A                                      | Group30          |
 | `MacSecCipherSuiteConfig`                               | [ ] Implemented| N/A                                      | Group30          |
 | `MacSecConfidentialityOffsetEnum`                       | [ ] Implemented| N/A                                      | Group30          |
@@ -1380,7 +1380,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PayloadBytePatternRulePart`                            | [x] Deferred| 8c72c71709                               | Group20          |
 | `Pdu`                                                   | [ ] Implemented| N/A                                      | Group31          |
 | `PduActivationRoutingGroup`                             | [ ] Implemented| N/A                                      | Group32          |
-| `PduCollectionSemanticsEnum`                            | [x] Done    | bccdae30f3                               | Group16          |
+| `PduCollectionSemanticsEnum`                            | [x] Done    | 5d4adec228                               | Group16          |
 | `PduCollectionTriggerEnum`                              | [x] Done    | 64d125ffae                               | Group5           |
 | `PduMappingDefaultValue`                                | [x] Done    | 9c8e10b37f                               | Group6           |
 | `PduToFrameMapping`                                     | [ ] Implemented| N/A                                      | Group31          |
@@ -1463,7 +1463,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReferrableSubtypesEnum`                                | [ ] Deferred| N/A                                      | Group21          |
 | `RegularExpression`                                     | [ ] Deferred| N/A                                      | Group21          |
 | `RelativeTolerance`                                     | [ ] Implemented| N/A                                      | Group31          |
-| `RequestResponseDelay`                                  | [x] Done    | 4207fc6265                               | Group16          |
+| `RequestResponseDelay`                                  | [x] Done    | 1c556f35b4                               | Group16          |
 | `ResolutionPolicyEnum`                                  | [x] Done    | f0a7460898                               | Group3           |
 | `ResourceConsumption`                                   | [x] Done    | 0404020952                               | Group1           |
 | `RestrictionWithSeverity`                               | [ ] Created | N/A                                      | Group36          |
@@ -1512,7 +1512,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RunnableEntity`                                        | [ ] Implemented| N/A                                      | Group28          |
 | `RunnableEntityArgument`                                | [x] Done    | 3857c2a435                               | Group2           |
 | `RunnableEntityGroup`                                   | [ ] Implemented| N/A                                      | Group28          |
-| `RuntimeAddressConfigurationEnum`                       | [x] Done    | be89a1d86e                               | Group16          |
+| `RuntimeAddressConfigurationEnum`                       | [x] Done    | f24d8b53ba                               | Group16          |
 | `RuntimeError`                                          | [x] Done    | N/A                                      | Group23          |
 | `RxAcceptContainedIPduEnum`                             | [ ] Created | N/A                                      | Group31          |
 | `RxIdentifierRange`                                     | [ ] Implemented| N/A                                      | Group32          |
@@ -1781,10 +1781,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TcpIpIcmpv4Props`                                      | [x] Done    | 2cf38be61d                               | Group5           |
 | `TcpIpIcmpv6Props`                                      | [x] Done    | c53a7febdc                               | Group5           |
 | `TcpOptionFilterList`                                   | [x] Done    | fd11862858                               | Group16          |
-| `TcpOptionFilterSet`                                    | [x] Done    | be8f880057                               | Group16          |
+| `TcpOptionFilterSet`                                    | [x] Done    | 4b1494b6d2                               | Group16          |
 | `TcpProps`                                              | [x] Done    | d2d5c40a16                               | Group5           |
 | `TcpRule`                                               | [x] Deferred| d3902d0e67                               | Group20          |
-| `TcpTp`                                                 | [x] Done    | 0cbd1c12db                               | Group16          |
+| `TcpTp`                                                 | [x] Done    | c59e3404da                               | Group16          |
 | `TcpUdpConfig`                                          | [x] Done    | 757aea1d17                               | Group6           |
 | `TextTableMapping`                                      | [x] Done    | be79d7993b                               | Group1           |
 | `TextTableValuePair`                                    | [ ] Implemented| N/A                                      | Group27          |
@@ -1820,7 +1820,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TpConfig`                                              | [ ] Implemented| N/A                                      | Group33          |
 | `TpConnection`                                          | [ ] Implemented| N/A                                      | Group33          |
 | `TpConnectionIdent`                                     | [x] Done    | N/A                                      | Group23          |
-| `TpPort`                                                | [x] Done    | 0936aaab17                               | Group16          |
+| `TpPort`                                                | [x] Done    | 0f6b1c9bfd                               | Group16          |
 | `Traceable`                                             | [x] Done    | N/A                                      | Group21          |
 | `TraceableTable`                                        | [x] Done    | fa79c73df5                               | Group3           |
 | `TraceableText`                                         | [x] Done    | 9e80479bda                               | Group1           |
@@ -1865,7 +1865,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `UdpNmNode`                                             | [ ] Deferred| N/A                                      | Group18          |
 | `UdpProps`                                              | [x] Done    | ecb15e901f                               | Group5           |
 | `UdpRule`                                               | [x] Deferred| 29cbfb7bbd                               | Group20          |
-| `UdpTp`                                                 | [x] Done    | d3d7ad6c38                               | Group16          |
+| `UdpTp`                                                 | [x] Done    | 5336dd0eae                               | Group16          |
 | `UnassignFrameId`                                       | [ ] Implemented| N/A                                      | Group31          |
 | `Unit`                                                  | [ ] Implemented| N/A                                      | Group28          |
 | `UnitGroup`                                             | [x] Done    | e7fdb07f2b                               | Group9           |
@@ -1911,7 +1911,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ViewMap`                                               | [ ] Deferred| b48c08bba2                               | Group22          |
 | `ViewMapSet`                                            | [ ] Deferred| f6dc7bb594                               | Group22          |
 | `ViewTokens`                                            | [x] Done    | 82c86af789                               | Group3           |
-| `VlanConfig`                                            | [x] Done    | b435a825d6                               | Group16          |
+| `VlanConfig`                                            | [x] Done    | eb32bcdeea                               | Group16          |
 | `VlanMembership`                                        | [x] Done    | ed6ed2a65f                               | Group6           |
 | `WaitPoint`                                             | [ ] Implemented| N/A                                      | Group28          |
 | `WarningIndicatorRequestedBitNeeds`                     | [x] Done    | 1cd8edd8fd                               | Group5           |
