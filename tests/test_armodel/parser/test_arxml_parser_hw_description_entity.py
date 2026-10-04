@@ -80,7 +80,9 @@ class TestReadHwDescriptionEntity:
                   </HW-PIN-CONNECTIONS>
                   <HW-PIN-GROUP-CONNECTIONS>
                     <HW-PIN-GROUP-CONNECTOR>
-                      <HW-PIN-GROUP-REF DEST="HW-PIN-GROUP">/Elements/ElemA/Group1</HW-PIN-GROUP-REF>
+                      <HW-PIN-GROUP-REFS>
+                        <HW-PIN-GROUP-REF DEST="HW-PIN-GROUP">/Elements/ElemA/Group1</HW-PIN-GROUP-REF>
+                      </HW-PIN-GROUP-REFS>
                     </HW-PIN-GROUP-CONNECTOR>
                   </HW-PIN-GROUP-CONNECTIONS>
                 </HW-ELEMENT-CONNECTOR>

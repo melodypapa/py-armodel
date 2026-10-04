@@ -310,7 +310,7 @@ class HwPinConnector(Describable, VariationPointCapable):
         return self.hwPinRefs
 
 
-class HwPinGroupConnector(Describable, VariationPointCapable):
+class HwPinGroupConnector(Describable):
     """
     This meta-class represents the ability to connect two pin groups.
 
@@ -319,13 +319,12 @@ class HwPinGroupConnector(Describable, VariationPointCapable):
 
     # HwPinGroupConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.9, p.22
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwPinGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwPinConnection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinConnections       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwPinGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -336,14 +335,11 @@ class HwPinGroupConnector(Describable, VariationPointCapable):
         # This association connects two hardware pin groups.
         self.hwPinGroupRefs: List[RefType] = []
 
-    def addHwPinConnection(self, value: HwPinConnector):
+    def addHwPinConnection(self, value: Optional[HwPinConnector]) -> HwPinGroupConnector:
         """
         This represents one particular connection between two hardware pins. The connected pins shall match the connection provided by the parent hwPinGroup Connection.
 
         A None value is a no-op and does not add an hwPinConnection.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.hwPinConnections.append(value)
@@ -352,20 +348,14 @@ class HwPinGroupConnector(Describable, VariationPointCapable):
     def getHwPinConnections(self) -> List[HwPinConnector]:
         """
         This represents one particular connection between two hardware pins. The connected pins shall match the connection provided by the parent hwPinGroup Connection.
-
-        Returns:
-            The list of hwPinConnections, or an empty list if none are set
         """
         return self.hwPinConnections
 
-    def addHwPinGroupRef(self, value: RefType):
+    def addHwPinGroupRef(self, value: Optional[RefType]) -> HwPinGroupConnector:
         """
         This association connects two hardware pin groups.
 
         A None value is a no-op and does not add an hwPinGroupRef.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.hwPinGroupRefs.append(value)
@@ -374,9 +364,6 @@ class HwPinGroupConnector(Describable, VariationPointCapable):
     def getHwPinGroupRefs(self) -> List[RefType]:
         """
         This association connects two hardware pin groups.
-
-        Returns:
-            The list of hwPinGroupRefs, or an empty list if none are set
         """
         return self.hwPinGroupRefs
 

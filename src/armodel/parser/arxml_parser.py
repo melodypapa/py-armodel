@@ -12051,9 +12051,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readHwPinGroupConnector(self, element: ET.Element) -> HwPinGroupConnector:
         group = HwPinGroupConnector()
         self.readDescribable(element, group)
-        for child_element in self.findall(element, "HW-PIN-CONNECTOR"):
+        for child_element in self.findall(element, "HW-PIN-CONNECTIONS/HW-PIN-CONNECTOR"):
             group.addHwPinConnection(self.readHwPinConnector(child_element))
-        for ref in self.getChildElementRefTypeList(element, "HW-PIN-GROUP-REF"):
+        for ref in self.getChildElementRefTypeList(element, "HW-PIN-GROUP-REFS/HW-PIN-GROUP-REF"):
             group.addHwPinGroupRef(ref)
         return group
 
