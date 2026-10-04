@@ -256,51 +256,59 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ParameterSwComponentType` — SwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 2.1, p.41
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (model suites 1039; swc/component/port/VP subset 1602; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `e82f0ed83`
+  - note (Step 1): concrete Class, Base SwComponentType (was a bare pass stub); attrs constantMapping (* ref → constantMappingRefs), dataTypeMapping (* ref → dataTypeMappingRefs), instantiationDataDefProps (* aggr → addInstantiationDataDefProps, child Base ARObject non-Referrable → add shape); NEW read/writeParameterSwComponentType* + AR-PACKAGE dispatch + ARPackage.createParameterSwComponentType; no missing classes; no stamp (batch 9b)
 
 - [ ] `SwComponentType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.1, p.65; also FO_TPS_AbstractPlatformSpecification Table 3.5, p.22
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (model suites 1039; swc subset 1602; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `9e3500a78`
+  - note (Step 1): abstract Class, bases changed AtpType → (ARElement, ABC) per most-derived Base (Table 3.5 Base row); defining table CP SWC T3.1 p.65 (two-page split, consistencyNeeds chunk above caption — displayed order kept per Rule 0001.11); FO T3.5 p.22 verified row-identical, single # Spec line; attrs consistencyNeeds/port/portGroup (* aggr), swcMappingConstraint/unitGroup (* ref), swComponentDocumentation (0..1 aggr); stale placeholder rows removed; convenience getters kept (no spec rows); no VP (not an XSD anchor); no stamp (batch 9b)
 
 - [ ] `AtomicSwComponentType` — SwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.8, p.70
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (model suites 1039; swc subset 1602; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `184f2d7e8`
+  - note (Step 1): abstract Class, Base SwComponentType; attrs internalBehavior (0..1 aggr), symbolProps (0..1 aggr) — model already correct; instantiation guard added (2 pre-existing tests re-pinned to concrete subclasses); SwcInternalBehavior stays TYPE_CHECKING-only (cycle, Rule 0005 exemption, no get_type_hints pin); reader/writer verification only; no stamp (batch 9b)
 
 - [ ] `ApplicationSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.9, p.71; also CP_TPS_DiagnosticExtractTemplate Table 5.8, p.231
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (model suites 1039; swc subset 1602; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `31ce617eb`
+  - note (Step 1): concrete Class, Base AtomicSwComponentType; zero own attributes (DEXT T5.8 second citation row-identical "-" — single # Spec line); Rule 0023 re-sync + spec pins + AR-PACKAGE dispatch round-trip test; no code change; no stamp (batch 9b)
 
 - [ ] `SwConnector` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.12, p.80
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py
