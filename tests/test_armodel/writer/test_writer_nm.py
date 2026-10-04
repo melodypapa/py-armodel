@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     Integer,
     Numerical,
     PositiveInteger,
@@ -144,7 +145,7 @@ class TestWritePduToFrameMappings:
     def test_with_mappings(self, writer):
         frame = LinUnconditionalFrame(MockParent(), "frame")
         mapping = frame.createPduToFrameMapping("mapping")
-        mapping.setPackingByteOrder(_literal("OPAQUE"))
+        mapping.setPackingByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
         mapping.setPduRef(_ref("/pdus/p1", dest="PDU"))
         mapping.setStartPosition(_numerical(0))
         parent = _parent()

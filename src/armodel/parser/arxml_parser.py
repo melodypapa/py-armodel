@@ -7429,7 +7429,7 @@ class ARXMLParser(AbstractARXMLParser):
         definition.setBaseTypeSize(self.getChildElementOptionalPositiveInteger(element, "BASE-TYPE-SIZE"))
         definition.setBaseTypeEncoding(cast(Optional[BaseTypeEncodingString], self.getChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING")))
         definition.setMemAlignment(self.getChildElementOptionalPositiveInteger(element, "MEM-ALIGNMENT"))
-        definition.setByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "BYTE-ORDER")))
+        definition.setByteOrder(self._readEnumToken(element, "BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         definition.setNativeDeclaration(cast(Optional[NativeDeclarationString], self.getChildElementOptionalLiteral(element, "NATIVE-DECLARATION")))
 
     def readSwBaseType(self, element: ET.Element, data_type: SwBaseType):
@@ -11779,7 +11779,7 @@ class ARXMLParser(AbstractARXMLParser):
             table.addServiceInstanceRef(ref)
 
     def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
-        position.setSegmentByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER")))
+        position.setSegmentByteOrder(self._readEnumToken(element, "SEGMENT-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         position.setSegmentLength(self.getChildElementOptionalIntegerValue(element, "SEGMENT-LENGTH"))
         position.setSegmentPosition(self.getChildElementOptionalIntegerValue(element, "SEGMENT-POSITION"))
 
@@ -11849,7 +11849,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read MultiplexedIPdu <%s>" % ipdu.getShortName())
         self.readIPdu(element, ipdu)
         self.readMultiplexedIPduDynamicParts(element, ipdu)
-        ipdu.setSelectorFieldByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "SELECTOR-FIELD-BYTE-ORDER")))
+        ipdu.setSelectorFieldByteOrder(self._readEnumToken(element, "SELECTOR-FIELD-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         ipdu.setSelectorFieldLength(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-LENGTH"))
         ipdu.setSelectorFieldStartPosition(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-START-POSITION"))
         self.readMultiplexedIPduStaticParts(element, ipdu)
@@ -12125,7 +12125,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readPduToFrameMapping %s" % short_name)
             mapping = parent.createPduToFrameMapping(short_name)
             self.readIdentifiable(child_element, mapping)
-            mapping.setPackingByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")))
+            mapping.setPackingByteOrder(self._readEnumToken(child_element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
             mapping.setPduRef(self.getChildElementOptionalRefType(child_element, "PDU-REF"))
             mapping.setStartPosition(self.getChildElementOptionalIntegerValue(child_element, "START-POSITION"))
             mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
@@ -12148,7 +12148,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
         mapping.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
-        mapping.setPackingByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "PACKING-BYTE-ORDER")))
+        mapping.setPackingByteOrder(self._readEnumToken(element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalIntegerValue(element, "START-POSITION")))
         mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY")))
         mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION")))
@@ -15118,7 +15118,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, mapping)
             mapping.setISignalRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-REF"))
             mapping.setISignalGroupRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF"))
-            mapping.setPackingByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")))
+            mapping.setPackingByteOrder(self._readEnumToken(child_element, "PACKING-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
             mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")))
             mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY")))
             mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION")))
@@ -15893,7 +15893,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, system)
         self.readSystemDocumentations(element, system)
         self.readSystemClientIdDefinitionSetRefs(element, system)
-        system.setContainerIPduHeaderByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER")))
+        system.setContainerIPduHeaderByteOrder(self._readEnumToken(element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         system.setEcuExtractVersion(self.getChildElementOptionalRevisionLabelString(element, "ECU-EXTRACT-VERSION"))
         self.readSystemFibexElementRefs(element, system)
         self.readSystemInterpolationRoutineMappingSetRefs(element, system)

@@ -7,6 +7,7 @@ NATIVE-DECLARATION (120). MAX-BASE-TYPE-SIZE (80) is atp.Status="removed" and is
 modeled. The aggregation is flattened - no wrapper element exists in the XML.
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
@@ -34,7 +35,7 @@ class TestBaseTypeReader:
         assert definition.getBaseTypeSize().getValue() == 8
         assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
         assert definition.getMemAlignment().getValue() == 8
-        assert definition.getByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert definition.getByteOrder().getValue() == "mostSignificantByteFirst"
         assert definition.getNativeDeclaration().getValue() == "unsigned char"
 
     def test_read_empty_base_type_yields_unset_definition(self, parser):
@@ -91,9 +92,10 @@ class TestBaseTypeDirectDefinitionReader:
         assert definition.getNativeDeclaration() is None
 
     def test_read_byte_order_alone_xsd_value_form(self, parser):
-        """The XSD serializes BYTE-ORDER in the UPPERCASE literal form; the reader stores the raw text verbatim."""
+        """The XSD serializes BYTE-ORDER in the UPPERCASE literal form; the reader maps it to the ByteOrderEnum member via BYTE_ORDER_XML_MAP."""
         definition = self._read_definition(parser, "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</BYTE-ORDER>")
-        assert definition.getByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert isinstance(definition.getByteOrder(), ByteOrderEnum)
+        assert definition.getByteOrder().getValue() == "mostSignificantByteLast"
         assert definition.getBaseTypeSize() is None
         assert definition.getBaseTypeEncoding() is None
         assert definition.getMemAlignment() is None

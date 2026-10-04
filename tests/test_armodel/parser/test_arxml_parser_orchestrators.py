@@ -2187,7 +2187,7 @@ class TestDataTypeAndCompuHandlers:
 
         base_type = SwBaseType(parent=_autosar_root(), short_name="bt")
         element = _snip(
-            "<SHORT-NAME>bt</SHORT-NAME>" "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>" "<BASE-TYPE-ENCODING>UNSIGNED</BASE-TYPE-ENCODING>" "<BYTE-ORDER>LITTLE-ENDIAN</BYTE-ORDER>",
+            "<SHORT-NAME>bt</SHORT-NAME>" "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>" "<BASE-TYPE-ENCODING>UNSIGNED</BASE-TYPE-ENCODING>" "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>",
             root_tag="SW-BASE-TYPE",
         )
         parser.readSwBaseType(element, base_type)

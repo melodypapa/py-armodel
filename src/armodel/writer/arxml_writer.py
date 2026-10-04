@@ -3980,7 +3980,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "BASE-TYPE-SIZE", base_type_definition.getBaseTypeSize())
         self.setChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING", base_type_definition.getBaseTypeEncoding())
         self.setChildElementOptionalPositiveInteger(element, "MEM-ALIGNMENT", base_type_definition.getMemAlignment())
-        self.setChildElementOptionalLiteral(element, "BYTE-ORDER", base_type_definition.getByteOrder())
+        self._writeEnumToken(element, "BYTE-ORDER", base_type_definition.getByteOrder(), BYTE_ORDER_XML_MAP)
         self.setChildElementOptionalLiteral(element, "NATIVE-DECLARATION", base_type_definition.getNativeDeclaration())
 
     def writeSwBaseType(self, element: ET.Element, base_type: SwBaseType):
@@ -9145,7 +9145,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tags, "PDU-TO-FRAME-MAPPING")
                 self.writeIdentifiable(child_element, mapping)
-                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+                self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
                 self.setChildElementOptionalRefType(child_element, "PDU-REF", mapping.getPduRef())
                 self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
                 self.setChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
@@ -9428,7 +9428,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, mapping)
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
-            self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+            self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
             self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
             self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
             self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
@@ -13055,7 +13055,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARElement(child_element, cast(ARElement, system))
         self.writeSystemDocumentations(child_element, system)
         self.writeSystemClientIdDefinitionSetRefs(child_element, system)
-        self.setChildElementOptionalLiteral(child_element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER", system.getContainerIPduHeaderByteOrder())
+        self._writeEnumToken(child_element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER", system.getContainerIPduHeaderByteOrder(), BYTE_ORDER_XML_MAP)
         self.setChildElementOptionalRevisionLabelString(child_element, "ECU-EXTRACT-VERSION", system.getEcuExtractVersion())
         self.writeSystemFibexElementRefs(child_element, system)
         self.writeSystemInterpolationRoutineMappingSetRefs(child_element, system)
@@ -15578,7 +15578,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         if position is not None:
             child_element = ET.SubElement(element, "SEGMENT-POSITION")
-            self.setChildElementOptionalLiteral(child_element, "SEGMENT-BYTE-ORDER", position.getSegmentByteOrder())
+            self._writeEnumToken(child_element, "SEGMENT-BYTE-ORDER", position.getSegmentByteOrder(), BYTE_ORDER_XML_MAP)
             self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-LENGTH", position.getSegmentLength())
             self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-POSITION", position.getSegmentPosition())
 
@@ -15646,7 +15646,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "MULTIPLEXED-I-PDU")
         self.writeIPdu(child_element, ipdu)
         self.writeMultiplexedIPduDynamicParts(child_element, ipdu)
-        self.setChildElementOptionalLiteral(child_element, "SELECTOR-FIELD-BYTE-ORDER", ipdu.getSelectorFieldByteOrder())
+        self._writeEnumToken(child_element, "SELECTOR-FIELD-BYTE-ORDER", ipdu.getSelectorFieldByteOrder(), BYTE_ORDER_XML_MAP)
         self.setChildElementOptionalIntegerValue(child_element, "SELECTOR-FIELD-LENGTH", ipdu.getSelectorFieldLength())
         self.setChildElementOptionalIntegerValue(child_element, "SELECTOR-FIELD-START-POSITION", ipdu.getSelectorFieldStartPosition())
         self.writeMultiplexedIPduStaticParts(child_element, ipdu)
@@ -16033,7 +16033,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeIdentifiable(child_element, mapping)
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
-                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+                self._writeEnumToken(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder(), BYTE_ORDER_XML_MAP)
                 self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.getStartPosition())
                 self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
                 self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())

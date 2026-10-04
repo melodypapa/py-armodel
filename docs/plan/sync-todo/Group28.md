@@ -450,15 +450,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ByteOrderEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.27, p.297; also CP_TPS_SystemTemplate Table 7.12, p.779; also CP_TPS_DiagnosticExtractTemplate Table 4.22, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Enumeration header confirmed (3 Literal rows, identical across all three renderings; SWCT defining doc wins; XSD AUTOSAR_00052.xsd line 132015 `BYTE-ORDER-ENUM` / `BYTE-ORDER-ENUM--SIMPLE` tokens are UPPERCASE kebab, mmt.qualifiedName camelCase)
+  - [x] Step 2 — Write model class unit test (Red) — test_set_value_round_trip + test_set_value_none_no_op added to TestByteOrderEnum (test_PrimitiveTypes.py); Red vacuous — enum already spec-complete from a prior pass, new tests pass immediately (176 passed) and stay as regression guards
+  - [x] Step 3 — Implement model class (Green) — no code change needed: AREnum base, 3 literals exactly per Table 5.27 (mostSignificantByteFirst/mostSignificantByteLast/opaque, EnumerationLiteralIndex 0/1/2); stale `# Spec verified: R23-11` marker removed per Rule 0023 re-sync
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring (Note) + 3 literal comments rewritten verbatim from SWCT markdown; text confirmed character-identical to the wipe result
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — value form serialized on consumers; token-question Red instead) — updated 15 consumer tests to the canonical XSD-token expectations (parser reads map token→camelCase member; writer emits XSD token via BYTE_ORDER_XML_MAP); Red seen: 14 failed / 1190 passed before the parser/writer flip
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum; BYTE-ORDER token decision applied to consumers) — repo convention IS the literal→XSD-token map (`_readEnumToken`/`_writeEnumToken` + `*_XML_MAP`; 17 diagnostic consumers; `BYTE_ORDER_XML_MAP` already defined in both files for DEFAULT-ENDIANNESS); applied it to the 7 remaining consumer site pairs (BaseTypeDirectDefinition BYTE-ORDER, SegmentPosition SEGMENT-BYTE-ORDER, MultiplexedIPdu SELECTOR-FIELD-BYTE-ORDER, ISignalToIPduMapping PACKING-BYTE-ORDER ×2 incl. ISignalToPduMappings, PduToFrameMapping PACKING-BYTE-ORDER, System CONTAINER-I-PDU-HEADER-BYTE-ORDER); only fixture carrying the family (CanSystem.arxml, `<PACKING-BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</PACKING-BYTE-ORDER>` ×4) round-trips byte-identically; Green: 1391 passed / 0 failed
+  - [x] Step 7 — Update checklist comment — release-suffixed `(no methods)` form per the ArraySizeSemanticsEnum/ArraySizeHandlingEnum precedent: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297` + Columns line + `# (no methods) — enum value form serialized on <7 wired consumer attrs> (R23-11)`; stale `# Spec verified:` NOT rewritten (stamp WITHHELD this batch)
+  - [x] Step 8 — Deviations — tracker entry added (`## ByteOrderEnum` in docs/examples/method_deviation_by_class.md): No deviations among members; BYTE-ORDER XML-token decision documented with evidence (repo convention = literal→token map, XSD tokens UPPERCASE, fixture check); BaseTypeDirectDefinition entry's superseded test-form sentence amended with a pointer; no stale rows (no naming/type/missing rows existed)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1401 passed / 0 failed test_PrimitiveTypes.py + test_BaseTypes.py + test_member_annotations.py + test_SwBaseType.py + test_writer_SwBaseType.py + test_writer_data_types.py + test_arxml_parser_multiplexed.py + test_arxml_parser_handlers.py + test_arxml_parser_orchestrators.py + test_system.py + test_writer_frame_channel.py + test_writer_system_mapping.py + test_writer_pdu_secure_soad.py + test_writer_pdu_tp.py + test_writer_nm.py + test_writer_hw_lin_flexray_transform.py; black/ruff clean on all 17 changed files; mypy 1 pre-existing error only (writer:7526, EndToEndProtection commit — not chased); adapted checklist battery OK (no stale marker, __init__ covered); CanSystem.arxml BYTE-ORDER round-trip lossless 4/4 tokens); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AutosarDataPrototype` — DataPrototype — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.29, p.306
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py

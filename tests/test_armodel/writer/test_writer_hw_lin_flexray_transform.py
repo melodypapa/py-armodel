@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     Integer,
     Numerical,
     PositiveInteger,
@@ -315,7 +316,7 @@ class TestWriterISignalToPduMappings:
         mapping1.setStartPosition(_numerical(0))
         mapping2 = ipdu.createISignalToPduMappings("Map2")
         mapping2.setISignalGroupRef(_ref("/grp", "I-SIGNAL-GROUP"))
-        mapping2.setPackingByteOrder(_literal("MOST-SIGNIFICANT-BYTE-LAST"))
+        mapping2.setPackingByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST))
         mapping2.setTransferProperty(_literal("pending"))
         mapping2.setUpdateIndicationBitPosition(_numerical(8))
         parent = _parent()

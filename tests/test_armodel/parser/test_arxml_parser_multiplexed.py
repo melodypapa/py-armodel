@@ -16,6 +16,7 @@ by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 import logging
 from unittest.mock import MagicMock
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
@@ -38,7 +39,8 @@ class TestMultiplexedPartHandlers:
         parser.readMultiplexedPartSegmentPositions(element, part)
         positions = part.getSegmentPositions()
         assert len(positions) == 1
-        assert positions[0].getSegmentByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert isinstance(positions[0].getSegmentByteOrder(), ByteOrderEnum)
+        assert positions[0].getSegmentByteOrder().getValue() == "mostSignificantByteLast"
         assert positions[0].getSegmentLength().getValue() == 8
         assert positions[0].getSegmentPosition().getValue() == 0
 
@@ -263,7 +265,7 @@ class TestMultiplexedIPduHandlers:
         assert ipdu.getShortName() == "muxIPdu"
         assert ipdu.getDynamicPart() is not None
         assert ipdu.getStaticPart() is not None
-        assert ipdu.getSelectorFieldByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert ipdu.getSelectorFieldByteOrder().getValue() == "mostSignificantByteLast"
         assert ipdu.getSelectorFieldLength().getValue() == 4
         assert ipdu.getSelectorFieldStartPosition().getValue() == 0
         assert ipdu.getTriggerMode().getValue() == "ONE-SHOT"
@@ -554,7 +556,8 @@ class TestPduAndSecureCommunication:
         assert mapping.getISignalGroupRef() is not None
         assert mapping.getISignalGroupRef().getValue() == "/isg"
         assert mapping.getPackingByteOrder() is not None
-        assert mapping.getPackingByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert isinstance(mapping.getPackingByteOrder(), ByteOrderEnum)
+        assert mapping.getPackingByteOrder().getValue() == "mostSignificantByteLast"
         assert mapping.getStartPosition() is not None
         assert mapping.getStartPosition().getValue() == 0
         assert mapping.getTransferProperty() is not None

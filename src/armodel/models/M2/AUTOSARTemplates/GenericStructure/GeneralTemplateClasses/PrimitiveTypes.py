@@ -1345,10 +1345,8 @@ class ByteOrderEnum(AREnum):
 
     # ByteOrderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # (no methods) — serialized as an attribute value on the consuming class
+    # (no methods) — enum value form serialized on BaseTypeDirectDefinition.byteOrder, DiagnosticCommonProps.defaultEndianness, ISignalToIPduMapping.packingByteOrder, MultiplexedIPdu.selectorFieldByteOrder, PduToFrameMapping.packingByteOrder, SegmentPosition.segmentByteOrder, System.containerIPduHeaderByteOrder (R23-11)
 
     # Most significant byte shall come at the lowest address (also known as BigEndian or as Motorola-Format) Tags: atp.EnumerationLiteralIndex=0
     MOST_SIGNIFICANT_BYTE_FIRST = "mostSignificantByteFirst"

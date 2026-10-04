@@ -1072,6 +1072,29 @@ class TestByteOrderEnum:
         assert enum.validateEnumValue("opaque") is True
         assert enum.validateEnumValue("invalid") is False
 
+    def test_set_value_round_trip(self):
+        """
+        Test ByteOrderEnum instantiability and setValue/getValue round-trip (Swc TPS Table 5.27).
+        """
+        enum = ByteOrderEnum()
+        assert enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST) is enum
+        assert enum.getValue() == "mostSignificantByteFirst"
+
+        enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)
+        assert enum.getValue() == "mostSignificantByteLast"
+
+        enum.setValue(ByteOrderEnum.OPAQUE)
+        assert enum.getValue() == "opaque"
+
+    def test_set_value_none_no_op(self):
+        """
+        Test that setting None does not overwrite an existing ByteOrderEnum value.
+        """
+        enum = ByteOrderEnum()
+        enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        enum.setValue(None)
+        assert enum.getValue() == "mostSignificantByteFirst"
+
 
 class TestMonotonyEnum:
     """

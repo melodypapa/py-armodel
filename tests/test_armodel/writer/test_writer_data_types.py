@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     Float,
     Identifier,
     Integer,
@@ -634,7 +635,7 @@ class TestBaseTypeDirectDefinitionWriter:
         btd = BaseTypeDirectDefinition()
         btd.setBaseTypeSize(_numerical("32"))
         btd.setBaseTypeEncoding(_literal("IEEE754"))
-        btd.setByteOrder(_literal("LITTLE-ENDIAN"))
+        btd.setByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
         btd.setMemAlignment(_numerical("4"))
         btd.setNativeDeclaration(_literal("float"))
 
@@ -643,7 +644,7 @@ class TestBaseTypeDirectDefinitionWriter:
 
         assert parent.find("BASE-TYPE-SIZE").text == "32"
         assert parent.find("BASE-TYPE-ENCODING").text == "IEEE754"
-        assert parent.find("BYTE-ORDER").text == "LITTLE-ENDIAN"
+        assert parent.find("BYTE-ORDER").text == "OPAQUE"
         assert parent.find("MEM-ALIGNMENT").text == "4"
         assert parent.find("NATIVE-DECLARATION").text == "float"
 

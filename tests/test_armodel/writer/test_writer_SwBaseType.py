@@ -45,7 +45,7 @@ class TestBaseTypeWriter:
         assert element.find("BASE-TYPE-SIZE").text == "8"
         assert element.find("BASE-TYPE-ENCODING").text == "IEEE754"
         assert element.find("MEM-ALIGNMENT").text == "8"
-        assert element.find("BYTE-ORDER").text == "mostSignificantByteFirst"
+        assert element.find("BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-FIRST"
         assert element.find("NATIVE-DECLARATION").text == "unsigned char"
 
     def test_write_unset_definition_omits_elements(self):
@@ -117,9 +117,9 @@ class TestBaseTypeDirectDefinitionWriter:
         assert element.find("NATIVE-DECLARATION") is None
 
     def test_write_byte_order_alone_member_value_form(self):
-        """The writer emits the ByteOrderEnum member value (the camelCase mmt.qualifiedName form)."""
+        """The writer emits the XSD token form (BYTE_ORDER_XML_MAP) for the ByteOrderEnum member value."""
         element = self._write_definition(lambda d: d.setByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)))
-        assert element.find("BYTE-ORDER").text == "mostSignificantByteLast"
+        assert element.find("BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-LAST"
         assert element.find("BASE-TYPE-SIZE") is None
         assert element.find("BASE-TYPE-ENCODING") is None
         assert element.find("MEM-ALIGNMENT") is None

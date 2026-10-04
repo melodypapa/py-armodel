@@ -825,7 +825,7 @@ class TestDataTypeAndValueSpecHandlers:
             "<SHORT-NAME>bt</SHORT-NAME>"
             "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>"
             "<BASE-TYPE-ENCODING>IEEE754</BASE-TYPE-ENCODING>"
-            "<BYTE-ORDER>BIG-ENDIAN</BYTE-ORDER>"
+            "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>"
             "<MEM-ALIGNMENT>4</MEM-ALIGNMENT>"
             "<NATIVE-DECLARATION>float</NATIVE-DECLARATION>",
             root_tag="SW-BASE-TYPE",
@@ -835,7 +835,7 @@ class TestDataTypeAndValueSpecHandlers:
         assert definition.getBaseTypeSize().getValue() == 32
         assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
         assert definition.getNativeDeclaration().getValue() == "float"
-        assert definition.getByteOrder().getValue() == "BIG-ENDIAN"
+        assert definition.getByteOrder().getValue() == "mostSignificantByteFirst"
 
     def test_readBaseTypeDirectDefinition_empty(self, parser):
         from armodel.models import BaseTypeDirectDefinition
