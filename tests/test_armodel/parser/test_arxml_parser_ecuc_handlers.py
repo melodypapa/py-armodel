@@ -2952,3 +2952,42 @@ class TestEcucLinkerSymbolDefParameters:
         assert len(params) == 1
         assert isinstance(params[0], EcucLinkerSymbolDef)
         assert params[0].getDefaultValue().getValue() == "Os_LinkSymbol"
+
+
+class TestEcucContainerDefDestinationUriRefs:
+    """Tests for DESTINATION-URI-REFS parsing on EcucContainerDef (EcucDestinationUriDefRefType)."""
+
+    def test_read_destination_uri_refs_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriDefRefType, EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <DESTINATION-URI-REFS>
+                <DESTINATION-URI-REF DEST="ECUC-DESTINATION-URI-DEF" BASE="BASE1">/Mod/UriDef1</DESTINATION-URI-REF>
+                <DESTINATION-URI-REF DEST="ECUC-DESTINATION-URI-DEF">/Mod/UriDef2</DESTINATION-URI-REF>
+            </DESTINATION-URI-REFS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDef(element, container)
+        refs = container.getDestinationUriRefs()
+        assert len(refs) == 2
+        assert isinstance(refs[0], EcucDestinationUriDefRefType)
+        assert isinstance(refs[1], EcucDestinationUriDefRefType)
+        assert refs[0].getValue() == "/Mod/UriDef1"
+        assert refs[0].getDest() == "ECUC-DESTINATION-URI-DEF"
+        assert refs[0].getBase() == "BASE1"
+        assert refs[1].getValue() == "/Mod/UriDef2"
+        assert refs[1].getDest() == "ECUC-DESTINATION-URI-DEF"
+        assert refs[1].getBase() is None
+
+    def test_read_destination_uri_refs_absent(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip("", root_tag="ECUC-PARAM-CONF-CONTAINER-DEF")
+        parser.readEcucContainerDef(element, container)
+        assert container.getDestinationUriRefs() == []

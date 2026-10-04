@@ -695,8 +695,40 @@ class TestEcucMultilineStringParamDef:
 
 
 class TestEcucDestinationUriDefRefType:
+    CLASS_NOTE = (
+        "Typed reference to an EcucDestinationUriDef, modeled after the anonymous"
+        " DESTINATION-URI-REF nested complexType (simpleContent extension of AR:REF with"
+        " a required DEST attribute of ECUC-DESTINATION-URI-DEF--SUBTYPES-ENUM) inside"
+        " the DESTINATION-URI-REFS wrapper of the XSD group ECUC-CONTAINER-DEF."
+        " Aggregated by EcucContainerDef.destinationUri (0..*)."
+    )
+
     def test_instantiation(self):
         assert isinstance(EcucDestinationUriDefRefType(), EcucDestinationUriDefRefType)
+
+    def test_inheritance(self):
+        assert isinstance(EcucDestinationUriDefRefType(), RefType)
+
+    def test_inherited_accessors_roundtrip(self):
+        uri_ref = EcucDestinationUriDefRefType()
+
+        assert uri_ref.getValue() is None
+        assert uri_ref.getBase() is None
+        assert uri_ref.getDest() is None
+
+        uri_ref.setValue("/EcucModuleDef/UriDef")
+        uri_ref.setBase("BASE")
+        uri_ref.setDest("ECUC-DESTINATION-URI-DEF")
+
+        assert uri_ref.getValue() == "/EcucModuleDef/UriDef"
+        assert uri_ref.getBase() == "BASE"
+        assert uri_ref.getDest() == "ECUC-DESTINATION-URI-DEF"
+
+    def test_class_docstring(self):
+        assert EcucDestinationUriDefRefType.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriDefRefType.__init__.__doc__ is None
 
 
 class TestEcucConfigurationClassEnum:
