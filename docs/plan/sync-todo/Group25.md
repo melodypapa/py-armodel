@@ -1156,15 +1156,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticIumpr` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.207, p.210
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    1. event (DiagnosticEvent, 0..1, ref) → eventRef: Optional[RefType] (kind-suffix naming); full DEST round-trip via
+       getChildElementOptionalRefType / setChildElementOptionalRefType. Referenced class DiagnosticEvent is fully synced.
+    2. ratioKind (DiagnosticIumprKindEnum, 0..1, attr) → ratioKind: Optional[DiagnosticIumprKindEnum]; the enum is a stub
+       queued later in Group25 (Table 4.208), so RATIO-KIND is round-tripped as a raw literal via
+       getChildElementOptionalLiteral / setChildElementOptionalLiteral + cast (DiagnosticEvent EVENT-KIND interim
+       precedent); switch to _readEnumToken/_writeEnumToken when the enum gains its literals.
+    3. XSD group DIAGNOSTIC-IUMPR (AUTOSAR_00052.xsd l.38622) declares exactly EVENT-REF; RATIO-KIND — no
+       atp.Status="removed" elements; reader/writer element order matches the markdown displayed order.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the raw-literal ratioKind round-trip is an interim note pending DiagnosticIumprKindEnum Table 4.208, not a deviation)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1880 passed / 0 failed: test_ARPackage.py + test_diagnostic_iumpr.py + test_writer_diagnostic_iumpr.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticIumprKindEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.208, p.210
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

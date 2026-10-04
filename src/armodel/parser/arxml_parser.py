@@ -636,6 +636,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterResourceToDiagDataElemMapping,
     CpSwClusterToDiagRoutineSubfunctionMapping,
     CpSwClusterResourceToDiagFunctionIdMapping,
+    DiagnosticIumpr,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -694,6 +695,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventKindEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
+    DiagnosticIumprKindEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticRecordTriggerEnum,
@@ -10949,6 +10951,13 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
         mapping.setTroubleCodeJ1939Ref(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-J-1939-REF"))
 
+    def readDiagnosticIumpr(self, element: ET.Element, iumpr: DiagnosticIumpr):
+        self.logger.debug("Read DiagnosticIumpr <%s>" % iumpr.getShortName())
+        self.readIdentifiable(element, iumpr)
+        iumpr.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+        # RATIO-KIND is round-tripped as a raw literal until DiagnosticIumprKindEnum (Table 4.208, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        iumpr.setRatioKind(cast(Optional[DiagnosticIumprKindEnum], self.getChildElementOptionalLiteral(element, "RATIO-KIND")))
+
     def readDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setFunctionIdentifierRef(self.getChildElementOptionalRefType(element, "FUNCTION-IDENTIFIER-REF"))
@@ -16728,6 +16737,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-IO-CONTROL-CLASS":
             io_control_class = parent.createDiagnosticIoControlClass(self.getShortName(child_element))
             self.readDiagnosticIoControlClass(child_element, io_control_class)
+        elif tag_name == "DIAGNOSTIC-IUMPR":
+            iumpr = parent.createDiagnosticIumpr(self.getShortName(child_element))
+            self.readDiagnosticIumpr(child_element, iumpr)
         elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
             read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
@@ -17098,6 +17110,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-INDICATOR":
             indicator = parent.createDiagnosticIndicator(self.getShortName(child_element))
             self.readDiagnosticIndicator(child_element, indicator)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR":
+            iumpr = parent.createDiagnosticIumpr(self.getShortName(child_element))
+            self.readDiagnosticIumpr(child_element, iumpr)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

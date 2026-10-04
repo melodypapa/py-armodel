@@ -416,6 +416,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
+    DiagnosticIumprKindEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -3432,6 +3433,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticJ1939SpnMapping(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticJ1939SpnMapping, self.getReferrableElement(short_name, DiagnosticJ1939SpnMapping))
+
+    def createDiagnosticIumpr(self, short_name: str) -> DiagnosticIumpr:
+        """
+        Creates a new DiagnosticIumpr with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumpr: This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled. Tags: atp.recommendedPackage=DiagnosticIumprs
+
+        Args:
+            short_name: The short name for the new DiagnosticIumpr
+
+        Returns:
+            The newly created or existing DiagnosticIumpr instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIumpr):
+            element = DiagnosticIumpr(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIumpr, self.getReferrableElement(short_name, DiagnosticIumpr))
 
     def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
         """
@@ -7680,7 +7699,59 @@ class DiagnosticInfoType(ARElement):
 
 
 class DiagnosticIumpr(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled. Tags: atp.recommendedPackage=DiagnosticIumprs
+    """
+
+    # DiagnosticIumpr method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.207, p.210
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRatioKind   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRatioKind   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference represents the DiagnosticEvent that corresponds to the IUMPR computation.
+        self.eventRef: Optional[RefType] = None
+
+        # This attribute controls the behavior of how the ratio is calculated.
+        self.ratioKind: Optional[DiagnosticIumprKindEnum] = None
+
+    def getEventRef(self) -> Optional[RefType]:
+        """
+        This reference represents the DiagnosticEvent that corresponds to the IUMPR computation.
+        """
+        return self.eventRef
+
+    def setEventRef(self, value: Optional[RefType]) -> DiagnosticIumpr:
+        """
+        This reference represents the DiagnosticEvent that corresponds to the IUMPR computation.
+
+        A None value is a no-op and does not overwrite an existing eventRef.
+        """
+        if value is not None:
+            self.eventRef = value
+        return self
+
+    def getRatioKind(self) -> Optional[DiagnosticIumprKindEnum]:
+        """
+        This attribute controls the behavior of how the ratio is calculated.
+        """
+        return self.ratioKind
+
+    def setRatioKind(self, value: Optional[DiagnosticIumprKindEnum]) -> DiagnosticIumpr:
+        """
+        This attribute controls the behavior of how the ratio is calculated.
+
+        A None value is a no-op and does not overwrite an existing ratioKind.
+        """
+        if value is not None:
+            self.ratioKind = value
+        return self
 
 
 class DiagnosticIumprDenominatorGroup(ARElement):

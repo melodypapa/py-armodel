@@ -507,6 +507,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterResourceToDiagDataElemMapping,
     CpSwClusterToDiagRoutineSubfunctionMapping,
     CpSwClusterResourceToDiagFunctionIdMapping,
+    DiagnosticIumpr,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -14377,6 +14378,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
         self.setChildElementOptionalRefType(child_element, "TROUBLE-CODE-J-1939-REF", mapping.getTroubleCodeJ1939Ref())
 
+    def writeDiagnosticIumpr(self, element: ET.Element, iumpr: DiagnosticIumpr):
+        self.logger.debug("Write DiagnosticIumpr %s" % iumpr.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR")
+        self.writeIdentifiable(child_element, iumpr)
+        self.setChildElementOptionalRefType(child_element, "EVENT-REF", iumpr.getEventRef())
+        # RATIO-KIND is round-tripped as a raw literal until DiagnosticIumprKindEnum (Table 4.208, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        self.setChildElementOptionalLiteral(child_element, "RATIO-KIND", cast(ARLiteral, iumpr.getRatioKind()))
+
     def writeDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.logger.debug("Write DiagnosticIumprToFunctionIdentifierMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING")
@@ -16567,6 +16576,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
             self.writeDiagnosticIoControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticIumpr):
+            self.writeDiagnosticIumpr(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifierClass):
             self.writeDiagnosticReadDataByIdentifierClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticWriteDataByIdentifierClass):
@@ -16801,6 +16812,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticIndicator):
             self.writeDiagnosticIndicator(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticIumpr):
+            self.writeDiagnosticIumpr(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)

@@ -77,6 +77,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticInfoType,
     DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
+    DiagnosticIumpr,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -147,6 +148,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
+    DiagnosticIumprKindEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -10508,6 +10510,116 @@ class TestDiagnosticIndicator:
         assert ar_root.getReferrableElement("Indicator1", DiagnosticIndicator) is obj
 
         duplicate = ar_root.createDiagnosticIndicator("Indicator1")
+        assert duplicate is obj
+
+
+class TestDiagnosticIumpr:
+    """
+    Test class for DiagnosticIumpr functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.207, p.210
+
+    DiagnosticIumpr is concrete (XSD complexType
+    DIAGNOSTIC-IUMPR abstract="false") with two own Attribute
+    rows in displayed order. event (kind ref) is modeled as the typed
+    reference eventRef; ratioKind (DiagnosticIumprKindEnum,
+    Table 4.208) is a stub until its own sync (queued in Group25) —
+    it is instantiated through the AREnum constructor with an empty
+    literal sequence.
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled. Tags: atp.recommendedPackage=DiagnosticIumprs"
+
+    EVENT_REF_NOTE = "This reference represents the DiagnosticEvent that corresponds to the IUMPR computation."
+
+    RATIO_KIND_NOTE = "This attribute controls the behavior of how the ratio is calculated."
+
+    def _make_obj(self) -> DiagnosticIumpr:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticIumpr(ar_root, "TestIumpr")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestIumpr"
+        assert isinstance(obj, DiagnosticIumpr)
+        assert isinstance(obj, ARElement)
+        assert obj.getEventRef() is None
+        assert obj.getRatioKind() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticIumpr.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIumpr.__init__.__doc__ is None
+
+    def test_get_set_event_ref(self):
+        """
+        Round-trips eventRef; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = RefType().setValue("/AUTOSAR/DiagnosticEvent")
+        result = obj.setEventRef(value)
+        assert result is obj  # method chaining
+        assert obj.getEventRef() is value
+        assert obj.getEventRef().getValue() == "/AUTOSAR/DiagnosticEvent"
+
+        result = obj.setEventRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventRef() is value  # None is a no-op
+
+    def test_get_set_ratio_kind(self):
+        """
+        Round-trips ratioKind; None is a no-op.
+
+        DiagnosticIumprKindEnum is a stub until its own sync
+        (Table 4.208, queued in Group25) — it is instantiated through the
+        AREnum constructor with an empty literal sequence.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticIumprKindEnum([]).setValue("observerBased")
+        result = obj.setRatioKind(value)
+        assert result is obj  # method chaining
+        assert obj.getRatioKind() is value
+        assert obj.getRatioKind().getValue() == "observerBased"
+
+        result = obj.setRatioKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRatioKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that every accessor docstring is the spec Note verbatim (setters append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticIumpr.getEventRef.__doc__) == self.EVENT_REF_NOTE
+        assert inspect.cleandoc(DiagnosticIumpr.setEventRef.__doc__) == (self.EVENT_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventRef.")
+        assert inspect.cleandoc(DiagnosticIumpr.getRatioKind.__doc__) == self.RATIO_KIND_NOTE
+        assert inspect.cleandoc(DiagnosticIumpr.setRatioKind.__doc__) == (self.RATIO_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ratioKind.")
+
+    def test_create_diagnostic_iumpr(self):
+        """
+        Test that ARPackage.createDiagnosticIumpr appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticIumpr("Iumpr1")
+
+        assert isinstance(obj, DiagnosticIumpr)
+        assert obj.getShortName() == "Iumpr1"
+        assert ar_root.getReferrableElement("Iumpr1", DiagnosticIumpr) is obj
+
+        duplicate = ar_root.createDiagnosticIumpr("Iumpr1")
         assert duplicate is obj
 
 
