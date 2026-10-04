@@ -15,9 +15,9 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwPinGroup, HwPinGroupContent
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, Numerical, RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -96,3 +96,71 @@ class TestHwDescriptionEntityReadWrite:
         assert element_2.getHwTypeRef() is None
         assert element_2.getHwCategoryRefs() == []
         assert element_2.getHwAttributeValues() == []
+
+
+class TestHwPinGroupContentReadWrite:
+    def _make_pin(self, hw_pin_group: HwPinGroup, short_name: str, function_name: str) -> None:
+        pin_group_content = HwPinGroupContent()
+        hw_pin_group.setHwPinGroupContent(pin_group_content)
+        pin = pin_group_content.createHwPin(short_name)
+        pin.addFunctionName(function_name)
+        pin.setPackagingPinName("A03")
+        pin_number = Integer()
+        pin_number.setValue("3")
+        pin.setPinNumber(pin_number)
+
+    def test_round_trip_nested_pin_group_content(self):
+        """HW-PIN-GROUP-CONTENT with a nested HwPin survives a write/read cycle with field values asserted (Table 2.6 via HwPinGroup Table 2.5)."""
+        element = HwElement(None, "TestEntity")
+        pin_group = element.createHwPinGroup("Group1")
+        self._make_pin(pin_group, "Pin1", "CLK")
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeHwElement(parent, element)
+        hw_element = parent.find("HW-ELEMENT")
+        pin_groups_element = hw_element.find("HW-PIN-GROUPS")
+        pin_group_element = pin_groups_element.find("HW-PIN-GROUP")
+        content_element = pin_group_element.find("HW-PIN-GROUP-CONTENT")
+        assert content_element is not None
+        pin_element = content_element.find("HW-PIN")
+        assert pin_element is not None
+        assert [_strip_ns(e.tag) for e in pin_element] == ["SHORT-NAME", "FUNCTION-NAMES", "PACKAGING-PIN-NAME", "PIN-NUMBER"]
+
+        element_2 = _save_and_reload(element)
+        pin_group_2 = element_2.getHwPinGroups()[0]
+        content_2 = pin_group_2.getHwPinGroupContent()
+        assert content_2 is not None
+        pin_2 = content_2.getHwPin()
+        assert pin_2 is not None
+        assert pin_2.getShortName() == "Pin1"
+        assert [fn for fn in pin_2.getFunctionNames()] == ["CLK"]
+        assert pin_2.getPackagingPinName() == "A03"
+        assert pin_2.getPinNumber().getValue() == 3
+
+    def test_round_trip_nested_pin_group_in_content(self):
+        """A HwPinGroup nested inside HwPinGroupContent survives a write/read cycle (Table 2.6 hwPinGroup 0..1)."""
+        element = HwElement(None, "TestEntity")
+        outer_group = element.createHwPinGroup("OuterGroup")
+        outer_group.setHwPinGroupContent(HwPinGroupContent())
+        inner_group = outer_group.getHwPinGroupContent().createHwPinGroup("InnerGroup")
+        self._make_pin(inner_group, "Pin1", "CLK")
+
+        element_2 = _save_and_reload(element)
+        outer_2 = element_2.getHwPinGroups()[0]
+        inner_2 = outer_2.getHwPinGroupContent().getHwPinGroup()
+        assert inner_2 is not None
+        assert inner_2.getShortName() == "InnerGroup"
+        pin_2 = inner_2.getHwPinGroupContent().getHwPin()
+        assert pin_2 is not None
+        assert pin_2.getShortName() == "Pin1"
+        assert pin_2.getFunctionNames() == ["CLK"]
+
+    def test_round_trip_empty_content(self):
+        """A HwPinGroup without content emits no HW-PIN-GROUP-CONTENT element; an empty content reloads with both slots None."""
+        element = HwElement(None, "TestEntity")
+        element.createHwPinGroup("EmptyGroup")
+
+        element_2 = _save_and_reload(element)
+        group_2 = element_2.getHwPinGroups()[0]
+        assert group_2.getShortName() == "EmptyGroup"
+        assert group_2.getHwPinGroupContent() is None

@@ -174,78 +174,58 @@ class HwPin(Identifiable, HwDescriptionEntity, VariationPointCapable):
 
 class HwPinGroupContent(ARObject):
     """
-    Represents the content of a hardware pin group in AUTOSAR.
-    This class links individual pins and pin groups together to form complex pin structures.
-
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
-    Spec verified: R23-11
-    Note: XSD defines atpMixed choice (HW-PIN-GROUP | HW-PIN), not a sequence. Multiplicity 0..1 for both fields.
+    This meta-class specifies a mixture of hwPins and hwPinGroups.
     """
 
     # HwPinGroupContent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHwPin                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createHwPin                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createHwPin        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPin           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createHwPinGroup   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinGroup      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the HwPinGroupContent with default values.
-        """
         super().__init__()
 
+        # This aggregation represents a hardware pin in a hardware pin group.
         self.hwPin: Optional[HwPin] = None
+
+        # This aggregation represents a nested hardware pin group.
         self.hwPinGroup: Optional[HwPinGroup] = None
-
-    def getHwPin(self) -> Optional[HwPin]:
-        """
-        Gets the hardware pin in this pin group content.
-
-        Returns:
-            HwPin instance, or None if not set
-        """
-        return self.hwPin
 
     def createHwPin(self, short_name: str) -> HwPin:
         """
-        Creates a new hardware pin in this pin group content.
-
-        Args:
-            short_name: The short name for the new hardware pin
-
-        Returns:
-            The created HwPin instance
+        This aggregation represents a hardware pin in a hardware pin group.
         """
+        if self.hwPin is not None and self.hwPin.getShortName() == short_name:
+            return self.hwPin
         pin = HwPin(self, short_name)
         self.hwPin = pin
         return pin
 
+    def getHwPin(self) -> Optional[HwPin]:
+        """
+        This aggregation represents a hardware pin in a hardware pin group.
+        """
+        return self.hwPin
+
+    def createHwPinGroup(self, short_name: str) -> HwPinGroup:
+        """
+        This aggregation represents a nested hardware pin group.
+        """
+        if self.hwPinGroup is not None and self.hwPinGroup.getShortName() == short_name:
+            return self.hwPinGroup
+        pin_group = HwPinGroup(self, short_name)
+        self.hwPinGroup = pin_group
+        return pin_group
+
     def getHwPinGroup(self) -> Optional[HwPinGroup]:
         """
-        Gets the hardware pin group in this pin group content.
-
-        Returns:
-            HwPinGroup instance, or None if not set
+        This aggregation represents a nested hardware pin group.
         """
         return self.hwPinGroup
-
-    def setHwPinGroup(self, value: HwPinGroup):
-        """
-        Sets the hardware pin group in this pin group content.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The hardware pin group to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.hwPinGroup = value
-        return self
 
 
 class HwPinGroup(Identifiable, HwDescriptionEntity, VariationPointCapable):

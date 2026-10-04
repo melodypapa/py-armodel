@@ -12019,9 +12019,8 @@ class ARXMLParser(AbstractARXMLParser):
                 pin = content.createHwPin(self.getShortName(child_element))
                 self.readHwPin(child_element, pin)
             elif tag_name == "HW-PIN-GROUP":
-                child_group = HwPinGroup(content, self.getShortName(child_element))
+                child_group = content.createHwPinGroup(self.getShortName(child_element))
                 self.readHwPinGroup(child_element, child_group)
-                content.setHwPinGroup(child_group)
 
     def readHwPin(self, element: ET.Element, hw_pin: HwPin):
         self.readHwDescriptionEntity(element, hw_pin)
