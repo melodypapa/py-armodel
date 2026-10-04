@@ -64,15 +64,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucContainerValue` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.48, p.119
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (90 passed model+gate+round-trip; ecuc+VP subset 614; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `319fcf708`
+  - note (Step 1): concrete Class, bases (Identifiable, EcucIndexableValue); attrs definition (0..1 ref), parameterValue (* aggr), referenceValue (* aggr), subContainer (* aggr → createSubContainer registry factory); variationPoint arbitration: Table 2.48 has NO variationPoint row → mixin removed per Rule 0015 (XSD VARIATION-POINT artifact "Applicable for: EcucModuleConfigurationValues.container / EcucContainerValue.subContainer"); reader/writer already helper-wired (verified, no change); writeEcucContainValue pre-existing spelling kept; no deviations; no stamp (batch 9b)
 
 - [ ] `EcucParameterValue` — EcucIndexableValue — R23-11 CP_TPS_ECUConfiguration Table 2.49, p.125
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
