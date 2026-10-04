@@ -2441,7 +2441,29 @@ class DiagnosticSignificanceEnum(AREnum):
 
 
 class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
-    pass
+    """
+    This enumeration controls whether the aging and displacement mechanism shall be applied to the 'TestFailedSinceLastClear' status bits.
+    """
+
+    # DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.171, p.184
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The "TestFailedSinceLastClear" status bits are reset to 0, if aging or displacement applies. Tags: atp.EnumerationLiteralIndex=0
+    STATUS_BIT_AGING_AND_DISPLACEMENT = "statusBitAgingAndDisplacement"
+
+    # Aging and displacement has no impact on the "TestFailedSinceLastClear" status bits. Tags: atp.EnumerationLiteralIndex=1
+    STATUS_BIT_NORMAL = "statusBitNormal"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT,
+                DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL,
+            ]
+        )
 
 
 class DiagnosticTestResultUpdateEnum(AREnum):

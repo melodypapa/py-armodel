@@ -1417,6 +1417,13 @@ DIAGNOSTIC_RECORD_TRIGGER_XML_MAP = {
     "testPassed": "TEST-PASSED",
 }
 
+#: Mapping between DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR-ENUM--SIMPLE).
+DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP = {
+    "statusBitAgingAndDisplacement": "STATUS-BIT-AGING-AND-DISPLACEMENT",
+    "statusBitNormal": "STATUS-BIT-NORMAL",
+}
+
 DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
     "iso11992_4": "ISO-11992-4",
     "iso14229_1": "ISO-14229-1",
@@ -14945,8 +14952,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self._writeEnumToken(element, "EVENT-DISPLACEMENT-STRATEGY", destination.getEventDisplacementStrategy(), DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP)
         self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-EVENT-ENTRIES", destination.getMaxNumberOfEventEntries())
         self._writeEnumToken(element, "MEMORY-ENTRY-STORAGE-TRIGGER", destination.getMemoryEntryStorageTrigger(), DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP)
-        # STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR is round-tripped as a raw literal until DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum (Table 4.171, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        self.setChildElementOptionalLiteral(element, "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR", cast(ARLiteral, destination.getStatusBitHandlingTestFailedSinceLastClear()))
+        self._writeEnumToken(
+            element, "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR", destination.getStatusBitHandlingTestFailedSinceLastClear(), DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP
+        )
         self.setChildElementOptionalBooleanValue(element, "STATUS-BIT-STORAGE-TEST-FAILED", destination.getStatusBitStorageTestFailed())
         # TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION is round-tripped as a raw literal until DiagnosticTypeOfFreezeFrameRecordNumerationEnum (Table 4.172, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
         self.setChildElementOptionalLiteral(element, "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION", cast(ARLiteral, destination.getTypeOfFreezeFrameRecordNumeration()))

@@ -680,11 +680,10 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     exists (abstract group embedded in the concrete subclass elements), so no ARPackage factory and no dispatch branches —
     those land with the concrete subclass syncs queued next; precedent: DiagnosticCondition 48dbae418)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1316 passed / 0 failed: test_ArObject.py + test_diagnostic_memory_destination.py + test_writer_diagnostic_memory_destination.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
-  - Note (Step 8): pending references — statusBitHandlingTestFailedSinceLastClear /
-    typeOfFreezeFrameRecordNumeration are typed by their spec enums (Tables 4.171 / 4.172, queued later in
-    Group25, still literal-less stubs); round-tripped as raw literals via getChildElementOptionalLiteral /
+  - Note (Step 8): pending references — typeOfFreezeFrameRecordNumeration is typed by its spec enum (Table 4.172, queued later in
+    Group25, still a literal-less stub); round-tripped as a raw literal via getChildElementOptionalLiteral /
     setChildElementOptionalLiteral + cast (DiagnosticEcuInstanceProps.obdSupport interim pattern); rewire to
-    _readEnumToken/_writeEnumToken when the enums sync. RESOLVED 2026-10-04: memoryEntryStorageTrigger — DiagnosticMemoryEntryStorageTriggerEnum synced (Table 4.168) — MEMORY-ENTRY-STORAGE-TRIGGER now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP (CONFIRMED/FDC-THRESHOLD/TEST-FAILED); XML form unchanged. The already-synced clearDtcLimitation /
+    _readEnumToken/_writeEnumToken when the enum syncs. RESOLVED 2026-10-04: memoryEntryStorageTrigger — DiagnosticMemoryEntryStorageTriggerEnum synced (Table 4.168) — MEMORY-ENTRY-STORAGE-TRIGGER now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP (CONFIRMED/FDC-THRESHOLD/TEST-FAILED); XML form unchanged. RESOLVED 2026-10-04: statusBitHandlingTestFailedSinceLastClear — DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum synced (Table 4.171) — STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP (STATUS-BIT-AGING-AND-DISPLACEMENT/STATUS-BIT-NORMAL); XML form unchanged. The already-synced clearDtcLimitation /
     eventDisplacementStrategy are wired through _readEnumToken/_writeEnumToken with new module-level maps
     DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP / DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP (parser + writer).
   - Note (Step 8): consumers — only the not-yet-synced concrete subclasses aggregate the group ("Aggregated by
@@ -729,15 +728,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.171, p.184
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum — no own XML element; round-tripped on the consuming class (DiagnosticMemoryDestination STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR asserts strengthened in test_diagnostic_memory_destination.py / test_writer_diagnostic_memory_destination.py / test_diagnostic_memory_destination_primary.py / test_writer_diagnostic_memory_destination_primary.py)
+  - [x] Step 6 — Update parser & writer (Green) — N/A for the enum itself (no own XML element); consumer rewire done: DiagnosticMemoryDestination STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR flipped from getChildElementOptionalLiteral/setChildElementOptionalLiteral+cast to _readEnumToken/_writeEnumToken with DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP in both parser and writer (e550cdfbd precedent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; XSD simpleType carries exactly the two markdown literals)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2283 passed / 0 failed: test_PrimitiveTypes.py + test_ArObject.py + test_ARPackage.py + test_diagnostic_memory_destination.py + test_writer_diagnostic_memory_destination.py + test_diagnostic_memory_destination_primary.py + test_writer_diagnostic_memory_destination_primary.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticTypeOfFreezeFrameRecordNumerationEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.172, p.184
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

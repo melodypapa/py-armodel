@@ -99,7 +99,7 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         assert primary.getEventDisplacementStrategy().getValue() == "full"
         assert primary.getMaxNumberOfEventEntries().getValue() == 10
         assert primary.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
-        assert primary.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-AGING-AND-DISPLACEMENT"
+        assert primary.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitAgingAndDisplacement"
         assert primary.getStatusBitStorageTestFailed().value is True
         assert primary.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"
         assert primary.getTypeOfDtcSupported().getValue() == "saeJ1939_73"

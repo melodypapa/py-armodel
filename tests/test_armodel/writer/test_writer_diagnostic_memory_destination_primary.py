@@ -70,7 +70,7 @@ def _make_primary(package) -> DiagnosticMemoryDestinationPrimary:
     primary.setEventDisplacementStrategy(DiagnosticEventDisplacementStrategyEnum().setValue(DiagnosticEventDisplacementStrategyEnum.FULL))
     primary.setMaxNumberOfEventEntries(PositiveInteger().setValue(10))
     primary.setMemoryEntryStorageTrigger(DiagnosticMemoryEntryStorageTriggerEnum().setValue(DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED))
-    primary.setStatusBitHandlingTestFailedSinceLastClear(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum([]).setValue("STATUS-BIT-NORMAL"))
+    primary.setStatusBitHandlingTestFailedSinceLastClear(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum().setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL))
     primary.setStatusBitStorageTestFailed(Boolean().setValue(False))
     primary.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("CALCULATED"))
     primary.setTypeOfDtcSupported(DiagnosticTypeOfDtcSupportedEnum().setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1))
@@ -162,7 +162,7 @@ class TestWriteDiagnosticMemoryDestinationPrimary:
             assert primary_2.getMemoryEntryStorageTrigger() is not None
             assert primary_2.getMemoryEntryStorageTrigger().getValue() == "confirmed"
             assert primary_2.getStatusBitHandlingTestFailedSinceLastClear() is not None
-            assert primary_2.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-NORMAL"
+            assert primary_2.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
             assert primary_2.getStatusBitStorageTestFailed() is not None
             assert primary_2.getStatusBitStorageTestFailed().value is False
             assert primary_2.getTypeOfFreezeFrameRecordNumeration() is not None

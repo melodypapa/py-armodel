@@ -13,11 +13,10 @@ they are synced (Rule 0001.7 abstract-XML-bearing-base clause). Both concrete
 subclasses are still unsynced stubs queued later in Group25, so the tests drive
 the helper directly through a minimal concrete subclass instance.
 
-clearDtcLimitation, eventDisplacementStrategy and memoryEntryStorageTrigger are
-read through the _enumToken path against their synced enums;
-statusBitHandlingTestFailedSinceLastClear and typeOfFreezeFrameRecordNumeration
-are round-tripped as raw literals until their enums (Tables 4.171, 4.172,
-Group25) gain their literals.
+clearDtcLimitation, eventDisplacementStrategy, memoryEntryStorageTrigger and
+statusBitHandlingTestFailedSinceLastClear are read through the _enumToken path
+against their synced enums; typeOfFreezeFrameRecordNumeration is round-tripped
+as a raw literal until its enum (Table 4.172, Group25) gains its literals.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_destination.py
 """
@@ -25,7 +24,10 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticMemoryDestination
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticMemoryEntryStorageTriggerEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DiagnosticMemoryEntryStorageTriggerEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+)
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -83,11 +85,12 @@ class TestReadDiagnosticMemoryDestination:
         assert isinstance(destination.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
         assert destination.getMemoryEntryStorageTrigger().getValue() == "confirmed"
 
-    def test_read_sets_status_bit_handling_test_failed_since_last_clear_as_raw_literal(self, parser):
-        """Test that STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR is round-tripped as a raw literal while its enum is a stub."""
+    def test_read_sets_status_bit_handling_test_failed_since_last_clear(self, parser):
+        """Test that the STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR token is read as the typed enum literal."""
         destination = self._read(parser, "<STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR>STATUS-BIT-NORMAL</STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR>")
         assert destination.getStatusBitHandlingTestFailedSinceLastClear() is not None
-        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-NORMAL"
+        assert isinstance(destination.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
+        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
 
     def test_read_sets_status_bit_storage_test_failed(self, parser):
         """Test that STATUS-BIT-STORAGE-TEST-FAILED false is read into statusBitStorageTestFailed."""
@@ -136,6 +139,8 @@ class TestReadDiagnosticMemoryDestination:
         assert destination.getMemoryEntryStorageTrigger() is not None
         assert isinstance(destination.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
         assert destination.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
-        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-AGING-AND-DISPLACEMENT"
+        assert destination.getStatusBitHandlingTestFailedSinceLastClear() is not None
+        assert isinstance(destination.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
+        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitAgingAndDisplacement"
         assert destination.getStatusBitStorageTestFailed().value is True
         assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"

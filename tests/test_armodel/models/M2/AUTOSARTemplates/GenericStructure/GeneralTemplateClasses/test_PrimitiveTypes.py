@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticSignificanceEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -2845,3 +2846,46 @@ class TestDiagnosticSignificanceEnum:
         enum.setValue(DiagnosticSignificanceEnum.OCCURENCE)
 
         assert enum.getValue() == "occurence"
+
+
+class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
+    """
+    Test class for DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.171, p.184
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "statusBitAgingAndDisplacement",
+            "statusBitNormal",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum member values.
+        """
+        enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
+
+        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT == "statusBitAgingAndDisplacement"
+        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL == "statusBitNormal"
+
+        assert enum.validateEnumValue("statusBitAgingAndDisplacement") is True
+        assert enum.validateEnumValue("statusBitNormal") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum instantiability and getValue.
+        """
+        enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
+        enum.setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT)
+
+        assert enum.getValue() == "statusBitAgingAndDisplacement"

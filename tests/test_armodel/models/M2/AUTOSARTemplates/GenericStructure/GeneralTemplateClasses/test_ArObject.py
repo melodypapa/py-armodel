@@ -1569,11 +1569,11 @@ class TestDiagnosticMemoryDestination:
 
     def test_get_set_status_bit_handling_test_failed_since_last_clear(self):
         """
-        Test getStatusBitHandlingTestFailedSinceLastClear and setStatusBitHandlingTestFailedSinceLastClear round-trip and None no-op (interim raw-literal shape — the enum is a stub).
+        Test getStatusBitHandlingTestFailedSinceLastClear and setStatusBitHandlingTestFailedSinceLastClear round-trip and None no-op.
         """
         obj = self._create_destination()
 
-        value = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum([]).setValue("statusBitNormal")
+        value = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum().setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL)
         result = obj.setStatusBitHandlingTestFailedSinceLastClear(value)
         assert result is obj  # method chaining
         assert obj.getStatusBitHandlingTestFailedSinceLastClear() is value

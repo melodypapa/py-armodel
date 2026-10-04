@@ -14,11 +14,11 @@ subclasses are still unsynced stubs queued later in Group25, so the tests drive
 the helper directly through a minimal concrete subclass instance and assert
 field values / XSD sequenceOffset child order.
 
-clearDtcLimitation, eventDisplacementStrategy and memoryEntryStorageTrigger are
-written through the _enumToken path against their synced enums;
-statusBitHandlingTestFailedSinceLastClear and typeOfFreezeFrameRecordNumeration
-are round-tripped as raw literals until their enums (Tables 4.171, 4.172,
-Group25) gain their literals.
+clearDtcLimitation, eventDisplacementStrategy, memoryEntryStorageTrigger and
+statusBitHandlingTestFailedSinceLastClear are written through the _enumToken
+path against their synced enums; typeOfFreezeFrameRecordNumeration is
+round-tripped as a raw literal until its enum (Table 4.172, Group25) gains its
+literals.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_memory_destination.py
 """
@@ -64,7 +64,9 @@ def _make_destination() -> _ConcreteDiagnosticMemoryDestination:
     destination.setEventDisplacementStrategy(DiagnosticEventDisplacementStrategyEnum().setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC))
     destination.setMaxNumberOfEventEntries(PositiveInteger().setValue(10))
     destination.setMemoryEntryStorageTrigger(DiagnosticMemoryEntryStorageTriggerEnum().setValue(DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD))
-    destination.setStatusBitHandlingTestFailedSinceLastClear(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum([]).setValue("STATUS-BIT-NORMAL"))
+    destination.setStatusBitHandlingTestFailedSinceLastClear(
+        DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum().setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL)
+    )
     destination.setStatusBitStorageTestFailed(Boolean().setValue(False))
     destination.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("CONFIGURED"))
     return destination
@@ -134,7 +136,8 @@ class TestWriteDiagnosticMemoryDestination:
         assert isinstance(reloaded.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
         assert reloaded.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
         assert reloaded.getStatusBitHandlingTestFailedSinceLastClear() is not None
-        assert reloaded.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-NORMAL"
+        assert isinstance(reloaded.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
+        assert reloaded.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
         assert reloaded.getStatusBitStorageTestFailed() is not None
         assert reloaded.getStatusBitStorageTestFailed().value is False
         assert reloaded.getTypeOfFreezeFrameRecordNumeration() is not None
