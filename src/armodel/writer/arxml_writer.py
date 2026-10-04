@@ -328,6 +328,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     ReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
+    EcucIndexableValue,
     EcucInstanceReferenceValue,
     EcucModuleConfigurationValues,
     EcucNumericalParamValue,
@@ -13557,9 +13558,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for container in containers:
                     self.writeContainer(wrapper_element, container)
 
+    def writeEcucIndexableValue(self, element: ET.Element, value: EcucIndexableValue):
+        self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
+
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
-        self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
+        self.writeEcucIndexableValue(element, param_value)
         self.setAnnotations(element, param_value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
         self.writeVariationPointCapable(element, param_value)
@@ -13595,7 +13599,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
-        self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
+        self.writeEcucIndexableValue(element, value)
         self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
         self.writeVariationPointCapable(element, value)
@@ -13641,7 +13645,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ECUC-CONTAINER-VALUE")
         self.writeIdentifiable(child_element, container_value)
         self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", container_value.getDefinitionRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "INDEX", container_value.getIndex())
+        self.writeEcucIndexableValue(child_element, container_value)
         self.writeEcucContainerValueParameterValues(child_element, container_value)
         self.writeEcucContainerValueReferenceValues(child_element, container_value)
         self.writeEcucContainerValueSubContainers(child_element, container_value)

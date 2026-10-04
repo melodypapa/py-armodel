@@ -3,6 +3,8 @@ Test cases for the ECUCDescriptionTemplate module.
 These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemplate module.
 """
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     Container,
     EcucAbstractReferenceValue,
@@ -20,7 +22,16 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CIdentifier, Limit, Numerical, RefType, RevisionLabelString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    CIdentifier,
+    Limit,
+    Numerical,
+    PositiveInteger,
+    RefType,
+    RevisionLabelString,
+    VerbatimString,
+)
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
@@ -278,43 +289,66 @@ def test_module_configuration_member_annotations():
 
 def test_ecuc_indexable_value_abstract():
     """
-    Test EcucIndexableValue abstract class.
+    EcucIndexableValue (Table 2.46) is abstract and cannot be instantiated.
 
     Test Steps:
-    1. Verify that instantiating EcucIndexableValue directly raises NotImplementedError
+    1. Verify that instantiating EcucIndexableValue directly raises TypeError
     """
-    try:
+    with pytest.raises(TypeError):
         EcucIndexableValue()
-        assert False, "Should raise NotImplementedError"
-    except TypeError:
-        pass  # Expected
 
 
-def test_ecuc_indexable_value_index_methods():
+def test_ecuc_indexable_value_base_properties():
     """
-    Test EcucIndexableValue index accessors (via a concrete subclass).
+    EcucIndexableValue (Table 2.46) index accessors via a concrete subclass.
 
     Test Steps:
     1. Create an EcucNumericalParamValue instance (concrete subclass)
-    2. Test initial index value
-    3. Test index getter and setter with method chaining
-    4. Test setIndex(None) is a no-op
+    2. Assert the index default is None
+    3. Set a PositiveInteger via setIndex and assert chaining and round-trip
+    4. Call setIndex(None) and assert the value is preserved
     """
     value = EcucNumericalParamValue()
 
-    # Test initial value
     assert value.index is None
+    assert value.getIndex() is None
 
-    # Test getter and setter
-    index = Numerical()
-    index.setValue("4")
-    result = value.setIndex(index)
-    assert result == value  # Method chaining
+    index = PositiveInteger().setValue("4")
+    assert value.setIndex(index) is value
     assert value.getIndex() == index
 
-    # Test None is a no-op
     value.setIndex(None)
     assert value.getIndex() == index
+
+
+def test_ecuc_indexable_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.46 Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter docstring carries the spec attribute Note verbatim
+    """
+    assert EcucIndexableValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Used to support the specification of ordering of parameter values." in EcucIndexableValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+    notes = {
+        "getIndex": "Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5",
+        "setIndex": "Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucIndexableValue, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_ecuc_indexable_value_member_annotations():
+    """get/set shall resolve to Optional[PositiveInteger] / EcucIndexableValue (Rule 0003/0006 — get_type_hints pin)."""
+    import typing
+
+    assert typing.get_type_hints(EcucIndexableValue.getIndex)["return"] == typing.Optional[PositiveInteger]
+    assert typing.get_type_hints(EcucIndexableValue.setIndex)["value"] == typing.Optional[PositiveInteger]
+    assert typing.get_type_hints(EcucIndexableValue.setIndex)["return"] is EcucIndexableValue
 
 
 def test_ecuc_parameter_value_abstract():
@@ -929,106 +963,155 @@ def test_ecuc_container_value_member_docstrings_verbatim():
         assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
-def test_ecuc_module_configuration_values():
+def test_ecuc_module_configuration_values_initialization_defaults():
     """
-    Test EcucModuleConfigurationValues class - full spec compliance per Table 2.47.
+    EcucModuleConfigurationValues (Table 2.47) defaults: all spec attributes empty.
 
     Test Steps:
     1. Create an EcucModuleConfigurationValues instance with parent and short_name
-    2. Test initial values
-    3. Test containers methods including createContainer
-    4. Test definition methods (ref to EcucModuleDef)
-    5. Test ecucDefEdition methods
-    6. Test implementationConfigVariant methods
-    7. Test moduleDescription methods (ref to BswImplementation)
-    8. Test postBuildVariantUsed methods
-    9. Verify docstrings match spec verbatim
-    10. Verify class docstring contains the spec Note
-    """
-    parent = Limit()  # Using Limit as a concrete ARObject subclass
-    module_config = EcucModuleConfigurationValues(parent, "test_module_config")
-
-    # Test initial values
-    assert module_config.parent == parent
-    assert module_config.short_name == "test_module_config"
-    assert module_config.containers == []
-    assert module_config.definitionRef is None, "Member should be named 'definitionRef' per spec (attribute name)"
-    assert module_config.ecucDefEdition is None
-    assert module_config.implementationConfigVariant is None
-    assert module_config.moduleDescriptionRef is None, "Member should be named 'moduleDescriptionRef' per spec (attribute name)"
-    assert module_config.postBuildVariantUsed is None
-
-    # Test containers methods
-    container = module_config.createContainer("container1")
-    assert container is not None
-    assert container.short_name == "container1"
-    containers = module_config.getContainers()
-    assert len(containers) == 1
-    assert containers[0] == container
-
-    # Test definition methods (spec: "Reference to the definition of this EcucModule ConfigurationValues element...")
-    module_config.setDefinitionRef("def_ref")
-    assert module_config.getDefinitionRef() == "def_ref"
-
-    # Test ecucDefEdition methods (spec type: RevisionLabelString)
-    edition = RevisionLabelString().setValue("1.0.0")
-    module_config.setEcucDefEdition(edition)
-    assert module_config.getEcucDefEdition() == edition
-
-    # Test implementationConfigVariant methods (spec type: EcucConfigurationVariantEnum)
-    variant = EcucConfigurationVariantEnum().setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
-    module_config.setImplementationConfigVariant(variant)
-    assert module_config.getImplementationConfigVariant() == variant
-
-    # Test moduleDescription methods (spec: "Referencing the BSW module description...")
-    module_config.setModuleDescriptionRef("module_ref")
-    assert module_config.getModuleDescriptionRef() == "module_ref"
-
-    # Test postBuildVariantUsed methods (spec type: Boolean)
-    post_build = Boolean().setValue(True)
-    module_config.setPostBuildVariantUsed(post_build)
-    assert module_config.getPostBuildVariantUsed() == post_build
-
-    # Verify docstrings match spec (Rule 0012)
-    assert EcucModuleConfigurationValues.__doc__ is not None, "Class docstring must contain spec Note"
-    assert "Head of the configuration of one Module" in EcucModuleConfigurationValues.__doc__, "Class docstring must contain spec Note verbatim"
-
-
-def test_ecuc_module_configuration_values_none_no_op():
-    """
-    None passed to a 0..1 setter of EcucModuleConfigurationValues is a no-op.
-
-    Test Steps:
-    1. Create an EcucModuleConfigurationValues instance
-    2. Set spec values on every 0..1 attribute
-    3. Call each setter with None and verify the value is preserved
+    2. Assert parent/short_name and the containers/definitionRef/ecucDefEdition/implementationConfigVariant/moduleDescriptionRef/postBuildVariantUsed defaults
+    3. Assert getContainers returns the dedicated typed list field directly (Rule 0004)
     """
     parent = Limit()
-    module_config = EcucModuleConfigurationValues(parent, "mcv_none_no_op")
+    values = EcucModuleConfigurationValues(parent, "test_module_config")
 
-    definition = RefType().setValue("/ModuleDef")
-    edition = RevisionLabelString().setValue("2.0.0")
-    variant = EcucConfigurationVariantEnum().setValue(EcucConfigurationVariantEnum.VARIANT_POST_BUILD)
-    description = RefType().setValue("/BswImplementation")
+    assert values.parent == parent
+    assert values.short_name == "test_module_config"
+    assert values.containers == []
+    assert values.getContainers() == []
+    assert values.getContainers() is values.getContainers()
+    assert values.definitionRef is None
+    assert values.getDefinitionRef() is None
+    assert values.ecucDefEdition is None
+    assert values.getEcucDefEdition() is None
+    assert values.implementationConfigVariant is None
+    assert values.getImplementationConfigVariant() is None
+    assert values.moduleDescriptionRef is None
+    assert values.getModuleDescriptionRef() is None
+    assert values.postBuildVariantUsed is None
+    assert values.getPostBuildVariantUsed() is None
+
+
+def test_ecuc_module_configuration_values_create_container():
+    """
+    createContainer appends to the typed list and a duplicate short name returns the existing container.
+
+    Test Steps:
+    1. Create two containers via createContainer and assert they are appended in order
+    2. Create the same short name again and assert the existing container is returned
+    """
+    parent = Limit()
+    values = EcucModuleConfigurationValues(parent, "mcv")
+
+    container1 = values.createContainer("OsOS")
+    assert container1 is not None
+    assert container1.short_name == "OsOS"
+    container2 = values.createContainer("CanIf")
+    assert values.getContainers() == [container1, container2]
+
+    duplicate = values.createContainer("OsOS")
+    assert duplicate is container1
+    assert values.getContainers() == [container1, container2]
+
+
+def test_ecuc_module_configuration_values_get_set_definition_ref():
+    """
+    setDefinitionRef chains, round-trips a typed RefType, and None is a no-op.
+
+    Test Steps:
+    1. Set a RefType value via setDefinitionRef
+    2. Assert chaining returns self and the value round-trips
+    3. Call setDefinitionRef(None) and assert the value is preserved
+    """
+    parent = Limit()
+    values = EcucModuleConfigurationValues(parent, "mcv")
+    definition_ref = RefType().setValue("/ModuleDef/Os").setDest("ECUC-MODULE-DEF")
+
+    assert values.setDefinitionRef(definition_ref) is values
+    assert values.getDefinitionRef() == definition_ref
+
+    values.setDefinitionRef(None)
+    assert values.getDefinitionRef() == definition_ref
+
+
+def test_ecuc_module_configuration_values_get_set_ecuc_def_edition():
+    """
+    setEcucDefEdition chains, round-trips a RevisionLabelString, and None is a no-op.
+
+    Test Steps:
+    1. Set a RevisionLabelString value via setEcucDefEdition
+    2. Assert chaining returns self and the value round-trips
+    3. Call setEcucDefEdition(None) and assert the value is preserved
+    """
+    parent = Limit()
+    values = EcucModuleConfigurationValues(parent, "mcv")
+    edition = RevisionLabelString().setValue("1.0.0")
+
+    assert values.setEcucDefEdition(edition) is values
+    assert values.getEcucDefEdition() == edition
+
+    values.setEcucDefEdition(None)
+    assert values.getEcucDefEdition() == edition
+
+
+def test_ecuc_module_configuration_values_get_set_implementation_config_variant():
+    """
+    setImplementationConfigVariant chains, round-trips the typed enum, and None is a no-op.
+
+    Test Steps:
+    1. Set an EcucConfigurationVariantEnum value via setImplementationConfigVariant
+    2. Assert chaining returns self and the value round-trips
+    3. Call setImplementationConfigVariant(None) and assert the value is preserved
+    """
+    parent = Limit()
+    values = EcucModuleConfigurationValues(parent, "mcv")
+    variant = EcucConfigurationVariantEnum().setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
+
+    assert values.setImplementationConfigVariant(variant) is values
+    assert values.getImplementationConfigVariant() == variant
+
+    values.setImplementationConfigVariant(None)
+    assert values.getImplementationConfigVariant() == variant
+
+
+def test_ecuc_module_configuration_values_get_set_module_description_ref():
+    """
+    setModuleDescriptionRef chains, round-trips a typed RefType, and None is a no-op.
+
+    Test Steps:
+    1. Set a RefType value via setModuleDescriptionRef
+    2. Assert chaining returns self and the value round-trips
+    3. Call setModuleDescriptionRef(None) and assert the value is preserved
+    """
+    parent = Limit()
+    values = EcucModuleConfigurationValues(parent, "mcv")
+    description_ref = RefType().setValue("/Vendor/OsImplementation").setDest("BSW-IMPLEMENTATION")
+
+    assert values.setModuleDescriptionRef(description_ref) is values
+    assert values.getModuleDescriptionRef() == description_ref
+
+    values.setModuleDescriptionRef(None)
+    assert values.getModuleDescriptionRef() == description_ref
+
+
+def test_ecuc_module_configuration_values_get_set_post_build_variant_used():
+    """
+    setPostBuildVariantUsed chains, round-trips a Boolean, and None is a no-op.
+
+    Test Steps:
+    1. Set a Boolean value via setPostBuildVariantUsed
+    2. Assert chaining returns self and the value round-trips
+    3. Call setPostBuildVariantUsed(None) and assert the value is preserved
+    """
+    parent = Limit()
+    values = EcucModuleConfigurationValues(parent, "mcv")
     post_build = Boolean().setValue(True)
 
-    assert module_config.setDefinitionRef(definition) is module_config
-    assert module_config.setEcucDefEdition(edition) is module_config
-    assert module_config.setImplementationConfigVariant(variant) is module_config
-    assert module_config.setModuleDescriptionRef(description) is module_config
-    assert module_config.setPostBuildVariantUsed(post_build) is module_config
+    assert values.setPostBuildVariantUsed(post_build) is values
+    assert values.getPostBuildVariantUsed() == post_build
 
-    module_config.setDefinitionRef(None)
-    module_config.setEcucDefEdition(None)
-    module_config.setImplementationConfigVariant(None)
-    module_config.setModuleDescriptionRef(None)
-    module_config.setPostBuildVariantUsed(None)
-
-    assert module_config.getDefinitionRef() == definition
-    assert module_config.getEcucDefEdition() == edition
-    assert module_config.getImplementationConfigVariant() == variant
-    assert module_config.getModuleDescriptionRef() == description
-    assert module_config.getPostBuildVariantUsed() == post_build
+    values.setPostBuildVariantUsed(None)
+    assert values.getPostBuildVariantUsed() == post_build
 
 
 def test_ecuc_module_configuration_values_member_docstrings_verbatim():
@@ -1036,26 +1119,54 @@ def test_ecuc_module_configuration_values_member_docstrings_verbatim():
     Member docstrings must carry the Table 2.47 attribute Notes verbatim (Rule 0001.4/0012).
 
     Test Steps:
-    1. Assert each getter/setter docstring contains the full spec Note sentence tail
-       that paraphrases are known to drop.
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/creator docstring carries the full spec Note verbatim
     """
+    assert EcucModuleConfigurationValues.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Head of the configuration of one Module." in EcucModuleConfigurationValues.__doc__, "Class docstring must contain spec Note verbatim"
+
     notes = {
-        "getDefinitionRef": "Typically, this is a vendor specific module configuration.",
-        "setDefinitionRef": "Typically, this is a vendor specific module configuration.",
-        "getEcucDefEdition": "The compatibility rules between the definition and value revision labels is up to the module's vendor.",
-        "setEcucDefEdition": "The compatibility rules between the definition and value revision labels is up to the module's vendor.",
-        "getImplementationConfigVariant": "If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.",
-        "setImplementationConfigVariant": "If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.",
-        "getModuleDescriptionRef": 'However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
-        "setModuleDescriptionRef": 'However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
-        "getPostBuildVariantUsed": "TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.",
-        "setPostBuildVariantUsed": "TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.",
-        "createContainer": "Aggregates all containers that belong to this module configuration.",
-        "getContainers": "Aggregates all containers that belong to this module configuration.",
+        "createContainer": "Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10",
+        "getContainers": "Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10",
+        "getDefinitionRef": "Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10",
+        "setDefinitionRef": "Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10",
+        "getEcucDefEdition": "This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor.",
+        "setEcucDefEdition": "This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor.",
+        "getImplementationConfigVariant": "Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.",
+        "setImplementationConfigVariant": "Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.",
+        "getModuleDescriptionRef": 'Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
+        "setModuleDescriptionRef": 'Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
+        "getPostBuildVariantUsed": "Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.",
+        "setPostBuildVariantUsed": "Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.",
     }
     for method_name, note in notes.items():
         method = getattr(EcucModuleConfigurationValues, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
         assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
+def test_ecuc_module_configuration_values_member_annotations():
+    """get/set/create shall resolve to Optional[T] / List[EcucContainerValue] / EcucModuleConfigurationValues (Rule 0003/0006 — get_type_hints pin; 0..1 setters take Optional[T])."""
+    import typing
+
+    assert typing.get_type_hints(EcucModuleConfigurationValues.createContainer)["short_name"] is str
+    assert typing.get_type_hints(EcucModuleConfigurationValues.createContainer)["return"] is EcucContainerValue
+    assert typing.get_type_hints(EcucModuleConfigurationValues.getContainers)["return"] == typing.List[EcucContainerValue]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.getDefinitionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setDefinitionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setDefinitionRef)["return"] is EcucModuleConfigurationValues
+    assert typing.get_type_hints(EcucModuleConfigurationValues.getEcucDefEdition)["return"] == typing.Optional[RevisionLabelString]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setEcucDefEdition)["value"] == typing.Optional[RevisionLabelString]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setEcucDefEdition)["return"] is EcucModuleConfigurationValues
+    assert typing.get_type_hints(EcucModuleConfigurationValues.getImplementationConfigVariant)["return"] == typing.Optional[EcucConfigurationVariantEnum]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setImplementationConfigVariant)["value"] == typing.Optional[EcucConfigurationVariantEnum]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setImplementationConfigVariant)["return"] is EcucModuleConfigurationValues
+    assert typing.get_type_hints(EcucModuleConfigurationValues.getModuleDescriptionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setModuleDescriptionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setModuleDescriptionRef)["return"] is EcucModuleConfigurationValues
+    assert typing.get_type_hints(EcucModuleConfigurationValues.getPostBuildVariantUsed)["return"] == typing.Optional[Boolean]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setPostBuildVariantUsed)["value"] == typing.Optional[Boolean]
+    assert typing.get_type_hints(EcucModuleConfigurationValues.setPostBuildVariantUsed)["return"] is EcucModuleConfigurationValues
 
 
 def test_ecuc_configuration_variant_enum():
@@ -1133,6 +1244,9 @@ if __name__ == "__main__":
     test_ecuc_value_collection_member_docstrings_verbatim()
     test_ecuc_value_collection_member_annotations()
     test_ecuc_indexable_value_abstract()
+    test_ecuc_indexable_value_base_properties()
+    test_ecuc_indexable_value_member_docstrings_verbatim()
+    test_ecuc_indexable_value_member_annotations()
     test_ecuc_parameter_value_abstract()
     test_ecuc_parameter_value_methods()
     test_ecuc_add_info_param_value()
@@ -1152,7 +1266,15 @@ if __name__ == "__main__":
     test_ecuc_container_value_reference_values_returns_list()
     test_ecuc_container_value_create_sub_container()
     test_ecuc_container_value_member_docstrings_verbatim()
-    test_ecuc_module_configuration_values()
+    test_ecuc_module_configuration_values_initialization_defaults()
+    test_ecuc_module_configuration_values_create_container()
+    test_ecuc_module_configuration_values_get_set_definition_ref()
+    test_ecuc_module_configuration_values_get_set_ecuc_def_edition()
+    test_ecuc_module_configuration_values_get_set_implementation_config_variant()
+    test_ecuc_module_configuration_values_get_set_module_description_ref()
+    test_ecuc_module_configuration_values_get_set_post_build_variant_used()
+    test_ecuc_module_configuration_values_member_docstrings_verbatim()
+    test_ecuc_module_configuration_values_member_annotations()
     test_ecuc_configuration_variant_enum()
     test_ecuc_module_def()
     print("All ECUCDescriptionTemplate tests passed!")

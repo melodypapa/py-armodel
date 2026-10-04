@@ -470,6 +470,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     ReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
+    EcucIndexableValue,
     EcucInstanceReferenceValue,
     EcucModuleConfigurationValues,
     EcucNumericalParamValue,
@@ -14801,9 +14802,12 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ModuleConfiguration container <%s>" % tag_name)
 
+    def readEcucIndexableValue(self, element: ET.Element, value: EcucIndexableValue):
+        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        self.readEcucIndexableValue(element, param_value)
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
         param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
@@ -14841,7 +14845,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        self.readEcucIndexableValue(element, value)
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
         value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
@@ -14887,7 +14891,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucContainerValue(self, element: ET.Element, container_value: EcucContainerValue):
         self.readIdentifiable(element, container_value)
         container_value.setDefinitionRef(cast(RefType, self.getChildElementOptionalRefType(element, "DEFINITION-REF")))
-        container_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        self.readEcucIndexableValue(element, container_value)
         self.readEcucContainerValueParameterValues(element, container_value)
         self.readEcucContainerValueReferenceValues(element, container_value)
         self.readEcucContainerValueSubContainers(element, container_value)

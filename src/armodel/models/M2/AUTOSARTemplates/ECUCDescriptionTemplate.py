@@ -80,11 +80,15 @@ class EcucIndexableValue(ARObject, ABC):
 
     # EcucIndexableValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.46, p.110
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Abstract XML-bearing base (XSD group ECUC-INDEXABLE-VALUE): owns the reusable
+    # readEcucIndexableValue / writeEcucIndexableValue helpers (Rule 0001.7);
+    # called by readEcucParameterValue, readEcucAbstractReferenceValue,
+    # readEcucContainerValue / writeEcucParameterValue,
+    # writeEcucAbstractReferenceValue, writeEcucContainValue.
 
     def __init__(self):
         if type(self) is EcucIndexableValue:
@@ -96,14 +100,11 @@ class EcucIndexableValue(ARObject, ABC):
         self.index: Optional[PositiveInteger] = None
 
     def getIndex(self) -> Optional[PositiveInteger]:
-        """
-        Used to support the specification of ordering of parameter values.
-        """
+        """Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5"""
         return self.index
 
     def setIndex(self, value: Optional[PositiveInteger]) -> EcucIndexableValue:
-        """
-        Used to support the specification of ordering of parameter values.
+        """Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5
 
         A None value is a no-op and does not overwrite an existing index.
         """
@@ -471,21 +472,22 @@ class EcucModuleConfigurationValues(ARElement):
 
     # EcucModuleConfigurationValues method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.47, p.111
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefinitionRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucDefEdition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucDefEdition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucDefEdition               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucDefEdition               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationConfigVariant  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationConfigVariant  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantUsed         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPostBuildVariantUsed         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # ARPackage.element dispatch: reader readEcucModuleConfigurationValues branch +
+    # writer writeARPackageElement branch both present (Aggregated by row).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -518,14 +520,17 @@ class EcucModuleConfigurationValues(ARElement):
 
     def getContainers(self) -> List[EcucContainerValue]:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
-        return list(self.containers)
+        return self.containers
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType) -> EcucModuleConfigurationValues:
-        """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+    def setDefinitionRef(self, value: Optional[RefType]) -> EcucModuleConfigurationValues:
+        """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
@@ -534,8 +539,11 @@ class EcucModuleConfigurationValues(ARElement):
         """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor."""
         return self.ecucDefEdition
 
-    def setEcucDefEdition(self, value: RevisionLabelString) -> EcucModuleConfigurationValues:
-        """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor. A None value is a no-op and does not overwrite an existing version info."""
+    def setEcucDefEdition(self, value: Optional[RevisionLabelString]) -> EcucModuleConfigurationValues:
+        """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor.
+
+        A None value is a no-op and does not overwrite an existing version info.
+        """
         if value is not None:
             self.ecucDefEdition = value
         return self
@@ -544,8 +552,11 @@ class EcucModuleConfigurationValues(ARElement):
         """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild."""
         return self.implementationConfigVariant
 
-    def setImplementationConfigVariant(self, value: EcucConfigurationVariantEnum) -> EcucModuleConfigurationValues:
-        """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild. A None value is a no-op and does not overwrite an existing configuration variant."""
+    def setImplementationConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> EcucModuleConfigurationValues:
+        """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.
+
+        A None value is a no-op and does not overwrite an existing configuration variant.
+        """
         if value is not None:
             self.implementationConfigVariant = value
         return self
@@ -554,8 +565,11 @@ class EcucModuleConfigurationValues(ARElement):
         """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information."""
         return self.moduleDescriptionRef
 
-    def setModuleDescriptionRef(self, value: RefType) -> EcucModuleConfigurationValues:
-        """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information. A None value is a no-op and does not overwrite an existing reference."""
+    def setModuleDescriptionRef(self, value: Optional[RefType]) -> EcucModuleConfigurationValues:
+        """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.moduleDescriptionRef = value
         return self
@@ -564,8 +578,11 @@ class EcucModuleConfigurationValues(ARElement):
         """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed."""
         return self.postBuildVariantUsed
 
-    def setPostBuildVariantUsed(self, value: Boolean) -> EcucModuleConfigurationValues:
-        """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed. A None value is a no-op and does not overwrite an existing flag."""
+    def setPostBuildVariantUsed(self, value: Optional[Boolean]) -> EcucModuleConfigurationValues:
+        """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.
+
+        A None value is a no-op and does not overwrite an existing flag.
+        """
         if value is not None:
             self.postBuildVariantUsed = value
         return self
