@@ -572,6 +572,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
+    DiagnosticEnableCondition,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -10669,6 +10670,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticConditionGroup(self, element: ET.Element, condition_group: DiagnosticConditionGroup):
         pass
 
+    def readDiagnosticEnableCondition(self, element: ET.Element, enable_condition: DiagnosticEnableCondition):
+        self.logger.debug("Read DiagnosticEnableCondition <%s>" % enable_condition.getShortName())
+        self.readIdentifiable(element, enable_condition)
+        self.readDiagnosticCondition(element, enable_condition)
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -16601,6 +16607,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
             ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
             self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+        elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION":
+            enable_condition = parent.createDiagnosticEnableCondition(self.getShortName(child_element))
+            self.readDiagnosticEnableCondition(child_element, enable_condition)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -16961,6 +16970,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))
             self.readDiagnosticOperationCyclePortMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-ENABLE-CONDITION":
+            enable_condition = parent.createDiagnosticEnableCondition(self.getShortName(child_element))
+            self.readDiagnosticEnableCondition(child_element, enable_condition)
             return True
         if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
             mapping = parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element))

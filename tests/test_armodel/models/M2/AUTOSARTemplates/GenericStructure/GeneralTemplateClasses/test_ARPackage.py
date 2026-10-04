@@ -9557,6 +9557,82 @@ class TestDiagnosticConditionGroup:
         assert DiagnosticConditionGroup.__init__.__doc__ is None
 
 
+class TestDiagnosticEnableCondition:
+    """
+    Test class for DiagnosticEnableCondition functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.185, p.194
+
+    DiagnosticEnableCondition is concrete but its table carries no Attribute rows
+    (the XSD group DIAGNOSTIC-ENABLE-CONDITION is an empty sequence) — every field
+    (initValue) is inherited from the abstract base DiagnosticCondition
+    (Table 4.184), so defaults and the base accessors are exercised on the
+    concrete class itself.
+    """
+
+    CLASS_NOTE = "Specification of an enable condition. Tags: atp.recommendedPackage=DiagnosticConditions"
+
+    def _make_obj(self) -> DiagnosticEnableCondition:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEnableCondition(ar_root, "TestEnableCondition")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and the inherited defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEnableCondition"
+        assert isinstance(obj, DiagnosticEnableCondition)
+        assert isinstance(obj, DiagnosticCondition)
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert isinstance(obj, ARElement)
+        assert obj.getInitValue() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticEnableCondition.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEnableCondition.__init__.__doc__ is None
+
+    def test_get_set_init_value(self):
+        """
+        Round-trips the inherited initValue; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        init_value = Boolean().setValue(True)
+        result = obj.setInitValue(init_value)
+        assert result is obj  # method chaining
+        assert obj.getInitValue() is init_value
+        assert obj.getInitValue().value is True
+
+        result = obj.setInitValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInitValue() is init_value  # None is a no-op
+
+    def test_create_diagnostic_enable_condition(self):
+        """
+        Test that ARPackage.createDiagnosticEnableCondition appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticEnableCondition("EnableCondition1")
+
+        assert isinstance(obj, DiagnosticEnableCondition)
+        assert obj.getShortName() == "EnableCondition1"
+        assert ar_root.getReferrableElement("EnableCondition1", DiagnosticEnableCondition) is obj
+
+        duplicate = ar_root.createDiagnosticEnableCondition("EnableCondition1")
+        assert duplicate is obj
+
+
 class TestDiagnosticDataIdentifierSet:
     """
     Test class for DiagnosticDataIdentifierSet functionality.

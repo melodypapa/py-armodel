@@ -444,6 +444,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
+    DiagnosticEnableCondition,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -14004,6 +14005,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticConditionGroup(self, element: ET.Element, condition_group: DiagnosticConditionGroup):
         pass
 
+    def writeDiagnosticEnableCondition(self, element: ET.Element, enable_condition: DiagnosticEnableCondition):
+        self.logger.debug("Write DiagnosticEnableCondition %s" % enable_condition.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENABLE-CONDITION")
+        self.writeIdentifiable(child_element, enable_condition)
+        self.writeDiagnosticCondition(child_element, enable_condition)
+
     def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         refs = connection.getFunctionalRequestRefs()
         if len(refs) > 0:
@@ -16437,6 +16444,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEcuReset(element, ar_element)
         elif isinstance(ar_element, DiagnosticEcuResetClass):
             self.writeDiagnosticEcuResetClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEnableCondition):
+            self.writeDiagnosticEnableCondition(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
@@ -16861,6 +16870,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticEcuResetClass):
             self.writeDiagnosticEcuResetClass(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEnableCondition):
+            self.writeDiagnosticEnableCondition(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)

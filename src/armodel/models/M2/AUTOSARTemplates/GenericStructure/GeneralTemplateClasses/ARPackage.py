@@ -3644,6 +3644,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticAuthTransmitCertificateMapping, self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificateMapping))
 
+    def createDiagnosticEnableCondition(self, short_name: str) -> DiagnosticEnableCondition:
+        """
+        Creates a new DiagnosticEnableCondition with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEnableCondition: Specification of an enable condition..
+
+        Args:
+            short_name: The short name for the new DiagnosticEnableCondition
+
+        Returns:
+            The newly created or existing DiagnosticEnableCondition instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEnableCondition):
+            element = DiagnosticEnableCondition(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEnableCondition, self.getReferrableElement(short_name, DiagnosticEnableCondition))
+
     def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
         """
         Creates a new DiagnosticEnableConditionPortMapping with the given short name,
@@ -6027,7 +6045,15 @@ class DiagnosticEcuReset(ARElement):
 
 
 class DiagnosticEnableCondition(DiagnosticCondition):
-    pass
+    """Specification of an enable condition. Tags: atp.recommendedPackage=DiagnosticConditions"""
+
+    # DiagnosticEnableCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.185, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):

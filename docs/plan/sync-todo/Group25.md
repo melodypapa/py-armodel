@@ -891,15 +891,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEnableCondition` — DiagnosticCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.185, p.194
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; concrete class whose table carries no Attribute rows (dash row; XSD
+    group DIAGNOSTIC-ENABLE-CONDITION is an empty sequence), so the class reduces to __init__ over the synced abstract
+    base DiagnosticCondition (initValue inherited, base helpers reused) and the checklist is __init__-only per the
+    DiagnosticConditionGroup precedent. Reader/writer action done: readDiagnosticEnableCondition /
+    writeDiagnosticEnableCondition (= read/writeIdentifiable + read/writeDiagnosticCondition; DIAGNOSTIC-COMMON-ELEMENT
+    group is an empty sequence) plus the ARPackage dispatch branches (readARPackageElementsRest + readDiagnosticPackageElement;
+    main isinstance chain + diagnostic bool chain, after ECU-RESET-CLASS per XSD order) and the createDiagnosticEnableCondition
+    factory. Referenced classes: DiagnosticCondition (synced), Boolean (synced primitive) — no stubs referenced.)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1828 passed / 0 failed: test_ARPackage.py + test_diagnostic_enable_condition.py + test_writer_diagnostic_enable_condition.py + test_diagnostic_condition.py + test_writer_diagnostic_condition.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticStorageCondition` — DiagnosticCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.186, p.194
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
