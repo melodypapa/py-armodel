@@ -382,14 +382,15 @@ class Test_FibexCoreTopology:
         assert controller == controller.setWakeUpByControllerSupported(None)  # Test method chaining
 
         # Test setter/getter methods with method chaining - with actual value
-        controller.setWakeUpByControllerSupported(True)
-        assert controller.getWakeUpByControllerSupported() is True
-        assert controller == controller.setWakeUpByControllerSupported(True)  # Test method chaining
+        supported = Boolean()
+        supported.setValue(True)
+        controller.setWakeUpByControllerSupported(supported)
+        assert controller.getWakeUpByControllerSupported() is supported
+        assert controller == controller.setWakeUpByControllerSupported(supported)  # Test method chaining
 
         # Test None no-op (guarded setter must not overwrite an existing value)
-        controller.setWakeUpByControllerSupported(True)
         assert controller == controller.setWakeUpByControllerSupported(None)
-        assert controller.getWakeUpByControllerSupported() is True  # Should remain unchanged
+        assert controller.getWakeUpByControllerSupported() is supported  # Should remain unchanged
 
     def test_IPduPort(self):
         """Test IPduPort class functionality."""
@@ -1455,3 +1456,73 @@ class Test_CommunicationCycle:
 
     def test_init_docless(self):
         assert CommunicationCycle.__init__.__doc__ is None
+
+
+COMMUNICATION_CONTROLLER_CLASS_NOTE = "The communication controller is a dedicated hardware device by means of which hosts are sending frames to and receiving frames from the communication medium."
+
+COMMUNICATION_CONTROLLER_WAKE_UP_NOTE = "Defines whether the ECU shall be woken up by this CommunicationController. TRUE: wake up is possible FALSE: wake up is not supported Note: If wakeUpByControllerSupported is set to TRUE the feature shall be supported by both hardware and basic software."
+
+
+class ConcreteCommunicationController(CommunicationController):
+    pass
+
+
+class Test_CommunicationController:
+    """Test cases for CommunicationController (SystemTemplate Table 3.3, p.53)."""
+
+    MEMBERS = [
+        "wakeUpByControllerSupported",
+    ]
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        assert issubclass(CommunicationController, Identifiable)
+        assert issubclass(CommunicationController, VariationPointCapable)
+        assert issubclass(CommunicationController, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="CommunicationController is an abstract class"):
+            CommunicationController(MockParent(), "test_communication_controller")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CommunicationController.__doc__) == COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert CommunicationController.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        controller = ConcreteCommunicationController(MockParent(), "ctrl")
+        assert controller.getWakeUpByControllerSupported() is None
+
+    def test_member_order(self):
+        controller = ConcreteCommunicationController(MockParent(), "ctrl")
+        members = [k for k in vars(controller) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_wake_up_by_controller_supported(self):
+        controller = ConcreteCommunicationController(MockParent(), "ctrl")
+        supported = Boolean()
+        supported.setValue(True)
+        assert controller == controller.setWakeUpByControllerSupported(supported)
+        assert controller.getWakeUpByControllerSupported() is supported
+        assert controller.getWakeUpByControllerSupported().getValue() is True
+        assert controller == controller.setWakeUpByControllerSupported(None)
+        assert controller.getWakeUpByControllerSupported() is supported
+
+    def test_docstrings_verbatim(self):
+        getter = CommunicationController.getWakeUpByControllerSupported.__doc__
+        setter = CommunicationController.setWakeUpByControllerSupported.__doc__
+        assert getter is not None
+        assert getter.strip().split("\n")[0] == COMMUNICATION_CONTROLLER_WAKE_UP_NOTE
+        assert COMMUNICATION_CONTROLLER_WAKE_UP_NOTE in setter
+        assert "A None value is a no-op and does not overwrite an existing wakeUpByControllerSupported." in setter
+
+    def test_type_hints(self):
+        import typing
+
+        hints = typing.get_type_hints(CommunicationController.getWakeUpByControllerSupported)
+        assert hints["return"] == typing.Optional[Boolean]
+        hints = typing.get_type_hints(CommunicationController.setWakeUpByControllerSupported)
+        assert hints["value"] == typing.Optional[Boolean]
+        _assert_return_is(hints, CommunicationController)
