@@ -292,6 +292,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatusClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
@@ -15430,6 +15431,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS")
         self.writeIdentifiable(child_element, request_download_class)
 
+    def writeDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(
+        self, element: ET.Element, request_emission_related_dtc_permanent_status_class: DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
+    ):
+        self.logger.debug("Write DiagnosticRequestEmissionRelatedDTCPermanentStatusClass %s" % request_emission_related_dtc_permanent_status_class.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS")
+        self.writeIdentifiable(child_element, request_emission_related_dtc_permanent_status_class)
+
     def writeDiagnosticRequestControlOfOnBoardDeviceClass(self, element: ET.Element, request_control_of_on_board_device_class: DiagnosticRequestControlOfOnBoardDeviceClass):
         self.logger.debug("Write DiagnosticRequestControlOfOnBoardDeviceClass %s" % request_control_of_on_board_device_class.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-CONTROL-OF-ON-BOARD-DEVICE-CLASS")
@@ -16767,6 +16775,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRequestCurrentPowertrainDataClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestDownloadClass):
             self.writeDiagnosticRequestDownloadClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticRequestEmissionRelatedDTCPermanentStatusClass):
+            self.writeDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestEmissionRelatedDTCClass):
             self.writeDiagnosticRequestEmissionRelatedDTCClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticRequestUploadClass):

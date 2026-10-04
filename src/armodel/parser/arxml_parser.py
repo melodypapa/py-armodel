@@ -399,6 +399,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatusClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
@@ -12024,6 +12025,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCClass <%s>" % request_emission_related_dtc_class.getShortName())
         self.readIdentifiable(element, request_emission_related_dtc_class)
 
+    def readDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(
+        self, element: ET.Element, request_emission_related_dtc_permanent_status_class: DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
+    ):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCPermanentStatusClass <%s>" % request_emission_related_dtc_permanent_status_class.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc_permanent_status_class)
+
     def readDiagnosticRequestOnBoardMonitoringTestResultsClass(self, element: ET.Element, request_on_board_monitoring_test_results_class: DiagnosticRequestOnBoardMonitoringTestResultsClass):
         self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResultsClass <%s>" % request_on_board_monitoring_test_results_class.getShortName())
         self.readIdentifiable(element, request_on_board_monitoring_test_results_class)
@@ -16947,6 +16954,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS":
             request_download_class = parent.createDiagnosticRequestDownloadClass(self.getShortName(child_element))
             self.readDiagnosticRequestDownloadClass(child_element, request_download_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS":
+            request_emission_related_dtc_permanent_status_class = parent.createDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(child_element, request_emission_related_dtc_permanent_status_class)
         elif tag_name == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS":
             request_powertrain_freeze_frame_data_class = parent.createDiagnosticRequestPowertrainFreezeFrameDataClass(self.getShortName(child_element))
             self.readDiagnosticRequestPowertrainFreezeFrameDataClass(child_element, request_powertrain_freeze_frame_data_class)

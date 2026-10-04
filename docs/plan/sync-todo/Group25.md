@@ -487,15 +487,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticRequestEmissionRelatedDTCPermanentStatusClass` — DiagnosticServiceClass — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.148, p.162
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): concrete *Class container; row's Base=DiagnosticServiceClass verified (md l.4955; XSD complexType
+    DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS chains DIAGNOSTIC-COMMON-ELEMENT → DIAGNOSTIC-SERVICE-CLASS →
+    empty group) — pass-stub already in CommonService.py next to its family, NO relocation. Attribute row `-` ⇒ no own
+    attributes, bare __init__ only (twin shape b278ba155); PDF p.162 via pdf_page.py.
+  - note (Step 1 finding, rule-compliant, no deviation): the md Table 4.148 block (l.4949-4958) carries no Note row — the
+    adjacent corrupted Table 4.147 block (l.4940-4943) carries this table's Class/Note/Package cells; Note reconstructed
+    verbatim from that render minus the trailing "Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCPermanentStatuss"
+    suffix (twin convention), cross-checked against the XSD complexType documentation (AUTOSAR_00052.xsd l.42021, Rule 0015).
+  - note (Step 1 finding, rule-compliant, no deviation): the inherited DIAGNOSTIC-SERVICE-CLASS base-group elements
+    (ACCESS-PERMISSION-REF, ACCESS-PERMISSION-VALIDITY-REF) are atp.Status="removed" in the XSD — not modeled (Rule 0015),
+    matching the stamped DiagnosticServiceClass base (`[—] reader` / `[—] writer`); reader/writer cover the IDENTIFIABLE
+    wrapper only via readIdentifiable/writeIdentifiable.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; findings above are Step 1 notes, not deviations) — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1413 passed / 0 failed: test_CommonService.py, test_diagnostic_request_emission_related_dtc_permanent_status_class.py, test_writer_diagnostic_request_emission_related_dtc_permanent_status_class.py, test_member_annotations.py, test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticEvent` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.149, p.165
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

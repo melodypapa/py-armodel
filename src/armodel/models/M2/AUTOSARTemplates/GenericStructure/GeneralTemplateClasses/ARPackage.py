@@ -1317,6 +1317,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(request_emission_related_dtc_permanent_status)
         return cast(DiagnosticRequestEmissionRelatedDTCPermanentStatus, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatus))
 
+    def createDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCPermanentStatusClass:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTCPermanentStatusClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTCPermanentStatusClass defines common properties for all
+        instances of the "Request Emission Related DTC Permanent Status" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTCPermanentStatusClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatusClass):
+            request_emission_related_dtc_permanent_status_class = DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc_permanent_status_class)
+        return cast(DiagnosticRequestEmissionRelatedDTCPermanentStatusClass, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatusClass))
+
     def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
         """
         Creates a new DiagnosticRequestUpload with the given short name, or
@@ -4905,6 +4924,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestCurrentPowertrainDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCPermanentStatusClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestFileTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestOnBoardMonitoringTestResultsClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestPowertrainFreezeFrameDataClass  # noqa: E402
