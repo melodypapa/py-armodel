@@ -621,6 +621,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStorageConditionGroup,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
+    DiagnosticTroubleCodeGroup,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -10935,6 +10936,17 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticTroubleCode <%s>" % trouble_code.getShortName())
         self.readIdentifiable(element, trouble_code)
 
+    def readDiagnosticTroubleCodeGroup(self, element: ET.Element, trouble_code_group: DiagnosticTroubleCodeGroup):
+        self.logger.debug("Read DiagnosticTroubleCodeGroup <%s>" % trouble_code_group.getShortName())
+        self.readIdentifiable(element, trouble_code_group)
+        for ref in self.getChildElementRefTypeList(element, "DTCS/DIAGNOSTIC-TROUBLE-CODE-REF-CONDITIONAL/DIAGNOSTIC-TROUBLE-CODE-REF"):  # noqa E501
+            trouble_code_group.addDtcRef(ref)
+        group_number_element = self.find(element, "GROUP-NUMBER/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if group_number_element is not None and group_number_element.text is not None and group_number_element.text.strip() != "":
+            group_number = PositiveInteger()
+            group_number.setValue(group_number_element.text.strip())
+            trouble_code_group.setGroupNumber(group_number)
+
     def readDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
         self.readDiagnosticTroubleCode(element, trouble_code)
         trouble_code.setDtcPropsRef(self.getChildElementOptionalRefType(element, "DTC-PROPS-REF"))
@@ -17044,6 +17056,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-TROUBLE-CODE":
             trouble_code = parent.createDiagnosticTroubleCode(self.getShortName(child_element))
             self.readDiagnosticTroubleCode(child_element, trouble_code)
+        elif tag_name == "DIAGNOSTIC-TROUBLE-CODE-GROUP":
+            trouble_code_group = parent.createDiagnosticTroubleCodeGroup(self.getShortName(child_element))
+            self.readDiagnosticTroubleCodeGroup(child_element, trouble_code_group)
         elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
             proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
             self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
@@ -17296,6 +17311,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-TROUBLE-CODE":
             trouble_code = parent.createDiagnosticTroubleCode(self.getShortName(child_element))
             self.readDiagnosticTroubleCode(child_element, trouble_code)
+            return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE-GROUP":
+            trouble_code_group = parent.createDiagnosticTroubleCodeGroup(self.getShortName(child_element))
+            self.readDiagnosticTroubleCodeGroup(child_element, trouble_code_group)
             return True
         if tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
             service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))

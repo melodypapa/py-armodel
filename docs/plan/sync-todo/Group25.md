@@ -652,15 +652,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTroubleCodeGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.162, p.177
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base cell (md Table 4.162) lists the full chain ARElement, ARObject, CollectableElement,
+    DiagnosticCommonElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable — most-derived
+    = ARElement, matches the row (identical Base cell to sibling Table 4.161 DiagnosticTroubleCode, synced 086b29c68
+    as ARElement-direct; DIAGNOSTIC-COMMON-ELEMENT is an empty XSD group l.32814 with no reader/writer helper).
+    Concrete class (XSD complexType abstract="false" l.46240; group l.46211). Attributes (displayed order):
+    1. dtc (DiagnosticTroubleCode, *, ref) → dtcRefs: List[RefType] — XSD DTCS wrapper (l.46217) of unbounded
+    DIAGNOSTIC-TROUBLE-CODE-REF-CONDITIONAL items (each DIAGNOSTIC-TROUBLE-CODE-REF + DEST
+    DIAGNOSTIC-TROUBLE-CODE--SUBTYPES-ENUM); the RefConditional wrapper class is NOT modeled, reader/writer flatten
+    through the wrapper path (twin read/writeDiagnosticStorageConditionGroup). 2. groupNumber (PositiveInteger,
+    0..1, attr) — XSD GROUP-NUMBER typed POSITIVE-INTEGER-VALUE-VARIATION-POINT (l.46231), read/written through the
+    nested POSITIVE-INTEGER-VALUE-VARIATION-POINT child (precedent DiagnosticEvent.confirmationThreshold).
+    XSD element order = DTCS → GROUP-NUMBER. Class-level existence constraint [constr_1830] copied into the class
+    docstring (twin constr_1842 precedent). Referenced type DiagnosticTroubleCode already synced (086b29c68) — no
+    stub consumers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; nothing modeled beyond the two markdown attribute rows; the XSD-only
+    DTCS/REF-CONDITIONAL wrapper path and the nested GROUP-NUMBER variation-point child stay PDF-attribute-faithful
+    per Rule 0015. Notes, not deviations: value constraints [constr_1350]/[constr_1351]/[TPS_DEXT_03000] on
+    groupNumber (uniqueness / ISO 14229-1 compliance) are narrative body text — the docstring convention carries
+    existence constraints only; constraints [constr_1352]-[constr_1354] and [TPS_DEXT_01064/01065] in the page flow
+    belong to DiagnosticTroubleCodeProps/DiagnosticTroubleCode, outside this table)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1952 passed / 0 failed: test_ARPackage.py + test_diagnostic_trouble_code_group.py + test_writer_diagnostic_trouble_code_group.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 9): parser+writer regression 7714 passed / 0 failed
 
 - [ ] `DiagnosticMemoryDestination` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.167, p.182
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

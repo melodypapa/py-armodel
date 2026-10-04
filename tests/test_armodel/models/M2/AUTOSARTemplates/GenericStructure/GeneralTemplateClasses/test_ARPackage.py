@@ -135,6 +135,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTestRoutineIdentifier,
     DiagnosticTransferExit,
     DiagnosticTroubleCode,
+    DiagnosticTroubleCodeGroup,
     DiagnosticTroubleCodeJ1939,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
@@ -3505,6 +3506,112 @@ class TestDiagnosticTroubleCode:
         assert ar_root.getReferrableElement("TroubleCode1", DiagnosticTroubleCode) is obj
 
         duplicate = ar_root.createDiagnosticTroubleCode("TroubleCode1")
+        assert duplicate is obj
+
+
+class TestDiagnosticTroubleCodeGroup:
+    """
+    Test class for DiagnosticTroubleCodeGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.162, p.177
+
+    DiagnosticTroubleCodeGroup is concrete (XSD complexType abstract="false") with
+    two Attribute rows in displayed order: dtc (DiagnosticTroubleCode, *, ref) —
+    modeled as the dtcRefs list of RefType — and groupNumber (PositiveInteger,
+    0..1, attr). Fields inherited from ARElement carry no rows of their own.
+    """
+
+    CLASS_NOTE = (
+        "The diagnostic trouble code group defines the DTCs belonging together and thereby forming a group. "
+        "Tags: atp.recommendedPackage=DiagnosticTroubleCodes\n"
+        "\n"
+        "[constr_1830] Existence of DiagnosticTroubleCodeGroup.groupNumber: "
+        "For each DiagnosticTroubleCodeGroup, attribute groupNumber shall exist "
+        "at the time when the DEXT is complete."
+    )
+
+    def _make_obj(self) -> DiagnosticTroubleCodeGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTroubleCodeGroup(ar_root, "TestTroubleCodeGroup")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestTroubleCodeGroup"
+        assert isinstance(obj, DiagnosticTroubleCodeGroup)
+        assert isinstance(obj, ARElement)
+        assert isinstance(obj, Identifiable)
+        assert obj.getDtcRefs() == []
+        assert obj.getGroupNumber() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class constraint.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeGroup.__init__.__doc__ is None
+
+    def test_add_get_dtc_refs(self):
+        """
+        Round-trips dtc refs; None is a no-op and chaining returns self.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType().setValue("/DiagnosticTroubleCodes/TroubleCode1")
+        ref2 = RefType().setValue("/DiagnosticTroubleCodes/TroubleCode2")
+
+        result = obj.addDtcRef(ref1)
+        assert result is obj  # method chaining
+        obj.addDtcRef(ref2)
+
+        refs = obj.getDtcRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[0].getValue() == "/DiagnosticTroubleCodes/TroubleCode1"
+        assert refs[1].getValue() == "/DiagnosticTroubleCodes/TroubleCode2"
+
+        result = obj.addDtcRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getDtcRefs()) == 2  # None is a no-op
+
+    def test_get_set_group_number(self):
+        """
+        Round-trips groupNumber; None is a no-op and chaining returns self.
+        """
+        obj = self._make_obj()
+
+        group_number = PositiveInteger()
+        group_number.setValue(3)
+
+        result = obj.setGroupNumber(group_number)
+        assert result is obj  # method chaining
+        assert obj.getGroupNumber() is group_number
+
+        obj.setGroupNumber(None)
+        assert obj.getGroupNumber() is group_number  # None is a no-op
+
+    def test_create_diagnostic_trouble_code_group(self):
+        """
+        Test that ARPackage.createDiagnosticTroubleCodeGroup appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticTroubleCodeGroup("TroubleCodeGroup1")
+
+        assert isinstance(obj, DiagnosticTroubleCodeGroup)
+        assert obj.getShortName() == "TroubleCodeGroup1"
+        assert ar_root.getReferrableElement("TroubleCodeGroup1", DiagnosticTroubleCodeGroup) is obj
+
+        duplicate = ar_root.createDiagnosticTroubleCodeGroup("TroubleCodeGroup1")
         assert duplicate is obj
 
 

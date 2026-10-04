@@ -488,6 +488,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSecurityAccess,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
+    DiagnosticTroubleCodeGroup,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -14263,6 +14264,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE")
         self.writeIdentifiable(child_element, trouble_code)
 
+    def writeDiagnosticTroubleCodeGroup(self, element: ET.Element, trouble_code_group: DiagnosticTroubleCodeGroup):
+        self.logger.debug("Write DiagnosticTroubleCodeGroup %s" % trouble_code_group.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE-GROUP")
+        self.writeIdentifiable(child_element, trouble_code_group)
+        refs = trouble_code_group.getDtcRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "DTCS")
+            for ref in refs:
+                conditional_element = ET.SubElement(refs_element, "DIAGNOSTIC-TROUBLE-CODE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DIAGNOSTIC-TROUBLE-CODE-REF", ref)
+        group_number = trouble_code_group.getGroupNumber()
+        if group_number is not None:
+            group_number_element = ET.SubElement(child_element, "GROUP-NUMBER")
+            avp_element = ET.SubElement(group_number_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if group_number._text is not None:
+                avp_element.text = group_number._text
+            elif group_number._value is not None:
+                avp_element.text = str(group_number._value)
+
     def writeDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
         self.logger.debug("Write DiagnosticTroubleCodeJ1939 %s" % trouble_code.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE-J-1939")
@@ -16841,6 +16861,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticTroubleCodeJ1939(element, ar_element)
         elif isinstance(ar_element, DiagnosticTroubleCode):
             self.writeDiagnosticTroubleCode(element, ar_element)
+        elif isinstance(ar_element, DiagnosticTroubleCodeGroup):
+            self.writeDiagnosticTroubleCodeGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
@@ -17008,6 +17030,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticTroubleCode):
             self.writeDiagnosticTroubleCode(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTroubleCodeGroup):
+            self.writeDiagnosticTroubleCodeGroup(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticServiceDataMapping):
             self.writeDiagnosticServiceDataMapping(element, ar_element)

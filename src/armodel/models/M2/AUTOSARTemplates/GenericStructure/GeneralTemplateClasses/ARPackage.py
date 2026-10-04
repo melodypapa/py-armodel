@@ -3348,6 +3348,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(trouble_code)
         return cast(DiagnosticTroubleCode, self.getReferrableElement(short_name, DiagnosticTroubleCode))
 
+    def createDiagnosticTroubleCodeGroup(self, short_name: str) -> DiagnosticTroubleCodeGroup:
+        """
+        Creates a new DiagnosticTroubleCodeGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCodeGroup: The diagnostic trouble code group defines the DTCs belonging together and thereby forming a group.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCodeGroup
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCodeGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCodeGroup):
+            element = DiagnosticTroubleCodeGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticTroubleCodeGroup, self.getReferrableElement(short_name, DiagnosticTroubleCodeGroup))
+
     def createDiagnosticTroubleCodeJ1939(self, short_name: str) -> DiagnosticTroubleCodeJ1939:
         """
         Creates a new DiagnosticTroubleCodeJ1939 with the given short name,
@@ -10703,7 +10721,61 @@ class DiagnosticTroubleCode(ARElement, ABC):
 
 
 class DiagnosticTroubleCodeGroup(ARElement):
-    pass
+    """
+    The diagnostic trouble code group defines the DTCs belonging together and thereby forming a group. Tags: atp.recommendedPackage=DiagnosticTroubleCodes
+
+    [constr_1830] Existence of DiagnosticTroubleCodeGroup.groupNumber: For each DiagnosticTroubleCodeGroup, attribute groupNumber shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticTroubleCodeGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.162, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDtcRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDtcRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getGroupNumber      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGroupNumber      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the collection of DiagnosticTroubleCodes defined by this DiagnosticTroubleCodeGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dtc.diagnosticTroubleCode, dtc.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.dtcRefs: List[RefType] = []
+
+        # This represents the base number of the DTC group. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.groupNumber: Optional[PositiveInteger] = None
+
+    def addDtcRef(self, ref: Optional[RefType]) -> DiagnosticTroubleCodeGroup:
+        """
+        This represents the collection of DiagnosticTroubleCodes defined by this DiagnosticTroubleCodeGroup.
+
+        A None value is a no-op and does not extend the dtcRefs list.
+        """
+        if ref is not None:
+            self.dtcRefs.append(ref)
+        return self
+
+    def getDtcRefs(self) -> List[RefType]:
+        """
+        This represents the collection of DiagnosticTroubleCodes defined by this DiagnosticTroubleCodeGroup.
+        """
+        return self.dtcRefs
+
+    def getGroupNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the base number of the DTC group.
+        """
+        return self.groupNumber
+
+    def setGroupNumber(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeGroup:
+        """
+        This represents the base number of the DTC group.
+
+        A None value is a no-op and does not overwrite an existing groupNumber.
+        """
+        if value is not None:
+            self.groupNumber = value
+        return self
 
 
 class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
