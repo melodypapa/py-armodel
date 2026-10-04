@@ -104,11 +104,9 @@ class ArraySizeHandlingEnum(AREnum):
     """
 
     # ArraySizeHandlingEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.11, p.253
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.11, p.254
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling (R23-11)
 
     # All elements of the variable size array may have different sizes. Tags: atp.EnumerationLiteralIndex=0
     ALL_INDICES_DIFFERENT_ARRAY_SIZE = "allIndicesDifferentArraySize"

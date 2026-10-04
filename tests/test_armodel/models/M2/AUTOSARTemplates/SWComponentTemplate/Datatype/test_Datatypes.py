@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -392,16 +392,51 @@ class TestDataTypeMappingSet:
 
 
 class TestArraySizeHandlingEnum:
-    """
-    Test class for ArraySizeHandlingEnum functionality.
-    """
+    """Test class for ArraySizeHandlingEnum functionality (Table 5.11, p.254)."""
 
     def test_initialization(self):
+        """Test enum instantiability per Rule 0011"""
         enum = ArraySizeHandlingEnum()
-        enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE)
-        assert enum.getValue() == "allIndicesDifferentArraySize"
+        assert enum is not None
+        assert isinstance(enum, AREnum)
 
-    def test_enum_values(self):
+    def test_literal_values(self):
+        """Test literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.11"""
         assert ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE == "allIndicesDifferentArraySize"
         assert ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE == "allIndicesSameArraySize"
         assert ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE == "inheritedFromArrayElementTypeSize"
+        enum = ArraySizeHandlingEnum()
+        assert list(enum.getEnumValues()) == ["allIndicesDifferentArraySize", "allIndicesSameArraySize", "inheritedFromArrayElementTypeSize"]
+
+    def test_set_value_round_trip(self):
+        """Test instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ArraySizeHandlingEnum()
+        assert enum == enum.setValue(None)
+        assert enum.getValue() == ""
+        assert enum == enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE)
+        assert enum.getValue() == "allIndicesDifferentArraySize"
+        assert enum == enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE)
+        assert enum.getValue() == "allIndicesSameArraySize"
+        assert enum == enum.setValue(ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE)
+        assert enum.getValue() == "inheritedFromArrayElementTypeSize"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ArraySizeHandlingEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""
+        enum.setValue(ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE)
+        enum.setValue(None)
+        assert enum.getValue() == "inheritedFromArrayElementTypeSize"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ArraySizeHandlingEnum()
+        assert enum.validateEnumValue("allIndicesDifferentArraySize") is True
+        assert enum.validateEnumValue("allIndicesSameArraySize") is True
+        assert enum.validateEnumValue("inheritedFromArrayElementTypeSize") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.11 class note."""
+        assert ArraySizeHandlingEnum.__doc__.strip() == "This enumeration defines different ways to handle the sizes of variable size arrays."
