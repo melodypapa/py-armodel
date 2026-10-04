@@ -10133,6 +10133,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDoIpEntity(self, element: ET.Element, key: str, entity: Optional[DoIpEntity]):
         if entity is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, entity)
             self.setChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE", entity.getDoIpEntityRole())
 
     def setTimeSynchronization(self, element: ET.Element, key: str, sync: Optional[TimeSynchronization]):

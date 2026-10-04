@@ -855,7 +855,7 @@ class TestEthernetClusterHandlers:
 
     def test_getDoIpEntity_sets_role(self, parser):
         element = _snip(
-            "<INFRASTRUCTURE-SERVICES>" "<DO-IP-ENTITY>" "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",
+            "<INFRASTRUCTURE-SERVICES>" '<DO-IP-ENTITY S="1234" T="2024-01-01T00:00:00Z">' "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",
             root_tag="ROOT",
         )
         services = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
@@ -863,6 +863,8 @@ class TestEthernetClusterHandlers:
         assert services.getDoIpEntity() is not None
         assert services.getDoIpEntity().getDoIpEntityRole() is not None
         assert services.getDoIpEntity().getDoIpEntityRole().getValue() == "server"
+        assert services.getDoIpEntity().getChecksum().getValue() == "1234"
+        assert services.getDoIpEntity().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readEthernetPhysicalChannel_sets_soAdConfig(self, parser):
         from armodel.models import EthernetCluster, EthernetPhysicalChannel

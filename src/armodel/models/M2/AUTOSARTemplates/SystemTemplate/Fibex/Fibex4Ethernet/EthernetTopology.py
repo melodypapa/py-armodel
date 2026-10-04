@@ -2663,15 +2663,16 @@ class DoIpEntity(ARObject):
     """
 
     # DoIpEntity method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.150, p.471 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.150, p.471
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDoIpEntityRole    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpEntityRole    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getDoIpEntityRole              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setDoIpEntityRole              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Identifies the role in terms of DoIP this network-node has.
         self.doIpEntityRole: Optional[DoIpEntityRoleEnum] = None
 

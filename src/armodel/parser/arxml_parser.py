@@ -9881,6 +9881,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             entity = DoIpEntity()
+            self.readARObject(child_element, entity)
             do_ip_entity_role = self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE")
             if do_ip_entity_role is not None:
                 e = DoIpEntityRoleEnum()
