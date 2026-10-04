@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, PortPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType, PortPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
@@ -356,7 +356,7 @@ class TestAbstractAUTOSAR:
         """Test the getDestType method for AtomicSwComponentType."""
         autosar = AbstractAUTOSAR()
         pkg = autosar.createARPackage("TestPackage")
-        comp_type = AtomicSwComponentType(pkg, "TestCompType")
+        comp_type = ApplicationSwComponentType(pkg, "TestCompType")
         result = autosar.getDestType(comp_type)
         assert result == "ATOMIC-SW-COMPONENT-TYPE"
 
