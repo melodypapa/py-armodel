@@ -1,5 +1,6 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import RunnableEntityGroup
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerRunnableEntityGroupInCompositionInstanceRef,
@@ -20,6 +21,19 @@ class TestRunnableEntityGroupInitialization:
         assert runnable_group.getShortName() == "Group"
         assert runnable_group.runnableEntityIRefs == []
         assert runnable_group.runnableEntityGroupIRefs == []
+
+
+class TestRunnableEntityGroupVariationPointCapability:
+    def test_variation_point_capable_mixin(self):
+        """Both attributes carry atpVariation — VARIATION-POINT is anchored in the
+        XSD group RUNNABLE-ENTITY-GROUP (AUTOSAR_00052.xsd, sequenceOffset 10000),
+        so the class is VP-capable via the VariationPointCapable mixin."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        runnable_group = RunnableEntityGroup(ar_root, "Group")
+
+        assert isinstance(runnable_group, VariationPointCapable)
+        assert runnable_group.getVariationPoint() is None
 
 
 class TestRunnableEntityGroupRunnableEntity:

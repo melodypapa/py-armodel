@@ -109,15 +109,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `RunnableEntityGroup` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.100, p.223
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Page-split table (p.223→224): Class/Package/
+    Note/Base/Aggregated-by + runnableEntity row render before the caption, runnableEntityGroup row after.
+    Base most-derived = AtpStructureElement (stamped R23-11, Table 5.5 — not a stub, no base sync needed).
+    2 attrs, both `*` iref: runnableEntity (RunnableEntityInCompositionInstanceRef, Table D.21),
+    runnableEntityGroup (InnerRunnableEntityGroupInCompositionInstanceRef, Table D.20) — both member types
+    stamped R23-11. XSD group L101393: XML order = RUNNABLE-ENTITY-GROUP-IREFS, RUNNABLE-ENTITY-IREFS,
+    VARIATION-POINT (sequenceOffset 10000, last; "Applicable for: ConsistencyNeeds.regRequiresStability/
+    regDoesNotRequireStability") → VP-capable kept; writer writes VP via writeIdentifiable default BEFORE
+    the wrappers → order fix needed (write_variation_point=False + writeVariationPointCapable after
+    wrappers, ConsistencyNeeds precedent); reader VP already covered inside readIdentifiable.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 8 passed incl. new VP-capability pin
+  - [x] Step 3 — Implement model class (Green) — module adopted PEP 563 + bare self-ref returns (4 quoted returns unquoted, 2 on DataPrototypeGroup forced by the same-change rule, Rule 0022/0003); 42 passed dir + 4 gate tests
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — RunnableEntityGroup block wiped (class docstring, __init__ docstring removed, Args/Returns blocks dropped), rewritten verbatim from markdown Notes
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — genuine Red: writer test_write_variation_point_last failed (VP before wrapper); parser reader tests passed (vacuous Red, readIdentifiable already covers VP)
+  - [x] Step 6 — Update parser & writer (Green) — writer: writeRunnableEntityGroup now write_variation_point=False + writeVariationPointCapable after wrappers (ConsistencyNeeds precedent); parser unchanged (readIdentifiable covers VP, wrappers already in XSD order); 16 passed incl. ConsistencyNeeds neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md), no stale rows
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (16 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/test_RunnableEntityGroup.py, tests/test_armodel/parser/test_RunnableEntityGroup.py, tests/test_armodel/writer/test_writer_runnable_entity_group.py + 3 passed member_annotations; neighbors: 64 passed ImplicitCommunicationBehavior dir + parser/writer test_ConsistencyNeeds + test_writer_instance_refs + pep563 gates; black/ruff clean, mypy 1 pre-existing error only (writer L7525), checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataPrototypeGroup` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.101, p.223
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py

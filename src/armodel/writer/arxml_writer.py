@@ -4886,9 +4886,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeRunnableEntityGroup(self, element: ET.Element, runnable_group: RunnableEntityGroup):
         self.logger.debug("writeRunnableEntityGroup %s" % runnable_group.getShortName())
         child_element = ET.SubElement(element, "RUNNABLE-ENTITY-GROUP")
-        self.writeIdentifiable(child_element, runnable_group)
+        self.writeIdentifiable(child_element, runnable_group, write_variation_point=False)
         self.writeRunnableEntityGroupRunnableEntityGroupIRefs(child_element, runnable_group)
         self.writeRunnableEntityGroupRunnableEntityIRefs(child_element, runnable_group)
+        self.writeVariationPointCapable(child_element, runnable_group)
 
     def writeConsistencyNeedsDpgDoesNotRequireCoherencys(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
         if len(consistency_needs.getDpgDoesNotRequireCoherencys()) > 0:

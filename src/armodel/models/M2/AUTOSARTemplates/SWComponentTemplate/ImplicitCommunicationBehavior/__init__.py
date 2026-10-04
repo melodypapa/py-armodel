@@ -4,6 +4,8 @@ sub-package of the SWComponentTemplate module, together with its
 InstanceRefs sub-module.
 """
 
+from __future__ import annotations
+
 from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -50,7 +52,7 @@ class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
         # the enclosing DataPrototypeGroup
         self.implicitDataAccessIRefs: List[VariableDataPrototypeInCompositionInstanceRef] = []
 
-    def addDataPrototypeGroupIRef(self, value: Optional[InnerDataPrototypeGroupInCompositionInstanceRef]) -> "DataPrototypeGroup":
+    def addDataPrototypeGroupIRef(self, value: Optional[InnerDataPrototypeGroupInCompositionInstanceRef]) -> DataPrototypeGroup:
         """
         This represents the ability to define nested groups of
         VariableDataPrototypes. A None value is a no-op and does not append to
@@ -77,7 +79,7 @@ class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
         """
         return self.dataPrototypeGroupIRefs
 
-    def addImplicitDataAccessIRef(self, value: Optional[VariableDataPrototypeInCompositionInstanceRef]) -> "DataPrototypeGroup":
+    def addImplicitDataAccessIRef(self, value: Optional[VariableDataPrototypeInCompositionInstanceRef]) -> DataPrototypeGroup:
         """
         This represents a collection of VariableDataPrototypes that belong to
         the enclosing DataPrototypeGroup A None value is a no-op and does not
@@ -107,44 +109,32 @@ class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
 
 class RunnableEntityGroup(AtpStructureElement, VariationPointCapable):
     """
-    This meta-class represents the ability to define a collection of
-    RunnableEntities. The collection can be nested.
+    This meta-class represents the ability to define a collection of RunnableEntities. The collection can be nested.
     """
 
     # RunnableEntityGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.100, p.223
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addRunnableEntityIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRunnableEntityIRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addRunnableEntityGroupIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRunnableEntityGroupIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRunnableEntityIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunnableEntityIRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRunnableEntityGroupIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunnableEntityGroupIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent; VARIATION-POINT anchored in XSD group RUNNABLE-ENTITY-GROUP, sequenceOffset 10000)
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RunnableEntityGroup with default values.
-        """
         super().__init__(parent, short_name)
 
-        # This represents a collection of RunnableEntitys that belong to the
-        # enclosing RunnableEntityGroup.
+        # This represents a collection of RunnableEntitys that belong to the enclosing RunnableEntityGroup.
         self.runnableEntityIRefs: List[RunnableEntityInCompositionInstanceRef] = []
 
         # This represents the ability to define nested groups of RunnableEntitys.
         self.runnableEntityGroupIRefs: List[InnerRunnableEntityGroupInCompositionInstanceRef] = []
 
-    def addRunnableEntityIRef(self, value: Optional[RunnableEntityInCompositionInstanceRef]) -> "RunnableEntityGroup":
+    def addRunnableEntityIRef(self, value: Optional[RunnableEntityInCompositionInstanceRef]) -> RunnableEntityGroup:
         """
-        This represents a collection of RunnableEntitys that belong to the
-        enclosing RunnableEntityGroup. A None value is a no-op and does not
-        append to runnableEntityIRefs.
-
-        Args:
-            value: The RunnableEntityInCompositionInstanceRef to add
-
-        Returns:
-            RunnableEntityGroup: self for method chaining
+        This represents a collection of RunnableEntitys that belong to the enclosing RunnableEntityGroup.
+        A None value is a no-op and does not append to runnableEntityIRefs.
         """
         if value is not None:
             self.runnableEntityIRefs.append(value)
@@ -152,26 +142,14 @@ class RunnableEntityGroup(AtpStructureElement, VariationPointCapable):
 
     def getRunnableEntityIRefs(self) -> List[RunnableEntityInCompositionInstanceRef]:
         """
-        This represents a collection of RunnableEntitys that belong to the
-        enclosing RunnableEntityGroup.
-
-        Returns:
-            List[RunnableEntityInCompositionInstanceRef]: The list of
-            runnableEntity instance references
+        This represents a collection of RunnableEntitys that belong to the enclosing RunnableEntityGroup.
         """
         return self.runnableEntityIRefs
 
-    def addRunnableEntityGroupIRef(self, value: Optional[InnerRunnableEntityGroupInCompositionInstanceRef]) -> "RunnableEntityGroup":
+    def addRunnableEntityGroupIRef(self, value: Optional[InnerRunnableEntityGroupInCompositionInstanceRef]) -> RunnableEntityGroup:
         """
-        This represents the ability to define nested groups of
-        RunnableEntitys. A None value is a no-op and does not append to
-        runnableEntityGroupIRefs.
-
-        Args:
-            value: The InnerRunnableEntityGroupInCompositionInstanceRef to add
-
-        Returns:
-            RunnableEntityGroup: self for method chaining
+        This represents the ability to define nested groups of RunnableEntitys.
+        A None value is a no-op and does not append to runnableEntityGroupIRefs.
         """
         if value is not None:
             self.runnableEntityGroupIRefs.append(value)
@@ -179,12 +157,7 @@ class RunnableEntityGroup(AtpStructureElement, VariationPointCapable):
 
     def getRunnableEntityGroupIRefs(self) -> List[InnerRunnableEntityGroupInCompositionInstanceRef]:
         """
-        This represents the ability to define nested groups of
-        RunnableEntitys.
-
-        Returns:
-            List[InnerRunnableEntityGroupInCompositionInstanceRef]: The list of
-            runnableEntityGroup instance references
+        This represents the ability to define nested groups of RunnableEntitys.
         """
         return self.runnableEntityGroupIRefs
 
