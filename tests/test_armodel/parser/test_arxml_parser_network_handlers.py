@@ -1268,13 +1268,15 @@ class TestSoAdAndSocketHandlers:
 class TestTransportProtocolHandlers:
     def test_getTpPort_sets_portNumber(self, parser):
         element = _snip(
-            "<TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "<DYNAMICALLY-ASSIGNED>true</DYNAMICALLY-ASSIGNED>" "</TP-PORT>",
+            '<TP-PORT S="1234" T="2024-01-01T00:00:00Z">' "<PORT-NUMBER>5000</PORT-NUMBER>" "<DYNAMICALLY-ASSIGNED>true</DYNAMICALLY-ASSIGNED>" "</TP-PORT>",
             root_tag="ROOT",
         )
         port = parser.getTpPort(element, "TP-PORT")
         assert port is not None
         assert port.getPortNumber() is not None
         assert port.getPortNumber().getValue() == 5000
+        assert port.getChecksum().getValue() == "1234"
+        assert port.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readUdpTp_sets_udpTpPort(self, parser):
         from armodel.models import UdpTp

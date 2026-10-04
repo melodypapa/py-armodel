@@ -27,7 +27,12 @@ def _new_udp_tp():
 
     tp = UdpTp()
     port = TpPort()
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+        Boolean,
+        DateTime,
+        PositiveInteger,
+        String,
+    )
 
     dynamic = Boolean()
     dynamic.setValue(False)
@@ -35,6 +40,8 @@ def _new_udp_tp():
     number = PositiveInteger()
     number.setValue(30490)
     port.setPortNumber(number)
+    port.setChecksum(String().setValue("1234"))
+    port.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     tp.setUdpTpPort(port)
     return tp
 
@@ -56,3 +63,5 @@ class TestTcpUdpConfigDispatch:
         reloaded = ARXMLParser().getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
         assert isinstance(reloaded, TcpUdpConfig)
         assert reloaded.getUdpTpPort().getPortNumber().getValue() == 30490
+        assert reloaded.getUdpTpPort().getChecksum().getValue() == "1234"
+        assert reloaded.getUdpTpPort().getTimestamp().getValue() == "2024-01-01T00:00:00Z"

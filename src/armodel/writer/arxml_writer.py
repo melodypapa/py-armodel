@@ -10293,6 +10293,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTpPort(self, element: ET.Element, key: str, port: Optional[TpPort]):
         if port is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, port)
             self.setChildElementOptionalBooleanValue(child_element, "DYNAMICALLY-ASSIGNED", port.getDynamicallyAssigned())
             self.setChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER", port.getPortNumber())
 

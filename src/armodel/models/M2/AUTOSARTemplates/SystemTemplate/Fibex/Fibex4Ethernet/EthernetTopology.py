@@ -3677,32 +3677,33 @@ class TpPort(ARObject):
     """
 
     # TpPort method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.133, p.461 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.133, p.461
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicallyAssigned [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicallyAssigned [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortNumber          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortNumber          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getDynamicallyAssigned         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setDynamicallyAssigned         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-        # Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        # Indicates whether the source port is dynamically assigned.
         self.dynamicallyAssigned: Optional[Boolean] = None
 
-        # [x] getPortNumber                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setPortNumber                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Port Number.
         self.portNumber: Optional[PositiveInteger] = None
 
     def getDynamicallyAssigned(self) -> Optional[Boolean]:
         """
-        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        Indicates whether the source port is dynamically assigned.
         """
         return self.dynamicallyAssigned
 
     def setDynamicallyAssigned(self, value: Optional[Boolean]) -> TpPort:
         """
-        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        Indicates whether the source port is dynamically assigned.
         A None value is a no-op and does not overwrite an existing dynamicallyAssigned.
         """
         if value is not None:
