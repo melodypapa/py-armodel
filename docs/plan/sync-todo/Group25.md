@@ -494,15 +494,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEvent` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.149, p.165
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none blocking — Step 1 findings recorded as note bullets below; pending stub references kept as typed placeholder fields)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1845 passed / 0 failed: test_ARPackage.py + test_diagnostic_event.py + test_writer_diagnostic_event.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - note (Step 1 finding, rule-compliant, no deviation): the markdown table carries no class-level Note row — class docstring taken verbatim from the XSD complexType documentation ("This element is used to configure DiagnosticEvents."; DiagnosticRequestDownloadClass precedent, PDF p.165 via the todo row).
+  - note (Step 1 finding, rule-compliant, no deviation): confirmationThreshold — markdown Type column PositiveInteger wins over the XSD element type POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); modeled Optional[PositiveInteger], serialized through the VALUE-VARIATION-POINT wrapper element (precedent readDiagnosticConnectedIndicator HEALING-CYCLE-COUNTER-THRESHOLD).
+  - note (Step 1 finding, rule-compliant, no deviation): markdown hard-wrap inserts spaces inside camelCase identifiers in the Note texts (Freeze Frames → FreezeFrames, ClearPrestored FreezeFrame → ClearPrestoredFreezeFrame, connected Indicator.variationPoint.shortLabel → connectedIndicator.variationPoint.shortLabel); reconstructed per the XSD documentation (Rule 0015) — docstrings stay verbatim otherwise.
+  - note (pending reference, not a deviation): eventClearAllowed is typed to DiagnosticEventClearAllowedEnum (Table 4.153, queued later in this file) which is still a literal-less stub — EVENT-CLEAR-ALLOWED round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair with cast bridges; flip to _readEnumToken/_writeEnumToken with the XSD token map (ALWAYS/NEVER) when the enum's literals land (DiagnosticConnectedIndicator.behavior precedent, rewired in faf970371).
+  - note (pending reference, not a deviation): eventKind is typed to DiagnosticEventKindEnum (Table 4.154, queued later in this file) which is still a literal-less stub — EVENT-KIND round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair with cast bridges; flip to _readEnumToken/_writeEnumToken with the XSD token map (BSW/SWC) when the enum's literals land (same precedent).
 
 - [ ] `DiagnosticClearEventAllowedBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.150, p.166
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

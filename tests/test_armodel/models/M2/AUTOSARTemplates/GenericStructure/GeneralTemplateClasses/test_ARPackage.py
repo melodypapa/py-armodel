@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     DiagnosticCommonProps,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticParameter,
@@ -53,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEnableCondition,
     DiagnosticEnableConditionGroup,
     DiagnosticEnableConditionPortMapping,
+    DiagnosticEvent,
     DiagnosticEventPortMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
@@ -136,6 +138,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
     Boolean,
+    DiagnosticClearEventAllowedBehaviorEnum,
+    DiagnosticEventClearAllowedEnum,
+    DiagnosticEventKindEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
@@ -9720,6 +9725,276 @@ class TestDiagnosticEnableConditionGroup:
         assert ar_root.getReferrableElement("EnableConditionGroup1", DiagnosticEnableConditionGroup) is obj
 
         duplicate = ar_root.createDiagnosticEnableConditionGroup("EnableConditionGroup1")
+        assert duplicate is obj
+
+
+class TestDiagnosticEvent:
+    """
+    Test class for DiagnosticEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.149, p.165
+
+    DiagnosticEvent is concrete (XSD complexType DIAGNOSTIC-EVENT abstract="false")
+    with nine own Attribute rows in displayed order. The markdown table carries no
+    class-level Note row — the class docstring is the XSD complexType documentation
+    verbatim. DiagnosticEventClearAllowedEnum (Table 4.153) and DiagnosticEventKindEnum
+    (Table 4.154) are literal-less stubs queued in Group25 — they are instantiated
+    through the AREnum constructor with an empty literal sequence.
+    """
+
+    CLASS_NOTE = "This element is used to configure DiagnosticEvents."
+
+    ASSOCIATED_EVENT_IDENTIFICATION_NOTE = "This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records."
+    CLEAR_EVENT_ALLOWED_BEHAVIOR_NOTE = "This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback"
+    CONFIRMATION_THRESHOLD_NOTE = 'This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime'
+    CONNECTED_INDICATOR_NOTE = "Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    EVENT_CLEAR_ALLOWED_NOTE = 'This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.'
+    EVENT_KIND_NOTE = "This attribute is used to distinguish between SWC and BSW events."
+    PRESTORAGE_FREEZE_FRAME_NOTE = "This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported"
+    PRESTORED_FREEZEFRAME_STORED_IN_NVM_NOTE = "If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)"
+    RECOVERABLE_IN_SAME_OPERATION_CYCLE_NOTE = "If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test."
+
+    def _make_obj(self) -> DiagnosticEvent:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEvent(ar_root, "TestEvent")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEvent"
+        assert isinstance(obj, DiagnosticEvent)
+        assert isinstance(obj, ARElement)
+        assert obj.getAssociatedEventIdentification() is None
+        assert obj.getClearEventAllowedBehavior() is None
+        assert obj.getConfirmationThreshold() is None
+        assert obj.getConnectedIndicators() == []
+        assert obj.getEventClearAllowed() is None
+        assert obj.getEventKind() is None
+        assert obj.getPrestorageFreezeFrame() is None
+        assert obj.getPrestoredFreezeframeStoredInNvm() is None
+        assert obj.getRecoverableInSameOperationCycle() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticEvent.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEvent.__init__.__doc__ is None
+
+    def test_get_set_associated_event_identification(self):
+        """
+        Round-trips associatedEventIdentification; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(3)
+        result = obj.setAssociatedEventIdentification(value)
+        assert result is obj  # method chaining
+        assert obj.getAssociatedEventIdentification() is value
+        assert obj.getAssociatedEventIdentification().value == 3
+
+        result = obj.setAssociatedEventIdentification(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAssociatedEventIdentification() is value  # None is a no-op
+
+    def test_get_set_clear_event_allowed_behavior(self):
+        """
+        Round-trips clearEventAllowedBehavior; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticClearEventAllowedBehaviorEnum().setValue("noStatusByteChange")
+        result = obj.setClearEventAllowedBehavior(value)
+        assert result is obj  # method chaining
+        assert obj.getClearEventAllowedBehavior() is value
+        assert obj.getClearEventAllowedBehavior().getValue() == "noStatusByteChange"
+
+        result = obj.setClearEventAllowedBehavior(None)
+        assert result is obj  # method chaining with None
+        assert obj.getClearEventAllowedBehavior() is value  # None is a no-op
+
+    def test_get_set_confirmation_threshold(self):
+        """
+        Round-trips confirmationThreshold; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(2)
+        result = obj.setConfirmationThreshold(value)
+        assert result is obj  # method chaining
+        assert obj.getConfirmationThreshold() is value
+        assert obj.getConfirmationThreshold().value == 2
+
+        result = obj.setConfirmationThreshold(None)
+        assert result is obj  # method chaining with None
+        assert obj.getConfirmationThreshold() is value  # None is a no-op
+
+    def test_add_get_connected_indicators(self):
+        """
+        Round-trips the connectedIndicator aggregation; None is a no-op and chaining returns self.
+        """
+        obj = self._make_obj()
+
+        indicator1 = DiagnosticConnectedIndicator()
+        indicator2 = DiagnosticConnectedIndicator()
+
+        result = obj.addConnectedIndicator(indicator1)
+        assert result is obj  # method chaining
+        obj.addConnectedIndicator(indicator2)
+
+        indicators = obj.getConnectedIndicators()
+        assert len(indicators) == 2
+        assert indicators[0] is indicator1
+        assert indicators[1] is indicator2
+
+        result = obj.addConnectedIndicator(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getConnectedIndicators()) == 2  # None is a no-op
+
+    def test_get_set_event_clear_allowed(self):
+        """
+        Round-trips eventClearAllowed; None is a no-op.
+
+        DiagnosticEventClearAllowedEnum is a stub until its own sync
+        (Table 4.153, queued in Group25) — it is instantiated through the
+        AREnum constructor with an empty literal sequence.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticEventClearAllowedEnum([]).setValue("always")
+        result = obj.setEventClearAllowed(value)
+        assert result is obj  # method chaining
+        assert obj.getEventClearAllowed() is value
+        assert obj.getEventClearAllowed().getValue() == "always"
+
+        result = obj.setEventClearAllowed(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventClearAllowed() is value  # None is a no-op
+
+    def test_get_set_event_kind(self):
+        """
+        Round-trips eventKind; None is a no-op.
+
+        DiagnosticEventKindEnum is a stub until its own sync
+        (Table 4.154, queued in Group25) — it is instantiated through the
+        AREnum constructor with an empty literal sequence.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticEventKindEnum([]).setValue("bsw")
+        result = obj.setEventKind(value)
+        assert result is obj  # method chaining
+        assert obj.getEventKind() is value
+        assert obj.getEventKind().getValue() == "bsw"
+
+        result = obj.setEventKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventKind() is value  # None is a no-op
+
+    def test_get_set_prestorage_freeze_frame(self):
+        """
+        Round-trips prestorageFreezeFrame; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean().setValue(True)
+        result = obj.setPrestorageFreezeFrame(value)
+        assert result is obj  # method chaining
+        assert obj.getPrestorageFreezeFrame() is value
+        assert obj.getPrestorageFreezeFrame().value is True
+
+        result = obj.setPrestorageFreezeFrame(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPrestorageFreezeFrame() is value  # None is a no-op
+
+    def test_get_set_prestored_freezeframe_stored_in_nvm(self):
+        """
+        Round-trips prestoredFreezeframeStoredInNvm; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean().setValue(False)
+        result = obj.setPrestoredFreezeframeStoredInNvm(value)
+        assert result is obj  # method chaining
+        assert obj.getPrestoredFreezeframeStoredInNvm() is value
+        assert obj.getPrestoredFreezeframeStoredInNvm().value is False
+
+        result = obj.setPrestoredFreezeframeStoredInNvm(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPrestoredFreezeframeStoredInNvm() is value  # None is a no-op
+
+    def test_get_set_recoverable_in_same_operation_cycle(self):
+        """
+        Round-trips recoverableInSameOperationCycle; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean().setValue(True)
+        result = obj.setRecoverableInSameOperationCycle(value)
+        assert result is obj  # method chaining
+        assert obj.getRecoverableInSameOperationCycle() is value
+        assert obj.getRecoverableInSameOperationCycle().value is True
+
+        result = obj.setRecoverableInSameOperationCycle(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRecoverableInSameOperationCycle() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that every accessor docstring is the spec Note verbatim (setters append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticEvent.getAssociatedEventIdentification.__doc__) == self.ASSOCIATED_EVENT_IDENTIFICATION_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setAssociatedEventIdentification.__doc__) == (
+            self.ASSOCIATED_EVENT_IDENTIFICATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing associatedEventIdentification."
+        )
+        assert inspect.cleandoc(DiagnosticEvent.getClearEventAllowedBehavior.__doc__) == self.CLEAR_EVENT_ALLOWED_BEHAVIOR_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setClearEventAllowedBehavior.__doc__) == (
+            self.CLEAR_EVENT_ALLOWED_BEHAVIOR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearEventAllowedBehavior."
+        )
+        assert inspect.cleandoc(DiagnosticEvent.getConfirmationThreshold.__doc__) == self.CONFIRMATION_THRESHOLD_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setConfirmationThreshold.__doc__) == (
+            self.CONFIRMATION_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing confirmationThreshold."
+        )
+        assert inspect.cleandoc(DiagnosticEvent.addConnectedIndicator.__doc__) == (self.CONNECTED_INDICATOR_NOTE + "\n\nA None value is a no-op and does not extend the connectedIndicators list.")
+        assert inspect.cleandoc(DiagnosticEvent.getConnectedIndicators.__doc__) == self.CONNECTED_INDICATOR_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.getEventClearAllowed.__doc__) == self.EVENT_CLEAR_ALLOWED_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setEventClearAllowed.__doc__) == (self.EVENT_CLEAR_ALLOWED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventClearAllowed.")
+        assert inspect.cleandoc(DiagnosticEvent.getEventKind.__doc__) == self.EVENT_KIND_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setEventKind.__doc__) == (self.EVENT_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventKind.")
+        assert inspect.cleandoc(DiagnosticEvent.getPrestorageFreezeFrame.__doc__) == self.PRESTORAGE_FREEZE_FRAME_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setPrestorageFreezeFrame.__doc__) == (
+            self.PRESTORAGE_FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing prestorageFreezeFrame."
+        )
+        assert inspect.cleandoc(DiagnosticEvent.getPrestoredFreezeframeStoredInNvm.__doc__) == self.PRESTORED_FREEZEFRAME_STORED_IN_NVM_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setPrestoredFreezeframeStoredInNvm.__doc__) == (
+            self.PRESTORED_FREEZEFRAME_STORED_IN_NVM_NOTE + "\n\nA None value is a no-op and does not overwrite an existing prestoredFreezeframeStoredInNvm."
+        )
+        assert inspect.cleandoc(DiagnosticEvent.getRecoverableInSameOperationCycle.__doc__) == self.RECOVERABLE_IN_SAME_OPERATION_CYCLE_NOTE
+        assert inspect.cleandoc(DiagnosticEvent.setRecoverableInSameOperationCycle.__doc__) == (
+            self.RECOVERABLE_IN_SAME_OPERATION_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing recoverableInSameOperationCycle."
+        )
+
+    def test_create_diagnostic_event(self):
+        """
+        Test that ARPackage.createDiagnosticEvent appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticEvent("Event1")
+
+        assert isinstance(obj, DiagnosticEvent)
+        assert obj.getShortName() == "Event1"
+        assert ar_root.getReferrableElement("Event1", DiagnosticEvent) is obj
+
+        duplicate = ar_root.createDiagnosticEvent("Event1")
         assert duplicate is obj
 
 

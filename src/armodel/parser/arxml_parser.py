@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Union
+from typing import List, Optional, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -574,6 +574,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEnableCondition,
     DiagnosticEnableConditionGroup,
+    DiagnosticEvent,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -678,11 +679,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     CIdentifier,
     DateTime,
+    DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticDebounceBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
+    DiagnosticEventClearAllowedEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventKindEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
@@ -1624,6 +1628,13 @@ DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
     "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
     "start": "START",
     "stop": "STOP",
+}
+
+#: Mapping between DiagnosticClearEventAllowedBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-CLEAR-EVENT-ALLOWED-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP = {
+    "noStatusByteChange": "NO-STATUS-BYTE-CHANGE",
+    "onlyThisCycleAndReadiness": "ONLY-THIS-CYCLE-AND-READINESS",
 }
 
 #: Mapping between DiagnosticConnectedIndicatorBehaviorEnum literal values and their XML element text
@@ -10683,6 +10694,28 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "ENABLE-CONDITIONS/DIAGNOSTIC-ENABLE-CONDITION-REF-CONDITIONAL/DIAGNOSTIC-ENABLE-CONDITION-REF"):  # noqa E501
             enable_condition_group.addEnableConditionRef(ref)
 
+    def readDiagnosticEvent(self, element: ET.Element, event: DiagnosticEvent):
+        self.logger.debug("Read DiagnosticEvent <%s>" % event.getShortName())
+        self.readIdentifiable(element, event)
+        event.setAssociatedEventIdentification(self.getChildElementOptionalPositiveInteger(element, "ASSOCIATED-EVENT-IDENTIFICATION"))
+        event.setClearEventAllowedBehavior(self._readEnumToken(element, "CLEAR-EVENT-ALLOWED-BEHAVIOR", DiagnosticClearEventAllowedBehaviorEnum, DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP))
+        threshold_element = self.find(element, "CONFIRMATION-THRESHOLD/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
+            threshold = PositiveInteger()
+            threshold.setValue(threshold_element.text.strip())
+            event.setConfirmationThreshold(threshold)
+        for indicator_element in self.findall(element, "CONNECTED-INDICATORS/DIAGNOSTIC-CONNECTED-INDICATOR"):
+            indicator = DiagnosticConnectedIndicator()
+            self.readDiagnosticConnectedIndicator(indicator_element, indicator)
+            event.addConnectedIndicator(indicator)
+        # EVENT-CLEAR-ALLOWED is round-tripped as a raw literal until DiagnosticEventClearAllowedEnum (Table 4.153, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        event.setEventClearAllowed(cast(Optional[DiagnosticEventClearAllowedEnum], self.getChildElementOptionalLiteral(element, "EVENT-CLEAR-ALLOWED")))
+        # EVENT-KIND is round-tripped as a raw literal until DiagnosticEventKindEnum (Table 4.154, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        event.setEventKind(cast(Optional[DiagnosticEventKindEnum], self.getChildElementOptionalLiteral(element, "EVENT-KIND")))
+        event.setPrestorageFreezeFrame(self.getChildElementOptionalBooleanValue(element, "PRESTORAGE-FREEZE-FRAME"))
+        event.setPrestoredFreezeframeStoredInNvm(self.getChildElementOptionalBooleanValue(element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM"))
+        event.setRecoverableInSameOperationCycle(self.getChildElementOptionalBooleanValue(element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE"))
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -16621,6 +16654,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-GROUP":
             enable_condition_group = parent.createDiagnosticEnableConditionGroup(self.getShortName(child_element))
             self.readDiagnosticEnableConditionGroup(child_element, enable_condition_group)
+        elif tag_name == "DIAGNOSTIC-EVENT":
+            event = parent.createDiagnosticEvent(self.getShortName(child_element))
+            self.readDiagnosticEvent(child_element, event)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -16973,6 +17009,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-SERVICE-SW-MAPPING":
             mapping = parent.createDiagnosticServiceSwMapping(self.getShortName(child_element))
             self.readDiagnosticServiceSwMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EVENT":
+            event = parent.createDiagnosticEvent(self.getShortName(child_element))
+            self.readDiagnosticEvent(child_element, event)
             return True
         if tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
             mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))

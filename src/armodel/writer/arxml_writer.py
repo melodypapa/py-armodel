@@ -446,6 +446,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticEnableCondition,
     DiagnosticEnableConditionGroup,
+    DiagnosticEvent,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -1471,6 +1472,13 @@ DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
     "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
     "start": "START",
     "stop": "STOP",
+}
+
+#: Mapping between DiagnosticClearEventAllowedBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-CLEAR-EVENT-ALLOWED-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP = {
+    "noStatusByteChange": "NO-STATUS-BYTE-CHANGE",
+    "onlyThisCycleAndReadiness": "ONLY-THIS-CYCLE-AND-READINESS",
 }
 
 #: Mapping between DiagnosticConnectedIndicatorBehaviorEnum literal values and their XML element text
@@ -14176,6 +14184,31 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticParameterElementAccess(pea_element, parameter_element_access)
         self.setChildElementOptionalRefType(child_element, "SERVICE-INSTANCE-REF", mapping.getServiceInstanceRef())
 
+    def writeDiagnosticEvent(self, element: ET.Element, event: DiagnosticEvent):
+        self.logger.debug("Write DiagnosticEvent %s" % event.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT")
+        self.writeIdentifiable(child_element, event)
+        self.setChildElementOptionalPositiveInteger(child_element, "ASSOCIATED-EVENT-IDENTIFICATION", event.getAssociatedEventIdentification())
+        self._writeEnumToken(child_element, "CLEAR-EVENT-ALLOWED-BEHAVIOR", event.getClearEventAllowedBehavior(), DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP)
+        threshold = event.getConfirmationThreshold()
+        if threshold is not None:
+            threshold_element = ET.SubElement(child_element, "CONFIRMATION-THRESHOLD")
+            avp_element = ET.SubElement(threshold_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if threshold._text is not None:
+                avp_element.text = threshold._text
+            elif threshold._value is not None:
+                avp_element.text = str(threshold._value)
+        indicators = event.getConnectedIndicators()
+        if len(indicators) > 0:
+            indicators_element = ET.SubElement(child_element, "CONNECTED-INDICATORS")
+            for indicator in indicators:
+                self.writeDiagnosticConnectedIndicator(indicators_element, indicator)
+        self.setChildElementOptionalLiteral(child_element, "EVENT-CLEAR-ALLOWED", cast(ARLiteral, event.getEventClearAllowed()))
+        self.setChildElementOptionalLiteral(child_element, "EVENT-KIND", cast(ARLiteral, event.getEventKind()))
+        self.setChildElementOptionalBooleanValue(child_element, "PRESTORAGE-FREEZE-FRAME", event.getPrestorageFreezeFrame())
+        self.setChildElementOptionalBooleanValue(child_element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM", event.getPrestoredFreezeframeStoredInNvm())
+        self.setChildElementOptionalBooleanValue(child_element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE", event.getRecoverableInSameOperationCycle())
+
     def writeDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
         self.logger.debug("Write DiagnosticEventPortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-PORT-MAPPING")
@@ -16461,6 +16494,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEnableCondition(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnableConditionGroup):
             self.writeDiagnosticEnableConditionGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEvent):
+            self.writeDiagnosticEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
@@ -16681,6 +16716,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticServiceSwMapping):
             self.writeDiagnosticServiceSwMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEvent):
+            self.writeDiagnosticEvent(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticEventPortMapping):
             self.writeDiagnosticEventPortMapping(element, ar_element)

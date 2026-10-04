@@ -25,6 +25,7 @@ if TYPE_CHECKING:
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     DiagnosticCommonProps,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
     DiagnosticParameter,
@@ -412,6 +413,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
+    DiagnosticClearEventAllowedBehaviorEnum,
+    DiagnosticEventClearAllowedEnum,
+    DiagnosticEventKindEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
@@ -3716,6 +3720,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticOperationCyclePortMapping, self.getReferrableElement(short_name, DiagnosticOperationCyclePortMapping))
 
+    def createDiagnosticEvent(self, short_name: str) -> DiagnosticEvent:
+        """
+        Creates a new DiagnosticEvent with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEvent: This element is used to configure DiagnosticEvents..
+
+        Args:
+            short_name: The short name for the new DiagnosticEvent
+
+        Returns:
+            The newly created or existing DiagnosticEvent instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEvent):
+            element = DiagnosticEvent(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEvent, self.getReferrableElement(short_name, DiagnosticEvent))
+
     def createDiagnosticEventPortMapping(self, short_name: str) -> DiagnosticEventPortMapping:
         """
         Creates a new DiagnosticEventPortMapping with the given short name,
@@ -6112,7 +6134,206 @@ class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):
 
 
 class DiagnosticEvent(ARElement):
-    pass
+    """
+    This element is used to configure DiagnosticEvents.
+    """
+
+    # DiagnosticEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.149, p.165
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssociatedEventIdentification   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssociatedEventIdentification   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClearEventAllowedBehavior       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearEventAllowedBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfirmationThreshold           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfirmationThreshold           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addConnectedIndicator              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConnectedIndicators             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEventClearAllowed               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventClearAllowed               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventKind                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventKind                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrestorageFreezeFrame           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPrestorageFreezeFrame           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecoverableInSameOperationCycle [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRecoverableInSameOperationCycle [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records.
+        self.associatedEventIdentification: Optional[PositiveInteger] = None
+
+        # This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback
+        self.clearEventAllowedBehavior: Optional[DiagnosticClearEventAllowedBehaviorEnum] = None
+
+        # This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.confirmationThreshold: Optional[PositiveInteger] = None
+
+        # Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.connectedIndicators: List[DiagnosticConnectedIndicator] = []
+
+        # This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.
+        self.eventClearAllowed: Optional[DiagnosticEventClearAllowedEnum] = None
+
+        # This attribute is used to distinguish between SWC and BSW events.
+        self.eventKind: Optional[DiagnosticEventKindEnum] = None
+
+        # This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported
+        self.prestorageFreezeFrame: Optional[Boolean] = None
+
+        # If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)
+        self.prestoredFreezeframeStoredInNvm: Optional[Boolean] = None
+
+        # If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test.
+        self.recoverableInSameOperationCycle: Optional[Boolean] = None
+
+    def getAssociatedEventIdentification(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records.
+        """
+        return self.associatedEventIdentification
+
+    def setAssociatedEventIdentification(self, value: Optional[PositiveInteger]) -> DiagnosticEvent:
+        """
+        This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records.
+
+        A None value is a no-op and does not overwrite an existing associatedEventIdentification.
+        """
+        if value is not None:
+            self.associatedEventIdentification = value
+        return self
+
+    def getClearEventAllowedBehavior(self) -> Optional[DiagnosticClearEventAllowedBehaviorEnum]:
+        """
+        This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback
+        """
+        return self.clearEventAllowedBehavior
+
+    def setClearEventAllowedBehavior(self, value: Optional[DiagnosticClearEventAllowedBehaviorEnum]) -> DiagnosticEvent:
+        """
+        This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback
+
+        A None value is a no-op and does not overwrite an existing clearEventAllowedBehavior.
+        """
+        if value is not None:
+            self.clearEventAllowedBehavior = value
+        return self
+
+    def getConfirmationThreshold(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.confirmationThreshold
+
+    def setConfirmationThreshold(self, value: Optional[PositiveInteger]) -> DiagnosticEvent:
+        """
+        This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing confirmationThreshold.
+        """
+        if value is not None:
+            self.confirmationThreshold = value
+        return self
+
+    def addConnectedIndicator(self, indicator: Optional[DiagnosticConnectedIndicator]) -> DiagnosticEvent:
+        """
+        Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not extend the connectedIndicators list.
+        """
+        if indicator is not None:
+            self.connectedIndicators.append(indicator)
+        return self
+
+    def getConnectedIndicators(self) -> List[DiagnosticConnectedIndicator]:
+        """
+        Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.connectedIndicators
+
+    def getEventClearAllowed(self) -> Optional[DiagnosticEventClearAllowedEnum]:
+        """
+        This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.
+        """
+        return self.eventClearAllowed
+
+    def setEventClearAllowed(self, value: Optional[DiagnosticEventClearAllowedEnum]) -> DiagnosticEvent:
+        """
+        This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.
+
+        A None value is a no-op and does not overwrite an existing eventClearAllowed.
+        """
+        if value is not None:
+            self.eventClearAllowed = value
+        return self
+
+    def getEventKind(self) -> Optional[DiagnosticEventKindEnum]:
+        """
+        This attribute is used to distinguish between SWC and BSW events.
+        """
+        return self.eventKind
+
+    def setEventKind(self, value: Optional[DiagnosticEventKindEnum]) -> DiagnosticEvent:
+        """
+        This attribute is used to distinguish between SWC and BSW events.
+
+        A None value is a no-op and does not overwrite an existing eventKind.
+        """
+        if value is not None:
+            self.eventKind = value
+        return self
+
+    def getPrestorageFreezeFrame(self) -> Optional[Boolean]:
+        """
+        This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported
+        """
+        return self.prestorageFreezeFrame
+
+    def setPrestorageFreezeFrame(self, value: Optional[Boolean]) -> DiagnosticEvent:
+        """
+        This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported
+
+        A None value is a no-op and does not overwrite an existing prestorageFreezeFrame.
+        """
+        if value is not None:
+            self.prestorageFreezeFrame = value
+        return self
+
+    def getPrestoredFreezeframeStoredInNvm(self) -> Optional[Boolean]:
+        """
+        If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)
+        """
+        return self.prestoredFreezeframeStoredInNvm
+
+    def setPrestoredFreezeframeStoredInNvm(self, value: Optional[Boolean]) -> DiagnosticEvent:
+        """
+        If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)
+
+        A None value is a no-op and does not overwrite an existing prestoredFreezeframeStoredInNvm.
+        """
+        if value is not None:
+            self.prestoredFreezeframeStoredInNvm = value
+        return self
+
+    def getRecoverableInSameOperationCycle(self) -> Optional[Boolean]:
+        """
+        If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test.
+        """
+        return self.recoverableInSameOperationCycle
+
+    def setRecoverableInSameOperationCycle(self, value: Optional[Boolean]) -> DiagnosticEvent:
+        """
+        If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test.
+
+        A None value is a no-op and does not overwrite an existing recoverableInSameOperationCycle.
+        """
+        if value is not None:
+            self.recoverableInSameOperationCycle = value
+        return self
 
 
 class DiagnosticSwMapping(DiagnosticMapping, ABC):
