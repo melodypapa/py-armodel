@@ -498,15 +498,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwDataDefProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.39, p.332; also CP_TPS_DiagnosticExtractTemplate Table 4.11, p.49; also FO_TPS_AbstractPlatformSpecification Table 3.11, p.32
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: concrete Class (`<<atpVariation>>` class-row stereotype — NOT a VP indicator, Rule 0020; no fixture carries VARIATION-POINT in the conditional); Base = ARObject. All 30 spec attrs already modeled with correct types/multiplicity; fixes this pass = member order → markdown displayed order (Rule 0001.11), list accessor pairs mutator-first, writer emission → XSD sequenceOffset order, bottom-of-module runtime imports for SwCalprmAxisSet/ValueSpecification (Rule 0003), legacy 5-column checklist → 6-column + stale stamp removed (Rule 0023). XSD-only MC-FUNCTION not modeled (Rule 0015).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (94 passed / 0 failed: test_DataDefProperties.py [74] + test_sw_data_def_props.py [parser, 14] + test_sw_data_def_props.py [writer, 6]; plus test_member_annotations.py gate, DataDictionary dir 183, parser+writer battery 7649, 4 SW-DATA-DEF-PROPS fixtures lossless byte-identical, set-based checklist==methods 61, black/ruff/flake8 clean on all changed files, mypy 1 pre-existing error only [writer:7537, EndToEndProtection commit — not chased]); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwBitRepresentation` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.41, p.333
   - module: M2/MSR/DataDictionary/DataDefProperties.py

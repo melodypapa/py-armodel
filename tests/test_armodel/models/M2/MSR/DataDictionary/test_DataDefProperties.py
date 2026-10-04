@@ -2,6 +2,9 @@
 This module contains tests for the DataDefProperties module in MSR.DataDictionary.
 """
 
+import ast
+import os
+import typing
 from inspect import cleandoc
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
@@ -214,6 +217,235 @@ class TestSwDataDependency:
 
 class TestSwDataDefProps:
     """Test class for SwDataDefProps class."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.39 (R23-11), page-split tables concatenated as rendered.
+    SPEC_MEMBER_ORDER = [
+        "additionalNativeTypeQualifier",
+        "annotations",
+        "baseTypeRef",
+        "compuMethodRef",
+        "dataConstrRef",
+        "displayFormat",
+        "displayPresentation",
+        "implementationDataTypeRef",
+        "invalidValue",
+        "stepSize",
+        "swAddrMethodRef",
+        "swAlignment",
+        "swBitRepresentation",
+        "swCalibrationAccess",
+        "swCalprmAxisSet",
+        "swComparisonVariables",
+        "swDataDependency",
+        "swHostVariable",
+        "swImplPolicy",
+        "swIntendedResolution",
+        "swInterpolationMethod",
+        "swIsVirtual",
+        "swPointerTargetProps",
+        "swRecordLayoutRef",
+        "swRefreshTiming",
+        "swTextProps",
+        "swValueBlockSize",
+        "swValueBlockSizeMults",
+        "unitRef",
+        "valueAxisDataTypeRef",
+    ]
+
+    def _init_field_order(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDefProps")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_data_def_props_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.39 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_data_def_props_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; lists mutator-first, scalars getter-first."""
+        expected = [
+            "getAdditionalNativeTypeQualifier",
+            "setAdditionalNativeTypeQualifier",
+            "getAnnotations",
+            "addAnnotation",
+            "getBaseTypeRef",
+            "setBaseTypeRef",
+            "getCompuMethodRef",
+            "setCompuMethodRef",
+            "getDataConstrRef",
+            "setDataConstrRef",
+            "getDisplayFormat",
+            "setDisplayFormat",
+            "getDisplayPresentation",
+            "setDisplayPresentation",
+            "getImplementationDataTypeRef",
+            "setImplementationDataTypeRef",
+            "getInvalidValue",
+            "setInvalidValue",
+            "getStepSize",
+            "setStepSize",
+            "getSwAddrMethodRef",
+            "setSwAddrMethodRef",
+            "getSwAlignment",
+            "setSwAlignment",
+            "getSwBitRepresentation",
+            "setSwBitRepresentation",
+            "getSwCalibrationAccess",
+            "setSwCalibrationAccess",
+            "getSwCalprmAxisSet",
+            "setSwCalprmAxisSet",
+            "addSwComparisonVariable",
+            "getSwComparisonVariables",
+            "getSwDataDependency",
+            "setSwDataDependency",
+            "getSwHostVariable",
+            "setSwHostVariable",
+            "getSwImplPolicy",
+            "setSwImplPolicy",
+            "getSwIntendedResolution",
+            "setSwIntendedResolution",
+            "getSwInterpolationMethod",
+            "setSwInterpolationMethod",
+            "getSwIsVirtual",
+            "setSwIsVirtual",
+            "getSwPointerTargetProps",
+            "setSwPointerTargetProps",
+            "getSwRecordLayoutRef",
+            "setSwRecordLayoutRef",
+            "getSwRefreshTiming",
+            "setSwRefreshTiming",
+            "getSwTextProps",
+            "setSwTextProps",
+            "getSwValueBlockSize",
+            "setSwValueBlockSize",
+            "addSwValueBlockSizeMult",
+            "getSwValueBlockSizeMults",
+            "getUnitRef",
+            "setUnitRef",
+            "getValueAxisDataTypeRef",
+            "setValueAxisDataTypeRef",
+        ]
+        for name in expected:
+            assert hasattr(SwDataDefProps, name), f"missing accessor {name}"
+
+    def test_sw_data_def_props_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwCalprmAxisSet", "setSwCalprmAxisSet", "getInvalidValue", "setInvalidValue"):
+            hints = typing.get_type_hints(getattr(SwDataDefProps, name))
+            assert hints, f"no annotations resolved for {name}"
+
+    def test_sw_data_def_props_class_note_verbatim(self):
+        """The class docstring carries the Table 5.39 Note verbatim (Tags/Stereotypes tails dropped)."""
+        expected = (
+            "This class is a collection of properties relevant for data objects under various aspects. "
+            'One could consider this class as a "pattern of inheritance by aggregation". '
+            "The properties can be applied to all objects of all classes in which SwDataDefProps is aggregated. "
+            "Note that not all of the attributes or associated elements are useful all of the time. "
+            "Hence, the process definition (e.g. expressed with an OCL or a Document Control Instance MSR-DCI) "
+            "has the task of implementing limitations. SwDataDefProps covers various aspects: "
+            "• Structure of the data element for calibration use cases: is it a single value, a curve, or a map, "
+            "but also the recordLayouts which specify how such elements are mapped/converted to the DataTypes "
+            "in the programming language (or in AUTOSAR). This is mainly expressed by properties like "
+            "swRecordLayout and swCalprmAxisSet "
+            "• Implementation aspects, mainly expressed by swImplPolicy, swVariableAccessImplPolicy, "
+            "swAddr Method, swPointerTagetProps, baseType, implementationDataType and additionalNativeTypeQualifier "
+            "• Access policy for the MCD system, mainly expressed by swCalibrationAccess "
+            "• Semantics of the data element, mainly expressed by compuMethod and/or unit, dataConstr, invalid Value "
+            "• Code generation policy provided by swRecordLayout"
+        )
+        assert cleandoc(SwDataDefProps.__doc__) == expected
+
+    def test_sw_data_def_props_nested_recursion(self):
+        """SwDataDefProps → swPointerTargetProps → swDataDefProps (spec self-reference via SwPointerTargetProps)."""
+        props = SwDataDefProps()
+        nested = SwDataDefProps()
+        pointer = SwPointerTargetProps()
+        pointer.setSwDataDefProps(nested)
+        props.setSwPointerTargetProps(pointer)
+        assert props.getSwPointerTargetProps().getSwDataDefProps() is nested
+
+    def test_sw_data_def_props_none_noop_all_scalar_members(self):
+        """Every scalar setter is a no-op on None and keeps the previously set value (Rule 0004)."""
+        cases = [
+            ("setAdditionalNativeTypeQualifier", "getAdditionalNativeTypeQualifier", NativeDeclarationString().setValue("volatile")),
+            ("setBaseTypeRef", "getBaseTypeRef", RefType().setValue("/BaseTypes/uint8")),
+            ("setCompuMethodRef", "getCompuMethodRef", RefType().setValue("/CompuMethods/cm")),
+            ("setDataConstrRef", "getDataConstrRef", RefType().setValue("/DataConstrs/dc")),
+            ("setDisplayFormat", "getDisplayFormat", DisplayFormatString().setValue("%5.2f")),
+            ("setDisplayPresentation", "getDisplayPresentation", DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_CONTINUOUS)),
+            ("setImplementationDataTypeRef", "getImplementationDataTypeRef", RefType().setValue("/ImplementationDataTypes/idt")),
+            ("setInvalidValue", "getInvalidValue", NumericalValueSpecification()),
+            ("setStepSize", "getStepSize", Float().setValue("0.5")),
+            ("setSwAddrMethodRef", "getSwAddrMethodRef", RefType().setValue("/SwAddrMethods/ram")),
+            ("setSwAlignment", "getSwAlignment", AlignmentType().setValue("8")),
+            ("setSwBitRepresentation", "getSwBitRepresentation", SwBitRepresentation()),
+            ("setSwCalibrationAccess", "getSwCalibrationAccess", SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE)),
+            ("setSwCalprmAxisSet", "getSwCalprmAxisSet", SwCalprmAxisSet()),
+            ("setSwDataDependency", "getSwDataDependency", SwDataDependency()),
+            ("setSwHostVariable", "getSwHostVariable", SwVariableRefProxy()),
+            ("setSwImplPolicy", "getSwImplPolicy", SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD)),
+            ("setSwIntendedResolution", "getSwIntendedResolution", Numerical().setValue("0.01")),
+            ("setSwInterpolationMethod", "getSwInterpolationMethod", Identifier().setValue("linear")),
+            ("setSwIsVirtual", "getSwIsVirtual", Boolean().setValue("true")),
+            ("setSwPointerTargetProps", "getSwPointerTargetProps", SwPointerTargetProps()),
+            ("setSwRecordLayoutRef", "getSwRecordLayoutRef", RefType().setValue("/RecordLayouts/rl")),
+            ("setSwRefreshTiming", "getSwRefreshTiming", MultidimensionalTime()),
+            ("setSwTextProps", "getSwTextProps", SwTextProps()),
+            ("setSwValueBlockSize", "getSwValueBlockSize", Numerical().setValue("10")),
+            ("setUnitRef", "getUnitRef", RefType().setValue("/Units/second")),
+            ("setValueAxisDataTypeRef", "getValueAxisDataTypeRef", RefType().setValue("/ApplicationDataTypes/adt")),
+        ]
+        for setter_name, getter_name, value in cases:
+            props = SwDataDefProps()
+            setter = getattr(props, setter_name)
+            getter = getattr(props, getter_name)
+            assert setter(value) is props, f"{setter_name} must return self"
+            assert getter() is value or getter() == value, f"{setter_name} did not round-trip"
+            setter(None)
+            assert getter() == value, f"{setter_name}(None) overwrote the value"
+
+    def test_sw_data_def_props_none_noop_list_members(self):
+        """List mutators are no-ops on None (Rule 0004)."""
+        props = SwDataDefProps()
+        annotation = Annotation()
+        comparison = SwVariableRefProxy()
+        mult = Numerical().setValue("2")
+        props.addAnnotation(annotation)
+        props.addAnnotation(None)
+        props.addSwComparisonVariable(comparison)
+        props.addSwComparisonVariable(None)
+        props.addSwValueBlockSizeMult(mult)
+        props.addSwValueBlockSizeMult(None)
+        assert props.getAnnotations() == [annotation]
+        assert props.getSwComparisonVariables() == [comparison]
+        assert props.getSwValueBlockSizeMults() == [mult]
+
+    def test_sw_data_def_props_sw_value_block_size_mults_preserves_order(self):
+        """swValueBlockSizeMult is (ordered): first entry = first dimension."""
+        props = SwDataDefProps()
+        first = Numerical().setValue("3")
+        second = Numerical().setValue("5")
+        props.addSwValueBlockSizeMult(first)
+        props.addSwValueBlockSizeMult(second)
+        assert props.getSwValueBlockSizeMults() == [first, second]
 
     def test_sw_data_def_props_initialization(self):
         sw_data_def_props = SwDataDefProps()
