@@ -915,15 +915,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDebounceAlgorithmProps` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.187, p.196
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Note (Step 1): Base chain ARObject/Identifiable/MultilanguageReferrable/Referrable —
+    most-derived = Identifiable; stub base already correct (STUBS entry unchanged).
+    3 attrs in markdown order (= XSD sequenceOffset): debounceAlgorithm
+    (DiagEventDebounceAlgorithm 0..1 aggr — XSD DEBOUNCE-ALGORITHM choice wrapper of
+    COUNTER-BASED/MONITOR-INTERNAL/TIME-BASED → 3 create factories, DiagEventDebounce*
+    5-place dispatch precedent), debounceBehavior (DiagnosticDebounceBehaviorEnum 0..1 attr,
+    attr-level atpVariation → no VariationPointCapable per Rule 0020), debounceCounterStorage
+    (Boolean 0..1 attr). Aggregated by DiagnosticCommonProps.debounceAlgorithmProps — nested
+    container, no ARPackage dispatch; named reusable helpers
+    readDiagnosticDebounceAlgorithmProps/writeDiagnosticDebounceAlgorithmProps wired into the
+    existing readDiagnosticCommonProps/writeDiagnosticCommonProps call sites.
+  - Note (Step 8): DiagnosticDebounceBehaviorEnum is a stub (Table 4.192 queued next in this
+    batch) — parser._readEnumToken needs its synced __init__, so the DEBOUNCE-BEHAVIOR
+    parse-back test auto-skips until that sync lands (reader/writer source coverage complete).
+    Pre-existing sibling deviation noted for reconciliation: setDiagEventDebounceCounterBased
+    emits no identity (no SHORT-NAME) — counter-based round-trip asserted write-side only;
+    round-trip test uses the time-based subtype.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1326 passed / 0 failed: tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py, tests/test_armodel/parser/test_diagnostic_debounce_algorithm_props.py, tests/test_armodel/writer/test_writer_diagnostic_debounce_algorithm_props.py, tests/test_armodel/models/test_member_annotations.py, tests/test_armodel/models/test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticDebounceBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.192, p.199
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

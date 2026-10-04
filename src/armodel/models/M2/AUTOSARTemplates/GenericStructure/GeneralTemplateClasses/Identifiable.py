@@ -6,7 +6,15 @@ in the GenericStructure module.
 from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter, DiagnosticParameter, RoleBasedResourceDependency
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    CategoryString,
+    DiagnosticDebounceBehaviorEnum,
+    Identifier,
+    PositiveInteger,
+    RefType,
+    String,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union, cast
@@ -18,6 +26,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceAlgorithm, DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
     from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -916,7 +925,122 @@ class DiagnosticDataElement(Identifiable, VariationPointCapable):
 
 
 class DiagnosticDebounceAlgorithmProps(Identifiable):
-    pass
+    """Defines properties for the debounce algorithm class."""
+
+    # DiagnosticDebounceAlgorithmProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.187, p.196
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDebounceAlgorithm                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDiagEventDebounceCounterBased    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagEventDebounceMonitorInternal [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagEventDebounceTimeBased       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDebounceBehavior                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDebounceBehavior                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDebounceCounterStorage              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDebounceCounterStorage              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the actual debounce algorithm.
+        self.debounceAlgorithm: Optional[DiagEventDebounceAlgorithm] = None
+
+        # This attribute defines how the event debounce algorithm will behave, if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.debounceBehavior: Optional[DiagnosticDebounceBehaviorEnum] = None
+
+        # Switch to store the debounce counter value non-volatile or not. true: debounce counter value shall be stored non-volatile false: debounce counter value is volatile Please note that this attribute is not relevant for the adaptive platform.
+        self.debounceCounterStorage: Optional[Boolean] = None
+
+    def getDebounceAlgorithm(self) -> Optional[DiagEventDebounceAlgorithm]:
+        """
+        This represents the actual debounce algorithm.
+        """
+        return self.debounceAlgorithm
+
+    def createDiagEventDebounceCounterBased(self, short_name: str) -> DiagEventDebounceCounterBased:
+        """
+        Creates and adds a counter-based debounce algorithm for this diagnostic event.
+
+        Args:
+            short_name: The short name for the new counter-based debounce algorithm
+
+        Returns:
+            The created DiagEventDebounceCounterBased instance
+        """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceCounterBased
+
+        if not self.IsReferrableElementExists(short_name, DiagEventDebounceCounterBased):
+            algorithm = DiagEventDebounceCounterBased(self, short_name)
+            self.addReferrableElement(algorithm)
+            self.debounceAlgorithm = algorithm
+        return cast(DiagEventDebounceCounterBased, self.getReferrableElement(short_name, DiagEventDebounceCounterBased))
+
+    def createDiagEventDebounceMonitorInternal(self, short_name: str) -> DiagEventDebounceMonitorInternal:
+        """
+        Creates and adds an internal monitor-based debounce algorithm for this diagnostic event.
+
+        Args:
+            short_name: The short name for the new internal monitor debounce algorithm
+
+        Returns:
+            The created DiagEventDebounceMonitorInternal instance
+        """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceMonitorInternal
+
+        if not self.IsReferrableElementExists(short_name, DiagEventDebounceMonitorInternal):
+            algorithm = DiagEventDebounceMonitorInternal(self, short_name)
+            self.addReferrableElement(algorithm)
+            self.debounceAlgorithm = algorithm
+        return cast(DiagEventDebounceMonitorInternal, self.getReferrableElement(short_name, DiagEventDebounceMonitorInternal))
+
+    def createDiagEventDebounceTimeBased(self, short_name: str) -> DiagEventDebounceTimeBased:
+        """
+        Creates and adds a time-based debounce algorithm for this diagnostic event.
+
+        Args:
+            short_name: The short name for the new time-based debounce algorithm
+
+        Returns:
+            The created DiagEventDebounceTimeBased instance
+        """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceTimeBased
+
+        if not self.IsReferrableElementExists(short_name, DiagEventDebounceTimeBased):
+            algorithm = DiagEventDebounceTimeBased(self, short_name)
+            self.addReferrableElement(algorithm)
+            self.debounceAlgorithm = algorithm
+        return cast(DiagEventDebounceTimeBased, self.getReferrableElement(short_name, DiagEventDebounceTimeBased))
+
+    def getDebounceBehavior(self) -> Optional[DiagnosticDebounceBehaviorEnum]:
+        """
+        This attribute defines how the event debounce algorithm will behave, if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled.
+        """
+        return self.debounceBehavior
+
+    def setDebounceBehavior(self, value: Optional[DiagnosticDebounceBehaviorEnum]) -> DiagnosticDebounceAlgorithmProps:
+        """
+        This attribute defines how the event debounce algorithm will behave, if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled.
+        A None value is a no-op and does not overwrite an existing debounceBehavior.
+        """
+        if value is not None:
+            self.debounceBehavior = value
+        return self
+
+    def getDebounceCounterStorage(self) -> Optional[Boolean]:
+        """
+        Switch to store the debounce counter value non-volatile or not. true: debounce counter value shall be stored non-volatile false: debounce counter value is volatile Please note that this attribute is not relevant for the adaptive platform.
+        """
+        return self.debounceCounterStorage
+
+    def setDebounceCounterStorage(self, value: Optional[Boolean]) -> DiagnosticDebounceAlgorithmProps:
+        """
+        Switch to store the debounce counter value non-volatile or not. true: debounce counter value shall be stored non-volatile false: debounce counter value is volatile Please note that this attribute is not relevant for the adaptive platform.
+        A None value is a no-op and does not overwrite an existing debounceCounterStorage.
+        """
+        if value is not None:
+            self.debounceCounterStorage = value
+        return self
 
 
 class DiagnosticFunctionInhibitSource(Identifiable):

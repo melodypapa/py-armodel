@@ -653,6 +653,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
+    DiagnosticDebounceAlgorithmProps,
     DiagnosticParameterElement,
     DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
@@ -676,6 +677,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     DateTime,
     DiagnosticConnectedIndicatorBehaviorEnum,
+    DiagnosticDebounceBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
@@ -1630,6 +1632,13 @@ DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP = {
     "continuousOnMode": "CONTINUOUS-ON-MODE",
     "fastFlashingMode": "FAST-FLASHING-MODE",
     "slowFlashingMode": "SLOW-FLASHING-MODE",
+}
+
+#: Mapping between DiagnosticDebounceBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-DEBOUNCE-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP = {
+    "freeze": "FREEZE",
+    "reset": "RESET",
 }
 
 
@@ -11029,6 +11038,25 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRoutineControlClass <%s>" % routine_control_class.getShortName())
         self.readIdentifiable(element, routine_control_class)
 
+    def readDiagnosticDebounceAlgorithmProps(self, element: ET.Element, debounce_props: DiagnosticDebounceAlgorithmProps):
+        self.logger.debug("Read DiagnosticDebounceAlgorithmProps <%s>" % debounce_props.getShortName())
+        self.readIdentifiable(element, debounce_props)
+        for child_element in self.findall(element, "DEBOUNCE-ALGORITHM/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DIAG-EVENT-DEBOUNCE-COUNTER-BASED":
+                algorithm = debounce_props.createDiagEventDebounceCounterBased(self.getShortName(child_element))
+                self.readDiagEventDebounceCounterBased(child_element, algorithm)
+            elif tag_name == "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL":
+                algorithm = debounce_props.createDiagEventDebounceMonitorInternal(self.getShortName(child_element))
+                self.readDiagEventDebounceMonitorInternal(child_element, algorithm)
+            elif tag_name == "DIAG-EVENT-DEBOUNCE-TIME-BASED":
+                algorithm = debounce_props.createDiagEventDebounceTimeBased(self.getShortName(child_element))
+                self.readDiagEventDebounceTimeBased(child_element, algorithm)
+            else:
+                self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % tag_name)
+        debounce_props.setDebounceBehavior(self._readEnumToken(element, "DEBOUNCE-BEHAVIOR", DiagnosticDebounceBehaviorEnum, DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP))
+        debounce_props.setDebounceCounterStorage(self.getChildElementOptionalBooleanValue(element, "DEBOUNCE-COUNTER-STORAGE"))
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -11037,7 +11065,7 @@ class ARXMLParser(AbstractARXMLParser):
         common_props.setAuthenticationTimeout(self.getChildElementOptionalTimeValue(conditional_element, "AUTHENTICATION-TIMEOUT"))
         for child_element in self.findall(conditional_element, "DEBOUNCE-ALGORITHM-PROPSS/DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS"):
             debounce_props = common_props.createDebounceAlgorithmProps(self.getShortName(child_element))
-            self.readIdentifiable(child_element, debounce_props)
+            self.readDiagnosticDebounceAlgorithmProps(child_element, debounce_props)
         common_props.setDefaultEndianness(self._readEnumToken(conditional_element, "DEFAULT-ENDIANNESS", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         common_props.setEventCombinationReportingBehavior(
             self._readEnumToken(conditional_element, "EVENT-COMBINATION-REPORTING-BEHAVIOR", DiagnosticEventCombinationReportingBehaviorEnum, DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP)

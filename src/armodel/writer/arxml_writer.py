@@ -538,6 +538,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
+    DiagnosticDebounceAlgorithmProps,
     DiagnosticParameterElement,
     DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
@@ -1417,6 +1418,13 @@ DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP = {
 #: (AR:DIAGNOSTIC-EVENT-COMBINATION-REPORTING-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP = {
     "reportingInChronlogicalOrderOldestFirst": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
+}
+
+#: Mapping between DiagnosticDebounceBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-DEBOUNCE-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP = {
+    "freeze": "FREEZE",
+    "reset": "RESET",
 }
 
 #: Mapping between DiagnosticHandleDDDIConfigurationEnum literal values and their XML element text
@@ -14020,6 +14028,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-REF", connection.getResponseOnEventRef())
 
+    def writeDiagnosticDebounceAlgorithmProps(self, element: ET.Element, debounce_props: DiagnosticDebounceAlgorithmProps):
+        self.logger.debug("Write DiagnosticDebounceAlgorithmProps %s" % debounce_props.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS")
+        self.writeIdentifiable(child_element, debounce_props)
+        algorithm = debounce_props.getDebounceAlgorithm()
+        if algorithm is not None:
+            debounce_algorithm_element = ET.SubElement(child_element, "DEBOUNCE-ALGORITHM")
+            if isinstance(algorithm, DiagEventDebounceCounterBased):
+                self.setDiagEventDebounceCounterBased(debounce_algorithm_element, algorithm)
+            elif isinstance(algorithm, DiagEventDebounceMonitorInternal):
+                self.setDiagEventDebounceMonitorInternal(debounce_algorithm_element, algorithm)
+            elif isinstance(algorithm, DiagEventDebounceTimeBased):
+                self.setDiagEventDebounceTimeBased(debounce_algorithm_element, algorithm)
+            else:
+                self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % type(algorithm))
+        self._writeEnumToken(child_element, "DEBOUNCE-BEHAVIOR", debounce_props.getDebounceBehavior(), DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP)
+        self.setChildElementOptionalBooleanValue(child_element, "DEBOUNCE-COUNTER-STORAGE", debounce_props.getDebounceCounterStorage())
+
     def writeDiagnosticCommonProps(self, element: ET.Element, common_props: Optional[DiagnosticCommonProps]):
         if common_props is not None:
             self.logger.debug("Write DiagnosticCommonProps")
@@ -14032,8 +14058,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             if len(debounce_props) > 0:
                 debounce_tag = ET.SubElement(conditional_tag, "DEBOUNCE-ALGORITHM-PROPSS")
                 for item in debounce_props:
-                    item_element = ET.SubElement(debounce_tag, "DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS")
-                    self.writeIdentifiable(item_element, item)
+                    self.writeDiagnosticDebounceAlgorithmProps(debounce_tag, item)
             self._writeEnumToken(conditional_tag, "DEFAULT-ENDIANNESS", common_props.getDefaultEndianness(), BYTE_ORDER_XML_MAP)
             self._writeEnumToken(conditional_tag, "EVENT-COMBINATION-REPORTING-BEHAVIOR", common_props.getEventCombinationReportingBehavior(), DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP)
             self.setChildElementOptionalPositiveInteger(
