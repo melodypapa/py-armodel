@@ -2,6 +2,7 @@
 This module contains tests for the BaseTypes module in MSR.AsamHdo.
 """
 
+import typing
 from abc import ABC
 
 import pytest
@@ -50,6 +51,16 @@ class TestBaseTypeDefinition:
 
 class TestBaseTypeDirectDefinition:
     """Test class for BaseTypeDirectDefinition class."""
+
+    def test_base_shape(self):
+        """Base column most-derived class is BaseTypeDefinition (Table 5.24)."""
+        assert BaseTypeDirectDefinition.__bases__[0] is BaseTypeDefinition
+        definition = BaseTypeDirectDefinition()
+        assert isinstance(definition, BaseTypeDefinition)
+        assert isinstance(definition, ARObject)
+
+    def test_class_docstring_matches_spec_note(self):
+        assert BaseTypeDirectDefinition.__doc__.strip() == "This BaseType is defined directly (as opposite to a derived BaseType)"
 
     def test_base_type_direct_definition_initialization(self):
         """Test that a BaseTypeDirectDefinition object can be initialized with default values."""
@@ -149,6 +160,28 @@ class TestBaseTypeDirectDefinition:
         assert base_type_direct_def.getByteOrder() == byte_order
         assert base_type_direct_def.getMemAlignment() == alignment
         assert base_type_direct_def.getNativeDeclaration() == native_decl
+
+    def test_accessor_docstrings_match_spec_notes(self):
+        """Getter docstrings are the Table 5.24 spec Notes verbatim; setters append the None-no-op sentence."""
+        notes = {
+            "BaseTypeEncoding": "This specifies, how an object of the current BaseType is encoded, e.g. in an ECU within a message sequence.",
+            "BaseTypeSize": "Describes the length of the data type specified in the container in bits.",
+            "ByteOrder": "This attribute specifies the byte order of the base type.",
+            "MemAlignment": 'This attribute describes the alignment of the memory object in bits. E.g. "8" specifies, that the object in question is aligned to a byte while "32" specifies that it is aligned four byte. If the value is set to "0" the meaning shall be interpreted as "unspecified".',
+            "NativeDeclaration": 'This attribute describes the declaration of such a base type in the native programming language, primarily in the Programming language C. This can then be used by a code generator to include the necessary declarations into a header file. For example BaseType with shortName: "MyUnsignedInt" native Declaration: "unsigned short" Results in typedef unsigned short MyUnsignedInt; If the attribute is not defined the referring Implementation DataTypes will not be generated as a typedef by RTE. If a nativeDeclaration type is given it shall fulfill the characteristic given by basetypeEncoding and baseType Size. This is required to ensure the consistent handling and interpretation by software components, RTE, COM and MCM systems.',
+        }
+        for attr, note in notes.items():
+            getter = getattr(BaseTypeDirectDefinition, "get" + attr)
+            setter = getattr(BaseTypeDirectDefinition, "set" + attr)
+            field_name = attr[0].lower() + attr[1:]
+            assert getter.__doc__.strip() == note, "getter docstring drift on %s" % field_name
+            assert setter.__doc__.strip() == note + " A None value is a no-op and does not overwrite an existing %s." % field_name, "setter docstring drift on %s" % field_name
+
+    def test_setter_return_type_hints_resolve(self):
+        """Setter return annotations resolve to the class itself under typing.get_type_hints (Rule 0003)."""
+        for attr in ("BaseTypeEncoding", "BaseTypeSize", "ByteOrder", "MemAlignment", "NativeDeclaration"):
+            setter = getattr(BaseTypeDirectDefinition, "set" + attr)
+            assert typing.get_type_hints(setter).get("return") is BaseTypeDirectDefinition
 
 
 class TestBaseType:

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 from typing import Optional
 
@@ -33,20 +35,19 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     """
 
     # BaseTypeDirectDefinition method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.24, p.290
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBaseTypeEncoding       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseTypeEncoding       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBaseTypeSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseTypeSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getByteOrder              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setByteOrder              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMemAlignment           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMemAlignment           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNativeDeclaration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNativeDeclaration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.24, p.291
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseTypeEncoding       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeEncoding       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBaseTypeSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getByteOrder              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setByteOrder              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMemAlignment           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemAlignment           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNativeDeclaration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNativeDeclaration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -72,11 +73,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.baseTypeEncoding
 
-    def setBaseTypeEncoding(self, value: Optional[BaseTypeEncodingString]) -> "BaseTypeDirectDefinition":
+    def setBaseTypeEncoding(self, value: Optional[BaseTypeEncodingString]) -> BaseTypeDirectDefinition:
         """
-        This specifies, how an object of the current BaseType is encoded, e.g. in an ECU within a message sequence.
-
-        A None value is a no-op and does not overwrite an existing baseTypeEncoding.
+        This specifies, how an object of the current BaseType is encoded, e.g. in an ECU within a message sequence. A None value is a no-op and does not overwrite an existing baseTypeEncoding.
         """
         if value is not None:
             self.baseTypeEncoding = value
@@ -88,11 +87,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.baseTypeSize
 
-    def setBaseTypeSize(self, value: Optional[PositiveInteger]) -> "BaseTypeDirectDefinition":
+    def setBaseTypeSize(self, value: Optional[PositiveInteger]) -> BaseTypeDirectDefinition:
         """
-        Describes the length of the data type specified in the container in bits.
-
-        A None value is a no-op and does not overwrite an existing baseTypeSize.
+        Describes the length of the data type specified in the container in bits. A None value is a no-op and does not overwrite an existing baseTypeSize.
         """
         if value is not None:
             self.baseTypeSize = value
@@ -104,11 +101,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.byteOrder
 
-    def setByteOrder(self, value: Optional[ByteOrderEnum]) -> "BaseTypeDirectDefinition":
+    def setByteOrder(self, value: Optional[ByteOrderEnum]) -> BaseTypeDirectDefinition:
         """
-        This attribute specifies the byte order of the base type.
-
-        A None value is a no-op and does not overwrite an existing byteOrder.
+        This attribute specifies the byte order of the base type. A None value is a no-op and does not overwrite an existing byteOrder.
         """
         if value is not None:
             self.byteOrder = value
@@ -120,11 +115,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.memAlignment
 
-    def setMemAlignment(self, value: Optional[PositiveInteger]) -> "BaseTypeDirectDefinition":
+    def setMemAlignment(self, value: Optional[PositiveInteger]) -> BaseTypeDirectDefinition:
         """
-        This attribute describes the alignment of the memory object in bits. E.g. "8" specifies, that the object in question is aligned to a byte while "32" specifies that it is aligned four byte. If the value is set to "0" the meaning shall be interpreted as "unspecified".
-
-        A None value is a no-op and does not overwrite an existing memAlignment.
+        This attribute describes the alignment of the memory object in bits. E.g. "8" specifies, that the object in question is aligned to a byte while "32" specifies that it is aligned four byte. If the value is set to "0" the meaning shall be interpreted as "unspecified". A None value is a no-op and does not overwrite an existing memAlignment.
         """
         if value is not None:
             self.memAlignment = value
@@ -136,11 +129,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.nativeDeclaration
 
-    def setNativeDeclaration(self, value: Optional[NativeDeclarationString]) -> "BaseTypeDirectDefinition":
+    def setNativeDeclaration(self, value: Optional[NativeDeclarationString]) -> BaseTypeDirectDefinition:
         """
-        This attribute describes the declaration of such a base type in the native programming language, primarily in the Programming language C. This can then be used by a code generator to include the necessary declarations into a header file. For example BaseType with shortName: "MyUnsignedInt" native Declaration: "unsigned short" Results in typedef unsigned short MyUnsignedInt; If the attribute is not defined the referring Implementation DataTypes will not be generated as a typedef by RTE. If a nativeDeclaration type is given it shall fulfill the characteristic given by basetypeEncoding and baseType Size. This is required to ensure the consistent handling and interpretation by software components, RTE, COM and MCM systems.
-
-        A None value is a no-op and does not overwrite an existing nativeDeclaration.
+        This attribute describes the declaration of such a base type in the native programming language, primarily in the Programming language C. This can then be used by a code generator to include the necessary declarations into a header file. For example BaseType with shortName: "MyUnsignedInt" native Declaration: "unsigned short" Results in typedef unsigned short MyUnsignedInt; If the attribute is not defined the referring Implementation DataTypes will not be generated as a typedef by RTE. If a nativeDeclaration type is given it shall fulfill the characteristic given by basetypeEncoding and baseType Size. This is required to ensure the consistent handling and interpretation by software components, RTE, COM and MCM systems. A None value is a no-op and does not overwrite an existing nativeDeclaration.
         """
         if value is not None:
             self.nativeDeclaration = value
@@ -176,7 +167,7 @@ class BaseType(ARElement, ABC):
         """
         return self.baseTypeDefinition
 
-    def setBaseTypeDefinition(self, value: Optional[BaseTypeDirectDefinition]) -> "BaseType":
+    def setBaseTypeDefinition(self, value: Optional[BaseTypeDirectDefinition]) -> BaseType:
         """
         This is the actual definition of the base type. A None value is a no-op and does not overwrite an existing baseTypeDefinition.
         """

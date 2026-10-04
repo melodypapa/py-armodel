@@ -1617,13 +1617,17 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 | — *(missing)* | `—` | `testId` | `PositiveInteger` | — | missing |
 
 ## `BaseTypeDirectDefinition`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 290
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 291  | **table:** Table 5.24
 - **Package:** `M2::MSR::AsamHdo::BaseTypes`
 - **Source:** `src/armodel/models/M2/MSR/AsamHdo/BaseTypes.py`
+
+No deviations among the modeled members — all five Table 5.24 attributes (`baseTypeEncoding`, `baseTypeSize`, `byteOrder`, `memAlignment`, `nativeDeclaration`, all 0..1 attr) map 1:1 to `Optional[T]` PEP 526 fields + guarded self-returning getter/setter pairs in the markdown displayed order (page-split table: the `baseTypeEncoding` row renders before the caption, the other four after it — Rule 0001.11). Base most-derived = `BaseTypeDefinition` (Table 5.23 — abstract, zero own attrs); concrete class, aggregated by `BaseType.baseTypeDefinition` — the aggregation is flattened in XML (the XSD group BASE-TYPE, AUTOSAR_00052.xsd L8384, embeds a 0..1 choice of the BASE-TYPE-DIRECT-DEFINITION group inline, role/type/wrapper flags all false): reader `readBaseTypeDirectDefinition` (arxml_parser.py:7428) / writer `setBaseTypeDirectDefinition` (arxml_writer.py:3979), both reached from `readSwBaseType`/`writeSwBaseType`, cover all five elements in XSD sequenceOffset order (BASE-TYPE-SIZE 70, BASE-TYPE-ENCODING 90, MEM-ALIGNMENT 100, BYTE-ORDER 110, NATIVE-DECLARATION 120). Not VP-capable (no VARIATION-POINT in the XSD group, Rule 0020).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `maxBaseTypeSize` | `PositiveInteger` | — | deprecated (atp.Status=removed), not implemented |
+
+**Note:** Batch re-sync 2026-10-04 (Group28 row; Rule 0023 legacy checklist — no per-row release column, stale p.290 citation; stale `# Spec verified: R23-11` marker removed at session start, stamp WITHHELD pending the 9b batch confirmation, user instruction). Entry page citation corrected 290 → 291 per pdf_page.py; the `maxBaseTypeSize` accepted row retained (`atp.Status="removed"` in the XSD group AND absent from the PDF Attribute column — Rule 0001.3/0015, stays not modeled). Model Red genuine on the accessor-docstring pin (all 5 setters carried the stale two-paragraph None-no-op form → rewritten to the inline batch convention); module adopted PEP 563 + bare self-ref returns (6 quoted returns unquoted — 5 on this class + 1 on `BaseType.setBaseTypeDefinition`, same-change rule, RunnableEntityGroup precedent). Reader/writer tests extended per-attribute on both sides (parser `test_SwBaseType.py` isolated reads incl. the UPPERCASE XSD BYTE-ORDER form read verbatim; writer `test_writer_SwBaseType.py` isolated emissions incl. the camelCase member-value form) — parser/writer source unchanged (coverage pre-existed in XSD order, vacuous reader/writer Red noted). Referenced types: base `BaseTypeDefinition` (Table 5.23, synced this batch), `BaseTypeEncodingString` (Table 5.25), `ByteOrderEnum` (Table 5.27, queued for its own Group28 pass) — all exist and are behaviorally complete; no missing classes.
 
 ## `BaseType`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 291

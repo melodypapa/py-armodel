@@ -410,15 +410,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BaseTypeDirectDefinition` — BaseTypeDefinition — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.24, p.291
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column, stale p.290 citation) — stale `# Spec verified:
+    R23-11` marker removed at session start, full re-sync, stamp WITHHELD this batch. Concrete Class
+    (no "(abstract)" marker); Base most-derived = BaseTypeDefinition (stamped R23-11, Table 5.23 —
+    synced in the prior commit, not a stub). Page-split table (p.291): Class/Package/Note/Base/
+    Aggregated-by + baseTypeEncoding row render before the caption; baseTypeSize/byteOrder/
+    memAlignment/nativeDeclaration rows after (displayed order = concatenation, Rule 0001.11).
+    5 attrs, all 0..1 attr → Optional[T]: baseTypeEncoding (BaseTypeEncodingString),
+    baseTypeSize (PositiveInteger), byteOrder (ByteOrderEnum), memAlignment (PositiveInteger),
+    nativeDeclaration (NativeDeclarationString). XSD group BASE-TYPE-DIRECT-DEFINITION
+    (AUTOSAR_00052.xsd L8402) XML order = BASE-TYPE-SIZE (70), BASE-TYPE-ENCODING (90),
+    MEM-ALIGNMENT (100), BYTE-ORDER (110), NATIVE-DECLARATION (120); MAX-BASE-TYPE-SIZE (80) is
+    atp.Status="removed" and absent from the PDF table → not modeled (Rule 0015/0001.3).
+    nativeDeclaration markdown Note carries a stray leading "Tags: xml.sequenceOffset=100" rendering
+    artifact + trailing Tags tail — dropped per 0012.2.5.2. Reader/writer helpers
+    readBaseTypeDirectDefinition (parser L7428) / setBaseTypeDirectDefinition (writer L3979)
+    pre-exist in XSD order and are called from readSwBaseType/writeSwBaseType.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — genuine Red on the accessor-docstring pin (all 5 setters carry the stale two-paragraph None-no-op form; batch convention is the inline form, BaseType/SwTextProps precedent); behavioral + base-shape + class-docstring + type-hints pins passed (impl already conforms — vacuous behavioral Red portion, noted): 1 failed / 8 passed
+  - [x] Step 3 — Implement model class (Green) — structural change only: module adopted PEP 563 (`from __future__ import annotations`) + 6 quoted self-ref returns unquoted (5 on BaseTypeDirectDefinition setters + 1 on BaseType.setBaseTypeDefinition, same-change rule, RunnableEntityGroup precedent, Rule 0003); field-to-spec cross-check both directions clean (5 attrs ↔ 5 Optional[T] PEP 526 members in markdown order, guarded self-returning setters, most-derived base BaseTypeDefinition, no fabricated fields, no createXxx — no Referrable children); behavioral subset passed (23 passed / 1 docstring pin pending — Green lands with Step 4); MAX-BASE-TYPE-SIZE (atp.Status=removed, absent from PDF) stays not modeled
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — BaseTypeDirectDefinition block wiped and rewritten verbatim from the markdown Notes: class docstring + 5 inline `__init__` comments + 5 getter docstrings diffed character-for-character against the Notes — already verbatim (content-identical; nativeDeclaration's stray leading `Tags: xml.sequenceOffset=100` rendering artifact + trailing Tags tail stay dropped per 0012.2.5.2); the 5 setter docstrings converted from the stale two-paragraph None-no-op form to the inline batch convention (Note + ` A None value is a no-op and does not overwrite an existing <attr>.`, BaseType/SwTextProps form); 24 passed test_BaseTypes.py
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — vacuous Red (parser/writer coverage pre-existed and conforms; noted): extended tests/test_armodel/parser/test_SwBaseType.py (`TestBaseTypeDirectDefinitionReader`: 5 per-attribute isolated reads — one element present, other four unset — incl. the UPPERCASE XSD BYTE-ORDER value form read verbatim) and tests/test_armodel/writer/test_writer_SwBaseType.py (`TestBaseTypeDirectDefinitionWriter`: 5 per-attribute emissions — one field set, only its element emitted — incl. the camelCase member-value BYTE-ORDER form); 17 passed across both files
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: reader readBaseTypeDirectDefinition (arxml_parser.py:7428) mutator-driven — BASE-TYPE-SIZE, BASE-TYPE-ENCODING, MEM-ALIGNMENT, BYTE-ORDER, NATIVE-DECLARATION = XSD sequenceOffset order (70, 90, 100, 110, 120; MAX-BASE-TYPE-SIZE 80 atp.Status=removed not read); writer setBaseTypeDirectDefinition (arxml_writer.py:3979) getter-driven in the same XSD order (order pinned by test_write_element_order_matches_xsd_group); both called from readSwBaseType/writeSwBaseType; matched pairs (readX ↔ setX structure helpers per codebase convention, spec-typed PositiveInteger leaf pair, generic literal leaf pair + cast for the string/enum attrs — shared sibling consumer pattern, flagged for 9b, no fix); no chained mutators on the class path
+  - [x] Step 7 — Update checklist comment — 6-column format with release column (was Rule 0023 legacy: no release tokens); rows in source order; citation page corrected p.290 → p.291 per pdf_page.py; stale legacy `# Spec verified: R23-11` removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — tracker entry updated (docs/examples/method_deviation_by_class.md, `## BaseTypeDirectDefinition`): page citation corrected 290 → 291, accepted `maxBaseTypeSize` row retained (`atp.Status=removed`, Rule 0001.3/0015 — stays not modeled), No-deviations-among-modeled-members summary + batch Note added; no stale rows (no naming/type/missing rows existed); the `## BaseType` entry's superseded row is BaseType's own row — untouched here; no missing referenced classes (BaseTypeDefinition synced this batch; BaseTypeEncodingString Table 5.25, ByteOrderEnum Table 5.27 exist and are queued for their own passes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (41 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/test_BaseTypes.py, tests/test_armodel/parser/test_SwBaseType.py, tests/test_armodel/writer/test_writer_SwBaseType.py; neighbors: 3 passed tests/test_armodel/models/test_member_annotations.py, 189 passed AsamHdo model dir + parser/writer BaseTypes tests + test_pep563_annotations + lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml (TestSWComponents byte-compare), 295 passed test_arxml_parser_handlers + test_writer_data_types (the two other files referencing BaseTypeDirectDefinition); black/ruff clean on all 4 changed files, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods + coverage + stamp-WITHHELD verified via set-based script, Rule 0008 blank-line spacing verified by eye); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BaseType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.26, p.292
   - module: M2/MSR/AsamHdo/BaseTypes.py

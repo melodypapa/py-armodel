@@ -81,6 +81,59 @@ class TestSwBaseTypeWriter:
         ]
 
 
+class TestBaseTypeDirectDefinitionWriter:
+    """Per-attribute writer coverage of the flattened BASE-TYPE-DIRECT-DEFINITION group
+    (Swc TPS Table 5.24, p.291): one field set, only its element is emitted."""
+
+    def _write_definition(self, configure) -> ET.Element:
+        base_type = SwBaseType(None, "u8")
+        configure(base_type.getBaseTypeDefinition())
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeSwBaseType(parent_element, base_type)
+        return parent_element.find("SW-BASE-TYPE")
+
+    def test_write_base_type_size_alone(self):
+        element = self._write_definition(lambda d: d.setBaseTypeSize(PositiveInteger().setValue("16")))
+        assert element.find("BASE-TYPE-SIZE").text == "16"
+        assert element.find("BASE-TYPE-ENCODING") is None
+        assert element.find("MEM-ALIGNMENT") is None
+        assert element.find("BYTE-ORDER") is None
+        assert element.find("NATIVE-DECLARATION") is None
+
+    def test_write_base_type_encoding_alone(self):
+        element = self._write_definition(lambda d: d.setBaseTypeEncoding(BaseTypeEncodingString().setValue("IEEE754")))
+        assert element.find("BASE-TYPE-ENCODING").text == "IEEE754"
+        assert element.find("BASE-TYPE-SIZE") is None
+        assert element.find("MEM-ALIGNMENT") is None
+        assert element.find("BYTE-ORDER") is None
+        assert element.find("NATIVE-DECLARATION") is None
+
+    def test_write_mem_alignment_alone(self):
+        element = self._write_definition(lambda d: d.setMemAlignment(PositiveInteger().setValue("32")))
+        assert element.find("MEM-ALIGNMENT").text == "32"
+        assert element.find("BASE-TYPE-SIZE") is None
+        assert element.find("BASE-TYPE-ENCODING") is None
+        assert element.find("BYTE-ORDER") is None
+        assert element.find("NATIVE-DECLARATION") is None
+
+    def test_write_byte_order_alone_member_value_form(self):
+        """The writer emits the ByteOrderEnum member value (the camelCase mmt.qualifiedName form)."""
+        element = self._write_definition(lambda d: d.setByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)))
+        assert element.find("BYTE-ORDER").text == "mostSignificantByteLast"
+        assert element.find("BASE-TYPE-SIZE") is None
+        assert element.find("BASE-TYPE-ENCODING") is None
+        assert element.find("MEM-ALIGNMENT") is None
+        assert element.find("NATIVE-DECLARATION") is None
+
+    def test_write_native_declaration_alone(self):
+        element = self._write_definition(lambda d: d.setNativeDeclaration(NativeDeclarationString().setValue("unsigned short")))
+        assert element.find("NATIVE-DECLARATION").text == "unsigned short"
+        assert element.find("BASE-TYPE-SIZE") is None
+        assert element.find("BASE-TYPE-ENCODING") is None
+        assert element.find("MEM-ALIGNMENT") is None
+        assert element.find("BYTE-ORDER") is None
+
+
 class TestSwBaseTypeRoundTrip:
     def test_round_trip_populated(self):
         AUTOSAR.getInstance().setARRelease("R23-11")

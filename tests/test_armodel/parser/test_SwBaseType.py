@@ -51,3 +51,58 @@ class TestBaseTypeReader:
         assert definition.getMemAlignment() is None
         assert definition.getByteOrder() is None
         assert definition.getNativeDeclaration() is None
+
+
+class TestBaseTypeDirectDefinitionReader:
+    """Per-attribute reader coverage of the flattened BASE-TYPE-DIRECT-DEFINITION group
+    (Swc TPS Table 5.24, p.291): one element present, the other four stay unset."""
+
+    def _read_definition(self, parser, inner: str) -> BaseTypeDirectDefinition:
+        root = _snip("<SW-BASE-TYPE><SHORT-NAME>u8</SHORT-NAME>%s</SW-BASE-TYPE>" % inner)
+        pkg = _autosar_root().createARPackage("TestPkg")
+        data_type = pkg.createSwBaseType("u8")
+
+        parser.readSwBaseType(parser.find(root, "SW-BASE-TYPE"), data_type)
+
+        return data_type.getBaseTypeDefinition()
+
+    def test_read_base_type_size_alone(self, parser):
+        definition = self._read_definition(parser, "<BASE-TYPE-SIZE>16</BASE-TYPE-SIZE>")
+        assert definition.getBaseTypeSize().getValue() == 16
+        assert definition.getBaseTypeEncoding() is None
+        assert definition.getMemAlignment() is None
+        assert definition.getByteOrder() is None
+        assert definition.getNativeDeclaration() is None
+
+    def test_read_base_type_encoding_alone(self, parser):
+        definition = self._read_definition(parser, "<BASE-TYPE-ENCODING>IEEE754</BASE-TYPE-ENCODING>")
+        assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
+        assert definition.getBaseTypeSize() is None
+        assert definition.getMemAlignment() is None
+        assert definition.getByteOrder() is None
+        assert definition.getNativeDeclaration() is None
+
+    def test_read_mem_alignment_alone(self, parser):
+        definition = self._read_definition(parser, "<MEM-ALIGNMENT>32</MEM-ALIGNMENT>")
+        assert definition.getMemAlignment().getValue() == 32
+        assert definition.getBaseTypeSize() is None
+        assert definition.getBaseTypeEncoding() is None
+        assert definition.getByteOrder() is None
+        assert definition.getNativeDeclaration() is None
+
+    def test_read_byte_order_alone_xsd_value_form(self, parser):
+        """The XSD serializes BYTE-ORDER in the UPPERCASE literal form; the reader stores the raw text verbatim."""
+        definition = self._read_definition(parser, "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</BYTE-ORDER>")
+        assert definition.getByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert definition.getBaseTypeSize() is None
+        assert definition.getBaseTypeEncoding() is None
+        assert definition.getMemAlignment() is None
+        assert definition.getNativeDeclaration() is None
+
+    def test_read_native_declaration_alone(self, parser):
+        definition = self._read_definition(parser, "<NATIVE-DECLARATION>unsigned short</NATIVE-DECLARATION>")
+        assert definition.getNativeDeclaration().getValue() == "unsigned short"
+        assert definition.getBaseTypeSize() is None
+        assert definition.getBaseTypeEncoding() is None
+        assert definition.getMemAlignment() is None
+        assert definition.getByteOrder() is None
