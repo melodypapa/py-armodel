@@ -722,39 +722,39 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **15/29** completed
+Status: **29/29** completed
 
-| Class Name                              | Status       | Commit ID  |
-| --------------------------------------- | ------------ | ---------- |
-| `RuntimeAddressConfigurationEnum`       | [ ] Pending* | c5bb322323 |
-| `IpAddressKeepEnum`                     | [ ] Pending* | c5bb322323 |
-| `Ipv6AddressSourceEnum`                 | [ ] Pending* | c5bb322323 |
-| `Ipv4AddressSourceEnum`                 | [ ] Pending* | 6c97ddc108 |
-| `DoIpEntity`                            | [ ] Pending* | b1e4750b14 |
-| `TpPort`                                | [ ] Pending* | b1e4750b14 |
-| `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
-| `EthernetPriorityRegeneration`          | [x] Done     | a513bd3ec3 |
-| `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
-| `CouplingPortAbstractShaper`            | [x] Done     | f02e111f65 |
-| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
-| `CouplingPortCreditBasedShaper`         | [x] Done     | 929cee7081 |
-| `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
-| `IPSecConfig`                           | [x] Done     | d75eb10bff |
-| `NetworkEndpoint`                       | [x] Done     | 84587c11f6 |
-| `VlanConfig`                            | [ ] Pending* | b1e4750b14 |
-| `Ipv4Configuration`                     | [x] Done     | dcebacccb1 |
-| `GenericTp`                             | [ ] Pending* | N/A        |
-| `TcpTp`                                 | [ ] Pending* | N/A        |
-| `UdpTp`                                 | [ ] Pending* | N/A        |
-| `PduCollectionSemanticsEnum`            | [ ] Pending* | 4b7c8dc79c |
-| `SocketConnectionIpduIdentifier`        | [x] Done     | c02cad3bb9 |
-| `SocketConnectionBundle`                | [x] Done     | 01f37f105c |
-| `RequestResponseDelay`                  | [ ] Pending* | d7240be740 |
-| `SdServerConfig`                        | [x] Done     | f509df9d94 |
-| `TcpOptionFilterList`                   | [x] Done     | fd11862858 |
-| `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
-| `IPv6ExtHeaderFilterList`               | [x] Done     | d8127416ac |
-| `TimeSynchronization`                   | [x] Done     | f4a1df5bcb |
+| Class Name                              | Status   | Commit ID  |
+| --------------------------------------- | -------- | ---------- |
+| `RuntimeAddressConfigurationEnum`       | [x] Done | be89a1d86e |
+| `IpAddressKeepEnum`                     | [x] Done | e60a31bcdb |
+| `Ipv6AddressSourceEnum`                 | [x] Done | 92355aadff |
+| `Ipv4AddressSourceEnum`                 | [x] Done | eb1c70461a |
+| `DoIpEntity`                            | [x] Done | cc485a79df |
+| `TpPort`                                | [x] Done | 0936aaab17 |
+| `InitialSdDelayConfig`                  | [x] Done | 84dc59b646 |
+| `EthernetPriorityRegeneration`          | [x] Done | a513bd3ec3 |
+| `TimeSyncServerConfiguration`           | [x] Done | 155cc2f7f9 |
+| `CouplingPortAbstractShaper`            | [x] Done | f02e111f65 |
+| `CouplingPortAsynchronousTrafficShaper` | [x] Done | 929cee7081 |
+| `CouplingPortCreditBasedShaper`         | [x] Done | 929cee7081 |
+| `MacMulticastGroup`                     | [x] Done | cd3fe71010 |
+| `IPSecConfig`                           | [x] Done | d75eb10bff |
+| `NetworkEndpoint`                       | [x] Done | 84587c11f6 |
+| `VlanConfig`                            | [x] Done | b435a825d6 |
+| `Ipv4Configuration`                     | [x] Done | dcebacccb1 |
+| `GenericTp`                             | [x] Done | b9aa7cceca |
+| `TcpTp`                                 | [x] Done | 0cbd1c12db |
+| `UdpTp`                                 | [x] Done | d3d7ad6c38 |
+| `PduCollectionSemanticsEnum`            | [x] Done | bccdae30f3 |
+| `SocketConnectionIpduIdentifier`        | [x] Done | c02cad3bb9 |
+| `SocketConnectionBundle`                | [x] Done | 01f37f105c |
+| `RequestResponseDelay`                  | [x] Done | 4207fc6265 |
+| `SdServerConfig`                        | [x] Done | f509df9d94 |
+| `TcpOptionFilterList`                   | [x] Done | fd11862858 |
+| `TcpOptionFilterSet`                    | [x] Done | be8f880057 |
+| `IPv6ExtHeaderFilterList`               | [x] Done | d8127416ac |
+| `TimeSynchronization`                   | [x] Done | f4a1df5bcb |
 
 ## Group17
 
@@ -817,24 +817,24 @@ Status: **0/17** completed
 
 Status: **6/16** completed
 
-| Class Name                       | Status          | Commit ID  |
-| -------------------------------- | --------------- | ---------- |
-| `ConfigReferenceValue`           | [ ] Pending*    | N/A        |
-| `EcucValueCollection`            | [ ] Pending*    | N/A        |
-| `ModuleConfiguration`            | [ ] Pending*    | N/A        |
-| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A        |
-| `EcucScopeEnum`                  | [ ] Pending*    | N/A        |
-| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A        |
-| `EcucBooleanParamDef`            | [ ] Pending*    | N/A        |
-| `EcucFloatParamDef`              | [ ] Pending*    | N/A        |
-| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A        |
-| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A        |
-| `EcucReferenceDef`               | [x] Done        | 0d45067479 |
-| `EcucSymbolicNameReferenceDef`   | [x] Done        | 0d45067479 |
-| `EcucUriReferenceDef`            | [x] Done        | 0d45067479 |
-| `EcucConditionFormula`           | [x] Done        | N/A        |
-| `EcucParameterDerivationFormula` | [x] Done        | N/A        |
-| `EcucQueryExpression`            | [x] Done        | N/A        |
+| Class Name                       | Status       | Commit ID  |
+| -------------------------------- | ------------ | ---------- |
+| `ConfigReferenceValue`           | [ ] Pending* | N/A        |
+| `EcucValueCollection`            | [ ] Pending* | N/A        |
+| `ModuleConfiguration`            | [ ] Pending* | N/A        |
+| `EcucConfigurationClassEnum`     | [ ] Pending* | N/A        |
+| `EcucScopeEnum`                  | [ ] Pending* | N/A        |
+| `EcucDestinationUriDefRefType`   | [ ] Pending* | N/A        |
+| `EcucBooleanParamDef`            | [ ] Pending* | N/A        |
+| `EcucFloatParamDef`              | [ ] Pending* | N/A        |
+| `EcucForeignReferenceDef`        | [ ] Pending* | N/A        |
+| `EcucLinkerSymbolDef`            | [ ] Pending* | N/A        |
+| `EcucReferenceDef`               | [x] Done     | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done     | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done     | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done     | N/A        |
+| `EcucParameterDerivationFormula` | [x] Done     | N/A        |
+| `EcucQueryExpression`            | [x] Done     | N/A        |
 
 ## Group20
 

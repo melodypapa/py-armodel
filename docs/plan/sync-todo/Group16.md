@@ -17,7 +17,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `RuntimeAddressConfigurationEnum` — AREnum — R4.3.1 markdown · Table 6.121 (TPS_SystemTemplate), p.320 — commit c5bb32232
+- [x] `RuntimeAddressConfigurationEnum` — AREnum — R4.3.1 markdown · Table 6.121 (TPS_SystemTemplate), p.320 — commit f24d8b53b (# Spec verified: R4.3.1, stamped 2026-10-05; 9b batch fix — `# Spec:` normalised to the R4.3.1-fallback form (was the Rule-0019 combine shape))
   - commit: c5bb32232 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — class body already spec-faithful (prior unstamped sync) — 6-col checklist + mirror test added
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
@@ -29,9 +29,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R4.3.1` written; commit f24d8b53b. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `IpAddressKeepEnum` — AREnum — R23-11 markdown · Table 6.138 (CP_TPS_SystemTemplate), p.466 — commit c5bb32232
+- [x] `IpAddressKeepEnum` — AREnum — R23-11 markdown · Table 6.138 (CP_TPS_SystemTemplate), p.466 — commit 161a1b821 (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — `# Spec:` release suffix dropped)
   - commit: c5bb32232 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — class body already spec-faithful — 6-col checklist + mirror test added
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
@@ -43,9 +43,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 161a1b821. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `Ipv6AddressSourceEnum` — AREnum — R23-11 markdown · Table 6.140 (CP_TPS_SystemTemplate), p.467 — commit c5bb32232
+- [x] `Ipv6AddressSourceEnum` — AREnum — R23-11 markdown · Table 6.140 (CP_TPS_SystemTemplate), p.467 — commit a8fad1211 (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — `# Spec:` release suffix dropped)
   - commit: c5bb32232 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — literal value fixed LinkLocalDoIP → linkLocal_doip (markdown literal; XSD 00052 token LINK-LOCAL--DOIP deviates, md-primary per Rule 0015)
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
@@ -57,9 +57,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit a8fad1211. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `Ipv4AddressSourceEnum` — AREnum — R23-11 markdown · Table 6.137 (CP_TPS_SystemTemplate), p.465 — commit 6c97ddc10
+- [x] `Ipv4AddressSourceEnum` — AREnum — R23-11 markdown · Table 6.137 (CP_TPS_SystemTemplate), p.465 — commit 8c0771caf (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — `# Spec:` release suffix dropped)
   - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as Ipv4Configuration/NetworkEndpoint but the row was omitted from this queue; member type of Ipv4Configuration.ipv4AddressSource — its row notes "ipv4AddressSource now typed Ipv4AddressSourceEnum"; Group6 pending-resolution note lists it too) — class body carries `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.137, p.465` checklist, NO `# Spec verified:` yet
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
@@ -71,9 +71,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above (literal AUTO_IP_DOIP = autoIp_doip; mirror test test_Ipv4AddressSourceEnum.py)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 8c0771caf. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `DoIpEntity` — ARObject — R23-11 markdown · Table 6.150 (CP_TPS_SystemTemplate), p.471 — commit b1e4750b1
+- [x] `DoIpEntity` — ARObject — R23-11 markdown · Table 6.150 (CP_TPS_SystemTemplate), p.471 — commit a20bd931e (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — accessor checklist rows relocated out of `__init__`; `readARObject`/`writeARObject` added (XSD `AR:AR-OBJECT`))
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + typed doIpEntityRole; rw (getDoIpEntity/setDoIpEntity) already complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -83,9 +83,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit a20bd931e. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `TpPort` — ARObject — R23-11 markdown · Table 6.133 (CP_TPS_SystemTemplate), p.461 — commit b1e4750b1
+- [x] `TpPort` — ARObject — R23-11 markdown · Table 6.133 (CP_TPS_SystemTemplate), p.461 — commit 0f6b1c9bf (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — checklist rebuilt; `Tags: atp.Status=obsolete` tail dropped (Rule 0012.2.5.2); `readARObject`/`writeARObject` added)
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes (dynamicallyAssigned carries atp.Status=obsolete tag verbatim); rw via getTpPort/setTpPort complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -95,7 +95,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 0f6b1c9bf. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
 - [x] `InitialSdDelayConfig` — ARObject — R23-11 markdown · Table 6.170 (CP_TPS_SystemTemplate), p.514 — commit 84dc59b64 (# Spec verified: R23-11, stamped 2026-10-03; Rule 0007 fix — relocated into `…::Fibex4Ethernet::ServiceInstances`)
   - re-sync pass: Rule 0007 fix — spec Package is `…::Fibex4Ethernet::ServiceInstances`, so the class is relocated out of EthernetTopology.py into ServiceInstances.py (user-approved). The d7240be74 dedup had kept the wrong carrier.
@@ -162,7 +162,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - **9b re-audit result (2026-10-03):** content is **spec-correct** — member set/types/multiplicity/naming match both the XSD group and the Annex-F table (`idleSlope`/`lowerBoundary`/`upperBoundary` all Optional[PositiveInteger] 0..1); base `CouplingPortAbstractShaper` (Identifiable); class + attr docstrings = Notes verbatim; checklist single block before `__init__`, getter-first scalar pairs in source order, reader `[x]` on setters / writer `[x]` on getters, all rows `R23-11`; reader/writer coverage live via `readCouplingPortCreditBasedShaper`/`writeCouplingPortCreditBasedShaper` dispatched from `readCouplingPortFifoShaper`/`writeCouplingPortFifoShaper`. **Only drift = provenance**: the `# XSD verified:` stamp does **not** hold as an XSD-only claim (a markdown table exists); `# Spec:` line malformed. Marker left in place.
   - **9b DRIFT FINDING (2026-10-03) — the "XSD-only" premise is WRONG for this class.** R23-11 `AUTOSAR_CP_TPS_SystemTemplate.md` Annex F ("F Mentioned Class Tables") carries a full `Class` table for `CouplingPortCreditBasedShaper` (body L74364-74373; caption `Table F.37: CouplingPortCreditBasedShaper` L74375) with `Package`, `Note`, `Base`, `Aggregated by CouplingPortFifo.shaper`, and 3 `Attribute` rows (`idleSlope`/`lowerBoundary`/`upperBoundary`). Per Rule 0002/0012.1 a class **with** a PDF/markdown table must use `# Spec verified: R23-11`, not `# XSD verified:`; repo precedent cites Annex-F tables (sibling `CouplingPortRoleEnum` → `Table F.38, p.2013`). The current `# Spec:` line is also malformed (release token + a PDF with no table). Content itself is spec-correct (see 9b audit). Marker left **unchanged** — re-stamp/classification is the orchestrator/user's decision.
 
-- [ ] `MacMulticastGroup` — Identifiable — R23-11 markdown · Table 3.48 (CP_TPS_SystemTemplate), p.104 — commit b1e4750b1
+- [x] `MacMulticastGroup` — Identifiable — R23-11 markdown · Table 3.48 (CP_TPS_SystemTemplate), p.104 — commit 9ee3f1b66 (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — marker only (class was already spec-faithful))
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + macMulticastAddress; rw via readMacMulticastGroup complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -172,7 +172,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — Rule 0014 tracker entry `## MacMulticastGroup` added (No deviations; records the 2026-10-03 reader typed-`MacAddressString` fix)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a re-run 2026-10-03 (G16-3): full unit suite 17486 passed / 0 failed; ruff + black clean on touched files; `eval_skill_static_checks.py` all-pass; round-trip write→parse preserves the typed `MacAddressString` value; 9b pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 9ee3f1b66. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
 - [x] `IPSecConfig` — ARObject — R23-11 markdown · Table 6.221 (CP_TPS_SystemTemplate), p.571 — commit d75eb10bf (# Spec verified: R23-11, stamped 2026-10-03)
   - Rule 0001.6 shape fix at the 9b gate: `ipSecRule` is a `* aggr` whose child `IPSecRule` lists `Identifiable` in its spec `Base`, so the pair is `createIPSecRule(short_name)` + `getIPSecRules()` (dedupe by short name over the owning field list — plain `ARObject` aggregator, Rule 0004). The parser now calls `config.createIPSecRule(self.getShortName(child_element))` instead of constructing `IPSecRule(config, short_name)` + `addIPSecRule(rule)`; mirror/writer tests updated accordingly.
@@ -203,7 +203,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none; `## NetworkEndpoint` entry added to `docs/examples/method_deviation_by_class.md` (no field/type/naming/missing deviation)
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-03** (user); marker `# Spec verified: R23-11` written. 9a re-verified independently by the orchestrator: mirror + reader `test_network_endpoint.py` + writer `test_network_endpoint.py` + `test_member_annotations.py` 21 passed; full unit suite 17341 passed; `ruff check` + `black --check` clean on all 6 touched `.py` files; set-based checklist==methods 11/11 in source order (all methods tested); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping*.arxml` `file_compare` fixtures only (delta 0); `armodel.NetworkEndpoint` resolves. FQDN now round-trips (`getFullyQualifiedDomainName().getValue()`), `NETWORK-ENDPOINT-ADDRESSES` None/empty-wrapper case covered. No deviations. Report-only: `MAC-MULTICAST-CONFIGURATION` dispatch still absent — `MacMulticastConfiguration` is a `pass` stub queued in Group32 (its own sync item); `p.463` not re-verified via `pdf_page.py` (venv lacks `pypdf`) but matches the plan + prior `# Spec:` line.
 
-- [ ] `VlanConfig` — Identifiable — R23-11 markdown · Table 3.50 (CP_TPS_SystemTemplate), p.106 — commit b1e4750b1
+- [x] `VlanConfig` — Identifiable — R23-11 markdown · Table 3.50 (CP_TPS_SystemTemplate), p.106 — commit eb32bcdee (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — checklist rebuilt out of `__init__`; `readIdentifiable` added (writer already had `writeIdentifiable`))
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + vlanIdentifier; rw via readEthernetPhysicalChannelVlan complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -213,7 +213,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit eb32bcdee. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
 - [x] `Ipv4Configuration` — NetworkEndpointAddress — R23-11 markdown · Table 6.136 (CP_TPS_SystemTemplate), p.465 — commit dcebacccb (# Spec verified: R23-11, stamped 2026-10-03; Rule 0006 dns getter coverage added, Rule 0001.11 pair reordered, Rule 0013.2 reader retyped to Ip4AddressString/Ipv4AddressSourceEnum)
   - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 8 attr notes; ipv4AddressSource now typed Ipv4AddressSourceEnum; ctor no-arg (NetworkEndpointAddress chain)
@@ -230,7 +230,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - Step 9a evidence (2026-10-03, 9b pending): mirror `test_Ipv4Configuration.py` 5 passed; touched parser + writer `test_network_endpoint_address.py` 5 passed (2 + 3); `test_member_annotations.py` 3 passed (13 combined); relevant battery (SystemTemplate models + parser/ + writer/) 9432 passed; `ruff check` + `black --check` clean on all 5 touched `.py` files; set-based checklist==methods 17/17 in source order (all methods tested); `# Spec:` = `AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465`, NO `# Spec verified:`/`# XSD verified:` marker in the class block; Rule 0008 spacing clean; integration 125/133 passed, 8 failed = the known pre-existing `*_SystemMapping.arxml` `file_compare` fixtures only (delta 0).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-03** (user); marker `# Spec verified: R23-11` written. 9a re-verified independently by the orchestrator: mirror 5 + touched parser/writer `test_network_endpoint_address.py` 5 + `test_member_annotations.py` 3 = 13 passed; full unit suite 17370 passed; ruff + black clean; checklist==methods 17/17 in source order (all tested); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping*.arxml` `file_compare` fixtures only (delta 0). Report-only: sibling `Ipv6Configuration` generic literal reader (Rule 0013.2, own sync item).
 
-- [ ] `GenericTp` — TransportProtocolConfiguration — R23-11 markdown · Table 6.126 (CP_TPS_SystemTemplate), p.459 — commit 26c26b088
+- [x] `GenericTp` — TransportProtocolConfiguration — R23-11 markdown · Table 6.126 (CP_TPS_SystemTemplate), p.459 — commit 627b5c3a9 (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — checklist rebuilt out of `__init__`; `readARObject`/`writeARObject` added)
   - commit: 26c26b088 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes; ctor kept no-arg (TransportProtocolConfiguration family contract)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -240,9 +240,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 627b5c3a9. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `TcpTp` — TcpUdpConfig — R23-11 markdown · Table 6.129 (CP_TPS_SystemTemplate), p.460 — commit 26c26b088
+- [x] `TcpTp` — TcpUdpConfig — R23-11 markdown · Table 6.129 (CP_TPS_SystemTemplate), p.460 — commit c59e3404d (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — 16 accessor checklist rows relocated out of `__init__`; `readARObject`/`writeARObject` added)
   - commit: 26c26b088 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 8 attr notes; NEW rw coverage RECEIVE-WINDOW-MIN + TCP-RETRANSMISSION-TIMEOUT (XSD order verified); ctor no-arg
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -252,9 +252,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit c59e3404d. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `UdpTp` — TcpUdpConfig — R23-11 markdown · Table 6.128 (CP_TPS_SystemTemplate), p.459 — commit 26c26b088
+- [x] `UdpTp` — TcpUdpConfig — R23-11 markdown · Table 6.128 (CP_TPS_SystemTemplate), p.459 — commit 5336dd0ea (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — checklist rebuilt out of `__init__`; `readARObject`/`writeARObject` added)
   - commit: 26c26b088 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + udpTpPort aggr; ctor no-arg
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -264,9 +264,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 5336dd0ea. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
-- [ ] `PduCollectionSemanticsEnum` — AREnum — R23-11 markdown · Table 6.165 (CP_TPS_SystemTemplate), p.490 — commit 4b7c8dc79
+- [x] `PduCollectionSemanticsEnum` — AREnum — R23-11 markdown · Table 6.165 (CP_TPS_SystemTemplate), p.490 — commit 5d4adec22 (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — `# Spec:` release suffix dropped)
   - commit: 4b7c8dc79 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as SocketConnectionIpduIdentifier/SocketConnectionBundle but the row was omitted from this queue; member type of SocketConnectionIpduIdentifier.pduCollectionSemantics — its row notes "pduCollectionSemantics/Trigger now typed enums") — class body carries `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.165, p.490` checklist, NO `# Spec verified:` yet; sibling PduCollectionTriggerEnum (Table 6.41) is stamped
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
@@ -278,7 +278,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above (literals lastIsBest/queued; mirror test test_PduCollectionSemanticsEnum.py)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 5d4adec22. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
 - [x] `SocketConnectionIpduIdentifier` — ARObject — R4.3.1 markdown · Table 6.122 (TPS_SystemTemplate), p.321 — commit c02cad3bb (# Spec verified: R4.3.1, stamped 2026-10-03; Rule 0006 test rename, Rule 0001.4 routingGroup add-mutator, full R4.3.1 re-run)
   - commit: 4b7c8dc79 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 6 attrs; FABRICATED PduRef member + PDU-REF parser/writer lines REMOVED (element absent from BOTH XSDs — Rule 0001.3/0014); pduCollectionSemantics/Trigger now typed enums (reader wires literals → enum instances)
@@ -309,7 +309,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - Step 9a evidence (2026-10-03, 9b pending): mirror `test_SocketConnectionBundle.py` 5 passed; sibling `test_EthernetCommunication.py` + touched parser `test_arxml_parser_network_handlers.py` + writer `test_so_ad_config.py` + `test_member_annotations.py` = 301 passed; relevant battery (SystemTemplate models + parser/ + writer/) 9442 passed; full unit suite 17380 passed; ruff + black clean on all 6 touched `.py` files; set-based checklist==methods 15/15 in source order (all tested), `# Spec:` correct, NO `# Spec verified:`/`# XSD verified:` marker; `armodel.SocketConnectionBundle` resolves + `get_type_hints` pins + both import orders OK; integration 1 failed / 10 passed = the known 8 pre-existing `*_SystemMapping.arxml` `file_compare` fixtures (125/133 file passes, delta 0). NO marker written; tree left dirty.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-03** (user; approved implementing Rule 0020); marker `# Spec verified: R4.3.1` written. 9a re-verified independently by the orchestrator after the Rule 0020 implementation: full unit suite **17383 passed** (+3 new VP tests); ruff + black clean on all 6 touched `.py` files; set-based checklist==methods 15/15 in source order, bases `[Referrable, VariationPointCapable]`, marker present post-stamp; `VARIATION-POINT` round-trips and is written LAST (sequenceOffset 10000); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping*.arxml` `file_compare` fixtures only (delta 0). Report-only: module header stale table ids.
 
-- [ ] `RequestResponseDelay` — ARObject — R23-11 markdown · Table 6.171 (CP_TPS_SystemTemplate), p.515 — commit d7240be74
+- [x] `RequestResponseDelay` — ARObject — R23-11 markdown · Table 6.171 (CP_TPS_SystemTemplate), p.515 — commit 1c556f35b (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — `# Spec:` suffix dropped; `readARObject`/`writeARObject` added)
   - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + maxValue/minValue; rw via getRequestResponseDelay complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -319,7 +319,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 1c556f35b. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
 - [x] `SdServerConfig` — ARObject — R4.3.1 markdown · Table 6.171 (TPS_SystemTemplate), p.355 — commit f509df9d9 (# Spec verified: R4.3.1, stamped 2026-10-03)
   - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 7 attrs; setCapabilityRecords replaced by addCapabilityRecord (aggr * mutator per Rule 0013); reader already used addCapabilityRecord
@@ -351,7 +351,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - Step 9a evidence (2026-10-03, 9b pending): mirror 7 passed; new parser + new writer + existing writer-set 10 passed; annotation + PEP-563 gates 4 passed; relevant battery (SystemTemplate models + parser/ + writer/) 9429 passed; full unit suite 17367 passed; ruff + black clean on 6 touched `.py` files; checklist==methods 3/3 in source order (all tested); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping.arxml` `file_compare` fixtures only (delta 0); NO `# Spec verified:` marker written.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-03** (user); marker `# Spec verified: R23-11` written. 9a re-verified independently by the orchestrator: mirror + new parser `test_tcp_option_filter_list.py` + new writer `test_tcp_option_filter_list.py` + annotation gate 18 passed; full unit suite 17367 passed; ruff + black clean; checklist==methods 3/3 in source order (all tested); integration 1 failed / 10 passed = the 8 known pre-existing `*_SystemMapping*.arxml` `file_compare` fixtures only (delta 0). Report-only: sibling `TcpOptionFilterSet` spec-faithful but unstamped (own queue row).
 
-- [ ] `TcpOptionFilterSet` — ARElement — R23-11 markdown · Table 6.122 (CP_TPS_SystemTemplate), p.457 — commit 2d5b3256b
+- [x] `TcpOptionFilterSet` — ARElement — R23-11 markdown · Table 6.122 (CP_TPS_SystemTemplate), p.457 — commit 4b1494b6d (# Spec verified: R23-11, stamped 2026-10-05; 9b batch fix — class-docstring `Tags: atp.recommendedPackage=…` tail dropped (Rule 0012.2.5.2); `# Spec:` suffix dropped)
   - commit: 2d5b3256b (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11: member notes "white lists" → "permitted lists"
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -361,7 +361,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-05** (batch review, user-approved); marker `# Spec verified: R23-11` written; commit 4b1494b6d. 9a: per-class mirror + reader/writer tests green; ruff + black clean on all touched files; AST checklist==methods in source order.
 
 - [x] `IPv6ExtHeaderFilterList` — Identifiable — R23-11 markdown · Table 6.121 (CP_TPS_SystemTemplate), p.456 — commit d8127416a (# Spec verified: R23-11, stamped 2026-10-03; Rule 0001.7 wrapper-list reader/writer added, Rule 0003 quoted annotation removed)
   - commit: 2d5b3256b (prior R4.3.1→R23-11 upgrade) — re-sync 2026-10-03 (Group16 Task 6): prior "reader/writer N/A (ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF)" claim was WRONG — the R23-11 table lists allowedIPv6ExtHeader as an `attr`, and XSD 00052 L66606 defines group I-PV-6-EXT-HEADER-FILTER-LIST with its own ALLOWED-I-PV-6-EXT-HEADERS wrapper of unbounded ALLOWED-I-PV-6-EXT-HEADER (AR:POSITIVE-INTEGER) items; the …-REF element (L107861) belongs to SocketAddress. Also Rule 0003 quoted return annotation. Steps 1-8 reset to `[ ]` and walked in this session.
