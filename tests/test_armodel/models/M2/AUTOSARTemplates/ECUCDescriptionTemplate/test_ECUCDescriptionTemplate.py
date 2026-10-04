@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     CIdentifier,
@@ -1661,6 +1662,134 @@ def test_ecuc_instance_reference_value_setter_docstring_split_paragraphs():
     assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing instance reference.", "setValueIRef docstring must carry the no-op sentence as its own paragraph"
 
 
+def test_ecuc_container_value_not_variation_point_capable():
+    """
+    Table 2.48 has no variationPoint row, so EcucContainerValue must not model the
+    VariationPointCapable mixin (Rule 0015 — the PDF/markdown table wins; the VARIATION-POINT
+    element in the XSD group ECUC-CONTAINER-VALUE is an atpVariation artifact documented as
+    "Applicable for: EcucModuleConfigurationValues.container / EcucContainerValue.subContainer",
+    i.e. it covers the aggregations, not the container itself).
+
+    Test Steps:
+    1. Assert VariationPointCapable is not among EcucContainerValue's bases
+    2. Assert EcucIndexableValue and Identifiable are the most-derived spec bases
+    """
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+    assert VariationPointCapable not in EcucContainerValue.__bases__
+    assert EcucIndexableValue in EcucContainerValue.__bases__
+    assert Identifiable in EcucContainerValue.__bases__
+
+
+def test_ecuc_container_value_add_parameter_value_none_no_op():
+    """
+    None passed to addParameterValue of EcucContainerValue is a no-op.
+
+    Test Steps:
+    1. Add an EcucParameterValue via addParameterValue
+    2. Call addParameterValue(None) and assert the list is unchanged
+    """
+    parent = Limit()
+    container = EcucContainerValue(parent, "test_container")
+    param_val = EcucAddInfoParamValue()
+
+    assert container.addParameterValue(param_val) is container
+
+    container.addParameterValue(None)
+
+    assert container.getParameterValues() == [param_val]
+
+
+def test_ecuc_container_value_add_reference_value_none_no_op():
+    """
+    None passed to addReferenceValue of EcucContainerValue is a no-op.
+
+    Test Steps:
+    1. Add an EcucAbstractReferenceValue via addReferenceValue
+    2. Call addReferenceValue(None) and assert the list is unchanged
+    """
+    parent = Limit()
+    container = EcucContainerValue(parent, "test_container")
+    ref_val = EcucReferenceValue()
+
+    assert container.addReferenceValue(ref_val) is container
+
+    container.addReferenceValue(None)
+
+    assert container.getReferenceValues() == [ref_val]
+
+
+def test_ecuc_container_value_member_annotations():
+    """
+    Member annotations must match the Table 2.48 multiplicities (Rule 0022 gate pins).
+
+    Test Steps:
+    1. Assert getter return types and mutator value types via get_type_hints
+    2. Assert the createSubContainer factory signature
+    """
+    import typing
+
+    assert typing.get_type_hints(EcucContainerValue.getDefinitionRef)["return"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucContainerValue.setDefinitionRef)["value"] == typing.Optional[RefType]
+    assert typing.get_type_hints(EcucContainerValue.setDefinitionRef)["return"] is EcucContainerValue
+    assert typing.get_type_hints(EcucContainerValue.getParameterValues)["return"] == typing.List[EcucParameterValue]
+    assert typing.get_type_hints(EcucContainerValue.addParameterValue)["value"] == typing.Optional[EcucParameterValue]
+    assert typing.get_type_hints(EcucContainerValue.addParameterValue)["return"] is EcucContainerValue
+    assert typing.get_type_hints(EcucContainerValue.getReferenceValues)["return"] == typing.List[EcucAbstractReferenceValue]
+    assert typing.get_type_hints(EcucContainerValue.addReferenceValue)["value"] == typing.Optional[EcucAbstractReferenceValue]
+    assert typing.get_type_hints(EcucContainerValue.addReferenceValue)["return"] is EcucContainerValue
+    assert typing.get_type_hints(EcucContainerValue.getSubContainers)["return"] == typing.List[EcucContainerValue]
+    assert typing.get_type_hints(EcucContainerValue.createSubContainer)["short_name"] is str
+    assert typing.get_type_hints(EcucContainerValue.createSubContainer)["return"] is EcucContainerValue
+
+
+def test_ecuc_container_value_setter_docstring_split_paragraphs():
+    """
+    The setter docstring must follow the batch-2 split-paragraph style: the spec Note,
+    a blank line, then the None no-op sentence (EcucParameterValue setter convention).
+
+    Test Steps:
+    1. Assert the setDefinitionRef docstring carries the no-op sentence as its own paragraph
+    """
+    doc = EcucContainerValue.setDefinitionRef.__doc__
+    assert doc is not None, "setDefinitionRef must have a docstring"
+    paragraphs = [paragraph.strip() for paragraph in doc.split("\n\n")]
+    assert len(paragraphs) >= 2, "setDefinitionRef docstring must split the Note and the no-op sentence into separate paragraphs"
+    assert paragraphs[-1] == "A None value is a no-op and does not overwrite an existing reference.", "setDefinitionRef docstring must carry the no-op sentence as its own paragraph"
+
+
+def test_ecuc_container_value_member_docstrings_verbatim_full():
+    """
+    Member docstrings must carry the full Table 2.48 attribute Notes verbatim (Rule 0001.4/0012),
+    with the PDF line-wrap spaces inside identifiers joined (e.g. "parameterValue.variation Point.shortLabel"
+    → "parameterValue.variationPoint.shortLabel", confirmed by the XSD atp.Splitkey appinfo).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/adder/creator docstring carries the complete spec attribute Note verbatim
+    """
+    assert EcucContainerValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Represents a Container definition in the ECU Configuration Description." in EcucContainerValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+    parameter_value_note = "Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    reference_value_note = "Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    sub_container_note = "Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    notes = {
+        "getDefinitionRef": "Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10",
+        "setDefinitionRef": "Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10",
+        "getParameterValues": parameter_value_note,
+        "addParameterValue": parameter_value_note,
+        "getReferenceValues": reference_value_note,
+        "addReferenceValue": reference_value_note,
+        "getSubContainers": sub_container_note,
+        "createSubContainer": sub_container_note,
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucContainerValue, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
+
+
 if __name__ == "__main__":
     test_ecuc_value_collection_initialization_defaults()
     test_ecuc_value_collection_add_ecuc_value_ref()
@@ -1722,4 +1851,10 @@ if __name__ == "__main__":
     test_ecuc_instance_reference_value_member_docstrings_verbatim_full()
     test_ecuc_instance_reference_value_member_annotations()
     test_ecuc_instance_reference_value_setter_docstring_split_paragraphs()
+    test_ecuc_container_value_not_variation_point_capable()
+    test_ecuc_container_value_add_parameter_value_none_no_op()
+    test_ecuc_container_value_add_reference_value_none_no_op()
+    test_ecuc_container_value_member_annotations()
+    test_ecuc_container_value_setter_docstring_split_paragraphs()
+    test_ecuc_container_value_member_docstrings_verbatim_full()
     print("All ECUCDescriptionTemplate tests passed!")

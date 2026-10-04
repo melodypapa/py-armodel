@@ -1,6 +1,5 @@
 from __future__ import annotations
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -413,24 +412,23 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         return self
 
 
-class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable):
+class EcucContainerValue(Identifiable, EcucIndexableValue):
     """
     Represents a Container definition in the ECU Configuration Description.
     """
 
     # EcucContainerValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.48, p.119
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameterValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferenceValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReferenceValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addParameterValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferenceValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReferenceValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         EcucIndexableValue.__init__(self)
@@ -439,49 +437,60 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
         # Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
         self.definitionRef: Optional[RefType] = None
 
-        # Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild
+        # Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.parameterValues: List[EcucParameterValue] = []
 
-        # Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild
+        # Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.referenceValues: List[EcucAbstractReferenceValue] = []
 
-        # Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.subContainers: List[EcucContainerValue] = []
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType) -> EcucContainerValue:
-        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+    def setDefinitionRef(self, value: Optional[RefType]) -> EcucContainerValue:
+        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
 
     def getParameterValues(self) -> List[EcucParameterValue]:
-        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.parameterValues
 
-    def addParameterValue(self, value: EcucParameterValue) -> EcucContainerValue:
-        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        self.parameterValues.append(value)
+    def addParameterValue(self, value: Optional[EcucParameterValue]) -> EcucContainerValue:
+        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append to the existing parameter values.
+        """
+        if value is not None:
+            self.parameterValues.append(value)
         return self
 
     def getReferenceValues(self) -> List[EcucAbstractReferenceValue]:
-        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.referenceValues
 
-    def addReferenceValue(self, value: EcucAbstractReferenceValue) -> EcucContainerValue:
-        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        self.referenceValues.append(value)
+    def addReferenceValue(self, value: Optional[EcucAbstractReferenceValue]) -> EcucContainerValue:
+        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append to the existing reference values.
+        """
+        if value is not None:
+            self.referenceValues.append(value)
         return self
 
     def getSubContainers(self) -> List[EcucContainerValue]:
-        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.subContainers
 
     def createSubContainer(self, short_name: str) -> EcucContainerValue:
-        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsReferrableElementExists(short_name, EcucContainerValue):
             container_value = EcucContainerValue(self, short_name)
             self.addReferrableElement(container_value)
