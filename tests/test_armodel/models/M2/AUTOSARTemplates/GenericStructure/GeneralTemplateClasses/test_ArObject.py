@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -1778,3 +1779,86 @@ class TestDiagnosticMemoryDestinationUserDefined:
         assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.getAuthRoleRefs.__doc__) == self.AUTH_ROLE_NOTE
         assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.getMemoryId.__doc__) == self.MEMORY_ID_NOTE
         assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.setMemoryId.__doc__) == (self.MEMORY_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryId.")
+
+
+class TestDiagnosticTestIdentifier:
+    """
+    Test class for DiagnosticTestIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.203, p.205
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to create a diagnostic test identifier."
+    ID_NOTE = "This represents the numerical id associated with the diagnostic test identifier. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    UAS_ID_NOTE = "This represents the unit and scaling Id of the diagnostic test result. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _create_identifier(self) -> DiagnosticTestIdentifier:
+        return DiagnosticTestIdentifier()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTestIdentifier initializes all attributes to their defaults.
+        """
+        obj = self._create_identifier()
+
+        assert obj.getId() is None
+        assert obj.getUasId() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTestIdentifier derives from ARObject (spec Base row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTestIdentifier, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTestIdentifier.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTestIdentifier.__init__.__doc__ is None
+
+    def test_get_set_id(self):
+        """
+        Test getId and setId round-trip and None no-op.
+        """
+        obj = self._create_identifier()
+
+        value = PositiveInteger().setValue("30511")
+        result = obj.setId(value)
+        assert result is obj  # method chaining
+        assert obj.getId() is value
+        assert obj.getId().getValue() == 30511
+
+        result = obj.setId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getId() is value  # None is a no-op
+
+    def test_get_set_uas_id(self):
+        """
+        Test getUasId and setUasId round-trip and None no-op.
+        """
+        obj = self._create_identifier()
+
+        value = PositiveInteger().setValue("42")
+        result = obj.setUasId(value)
+        assert result is obj  # method chaining
+        assert obj.getUasId() is value
+        assert obj.getUasId().getValue() == 42
+
+        result = obj.setUasId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUasId() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTestIdentifier.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticTestIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticTestIdentifier.getUasId.__doc__) == self.UAS_ID_NOTE
+        assert inspect.cleandoc(DiagnosticTestIdentifier.setUasId.__doc__) == (self.UAS_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing uasId.")

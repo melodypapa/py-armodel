@@ -1403,7 +1403,62 @@ class DiagnosticSupportInfoByte(ARObject):
 
 
 class DiagnosticTestIdentifier(ARObject):
-    pass
+    """This meta-class represents the ability to create a diagnostic test identifier."""
+
+    # DiagnosticTestIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.203, p.205
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setId         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUasId      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setUasId      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — the XSD carries DIAGNOSTIC-TEST-IDENTIFIER only as
+    # TEST-IDENTIFIER inside the DIAGNOSTIC-TEST-RESULT group (AUTOSAR_00052.xsd l.45989), whose only class
+    # consumer DiagnosticTestResult is an unsynced stub; the future consumer wires it (cf.
+    # DiagnosticFunctionIdentifierInhibit, commit 27e01b079).
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the numerical id associated with the diagnostic test identifier. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.id: Optional[PositiveInteger] = None
+
+        # This represents the unit and scaling Id of the diagnostic test result. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.uasId: Optional[PositiveInteger] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the numerical id associated with the diagnostic test identifier. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> DiagnosticTestIdentifier:
+        """
+        This represents the numerical id associated with the diagnostic test identifier. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getUasId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the unit and scaling Id of the diagnostic test result. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.uasId
+
+    def setUasId(self, value: Optional[PositiveInteger]) -> DiagnosticTestIdentifier:
+        """
+        This represents the unit and scaling Id of the diagnostic test result. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing uasId.
+        """
+        if value is not None:
+            self.uasId = value
+        return self
 
 
 class DiagnosticTroubleCodeObd(ARObject):

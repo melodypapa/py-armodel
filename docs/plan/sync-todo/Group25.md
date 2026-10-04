@@ -1217,15 +1217,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTestIdentifier` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.203, p.205
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no wireable consumer this pass (see note bullet below)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason as Step 5
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; Step 1 findings recorded as note bullets below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1316 passed / 0 failed: test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - note (Steps 5/6 N/A, no wireable consumer this pass): the XSD carries DIAGNOSTIC-TEST-IDENTIFIER only as TEST-IDENTIFIER inside the DIAGNOSTIC-TEST-RESULT group (AUTOSAR_00052.xsd l.45989); the only class consumer DiagnosticTestResult (ARElement in ARPackage.py) is an unsynced stub with no Group25 queue row, so there is no reader/writer path to wire into — the 27e01b079 DiagnosticFunctionIdentifierInhibit precedent applies. Reader/writer coverage lands with the future DiagnosticTestResult consumer pass; the checklist keeps reader/writer [—] accordingly.
+  - note (finding, not a deviation): the XSD types ID/UAS-ID as POSITIVE-INTEGER-VALUE-VARIATION-POINT wrappers (AUTOSAR_00052.xsd l.45915/l.45921) while the markdown table documents both attributes as kind=attr type=PositiveInteger with Stereotypes: atpVariation — Rule 0015: markdown wins, so both fields are plain Optional[PositiveInteger]; the wrapper structure is handled at the future DiagnosticTestResult reader/writer wiring (XSD sequenceOffset ID → UAS-ID).
 
 - [ ] `DiagnosticMeasurementIdentifier` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.204, p.206
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
