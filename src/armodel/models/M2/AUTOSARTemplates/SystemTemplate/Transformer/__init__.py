@@ -129,14 +129,13 @@ class BufferProperties(ARObject):
     """
 
     # BufferProperties method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.5, p.767
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.88, p.199
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
