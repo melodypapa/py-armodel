@@ -1,5 +1,6 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerDataPrototypeGroupInCompositionInstanceRef,
@@ -20,6 +21,19 @@ class TestDataPrototypeGroupInitialization:
         assert data_group.getShortName() == "Group"
         assert data_group.dataPrototypeGroupIRefs == []
         assert data_group.implicitDataAccessIRefs == []
+
+
+class TestDataPrototypeGroupVariationPointCapability:
+    def test_variation_point_capable_mixin(self):
+        """Both attributes carry atpVariation — VARIATION-POINT is anchored in the
+        XSD group DATA-PROTOTYPE-GROUP (AUTOSAR_00052.xsd, sequenceOffset 10000),
+        so the class is VP-capable via the VariationPointCapable mixin."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        data_group = DataPrototypeGroup(ar_root, "Group")
+
+        assert isinstance(data_group, VariationPointCapable)
+        assert data_group.getVariationPoint() is None
 
 
 class TestDataPrototypeGroupDataPrototypeGroup:

@@ -132,15 +132,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DataPrototypeGroup` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.101, p.223
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Base most-derived = AtpStructureElement
+    (stamped R23-11, Table 5.5 — not a stub, no base sync needed). 2 attrs, both `*` iref:
+    dataPrototypeGroup (InnerDataPrototypeGroupInCompositionInstanceRef, Table D.19),
+    implicitDataAccess (VariableDataPrototypeInCompositionInstanceRef, Table D.22) — both member types
+    stamped R23-11. XSD group L27368: XML order = DATA-PROTOTYPE-GROUP-IREFS,
+    IMPLICIT-DATA-ACCESS-IREFS, VARIATION-POINT (sequenceOffset 10000, last; "Applicable for:
+    ConsistencyNeeds.dpgRequiresCoherency/dpgDoesNotRequireCoherency") → VP-capable kept; writer writes
+    VP via writeIdentifiable default BEFORE the wrappers → order fix needed (write_variation_point=False
+    + writeVariationPointCapable after wrappers, RunnableEntityGroup precedent); reader VP already
+    covered inside readIdentifiable.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 8 passed incl. new VP-capability pin
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (base, plural IRef fields, guarded adds, PEP 526 members, VP mixin all in place; AtpInstanceRef is ARObject-derived → addXxx shape correct)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — DataPrototypeGroup block wiped (class docstring reflow removed, __init__ docstring removed, Args/Returns blocks dropped), rewritten verbatim from markdown Notes
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — genuine Red: writer test_write_variation_point_last failed (VP before wrapper: ['SHORT-NAME', 'VARIATION-POINT', 'DATA-PROTOTYPE-GROUP-IREFS']); parser reader tests passed (vacuous Red, readIdentifiable already covers VP); pre-existing wrapper round-trip tests (2) passed unmodified
+  - [x] Step 6 — Update parser & writer (Green) — writer: writeDataPrototypeGroup now write_variation_point=False + writeVariationPointCapable after wrappers (RunnableEntityGroup/ConsistencyNeeds precedent); parser unchanged (readIdentifiable covers VP, wrappers already in XSD order); 8 passed new files + 61 passed ImplicitCommunicationBehavior dir + ConsistencyNeeds/instance-refs neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md), RunnableEntityGroup pass's forward-flag of the latent VP bug resolved in its Note
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (8 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/test_DataPrototypeGroup.py, 3 passed / 0 failed tests/test_armodel/parser/test_DataPrototypeGroup.py, 5 passed / 0 failed tests/test_armodel/writer/test_writer_data_prototype_group.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 273 passed ImplicitCommunicationBehavior dir + parser/writer test_ConsistencyNeeds + test_writer_instance_refs + test_data_prototype + parser/writer dispatch tests; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified, docstrings verbatim-diffed vs markdown Notes); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwTextProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.7, p.250
   - module: M2/MSR/DataDictionary/DataDefProperties.py

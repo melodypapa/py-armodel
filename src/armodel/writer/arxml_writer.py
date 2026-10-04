@@ -4865,9 +4865,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataPrototypeGroup(self, element: ET.Element, data_group: DataPrototypeGroup):
         self.logger.debug("writeDataPrototypeGroup %s" % data_group.getShortName())
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-GROUP")
-        self.writeIdentifiable(child_element, data_group)
+        self.writeIdentifiable(child_element, data_group, write_variation_point=False)
         self.writeDataPrototypeGroupDataPrototypeGroupIRefs(child_element, data_group)
         self.writeDataPrototypeGroupImplicitDataAccessIRefs(child_element, data_group)
+        self.writeVariationPointCapable(child_element, data_group)
 
     def writeRunnableEntityGroupRunnableEntityGroupIRefs(self, element: ET.Element, runnable_group: RunnableEntityGroup):
         irefs = runnable_group.getRunnableEntityGroupIRefs()

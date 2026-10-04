@@ -2,9 +2,11 @@
 
 import os
 import tempfile
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerDataPrototypeGroupInCompositionInstanceRef,
@@ -93,6 +95,72 @@ class TestWriteDataPrototypeGroup:
             assert group_2.getShortName() == "ImplicitDataGroup"
             assert group_2.getDataPrototypeGroupIRefs() == []
             assert group_2.getImplicitDataAccessIRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestWriteDataPrototypeGroupVariationPoint:
+    """VARIATION-POINT is anchored in the XSD group DATA-PROTOTYPE-GROUP with
+    xml.sequenceOffset="10000" — it serializes last, after the two iref wrapper
+    lists (AUTOSAR_00052.xsd)."""
+
+    def test_write_variation_point_last(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        data_group = DataPrototypeGroup(ar_root, "ImplicitDataGroup")
+        data_group.addDataPrototypeGroupIRef(InnerDataPrototypeGroupInCompositionInstanceRef())
+        implicit_iref = VariableDataPrototypeInCompositionInstanceRef()
+        implicit_iref.setTargetVariableDataPrototypeRef(make_ref("/Comp/A/PPort/Data", "VARIABLE-DATA-PROTOTYPE"))
+        data_group.addImplicitDataAccessIRef(implicit_iref)
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VP1")
+        variation_point.setShortLabel(vp_label)
+        data_group.setVariationPoint(variation_point)
+
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeDataPrototypeGroup(parent_element, data_group)
+
+        child = parent_element[0]
+        assert child.tag == "DATA-PROTOTYPE-GROUP"
+        tags = [element.tag for element in child]
+        assert tags.index("DATA-PROTOTYPE-GROUP-IREFS") < tags.index("VARIATION-POINT")
+        assert tags.index("IMPLICIT-DATA-ACCESS-IREFS") < tags.index("VARIATION-POINT")
+        assert tags[-1] == "VARIATION-POINT"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_no_variation_point_omits_element(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        data_group = DataPrototypeGroup(ar_root, "ImplicitDataGroup")
+
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeDataPrototypeGroup(parent_element, data_group)
+
+        child = parent_element[0]
+        assert child.find("VARIATION-POINT") is None
+
+    def test_round_trip_variation_point(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        data_group = DataPrototypeGroup(ar_root, "ImplicitDataGroup")
+        implicit_iref = VariableDataPrototypeInCompositionInstanceRef()
+        implicit_iref.setTargetVariableDataPrototypeRef(make_ref("/Comp/A/PPort/Data", "VARIABLE-DATA-PROTOTYPE"))
+        data_group.addImplicitDataAccessIRef(implicit_iref)
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VP2")
+        variation_point.setShortLabel(vp_label)
+        data_group.setVariationPoint(variation_point)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, _build_document(data_group))
+            group_2 = _reload(file_path)
+            assert group_2.getVariationPoint() is not None
+            assert group_2.getVariationPoint().getShortLabel().getValue() == "VP2"
+            assert group_2.getImplicitDataAccessIRefs()[0].getTargetVariableDataPrototypeRef().getValue() == "/Comp/A/PPort/Data"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

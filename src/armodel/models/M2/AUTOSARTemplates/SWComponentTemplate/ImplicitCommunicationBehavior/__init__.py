@@ -23,46 +23,32 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
 
 class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
     """
-    This meta-class represents the ability to define a collection of
-    DataPrototypes that are subject to the formal definition of implicit
-    communication behavior. The definition of the collection can be nested.
+    This meta-class represents the ability to define a collection of DataPrototypes that are subject to the formal definition of implicit communication behavior. The definition of the collection can be nested.
     """
 
     # DataPrototypeGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.101, p.223
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addDataPrototypeGroupIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataPrototypeGroupIRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addImplicitDataAccessIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplicitDataAccessIRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataPrototypeGroupIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPrototypeGroupIRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addImplicitDataAccessIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplicitDataAccessIRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent; VARIATION-POINT anchored in XSD group DATA-PROTOTYPE-GROUP, sequenceOffset 10000)
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DataPrototypeGroup with default values.
-        """
         super().__init__(parent, short_name)
 
-        # This represents the ability to define nested groups of
-        # VariableDataPrototypes.
+        # This represents the ability to define nested groups of VariableDataPrototypes.
         self.dataPrototypeGroupIRefs: List[InnerDataPrototypeGroupInCompositionInstanceRef] = []
 
-        # This represents a collection of VariableDataPrototypes that belong to
-        # the enclosing DataPrototypeGroup
+        # This represents a collection of VariableDataPrototypes that belong to the enclosing DataPrototypeGroup
         self.implicitDataAccessIRefs: List[VariableDataPrototypeInCompositionInstanceRef] = []
 
     def addDataPrototypeGroupIRef(self, value: Optional[InnerDataPrototypeGroupInCompositionInstanceRef]) -> DataPrototypeGroup:
         """
-        This represents the ability to define nested groups of
-        VariableDataPrototypes. A None value is a no-op and does not append to
-        dataPrototypeGroupIRefs.
-
-        Args:
-            value: The InnerDataPrototypeGroupInCompositionInstanceRef to add
-
-        Returns:
-            DataPrototypeGroup: self for method chaining
+        This represents the ability to define nested groups of VariableDataPrototypes.
+        A None value is a no-op and does not append to dataPrototypeGroupIRefs.
         """
         if value is not None:
             self.dataPrototypeGroupIRefs.append(value)
@@ -70,26 +56,14 @@ class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
 
     def getDataPrototypeGroupIRefs(self) -> List[InnerDataPrototypeGroupInCompositionInstanceRef]:
         """
-        This represents the ability to define nested groups of
-        VariableDataPrototypes.
-
-        Returns:
-            List[InnerDataPrototypeGroupInCompositionInstanceRef]: The list of
-            dataPrototypeGroup instance references
+        This represents the ability to define nested groups of VariableDataPrototypes.
         """
         return self.dataPrototypeGroupIRefs
 
     def addImplicitDataAccessIRef(self, value: Optional[VariableDataPrototypeInCompositionInstanceRef]) -> DataPrototypeGroup:
         """
-        This represents a collection of VariableDataPrototypes that belong to
-        the enclosing DataPrototypeGroup A None value is a no-op and does not
-        append to implicitDataAccessIRefs.
-
-        Args:
-            value: The VariableDataPrototypeInCompositionInstanceRef to add
-
-        Returns:
-            DataPrototypeGroup: self for method chaining
+        This represents a collection of VariableDataPrototypes that belong to the enclosing DataPrototypeGroup
+        A None value is a no-op and does not append to implicitDataAccessIRefs.
         """
         if value is not None:
             self.implicitDataAccessIRefs.append(value)
@@ -97,12 +71,7 @@ class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
 
     def getImplicitDataAccessIRefs(self) -> List[VariableDataPrototypeInCompositionInstanceRef]:
         """
-        This represents a collection of VariableDataPrototypes that belong to
-        the enclosing DataPrototypeGroup
-
-        Returns:
-            List[VariableDataPrototypeInCompositionInstanceRef]: The list of
-            implicitDataAccess instance references
+        This represents a collection of VariableDataPrototypes that belong to the enclosing DataPrototypeGroup
         """
         return self.implicitDataAccessIRefs
 
