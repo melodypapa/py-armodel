@@ -78,6 +78,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
     DiagnosticIumpr,
+    DiagnosticIumprDenominatorGroup,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -10621,6 +10622,107 @@ class TestDiagnosticIumpr:
 
         duplicate = ar_root.createDiagnosticIumpr("Iumpr1")
         assert duplicate is obj
+
+
+class TestDiagnosticIumprDenominatorGroup:
+    """
+    Test class for DiagnosticIumprDenominatorGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.211, p.211
+
+    DiagnosticIumprDenominatorGroup is concrete (XSD complexType
+    DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP abstract="false") with one own
+    Attribute row: iumpr (kind ref, multiplicity *) is modeled as the
+    plural dedicated typed-list field iumprRefs behind the
+    addIumprRef/getIumprRefs accessors (DiagnosticDataIdentifierSet
+    dataIdentifierRefs precedent). The referenced type DiagnosticIumpr
+    is fully synced on this branch.
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to model a IUMPR denominator groups. Tags: atp.recommendedPackage=DiagnosticIumprDenominatorGroup"
+
+    IUMPR_NOTE = "This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr"
+
+    def _make_obj(self) -> DiagnosticIumprDenominatorGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticIumprDenominatorGroup(ar_root, "TestDenominatorGroup")
+
+    def _make_ref(self, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-IUMPR")
+        ref.setValue(value)
+        return ref
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestDenominatorGroup"
+        assert isinstance(obj, DiagnosticIumprDenominatorGroup)
+        assert isinstance(obj, ARElement)
+        assert obj.getIumprRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticIumprDenominatorGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIumprDenominatorGroup.__init__.__doc__ is None
+
+    def test_add_iumpr_ref(self):
+        """
+        Appends the refs in order; setter-style chaining returns the object.
+        """
+        obj = self._make_obj()
+        ref1 = self._make_ref("/AUTOSAR/DiagnosticIumprDenominatorGroups/Iumpr1")
+        ref2 = self._make_ref("/AUTOSAR/DiagnosticIumprDenominatorGroups/Iumpr2")
+
+        result = obj.addIumprRef(ref1)
+        assert result is obj  # method chaining
+        assert obj.getIumprRefs() == [ref1]
+
+        obj.addIumprRef(ref2)
+        assert obj.getIumprRefs() == [ref1, ref2]  # append preserves the ordered list
+
+    def test_add_iumpr_ref_none_no_op(self):
+        """
+        Test that a None ref is a no-op and does not extend the list.
+        """
+        obj = self._make_obj()
+
+        result = obj.addIumprRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIumprRefs() == []
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (add + the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticIumprDenominatorGroup.addIumprRef.__doc__) == (self.IUMPR_NOTE + "\n\nA None value is a no-op and does not extend the iumprRefs list.")
+        assert inspect.cleandoc(DiagnosticIumprDenominatorGroup.getIumprRefs.__doc__) == self.IUMPR_NOTE
+
+    def test_create_diagnostic_iumpr_denominator_group(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticIumprDenominatorGroups")
+        element = package.createDiagnosticIumprDenominatorGroup("DenominatorGroup1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticIumprDenominatorGroup)
+        assert element.getShortName() == "DenominatorGroup1"
+        assert package.getReferrableElement("DenominatorGroup1", DiagnosticIumprDenominatorGroup) is element
+
+        duplicate = package.createDiagnosticIumprDenominatorGroup("DenominatorGroup1")
+        assert duplicate is element  # duplicate short name returns the existing element
 
 
 class TestDiagnosticDataIdentifierSet:

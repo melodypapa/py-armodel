@@ -1212,15 +1212,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticIumprDenominatorGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.211, p.211
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): single Attribute row iumpr (DiagnosticIumpr, *, ref) → plural dedicated typed-list field `iumprRefs` behind addIumprRef/getIumprRefs (DiagnosticDataIdentifierSet dataIdentifierRefs precedent). XSD group DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP (AUTOSAR_00052.xsd l.38677) fixes the wrapper structure: optional IUMPR-REFS wrapper holding an unbounded IUMPR-REF choice (DEST DIAGNOSTIC-IUMPR, atpSplitable); wrapper emitted only when the list is non-empty. Member docstrings keep the markdown Note verbatim incl. the line-wrap space artifact "Diagnostic IumprDenominatorGroup" (established verbatim policy, ARPackage.py l.5830 precedent). Referenced type DiagnosticIumpr is fully synced on this branch — no pending references.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1887 passed / 0 failed: test_ARPackage.py + test_diagnostic_iumpr_denominator_group.py + test_writer_diagnostic_iumpr_denominator_group.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticFimAliasEvent` — DiagnosticAbstractAliasEvent — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.212, p.214
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

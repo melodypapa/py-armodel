@@ -637,6 +637,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSwClusterToDiagRoutineSubfunctionMapping,
     CpSwClusterResourceToDiagFunctionIdMapping,
     DiagnosticIumpr,
+    DiagnosticIumprDenominatorGroup,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
@@ -10958,6 +10959,12 @@ class ARXMLParser(AbstractARXMLParser):
         # RATIO-KIND is round-tripped as a raw literal until DiagnosticIumprKindEnum (Table 4.208, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
         iumpr.setRatioKind(cast(Optional[DiagnosticIumprKindEnum], self.getChildElementOptionalLiteral(element, "RATIO-KIND")))
 
+    def readDiagnosticIumprDenominatorGroup(self, element: ET.Element, group: DiagnosticIumprDenominatorGroup):
+        self.logger.debug("Read DiagnosticIumprDenominatorGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        for ref in self.getChildElementRefTypeList(element, "IUMPR-REFS/IUMPR-REF"):
+            group.addIumprRef(ref)
+
     def readDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setFunctionIdentifierRef(self.getChildElementOptionalRefType(element, "FUNCTION-IDENTIFIER-REF"))
@@ -16740,6 +16747,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-IUMPR":
             iumpr = parent.createDiagnosticIumpr(self.getShortName(child_element))
             self.readDiagnosticIumpr(child_element, iumpr)
+        elif tag_name == "DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP":
+            denominator_group = parent.createDiagnosticIumprDenominatorGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprDenominatorGroup(child_element, denominator_group)
         elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
             read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
@@ -17114,6 +17124,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-IUMPR":
             iumpr = parent.createDiagnosticIumpr(self.getShortName(child_element))
             self.readDiagnosticIumpr(child_element, iumpr)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP":
+            denominator_group = parent.createDiagnosticIumprDenominatorGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprDenominatorGroup(child_element, denominator_group)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

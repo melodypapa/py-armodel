@@ -3452,6 +3452,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticIumpr, self.getReferrableElement(short_name, DiagnosticIumpr))
 
+    def createDiagnosticIumprDenominatorGroup(self, short_name: str) -> DiagnosticIumprDenominatorGroup:
+        """
+        Creates a new DiagnosticIumprDenominatorGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumprDenominatorGroup: This meta-class represents the ability to model a IUMPR denominator groups. Tags: atp.recommendedPackage=DiagnosticIumprDenominatorGroup
+
+        Args:
+            short_name: The short name for the new DiagnosticIumprDenominatorGroup
+
+        Returns:
+            The newly created or existing DiagnosticIumprDenominatorGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIumprDenominatorGroup):
+            element = DiagnosticIumprDenominatorGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIumprDenominatorGroup, self.getReferrableElement(short_name, DiagnosticIumprDenominatorGroup))
+
     def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
         """
         Creates a new DiagnosticIumprToFunctionIdentifierMapping with the given short name,
@@ -7755,7 +7773,38 @@ class DiagnosticIumpr(ARElement):
 
 
 class DiagnosticIumprDenominatorGroup(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model a IUMPR denominator groups. Tags: atp.recommendedPackage=DiagnosticIumprDenominatorGroup
+    """
+
+    # DiagnosticIumprDenominatorGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.211, p.211
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addIumprRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIumprRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        self.iumprRefs: List[RefType] = []
+
+    def addIumprRef(self, ref: Optional[RefType]) -> DiagnosticIumprDenominatorGroup:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+
+        A None value is a no-op and does not extend the iumprRefs list.
+        """
+        if ref is not None:
+            self.iumprRefs.append(ref)
+        return self
+
+    def getIumprRefs(self) -> List[RefType]:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        """
+        return self.iumprRefs
 
 
 class DiagnosticIumprGroup(ARElement):
