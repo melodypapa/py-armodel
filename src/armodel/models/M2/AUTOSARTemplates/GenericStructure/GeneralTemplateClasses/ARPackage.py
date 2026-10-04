@@ -416,6 +416,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
@@ -3756,6 +3757,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticEventPortMapping, self.getReferrableElement(short_name, DiagnosticEventPortMapping))
 
+    def createDiagnosticExtendedDataRecord(self, short_name: str) -> DiagnosticExtendedDataRecord:
+        """
+        Creates a new DiagnosticExtendedDataRecord with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticExtendedDataRecord: Description of an extended data record.
+
+        Args:
+            short_name: The short name for the new DiagnosticExtendedDataRecord
+
+        Returns:
+            The newly created or existing DiagnosticExtendedDataRecord instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticExtendedDataRecord):
+            element = DiagnosticExtendedDataRecord(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticExtendedDataRecord, self.getReferrableElement(short_name, DiagnosticExtendedDataRecord))
+
     def createDiagnosticEventToTroubleCodeUdsMapping(self, short_name: str) -> DiagnosticEventToTroubleCodeUdsMapping:
         """
         Creates a new DiagnosticEventToTroubleCodeUdsMapping with the given short name,
@@ -6880,7 +6899,122 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
 
 
 class DiagnosticExtendedDataRecord(ARElement):
-    pass
+    """
+    Description of an extended data record. Tags: atp.recommendedPackage=DiagnosticExtendedDataRecords
+    """
+
+    # DiagnosticExtendedDataRecord method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.181, p.190
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomTrigger    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomTrigger    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRecordElement    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecordElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRecordNumber     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRecordNumber     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrigger          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrigger          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdate           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdate           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute shall be taken to verbally describe the nature of the custom trigger.
+        self.customTrigger: Optional[String] = None
+
+        # Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName
+        self.recordElements: List[DiagnosticParameter] = []
+
+        # This attribute specifies an unique identifier for an extended data record.
+        self.recordNumber: Optional[PositiveInteger] = None
+
+        # This attribute specifies the primary trigger to allocate an event memory entry.
+        self.trigger: Optional[DiagnosticRecordTriggerEnum] = None
+
+        # This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries.
+        self.update: Optional[Boolean] = None
+
+    def getCustomTrigger(self) -> Optional[String]:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+        """
+        return self.customTrigger
+
+    def setCustomTrigger(self, value: Optional[String]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+
+        A None value is a no-op and does not overwrite an existing customTrigger.
+        """
+        if value is not None:
+            self.customTrigger = value
+        return self
+
+    def addRecordElement(self, record_element: Optional[DiagnosticParameter]) -> DiagnosticExtendedDataRecord:
+        """
+        Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName
+
+        A None value is a no-op and does not extend the recordElements list.
+        """
+        if record_element is not None:
+            self.recordElements.append(record_element)
+        return self
+
+    def getRecordElements(self) -> List[DiagnosticParameter]:
+        """
+        Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName
+        """
+        return self.recordElements
+
+    def getRecordNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute specifies an unique identifier for an extended data record.
+        """
+        return self.recordNumber
+
+    def setRecordNumber(self, value: Optional[PositiveInteger]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute specifies an unique identifier for an extended data record.
+
+        A None value is a no-op and does not overwrite an existing recordNumber.
+        """
+        if value is not None:
+            self.recordNumber = value
+        return self
+
+    def getTrigger(self) -> Optional[DiagnosticRecordTriggerEnum]:
+        """
+        This attribute specifies the primary trigger to allocate an event memory entry.
+        """
+        return self.trigger
+
+    def setTrigger(self, value: Optional[DiagnosticRecordTriggerEnum]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute specifies the primary trigger to allocate an event memory entry.
+
+        A None value is a no-op and does not overwrite an existing trigger.
+        """
+        if value is not None:
+            self.trigger = value
+        return self
+
+    def getUpdate(self) -> Optional[Boolean]:
+        """
+        This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries.
+        """
+        return self.update
+
+    def setUpdate(self, value: Optional[Boolean]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries.
+
+        A None value is a no-op and does not overwrite an existing update.
+        """
+        if value is not None:
+            self.update = value
+        return self
 
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):

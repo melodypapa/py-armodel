@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Union
+from typing import List, Optional, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -575,6 +575,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEnableCondition,
     DiagnosticEnableConditionGroup,
     DiagnosticEvent,
+    DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -691,6 +692,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -10728,6 +10730,19 @@ class ARXMLParser(AbstractARXMLParser):
         event.setPrestoredFreezeframeStoredInNvm(self.getChildElementOptionalBooleanValue(element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM"))
         event.setRecoverableInSameOperationCycle(self.getChildElementOptionalBooleanValue(element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE"))
 
+    def readDiagnosticExtendedDataRecord(self, element: ET.Element, record: DiagnosticExtendedDataRecord):
+        self.logger.debug("Read DiagnosticExtendedDataRecord <%s>" % record.getShortName())
+        self.readIdentifiable(element, record)
+        record.setCustomTrigger(self.getChildElementOptionalString(element, "CUSTOM-TRIGGER"))
+        for parameter_element in self.findall(element, "RECORD-ELEMENTS/DIAGNOSTIC-PARAMETER"):
+            parameter = DiagnosticParameter()
+            self.readDiagnosticParameter(parameter_element, parameter)
+            record.addRecordElement(parameter)
+        record.setRecordNumber(self.getChildElementOptionalPositiveInteger(element, "RECORD-NUMBER"))
+        # TRIGGER is round-tripped as a raw literal until DiagnosticRecordTriggerEnum (Table 4.182, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        record.setTrigger(cast(Optional[DiagnosticRecordTriggerEnum], self.getChildElementOptionalLiteral(element, "TRIGGER")))
+        record.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -16669,6 +16684,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-EVENT":
             event = parent.createDiagnosticEvent(self.getShortName(child_element))
             self.readDiagnosticEvent(child_element, event)
+        elif tag_name == "DIAGNOSTIC-EXTENDED-DATA-RECORD":
+            record = parent.createDiagnosticExtendedDataRecord(self.getShortName(child_element))
+            self.readDiagnosticExtendedDataRecord(child_element, record)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -17029,6 +17047,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
             mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))
             self.readDiagnosticEventPortMapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-EXTENDED-DATA-RECORD":
+            record = parent.createDiagnosticExtendedDataRecord(self.getShortName(child_element))
+            self.readDiagnosticExtendedDataRecord(child_element, record)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

@@ -447,6 +447,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEnableCondition,
     DiagnosticEnableConditionGroup,
     DiagnosticEvent,
+    DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
@@ -14223,6 +14224,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM", event.getPrestoredFreezeframeStoredInNvm())
         self.setChildElementOptionalBooleanValue(child_element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE", event.getRecoverableInSameOperationCycle())
 
+    def writeDiagnosticExtendedDataRecord(self, element: ET.Element, record: DiagnosticExtendedDataRecord):
+        self.logger.debug("Write DiagnosticExtendedDataRecord %s" % record.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EXTENDED-DATA-RECORD")
+        self.writeIdentifiable(child_element, record)
+        self.setChildElementOptionalString(child_element, "CUSTOM-TRIGGER", record.getCustomTrigger())
+        record_elements = record.getRecordElements()
+        if len(record_elements) > 0:
+            record_elements_element = ET.SubElement(child_element, "RECORD-ELEMENTS")
+            for record_element in record_elements:
+                self.writeDiagnosticParameter(record_elements_element, record_element)
+        self.setChildElementOptionalPositiveInteger(child_element, "RECORD-NUMBER", record.getRecordNumber())
+        self.setChildElementOptionalLiteral(child_element, "TRIGGER", cast(ARLiteral, record.getTrigger()))
+        self.setChildElementOptionalBooleanValue(child_element, "UPDATE", record.getUpdate())
+
     def writeDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
         self.logger.debug("Write DiagnosticEventPortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-PORT-MAPPING")
@@ -16510,6 +16525,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEnableConditionGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticEvent):
             self.writeDiagnosticEvent(element, ar_element)
+        elif isinstance(ar_element, DiagnosticExtendedDataRecord):
+            self.writeDiagnosticExtendedDataRecord(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
@@ -16736,6 +16753,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticEventPortMapping):
             self.writeDiagnosticEventPortMapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticExtendedDataRecord):
+            self.writeDiagnosticExtendedDataRecord(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)

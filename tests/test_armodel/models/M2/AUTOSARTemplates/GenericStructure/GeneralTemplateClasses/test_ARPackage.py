@@ -63,6 +63,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventToStorageConditionGroupMapping,
     DiagnosticEventToTroubleCodeJ1939Mapping,
     DiagnosticEventToTroubleCodeUdsMapping,
+    DiagnosticExtendedDataRecord,
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticFimAliasEventMapping,
@@ -141,6 +142,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     Identifier,
@@ -9985,6 +9987,178 @@ class TestDiagnosticEvent:
         assert ar_root.getReferrableElement("Event1", DiagnosticEvent) is obj
 
         duplicate = ar_root.createDiagnosticEvent("Event1")
+        assert duplicate is obj
+
+
+class TestDiagnosticExtendedDataRecord:
+    """
+    Test class for DiagnosticExtendedDataRecord functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.181, p.190
+
+    DiagnosticExtendedDataRecord is concrete (XSD complexType
+    DIAGNOSTIC-EXTENDED-DATA-RECORD abstract="false") with five own Attribute
+    rows in displayed order. trigger (DiagnosticRecordTriggerEnum, Table 4.182)
+    is still a queued stub and is exercised as a raw-valued enum literal.
+    """
+
+    CLASS_NOTE = "Description of an extended data record. Tags: atp.recommendedPackage=DiagnosticExtendedDataRecords"
+
+    CUSTOM_TRIGGER_NOTE = "This attribute shall be taken to verbally describe the nature of the custom trigger."
+    RECORD_ELEMENT_NOTE = "Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName"
+    RECORD_NUMBER_NOTE = "This attribute specifies an unique identifier for an extended data record."
+    TRIGGER_NOTE = "This attribute specifies the primary trigger to allocate an event memory entry."
+    UPDATE_NOTE = "This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries."
+
+    def _make_obj(self) -> DiagnosticExtendedDataRecord:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticExtendedDataRecord(ar_root, "TestExtendedDataRecord")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestExtendedDataRecord"
+        assert isinstance(obj, DiagnosticExtendedDataRecord)
+        assert isinstance(obj, ARElement)
+        assert obj.getCustomTrigger() is None
+        assert obj.getRecordElements() == []
+        assert obj.getRecordNumber() is None
+        assert obj.getTrigger() is None
+        assert obj.getUpdate() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticExtendedDataRecord.__init__.__doc__ is None
+
+    def test_get_set_custom_trigger(self):
+        """
+        Round-trips customTrigger; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = String().setValue("customTriggerDescription")
+        result = obj.setCustomTrigger(value)
+        assert result is obj  # method chaining
+        assert obj.getCustomTrigger() is value
+        assert obj.getCustomTrigger().getValue() == "customTriggerDescription"
+
+        result = obj.setCustomTrigger(None)
+        assert result is obj  # method chaining with None
+        assert obj.getCustomTrigger() is value  # None is a no-op
+
+    def test_add_get_record_elements(self):
+        """
+        Round-trips the recordElement aggregation; None is a no-op and chaining returns self.
+        """
+        obj = self._make_obj()
+
+        parameter1 = DiagnosticParameter()
+        parameter2 = DiagnosticParameter()
+
+        result = obj.addRecordElement(parameter1)
+        assert result is obj  # method chaining
+        obj.addRecordElement(parameter2)
+
+        record_elements = obj.getRecordElements()
+        assert len(record_elements) == 2
+        assert record_elements[0] is parameter1
+        assert record_elements[1] is parameter2
+
+        result = obj.addRecordElement(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getRecordElements()) == 2  # None is a no-op
+
+    def test_get_set_record_number(self):
+        """
+        Round-trips recordNumber; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(40)
+        result = obj.setRecordNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getRecordNumber() is value
+        assert obj.getRecordNumber().value == 40
+
+        result = obj.setRecordNumber(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRecordNumber() is value  # None is a no-op
+
+    def test_get_set_trigger(self):
+        """
+        Round-trips trigger; None is a no-op.
+
+        DiagnosticRecordTriggerEnum is a stub until its own sync
+        (Table 4.182, queued in Group25) — it is instantiated through the
+        AREnum constructor with an empty literal sequence.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticRecordTriggerEnum([]).setValue("confirmed")
+        result = obj.setTrigger(value)
+        assert result is obj  # method chaining
+        assert obj.getTrigger() is value
+        assert obj.getTrigger().getValue() == "confirmed"
+
+        result = obj.setTrigger(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTrigger() is value  # None is a no-op
+
+    def test_get_set_update(self):
+        """
+        Round-trips update; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean().setValue(True)
+        result = obj.setUpdate(value)
+        assert result is obj  # method chaining
+        assert obj.getUpdate() is value
+        assert obj.getUpdate().value is True
+
+        result = obj.setUpdate(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUpdate() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that every accessor docstring is the spec Note verbatim (setters append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.getCustomTrigger.__doc__) == self.CUSTOM_TRIGGER_NOTE
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.setCustomTrigger.__doc__) == (self.CUSTOM_TRIGGER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing customTrigger.")
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.addRecordElement.__doc__) == (self.RECORD_ELEMENT_NOTE + "\n\nA None value is a no-op and does not extend the recordElements list.")
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.getRecordElements.__doc__) == self.RECORD_ELEMENT_NOTE
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.getRecordNumber.__doc__) == self.RECORD_NUMBER_NOTE
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.setRecordNumber.__doc__) == (self.RECORD_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing recordNumber.")
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.getTrigger.__doc__) == self.TRIGGER_NOTE
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.setTrigger.__doc__) == (self.TRIGGER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing trigger.")
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.getUpdate.__doc__) == self.UPDATE_NOTE
+        assert inspect.cleandoc(DiagnosticExtendedDataRecord.setUpdate.__doc__) == (self.UPDATE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing update.")
+
+    def test_create_diagnostic_extended_data_record(self):
+        """
+        Test that ARPackage.createDiagnosticExtendedDataRecord appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticExtendedDataRecord("Record1")
+
+        assert isinstance(obj, DiagnosticExtendedDataRecord)
+        assert obj.getShortName() == "Record1"
+        assert ar_root.getReferrableElement("Record1", DiagnosticExtendedDataRecord) is obj
+
+        duplicate = ar_root.createDiagnosticExtendedDataRecord("Record1")
         assert duplicate is obj
 
 

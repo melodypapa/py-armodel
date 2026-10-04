@@ -827,15 +827,19 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticExtendedDataRecord` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.181, p.190
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; findings below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1853 passed / 0 failed: test_ARPackage.py, test_diagnostic_extended_data_record.py, test_writer_diagnostic_extended_data_record.py, test_member_annotations.py, test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note: XSD cross-check (AUTOSAR_00052.xsd l.37166) — all five markdown attributes present, none removed; XML element order CUSTOM-TRIGGER → RECORD-ELEMENTS (wrapper of DIAGNOSTIC-PARAMETER) → RECORD-NUMBER → TRIGGER → UPDATE
+  - Note: pending reference — `trigger` is typed `DiagnosticRecordTriggerEnum` (Table 4.182, queued next in Group25, still a stub); round-tripped as a raw literal via `getChildElementOptionalLiteral`/`setChildElementOptionalLiteral` + `cast` (DiagnosticConnectedIndicator/DiagnosticEvent interim pattern); rewire to `_readEnumToken`/`_writeEnumToken` when the enum syncs
+  - Note: `recordElement` (`*` aggr of DiagnosticParameter — fully synced) modeled as the dedicated typed-list field `recordElements` with `addRecordElement`/`getRecordElements`; parser/writer reuse the existing `readDiagnosticParameter`/`writeDiagnosticParameter` helpers
+  - Note: parser `typing` import regained `cast` (dropped by earlier enum rewires) for the raw-literal bridge
 
 - [ ] `DiagnosticRecordTriggerEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.182, p.191
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
