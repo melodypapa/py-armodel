@@ -449,6 +449,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEvent,
     DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
+    DiagnosticFreezeFrame,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
@@ -14238,6 +14239,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "TRIGGER", cast(ARLiteral, record.getTrigger()))
         self.setChildElementOptionalBooleanValue(child_element, "UPDATE", record.getUpdate())
 
+    def writeDiagnosticFreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticFreezeFrame):
+        self.logger.debug("Write DiagnosticFreezeFrame %s" % freeze_frame.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FREEZE-FRAME")
+        self.writeIdentifiable(child_element, freeze_frame)
+        self.setChildElementOptionalString(child_element, "CUSTOM-TRIGGER", freeze_frame.getCustomTrigger())
+        record_number = freeze_frame.getRecordNumber()
+        if record_number is not None:
+            record_number_element = ET.SubElement(child_element, "RECORD-NUMBER")
+            avp_element = ET.SubElement(record_number_element, "POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+            if record_number._text is not None:
+                avp_element.text = record_number._text
+            elif record_number._value is not None:
+                avp_element.text = str(record_number._value)
+        self.setChildElementOptionalLiteral(child_element, "TRIGGER", cast(ARLiteral, freeze_frame.getTrigger()))
+        self.setChildElementOptionalBooleanValue(child_element, "UPDATE", freeze_frame.getUpdate())
+
     def writeDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
         self.logger.debug("Write DiagnosticEventPortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-PORT-MAPPING")
@@ -16527,6 +16544,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEvent(element, ar_element)
         elif isinstance(ar_element, DiagnosticExtendedDataRecord):
             self.writeDiagnosticExtendedDataRecord(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFreezeFrame):
+            self.writeDiagnosticFreezeFrame(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
@@ -16756,6 +16775,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticExtendedDataRecord):
             self.writeDiagnosticExtendedDataRecord(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFreezeFrame):
+            self.writeDiagnosticFreezeFrame(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)

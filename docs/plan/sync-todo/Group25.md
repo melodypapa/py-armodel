@@ -855,15 +855,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticFreezeFrame` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.183, p.192
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; findings below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1865 passed / 0 failed: test_ARPackage.py, test_diagnostic_freeze_frame.py, test_writer_diagnostic_freeze_frame.py, test_member_annotations.py, test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note: XSD cross-check (AUTOSAR_00052.xsd l.37772) — all four markdown attributes present, none removed; XML element order CUSTOM-TRIGGER → RECORD-NUMBER (wrapper of POSITIVE-INTEGER-VALUE-VARIATION-POINT) → TRIGGER → UPDATE
+  - Note: recordNumber — markdown Type column PositiveInteger wins over the XSD element type POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); modeled Optional[PositiveInteger], serialized through the VALUE-VARIATION-POINT wrapper element (DiagnosticConnectedIndicator HEALING-CYCLE-COUNTER-THRESHOLD precedent; same as DiagnosticEvent.confirmationThreshold)
+  - Note: pending reference — `trigger` is typed `DiagnosticRecordTriggerEnum` (Table 4.182, queued next in Group25, still a literal-less stub); round-tripped as a raw literal via `getChildElementOptionalLiteral`/`setChildElementOptionalLiteral` + `cast` (DiagnosticExtendedDataRecord/DiagnosticEvent interim pattern); rewire to `_readEnumToken`/`_writeEnumToken` when the enum syncs
 
 - [ ] `DiagnosticCondition` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.184, p.194
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

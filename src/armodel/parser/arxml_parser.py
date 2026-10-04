@@ -577,6 +577,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEvent,
     DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
+    DiagnosticFreezeFrame,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
@@ -10743,6 +10744,19 @@ class ARXMLParser(AbstractARXMLParser):
         record.setTrigger(cast(Optional[DiagnosticRecordTriggerEnum], self.getChildElementOptionalLiteral(element, "TRIGGER")))
         record.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
 
+    def readDiagnosticFreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticFreezeFrame):
+        self.logger.debug("Read DiagnosticFreezeFrame <%s>" % freeze_frame.getShortName())
+        self.readIdentifiable(element, freeze_frame)
+        freeze_frame.setCustomTrigger(self.getChildElementOptionalString(element, "CUSTOM-TRIGGER"))
+        record_number_element = self.find(element, "RECORD-NUMBER/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if record_number_element is not None and record_number_element.text is not None and record_number_element.text.strip() != "":
+            record_number = PositiveInteger()
+            record_number.setValue(record_number_element.text.strip())
+            freeze_frame.setRecordNumber(record_number)
+        # TRIGGER is round-tripped as a raw literal until DiagnosticRecordTriggerEnum (Table 4.182, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        freeze_frame.setTrigger(cast(Optional[DiagnosticRecordTriggerEnum], self.getChildElementOptionalLiteral(element, "TRIGGER")))
+        freeze_frame.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -16687,6 +16701,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-EXTENDED-DATA-RECORD":
             record = parent.createDiagnosticExtendedDataRecord(self.getShortName(child_element))
             self.readDiagnosticExtendedDataRecord(child_element, record)
+        elif tag_name == "DIAGNOSTIC-FREEZE-FRAME":
+            freeze_frame = parent.createDiagnosticFreezeFrame(self.getShortName(child_element))
+            self.readDiagnosticFreezeFrame(child_element, freeze_frame)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -17051,6 +17068,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-EXTENDED-DATA-RECORD":
             record = parent.createDiagnosticExtendedDataRecord(self.getShortName(child_element))
             self.readDiagnosticExtendedDataRecord(child_element, record)
+            return True
+        if tag_name == "DIAGNOSTIC-FREEZE-FRAME":
+            freeze_frame = parent.createDiagnosticFreezeFrame(self.getShortName(child_element))
+            self.readDiagnosticFreezeFrame(child_element, freeze_frame)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

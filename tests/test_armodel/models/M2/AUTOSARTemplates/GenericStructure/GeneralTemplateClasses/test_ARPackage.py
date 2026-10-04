@@ -70,6 +70,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventMapping,
     DiagnosticFimEventGroup,
     DiagnosticFimFunctionMapping,
+    DiagnosticFreezeFrame,
     DiagnosticInfoType,
     DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
@@ -10218,6 +10219,152 @@ class TestDiagnosticFimAliasEvent:
         assert ar_root.getReferrableElement("FimAliasEvent1", DiagnosticFimAliasEvent) is obj
 
         duplicate = ar_root.createDiagnosticFimAliasEvent("FimAliasEvent1")
+        assert duplicate is obj
+
+
+class TestDiagnosticFreezeFrame:
+    """
+    Test class for DiagnosticFreezeFrame functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.183, p.192
+
+    DiagnosticFreezeFrame is concrete (XSD complexType
+    DIAGNOSTIC-FREEZE-FRAME abstract="false") with four own Attribute
+    rows in displayed order. trigger (DiagnosticRecordTriggerEnum, Table 4.182)
+    is still a queued stub and is exercised as a raw-valued enum literal.
+    """
+
+    CLASS_NOTE = "This element describes combinations of DIDs for a non OBD relevant freeze frame. Tags: atp.recommendedPackage=DiagnosticFreezeFrames"
+
+    CUSTOM_TRIGGER_NOTE = "This attribute shall be taken to verbally describe the nature of the custom trigger."
+    RECORD_NUMBER_NOTE = "This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    TRIGGER_NOTE = "This attribute defines the primary trigger to allocate an event memory entry."
+    UPDATE_NOTE = "This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries."
+
+    def _make_obj(self) -> DiagnosticFreezeFrame:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFreezeFrame(ar_root, "TestFreezeFrame")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFreezeFrame"
+        assert isinstance(obj, DiagnosticFreezeFrame)
+        assert isinstance(obj, ARElement)
+        assert obj.getCustomTrigger() is None
+        assert obj.getRecordNumber() is None
+        assert obj.getTrigger() is None
+        assert obj.getUpdate() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticFreezeFrame.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFreezeFrame.__init__.__doc__ is None
+
+    def test_get_set_custom_trigger(self):
+        """
+        Round-trips customTrigger; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = String().setValue("custom trigger description")
+        result = obj.setCustomTrigger(value)
+        assert result is obj  # method chaining
+        assert obj.getCustomTrigger() is value
+        assert obj.getCustomTrigger().getValue() == "custom trigger description"
+
+        result = obj.setCustomTrigger(None)
+        assert result is obj  # method chaining with None
+        assert obj.getCustomTrigger() is value  # None is a no-op
+
+    def test_get_set_record_number(self):
+        """
+        Round-trips recordNumber; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(40)
+        result = obj.setRecordNumber(value)
+        assert result is obj  # method chaining
+        assert obj.getRecordNumber() is value
+        assert obj.getRecordNumber().value == 40
+
+        result = obj.setRecordNumber(None)
+        assert result is obj  # method chaining with None
+        assert obj.getRecordNumber() is value  # None is a no-op
+
+    def test_get_set_trigger(self):
+        """
+        Round-trips trigger; None is a no-op.
+
+        DiagnosticRecordTriggerEnum is a stub until its own sync
+        (Table 4.182, queued in Group25) — it is instantiated through the
+        AREnum constructor with an empty literal sequence.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticRecordTriggerEnum([]).setValue("confirmed")
+        result = obj.setTrigger(value)
+        assert result is obj  # method chaining
+        assert obj.getTrigger() is value
+        assert obj.getTrigger().getValue() == "confirmed"
+
+        result = obj.setTrigger(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTrigger() is value  # None is a no-op
+
+    def test_get_set_update(self):
+        """
+        Round-trips update; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = Boolean().setValue(True)
+        result = obj.setUpdate(value)
+        assert result is obj  # method chaining
+        assert obj.getUpdate() is value
+        assert obj.getUpdate().value is True
+
+        result = obj.setUpdate(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUpdate() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that every accessor docstring is the spec Note verbatim (setters append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticFreezeFrame.getCustomTrigger.__doc__) == self.CUSTOM_TRIGGER_NOTE
+        assert inspect.cleandoc(DiagnosticFreezeFrame.setCustomTrigger.__doc__) == (self.CUSTOM_TRIGGER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing customTrigger.")
+        assert inspect.cleandoc(DiagnosticFreezeFrame.getRecordNumber.__doc__) == self.RECORD_NUMBER_NOTE
+        assert inspect.cleandoc(DiagnosticFreezeFrame.setRecordNumber.__doc__) == (self.RECORD_NUMBER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing recordNumber.")
+        assert inspect.cleandoc(DiagnosticFreezeFrame.getTrigger.__doc__) == self.TRIGGER_NOTE
+        assert inspect.cleandoc(DiagnosticFreezeFrame.setTrigger.__doc__) == (self.TRIGGER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing trigger.")
+        assert inspect.cleandoc(DiagnosticFreezeFrame.getUpdate.__doc__) == self.UPDATE_NOTE
+        assert inspect.cleandoc(DiagnosticFreezeFrame.setUpdate.__doc__) == (self.UPDATE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing update.")
+
+    def test_create_diagnostic_freeze_frame(self):
+        """
+        Test that ARPackage.createDiagnosticFreezeFrame appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticFreezeFrame("FreezeFrame1")
+
+        assert isinstance(obj, DiagnosticFreezeFrame)
+        assert obj.getShortName() == "FreezeFrame1"
+        assert ar_root.getReferrableElement("FreezeFrame1", DiagnosticFreezeFrame) is obj
+
+        duplicate = ar_root.createDiagnosticFreezeFrame("FreezeFrame1")
         assert duplicate is obj
 
 

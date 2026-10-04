@@ -3159,6 +3159,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(fim_event_group)
         return cast(DiagnosticFimEventGroup, self.getReferrableElement(short_name, DiagnosticFimEventGroup))
 
+    def createDiagnosticFreezeFrame(self, short_name: str) -> DiagnosticFreezeFrame:
+        """
+        Creates a new DiagnosticFreezeFrame with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFreezeFrame: This element describes combinations of DIDs for a non OBD relevant freeze frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticFreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticFreezeFrame instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticFreezeFrame):
+            element = DiagnosticFreezeFrame(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticFreezeFrame, self.getReferrableElement(short_name, DiagnosticFreezeFrame))
+
     def createDiagnosticJ1939Spn(self, short_name: str) -> DiagnosticJ1939Spn:
         """
         Creates a new DiagnosticJ1939Spn with the given short name,
@@ -7288,7 +7306,101 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
 
 
 class DiagnosticFreezeFrame(ARElement):
-    pass
+    """
+    This element describes combinations of DIDs for a non OBD relevant freeze frame. Tags: atp.recommendedPackage=DiagnosticFreezeFrames
+    """
+
+    # DiagnosticFreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.183, p.192
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomTrigger    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomTrigger    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecordNumber     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRecordNumber     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrigger          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrigger          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdate           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdate           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute shall be taken to verbally describe the nature of the custom trigger.
+        self.customTrigger: Optional[String] = None
+
+        # This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.recordNumber: Optional[PositiveInteger] = None
+
+        # This attribute defines the primary trigger to allocate an event memory entry.
+        self.trigger: Optional[DiagnosticRecordTriggerEnum] = None
+
+        # This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries.
+        self.update: Optional[Boolean] = None
+
+    def getCustomTrigger(self) -> Optional[String]:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+        """
+        return self.customTrigger
+
+    def setCustomTrigger(self, value: Optional[String]) -> DiagnosticFreezeFrame:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+
+        A None value is a no-op and does not overwrite an existing customTrigger.
+        """
+        if value is not None:
+            self.customTrigger = value
+        return self
+
+    def getRecordNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.recordNumber
+
+    def setRecordNumber(self, value: Optional[PositiveInteger]) -> DiagnosticFreezeFrame:
+        """
+        This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing recordNumber.
+        """
+        if value is not None:
+            self.recordNumber = value
+        return self
+
+    def getTrigger(self) -> Optional[DiagnosticRecordTriggerEnum]:
+        """
+        This attribute defines the primary trigger to allocate an event memory entry.
+        """
+        return self.trigger
+
+    def setTrigger(self, value: Optional[DiagnosticRecordTriggerEnum]) -> DiagnosticFreezeFrame:
+        """
+        This attribute defines the primary trigger to allocate an event memory entry.
+
+        A None value is a no-op and does not overwrite an existing trigger.
+        """
+        if value is not None:
+            self.trigger = value
+        return self
+
+    def getUpdate(self) -> Optional[Boolean]:
+        """
+        This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries.
+        """
+        return self.update
+
+    def setUpdate(self, value: Optional[Boolean]) -> DiagnosticFreezeFrame:
+        """
+        This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries.
+
+        A None value is a no-op and does not overwrite an existing update.
+        """
+        if value is not None:
+            self.update = value
+        return self
 
 
 class DiagnosticFunctionIdentifier(ARElement):
