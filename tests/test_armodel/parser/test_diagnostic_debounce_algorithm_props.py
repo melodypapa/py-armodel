@@ -14,12 +14,9 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_debounc
 
 from unittest.mock import MagicMock
 
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, DiagnosticDebounceBehaviorEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -93,8 +90,6 @@ class TestReadDiagnosticDebounceAlgorithmProps:
 
     def test_with_debounce_behavior(self, parser):
         """Test that the DEBOUNCE-BEHAVIOR token is read into the DiagnosticDebounceBehaviorEnum."""
-        if DiagnosticDebounceBehaviorEnum.__init__ is AREnum.__init__:
-            pytest.skip("DiagnosticDebounceBehaviorEnum is a stub (Table 4.192 queued in this batch); _readEnumToken needs its synced __init__")
         inner = "<SHORT-NAME>DebounceProps1</SHORT-NAME>" "<DEBOUNCE-BEHAVIOR>FREEZE</DEBOUNCE-BEHAVIOR>"
         debounce_props = self._read(parser, inner)
         assert debounce_props.getDebounceBehavior() is not None

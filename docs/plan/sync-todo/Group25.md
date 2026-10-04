@@ -936,7 +936,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     existing readDiagnosticCommonProps/writeDiagnosticCommonProps call sites.
   - Note (Step 8): DiagnosticDebounceBehaviorEnum is a stub (Table 4.192 queued next in this
     batch) — parser._readEnumToken needs its synced __init__, so the DEBOUNCE-BEHAVIOR
-    parse-back test auto-skips until that sync lands (reader/writer source coverage complete).
+    parse-back test auto-skipped until that sync landed — RESOLVED by the DiagnosticDebounceBehaviorEnum sync (skip guard removed, typed construction in the writer test, round-trip now asserts the behavior).
     Pre-existing sibling deviation noted for reconciliation: setDiagEventDebounceCounterBased
     emits no identity (no SHORT-NAME) — counter-based round-trip asserted write-side only;
     round-trip test uses the time-based subtype.
@@ -944,15 +944,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDebounceBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.192, p.199
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A for the standalone enum; consumer action done: un-skipped test_with_debounce_behavior in tests/test_armodel/parser/test_diagnostic_debounce_algorithm_props.py (enum now has its own __init__)
+  - [x] Step 6 — Update parser & writer (Green) — N/A for the standalone enum; consumer action done: typed _readEnumToken/_writeEnumToken wiring + DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP already landed with commit 4a6604c7b, verified; writer-test stub workaround (_behavior __new__) replaced with typed construction and debounceBehavior added to the full round-trip
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; literal tokens freeze/reset verified against markdown + XSD)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1513 passed / 0 failed: test_PrimitiveTypes.py + test_Identifiable.py + test_diagnostic_debounce_algorithm_props.py + test_writer_diagnostic_debounce_algorithm_props.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticConditionGroup` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.193, p.200
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

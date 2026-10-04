@@ -41,11 +41,9 @@ def reset_autosar():
     AUTOSAR.getInstance().new()
 
 
-def _behavior(value: str) -> DiagnosticDebounceBehaviorEnum:
-    # DiagnosticDebounceBehaviorEnum is a stub until its Table 4.192 sync lands
-    # in this batch — construct around the not-yet-synced __init__.
-    behavior = DiagnosticDebounceBehaviorEnum.__new__(DiagnosticDebounceBehaviorEnum)
-    behavior.setValue(value)
+def _behavior() -> DiagnosticDebounceBehaviorEnum:
+    behavior = DiagnosticDebounceBehaviorEnum()
+    behavior.setValue(DiagnosticDebounceBehaviorEnum.FREEZE)
     return behavior
 
 
@@ -109,7 +107,7 @@ class TestWriteDiagnosticDebounceAlgorithmProps:
     def test_write_debounce_behavior_token(self):
         """Test that the debounceBehavior enum is emitted as the DEBOUNCE-BEHAVIOR XML token."""
         debounce_props = DiagnosticDebounceAlgorithmProps(AUTOSAR.getInstance(), "DebounceProps1")
-        debounce_props.setDebounceBehavior(_behavior("freeze"))
+        debounce_props.setDebounceBehavior(_behavior())
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeDiagnosticDebounceAlgorithmProps(parent, debounce_props)
@@ -164,6 +162,7 @@ class TestWriteDiagnosticDebounceAlgorithmProps:
         storage = Boolean()
         storage.setValue(True)
         debounce_props.setDebounceCounterStorage(storage)
+        debounce_props.setDebounceBehavior(_behavior())
         contribution_set.setCommonProperties(common_props)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -185,6 +184,7 @@ class TestWriteDiagnosticDebounceAlgorithmProps:
             assert algorithm_2.getShortName() == "TimeBased"
             assert algorithm_2.getTimeFailedThreshold().getValue() == 0.5
             assert debounce_props_2[0].getDebounceCounterStorage().getValue() is True
+            assert debounce_props_2[0].getDebounceBehavior().getValue() == "freeze"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

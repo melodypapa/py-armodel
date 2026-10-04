@@ -1837,7 +1837,29 @@ class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
 
 
 class DiagnosticDebounceBehaviorEnum(AREnum):
-    pass
+    """
+    Event debounce algorithm behavior options.
+    """
+
+    # DiagnosticDebounceBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.192, p.199
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The event debounce counter will be frozen with the current value and will not change while a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. After all related enable conditions are fulfilled and ControlDTCSetting of the related event is enabled again, the event qualification will continue with the next report of the event (i.e. SetEventStatus). Tags: atp.EnumerationLiteralIndex=0
+    FREEZE = "freeze"
+
+    # The event debounce counter will be reset to initial value if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. The qualification of the event will be restarted with the next valid event report. Tags: atp.EnumerationLiteralIndex=1
+    RESET = "reset"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticDebounceBehaviorEnum.FREEZE,
+                DiagnosticDebounceBehaviorEnum.RESET,
+            ]
+        )
 
 
 class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):

@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
+    DiagnosticDebounceBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
@@ -2372,3 +2373,46 @@ class TestDiagnosticConnectedIndicatorBehaviorEnum:
         enum.setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE)
 
         assert enum.getValue() == "blinkOrContinuousOnMode"
+
+
+class TestDiagnosticDebounceBehaviorEnum:
+    """
+    Test class for DiagnosticDebounceBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.192, p.199
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticDebounceBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticDebounceBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "freeze",
+            "reset",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticDebounceBehaviorEnum member values.
+        """
+        enum = DiagnosticDebounceBehaviorEnum()
+
+        assert DiagnosticDebounceBehaviorEnum.FREEZE == "freeze"
+        assert DiagnosticDebounceBehaviorEnum.RESET == "reset"
+
+        assert enum.validateEnumValue("freeze") is True
+        assert enum.validateEnumValue("reset") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticDebounceBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticDebounceBehaviorEnum()
+        enum.setValue(DiagnosticDebounceBehaviorEnum.RESET)
+
+        assert enum.getValue() == "reset"
