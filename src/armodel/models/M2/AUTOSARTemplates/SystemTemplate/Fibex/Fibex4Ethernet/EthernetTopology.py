@@ -3768,50 +3768,51 @@ class TcpTp(TcpUdpConfig):
     """
 
     # TcpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.129, p.460 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.129, p.460
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getKeepAliveInterval         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAliveInterval         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeepAliveProbesMax        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAliveProbesMax        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeepAlives                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAlives                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeepAliveTime             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAliveTime             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNaglesAlgorithm           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNaglesAlgorithm           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiveWindowMin          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceiveWindowMin          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpRetransmissionTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpRetransmissionTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpTpPort                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpTpPort                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getKeepAliveInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAliveInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Specifies the interval in seconds between subsequent keepalive probes.
         self.keepAliveInterval: Optional[TimeValue] = None
 
-        # [x] getKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
         self.keepAliveProbesMax: Optional[PositiveInteger] = None
 
-        # [x] getKeepAlives                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAlives                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Indicates if Keep-Alive messages are sent.
         self.keepAlives: Optional[Boolean] = None
 
-        # [x] getKeepAliveTime               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAliveTime               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Specifies the time in seconds between the last data packet sent and the first keepalive probe.
         self.keepAliveTime: Optional[TimeValue] = None
 
-        # [x] getNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Indicates if Nagle's Algorithm is used.
         self.naglesAlgorithm: Optional[Boolean] = None
 
-        # [x] getReceiveWindowMin            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setReceiveWindowMin            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Minimum size of the TCP receive window in bytes.
         self.receiveWindowMin: Optional[PositiveInteger] = None
 
-        # [x] getTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
         self.tcpRetransmissionTimeout: Optional[TimeValue] = None
 
-        # [x] getTcpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTcpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # TCP Port configuration.
         self.tcpTpPort: Optional[TpPort] = None
 

@@ -1303,11 +1303,14 @@ class TestTransportProtocolHandlers:
         element = _snip(
             "<TCP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</TCP-TP-PORT>" "<KEEP-ALIVES>true</KEEP-ALIVES>" "<NAGLES-ALGORITHM>enabled</NAGLES-ALGORITHM>",
             root_tag="TCP-TP",
+            attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
         parser.readTcpTp(element, tp)
         assert tp.getTcpTpPort() is not None
         assert tp.getTcpTpPort().getPortNumber() is not None
         assert tp.getTcpTpPort().getPortNumber().getValue() == 5000
+        assert tp.getChecksum().getValue() == "1234"
+        assert tp.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readTcpTp_sets_keepAlives(self, parser):
         from armodel.models import TcpTp
