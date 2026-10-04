@@ -584,6 +584,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
+    DiagnosticEcuInstanceProps,
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticInfoType,
@@ -700,6 +701,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticIumprKindEnum,
+    DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticRecordTriggerEnum,
@@ -11364,6 +11366,14 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported SUBFUNCTION <%s>" % token)
 
+    def readDiagnosticEcuInstanceProps(self, element: ET.Element, props: DiagnosticEcuInstanceProps):
+        self.logger.debug("Read DiagnosticEcuInstanceProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        for ref in self.getChildElementRefTypeList(element, "ECU-INSTANCE-REFS/ECU-INSTANCE-REF"):
+            props.addEcuInstanceRef(ref)
+        # OBD-SUPPORT is round-tripped as a raw literal until DiagnosticObdSupportEnum (Table 4.206, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        props.setObdSupport(cast(Optional[DiagnosticObdSupportEnum], self.getChildElementOptionalLiteral(element, "OBD-SUPPORT")))
+
     def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())
         self.readIdentifiable(element, ecu_reset)
@@ -16673,6 +16683,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS":
                 dddi_class = parent.createDiagnosticDynamicallyDefineDataIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticDynamicallyDefineDataIdentifierClass(child_element, dddi_class)
+            elif tag_name == "DIAGNOSTIC-ECU-INSTANCE-PROPS":
+                props = parent.createDiagnosticEcuInstanceProps(self.getShortName(child_element))
+                self.readDiagnosticEcuInstanceProps(child_element, props)
             elif tag_name == "DIAGNOSTIC-PROTOCOL":
                 protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
                 self.readDiagnosticProtocol(child_element, protocol)
@@ -17335,6 +17348,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
             ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
             self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+            return True
+        if tag_name == "DIAGNOSTIC-ECU-INSTANCE-PROPS":
+            props = parent.createDiagnosticEcuInstanceProps(self.getShortName(child_element))
+            self.readDiagnosticEcuInstanceProps(child_element, props)
             return True
         if tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
             proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))

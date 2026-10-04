@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticDemProvidedDataMapping,
     DiagnosticDynamicallyDefineDataIdentifier,
     DiagnosticDynamicDataIdentifier,
+    DiagnosticEcuInstanceProps,
     DiagnosticEcuReset,
     DiagnosticEnableCondition,
     DiagnosticEnableConditionGroup,
@@ -153,6 +154,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
     DiagnosticIumprKindEnum,
+    DiagnosticObdSupportEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -10852,6 +10854,145 @@ class TestDiagnosticIumprGroup:
         assert package.getReferrableElement("IumprGroup1", DiagnosticIumprGroup) is element
 
         duplicate = package.createDiagnosticIumprGroup("IumprGroup1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticEcuInstanceProps:
+    """
+    Test class for DiagnosticEcuInstanceProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.205, p.207
+
+    DiagnosticEcuInstanceProps is concrete (XSD complexType
+    DIAGNOSTIC-ECU-INSTANCE-PROPS abstract="false") with two own Attribute
+    rows: ecuInstance (kind ref, multiplicity *) is modeled as the dedicated
+    typed list ecuInstanceRefs of RefType behind addEcuInstanceRef /
+    getEcuInstanceRefs (DiagnosticDataIdentifierSet precedent); obdSupport
+    (kind attr, multiplicity 0..1) is typed Optional[DiagnosticObdSupportEnum]
+    (markdown Type column wins over the XSD element type, Rule 0015).
+    DiagnosticObdSupportEnum is still a stub queued later in Group25 — tests
+    construct it with the interim raw-literal shape until it gains its
+    literals.
+    """
+
+    CLASS_NOTE = (
+        "This meta-class represents the ability to model properties that are specific for a given EcuInstance but on the other hand represent purely diagnostic-related information. "
+        "In the spirit of decentralized configuration it is therefore possible to specify the diagnostic-related information related to a given EcuInstance even if the EcuInstance does not yet exist. "
+        "Tags: atp.recommendedPackage=DiagnosticEcuInstancePropss"
+    )
+
+    ECU_INSTANCE_NOTE = "This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance"
+    OBD_SUPPORT_NOTE = "This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD."
+
+    def _make_obj(self) -> DiagnosticEcuInstanceProps:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticEcuInstanceProps(ar_root, "TestEcuInstanceProps")
+
+    def _make_ref(self, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest("ECU-INSTANCE")
+        ref.setValue(value)
+        return ref
+
+    def _make_obd_support(self, value: str) -> DiagnosticObdSupportEnum:
+        return DiagnosticObdSupportEnum([]).setValue(value)
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestEcuInstanceProps"
+        assert isinstance(obj, DiagnosticEcuInstanceProps)
+        assert isinstance(obj, ARElement)
+        assert obj.getEcuInstanceRefs() == []
+        assert obj.getObdSupport() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticEcuInstanceProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticEcuInstanceProps.__init__.__doc__ is None
+
+    def test_add_ecu_instance_ref(self):
+        """
+        Appends the refs in order; setter-style chaining returns the object.
+        """
+        obj = self._make_obj()
+        ref1 = self._make_ref("/AUTOSAR/EcuInstances/Ecu1")
+        ref2 = self._make_ref("/AUTOSAR/EcuInstances/Ecu2")
+
+        result = obj.addEcuInstanceRef(ref1)
+        assert result is obj  # method chaining
+        assert obj.getEcuInstanceRefs() == [ref1]
+
+        obj.addEcuInstanceRef(ref2)
+        assert obj.getEcuInstanceRefs() == [ref1, ref2]  # append preserves the ordered list
+
+    def test_add_ecu_instance_ref_none_no_op(self):
+        """
+        Test that a None ref is a no-op and does not extend the list.
+        """
+        obj = self._make_obj()
+
+        result = obj.addEcuInstanceRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEcuInstanceRefs() == []
+
+    def test_get_set_obd_support(self):
+        """
+        Round-trips the attribute through the setter/getter; chaining returns the object.
+        """
+        obj = self._make_obj()
+        obd_support = self._make_obd_support("primaryEcu")
+
+        result = obj.setObdSupport(obd_support)
+        assert result is obj  # method chaining
+        assert obj.getObdSupport() is obd_support
+        assert str(obj.getObdSupport()) == "primaryEcu"
+
+    def test_set_obd_support_none_no_op(self):
+        """
+        Test that a None value is a no-op and does not overwrite an existing obdSupport.
+        """
+        obj = self._make_obj()
+        obd_support = self._make_obd_support("primaryEcu")
+        obj.setObdSupport(obd_support)
+
+        result = obj.setObdSupport(None)
+        assert result is obj  # method chaining with None
+        assert obj.getObdSupport() is obd_support
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (setters add the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticEcuInstanceProps.addEcuInstanceRef.__doc__) == (self.ECU_INSTANCE_NOTE + "\n\nA None value is a no-op and does not extend the ecuInstanceRefs list.")
+        assert inspect.cleandoc(DiagnosticEcuInstanceProps.getEcuInstanceRefs.__doc__) == self.ECU_INSTANCE_NOTE
+        assert inspect.cleandoc(DiagnosticEcuInstanceProps.getObdSupport.__doc__) == self.OBD_SUPPORT_NOTE
+        assert inspect.cleandoc(DiagnosticEcuInstanceProps.setObdSupport.__doc__) == (self.OBD_SUPPORT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing obdSupport.")
+
+    def test_create_diagnostic_ecu_instance_props(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticEcuInstancePropss")
+        element = package.createDiagnosticEcuInstanceProps("EcuInstanceProps1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticEcuInstanceProps)
+        assert element.getShortName() == "EcuInstanceProps1"
+        assert package.getReferrableElement("EcuInstanceProps1", DiagnosticEcuInstanceProps) is element
+
+        duplicate = package.createDiagnosticEcuInstanceProps("EcuInstanceProps1")
         assert duplicate is element  # duplicate short name returns the existing element
 
 

@@ -455,6 +455,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
+    DiagnosticEcuInstanceProps,
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticInfoType,
@@ -14838,6 +14839,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                     subfunction_element = ET.SubElement(subfunctions_tag, "SUBFUNCTION")
                     subfunction_element.text = token
 
+    def writeDiagnosticEcuInstanceProps(self, element: ET.Element, props: DiagnosticEcuInstanceProps):
+        self.logger.debug("Write DiagnosticEcuInstanceProps %s" % props.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-INSTANCE-PROPS")
+        self.writeIdentifiable(child_element, props)
+        ecu_instance_refs = props.getEcuInstanceRefs()
+        if len(ecu_instance_refs) > 0:
+            refs_element = ET.SubElement(child_element, "ECU-INSTANCE-REFS")
+            for ecu_instance_ref in ecu_instance_refs:
+                self.setChildElementOptionalRefType(refs_element, "ECU-INSTANCE-REF", ecu_instance_ref)
+        # OBD-SUPPORT is round-tripped as a raw literal until DiagnosticObdSupportEnum (Table 4.206, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        self.setChildElementOptionalLiteral(child_element, "OBD-SUPPORT", cast(ARLiteral, props.getObdSupport()))
+
     def writeDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Write DiagnosticEcuReset %s" % ecu_reset.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ECU-RESET")
@@ -16553,6 +16566,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticDynamicallyDefineDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifierClass):
             self.writeDiagnosticDynamicallyDefineDataIdentifierClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEcuInstanceProps):
+            self.writeDiagnosticEcuInstanceProps(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSessionControl):
@@ -17070,6 +17085,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticComControl):
             self.writeDiagnosticComControl(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticEcuInstanceProps):
+            self.writeDiagnosticEcuInstanceProps(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticEcuReset):
             self.writeDiagnosticEcuReset(element, ar_element)

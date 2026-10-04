@@ -418,6 +418,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventClearAllowedEnum,
     DiagnosticEventKindEnum,
     DiagnosticIumprKindEnum,
+    DiagnosticObdSupportEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -3102,6 +3103,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             did = DiagnosticDynamicDataIdentifier(self, short_name)
             self.addReferrableElement(did)
         return cast(DiagnosticDynamicDataIdentifier, self.getReferrableElement(short_name, DiagnosticDynamicDataIdentifier))
+
+    def createDiagnosticEcuInstanceProps(self, short_name: str) -> DiagnosticEcuInstanceProps:
+        """
+        Creates a new DiagnosticEcuInstanceProps with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEcuInstanceProps: This meta-class represents the ability to model properties that are specific for a given EcuInstance but on the other hand represent purely diagnostic-related information.
+
+        Args:
+            short_name: The short name for the new DiagnosticEcuInstanceProps
+
+        Returns:
+            The newly created or existing DiagnosticEcuInstanceProps instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEcuInstanceProps):
+            element = DiagnosticEcuInstanceProps(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEcuInstanceProps, self.getReferrableElement(short_name, DiagnosticEcuInstanceProps))
 
     def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
         """
@@ -6193,7 +6212,59 @@ class DiagnosticDynamicallyDefineDataIdentifier(ARElement):
 
 
 class DiagnosticEcuInstanceProps(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model properties that are specific for a given EcuInstance but on the other hand represent purely diagnostic-related information. In the spirit of decentralized configuration it is therefore possible to specify the diagnostic-related information related to a given EcuInstance even if the EcuInstance does not yet exist. Tags: atp.recommendedPackage=DiagnosticEcuInstancePropss
+    """
+
+    # DiagnosticEcuInstanceProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.205, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEcuInstanceRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getObdSupport          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setObdSupport          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
+        self.ecuInstanceRefs: List[RefType] = []
+
+        # This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD.
+        self.obdSupport: Optional[DiagnosticObdSupportEnum] = None
+
+    def addEcuInstanceRef(self, ref: Optional[RefType]) -> DiagnosticEcuInstanceProps:
+        """
+        This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
+
+        A None value is a no-op and does not extend the ecuInstanceRefs list.
+        """
+        if ref is not None:
+            self.ecuInstanceRefs.append(ref)
+        return self
+
+    def getEcuInstanceRefs(self) -> List[RefType]:
+        """
+        This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
+        """
+        return self.ecuInstanceRefs
+
+    def getObdSupport(self) -> Optional[DiagnosticObdSupportEnum]:
+        """
+        This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD.
+        """
+        return self.obdSupport
+
+    def setObdSupport(self, value: Optional[DiagnosticObdSupportEnum]) -> DiagnosticEcuInstanceProps:
+        """
+        This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD.
+
+        A None value is a no-op and does not overwrite an existing obdSupport.
+        """
+        if value is not None:
+            self.obdSupport = value
+        return self
 
 
 class DiagnosticEcuReset(ARElement):
