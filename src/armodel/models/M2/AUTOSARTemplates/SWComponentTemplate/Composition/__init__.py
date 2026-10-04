@@ -231,13 +231,12 @@ class PassThroughSwConnector(SwConnector):
 
     # PassThroughSwConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.15, p.83
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedOuterPortRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedOuterPortRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredOuterPortRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredOuterPortRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -250,23 +249,14 @@ class PassThroughSwConnector(SwConnector):
 
     def getProvidedOuterPortRef(self) -> Optional[RefType]:
         """
-        Gets the provided outer delegation Port Prototype of the PassThroughSwConnector.
-
-        Returns:
-            RefType referencing the provided outer delegation Port Prototype, or None if not set
+        This represents the provided outer delegation Port Prototype of the PassThroughSwConnector.
         """
         return self.providedOuterPortRef
 
     def setProvidedOuterPortRef(self, value: Optional[RefType]) -> "PassThroughSwConnector":
         """
-        Sets the provided outer delegation Port Prototype of the PassThroughSwConnector.
+        This represents the provided outer delegation Port Prototype of the PassThroughSwConnector.
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The provided outer delegation Port Prototype reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.providedOuterPortRef = value
@@ -274,23 +264,14 @@ class PassThroughSwConnector(SwConnector):
 
     def getRequiredOuterPortRef(self) -> Optional[RefType]:
         """
-        Gets the required outer delegation Port Prototype of the PassThroughSwConnector.
-
-        Returns:
-            RefType referencing the required outer delegation Port Prototype, or None if not set
+        This represents the required outer delegation Port Prototype of the PassThroughSwConnector.
         """
         return self.requiredOuterPortRef
 
     def setRequiredOuterPortRef(self, value: Optional[RefType]) -> "PassThroughSwConnector":
         """
-        Sets the required outer delegation Port Prototype of the PassThroughSwConnector.
+        This represents the required outer delegation Port Prototype of the PassThroughSwConnector.
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The required outer delegation Port Prototype reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.requiredOuterPortRef = value

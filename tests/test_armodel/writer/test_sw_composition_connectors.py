@@ -39,6 +39,44 @@ def _ref(value, dest=None):
     return ref
 
 
+class TestPassThroughSwConnectorRoundTrip:
+    def test_round_trip_field_values_and_element_order(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        composition = pkg.createCompositionSwComponentType("Comp")
+        connector = composition.createPassThroughSwConnector("Pass")
+        connector.setRequiredOuterPortRef(_ref("/Pkg/Comp/OuterRequired", "R-PORT-PROTOTYPE"))
+        connector.setProvidedOuterPortRef(_ref("/Pkg/Comp/OuterProvided", "P-PORT-PROTOTYPE"))
+
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, composition.parent)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+
+        connector_tag = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}COMPOSITION-SW-COMPONENT-TYPE/{%s}CONNECTORS/{%s}PASS-THROUGH-SW-CONNECTOR" % tuple([NS] * 5))
+        assert [child.tag.split("}")[-1] for child in connector_tag] == ["SHORT-NAME", "PROVIDED-OUTER-PORT-REF", "REQUIRED-OUTER-PORT-REF"]
+
+        parser = ARXMLParser(options={"warning": True})
+        parsed_pkg = AUTOSAR.getInstance().createARPackage("Parsed")
+        parser.readARPackageElements(root.find("{%s}AR-PACKAGE" % NS), parsed_pkg)
+
+        parsed = parsed_pkg.getCompositionSwComponentTypes()[0].getPassThroughSwConnectors()[0]
+        assert parsed.getProvidedOuterPortRef().getValue() == "/Pkg/Comp/OuterProvided"
+        assert parsed.getProvidedOuterPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert parsed.getRequiredOuterPortRef().getValue() == "/Pkg/Comp/OuterRequired"
+        assert parsed.getRequiredOuterPortRef().getDest() == "R-PORT-PROTOTYPE"
+
+    def test_empty_connector_has_no_ref_elements(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        composition = pkg.createCompositionSwComponentType("Comp")
+        composition.createPassThroughSwConnector("Pass")
+
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, composition.parent)
+        raw = ET.tostring(parent).decode("utf-8")
+        assert "PROVIDED-OUTER-PORT-REF" not in raw
+        assert "REQUIRED-OUTER-PORT-REF" not in raw
+
+
 class TestSwConnectorBaseRoundTrip:
     def test_mapping_ref_round_trip(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")

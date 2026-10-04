@@ -2144,7 +2144,9 @@ XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `serviceInterfaceElementMappingRefs` | `Ref (ServiceInterfaceElementMapping)` | Refs | missing |
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 3.15 attributes are modeled per multiplicity/kind: `providedOuterPort` (AbstractProvidedPortPrototype, 0..1, ref) as `providedOuterPortRef: Optional[RefType]` and `requiredOuterPort` (AbstractRequiredPortPrototype, 0..1, ref) as `requiredOuterPortRef: Optional[RefType]`, each with its get/set pair (None no-op, chaining). The pre-sync stale `missing` row for `serviceInterfaceElementMappingRefs` was removed: Table 3.15 lists no such attribute (stale row, Rule 0014). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.15, p.83 (concrete Class; Base chain most-derived `SwConnector`, re-synced in this batch). Docstrings wiped and rewritten verbatim from the Table 3.15 Note and the two row Notes in the batch split-paragraph no-op style. Reader/writer coverage already complete: `readPassThroughSwConnector`/`writePassThroughSwConnector` handle PROVIDED-OUTER-PORT-REF / REQUIRED-OUTER-PORT-REF in the PASS-THROUGH-SW-CONNECTOR XSD group order, dispatched from CompositionSwComponentType CONNECTORS. Round-trip coverage in tests/test_armodel/writer/test_sw_composition_connectors.py (field values incl. DEST, element order, empty case). No Rule 0001.10 missing classes (`AbstractProvidedPortPrototype`/`AbstractRequiredPortPrototype` exist as modeled classes; ref kind → RefType per the sibling DelegationSwConnector.outerPort pattern). `# Spec verified:` withheld (batch 9b).
 
 ## `ApplicationError`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 108
