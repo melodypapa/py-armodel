@@ -172,63 +172,73 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `HwDescriptionEntity` — Referrable — R23-11 CP_TPS_ECUResourceTemplate Table 2.1, p.15
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 127 green targeted suites; ecuc+VP+hw subset 767; integration 11; ruff/black/mypy clean; 9b deferred to batch confirmation (user instruction); sync commit `8a5538086`
+  - note (Step 1): abstract Class, Base most-derived Referrable; attrs hwAttributeValue (* aggr), hwCategory (* ref), hwType (0..1 ref); reader/writer verified per XSD order HW-TYPE-REF→HW-CATEGORY-REFS→HW-ATTRIBUTE-VALUES (l.65772); Rule 0023 stale stamp removed; no deviations; no stamp (batch 9b)
 
 - [ ] `HwPinGroupContent` — ARObject — R23-11 CP_TPS_ECUResourceTemplate Table 2.6, p.20
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green; 9b deferred to batch confirmation (user instruction); sync commit `cb322b20c`
+  - note (Step 1): concrete atpMixed Class, Base ARObject; attrs hwPin (0..1 aggr → createHwPin), hwPinGroup (0..1 aggr → createHwPinGroup migrated from setHwPinGroup per Rule 0001.6, duplicate-returns-existing); 2 accepted deviations: XSD * vs PDF 0..1 on both rows (atpVariation resolution; PDF kept per Rule 0015); XSD group is xsd:choice (l.66256); no stamp (batch 9b)
 
 - [ ] `HwElementConnector` — Describable — R23-11 CP_TPS_ECUResourceTemplate Table 2.8, p.21
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green; 9b deferred to batch confirmation (user instruction); sync commit `f48bef473`
+  - note (Step 1): concrete Class, Base Describable (exists: Identifiable.py:507); attrs hwElement (* ref), hwPinConnection (* aggr), hwPinGroupConnection (* aggr); VP mixin removed (no table row; XSD artifact "Applicable for: HwElement.hwElementConnection"); writer re-shaped to XSD wrappers HW-ELEMENT-REFS/HW-PIN-GROUP-CONNECTIONS/HW-PIN-CONNECTIONS (was spec-invalid unwrapped), item names corrected HW-PIN-CONNECTOR/HW-PIN-GROUP-CONNECTOR; no deviations; no stamp (batch 9b)
 
 - [ ] `HwPinGroupConnector` — Describable — R23-11 CP_TPS_ECUResourceTemplate Table 2.9, p.22
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green; 9b deferred to batch confirmation (user instruction); sync commit `acdd47866`
+  - note (Step 1): concrete Class, Base Describable; attrs hwPinConnection (* aggr), hwPinGroup (* ref); VP mixin removed (XSD artifact "Applicable for: HwElementConnector.hwPinGroupConnection"); wrappers HW-PIN-CONNECTIONS/HW-PIN-GROUP-REFS; no deviations; no stamp (batch 9b)
 
 - [ ] `HwPinConnector` — Describable — R23-11 CP_TPS_ECUResourceTemplate Table 2.10, p.22
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green; 9b deferred to batch confirmation (user instruction); sync commit `2bf0929ad`
+  - note (Step 1): concrete Class, Base Describable; single attr hwPin (* ref → hwPinRefs + addHwPinRef); VP mixin removed (XSD artifact "Applicable for: HwElementConnector.hwPinConnection / HwPinGroupConnector.hwPinConnection"); inner wrapper HW-PIN-REFS; Describable content via shared read/writeDescribable; no deviations; no stamp (batch 9b)
 
 - [ ] `CommunicationController` — Identifiable — R23-11 CP_TPS_ECUResourceTemplate Table 3.3, p.31; also CP_TPS_SystemTemplate Table 3.3, p.53
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
