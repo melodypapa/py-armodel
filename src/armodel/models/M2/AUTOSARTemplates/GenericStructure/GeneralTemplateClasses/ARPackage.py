@@ -3908,6 +3908,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticStorageCondition, self.getReferrableElement(short_name, DiagnosticStorageCondition))
 
+    def createDiagnosticStorageConditionGroup(self, short_name: str) -> DiagnosticStorageConditionGroup:
+        """
+        Creates a new DiagnosticStorageConditionGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticStorageConditionGroup: Storage condition group which includes one or several storage conditions..
+
+        Args:
+            short_name: The short name for the new DiagnosticStorageConditionGroup
+
+        Returns:
+            The newly created or existing DiagnosticStorageConditionGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticStorageConditionGroup):
+            element = DiagnosticStorageConditionGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticStorageConditionGroup, self.getReferrableElement(short_name, DiagnosticStorageConditionGroup))
+
     def createDiagnosticEnableConditionGroup(self, short_name: str) -> DiagnosticEnableConditionGroup:
         """
         Creates a new DiagnosticEnableConditionGroup with the given short name,
@@ -10434,7 +10452,40 @@ class DiagnosticStorageCondition(DiagnosticCondition):
 
 
 class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
-    pass
+    """
+    Storage condition group which includes one or several storage conditions. Tags: atp.recommendedPackage=DiagnosticConditions
+
+    [constr_1842] Existence of DiagnosticStorageConditionGroup.storageCondition: For each DiagnosticStorageConditionGroup, attribute storageCondition shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticStorageConditionGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.195, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addStorageConditionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStorageConditionRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to storageConditions that are part of the StorageConditionGroup.
+        self.storageConditionRefs: List[RefType] = []
+
+    def addStorageConditionRef(self, ref: Optional[RefType]) -> DiagnosticStorageConditionGroup:
+        """
+        Reference to storageConditions that are part of the StorageConditionGroup.
+
+        A None value is a no-op and does not extend the storageConditionRefs list.
+        """
+        if ref is not None:
+            self.storageConditionRefs.append(ref)
+        return self
+
+    def getStorageConditionRefs(self) -> List[RefType]:
+        """
+        Reference to storageConditions that are part of the StorageConditionGroup.
+        """
+        return self.storageConditionRefs
 
 
 class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):

@@ -618,6 +618,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
     DiagnosticStorageCondition,
+    DiagnosticStorageConditionGroup,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
@@ -10811,6 +10812,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, storage_condition)
         self.readDiagnosticCondition(element, storage_condition)
 
+    def readDiagnosticStorageConditionGroup(self, element: ET.Element, storage_condition_group: DiagnosticStorageConditionGroup):
+        self.logger.debug("Read DiagnosticStorageConditionGroup <%s>" % storage_condition_group.getShortName())
+        self.readIdentifiable(element, storage_condition_group)
+        self.readDiagnosticConditionGroup(element, storage_condition_group)
+        for ref in self.getChildElementRefTypeList(element, "STORAGE-CONDITIONS/DIAGNOSTIC-STORAGE-CONDITION-REF-CONDITIONAL/DIAGNOSTIC-STORAGE-CONDITION-REF"):  # noqa E501
+            storage_condition_group.addStorageConditionRef(ref)
+
     def readDiagnosticEvent(self, element: ET.Element, event: DiagnosticEvent):
         self.logger.debug("Read DiagnosticEvent <%s>" % event.getShortName())
         self.readIdentifiable(element, event)
@@ -17025,6 +17033,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION":
             storage_condition = parent.createDiagnosticStorageCondition(self.getShortName(child_element))
             self.readDiagnosticStorageCondition(child_element, storage_condition)
+        elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-GROUP":
+            storage_condition_group = parent.createDiagnosticStorageConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticStorageConditionGroup(child_element, storage_condition_group)
         elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
             proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
             self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
@@ -17341,6 +17352,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-STORAGE-CONDITION":
             storage_condition = parent.createDiagnosticStorageCondition(self.getShortName(child_element))
             self.readDiagnosticStorageCondition(child_element, storage_condition)
+            return True
+        if tag_name == "DIAGNOSTIC-STORAGE-CONDITION-GROUP":
+            storage_condition_group = parent.createDiagnosticStorageConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticStorageConditionGroup(child_element, storage_condition_group)
             return True
         if tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
             mapping = parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element))

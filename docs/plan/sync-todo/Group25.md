@@ -1109,15 +1109,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticStorageConditionGroup` — DiagnosticConditionGroup — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.195, p.200
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base chain (md Table 4.195) most-derived = DiagnosticConditionGroup — matches the row. Single Attribute row:
+    storageCondition (DiagnosticStorageCondition, *, ref) → storageConditionRefs: List[RefType]. XSD wrapper STORAGE-CONDITIONS
+    (AUTOSAR_00052.xsd l.45675) of unbounded DIAGNOSTIC-STORAGE-CONDITION-REF-CONDITIONAL items (each =
+    DIAGNOSTIC-STORAGE-CONDITION-REF + per-item VARIATION-POINT; atpSplitable DirectedAssociationPattern) — the RefConditional
+    wrapper class is NOT modeled; reader/writer flatten through the wrapper path (twin precedent
+    read/writeDiagnosticEnableConditionGroup). Class-level constraint [constr_1842] copied into the class docstring (twin
+    constr_1841 precedent). Referenced type DiagnosticStorageCondition was already synced (Table 4.186) — no stub consumers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the XSD-only STORAGE-CONDITIONS/DIAGNOSTIC-STORAGE-CONDITION-REF-CONDITIONAL wrapper path follows the DiagnosticEnableConditionGroup twin precedent and stays PDF-attribute-faithful per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1941 passed / 0 failed: test_ARPackage.py + test_diagnostic_storage_condition_group.py + test_writer_diagnostic_storage_condition_group.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 9): parser+writer regression 7696 passed / 0 failed
 
 - [ ] `DiagnosticOperationCycle` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.196, p.201
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

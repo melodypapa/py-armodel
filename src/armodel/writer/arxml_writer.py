@@ -528,6 +528,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventToTroubleCodeUdsMapping,
     DiagnosticSessionControl,
     DiagnosticStorageCondition,
+    DiagnosticStorageConditionGroup,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
     DiagnosticWriteDataByIdentifier,
@@ -14139,6 +14140,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 conditional_element = ET.SubElement(refs_element, "DIAGNOSTIC-ENABLE-CONDITION-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(conditional_element, "DIAGNOSTIC-ENABLE-CONDITION-REF", ref)
 
+    def writeDiagnosticStorageConditionGroup(self, element: ET.Element, storage_condition_group: DiagnosticStorageConditionGroup):
+        self.logger.debug("Write DiagnosticStorageConditionGroup %s" % storage_condition_group.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-STORAGE-CONDITION-GROUP")
+        self.writeIdentifiable(child_element, storage_condition_group)
+        self.writeDiagnosticConditionGroup(child_element, storage_condition_group)
+        refs = storage_condition_group.getStorageConditionRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "STORAGE-CONDITIONS")
+            for ref in refs:
+                conditional_element = ET.SubElement(refs_element, "DIAGNOSTIC-STORAGE-CONDITION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DIAGNOSTIC-STORAGE-CONDITION-REF", ref)
+
     def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         refs = connection.getFunctionalRequestRefs()
         if len(refs) > 0:
@@ -16816,6 +16829,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRoutineControlClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticStorageCondition):
             self.writeDiagnosticStorageCondition(element, ar_element)
+        elif isinstance(ar_element, DiagnosticStorageConditionGroup):
+            self.writeDiagnosticStorageConditionGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
@@ -17241,6 +17256,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticStorageCondition):
             self.writeDiagnosticStorageCondition(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticStorageConditionGroup):
+            self.writeDiagnosticStorageConditionGroup(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
             self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)

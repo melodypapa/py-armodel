@@ -9931,6 +9931,96 @@ class TestDiagnosticEnableConditionGroup:
         assert duplicate is obj
 
 
+class TestDiagnosticStorageConditionGroup:
+    """
+    Test class for DiagnosticStorageConditionGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.195, p.200
+
+    DiagnosticStorageConditionGroup is concrete (XSD complexType abstract="false")
+    with a single Attribute row: storageCondition (DiagnosticStorageCondition, *, ref)
+    — modeled as the storageConditionRefs list of RefType. Fields inherited from the
+    abstract base DiagnosticConditionGroup (Table 4.193) carry no rows of their own.
+    """
+
+    CLASS_NOTE = (
+        "Storage condition group which includes one or several storage conditions. "
+        "Tags: atp.recommendedPackage=DiagnosticConditions\n"
+        "\n"
+        "[constr_1842] Existence of DiagnosticStorageConditionGroup.storageCondition: "
+        "For each DiagnosticStorageConditionGroup, attribute storageCondition shall exist "
+        "at the time when the DEXT is complete."
+    )
+
+    def _make_obj(self) -> DiagnosticStorageConditionGroup:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticStorageConditionGroup(ar_root, "TestStorageConditionGroup")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestStorageConditionGroup"
+        assert isinstance(obj, DiagnosticStorageConditionGroup)
+        assert isinstance(obj, DiagnosticConditionGroup)
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert isinstance(obj, ARElement)
+        assert obj.getStorageConditionRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class constraint.
+        """
+        assert inspect.cleandoc(DiagnosticStorageConditionGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStorageConditionGroup.__init__.__doc__ is None
+
+    def test_add_get_storage_condition_refs(self):
+        """
+        Round-trips storageCondition refs; None is a no-op and chaining returns self.
+        """
+        obj = self._make_obj()
+
+        ref1 = RefType().setValue("/DiagnosticConditions/StorageCondition1")
+        ref2 = RefType().setValue("/DiagnosticConditions/StorageCondition2")
+
+        result = obj.addStorageConditionRef(ref1)
+        assert result is obj  # method chaining
+        obj.addStorageConditionRef(ref2)
+
+        refs = obj.getStorageConditionRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[1] is ref2
+        assert refs[0].getValue() == "/DiagnosticConditions/StorageCondition1"
+        assert refs[1].getValue() == "/DiagnosticConditions/StorageCondition2"
+
+        result = obj.addStorageConditionRef(None)
+        assert result is obj  # method chaining with None
+        assert len(obj.getStorageConditionRefs()) == 2  # None is a no-op
+
+    def test_create_diagnostic_storage_condition_group(self):
+        """
+        Test that ARPackage.createDiagnosticStorageConditionGroup appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticStorageConditionGroup("StorageConditionGroup1")
+
+        assert isinstance(obj, DiagnosticStorageConditionGroup)
+        assert obj.getShortName() == "StorageConditionGroup1"
+        assert ar_root.getReferrableElement("StorageConditionGroup1", DiagnosticStorageConditionGroup) is obj
+
+        duplicate = ar_root.createDiagnosticStorageConditionGroup("StorageConditionGroup1")
+        assert duplicate is obj
+
+
 class TestDiagnosticEvent:
     """
     Test class for DiagnosticEvent functionality.
