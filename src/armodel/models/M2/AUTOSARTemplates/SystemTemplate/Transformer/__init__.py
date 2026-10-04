@@ -773,9 +773,9 @@ class TransformerClassEnum(AREnum):
     """
 
     # TransformerClassEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.4, p.765
-    # Spec verified: R23-11
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.90, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TransformationTechnology.transformerClass (TRANSFORMER-CLASS element)
 
     # The transformer is a custom transformer. Tags: atp.EnumerationLiteralIndex=0
     CUSTOM = "custom"

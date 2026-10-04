@@ -37,15 +37,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TransformerClassEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.90, p.200; also CP_TPS_SystemTemplate Table 7.4, p.765
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; round-trips as the TRANSFORMER-CLASS value on TransformationTechnology, reader test test_arxml_parser_handlers.py test_readTransformationTechnology_with_properties + writer test_writer_hw_lin_flexray_transform.py test_writeTransformationTechnology_full verified, no consumer gap)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — value form via generic literal helpers, parser arxml_parser.py:12807 setTransformerClass / writer arxml_writer.py:16312 getTransformerClass; no enum-specific token map to fix)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (387 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_TransformerClassEnum.py, tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/ (neighbors), tests/test_armodel/parser/test_arxml_parser_handlers.py, tests/test_armodel/writer/test_writer_hw_lin_flexray_transform.py, tests/test_armodel/models/test_member_annotations.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EndToEndTransformationComSpecProps` — TransformationComSpecProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.92, p.201
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
