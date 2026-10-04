@@ -2178,7 +2178,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "CLEAR-FROM-VALID-TO-INVALID", prop.getClearFromValidToInvalid())
             self.setChildElementOptionalBooleanValue(child_element, "DISABLE-END-TO-END-CHECK", prop.getDisableEndToEndCheck())
             self.setChildElementOptionalBooleanValue(child_element, "DISABLE-END-TO-END-STATE-MACHINE", prop.getDisableEndToEndStateMachine())
-            self.setChildElementOptionalRefType(child_element, "E2E-PROFILE-COMPATIBILITY-PROPS-REF", prop.getE2eProfileCompatibilityPropsRef())
+            self.setChildElementOptionalRefType(child_element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF", prop.getE2eProfileCompatibilityPropsRef())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", prop.getMaxDeltaCounter())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", prop.getMaxErrorStateInit())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", prop.getMaxErrorStateInvalid())
@@ -2278,17 +2278,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeReceptionComSpecProps(element, "RECEPTION-PROPS", com_spec.getReceptionProps())
         self.writeReceiverReplaceWith(element, "REPLACE-WITH", com_spec.getReplaceWith())
         self.setChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT", com_spec.getSyncCounterInit())
-        props = com_spec.getTransformationComSpecProps()
-        if len(props) > 0:
-            props_tag = ET.SubElement(element, "TRANSFORMATION-COM-SPEC-PROPSS")
-            for prop in props:
-                if isinstance(prop, EndToEndTransformationComSpecProps):
-                    child = ET.SubElement(props_tag, "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS")
-                    self.writeTransformationComSpecProps(child, prop)
-                elif isinstance(prop, UserDefinedTransformationComSpecProps):
-                    self.writeUserDefinedTransformationComSpecProps(props_tag, prop)
-                else:
-                    self.notImplemented("Unsupported TransformationComSpecProps %s" % type(prop))
+        self.writeTransformationComSpecPropss(element, com_spec.getTransformationComSpecProps())
 
     def writeReceptionComSpecProps(self, element: ET.Element, key: str, props: Optional[ReceptionComSpecProps]):
         if props is not None:

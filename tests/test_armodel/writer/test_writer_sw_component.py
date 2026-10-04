@@ -295,7 +295,7 @@ class TestWriteTransformationComSpec:
         prop.setClearFromValidToInvalid(_boolean(True))
         prop.setDisableEndToEndCheck(_boolean(True))
         prop.setDisableEndToEndStateMachine(_boolean(True))
-        prop.setE2eProfileCompatibilityPropsRef(_ref(value="/Pkg/Props", dest="E2E-PROFILE-COMPATIBILITY-PROPS"))
+        prop.setE2eProfileCompatibilityPropsRef(_ref(value="/Pkg/Props", dest="E-2-E-PROFILE-COMPATIBILITY-PROPS"))
         prop.setMaxDeltaCounter(_positive_int("3"))
         prop.setMaxErrorStateInit(_positive_int("2"))
         prop.setMaxErrorStateInvalid(_positive_int("2"))
@@ -315,7 +315,7 @@ class TestWriteTransformationComSpec:
         assert child.find("CLEAR-FROM-VALID-TO-INVALID").text == "true"
         assert child.find("DISABLE-END-TO-END-CHECK").text == "true"
         assert child.find("DISABLE-END-TO-END-STATE-MACHINE").text == "true"
-        assert child.find("E2E-PROFILE-COMPATIBILITY-PROPS-REF").text == "/Pkg/Props"
+        assert child.find("E-2-E-PROFILE-COMPATIBILITY-PROPS-REF").text == "/Pkg/Props"
         assert child.find("MAX-DELTA-COUNTER").text == "3"
         assert child.find("MAX-ERROR-STATE-INIT").text == "2"
         assert child.find("MAX-ERROR-STATE-INVALID").text == "2"

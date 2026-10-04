@@ -2268,13 +2268,15 @@ No deviations — the stale `type (spec many vs py single)` row on `transformati
 No deviations — abstract Class (Table 4.89) with no own `Attribute` rows; Base `ARObject, Describable` modeled as `Describable` (already stamped); the atpVariation capability on the aggregation row `TransformationTechnology.transformationDescription` is carried by the `VariationPointCapable` mixin (Rule 0020; XSD group TRANSFORMATION-DESCRIPTION line 125461 holds VARIATION-POINT), with reader/writer coverage via the reusable `readTransformationDescription`/`writeTransformationDescription` helpers.
 
 ## `EndToEndTransformationComSpecProps`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 200
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 201
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `windowSizeInit` | `—` | `windowSize` | `PositiveInteger` | — | naming |
+| — *(not modeled)* | `—` | `windowSize` | `PositiveInteger` | — | deprecated (atp.Status=removed), not implemented — XSD group `END-TO-END-TRANSFORMATION-COM-SPEC-PROPS` (`AUTOSAR_00052.xsd` L54577) carries `WINDOW-SIZE` with `atp.Status="removed"`; absent from the R23-11 PDF Table 4.92 `Attribute` rendering (Rule 0015) |
+
+**Note:** Batch sync 2026-10-04 (Group28 row 4; Rule 0023 legacy checklist re-sync). The stale `naming` row claiming source `windowSizeInit` maps to spec `windowSize` is removed (Rule 0014 stale row): the spec row is `windowSizeInit` (Table 4.92), while `windowSize` is the deprecated XSD-only attribute above. Two reader/writer to-fix defects found and fixed in this pass (rows removed per Rule 0014): (1) reader/writer used element tag `E2E-PROFILE-COMPATIBILITY-PROPS-REF` where the XSD spells `E-2-E-PROFILE-COMPATIBILITY-PROPS-REF` — XSD-valid files silently lost the ref; (2) writer `writeReceiverComSpec` dispatched E2E props through the base `writeTransformationComSpecProps` helper, dropping all 16 attributes for receiver com specs (Rule 0001.7 aggregator-coverage violation) — replaced with the shared `writeTransformationComSpecPropss` dispatcher.
 
 ## `ApplicationArrayDataType`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 252

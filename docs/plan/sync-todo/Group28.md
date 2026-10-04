@@ -49,15 +49,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EndToEndTransformationComSpecProps` — TransformationComSpecProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.92, p.201
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at session start, full re-sync. Base `TransformationComSpecProps` already stamped R23-11 (Table 4.86, no own attrs). XSD ref element is `E-2-E-PROFILE-COMPATIBILITY-PROPS-REF` (reader/writer used `E2E-…`); XSD `WINDOW-SIZE` is `atp.Status="removed"` → not modeled; writer `writeReceiverComSpec` inline dispatch drops the 16 E2E attrs (calls base helper).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (17 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_EndToEndTransformationComSpecProps.py, 4 passed / 0 failed tests/test_armodel/parser/test_EndToEndTransformationComSpecProps.py, 6 passed / 0 failed tests/test_armodel/writer/test_writer_EndToEndTransformationComSpecProps.py; neighbors: 331 passed Transformer dir + test_arxml_parser_comspec + test_writer_sw_component + member_annotations, 11 passed integration round-trip; black/ruff/flake8/mypy clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `E2EProfileCompatibilityProps` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.93, p.202; also CP_TPS_SystemTemplate Table 7.25, p.808
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py

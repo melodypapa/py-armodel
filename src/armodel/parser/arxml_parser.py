@@ -7826,7 +7826,7 @@ class ARXMLParser(AbstractARXMLParser):
         props.setClearFromValidToInvalid(self.getChildElementOptionalBooleanValue(element, "CLEAR-FROM-VALID-TO-INVALID"))
         props.setDisableEndToEndCheck(self.getChildElementOptionalBooleanValue(element, "DISABLE-END-TO-END-CHECK"))
         props.setDisableEndToEndStateMachine(self.getChildElementOptionalBooleanValue(element, "DISABLE-END-TO-END-STATE-MACHINE"))
-        props.setE2eProfileCompatibilityPropsRef(self.getChildElementOptionalRefType(element, "E2E-PROFILE-COMPATIBILITY-PROPS-REF"))
+        props.setE2eProfileCompatibilityPropsRef(self.getChildElementOptionalRefType(element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF"))
         props.setMaxDeltaCounter(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER"))
         props.setMaxErrorStateInit(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INIT"))
         props.setMaxErrorStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INVALID"))
