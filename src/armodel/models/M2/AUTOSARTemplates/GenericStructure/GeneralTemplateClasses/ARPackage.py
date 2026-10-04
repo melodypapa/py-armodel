@@ -3177,6 +3177,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticFreezeFrame, self.getReferrableElement(short_name, DiagnosticFreezeFrame))
 
+    def createDiagnosticFunctionIdentifier(self, short_name: str) -> DiagnosticFunctionIdentifier:
+        """
+        Creates a new DiagnosticFunctionIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFunctionIdentifier: This meta-class represents a diagnostic function identifier (a.k.a. FID). Tags: atp.recommendedPackage=DiagnosticFunctionIdentifiers.
+
+        Args:
+            short_name: The short name for the new DiagnosticFunctionIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticFunctionIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticFunctionIdentifier):
+            element = DiagnosticFunctionIdentifier(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticFunctionIdentifier, self.getReferrableElement(short_name, DiagnosticFunctionIdentifier))
+
     def createDiagnosticJ1939Spn(self, short_name: str) -> DiagnosticJ1939Spn:
         """
         Creates a new DiagnosticJ1939Spn with the given short name,
@@ -7404,7 +7422,15 @@ class DiagnosticFreezeFrame(ARElement):
 
 
 class DiagnosticFunctionIdentifier(ARElement):
-    pass
+    """This meta-class represents a diagnostic function identifier (a.k.a. FID). Tags: atp.recommendedPackage=DiagnosticFunctionIdentifiers"""
+
+    # DiagnosticFunctionIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.214, p.215
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticIOControl(ARElement):

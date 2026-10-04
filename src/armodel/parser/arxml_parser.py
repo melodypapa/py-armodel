@@ -578,6 +578,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
     DiagnosticFreezeFrame,
+    DiagnosticFunctionIdentifier,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
@@ -10757,6 +10758,10 @@ class ARXMLParser(AbstractARXMLParser):
         freeze_frame.setTrigger(cast(Optional[DiagnosticRecordTriggerEnum], self.getChildElementOptionalLiteral(element, "TRIGGER")))
         freeze_frame.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
 
+    def readDiagnosticFunctionIdentifier(self, element: ET.Element, identifier: DiagnosticFunctionIdentifier):
+        self.logger.debug("Read DiagnosticFunctionIdentifier <%s>" % identifier.getShortName())
+        self.readIdentifiable(element, identifier)
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -16704,6 +16709,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-FREEZE-FRAME":
             freeze_frame = parent.createDiagnosticFreezeFrame(self.getShortName(child_element))
             self.readDiagnosticFreezeFrame(child_element, freeze_frame)
+        elif tag_name == "DIAGNOSTIC-FUNCTION-IDENTIFIER":
+            identifier = parent.createDiagnosticFunctionIdentifier(self.getShortName(child_element))
+            self.readDiagnosticFunctionIdentifier(child_element, identifier)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -17072,6 +17080,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-FREEZE-FRAME":
             freeze_frame = parent.createDiagnosticFreezeFrame(self.getShortName(child_element))
             self.readDiagnosticFreezeFrame(child_element, freeze_frame)
+            return True
+        if tag_name == "DIAGNOSTIC-FUNCTION-IDENTIFIER":
+            identifier = parent.createDiagnosticFunctionIdentifier(self.getShortName(child_element))
+            self.readDiagnosticFunctionIdentifier(child_element, identifier)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

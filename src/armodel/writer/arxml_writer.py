@@ -450,6 +450,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
     DiagnosticFreezeFrame,
+    DiagnosticFunctionIdentifier,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
@@ -14255,6 +14256,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "TRIGGER", cast(ARLiteral, freeze_frame.getTrigger()))
         self.setChildElementOptionalBooleanValue(child_element, "UPDATE", freeze_frame.getUpdate())
 
+    def writeDiagnosticFunctionIdentifier(self, element: ET.Element, identifier: DiagnosticFunctionIdentifier):
+        self.logger.debug("Write DiagnosticFunctionIdentifier %s" % identifier.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-FUNCTION-IDENTIFIER")
+        self.writeIdentifiable(child_element, identifier)
+
     def writeDiagnosticEventPortMapping(self, element: ET.Element, mapping: DiagnosticEventPortMapping):
         self.logger.debug("Write DiagnosticEventPortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-PORT-MAPPING")
@@ -16546,6 +16552,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticExtendedDataRecord(element, ar_element)
         elif isinstance(ar_element, DiagnosticFreezeFrame):
             self.writeDiagnosticFreezeFrame(element, ar_element)
+        elif isinstance(ar_element, DiagnosticFunctionIdentifier):
+            self.writeDiagnosticFunctionIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticIOControl):
             self.writeDiagnosticIOControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticIoControlClass):
@@ -16778,6 +16786,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticFreezeFrame):
             self.writeDiagnosticFreezeFrame(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticFunctionIdentifier):
+            self.writeDiagnosticFunctionIdentifier(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)

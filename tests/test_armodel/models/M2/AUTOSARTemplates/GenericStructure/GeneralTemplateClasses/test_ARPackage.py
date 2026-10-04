@@ -71,6 +71,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimEventGroup,
     DiagnosticFimFunctionMapping,
     DiagnosticFreezeFrame,
+    DiagnosticFunctionIdentifier,
     DiagnosticInfoType,
     DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
@@ -10365,6 +10366,63 @@ class TestDiagnosticFreezeFrame:
         assert ar_root.getReferrableElement("FreezeFrame1", DiagnosticFreezeFrame) is obj
 
         duplicate = ar_root.createDiagnosticFreezeFrame("FreezeFrame1")
+        assert duplicate is obj
+
+
+class TestDiagnosticFunctionIdentifier:
+    """
+    Test class for DiagnosticFunctionIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.214, p.215
+
+    DiagnosticFunctionIdentifier is concrete (XSD complexType
+    DIAGNOSTIC-FUNCTION-IDENTIFIER abstract="false") with NO own
+    Attribute rows — an identity-only FID marker class; the XSD group
+    DIAGNOSTIC-FUNCTION-IDENTIFIER (AUTOSAR_00052.xsd l.37879) is an
+    empty xsd:sequence.
+    """
+
+    CLASS_NOTE = "This meta-class represents a diagnostic function identifier (a.k.a. FID). Tags: atp.recommendedPackage=DiagnosticFunctionIdentifiers"
+
+    def _make_obj(self) -> DiagnosticFunctionIdentifier:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFunctionIdentifier(ar_root, "TestFunctionIdentifier")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFunctionIdentifier"
+        assert isinstance(obj, DiagnosticFunctionIdentifier)
+        assert isinstance(obj, ARElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticFunctionIdentifier.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFunctionIdentifier.__init__.__doc__ is None
+
+    def test_create_diagnostic_function_identifier(self):
+        """
+        Test that ARPackage.createDiagnosticFunctionIdentifier appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticFunctionIdentifier("FID1")
+
+        assert isinstance(obj, DiagnosticFunctionIdentifier)
+        assert obj.getShortName() == "FID1"
+        assert ar_root.getReferrableElement("FID1", DiagnosticFunctionIdentifier) is obj
+
+        duplicate = ar_root.createDiagnosticFunctionIdentifier("FID1")
         assert duplicate is obj
 
 
