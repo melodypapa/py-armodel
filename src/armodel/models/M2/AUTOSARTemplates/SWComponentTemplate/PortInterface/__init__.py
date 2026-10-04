@@ -450,8 +450,7 @@ class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
 
     # ArgumentDataPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.7, p.303
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.8, p.103 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDirection                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

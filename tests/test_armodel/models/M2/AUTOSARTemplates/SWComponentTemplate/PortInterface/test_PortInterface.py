@@ -13,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     AtpPrototype,
     AutosarDataPrototype,
@@ -40,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterfaceMapping,
     PortInterfaceMappingSet,
     SenderReceiverInterface,
+    ServerArgumentImplPolicyEnum,
     TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
@@ -1152,3 +1153,73 @@ class TestClientServerOperationSpecSync:
         assert self.POSSIBLE_ERROR_NOTE in init_source
         assert "Stereotypes" not in init_source
         assert "Tags" not in init_source
+
+
+class TestArgumentDataPrototypeSpecSync:
+    """Spec-sync pins for ArgumentDataPrototype (CP_TPS_SoftwareComponentTemplate Table 4.8, p.103)."""
+
+    CLASS_NOTE = "An argument of an operation, much like a data element, but also carries direction information and is owned by a particular ClientServerOperation."
+    DIRECTION_NOTE = "This attribute specifies the direction of the argument prototype."
+    POLICY_NOTE = "This defines how the argument type of the servers RunnableEntity is implemented. If the attribute is not defined this has the same semantics as if the attribute is set to the value useArgumentType for primitive arguments and structures."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ArgumentDataPrototype.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_autosar_data_prototype_and_vp_capable(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype
+
+        assert issubclass(ArgumentDataPrototype, AutosarDataPrototype)
+        assert issubclass(ArgumentDataPrototype, VariationPointCapable)
+
+    def test_initialization_defaults(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = ArgumentDataPrototype(ar_root, "Arg")
+        assert prototype.getDirection() is None
+        assert prototype.getServerArgumentImplPolicy() is None
+
+    def test_get_set_direction(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = ArgumentDataPrototype(ar_root, "Arg")
+        direction = ArgumentDirectionEnum().setValue(ArgumentDirectionEnum.INOUT)
+        assert prototype.setDirection(direction) is prototype
+        assert prototype.getDirection() is direction
+        assert prototype.getDirection().getValue() == "inout"
+        prototype.setDirection(None)
+        assert prototype.getDirection() is direction
+
+    def test_get_set_server_argument_impl_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = ArgumentDataPrototype(ar_root, "Arg")
+        policy = ServerArgumentImplPolicyEnum().setValue(ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE)
+        assert prototype.setServerArgumentImplPolicy(policy) is prototype
+        assert prototype.getServerArgumentImplPolicy() is policy
+        assert prototype.getServerArgumentImplPolicy().getValue() == "useArgumentType"
+        prototype.setServerArgumentImplPolicy(None)
+        assert prototype.getServerArgumentImplPolicy() is policy
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ArgumentDataPrototype.getDirection)["return"] == Optional[ArgumentDirectionEnum]
+        assert typing.get_type_hints(ArgumentDataPrototype.setDirection)["value"] == Optional[ArgumentDirectionEnum]
+        assert typing.get_type_hints(ArgumentDataPrototype.setDirection)["return"] == ArgumentDataPrototype
+        assert typing.get_type_hints(ArgumentDataPrototype.getServerArgumentImplPolicy)["return"] == Optional[ServerArgumentImplPolicyEnum]
+        assert typing.get_type_hints(ArgumentDataPrototype.setServerArgumentImplPolicy)["value"] == Optional[ServerArgumentImplPolicyEnum]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ArgumentDataPrototype.__init__.__doc__ is None
+        assert ArgumentDataPrototype.getDirection.__doc__.strip() == self.DIRECTION_NOTE
+        assert self.DIRECTION_NOTE in ArgumentDataPrototype.setDirection.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing direction." in ArgumentDataPrototype.setDirection.__doc__.strip()
+        assert ArgumentDataPrototype.getServerArgumentImplPolicy.__doc__.strip() == self.POLICY_NOTE
+        assert self.POLICY_NOTE in ArgumentDataPrototype.setServerArgumentImplPolicy.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing serverArgumentImplPolicy." in ArgumentDataPrototype.setServerArgumentImplPolicy.__doc__.strip()
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(ArgumentDataPrototype.__init__)
+        assert self.DIRECTION_NOTE in init_source
+        assert self.POLICY_NOTE in init_source
