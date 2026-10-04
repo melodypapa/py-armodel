@@ -760,15 +760,40 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticDataIdentifierSet` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.178, p.187
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base chain (md Table 4.178) = ARElement , ARObject , CollectableElement ,
+    DiagnosticCommonElement , Identifiable , MultilanguageReferrable , PackageableElement , Referrable
+    ⇒ most-derived base DiagnosticCommonElement per Rule 0001.2 — stub base corrected
+    ARElement → DiagnosticCommonElement (DiagnosticCondition/DiagnosticConditionGroup precedent,
+    48dbae418) and the STUBS entry in tests/test_armodel/models/test_group21_36_stub_classes.py
+    repaired to match. Concrete class (XSD complexType DIAGNOSTIC-DATA-IDENTIFIER-SET
+    abstract="false", AUTOSAR_00052.xsd l.34417; stub already in ARPackage.py, NO relocation).
+    Table body md l.5724-5733 (caption l.5735; PDF p.187 via pdf_page.py). Note (md l.5726):
+    "This represents the ability to define a list of DiagnosticDataIdentifiers that can be reused
+    in different contexts. Tags: atp.recommendedPackage=DiagnosticDataIdentifierSets". Attribute
+    (displayed order): 1. dataIdentifier (ordered) (DiagnosticDataIdentifier, *, ref) →
+    dataIdentifierRefs: List[RefType] + addDataIdentifierRef/getDataIdentifierRefs (Kind-ref Refs
+    suffix, singular spec name → plural Python per Rule 0001.4/1.5; "(ordered)" is the pureMM
+    isOrdered qualifier, XSD tags mmt.qualifiedName="DiagnosticDataIdentifierSet.dataIdentifier").
+    XSD group DIAGNOSTIC-DATA-IDENTIFIER-SET (l.34388): single DATA-IDENTIFIER-REFS wrapper (0..1)
+    of unbounded DATA-IDENTIFIER-REF (DEST DIAGNOSTIC-DATA-IDENTIFIER--SUBTYPES-ENUM) — XSD agrees
+    with the markdown; wrapper-element list pattern (writer emits the wrapper only when non-empty).
+    Aggregated by ARPackage.element ⇒ ARPackage factory createDiagnosticDataIdentifierSet +
+    read/write dispatch wiring (5-place pattern). Not VP-capable (no VARIATION-POINT element in
+    the group). Ref-target DiagnosticDataIdentifier is an un-synced stub (queued Group23, Table
+    4.2) — used directly per the no-blocking rule; the ref-kind member types RefType, so nothing
+    is placeholder here.
+  - Note (Step 8): no deviations (clean sync). Referenced-but-pending class: DiagnosticDataIdentifier
+    (stub, queued Group23 Table 4.2) — referenced only as the ref-target of dataIdentifier; the
+    member is typed RefType, so nothing blocks and no placeholder is needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1815 passed / 0 failed: tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_ARPackage.py, tests/test_armodel/parser/test_diagnostic_data_identifier_set.py, tests/test_armodel/writer/test_writer_diagnostic_data_identifier_set.py, tests/test_armodel/models/test_member_annotations.py, tests/test_armodel/models/test_group21_36_stub_classes.py; parser+writer regression 7509 passed / 0 failed); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticWwhObdDtcClassEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.179, p.188
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

@@ -3040,6 +3040,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(did)
         return cast(DiagnosticDataIdentifier, self.getReferrableElement(short_name, DiagnosticDataIdentifier))
 
+    def createDiagnosticDataIdentifierSet(self, short_name: str) -> DiagnosticDataIdentifierSet:
+        """
+        Creates a new DiagnosticDataIdentifierSet with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDataIdentifierSet represents the ability to define a list
+        of DiagnosticDataIdentifiers that can be reused in different contexts.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataIdentifierSet
+
+        Returns:
+            The newly created or existing DiagnosticDataIdentifierSet instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticDataIdentifierSet):
+            data_identifier_set = DiagnosticDataIdentifierSet(self, short_name)
+            self.addReferrableElement(data_identifier_set)
+        return cast(DiagnosticDataIdentifierSet, self.getReferrableElement(short_name, DiagnosticDataIdentifierSet))
+
     def createDiagnosticDynamicDataIdentifier(self, short_name: str) -> DiagnosticDynamicDataIdentifier:
         """
         Creates a new DiagnosticDynamicDataIdentifier with the given short name,
@@ -5712,8 +5731,39 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         return self
 
 
-class DiagnosticDataIdentifierSet(ARElement):
-    pass
+class DiagnosticDataIdentifierSet(DiagnosticCommonElement):
+    """
+    This represents the ability to define a list of DiagnosticDataIdentifiers that can be reused in different contexts. Tags: atp.recommendedPackage=DiagnosticDataIdentifierSets
+    """
+
+    # DiagnosticDataIdentifierSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.178, p.187
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataIdentifierRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdentifierRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to an ordered list of Data Identifiers.
+        self.dataIdentifierRefs: List[RefType] = []
+
+    def addDataIdentifierRef(self, ref: Optional[RefType]) -> DiagnosticDataIdentifierSet:
+        """
+        Reference to an ordered list of Data Identifiers.
+
+        A None value is a no-op and does not extend the dataIdentifierRefs list.
+        """
+        if ref is not None:
+            self.dataIdentifierRefs.append(ref)
+        return self
+
+    def getDataIdentifierRefs(self) -> List[RefType]:
+        """
+        Reference to an ordered list of Data Identifiers.
+        """
+        return self.dataIdentifierRefs
 
 
 class DiagnosticMemoryByAddress(ARElement, ABC):

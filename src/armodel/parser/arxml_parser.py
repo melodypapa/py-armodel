@@ -567,6 +567,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataIdentifierSet,
     DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -11105,6 +11106,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
             did.setSupportInfoByte(support_info_byte)
 
+    def readDiagnosticDataIdentifierSet(self, element: ET.Element, data_identifier_set: DiagnosticDataIdentifierSet):
+        self.logger.debug("Read DiagnosticDataIdentifierSet <%s>" % data_identifier_set.getShortName())
+        self.readIdentifiable(element, data_identifier_set)
+        for ref in self.getChildElementRefTypeList(element, "DATA-IDENTIFIER-REFS/DATA-IDENTIFIER-REF"):
+            data_identifier_set.addDataIdentifierRef(ref)
+
     def readDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.readARObject(element, parameter)
         parameter.setBitOffset(self.getChildElementOptionalPositiveInteger(element, "BIT-OFFSET"))
@@ -16481,6 +16488,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER-SET":
+                data_identifier_set = parent.createDiagnosticDataIdentifierSet(self.getShortName(child_element))
+                self.readDiagnosticDataIdentifierSet(child_element, data_identifier_set)
             elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDynamicDataIdentifier(child_element, did)
@@ -16871,6 +16881,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
             did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
             self.readDiagnosticDataIdentifier(child_element, did)
+            return True
+        if tag_name == "DIAGNOSTIC-DATA-IDENTIFIER-SET":
+            data_identifier_set = parent.createDiagnosticDataIdentifierSet(self.getShortName(child_element))
+            self.readDiagnosticDataIdentifierSet(child_element, data_identifier_set)
             return True
         if tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
             did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))

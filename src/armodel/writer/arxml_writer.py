@@ -439,6 +439,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataIdentifierSet,
     DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
@@ -14554,6 +14555,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         if did.getSupportInfoByte() is not None:
             self.writeDiagnosticSupportInfoByte(child_element, did.getSupportInfoByte())
 
+    def writeDiagnosticDataIdentifierSet(self, element: ET.Element, data_identifier_set: DiagnosticDataIdentifierSet):
+        self.logger.debug("Write DiagnosticDataIdentifierSet %s" % data_identifier_set.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-IDENTIFIER-SET")
+        self.writeIdentifiable(child_element, data_identifier_set)
+        refs = data_identifier_set.getDataIdentifierRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DATA-IDENTIFIER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "DATA-IDENTIFIER-REF", ref)
+
     def writeDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.writeARObject(element, parameter)
         self.setChildElementOptionalPositiveInteger(element, "BIT-OFFSET", cast(Integer, parameter.getBitOffset()))
@@ -16343,6 +16354,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticServiceTable(element, ar_element)
         elif isinstance(ar_element, DiagnosticDataIdentifier):
             self.writeDiagnosticDataIdentifier(element, ar_element)
+        elif isinstance(ar_element, DiagnosticDataIdentifierSet):
+            self.writeDiagnosticDataIdentifierSet(element, ar_element)
         elif isinstance(ar_element, DiagnosticDynamicDataIdentifier):
             self.writeDiagnosticDynamicDataIdentifier(element, ar_element)
         elif isinstance(ar_element, DiagnosticDynamicallyDefineDataIdentifier):
@@ -16766,6 +16779,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticDataIdentifier):
             self.writeDiagnosticDataIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticDataIdentifierSet):
+            self.writeDiagnosticDataIdentifierSet(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticDynamicDataIdentifier):
             self.writeDiagnosticDynamicDataIdentifier(element, ar_element)

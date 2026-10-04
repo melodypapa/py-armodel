@@ -43,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCustomServiceInstance,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataIdentifierSet,
     DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDemProvidedDataMapping,
@@ -9554,3 +9555,96 @@ class TestDiagnosticConditionGroup:
         Test that __init__ carries no docstring.
         """
         assert DiagnosticConditionGroup.__init__.__doc__ is None
+
+
+class TestDiagnosticDataIdentifierSet:
+    """
+    Test class for DiagnosticDataIdentifierSet functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.178, p.187
+    """
+
+    CLASS_NOTE = "This represents the ability to define a list of DiagnosticDataIdentifiers that can be reused in different contexts. Tags: atp.recommendedPackage=DiagnosticDataIdentifierSets"
+    DATA_IDENTIFIER_NOTE = "Reference to an ordered list of Data Identifiers."
+
+    def _make_obj(self) -> DiagnosticDataIdentifierSet:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticDataIdentifierSet(ar_root, "TestSet")
+
+    def _make_ref(self, value: str) -> RefType:
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER")
+        ref.setValue(value)
+        return ref
+
+    def test_initialization(self):
+        """
+        Test that a concrete DiagnosticDataIdentifierSet instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestSet"
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert obj.getDataIdentifierRefs() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticDataIdentifierSet.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticDataIdentifierSet.__init__.__doc__ is None
+
+    def test_add_data_identifier_ref(self):
+        """
+        Appends the refs in order; setter-style chaining returns the object.
+        """
+        obj = self._make_obj()
+        ref1 = self._make_ref("/AUTOSAR/DiagnosticDataIdentifiers/DID1")
+        ref2 = self._make_ref("/AUTOSAR/DiagnosticDataIdentifiers/DID2")
+
+        result = obj.addDataIdentifierRef(ref1)
+        assert result is obj  # method chaining
+        assert obj.getDataIdentifierRefs() == [ref1]
+
+        obj.addDataIdentifierRef(ref2)
+        assert obj.getDataIdentifierRefs() == [ref1, ref2]  # append preserves the ordered list
+
+    def test_add_data_identifier_ref_none_no_op(self):
+        """
+        Test that a None ref is a no-op and does not extend the list.
+        """
+        obj = self._make_obj()
+
+        result = obj.addDataIdentifierRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDataIdentifierRefs() == []
+
+    def test_create_diagnostic_data_identifier_set(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticDataIdentifierSets")
+        element = package.createDiagnosticDataIdentifierSet("Set1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticDataIdentifierSet)
+        assert element.getShortName() == "Set1"
+        assert package.getReferrableElement("Set1", DiagnosticDataIdentifierSet) is element
+
+        duplicate = package.createDiagnosticDataIdentifierSet("Set1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Accessor docstrings carry the spec Note verbatim (add + the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticDataIdentifierSet.addDataIdentifierRef.__doc__) == (
+            self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not extend the dataIdentifierRefs list."
+        )
+        assert inspect.cleandoc(DiagnosticDataIdentifierSet.getDataIdentifierRefs.__doc__) == self.DATA_IDENTIFIER_NOTE
