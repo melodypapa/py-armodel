@@ -39,6 +39,39 @@ def _ref(value, dest=None):
     return ref
 
 
+class TestSwConnectorBaseRoundTrip:
+    def test_mapping_ref_round_trip(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        composition = pkg.createCompositionSwComponentType("Comp")
+        connector = composition.createPassThroughSwConnector("Pass")
+        connector.setMappingRef(_ref("/Pkg/PortInterfaceMappings/Map1", "PORT-INTERFACE-MAPPING"))
+
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, composition.parent)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+        parser = ARXMLParser(options={"warning": True})
+        parsed_pkg = AUTOSAR.getInstance().createARPackage("Parsed")
+        parser.readARPackageElements(root.find("{%s}AR-PACKAGE" % NS), parsed_pkg)
+
+        parsed_connectors = parsed_pkg.getCompositionSwComponentTypes()[0].getSwConnectors()
+        assert len(parsed_connectors) == 1
+        parsed = parsed_connectors[0]
+        assert parsed.getMappingRef() is not None
+        assert parsed.getMappingRef().getValue() == "/Pkg/PortInterfaceMappings/Map1"
+        assert parsed.getMappingRef().getDest() == "PORT-INTERFACE-MAPPING"
+
+    def test_connector_without_mapping_has_no_mapping_ref_element(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        composition = pkg.createCompositionSwComponentType("Comp")
+        composition.createPassThroughSwConnector("Pass")
+
+        parent = ET.Element("AR-PACKAGE")
+        ARXMLWriter().writeARPackageElements(parent, composition.parent)
+        raw = ET.tostring(parent).decode("utf-8")
+        assert "MAPPING-REF" not in raw
+
+
 class TestInstantiationRTEEventPropsRoundTrip:
     def _build(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")

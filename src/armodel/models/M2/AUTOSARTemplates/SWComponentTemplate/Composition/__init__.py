@@ -60,18 +60,17 @@ class SwComponentPrototype(AtpPrototype, VariationPointCapable):
         return self
 
 
-class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
+class SwConnector(AtpStructureElement, ABC):
     """
     The base class for connectors between ports. Connectors have to be identifiable to allow references from the system constraint template.
     """
 
     # SwConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.12, p.80
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappingRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
@@ -83,23 +82,14 @@ class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
 
     def getMappingRef(self) -> Optional[RefType]:
         """
-        Gets the reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
-
-        Returns:
-            RefType referencing the PortInterfaceMapping, or None if not set
+        Reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
         """
         return self.mappingRef
 
     def setMappingRef(self, value: Optional[RefType]) -> "SwConnector":
         """
-        Sets the reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
+        Reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The PortInterfaceMapping reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.mappingRef = value
